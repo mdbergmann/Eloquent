@@ -1,0 +1,38 @@
+PACKAGES=sword-1.5.11.tar.gz
+
+.PHONY: default build-release build-release-fat build-debug build-debug-fat fetch verify clean
+
+default: build-release-fat
+
+build-release-ppc: fetch
+	./build_01_sword_mac release ppc
+
+build-release-intel: fetch
+	./build_01_sword_mac release intel
+
+build-release-fat: fetch
+	./build_01_sword_mac release fat 
+
+build-debug-ppc: fetch
+	./build_01_sword_mac debug ppc
+
+build-debug-intel: fetch
+	./build_01_sword_mac debug intel
+
+build-debug-fat: fetch
+	./build_01_sword_mac debug fat 
+
+fetch: $(PACKAGES)
+
+verify: $(PACKAGES)
+	md5 $(PACKAGES) | cmp checksums.md5 -
+
+$(PACKAGES):
+	curl -O `grep "/$@$$" build_00_urls`
+
+checksums.md5: fetch
+	md5 $(PACKAGES) > $@
+
+clean:
+	rm -rf sword-1.5.11 build
+

@@ -1,0 +1,785 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 44;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
+		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
+		A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A916FCE50E05483F009CAA2F /* BibleView.xib */; };
+		A916FD6E0E0555EB009CAA2F /* BibleCombiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */; };
+		A91C93DF0DF9B0E9006B7361 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93DC0DF9B0E9006B7361 /* AppController.m */; };
+		A91C93E00DF9B0E9006B7361 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93DE0DF9B0E9006B7361 /* Application.m */; };
+		A91C94200DF9B149006B7361 /* Indexer.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F30DF9B149006B7361 /* Indexer.m */; };
+		A91C94210DF9B149006B7361 /* IndexingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F50DF9B149006B7361 /* IndexingManager.m */; };
+		A91C94220DF9B149006B7361 /* SearchResultEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F70DF9B149006B7361 /* SearchResultEntry.m */; };
+		A91C94240DF9B149006B7361 /* InstallSourceListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93FC0DF9B149006B7361 /* InstallSourceListObject.m */; };
+		A91C94250DF9B149006B7361 /* ModuleListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93FE0DF9B149006B7361 /* ModuleListObject.m */; };
+		A91C94260DF9B149006B7361 /* ModuleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94000DF9B149006B7361 /* ModuleListViewController.m */; };
+		A91C94270DF9B149006B7361 /* ModuleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94020DF9B149006B7361 /* ModuleManager.m */; };
+		A91C94280DF9B149006B7361 /* ModuleManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94040DF9B149006B7361 /* ModuleManageViewController.m */; };
+		A91C94290DF9B149006B7361 /* msstringmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A91C94060DF9B149006B7361 /* msstringmgr.cpp */; };
+		A91C942A0DF9B149006B7361 /* SwordBible.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94090DF9B149006B7361 /* SwordBible.mm */; };
+		A91C942B0DF9B149006B7361 /* SwordBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940B0DF9B149006B7361 /* SwordBook.mm */; };
+		A91C942C0DF9B149006B7361 /* SwordCommentary.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.m */; };
+		A91C942D0DF9B149006B7361 /* SwordDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940F0DF9B149006B7361 /* SwordDictionary.mm */; };
+		A91C942E0DF9B149006B7361 /* SwordInstallSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94110DF9B149006B7361 /* SwordInstallSource.mm */; };
+		A91C942F0DF9B149006B7361 /* SwordInstallSourceController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */; };
+		A91C94300DF9B149006B7361 /* SwordManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94150DF9B149006B7361 /* SwordManager.mm */; };
+		A91C94310DF9B149006B7361 /* SwordModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94170DF9B149006B7361 /* SwordModule.mm */; };
+		A91C94320DF9B149006B7361 /* SwordSearching.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94190DF9B149006B7361 /* SwordSearching.mm */; };
+		A91C94330DF9B149006B7361 /* MBThreadedProgressSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */; };
+		A92819980E100F240007B767 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
+		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
+		A96515EF0E06C79D0058AA91 /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */; };
+		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
+		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
+		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
+		A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A992B52A0DF9AD6E00207967 /* Localizable.strings */; };
+		A992B5350DF9AD6E00207967 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52C0DF9AD6E00207967 /* MainMenu.xib */; };
+		A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52E0DF9AD6E00207967 /* ModuleManager.xib */; };
+		A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5300DF9AD6E00207967 /* ModuleManageView.xib */; };
+		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
+		A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */; };
+		A9E821010E0B95C70020A64E /* ScrollSynchronizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */; };
+		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
+		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
+		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
+		A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */; };
+		A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */; };
+		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
+		A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
+		A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */; };
+		A9F61C640E01028700C3A0EF /* locales.d in Resources */ = {isa = PBXBuildFile; fileRef = A9F61C210E01028700C3A0EF /* locales.d */; };
+		A9F61C720E01029600C3A0EF /* Icons in Resources */ = {isa = PBXBuildFile; fileRef = A9F61C650E01029600C3A0EF /* Icons */; };
+		A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */; };
+		A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
+		A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
+		A9FD34210E0A70F6001287DD /* MBGeneralPrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD341E0E0A70F6001287DD /* MBGeneralPrefsViewController.m */; };
+		A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A9F61C8A0E0102D900C3A0EF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-fat.a in CopyFiles */,
+				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
+				A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* MacSword2_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSword2_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* MacSword2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacSword2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
+		A916FCDD0E053910009CAA2F /* ModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleViewController.h; path = src/UserInterface/ModuleViewController.h; sourceTree = "<group>"; };
+		A916FCDE0E053910009CAA2F /* ModuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleViewController.m; path = src/UserInterface/ModuleViewController.m; sourceTree = "<group>"; };
+		A916FCE10E0542A2009CAA2F /* ExtTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExtTextViewController.h; path = src/UserInterface/ExtTextViewController.h; sourceTree = "<group>"; };
+		A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExtTextViewController.m; path = src/UserInterface/ExtTextViewController.m; sourceTree = "<group>"; };
+		A916FCE60E05483F009CAA2F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BibleView.xib; sourceTree = "<group>"; };
+		A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleCombiViewController.h; path = src/UserInterface/BibleCombiViewController.h; sourceTree = "<group>"; };
+		A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleCombiViewController.m; path = src/UserInterface/BibleCombiViewController.m; sourceTree = "<group>"; };
+		A91C93DB0DF9B0E9006B7361 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = src/AppController.h; sourceTree = "<group>"; };
+		A91C93DC0DF9B0E9006B7361 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = src/AppController.m; sourceTree = "<group>"; };
+		A91C93DD0DF9B0E9006B7361 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = src/Application.h; sourceTree = "<group>"; };
+		A91C93DE0DF9B0E9006B7361 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = src/Application.m; sourceTree = "<group>"; };
+		A91C93E10DF9B0F8006B7361 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globals.h; path = src/globals.h; sourceTree = "<group>"; };
+		A91C93E20DF9B0F8006B7361 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utils.h; path = src/utils.h; sourceTree = "<group>"; };
+		A91C93EC0DF9B149006B7361 /* BibleIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleIndexer.h; sourceTree = "<group>"; };
+		A91C93ED0DF9B149006B7361 /* BibleIndexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleIndexer.m; sourceTree = "<group>"; };
+		A91C93EE0DF9B149006B7361 /* BookIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookIndexer.h; sourceTree = "<group>"; };
+		A91C93EF0DF9B149006B7361 /* BookIndexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookIndexer.m; sourceTree = "<group>"; };
+		A91C93F00DF9B149006B7361 /* DictIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictIndexer.h; sourceTree = "<group>"; };
+		A91C93F10DF9B149006B7361 /* DictIndexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictIndexer.m; sourceTree = "<group>"; };
+		A91C93F20DF9B149006B7361 /* Indexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Indexer.h; sourceTree = "<group>"; };
+		A91C93F30DF9B149006B7361 /* Indexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Indexer.m; sourceTree = "<group>"; };
+		A91C93F40DF9B149006B7361 /* IndexingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexingManager.h; sourceTree = "<group>"; };
+		A91C93F50DF9B149006B7361 /* IndexingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexingManager.m; sourceTree = "<group>"; };
+		A91C93F60DF9B149006B7361 /* SearchResultEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultEntry.h; sourceTree = "<group>"; };
+		A91C93F70DF9B149006B7361 /* SearchResultEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultEntry.m; sourceTree = "<group>"; };
+		A91C93F90DF9B149006B7361 /* InstallerConsole.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InstallerConsole.mm; sourceTree = "<group>"; };
+		A91C93FB0DF9B149006B7361 /* InstallSourceListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallSourceListObject.h; sourceTree = "<group>"; };
+		A91C93FC0DF9B149006B7361 /* InstallSourceListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallSourceListObject.m; sourceTree = "<group>"; };
+		A91C93FD0DF9B149006B7361 /* ModuleListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleListObject.h; sourceTree = "<group>"; };
+		A91C93FE0DF9B149006B7361 /* ModuleListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleListObject.m; sourceTree = "<group>"; };
+		A91C93FF0DF9B149006B7361 /* ModuleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleListViewController.h; sourceTree = "<group>"; };
+		A91C94000DF9B149006B7361 /* ModuleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleListViewController.m; sourceTree = "<group>"; };
+		A91C94010DF9B149006B7361 /* ModuleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleManager.h; sourceTree = "<group>"; };
+		A91C94020DF9B149006B7361 /* ModuleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleManager.m; sourceTree = "<group>"; };
+		A91C94030DF9B149006B7361 /* ModuleManageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleManageViewController.h; sourceTree = "<group>"; };
+		A91C94040DF9B149006B7361 /* ModuleManageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleManageViewController.m; sourceTree = "<group>"; };
+		A91C94060DF9B149006B7361 /* msstringmgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = msstringmgr.cpp; sourceTree = "<group>"; };
+		A91C94070DF9B149006B7361 /* msstringmgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msstringmgr.h; sourceTree = "<group>"; };
+		A91C94080DF9B149006B7361 /* SwordBible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBible.h; sourceTree = "<group>"; };
+		A91C94090DF9B149006B7361 /* SwordBible.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBible.mm; sourceTree = "<group>"; };
+		A91C940A0DF9B149006B7361 /* SwordBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBook.h; sourceTree = "<group>"; };
+		A91C940B0DF9B149006B7361 /* SwordBook.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBook.mm; sourceTree = "<group>"; };
+		A91C940C0DF9B149006B7361 /* SwordCommentary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordCommentary.h; sourceTree = "<group>"; };
+		A91C940D0DF9B149006B7361 /* SwordCommentary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordCommentary.m; sourceTree = "<group>"; };
+		A91C940E0DF9B149006B7361 /* SwordDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordDictionary.h; sourceTree = "<group>"; };
+		A91C940F0DF9B149006B7361 /* SwordDictionary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordDictionary.mm; sourceTree = "<group>"; };
+		A91C94100DF9B149006B7361 /* SwordInstallSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordInstallSource.h; sourceTree = "<group>"; };
+		A91C94110DF9B149006B7361 /* SwordInstallSource.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordInstallSource.mm; sourceTree = "<group>"; };
+		A91C94120DF9B149006B7361 /* SwordInstallSourceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordInstallSourceController.h; sourceTree = "<group>"; };
+		A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordInstallSourceController.mm; sourceTree = "<group>"; };
+		A91C94140DF9B149006B7361 /* SwordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordManager.h; sourceTree = "<group>"; };
+		A91C94150DF9B149006B7361 /* SwordManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordManager.mm; sourceTree = "<group>"; };
+		A91C94160DF9B149006B7361 /* SwordModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModule.h; sourceTree = "<group>"; };
+		A91C94170DF9B149006B7361 /* SwordModule.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordModule.mm; sourceTree = "<group>"; };
+		A91C94180DF9B149006B7361 /* SwordSearching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordSearching.h; sourceTree = "<group>"; };
+		A91C94190DF9B149006B7361 /* SwordSearching.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordSearching.mm; sourceTree = "<group>"; };
+		A91C941B0DF9B149006B7361 /* MBThreadedProgressSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBThreadedProgressSheetController.h; sourceTree = "<group>"; };
+		A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBThreadedProgressSheetController.m; sourceTree = "<group>"; };
+		A92819960E100F240007B767 /* Highlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Highlighter.h; sourceTree = "<group>"; };
+		A92819970E100F240007B767 /* Highlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Highlighter.m; sourceTree = "<group>"; };
+		A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MouseTrackingScrollView.h; path = src/UserInterface/MouseTrackingScrollView.h; sourceTree = "<group>"; };
+		A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MouseTrackingScrollView.m; path = src/UserInterface/MouseTrackingScrollView.m; sourceTree = "<group>"; };
+		A96515EE0E06C79D0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BibleCombiView.xib; sourceTree = "<group>"; };
+		A965162A0E06D0BD0058AA91 /* SingleViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleViewHostController.h; path = src/UserInterface/SingleViewHostController.h; sourceTree = "<group>"; };
+		A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleViewHostController.m; path = src/UserInterface/SingleViewHostController.m; sourceTree = "<group>"; };
+		A96516620E06D3DA0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
+		A99055AA0E04273E00E8D7A2 /* BibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleViewController.h; path = src/UserInterface/BibleViewController.h; sourceTree = "<group>"; };
+		A99055AB0E04273E00E8D7A2 /* BibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleViewController.m; path = src/UserInterface/BibleViewController.m; sourceTree = "<group>"; };
+		A992B52B0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A992B52D0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		A992B52F0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManager.xib; sourceTree = "<group>"; };
+		A992B5310DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManageView.xib; sourceTree = "<group>"; };
+		A992B5330DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
+		A9DC14E40E0AA83D00E3F944 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ExtTextView.xib; sourceTree = "<group>"; };
+		A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollSynchronizableView.h; path = src/UserInterface/ScrollSynchronizableView.h; sourceTree = "<group>"; };
+		A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollSynchronizableView.m; path = src/UserInterface/ScrollSynchronizableView.m; sourceTree = "<group>"; };
+		A9F184610E0811C8005F3B35 /* HostableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostableViewController.h; path = src/UserInterface/HostableViewController.h; sourceTree = "<group>"; };
+		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
+		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
+		A9F1856A0E0833F9005F3B35 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		A9F4E3510E1DF0D800B0148E /* ReferenceCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheManager.h; path = src/UserInterface/ReferenceCacheManager.h; sourceTree = "<group>"; };
+		A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheManager.m; path = src/UserInterface/ReferenceCacheManager.m; sourceTree = "<group>"; };
+		A9F4E3550E1DF16F00B0148E /* ReferenceCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheObject.h; path = src/UserInterface/ReferenceCacheObject.h; sourceTree = "<group>"; };
+		A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheObject.m; path = src/UserInterface/ReferenceCacheObject.m; sourceTree = "<group>"; };
+		A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoLogger.framework; path = Resources/CocoLogger.framework; sourceTree = "<group>"; };
+		A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoPCRE.framework; path = Resources/CocoPCRE.framework; sourceTree = "<group>"; };
+		A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.5.11-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.5.11-fat.a"; sourceTree = "<group>"; };
+		A9F61C210E01028700C3A0EF /* locales.d */ = {isa = PBXFileReference; lastKnownFileType = folder; name = locales.d; path = sword_mac_build/build/result_inst/locales.d; sourceTree = "<group>"; };
+		A9F61C650E01029600C3A0EF /* Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Icons; path = Resources/Icons; sourceTree = "<group>"; };
+		A9FD341D0E0A70F6001287DD /* MBGeneralPrefsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBGeneralPrefsViewController.h; sourceTree = "<group>"; };
+		A9FD341E0E0A70F6001287DD /* MBGeneralPrefsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBGeneralPrefsViewController.m; sourceTree = "<group>"; };
+		A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPreferenceController.h; sourceTree = "<group>"; };
+		A9FD34200E0A70F6001287DD /* MBPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBPreferenceController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */,
+				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
+				A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11-fat.a in Frameworks */,
+				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				A91C93DB0DF9B0E9006B7361 /* AppController.h */,
+				A91C93DC0DF9B0E9006B7361 /* AppController.m */,
+				A91C93DD0DF9B0E9006B7361 /* Application.h */,
+				A91C93DE0DF9B0E9006B7361 /* Application.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */,
+				A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */,
+				A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9F1856A0E0833F9005F3B35 /* WebKit.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* MacSword2.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* MacSword2 */ = {
+			isa = PBXGroup;
+			children = (
+				A9FD341C0E0A70F6001287DD /* Preferences */,
+				A91C93EB0DF9B149006B7361 /* Indexing */,
+				A91C93F80DF9B149006B7361 /* InstallerConsole */,
+				A91C93FA0DF9B149006B7361 /* ModuleManager */,
+				A99055A90E041C3400E8D7A2 /* UserInterface */,
+				A91C94050DF9B149006B7361 /* Sword */,
+				A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = MacSword2;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A91C93E10DF9B0F8006B7361 /* globals.h */,
+				A91C93E20DF9B0F8006B7361 /* utils.h */,
+				32CA4F630368D1EE00C91783 /* MacSword2_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A9F61C650E01029600C3A0EF /* Icons */,
+				A9F61C210E01028700C3A0EF /* locales.d */,
+				A992B52A0DF9AD6E00207967 /* Localizable.strings */,
+				A992B52C0DF9AD6E00207967 /* MainMenu.xib */,
+				A992B52E0DF9AD6E00207967 /* ModuleManager.xib */,
+				A992B5300DF9AD6E00207967 /* ModuleManageView.xib */,
+				A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */,
+				A96516610E06D3DA0058AA91 /* SingleViewHost.xib */,
+				A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */,
+				A916FCE50E05483F009CAA2F /* BibleView.xib */,
+				A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */,
+				A9F185480E083117005F3B35 /* WebView.xib */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A91C93EB0DF9B149006B7361 /* Indexing */ = {
+			isa = PBXGroup;
+			children = (
+				A91C93EC0DF9B149006B7361 /* BibleIndexer.h */,
+				A91C93ED0DF9B149006B7361 /* BibleIndexer.m */,
+				A91C93EE0DF9B149006B7361 /* BookIndexer.h */,
+				A91C93EF0DF9B149006B7361 /* BookIndexer.m */,
+				A91C93F00DF9B149006B7361 /* DictIndexer.h */,
+				A91C93F10DF9B149006B7361 /* DictIndexer.m */,
+				A91C93F20DF9B149006B7361 /* Indexer.h */,
+				A91C93F30DF9B149006B7361 /* Indexer.m */,
+				A91C93F40DF9B149006B7361 /* IndexingManager.h */,
+				A91C93F50DF9B149006B7361 /* IndexingManager.m */,
+				A91C93F60DF9B149006B7361 /* SearchResultEntry.h */,
+				A91C93F70DF9B149006B7361 /* SearchResultEntry.m */,
+				A92819960E100F240007B767 /* Highlighter.h */,
+				A92819970E100F240007B767 /* Highlighter.m */,
+			);
+			name = Indexing;
+			path = src/Indexing;
+			sourceTree = "<group>";
+		};
+		A91C93F80DF9B149006B7361 /* InstallerConsole */ = {
+			isa = PBXGroup;
+			children = (
+				A91C93F90DF9B149006B7361 /* InstallerConsole.mm */,
+			);
+			name = InstallerConsole;
+			path = src/InstallerConsole;
+			sourceTree = "<group>";
+		};
+		A91C93FA0DF9B149006B7361 /* ModuleManager */ = {
+			isa = PBXGroup;
+			children = (
+				A91C93FB0DF9B149006B7361 /* InstallSourceListObject.h */,
+				A91C93FC0DF9B149006B7361 /* InstallSourceListObject.m */,
+				A91C93FD0DF9B149006B7361 /* ModuleListObject.h */,
+				A91C93FE0DF9B149006B7361 /* ModuleListObject.m */,
+				A91C93FF0DF9B149006B7361 /* ModuleListViewController.h */,
+				A91C94000DF9B149006B7361 /* ModuleListViewController.m */,
+				A91C94010DF9B149006B7361 /* ModuleManager.h */,
+				A91C94020DF9B149006B7361 /* ModuleManager.m */,
+				A91C94030DF9B149006B7361 /* ModuleManageViewController.h */,
+				A91C94040DF9B149006B7361 /* ModuleManageViewController.m */,
+			);
+			name = ModuleManager;
+			path = src/ModuleManager;
+			sourceTree = "<group>";
+		};
+		A91C94050DF9B149006B7361 /* Sword */ = {
+			isa = PBXGroup;
+			children = (
+				A91C94070DF9B149006B7361 /* msstringmgr.h */,
+				A91C94060DF9B149006B7361 /* msstringmgr.cpp */,
+				A91C94140DF9B149006B7361 /* SwordManager.h */,
+				A91C94150DF9B149006B7361 /* SwordManager.mm */,
+				A91C94160DF9B149006B7361 /* SwordModule.h */,
+				A91C94170DF9B149006B7361 /* SwordModule.mm */,
+				A91C94080DF9B149006B7361 /* SwordBible.h */,
+				A91C94090DF9B149006B7361 /* SwordBible.mm */,
+				A91C940A0DF9B149006B7361 /* SwordBook.h */,
+				A91C940B0DF9B149006B7361 /* SwordBook.mm */,
+				A91C940C0DF9B149006B7361 /* SwordCommentary.h */,
+				A91C940D0DF9B149006B7361 /* SwordCommentary.m */,
+				A91C940E0DF9B149006B7361 /* SwordDictionary.h */,
+				A91C940F0DF9B149006B7361 /* SwordDictionary.mm */,
+				A91C94100DF9B149006B7361 /* SwordInstallSource.h */,
+				A91C94110DF9B149006B7361 /* SwordInstallSource.mm */,
+				A91C94120DF9B149006B7361 /* SwordInstallSourceController.h */,
+				A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */,
+				A91C94180DF9B149006B7361 /* SwordSearching.h */,
+				A91C94190DF9B149006B7361 /* SwordSearching.mm */,
+			);
+			name = Sword;
+			path = src/Sword;
+			sourceTree = "<group>";
+		};
+		A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */ = {
+			isa = PBXGroup;
+			children = (
+				A91C941B0DF9B149006B7361 /* MBThreadedProgressSheetController.h */,
+				A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */,
+			);
+			name = ThreadedProgressSheet;
+			path = src/ThreadedProgressSheet;
+			sourceTree = "<group>";
+		};
+		A96516290E06D0940058AA91 /* Hosts */ = {
+			isa = PBXGroup;
+			children = (
+				A965162A0E06D0BD0058AA91 /* SingleViewHostController.h */,
+				A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */,
+				A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */,
+			);
+			name = Hosts;
+			sourceTree = "<group>";
+		};
+		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
+			isa = PBXGroup;
+			children = (
+				A9F4E3540E1DF0E000B0148E /* Management */,
+				A9E820FE0E0B95900020A64E /* Views */,
+				A96516290E06D0940058AA91 /* Hosts */,
+				A9F184610E0811C8005F3B35 /* HostableViewController.h */,
+				A9F184620E0811C8005F3B35 /* HostableViewController.m */,
+				A916FCE10E0542A2009CAA2F /* ExtTextViewController.h */,
+				A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */,
+				A916FCDD0E053910009CAA2F /* ModuleViewController.h */,
+				A916FCDE0E053910009CAA2F /* ModuleViewController.m */,
+				A99055AA0E04273E00E8D7A2 /* BibleViewController.h */,
+				A99055AB0E04273E00E8D7A2 /* BibleViewController.m */,
+				A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */,
+				A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */,
+			);
+			name = UserInterface;
+			sourceTree = "<group>";
+		};
+		A9E820FE0E0B95900020A64E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */,
+				A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */,
+				A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */,
+				A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A9F4E3540E1DF0E000B0148E /* Management */ = {
+			isa = PBXGroup;
+			children = (
+				A9F4E3510E1DF0D800B0148E /* ReferenceCacheManager.h */,
+				A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */,
+				A9F4E3550E1DF16F00B0148E /* ReferenceCacheObject.h */,
+				A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */,
+			);
+			name = Management;
+			sourceTree = "<group>";
+		};
+		A9FD341C0E0A70F6001287DD /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				A9FD341D0E0A70F6001287DD /* MBGeneralPrefsViewController.h */,
+				A9FD341E0E0A70F6001287DD /* MBGeneralPrefsViewController.m */,
+				A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */,
+				A9FD34200E0A70F6001287DD /* MBPreferenceController.m */,
+			);
+			name = Preferences;
+			path = src/Preferences;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* MacSword2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MacSword2" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				A9F61C8A0E0102D900C3A0EF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacSword2;
+			productInstallPath = "$(HOME)/Applications";
+			productName = MacSword2;
+			productReference = 8D1107320486CEB800E47090 /* MacSword2.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MacSword2" */;
+			compatibilityVersion = "Xcode 3.0";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* MacSword2 */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* MacSword2 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */,
+				A992B5350DF9AD6E00207967 /* MainMenu.xib in Resources */,
+				A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */,
+				A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */,
+				A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */,
+				A9F61C640E01028700C3A0EF /* locales.d in Resources */,
+				A9F61C720E01029600C3A0EF /* Icons in Resources */,
+				A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */,
+				A96515EF0E06C79D0058AA91 /* BibleCombiView.xib in Resources */,
+				A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */,
+				A9F1854A0E083117005F3B35 /* WebView.xib in Resources */,
+				A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				A91C93DF0DF9B0E9006B7361 /* AppController.m in Sources */,
+				A91C93E00DF9B0E9006B7361 /* Application.m in Sources */,
+				A91C94200DF9B149006B7361 /* Indexer.m in Sources */,
+				A91C94210DF9B149006B7361 /* IndexingManager.m in Sources */,
+				A91C94220DF9B149006B7361 /* SearchResultEntry.m in Sources */,
+				A91C94240DF9B149006B7361 /* InstallSourceListObject.m in Sources */,
+				A91C94250DF9B149006B7361 /* ModuleListObject.m in Sources */,
+				A91C94260DF9B149006B7361 /* ModuleListViewController.m in Sources */,
+				A91C94270DF9B149006B7361 /* ModuleManager.m in Sources */,
+				A91C94280DF9B149006B7361 /* ModuleManageViewController.m in Sources */,
+				A91C94290DF9B149006B7361 /* msstringmgr.cpp in Sources */,
+				A91C942A0DF9B149006B7361 /* SwordBible.mm in Sources */,
+				A91C942B0DF9B149006B7361 /* SwordBook.mm in Sources */,
+				A91C942C0DF9B149006B7361 /* SwordCommentary.m in Sources */,
+				A91C942D0DF9B149006B7361 /* SwordDictionary.mm in Sources */,
+				A91C942E0DF9B149006B7361 /* SwordInstallSource.mm in Sources */,
+				A91C942F0DF9B149006B7361 /* SwordInstallSourceController.mm in Sources */,
+				A91C94300DF9B149006B7361 /* SwordManager.mm in Sources */,
+				A91C94310DF9B149006B7361 /* SwordModule.mm in Sources */,
+				A91C94320DF9B149006B7361 /* SwordSearching.mm in Sources */,
+				A91C94330DF9B149006B7361 /* MBThreadedProgressSheetController.m in Sources */,
+				A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */,
+				A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */,
+				A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */,
+				A916FD6E0E0555EB009CAA2F /* BibleCombiViewController.m in Sources */,
+				A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */,
+				A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */,
+				A9FD34210E0A70F6001287DD /* MBGeneralPrefsViewController.m in Sources */,
+				A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */,
+				A9E821010E0B95C70020A64E /* ScrollSynchronizableView.m in Sources */,
+				A92819980E100F240007B767 /* Highlighter.m in Sources */,
+				A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */,
+				A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */,
+				A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A916FCE50E05483F009CAA2F /* BibleView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A916FCE60E05483F009CAA2F /* English */,
+			);
+			name = BibleView.xib;
+			sourceTree = "<group>";
+		};
+		A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A96515EE0E06C79D0058AA91 /* English */,
+			);
+			name = BibleCombiView.xib;
+			sourceTree = "<group>";
+		};
+		A96516610E06D3DA0058AA91 /* SingleViewHost.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A96516620E06D3DA0058AA91 /* English */,
+			);
+			name = SingleViewHost.xib;
+			sourceTree = "<group>";
+		};
+		A992B52A0DF9AD6E00207967 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A992B52B0DF9AD6E00207967 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A992B52C0DF9AD6E00207967 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A992B52D0DF9AD6E00207967 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		A992B52E0DF9AD6E00207967 /* ModuleManager.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A992B52F0DF9AD6E00207967 /* English */,
+			);
+			name = ModuleManager.xib;
+			sourceTree = "<group>";
+		};
+		A992B5300DF9AD6E00207967 /* ModuleManageView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A992B5310DF9AD6E00207967 /* English */,
+			);
+			name = ModuleManageView.xib;
+			sourceTree = "<group>";
+		};
+		A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A992B5330DF9AD6E00207967 /* English */,
+			);
+			name = ThreadedProgressSheet.xib;
+			sourceTree = "<group>";
+		};
+		A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9DC14E40E0AA83D00E3F944 /* English */,
+			);
+			name = ExtTextView.xib;
+			sourceTree = "<group>";
+		};
+		A9F185480E083117005F3B35 /* WebView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9F185490E083117005F3B35 /* English */,
+			);
+			name = WebView.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Resources\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MacSword2_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
+				);
+				OTHER_LDFLAGS = (
+					"-lcurl",
+					"-lz",
+				);
+				PRODUCT_NAME = MacSword2;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Resources\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MacSword2_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
+				);
+				OTHER_LDFLAGS = (
+					"-lcurl",
+					"-lz",
+				);
+				PRODUCT_NAME = MacSword2;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "-DDEBUG";
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				WARNING_CFLAGS = "-Wall";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "-DRELEASE";
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				WARNING_CFLAGS = "-Wall";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MacSword2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MacSword2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

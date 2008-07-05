@@ -1,0 +1,28 @@
+PREBUILT_NAME=MacSword-static-sword-trunk.tbz
+PACKAGES=sword-trunk.tar.gz
+
+.PHONY: default build-release build-release-fat build-debug build-debug-fat clean
+
+default: build-release-fat
+
+build-release-ppc:
+	./build_02_sword_mac_svn_trunk release ppc
+
+build-release-intel:
+	./build_02_sword_mac_svn_trunk release intel
+
+build-release-fat:
+	./build_02_sword_mac_svn_trunk release fat 
+
+build-debug-ppc:
+	./build_02_sword_mac_svn_trunk debug ppc
+
+build-debug-intel:
+	./build_02_sword_mac_svn_trunk debug intel
+
+build-debug-fat:
+	./build_02_sword_mac_svn_trunk debug fat 
+
+clean:
+	rm -rf build
+
