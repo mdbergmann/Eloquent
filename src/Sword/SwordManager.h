@@ -55,15 +55,32 @@ class sword::SWModule;
 #define SWMOD_CONFENTRY_DISTRNOTES          @"DistributionNotes"
 #define SWMOD_CONFENTRY_TEXTSOURCE          @"TextSource"
 
-/** features definitions */
-#define SWMOD_FEATURE_STRONGS       @"StrongsNumbers"
-#define SWMOD_FEATURE_GREEKDEF      @"GreekDef"
-#define SWMOD_FEATURE_HEBREWDEF     @"HebrewDef"
-#define SWMOD_FEATURE_GREEKPARSE    @"GreekParse"
-#define SWMOD_FEATURE_HEBREWPARSE   @"HebrewParse"
-#define SWMOD_FEATURE_DAILYDEVOTION @"DailyDevotion"
-#define SWMOD_FEATURE_GLOSSARY      @"Glossary"
-#define SWMOD_FEATURE_IMAGES        @"Images"
+/** module features */
+#define SWMOD_FEATURE_STRONGS           @"Strongs"
+#define SWMOD_FEATURE_HEADINGS          @"Headings"
+#define SWMOD_FEATURE_FOOTNOTES         @"Footnotes"
+#define SWMOD_FEATURE_MORPH             @"Morph"
+#define SWMOD_FEATURE_CANTILLATION      @"Cantillation"
+#define SWMOD_FEATURE_HEBREWPOINTS      @"HebrewPoints"
+#define SWMOD_FEATURE_GREEKACCENTS      @"GreekAccents"
+#define SWMOD_FEATURE_LEMMA             @"Lemma"
+#define SWMOD_FEATURE_SCRIPTREF         @"Scriptref"
+#define SWMOD_FEATURE_VARIANTS          @"Variants"
+#define SWMOD_FEATURE_REDLETTERWORDS    @"RedLetterWords"
+
+/** config features definitions */
+#define SWMOD_CONF_FEATURE_STRONGS       @"StrongsNumbers"
+#define SWMOD_CONF_FEATURE_GREEKDEF      @"GreekDef"
+#define SWMOD_CONF_FEATURE_HEBREWDEF     @"HebrewDef"
+#define SWMOD_CONF_FEATURE_GREEKPARSE    @"GreekParse"
+#define SWMOD_CONF_FEATURE_HEBREWPARSE   @"HebrewParse"
+#define SWMOD_CONF_FEATURE_DAILYDEVOTION @"DailyDevotion"
+#define SWMOD_CONF_FEATURE_GLOSSARY      @"Glossary"
+#define SWMOD_CONF_FEATURE_IMAGES        @"Images"
+
+/** On / Off */
+#define SWMOD_ON    @"On"
+#define SWMOD_OFF   @"Off"
 
 @interface SwordManager : NSObject {
     

@@ -405,16 +405,16 @@ NSLock *bibleLock = nil;
             NSString *bookName = @"";
             NSString *bookAbbr = @"";
             NSString *txt = @"";
-            if([self isUnicode]) {
+            //if([self isUnicode]) {
                 bookName = [NSString stringWithUTF8String:((sword::VerseKey)(swModule->Key())).getBookName()];
                 bookAbbr = [NSString stringWithUTF8String:((sword::VerseKey)(swModule->Key())).getBookAbbrev()];
                 //NSString *verse = [NSString stringWithUTF8String:swModule->Key().getText()];
                 txt = [NSString stringWithUTF8String:ctxt];
-            } else {
-                bookName = [NSString stringWithCString:((sword::VerseKey)(swModule->Key())).getBookName() encoding:NSISOLatin1StringEncoding];
-                bookAbbr = [NSString stringWithCString:((sword::VerseKey)(swModule->Key())).getBookAbbrev() encoding:NSISOLatin1StringEncoding];            
-                txt = [NSString stringWithCString:ctxt encoding:NSISOLatin1StringEncoding];
-            }
+            //} else {
+            //    bookName = [NSString stringWithCString:((sword::VerseKey)(swModule->Key())).getBookName() encoding:NSISOLatin1StringEncoding];
+            //    bookAbbr = [NSString stringWithCString:((sword::VerseKey)(swModule->Key())).getBookAbbrev() encoding:NSISOLatin1StringEncoding];            
+            //    txt = [NSString stringWithCString:ctxt encoding:NSISOLatin1StringEncoding];
+            //}
 
             // generate text according to userdefaults
             if(!vool) {
@@ -424,12 +424,14 @@ NSLock *bibleLock = nil;
                     [html appendFormat:@"<br /><b>%@ - %i:</b><br />\n", bookName, chapter];
                 }
                 // normal text with verse and text
-                [html appendFormat:@"<b>%i<b/> %@ \n", chapter, txt];
+                [html appendFormat:@"<b>%i<b/> %@\n", chapter, txt];
             } else {
                 if(showBookNames) {
-                    [html appendFormat:@"<b>%@ %i:%i:</b> %@<br />\n", bookName, chapter, verse, txt];
+                    [html appendFormat:@"<b>%@ %i:%i: </b>", bookName, chapter, verse];
+                    [html appendFormat:@"%@<br />\n", txt];
                 } else if(showBookAbbr) {
-                    [html appendFormat:@"<b>%@ %i:%i:</b> %@<br />\n", bookAbbr, chapter, verse, txt];                    
+                    [html appendFormat:@"<b>%@ %i:%i: </b>", bookAbbr, chapter, verse];
+                    [html appendFormat:@"%@<br />\n", txt];
                 }
             }
             //[ret appendString:@"<a href=\"strongs://helloStrong\">Strongs</a>\n"];            

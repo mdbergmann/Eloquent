@@ -529,7 +529,7 @@ using std::list;
     }
 }
 
-#pragma mark -
+#pragma mark - module access
 
 /** 
  Sets global options such as 'Strongs' or 'Footnotes'. 

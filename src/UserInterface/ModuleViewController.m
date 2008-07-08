@@ -53,13 +53,12 @@
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    self = [self init];
+    self = [super init];
     if(self) {
         // decode module name
         NSString *moduleName = [decoder decodeObjectForKey:@"ModuleNameEncoded"];
         // set module
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
-        
         // decode reference
         self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
     }

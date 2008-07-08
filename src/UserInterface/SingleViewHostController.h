@@ -17,14 +17,18 @@
 
 @interface SingleViewHostController : NSWindowController <NSCoding> {
     IBOutlet NSBox *placeHolderView;
-
+        
     HostableViewController *viewController;
     
 	// we need a dictionary for all our toolbar identifiers
 	NSMutableDictionary *tbIdentifiers;
     
+    // the popup button
+    NSPopUpButton *searchTypePopup;
     // selected search type
     SearchType searchType;
+    // search text
+    NSString *searchQuery;
 }
 
 // initializers

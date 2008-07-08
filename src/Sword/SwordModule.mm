@@ -249,15 +249,15 @@
 	[moduleLock lock];
 	if(swModule->getConfig().has("Feature", [feature UTF8String])) {
 		has = YES;
-    } else if (swModule->getConfig().has("GlobalOptionFilter",[[NSString stringWithFormat:@"GBF%@", feature] UTF8String])) {
+    } else if (swModule->getConfig().has("GlobalOptionFilter", [[NSString stringWithFormat:@"GBF%@", feature] UTF8String])) {
  		has = YES;
-    } else if (swModule->getConfig().has("GlobalOptionFilter",[[NSString stringWithFormat:@"ThML%@", feature] UTF8String])) {
+    } else if (swModule->getConfig().has("GlobalOptionFilter", [[NSString stringWithFormat:@"ThML%@", feature] UTF8String])) {
  		has = YES;
-    } else if (swModule->getConfig().has("GlobalOptionFilter",[[NSString stringWithFormat:@"UTF8%@", feature] UTF8String])) {
+    } else if (swModule->getConfig().has("GlobalOptionFilter", [[NSString stringWithFormat:@"UTF8%@", feature] UTF8String])) {
  		has = YES;
-    } else if (swModule->getConfig().has("GlobalOptionFilter",[[NSString stringWithFormat:@"OSIS%@", feature] UTF8String])) {
+    } else if (swModule->getConfig().has("GlobalOptionFilter", [[NSString stringWithFormat:@"OSIS%@", feature] UTF8String])) {
  		has = YES;
-    } else if (swModule->getConfig().has("GlobalOptionFilter",[feature UTF8String])) {
+    } else if (swModule->getConfig().has("GlobalOptionFilter", [feature UTF8String])) {
  		has = YES;
     }
 	[moduleLock unlock];

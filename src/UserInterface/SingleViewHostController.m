@@ -8,6 +8,7 @@
 
 #import "SingleViewHostController.h"
 #import "BibleCombiViewController.h"
+#import "SwordManager.h"
 #import "SwordModule.h"
 
 // toolbar identifiers
@@ -17,11 +18,18 @@
 
 @interface SingleViewHostController (/* */)
 - (void)setupToolbar;
+
+@property (retain, readwrite) NSString *searchQuery;
+@property (readwrite) SearchType searchType;
+
 @end
 
 @implementation SingleViewHostController
 
 #pragma mark - getter/setter
+
+@synthesize searchQuery;
+@synthesize searchType;
 
 - (NSView *)view {
     return [placeHolderView contentView];
@@ -37,6 +45,11 @@
     self = [super init];
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");
+        
+        // enable global options for testing
+        [[SwordManager defaultManager] setGlobalOption:SWMOD_FEATURE_STRONGS value:SWMOD_ON];
+        [[SwordManager defaultManager] setGlobalOption:SWMOD_FEATURE_SCRIPTREF value:SWMOD_ON];
+        
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
@@ -87,7 +100,7 @@
 
     // ---------------------------------------------------------------------------------------
     // search type
-    NSPopUpButton *searchTypePopup = [[NSPopUpButton alloc] init];
+    searchTypePopup = [[NSPopUpButton alloc] init];
     [searchTypePopup setFrame:NSMakeRect(0,0,140,32)];
     [searchTypePopup setPullsDown:NO];
     //[[searchTypePopup cell] setUsesItemFromMenu:YES];
@@ -140,6 +153,15 @@
     
     // activate mouse movement in subviews
     [[self window] setAcceptsMouseMovedEvents:YES];
+    
+    // distribute searchQuery if all is loaded and there is a searchQuery
+    if((searchQuery != nil) && ([searchQuery length] > 0)) {
+        [searchField setStringValue:searchQuery];
+        [searchTypePopup selectItemWithTag:searchType];
+        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
+            [(BibleCombiViewController *)viewController displayTextForReference:searchQuery searchType:searchType];
+        }
+    }
 }
 
 #pragma mark - toolbar stuff
@@ -213,8 +235,10 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 - (void)searchInput:(id)sender {
     MBLOGV(MBLOG_DEBUG, @"search input: %@", [sender stringValue]);
     
+    self.searchQuery = [sender stringValue];
+    
     if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)viewController displayTextForReference:[sender stringValue] searchType:searchType];
+        [(BibleCombiViewController *)viewController displayTextForReference:searchQuery searchType:searchType];
     }
 }
 
@@ -235,14 +259,30 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    self = [self init];
+    self = [super init];
     if(self) {
         // decode viewController
         viewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
         // set delegate
         [viewController setDelegate:self];
         // decode searchtype
-        searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
+        self.searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
+        // decode searchQuery
+        self.searchQuery = [decoder decodeObjectForKey:@"SearchQueryEncoded"];
+        
+        // load nib
+        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
+        if(!stat) {
+            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
+        }
+        
+        // set window frame
+        NSRect frame;
+        frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
+        frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
+        if(frame.size.width > 0 && frame.size.height > 0) {
+            [[self window] setFrame:frame display:YES];
+        }
     }
     
     return self;
@@ -253,6 +293,11 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     [encoder encodeObject:viewController forKey:@"HostableViewControllerEncoded"];
     // encode searchType
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
+    // encode searchQuery
+    [encoder encodeObject:searchQuery forKey:@"SearchQueryEncoded"];
+    // encode window frame
+    [encoder encodePoint:[[self window] frame].origin forKey:@"WindowOriginEncoded"];
+    [encoder encodeSize:[[self window] frame].size forKey:@"WindowSizeEncoded"];
 }
 
 @end

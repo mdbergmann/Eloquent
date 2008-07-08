@@ -670,7 +670,7 @@
 				GCC_PREFIX_HEADER = MacSword2_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include/sword\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -702,7 +702,7 @@
 				GCC_PREFIX_HEADER = MacSword2_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include/sword\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (

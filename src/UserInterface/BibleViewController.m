@@ -222,6 +222,9 @@
                     verses = [module htmlForRef:aReference html:&text];
                     statusText = [NSString stringWithFormat:@"Found %i verses", verses];
                     
+                    // for debuggin purpose, write html string to somewhere
+                    [text writeToFile:@"/Users/mbergmann/Desktop/module.html" atomically:NO];
+                    
                     // create attributed string
                     // setup options
                     NSMutableDictionary *options = [NSMutableDictionary dictionary];
@@ -330,9 +333,6 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        // decode searchtype
-        searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
-
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
         
@@ -347,8 +347,8 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode searchType
-    [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
+    // encode common things first
+    [super encodeWithCoder:encoder];
 }
 
 @end
