@@ -17,7 +17,8 @@
 
 typedef enum {
     ReferenceSearchType,
-    WordSearchType
+    IndexSearchType,
+    ViewSearchType
 }SearchType;
 
 typedef enum {

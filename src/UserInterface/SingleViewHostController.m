@@ -8,6 +8,9 @@
 
 #import "SingleViewHostController.h"
 #import "BibleCombiViewController.h"
+#import "HostableViewController.h"
+#import "SearchOptionsViewController.h"
+#import "BibleSearchOptionsViewController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 
@@ -18,8 +21,11 @@
 
 @interface SingleViewHostController (/* */)
 - (void)setupToolbar;
+- (void)showSearchOptionsView:(BOOL)flag;
+- (NSString *)searchTextForType:(SearchType)aType;
+- (void)setSearchText:(NSString *)aText forSearchType:(SearchType)aType;
 
-@property (retain, readwrite) NSString *searchQuery;
+@property (retain, readwrite) NSMutableDictionary *searchTextsForTypes;
 @property (readwrite) SearchType searchType;
 
 @end
@@ -28,7 +34,7 @@
 
 #pragma mark - getter/setter
 
-@synthesize searchQuery;
+@synthesize searchTextsForTypes;
 @synthesize searchType;
 
 - (NSView *)view {
@@ -50,6 +56,9 @@
         [[SwordManager defaultManager] setGlobalOption:SWMOD_FEATURE_STRONGS value:SWMOD_ON];
         [[SwordManager defaultManager] setGlobalOption:SWMOD_FEATURE_SCRIPTREF value:SWMOD_ON];
         
+        self.searchTextsForTypes = [NSMutableDictionary dictionary];
+        showingOptions = NO;
+        
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
@@ -66,6 +75,9 @@
         if(aType == bible) {
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;
+            
+            // init search view controller
+            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
         }
     }
     
@@ -80,6 +92,15 @@
         [placeHolderView setContentView:[viewController view]];
     }
 
+    // check for options view loaded
+    if(searchOptionsViewController.viewLoaded == YES) {
+        // add to placeholder
+        [placeHolderSearchOptionsView setContentView:[searchOptionsViewController optionsViewForSearchType:searchType]];
+        // set 0 height for place holder at first
+        NSSize s = [placeHolderSearchOptionsView frame].size;
+        [placeHolderSearchOptionsView setFrameSize:NSMakeSize(s.width, 0)];
+    }
+    
     // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     
@@ -109,8 +130,11 @@
     NSMenuItem *mItem = [[NSMenuItem alloc] initWithTitle:@"Reference" action:@selector(searchType:) keyEquivalent:@""];
     [mItem setTag:ReferenceSearchType];
     [searchTypeMenu addItem:mItem];
-    mItem = [[NSMenuItem alloc] initWithTitle:@"Word" action:@selector(searchType:) keyEquivalent:@""];
-    [mItem setTag:WordSearchType];
+    mItem = [[NSMenuItem alloc] initWithTitle:@"Index" action:@selector(searchType:) keyEquivalent:@""];
+    [mItem setTag:IndexSearchType];
+    [searchTypeMenu addItem:mItem];
+    mItem = [[NSMenuItem alloc] initWithTitle:@"View" action:@selector(searchType:) keyEquivalent:@""];
+    [mItem setTag:ViewSearchType];
     [searchTypeMenu addItem:mItem];
     [searchTypePopup setMenu:searchTypeMenu];
     [searchTypePopup selectItemWithTitle:@"Reference"];
@@ -127,20 +151,21 @@
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TYPE_ITEM];
     
     // search text
-    NSSearchField *searchField = [[NSSearchField alloc] initWithFrame:NSMakeRect(0,0,350,32)];
-    [searchField sizeToFit];
-    [searchField setTarget:self];
-    [searchField setAction:@selector(searchInput:)];
-    [searchField setContinuous:NO];
-    [searchField sendActionOn:0];
+    searchTextField = [[NSSearchField alloc] initWithFrame:NSMakeRect(0,0,350,32)];
+    [searchTextField sizeToFit];
+    [searchTextField setTarget:self];
+    [searchTextField setAction:@selector(searchInput:)];
+    [searchTextField setContinuous:NO];
+    [[searchTextField cell] setSendsSearchStringImmediately:NO];
+    [[searchTextField cell] setSendsActionOnEndEditing:YES];
     // the item itself
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TEXT_ITEM];
     [item setLabel:NSLocalizedString(@"TextSearchLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"TextSearchLabel", @"")];
     [item setToolTip:NSLocalizedString(@"TextSearchToolTip", @"")];
-    [item setView:searchField];
-    [item setMinSize:NSMakeSize(100,NSHeight([searchField frame]))];
-    [item setMaxSize:NSMakeSize(350,NSHeight([searchField frame]))];
+    [item setView:searchTextField];
+    [item setMinSize:NSMakeSize(100, NSHeight([searchTextField frame]))];
+    [item setMaxSize:NSMakeSize(350, NSHeight([searchTextField frame]))];
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TEXT_ITEM];
 
     // add std items
@@ -154,12 +179,21 @@
     // activate mouse movement in subviews
     [[self window] setAcceptsMouseMovedEvents:YES];
     
-    // distribute searchQuery if all is loaded and there is a searchQuery
-    if((searchQuery != nil) && ([searchQuery length] > 0)) {
-        [searchField setStringValue:searchQuery];
+    // if a reference is stored, we should load it
+    NSString *referenceText = [self searchTextForType:ReferenceSearchType];
+    if([referenceText length] > 0) {
+        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
+            [(BibleCombiViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
+        }
+    }
+    
+    // This is the last selected search type and the text for it
+    NSString *currentSearchText = [self searchTextForType:searchType];
+    if([currentSearchText length] > 0) {
+        [searchTextField setStringValue:currentSearchText];
         [searchTypePopup selectItemWithTag:searchType];
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)viewController displayTextForReference:searchQuery searchType:searchType];
+            [(BibleCombiViewController *)viewController displayTextForReference:currentSearchText searchType:searchType];
         }
     }
 }
@@ -235,10 +269,11 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 - (void)searchInput:(id)sender {
     MBLOGV(MBLOG_DEBUG, @"search input: %@", [sender stringValue]);
     
-    self.searchQuery = [sender stringValue];
+    NSString *searchText = [sender stringValue];
+    [self setSearchText:searchText forSearchType:searchType];
     
     if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)viewController displayTextForReference:searchQuery searchType:searchType];
+        [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:searchType];
     }
 }
 
@@ -246,14 +281,104 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     MBLOGV(MBLOG_DEBUG, @"search type: %@", [sender title]);
     
     searchType = [sender tag];
+    
+    // set text according search type
+    NSString *text = [self searchTextForType:searchType];
+    [searchTextField setStringValue:text];
+    
+    // if search type is view then show search options
+    // else hide
+    if(searchType == ViewSearchType) {
+        [self showSearchOptionsView:YES];
+        showingOptions = YES;
+    } else {
+        //[searchOptionsView removeFromSuperview];
+        [self showSearchOptionsView:NO];
+        showingOptions = NO;
+    }
 }
-     
+
+#pragma mark - methods
+
+- (void)showSearchOptionsView:(BOOL)flag {
+    
+    if(showingOptions != flag) {
+        float fullHeight = [[[self window] contentView] frame].size.height;
+        //float fullWidth = [[[self window] contentView] frame].size.width;
+
+        // set frame size of placeholder box according to view
+        searchOptionsView = [searchOptionsViewController optionsViewForSearchType:searchType];
+        [placeHolderSearchOptionsView setContentView:searchOptionsView];
+        NSSize viewSize = [searchOptionsViewController optionsViewSizeForSearchType:searchType];
+        
+        if(searchOptionsView != nil) {
+            float margin = 25;
+            float optionsBoxHeight = viewSize.height + 5;
+            NSSize newSize = NSMakeSize([placeHolderSearchOptionsView frame].size.width, optionsBoxHeight);
+            [placeHolderSearchOptionsView setFrameSize:newSize];
+            //[searchOptionsView setFrameSize:NSMakeSize([placeHolderSearchOptionsView frame].size.width, viewSize.height)];
+            
+            // change sizes of views
+            // calculate new size
+            NSRect newUpperRect = [placeHolderSearchOptionsView frame];
+            NSRect newLowerRect = [placeHolderView frame];
+            // full height
+            if(flag) {
+                // lower
+                newLowerRect.size.height = fullHeight - optionsBoxHeight - margin;
+                // upper
+                newUpperRect.size.height = optionsBoxHeight;
+                newUpperRect.origin.y = fullHeight - optionsBoxHeight;
+            } else {
+                newLowerRect.size.height = fullHeight - margin;
+                // upper
+                newUpperRect.size.height = 0.0;
+                newUpperRect.origin.y = fullHeight;
+            }
+            
+            // set new sizes
+            [placeHolderSearchOptionsView setFrame:newUpperRect];
+            [placeHolderView setFrame:newLowerRect];
+            
+            // redisplay the whole view
+            [placeHolderSearchOptionsView setHidden:!flag];
+            [[[self window] contentView] setNeedsDisplay:YES];
+        }
+    }
+}
+
+/**
+ return the search text for the given type
+ */
+- (NSString *)searchTextForType:(SearchType)aType {
+    NSString *searchText = [searchTextsForTypes objectForKey:[NSNumber numberWithInt:aType]];
+    if(searchText == nil) {
+        searchText = @"";
+        [self setSearchText:searchText forSearchType:aType];
+    }
+    
+    return searchText;
+}
+
+/**
+ sets search text for search type
+ */
+- (void)setSearchText:(NSString *)aText forSearchType:(SearchType)aType {
+    [searchTextsForTypes setObject:aText forKey:[NSNumber numberWithInt:aType]];
+}
+
 #pragma mark - delegate methods
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {    
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -contentViewInitFinished:]");
-    // add the webview as contentvew to the placeholder
-    [placeHolderView setContentView:[aView view]];
+    
+    if([aView isKindOfClass:[SearchOptionsViewController class]]) {
+        // add to placeholder
+        [placeHolderSearchOptionsView setContentView:[searchOptionsViewController optionsViewForSearchType:searchType]];
+    } else {
+        // add the webview as contentvew to the placeholder
+        [placeHolderView setContentView:[aView view]];    
+    }
 }
 
 #pragma mark - NSCoding protocol
@@ -268,7 +393,12 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         // decode searchtype
         self.searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
         // decode searchQuery
-        self.searchQuery = [decoder decodeObjectForKey:@"SearchQueryEncoded"];
+        self.searchTextsForTypes = [decoder decodeObjectForKey:@"SearchTextsForTypesEncoded"];
+        
+        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
+            // init search view controller
+            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+        }
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
@@ -294,7 +424,7 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     // encode searchType
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
     // encode searchQuery
-    [encoder encodeObject:searchQuery forKey:@"SearchQueryEncoded"];
+    [encoder encodeObject:searchTextsForTypes forKey:@"SearchTextsForTypesEncoded"];
     // encode window frame
     [encoder encodePoint:[[self window] frame].origin forKey:@"WindowOriginEncoded"];
     [encoder encodeSize:[[self window] frame].size forKey:@"WindowSizeEncoded"];

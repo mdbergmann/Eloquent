@@ -36,6 +36,8 @@
     
     // search type
     SearchType searchType;
+    // view search direction
+    BOOL viewSearchDirRight;
 }
 
 // initializers
@@ -50,6 +52,10 @@
 
 // protocol
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
+
+// view search delegate methods
+- (void)viewSearchPrevious;
+- (void)viewSearchNext;
 
 // Mouse tracking protocol implementation
 - (void)mouseEntered:(NSView *)theView;

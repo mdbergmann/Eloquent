@@ -16,7 +16,7 @@
 /** private property */
 @property(readwrite, retain) NSMutableArray *parBibleViewControllers;
 
-// distribute the reference
+/** distribute the reference */
 - (void)distributeReference:(NSString *)aRef;
 /** when a subview is added we have to recalculate the subview sizes */
 - (void)tileSubViews;
@@ -50,6 +50,7 @@
         // delegate
         self.delegate = aDelegate;
         searchType = ReferenceSearchType;
+        viewSearchDirRight = YES;
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
@@ -119,11 +120,11 @@
 - (void)distributeReference:(NSString *)aRef {
     // loop over all BibleViewControllers and set this reference
     for(BibleViewController *bvc in parBibleViewControllers) {
+        // set view search direction
+        bvc.viewSearchDirectionRight = viewSearchDirRight;
+        // set reference
         [bvc displayTextForReference:aRef searchType:searchType];
     }
-    
-    // remove reference cache after distributing
-    [[ReferenceCacheManager defaultCacheManager] cleanCache];
 }
 
 - (void)tileSubViews {
@@ -203,14 +204,17 @@
     // we're watching
     NSPoint changedBoundsOrigin = [changedContentView bounds].origin;
     
-    // all bible views display all verse keys whether they are empty or not. But we can search for the verse location
-    NSRect lineRect;
-    NSRange lineRange = [self rangeFromViewableFirstLineInTextView:[currentSyncView textView] lineRect:&lineRect];
-    // try to get characters of textStorage
-    NSAttributedString *attrString = [[[currentSyncView textView] textStorage] attributedSubstringFromRange:NSMakeRange(lineRange.location, lineRange.length)];
-    NSString *rangeString = [attrString string];
-    // now, that we have the first line, extract the sword key
-    NSString *match = [self verseKeyInTextLine:rangeString];
+    NSString *match = nil;
+    if(searchType == ReferenceSearchType) {
+        // all bible views display all verse keys whether they are empty or not. But we can search for the verse location
+        NSRect lineRect;
+        NSRange lineRange = [self rangeFromViewableFirstLineInTextView:[currentSyncView textView] lineRect:&lineRect];
+        // try to get characters of textStorage
+        NSAttributedString *attrString = [[[currentSyncView textView] textStorage] attributedSubstringFromRange:NSMakeRange(lineRange.location, lineRange.length)];
+        NSString *rangeString = [attrString string];
+        // now, that we have the first line, extract the sword key
+        match = [self verseKeyInTextLine:rangeString];
+    }
     
     // loop over all parallel views and check bounds
     NSEnumerator *iter = [[parBibleSplitView subviews] reverseObjectEnumerator];
@@ -232,34 +236,39 @@
             // the point to scroll to
             NSPoint destPoint;
             
-            // the sender is the rightest scrollview
-            if((match != nil) && ([match length] > 0)) {
-                // get all text
-                NSAttributedString *allText = [[v textView] textStorage];
-                // get index of match
-                NSRange destRange = [[allText string] rangeOfString:match];
-                
-                // now get glyph range for these character range
-                NSRange glyphRange = [[[v textView] layoutManager] glyphRangeForCharacterRange:destRange actualCharacterRange:nil];
-                // get view rect of this glyph range
-                NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
-                
-                // set point
-                destPoint.x = destRect.origin.x;
-                destPoint.y = destRect.origin.y;
-                
-                // if our synced position is different from our current
-                // position, reposition our content view
-                if (!NSEqualPoints(curOffset, changedBoundsOrigin)) {
-                    // note that a scroll view watching this one will
-                    // get notified here
-                    [[scrollView contentView] scrollToPoint:destPoint];
-                    // we have to tell the NSScrollView to update its
-                    // scrollers
-                    [scrollView reflectScrolledClipView:[scrollView contentView]];
+            if(searchType == ReferenceSearchType) {
+                // the sender is the rightest scrollview
+                if((match != nil) && ([match length] > 0)) {
+                    // get all text
+                    NSAttributedString *allText = [[v textView] textStorage];
+                    // get index of match
+                    NSRange destRange = [[allText string] rangeOfString:match];
+                    
+                    // now get glyph range for these character range
+                    NSRange glyphRange = [[[v textView] layoutManager] glyphRangeForCharacterRange:destRange actualCharacterRange:nil];
+                    // get view rect of this glyph range
+                    NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
+                    
+                    // set point
+                    destPoint.x = destRect.origin.x;
+                    destPoint.y = destRect.origin.y;                    
                 }            
+            } else {
+                // for al others we can't garatie that all view have the verse key
+                destPoint = newOffset;
             }
-        }        
+            
+            // if our synced position is different from our current
+            // position, reposition our content view
+            if (!NSEqualPoints(curOffset, changedBoundsOrigin)) {
+                // note that a scroll view watching this one will
+                // get notified here
+                [[scrollView contentView] scrollToPoint:destPoint];
+                // we have to tell the NSScrollView to update its
+                // scrollers
+                [scrollView reflectScrolledClipView:[scrollView contentView]];
+            }        
+        }
     }        
 }
 
@@ -343,6 +352,7 @@
         }
         
         if(loaded) {
+            // report to super controller
             [self reportLoadingComplete];
         }
     }
@@ -362,6 +372,18 @@
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     searchType = aType;
     [self distributeReference:aReference];
+}
+
+#pragma mark - view search delegate methods
+
+- (void)viewSearchPrevious {
+    viewSearchDirRight = NO;
+    [self distributeReference:nil];
+}
+
+- (void)viewSearchNext {
+    viewSearchDirRight = YES;
+    [self distributeReference:nil];
 }
 
 #pragma mark - mouse tracking protocol
@@ -389,6 +411,7 @@
         MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -initWithCoder] loading nib");
         
         searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
+        viewSearchDirRight = YES;
         
         // init bible views array
         self.parBibleViewControllers = [decoder decodeObjectForKey:@"ParallelBibleViewControllerEncoded"];

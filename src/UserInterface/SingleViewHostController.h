@@ -8,17 +8,28 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <HostableViewController.h>
-#import <BibleCombiViewController.h>
 #import <Indexer.h>
 #import <SwordModule.h>
 
 #define SINGLEVIEWHOST_NIBNAME   @"SingleViewHost"
 
+@class SearchOptionsViewController, HostableViewController;
+
 @interface SingleViewHostController : NSWindowController <NSCoding> {
+    
+    // placeholder for the main content view
     IBOutlet NSBox *placeHolderView;
-        
+    // the main view for placeHolderView
     HostableViewController *viewController;
+
+    // placeholder for the search options
+    IBOutlet NSBox *placeHolderSearchOptionsView;
+    
+    // view controller for search options
+    SearchOptionsViewController *searchOptionsViewController;
+    NSSearchField *searchTextField;
+    NSView *searchOptionsView;
+    BOOL showingOptions;
     
 	// we need a dictionary for all our toolbar identifiers
 	NSMutableDictionary *tbIdentifiers;
@@ -27,8 +38,8 @@
     NSPopUpButton *searchTypePopup;
     // selected search type
     SearchType searchType;
-    // search text
-    NSString *searchQuery;
+    // texts for search type
+    NSMutableDictionary *searchTextsForTypes;
 }
 
 // initializers

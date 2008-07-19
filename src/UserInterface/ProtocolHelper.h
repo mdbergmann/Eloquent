@@ -10,11 +10,9 @@
 @class HostableViewController;
 
 @protocol SubviewHosting
-
 /** called from subview when it has fully loaded */
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
-
 @end
 
 /** protocol to track mouse movement */

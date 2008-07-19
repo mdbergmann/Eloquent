@@ -27,14 +27,20 @@
     SwordModule *module;
     // current reference
     NSString *reference;
+    // view search found range
+    NSRange viewSearchLastFound;
+    // view search direction
+    BOOL viewSearchDirectionRight;
 }
 
 // --------- properties ---------
 @property (retain, readwrite) SwordModule *module;
 @property (retain, readwrite) NSString *reference;
+@property (readwrite) BOOL viewSearchDirectionRight;
 
 // ---------- methods ---------
-
+- (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results;
+    
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;
 

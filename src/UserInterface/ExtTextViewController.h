@@ -34,6 +34,10 @@
 - (MouseTrackingScrollView *)scrollView;
 
 // methods
+- (NSRange)rangeOfFirstLineWithLineRect:(NSRect *)lineRect;
+- (NSRange)rangeOfVisibleText;
+- (NSRange)rangeOfTextToken:(NSString *)token lastFound:(NSRange)lastFoundRange directionRight:(BOOL)right;
+- (NSRect)rectForTextRange:(NSRange)range;
 - (void)setAttributedString:(NSAttributedString *)aString;
 
 // MouseTrackingScrollView delegate methods

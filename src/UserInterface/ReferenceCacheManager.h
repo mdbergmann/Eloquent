@@ -12,7 +12,10 @@
 
 @interface ReferenceCacheManager : NSObject {
     NSMutableArray *cache;
+    int keepSize;
 }
+
+@property (readwrite) int keepSize;
 
 + (ReferenceCacheManager *)defaultCacheManager;
 

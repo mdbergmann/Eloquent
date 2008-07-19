@@ -15,6 +15,7 @@
 
 @synthesize module;
 @dynamic reference;
+@synthesize viewSearchDirectionRight;
 
 - (NSString *)reference {
     return reference;
@@ -29,10 +30,28 @@
 #pragma mark - initializers
 
 - (id)init {
-    return [super init];
+    self = [super init];
+    if(self) {
+        // init things
+        viewSearchLastFound = NSMakeRange(NSNotFound, -1);
+    }
+    
+    return self;
 }
 
 #pragma mark - methods
+
+/**
+ Searches in index for the given searchQuery.
+ Generates NSAttributedString to be displayed in NSTextView
+ @param[in] searchQuery
+ @param[out] number of verses found
+ @return attributed string
+ */
+- (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
+    // abstract method, sub classes should override
+    return nil;
+}
 
 #pragma mark - Hostable delegate methods
 
@@ -61,6 +80,8 @@
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
         // decode reference
         self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
+        // init things
+        viewSearchLastFound = NSMakeRange(NSNotFound, -1);
     }
     
     return self;

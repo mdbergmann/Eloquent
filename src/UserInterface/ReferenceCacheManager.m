@@ -20,6 +20,8 @@
 
 @synthesize cache;
 
+@synthesize keepSize;
+
 + (ReferenceCacheManager *)defaultCacheManager {
     static ReferenceCacheManager *instance;
     if(instance == nil) {
@@ -32,7 +34,8 @@
 - (id)init {
     self = [super init];
     if(self) {
-        self.cache = [NSMutableArray array];
+        keepSize = 10;   // default keepSize
+        self.cache = [NSMutableArray arrayWithCapacity:keepSize];
     }
     
     return self;
@@ -44,6 +47,13 @@
 
 - (void)addCacheObject:(ReferenceCacheObject *)cacheObject {
     [cache addObject:cacheObject];
+    
+    // check current size and see if we need to delete some entries
+    int diff = [cache count] - keepSize;
+    if(diff > 0) {
+        // we need to delete some entries
+        [cache removeObjectsInRange:NSMakeRange(0, diff - 1)];
+    }
 }
 
 - (ReferenceCacheObject *)cacheObjectForReference:(NSString *)ref andModuleName:(NSString *)aName {

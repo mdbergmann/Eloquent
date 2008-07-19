@@ -24,10 +24,6 @@
 
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
-
-// searching stuff
-- (NSAttributedString *)searchResultStringForQuery:(NSString *)searchText numberOfResults:(int *)results;
-
 @end
 
 @implementation BibleViewController
@@ -143,6 +139,13 @@
     [statusLine setStringValue:aText];
 }
 
+/**
+ Searches in index for the given searchQuery.
+ Generates NSAttributedString to be displayed in NSTextView
+ @param[in] searchQuery
+ @param[out] number of verses found
+ @return attributed string
+ */
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
@@ -199,7 +202,13 @@
     
     searchType = aType;
     
-    if([aReference length] > 0) {
+    // in case the this method is called with nil reference, try taking the old one first
+    // this is esspecially needed for view search
+    if(aReference == nil) {
+        aReference = self.reference;
+    }
+    
+    if(aReference != nil) {
         self.reference = aReference;
         
         if(self.module != nil) {
@@ -223,7 +232,7 @@
                     statusText = [NSString stringWithFormat:@"Found %i verses", verses];
                     
                     // for debuggin purpose, write html string to somewhere
-                    [text writeToFile:@"/Users/mbergmann/Desktop/module.html" atomically:NO];
+                    //[text writeToFile:@"/Users/mbergmann/Desktop/module.html" atomically:NO];
                     
                     // create attributed string
                     // setup options
@@ -251,8 +260,7 @@
                                                                                         numberOfFinds:verses
                                                                                          andReference:aReference];
                     [rm addCacheObject:o];
-                } else {
-                    
+                } else if(searchType == IndexSearchType) {
                     // search in index
                     if(![module hasIndex]) {
                         // create index first if not exists
@@ -271,8 +279,23 @@
                                                                                       withDisplayText:text
                                                                                         numberOfFinds:results
                                                                                          andReference:aReference];
-                    [rm addCacheObject:o];                
-                }            
+                    [rm addCacheObject:o];
+                } else if(searchType == ViewSearchType) {
+                    // store found range
+                    NSRange temp = [textViewController rangeOfTextToken:aReference lastFound:viewSearchLastFound directionRight:viewSearchDirectionRight];
+                    if(temp.location != NSNotFound) {
+                        // if not visible, scroll to visible
+                        //NSScrollView *scrollView = (NSScrollView *)[textViewController scrollView];
+                        //NSRect rect = [textViewController rectForTextRange:temp];
+                        //[[scrollView contentView] scrollToPoint:rect.origin];
+                        // we have to tell the NSScrollView to update its
+                        // scrollers
+                        //[scrollView reflectScrolledClipView:[scrollView contentView]];
+                        // show find indicator
+                        [[textViewController textView] showFindIndicatorForRange:temp];
+                    }
+                    viewSearchLastFound = temp;
+                }
             }
 
             // set status
