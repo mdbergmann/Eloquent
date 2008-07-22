@@ -285,12 +285,19 @@
                     NSRange temp = [textViewController rangeOfTextToken:aReference lastFound:viewSearchLastFound directionRight:viewSearchDirectionRight];
                     if(temp.location != NSNotFound) {
                         // if not visible, scroll to visible
-                        //NSScrollView *scrollView = (NSScrollView *)[textViewController scrollView];
-                        //NSRect rect = [textViewController rectForTextRange:temp];
-                        //[[scrollView contentView] scrollToPoint:rect.origin];
+                        /*
+                        NSRect rect;
+                        if(viewSearchDirectionRight) {
+                            rect = [textViewController rectOfLastLine];
+                        } else {
+                            rect = [textViewController rectOfFirstLine];                        
+                        }
+                        NSScrollView *scrollView = (NSScrollView *)[textViewController scrollView];
+                        [[scrollView contentView] scrollToPoint:rect.origin];
                         // we have to tell the NSScrollView to update its
                         // scrollers
-                        //[scrollView reflectScrolledClipView:[scrollView contentView]];
+                        [scrollView reflectScrolledClipView:[scrollView contentView]];
+                         */
                         // show find indicator
                         [[textViewController textView] showFindIndicatorForRange:temp];
                     }

@@ -236,6 +236,7 @@
             // the point to scroll to
             NSPoint destPoint;
             
+            BOOL updateScroll = YES;
             if(searchType == ReferenceSearchType) {
                 // the sender is the rightest scrollview
                 if((match != nil) && ([match length] > 0)) {
@@ -252,7 +253,9 @@
                     // set point
                     destPoint.x = destRect.origin.x;
                     destPoint.y = destRect.origin.y;                    
-                }            
+                } else {
+                    updateScroll = NO;
+                }
             } else {
                 // for al others we can't garatie that all view have the verse key
                 destPoint = newOffset;
@@ -260,7 +263,7 @@
             
             // if our synced position is different from our current
             // position, reposition our content view
-            if (!NSEqualPoints(curOffset, changedBoundsOrigin)) {
+            if (!NSEqualPoints(curOffset, changedBoundsOrigin) && updateScroll) {
                 // note that a scroll view watching this one will
                 // get notified here
                 [[scrollView contentView] scrollToPoint:destPoint];

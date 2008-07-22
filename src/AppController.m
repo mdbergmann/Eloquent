@@ -242,6 +242,15 @@ sets up all needed folders so the application can work
 //-------------------------------------------------------------------
 // show PreferencePanel (this method also is used for delegate methods from interface copntroller to open prefs panel)
 //-------------------------------------------------------------------
+
+- (IBAction)openNewSingleBibleHostWindow:(id)sender {
+    // open a default view
+    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:bible];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    [svh showWindow:self];
+}
+
 - (IBAction)showPreferenceSheet:(id)sender {
 	// check if preference controller already exists
 	if(preferenceController == nil) {
@@ -261,7 +270,6 @@ sets up all needed folders so the application can work
 }
 
 - (IBAction)showAboutWindow:(id)sender {
-
 }
 
 /**
@@ -273,12 +281,18 @@ sets up all needed folders so the application can work
     }
     
     // show window
-    //[moduleManager showWindow:self];
+    [moduleManager showWindow:self];
 }
 
-//--------------------------------------------------------------------
-//----------- app delegates ---------------------------------------
-//--------------------------------------------------------------------
+#pragma mark - host window delegate methods
+
+- (void)hostClosing:(NSWindowController *)aHost {
+    // remove from array
+    [windowHosts removeObject:aHost];
+}
+
+#pragma mark - app delegate methods
+
 /**
  \brief gets called if the nib file has been loaded. all gfx objacts are available now.
 */
@@ -290,10 +304,16 @@ sets up all needed folders so the application can work
     if(data == nil) {
         // open a default view
         SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:bible];
+        svh.delegate = self;
         [windowHosts addObject:svh];
     } else {
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];    
+        windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
+        for(NSWindowController *wc in windowHosts) {
+            if([wc isKindOfClass:[SingleViewHostController class]]) {
+                [(SingleViewHostController *)wc setDelegate:self];
+            }
+        }
     }
 }
 
@@ -309,9 +329,6 @@ sets up all needed folders so the application can work
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     MBLOG(MBLOG_DEBUG, @"[AppController -applicationDidFinishLaunching:]");
 	if(self != nil) {
-        // show module manager window right away
-        [self showModuleManager:self];
-        
         // show svh
         for(id entry in windowHosts) {
             if([entry isKindOfClass:[SingleViewHostController class]]) {

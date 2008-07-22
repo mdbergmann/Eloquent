@@ -108,6 +108,26 @@
     return NSMakeRange(NSNotFound, 0);
 }
 
+- (NSRect)rectOfFirstLine {
+    NSLayoutManager *layoutManager = [textView layoutManager];
+    NSRect visibleRect = [textView visibleRect];
+    NSPoint containerOrigin = [textView textContainerOrigin];
+    visibleRect.origin.x -= containerOrigin.x;
+    visibleRect.origin.y -= containerOrigin.y;
+    
+    return NSMakeRect(0.0, visibleRect.origin.y, visibleRect.size.width, 15.0);
+}
+
+- (NSRect)rectOfLastLine {
+    NSLayoutManager *layoutManager = [textView layoutManager];
+    NSRect visibleRect = [textView visibleRect];
+    NSPoint containerOrigin = [textView textContainerOrigin];
+    visibleRect.origin.x -= containerOrigin.x;
+    visibleRect.origin.y -= containerOrigin.y;
+    
+    return NSMakeRect(0.0, visibleRect.size.height, visibleRect.size.width, 15.0);    
+}
+
 /**
  Delivers the range of the visible text in textview.
  @return the range of visible text

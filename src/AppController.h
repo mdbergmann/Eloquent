@@ -29,8 +29,12 @@ typedef enum AppErrorCodes {
 // NSApplication delegate methods
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames;
 
+- (IBAction)openNewSingleBibleHostWindow:(id)sender;
 - (IBAction)showPreferenceSheet:(id)sender;
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showModuleManager:(id)sender;
+
+// host delegate method
+- (void)hostClosing:(NSWindowController *)aHost;
 
 @end

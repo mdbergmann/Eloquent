@@ -25,6 +25,9 @@
     // placeholder for the search options
     IBOutlet NSBox *placeHolderSearchOptionsView;
     
+    // our delegate
+    id delegate;
+    
     // view controller for search options
     SearchOptionsViewController *searchOptionsViewController;
     NSSearchField *searchTextField;
@@ -41,6 +44,8 @@
     // texts for search type
     NSMutableDictionary *searchTextsForTypes;
 }
+
+@property (readwrite) id delegate;
 
 // initializers
 - (id)initForViewType:(ModuleType)aType;

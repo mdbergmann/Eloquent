@@ -35,6 +35,8 @@
 
 // methods
 - (NSRange)rangeOfFirstLineWithLineRect:(NSRect *)lineRect;
+- (NSRect)rectOfFirstLine;
+- (NSRect)rectOfLastLine;
 - (NSRange)rangeOfVisibleText;
 - (NSRange)rangeOfTextToken:(NSString *)token lastFound:(NSRange)lastFoundRange directionRight:(BOOL)right;
 - (NSRect)rectForTextRange:(NSRange)range;

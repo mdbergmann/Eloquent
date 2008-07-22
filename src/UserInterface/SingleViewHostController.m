@@ -34,6 +34,7 @@
 
 #pragma mark - getter/setter
 
+@synthesize delegate;
 @synthesize searchTextsForTypes;
 @synthesize searchType;
 
@@ -53,8 +54,8 @@
         MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");
         
         // enable global options for testing
-        [[SwordManager defaultManager] setGlobalOption:SWMOD_FEATURE_STRONGS value:SWMOD_ON];
-        [[SwordManager defaultManager] setGlobalOption:SWMOD_FEATURE_SCRIPTREF value:SWMOD_ON];
+        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_STRONGS value:SW_ON];
+        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_SCRIPTREFS value:SW_ON];
         
         self.searchTextsForTypes = [NSMutableDictionary dictionary];
         showingOptions = NO;
@@ -378,6 +379,16 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     } else {
         // add the webview as contentvew to the placeholder
         [placeHolderView setContentView:[aView view]];    
+    }
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    MBLOG(MBLOG_DEBUG, @"[SingleViewHotController -windowWillClose:]");
+    // tell delegate that we are closing
+    if(delegate && [delegate respondsToSelector:@selector(hostClosing:)]) {
+        [delegate performSelector:@selector(hostClosing:) withObject:self];
+    } else {
+        MBLOG(MBLOG_WARN, @"[SingleViewHostController -windowWillClose:] delegate does not respond to selector!");
     }
 }
 
