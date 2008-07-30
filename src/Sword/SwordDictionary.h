@@ -17,16 +17,18 @@
 @class SwordManager;
 
 @interface SwordDictionary : SwordModule <SwordModuleAccess> {
-	NSMutableArray *entries;
+    /** only keys are buffered here */
+	NSMutableArray *keys;
 }
 
 - (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager;
 
-- (NSArray *)getEntries;
-- (BOOL)hasReference:(NSString *)ref;
+- (NSArray *)allKeys;
+- (NSString *)entryForKey:(NSString *)aKey;
 - (NSString *)fullRefName:(NSString *)ref;
 
 // ------- SwordModuleAccess ---------
+- (int)textForRef:(NSString *)reference text:(NSString **)textString;
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString;
 - (long)entryCount;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference;

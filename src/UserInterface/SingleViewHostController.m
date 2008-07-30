@@ -24,8 +24,11 @@
 - (void)showSearchOptionsView:(BOOL)flag;
 - (NSString *)searchTextForType:(SearchType)aType;
 - (void)setSearchText:(NSString *)aText forSearchType:(SearchType)aType;
+- (NSMutableArray *)recentSearchsForType:(SearchType)aType;
+- (void)setRecentSearches:(NSArray *)searches forSearchType:(SearchType)aType;
 
 @property (retain, readwrite) NSMutableDictionary *searchTextsForTypes;
+@property (retain, readwrite) NSMutableDictionary *recentSearchesForTypes;
 @property (readwrite) SearchType searchType;
 
 @end
@@ -36,6 +39,7 @@
 
 @synthesize delegate;
 @synthesize searchTextsForTypes;
+@synthesize recentSearchesForTypes;
 @synthesize searchType;
 
 - (NSView *)view {
@@ -54,10 +58,11 @@
         MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");
         
         // enable global options for testing
-        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_STRONGS value:SW_ON];
-        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_SCRIPTREFS value:SW_ON];
+        //[[SwordManager defaultManager] setGlobalOption:SW_OPTION_STRONGS value:SW_ON];
+        //[[SwordManager defaultManager] setGlobalOption:SW_OPTION_SCRIPTREFS value:SW_ON];
         
         self.searchTextsForTypes = [NSMutableDictionary dictionary];
+        self.recentSearchesForTypes = [NSMutableDictionary dictionary];
         showingOptions = NO;
         
         // load nib
@@ -158,7 +163,7 @@
     [searchTextField setAction:@selector(searchInput:)];
     [searchTextField setContinuous:NO];
     [[searchTextField cell] setSendsSearchStringImmediately:NO];
-    [[searchTextField cell] setSendsActionOnEndEditing:YES];
+    [[searchTextField cell] setSendsWholeSearchString:YES];
     // the item itself
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TEXT_ITEM];
     [item setLabel:NSLocalizedString(@"TextSearchLabel", @"")];
@@ -197,6 +202,9 @@
             [(BibleCombiViewController *)viewController displayTextForReference:currentSearchText searchType:searchType];
         }
     }
+    
+    // set recent searche array
+    [searchTextField setRecentSearches:[self recentSearchsForType:searchType]];
 }
 
 #pragma mark - toolbar stuff
@@ -270,8 +278,18 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 - (void)searchInput:(id)sender {
     MBLOGV(MBLOG_DEBUG, @"search input: %@", [sender stringValue]);
     
+    // buffer search text string
     NSString *searchText = [sender stringValue];
     [self setSearchText:searchText forSearchType:searchType];
+    
+    // add to recent searches
+    NSMutableArray *recentSearches = [self recentSearchsForType:searchType];
+    [recentSearches addObject:searchText];
+    // remove everything above 10 searches
+    int len = [recentSearches count];
+    if(len > 10) {
+        [recentSearches removeObjectAtIndex:0];
+    }
     
     if([viewController isKindOfClass:[BibleCombiViewController class]]) {
         [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:searchType];
@@ -286,6 +304,10 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     // set text according search type
     NSString *text = [self searchTextForType:searchType];
     [searchTextField setStringValue:text];
+    
+    // switch recentSearches
+    NSArray *recentSearches = [self recentSearchsForType:searchType];
+    [searchTextField setRecentSearches:recentSearches];
     
     // if search type is view then show search options
     // else hide
@@ -368,6 +390,20 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     [searchTextsForTypes setObject:aText forKey:[NSNumber numberWithInt:aType]];
 }
 
+- (NSMutableArray *)recentSearchsForType:(SearchType)aType {
+    NSMutableArray *recentSearches = [recentSearchesForTypes objectForKey:[NSNumber numberWithInt:aType]];
+    if(recentSearches == nil) {
+        recentSearches = [NSMutableArray array];
+        [self setRecentSearches:recentSearches forSearchType:aType];
+    }
+    
+    return recentSearches;
+}
+        
+- (void)setRecentSearches:(NSArray *)searches forSearchType:(SearchType)aType {
+    [recentSearchesForTypes setObject:searches forKey:[NSNumber numberWithInt:aType]];
+}        
+
 #pragma mark - delegate methods
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {    
@@ -405,6 +441,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         self.searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
         // decode searchQuery
         self.searchTextsForTypes = [decoder decodeObjectForKey:@"SearchTextsForTypesEncoded"];
+        // decode recent searches
+        self.recentSearchesForTypes = [decoder decodeObjectForKey:@"RecentSearchesForTypesEncoded"];
         
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
             // init search view controller
@@ -436,6 +474,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
     // encode searchQuery
     [encoder encodeObject:searchTextsForTypes forKey:@"SearchTextsForTypesEncoded"];
+    // encode searchQuery
+    [encoder encodeObject:recentSearchesForTypes forKey:@"RecentSearchesForTypesEncoded"];
     // encode window frame
     [encoder encodePoint:[[self window] frame].origin forKey:@"WindowOriginEncoded"];
     [encoder encodeSize:[[self window] frame].size forKey:@"WindowSizeEncoded"];

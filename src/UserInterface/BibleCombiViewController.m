@@ -109,7 +109,19 @@
 
 #pragma mark - methods
 
+/**
+ Creates a new parallel bible view and presets the given bible module.
+ If nil is given, the first module found is taken.
+ */
 - (void)addNewBibleViewWithModule:(SwordModule *)aModule {
+    // if given module is nil, choose the first found in SwordManager
+    if(aModule == nil) {
+        NSArray *modArray = [[SwordManager defaultManager] moduleNames];
+        if([modArray count] > 0) {
+            aModule = [[SwordManager defaultManager] moduleWithName:[modArray objectAtIndex:0]];
+        }
+    }
+    
     // after loading this combi view there is only one bibleview, nothing more
     BibleViewController *bvc = [[BibleViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
     // add to array

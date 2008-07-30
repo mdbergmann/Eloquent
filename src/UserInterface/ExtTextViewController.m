@@ -43,6 +43,9 @@
     // call delegate method when this view has loaded
     viewLoaded = YES;
     
+    // delete any content in textview
+    [textView setString:@""];
+    
     // set delegate for mouse tracking
     scrollView.delegate = self;
     // register for frame changed notifications of mouse tracking scrollview
@@ -109,7 +112,6 @@
 }
 
 - (NSRect)rectOfFirstLine {
-    NSLayoutManager *layoutManager = [textView layoutManager];
     NSRect visibleRect = [textView visibleRect];
     NSPoint containerOrigin = [textView textContainerOrigin];
     visibleRect.origin.x -= containerOrigin.x;
@@ -119,7 +121,6 @@
 }
 
 - (NSRect)rectOfLastLine {
-    NSLayoutManager *layoutManager = [textView layoutManager];
     NSRect visibleRect = [textView visibleRect];
     NSPoint containerOrigin = [textView textContainerOrigin];
     visibleRect.origin.x -= containerOrigin.x;

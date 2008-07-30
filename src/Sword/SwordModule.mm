@@ -220,6 +220,23 @@
     return 0;
 }
 
+- (int)textForRef:(NSString *)reference text:(NSString **)textString {
+    int ret = 1;
+    
+    [moduleLock lock];
+    if([self isUnicode]) {
+        swModule->setKey(toUTF8(reference));
+    } else {
+        swModule->setKey(toLatin1(reference));
+    }
+    char *bytes = (char *)swModule->StripText();
+    [moduleLock unlock];
+    
+    *textString = [NSString stringWithUTF8String:bytes];
+    
+    return ret;    
+}
+
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
     int ret = 1;
     
@@ -238,6 +255,10 @@
 }
 
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
+}
+
+- (NSString *)description {
+    return [self name];
 }
 
 #pragma mark - lowlevel access

@@ -19,6 +19,10 @@
 
 #pragma mark - SwordModuleAccess
 
+- (int)textForRef:(NSString *)reference text:(NSString **)textString {
+	return [super textForRef:[reference uppercaseString] text:textString];    
+}
+
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
     return [super htmlForRef:reference html:htmlString];
 }

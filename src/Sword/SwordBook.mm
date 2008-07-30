@@ -95,6 +95,10 @@
     return [[self getContents] count];
 }
 
+- (int)textForRef:(NSString *)reference text:(NSString **)textString {
+	return [super textForRef:[reference uppercaseString] text:textString];    
+}
+
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
     int ret = 1;
     

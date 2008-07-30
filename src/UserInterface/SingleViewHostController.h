@@ -43,6 +43,8 @@
     SearchType searchType;
     // texts for search type
     NSMutableDictionary *searchTextsForTypes;
+    // recent search arrays for search type
+    NSMutableDictionary *recentSearchesForTypes;
 }
 
 @property (readwrite) id delegate;

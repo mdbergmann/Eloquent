@@ -30,6 +30,7 @@
 - (NSArray *)getContents;
 
 // ------- SwordModuleAccess ---------
+- (int)textForRef:(NSString *)reference text:(NSString **)textString;
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString;
 - (long)entryCount;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference;

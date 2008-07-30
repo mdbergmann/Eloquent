@@ -17,12 +17,12 @@
 
 @interface SwordDictionary (/* Private, class continuation */)
 /** private property */
-@property(readwrite, retain) NSMutableArray *entries;
+@property(readwrite, retain) NSMutableArray *keys;
 @end
 
 @interface SwordDictionary (PrivateAPI)
 
-- (void)readEntries;
+- (void)readKeys;
 - (void)readFromCache;
 - (void)writeToCache;
 
@@ -30,14 +30,17 @@
 
 @implementation SwordDictionary (PrivateAPI)
 
-- (void)readEntries {
+/**
+ only the keys are stored here in an array
+ */
+- (void)readKeys {
     
-	if(entries == nil) {
+	if(keys == nil) {
         [self readFromCache];
     }
     
     // still no entries?
-	if([entries count] == 0) {
+	if([keys count] == 0) {
         [moduleLock lock];
         
         NSMutableArray *arr = [NSMutableArray array];
@@ -45,20 +48,17 @@
         swModule->setSkipConsecutiveLinks(true);
         *swModule = sword::TOP;
         swModule->getRawEntry();        
-        if(swModule->isUnicode()) {
-            while (!swModule->Error()) {
-                [arr addObject: [fromUTF8(swModule->KeyText()) capitalizedString]];
-                (*swModule)++;
+        while(!swModule->Error()) {
+            if(swModule->isUnicode()) {
+                [arr addObject:[[NSString stringWithUTF8String:swModule->KeyText()] capitalizedString]];
+            } else {
+                [arr addObject:[[NSString stringWithCString:swModule->KeyText() encoding:NSISOLatin1StringEncoding] capitalizedString]];
             }
-        } else {
-            while (!swModule->Error()) {
-                [arr addObject: [fromLatin1(swModule->KeyText()) capitalizedString]];
-                (*swModule)++;
-            }
+            (*swModule)++;
         }
         
         // set entries
-        self.entries = arr;
+        self.keys = arr;
         
         [moduleLock unlock];
         [self writeToCache];
@@ -70,29 +70,29 @@
     NSString *cachePath = [DEFAULT_APPSUPPORT_PATH stringByAppendingPathComponent:[NSString stringWithFormat:@"cache-%@", [self name]]];
 	NSMutableArray *data = [NSArray arrayWithContentsOfFile:cachePath];
     if(data != nil) {
-        self.entries = data;
+        self.keys = data;
     } else {
-        self.entries = [NSMutableArray array];
+        self.keys = [NSMutableArray array];
     }
 }
 
 - (void)writeToCache {
 	// save cached file
     NSString *cachePath = [DEFAULT_APPSUPPORT_PATH stringByAppendingPathComponent:[NSString stringWithFormat:@"cache-%@", [self name]]];
-	[entries writeToFile:cachePath atomically:NO];
+	[keys writeToFile:cachePath atomically:NO];
 }
 
 @end
 
 @implementation SwordDictionary
 
-@synthesize entries;
+@synthesize keys;
 
 - (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {
     
 	self = [super initWithName:aName swordManager:aManager];
     if(self) {
-        self.entries = nil;
+        self.keys = nil;
     }
     	
 	return self;
@@ -102,11 +102,11 @@
 	[super finalize];
 }
 
-- (NSArray *)getEntries {
-    NSArray *ret = self.entries;
+- (NSArray *)allKeys {
+    NSArray *ret = self.keys;
     if(ret == nil) {
-        [self readEntries];
-        ret = self.entries;
+        [self readKeys];
+        ret = self.keys;
     }
 	return ret;    
 }
@@ -128,37 +128,52 @@
 	if([self isUnicode]) {
 		result = fromUTF8(swModule->KeyText());
     } else {
-		result =  fromLatin1(swModule->KeyText());
+		result = fromLatin1(swModule->KeyText());
     }
 	[moduleLock unlock];
 	
 	return result;
 }
 
-// does dict have key?
-- (BOOL)hasReference:(NSString *)ref {
-	[moduleLock lock];
-	
-	sword::SWKey *key = swModule->CreateKey();
+/**
+ returns stripped text for key.
+ nil if the key does not exist.
+ */
+- (NSString *)entryForKey:(NSString *)aKey {
+    NSString *ret = nil;
+    
+	[moduleLock lock];	
+	sword::SWKey *swkey = swModule->CreateKey();
 	if([self isUnicode]) {
-		(*key) = toUTF8([ref uppercaseString]);
+		(*swkey) = [[aKey uppercaseString] UTF8String];
     } else {
-		(*key) = toLatin1([ref uppercaseString]);
+		(*swkey) = [[aKey uppercaseString] cStringUsingEncoding:NSISOLatin1StringEncoding];
     }
-	BOOL result = !key->Error();
+    
+    // error on key addressing?
+	if(swkey->Error()) {
+        MBLOG(MBLOG_ERR, @"[SwordDictionary -entryForKey:] error on getting key!");
+    } else {
+        // get text
+        [self textForRef:aKey text:&ret];
+    }
 	[moduleLock unlock];
 	
-	return result;
+	return ret;
 }
 
 #pragma mark - SwordModuleAccess
+
+- (int)textForRef:(NSString *)reference text:(NSString **)textString {
+	return [super textForRef:[reference uppercaseString] text:textString];    
+}
 
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
 	return [super htmlForRef:[reference uppercaseString] html:htmlString];
 }
 
 - (long)entryCount {
-    return [[self getEntries] count];
+    return [[self allKeys] count];    
 }
 
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference {

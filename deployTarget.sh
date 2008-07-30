@@ -2,10 +2,10 @@
 # some variables have to be given like:
 # $SRCROOT, $BUILD_DIR, $CONFIGURATION in this order
 
-SRCROOT="/Users/mbergmann/_inProgress/Sources/macsword/macsword/branches/MacSword-1.4";
+SRCROOT="/Users/mbergmann/_inProgress/Sources/macsword/macsword/trunk";
 BUILD_DIR="$SRCROOT/build";
-CONFIG="Deployment";
-TARGET="MacSword";
+CONFIG="Release";
+TARGET="MacSword2";
 
 # check these values
 if [ $SRCROOT = "" ]; then

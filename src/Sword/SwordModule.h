@@ -41,6 +41,15 @@ typedef enum {
  */
 - (long)entryCount;
 
+/**
+ abstract method, override in subclass
+ This method generates stripped text string for a given reference.
+ @param[in] reference bible reference
+ @param[out] htmlString html string of generated data
+ @return number of generated verses/entries or -1 for error
+ */
+ - (int)textForRef:(NSString *)reference text:(NSString **)textString;
+
 /** 
  abstract method, override in subclass
  This method generates HTML string for a given reference.
@@ -108,6 +117,7 @@ typedef enum {
 - (NSString *)configEntryForKey:(NSString *)entryKey;
 
 // ------- SwordModuleAccess ---------
+- (int)textForRef:(NSString *)reference text:(NSString **)textString;
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString;
 - (long)entryCount;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference;

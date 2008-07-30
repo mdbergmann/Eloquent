@@ -16,6 +16,10 @@
 #import "globals.h"
 #import "utils.h"
 
+using sword::AttributeTypeList;
+using sword::AttributeList;
+using sword::AttributeValue;
+
 #define BOOKNAMES_KEY       @"BookNames"
 #define ENGBOOKNAMES_KEY    @"EngBookNames"
 #define BOOKNUMBERS_KEY     @"BookNumbers"
@@ -358,6 +362,9 @@ NSLock *bibleLock = nil;
     return verseHighIndex - verseLowIndex;
 }
 
+- (int)textForRef:(NSString *)reference text:(NSString **)textString {
+	return [super textForRef:[reference uppercaseString] text:textString];    
+}
 
 - (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
     int ret = 0;
@@ -372,7 +379,7 @@ NSLock *bibleLock = nil;
 
     sword::VerseKey	vk;
     const char *cref = [reference UTF8String];
-    sword::ListKey listkey = vk.ParseVerseList(cref , "Gen1", true);
+    sword::ListKey listkey = vk.ParseVerseList(cref, "Gen1", true);
     int lastIndex;
     int lastChapter = -1;
     int lastBook = -1;
@@ -436,6 +443,20 @@ NSLock *bibleLock = nil;
             }
             //[ret appendString:@"<a href=\"strongs://helloStrong\">Strongs</a>\n"];            
             ret++;
+            
+            // check for any entry attributes
+            AttributeTypeList::iterator i1;
+            AttributeList::iterator i2;
+            AttributeValue::iterator i3;
+            for (i1 = swModule->getEntryAttributes().begin(); i1 != swModule->getEntryAttributes().end(); i1++) {
+                MBLOGV(MBLOG_DEBUG, @"%@\n", [NSString stringWithUTF8String:i1->first]);
+                for (i2 = i1->second.begin(); i2 != i1->second.end(); i2++) {
+                    MBLOGV(MBLOG_DEBUG, @"\t%@\n", [NSString stringWithUTF8String:i2->first]);
+                    for (i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
+                        MBLOGV(MBLOG_DEBUG, @"\t\t%@ = %@\n", [NSString stringWithUTF8String:i3->first], [NSString stringWithUTF8String:i3->second]);
+                    }
+                }                    
+            }            
             
             // get current index
             lastIndex = (swModule->Key()).Index();
