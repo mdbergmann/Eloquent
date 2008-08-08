@@ -13,10 +13,16 @@
 
 #define SINGLEVIEWHOST_NIBNAME   @"SingleViewHost"
 
-@class SearchOptionsViewController, HostableViewController;
+@class SearchOptionsViewController;
+@class HostableViewController;
+@class ModuleOutlineViewController;
 
 @interface SingleViewHostController : NSWindowController <NSCoding> {
     
+    // splitView to add and remove modules view. splitview hosts placeHolderView
+    IBOutlet NSSplitView *splitView;
+    // default View
+    IBOutlet NSView *defaultView;    
     // placeholder for the main content view
     IBOutlet NSBox *placeHolderView;
     // the main view for placeHolderView
@@ -27,6 +33,13 @@
     
     // our delegate
     id delegate;
+    
+    // the type of view
+    ModuleType type;
+    
+    // every host has a module list view
+    ModuleOutlineViewController *modulesViewController;
+    BOOL showingModules;
     
     // view controller for search options
     SearchOptionsViewController *searchOptionsViewController;

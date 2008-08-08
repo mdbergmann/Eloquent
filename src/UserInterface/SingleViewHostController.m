@@ -11,11 +11,13 @@
 #import "HostableViewController.h"
 #import "SearchOptionsViewController.h"
 #import "BibleSearchOptionsViewController.h"
+#import "ModuleOutlineViewController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 
 // toolbar identifiers
 #define TB_ADD_BIBLE_ITEM       @"IdAddBible"
+#define TB_TOGGLE_MODULES_ITEM  @"IdToggleModules"
 #define TB_SEARCH_TYPE_ITEM     @"IdSearchType"
 #define TB_SEARCH_TEXT_ITEM     @"IdSearchText"
 
@@ -65,6 +67,10 @@
         self.recentSearchesForTypes = [NSMutableDictionary dictionary];
         showingOptions = NO;
         
+        // load moduleListViewController
+        modulesViewController = [[ModuleOutlineViewController alloc] initWithDelegate:self];
+        showingModules = NO;
+        
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
@@ -78,6 +84,7 @@
 - (id)initForViewType:(ModuleType)aType {
     self = [self init];
     if(self) {
+        type = aType;
         if(aType == bible) {
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;
@@ -92,6 +99,11 @@
 
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -awakeFromNib]");
+    
+    // set vertical splitview
+    [splitView setVertical:YES];
+    [splitView setDividerStyle:NSSplitViewDividerStyleThin];
+    
     // check if view has loaded
     if(viewController.viewLoaded == YES) {
         // add content view
@@ -114,18 +126,30 @@
     NSImage *image = nil;
     
     // ----------------------------------------------------------------------------------------
-    // add is
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADD_BIBLE_ITEM];
-    [item setLabel:NSLocalizedString(@"AddBibleLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"AddBibleLabel", @"")];
-    [item setToolTip:NSLocalizedString(@"AddBibleToolTip", @"")];
+    // toggle module list view
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TOGGLE_MODULES_ITEM];
+    [item setLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
+    [item setPaletteLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
+    [item setToolTip:NSLocalizedString(@"ToggleModulesToolTip", @"")];
     image = [NSImage imageNamed:@"add.png"];
     [item setImage:image];
     [item setTarget:self];
-    [item setAction:@selector(addBibleTB:)];
-    [tbIdentifiers setObject:item forKey:TB_ADD_BIBLE_ITEM];
+    [item setAction:@selector(toggleModulesTB:)];
+    [tbIdentifiers setObject:item forKey:TB_TOGGLE_MODULES_ITEM];
 
-    // ---------------------------------------------------------------------------------------
+    if(type == bible) {
+        // add bibleview
+        item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADD_BIBLE_ITEM];
+        [item setLabel:NSLocalizedString(@"AddBibleLabel", @"")];
+        [item setPaletteLabel:NSLocalizedString(@"AddBibleLabel", @"")];
+        [item setToolTip:NSLocalizedString(@"AddBibleToolTip", @"")];
+        image = [NSImage imageNamed:@"add.png"];
+        [item setImage:image];
+        [item setTarget:self];
+        [item setAction:@selector(addBibleTB:)];
+        [tbIdentifiers setObject:item forKey:TB_ADD_BIBLE_ITEM];
+    }
+
     // search type
     searchTypePopup = [[NSPopUpButton alloc] init];
     [searchTypePopup setFrame:NSMakeRect(0,0,140,32)];
@@ -296,6 +320,18 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     }
 }
 
+- (void)toggleModulesTB:(id)sender {
+    if(showingModules) {
+        // remove
+        [[modulesViewController view] removeFromSuperview];
+        showingModules = NO;
+    } else {
+        // add
+        [splitView addSubview:[modulesViewController view] positioned:NSWindowAbove relativeTo:defaultView];        
+        showingModules = YES;
+    }
+}
+
 - (void)searchType:(id)sender {
     MBLOGV(MBLOG_DEBUG, @"search type: %@", [sender title]);
     
@@ -444,9 +480,14 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         // decode recent searches
         self.recentSearchesForTypes = [decoder decodeObjectForKey:@"RecentSearchesForTypesEncoded"];
         
+        // load modules view
+        modulesViewController = [[ModuleOutlineViewController alloc] initWithDelegate:self];
+        showingModules = NO;
+        
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
             // init search view controller
             searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+            type = bible;
         }
         
         // load nib

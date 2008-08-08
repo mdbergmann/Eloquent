@@ -19,6 +19,9 @@
 - (void)setModuleData:(NSMutableArray *)anArray;
 - (void)setModuleSelection:(NSArray *)anArray;
 
+/** get clicked mod object in row */
+- (ModuleListObject *)moduleObjectForClickedRow;
+
 @end
 
 
@@ -35,6 +38,18 @@
     [anArray retain];
     [moduleSelection release];
     moduleSelection = anArray;    
+}
+
+- (ModuleListObject *)moduleObjectForClickedRow {
+    ModuleListObject *ret = nil;
+    
+    int clickedRow = [moduleOutlineView clickedRow];
+    if(clickedRow > 0) {
+        // get row
+        ret = [moduleOutlineView itemAtRow:clickedRow];
+    }
+    
+    return ret;
 }
 
 @end
@@ -193,10 +208,17 @@
 - (IBAction)noneTask:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -noneTask:]");
     
+    // get current selected module of clicked row
+    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    
     // get current selected module
     if([moduleSelection count] > 0) {
         ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
         
+        if(modObj != clicked) {
+            // use clicked
+            modObj = clicked;
+        }
         // set taskid
         [modObj setTaskId:TaskNone];
         
@@ -214,10 +236,17 @@
 - (IBAction)installModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -installModule:]");
     
+    // get current selected module of clicked row
+    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    
     // get current selected module
     if([moduleSelection count] > 0) {
         ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
 
+        if(modObj != clicked) {
+            // use clicked
+            modObj = clicked;
+        }
         // check if module is installed already
         if(([[modObj module] status] & ModStatNew) > 0) {
             // set taskid
@@ -234,38 +263,23 @@
         }
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
-    }
-    
-    /*
-    // get selected modules
-    ModuleListObject *mlo = nil;
-    for(mlo in moduleSelection) {
-        // get install source
-        SwordInstallSource *is = mlo.installSource;
-        // get SwordModule
-        SwordModule *mod = mlo.module;
-        
-        // if the module has status "same version", then install it
-        if((mod.status & ModStatNew) > 0) {
-            // install module
-            MBLOGV(MBLOG_DEBUG, @"Installing module: %@", mod.name);
-            // install
-            [sis installModule:mod fromSource:is withManager:sm];
-        } else {
-            // module already installed, doing nothing
-            MBLOGV(MBLOG_WARN, @"Module %@ already installed!", mod.name);
-        }
     }    
-     */    
 }
 
 - (IBAction)removeModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -removeModule:]");
     
+    // get current selected module of clicked row
+    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    
     // get current selected module
     if([moduleSelection count] > 0) {
         ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
         
+        if(modObj != clicked) {
+            // use clicked
+            modObj = clicked;
+        }
         // check if module is really installed
         if(([[modObj module] status] & ModStatNew) == 0) {
             // set taskid
@@ -288,10 +302,17 @@
 - (IBAction)updateModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -updateModule:]");
 
+    // get current selected module of clicked row
+    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    
     // get current selected module
     if([moduleSelection count] > 0) {
         ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
         
+        if(modObj != clicked) {
+            // use clicked
+            modObj = clicked;
+        }
         // check if module is new version
         if(([[modObj module] status] & ModStatUpdated) > 0) {
             // set taskid

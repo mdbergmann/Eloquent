@@ -54,6 +54,8 @@
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
 		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
+		A9F1EE3A0E4C1B9500939B85 /* ModuleOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F1EE390E4C1B9500939B85 /* ModuleOutlineViewController.m */; };
+		A9F1EE3F0E4C1EFF00939B85 /* ModuleOutlineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F1EE3D0E4C1EFF00939B85 /* ModuleOutlineView.xib */; };
 		A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */; };
 		A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */; };
 		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
@@ -179,6 +181,9 @@
 		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
 		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
 		A9F1856A0E0833F9005F3B35 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		A9F1EE380E4C1B9500939B85 /* ModuleOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleOutlineViewController.h; path = src/UserInterface/ModuleOutlineViewController.h; sourceTree = "<group>"; };
+		A9F1EE390E4C1B9500939B85 /* ModuleOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleOutlineViewController.m; path = src/UserInterface/ModuleOutlineViewController.m; sourceTree = "<group>"; };
+		A9F1EE3E0E4C1EFF00939B85 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleOutlineView.xib; sourceTree = "<group>"; };
 		A9F4E3510E1DF0D800B0148E /* ReferenceCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheManager.h; path = src/UserInterface/ReferenceCacheManager.h; sourceTree = "<group>"; };
 		A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheManager.m; path = src/UserInterface/ReferenceCacheManager.m; sourceTree = "<group>"; };
 		A9F4E3550E1DF16F00B0148E /* ReferenceCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheObject.h; path = src/UserInterface/ReferenceCacheObject.h; sourceTree = "<group>"; };
@@ -297,6 +302,7 @@
 				A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */,
 				A9F185480E083117005F3B35 /* WebView.xib */,
 				A9969B4A0E2BB38400173305 /* BibleSearchOptions.xib */,
+				A9F1EE3D0E4C1EFF00939B85 /* ModuleOutlineView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -429,6 +435,8 @@
 				A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */,
 				A99E63CC0E266AA700DC672F /* BibleSearchOptionsViewController.h */,
 				A99E63CD0E266AA700DC672F /* BibleSearchOptionsViewController.m */,
+				A9F1EE380E4C1B9500939B85 /* ModuleOutlineViewController.h */,
+				A9F1EE390E4C1B9500939B85 /* ModuleOutlineViewController.m */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -525,6 +533,7 @@
 				A9F1854A0E083117005F3B35 /* WebView.xib in Resources */,
 				A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */,
 				A9969B4C0E2BB38400173305 /* BibleSearchOptions.xib in Resources */,
+				A9F1EE3F0E4C1EFF00939B85 /* ModuleOutlineView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,6 +581,7 @@
 				A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */,
 				A99E63CE0E266AA700DC672F /* BibleSearchOptionsViewController.m in Sources */,
 				A9969B730E2BB65200173305 /* SearchOptionsViewController.m in Sources */,
+				A9F1EE3A0E4C1B9500939B85 /* ModuleOutlineViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -672,6 +682,14 @@
 				A9F185490E083117005F3B35 /* English */,
 			);
 			name = WebView.xib;
+			sourceTree = "<group>";
+		};
+		A9F1EE3D0E4C1EFF00939B85 /* ModuleOutlineView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9F1EE3E0E4C1EFF00939B85 /* English */,
+			);
+			name = ModuleOutlineView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
