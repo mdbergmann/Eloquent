@@ -7,6 +7,9 @@
 //
 
 #import "IndexingManager.h"
+#import "SwordManager.h"
+#import "SwordModule.h"
+#import "SwordSearching.h"
 
 #define INDEXTYPE kSKIndexInverted
 
@@ -21,6 +24,11 @@
  */
 - (BOOL)createIndexForModuleName:(NSString *)modName moduleType:(ModuleType)modType;
 
+/**
+ this method can be run in seperate thread for checking index validity
+ */
+- (void)runIndexCheck;
+
 @end
 
 @implementation IndexingManager (PrivateAPI)
@@ -33,6 +41,32 @@
  */
 - (BOOL)createIndexForModuleName:(NSString *)modName moduleType:(ModuleType)modType {
 	return NO;
+}
+
+/**
+ this method can be run in seperate thread for checking index validity
+ */
+- (void)runIndexCheck {
+    
+    if([indexCheckLock tryLock]) {
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        
+        // get default SwordManager and loop over all modules and check for index
+        SwordManager *sm = [SwordManager defaultManager];
+        // make copy of array
+        NSArray *modNames = [NSArray arrayWithArray:[sm moduleNames]];
+        for(NSString *name in modNames) {
+            MBLOGV(MBLOG_DEBUG, @"[IndexingManager -runIndexCheck] checking index for module: %@", name);
+            SwordModule *mod = [sm moduleWithName:name];
+            if(![mod hasIndex]) {
+                MBLOGV(MBLOG_DEBUG, @"[IndexingManager -runIndexCheck] creating index for module: %@", name);
+                [mod createIndex];
+            }
+        }
+        
+        [pool drain];
+        [indexCheckLock unlock];
+    }
 }
 
 @end
@@ -57,8 +91,7 @@
 \brief init is called after alloc:. some initialization work can be done here.
  @returns initialized not nil object
  */
-- (id)init
-{
+- (id)init {
 	MBLOG(MBLOG_DEBUG,@"init of IndexingManager");
 	
 	self = [super init];
@@ -67,6 +100,7 @@
 	}
 	else {
 		[self setBaseIndexPath:@""];
+        indexCheckLock = [[NSLock alloc] init];
 	}
 	
 	return self;
@@ -92,6 +126,20 @@
 
 - (NSString *)baseIndexPath {
 	return baseIndexPath;
+}
+
+/**
+ calling this method will trigger checking for modules that do not have a valid index
+ in a separate thread.
+ */
+- (void)triggerBackgroundIndexCheck {
+	// run every 15 seconds
+    MBLOG(MBLOG_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
+	[NSTimer scheduledTimerWithTimeInterval:30.0 
+									 target:self 
+								   selector:@selector(runIndexCheck) 
+								   userInfo:nil 
+									repeats:YES];
 }
 
 /**

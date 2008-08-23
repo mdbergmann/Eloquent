@@ -9,6 +9,7 @@
 #import "BibleViewController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
+#import "MBThreadedProgressSheetController.h"
 #import "MBPreferenceController.h"
 #import "ReferenceCacheManager.h"
 #import "ReferenceCacheObject.h"
@@ -24,11 +25,16 @@
 
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
+
+/** generates HTML for display */
+- (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
 @end
 
 @implementation BibleViewController
 
 #pragma mark - getter/setter
+
+@synthesize nibName;
 
 - (void)setReference:(NSString *)aReference {
     [super setReference:aReference];
@@ -39,7 +45,15 @@
 #pragma mark - initializers
 
 - (id)init {
-    return [self initWithModule:nil delegate:nil];
+    self = [super init];
+    if(self) {
+        // some common init
+        searchType = ReferenceSearchType;
+        self.module = nil;
+        self.delegate = nil;
+    }
+    
+    return self;
 }
 
 - (id)initWithModule:(SwordBible *)aModule {
@@ -51,18 +65,19 @@
 }
 
 - (id)initWithModule:(SwordBible *)aModule delegate:(id)aDelegate {
-    self = [super init];
+    self = [self init];
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -init]");
         self.module = (SwordModule *)aModule;
         self.delegate = aDelegate;
-        searchType = ReferenceSearchType;
 
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
 
+        self.nibName = BIBLEVIEW_NIBNAME;
+        
         // load nib
-        BOOL stat = [NSBundle loadNibNamed:BIBLEVIEW_NIBNAME owner:self];
+        BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable to load nib!");
         }        
@@ -97,9 +112,25 @@
     if(self.module != nil) {
         [modulePopBtn selectItemWithTitle:[module name]];
     }
+    
+    [self adaptUIToHost];
 }
 
 #pragma mark - methods
+
+- (void)adaptUIToHost {
+    if(delegate) {
+        if([delegate respondsToSelector:@selector(bibleViewCount)]) {
+            NSNumber *countTemp = [delegate performSelector:@selector(bibleViewCount)];
+            int count = [countTemp intValue];
+            if(count == 1) {
+                [closeBtn setEnabled:NO];
+            } else {
+                [closeBtn setEnabled:YES];
+            }
+        }
+    }
+}
 
 - (void)populateModulesMenu {
     
@@ -196,6 +227,72 @@
     return ret;
 }
 
+- (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {
+    NSAttributedString *ret = nil;
+
+    // generate html string for verses
+    NSMutableString *htmlString = [NSMutableString string];
+    int lastChapter = -1;
+    for(NSDictionary *dict in verseData) {
+        NSString *verseText = [dict objectForKey:SW_OUTPUT_TEXT_KEY];
+        NSString *key = [dict objectForKey:SW_OUTPUT_REF_KEY];
+        
+        // some defaults
+        // get user defaults
+        BOOL vool = [userDefaults boolForKey:DefaultsBibleTextVersesOnOneLineKey];
+        BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
+        BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
+        
+        NSString *bookName = @"";
+        int book = -1;
+        int chapter = -1;
+        int verse = -1;
+        // decode ref
+        [SwordBible decodeRef:key intoBook:&bookName book:&book chapter:&chapter verse:&verse];
+        
+        // generate text according to userdefaults
+        if(!vool) {
+            // not verses on one line
+            // then mark new chapters
+            if(chapter != lastChapter) {
+                [htmlString appendFormat:@"<br /><b>%@ - %i:</b><br />\n", bookName, chapter];
+            }
+            // normal text with verse and text
+            [htmlString appendFormat:@"<b>%i<b/> %@\n", chapter, verseText];
+        } else {
+            if(showBookNames) {
+                [htmlString appendFormat:@"<b>%@ %i:%i: </b>", bookName, chapter, verse];
+                [htmlString appendFormat:@"%@<br />\n", verseText];
+            } else if(showBookAbbr) {
+                // TODO: show abbrevation
+                [htmlString appendFormat:@"<b>%@ %i:%i: </b>", bookName, chapter, verse];
+                [htmlString appendFormat:@"%@<br />\n", verseText];
+            }
+        }
+        lastChapter = chapter;
+    }
+    
+    // create attributed string
+    // setup options
+    NSMutableDictionary *options = [NSMutableDictionary dictionary];
+    // set string encoding
+    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
+                forKey:NSCharacterEncodingDocumentOption];
+    // set web preferences
+    [options setObject:[[MBPreferenceController defaultPrefsController] webPreferences] forKey:NSWebPreferencesDocumentOption];
+    // set scroll to line height
+    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
+    // set text
+    NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
+    ret = [[NSAttributedString alloc] initWithHTML:data 
+                                           options:options
+                                documentAttributes:nil];
+    
+    return ret;
+}
+
 #pragma mark - protocol implementations
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
@@ -212,9 +309,6 @@
         self.reference = aReference;
         
         if(self.module != nil) {
-            // start progress indicator
-            [progressIndicator startAnimation:self];
-            
             NSString *statusText = @"";
             int verses = 0;
             
@@ -227,39 +321,29 @@
                 statusText = [NSString stringWithFormat:@"Found %i verses", o.numberOfFinds];
             } else {
                 if(searchType == ReferenceSearchType) {
-                    NSString *text = @"";
-                    verses = [module htmlForRef:aReference html:&text];
-                    statusText = [NSString stringWithFormat:@"Found %i verses", verses];
-                    
-                    // for debuggin purpose, write html string to somewhere
-                    //[text writeToFile:@"/Users/mbergmann/Desktop/module.html" atomically:NO];
-                    
-                    // create attributed string
-                    // setup options
-                    NSMutableDictionary *options = [NSMutableDictionary dictionary];
-                    // set string encoding
-                    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
-                                forKey:NSCharacterEncodingDocumentOption];
-                    // set web preferences
-                    [options setObject:[[MBPreferenceController defaultPrefsController] webPreferences] forKey:NSWebPreferencesDocumentOption];
-                    // set scroll to line height
-                    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
-                    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
-                    // set text
-                    NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
-                    NSAttributedString *attrString = [[NSAttributedString alloc] initWithHTML:data 
-                                                                                      options:options
-                                                                           documentAttributes:nil];
-                    // display
-                    [textViewController setAttributedString:attrString];
-                    
-                    // add to cache
-                    ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
-                                                                                      withDisplayText:attrString
-                                                                                        numberOfFinds:verses
-                                                                                         andReference:aReference];
-                    [rm addCacheObject:o];
+                    NSArray *verseData = [module renderedTextForRef:reference];
+                    if(verseData == nil) {
+                        MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference:] got nil verseData, cannot proceed!");
+                        statusText = @"Error on getting verse data!";
+                    } else {
+                        verses = [verseData count];                        
+                        statusText = [NSString stringWithFormat:@"Found %i verses", verses];
+                        
+                        // we need html
+                        NSAttributedString *attrString = [self displayableHTMLFromVerseData:verseData];
+                        // for debugging purpose, write html string to somewhere
+                        //[text writeToFile:@"/Users/mbergmann/Desktop/module.html" atomically:NO];
+                        
+                        // display
+                        [textViewController setAttributedString:attrString];
+                        
+                        // add to cache
+                        ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
+                                                                                          withDisplayText:attrString
+                                                                                            numberOfFinds:verses
+                                                                                             andReference:aReference];
+                        [rm addCacheObject:o];
+                    }
                 } else if(searchType == IndexSearchType) {
                     // search in index
                     if(![module hasIndex]) {
@@ -307,9 +391,6 @@
 
             // set status
             [self setStatusText:statusText];
-            
-            // stop progress indicator
-            [progressIndicator stopAnimation:self];        
         } else {
             MBLOG(MBLOG_WARN, @"[BibleViewController -displayTextForReference:] no module set!");
         }
@@ -366,8 +447,10 @@
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
         
+        self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];
+        
         // load nib
-        BOOL stat = [NSBundle loadNibNamed:BIBLEVIEW_NIBNAME owner:self];
+        BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[BibleViewController -initWithCoder:] unable to load nib!");
         }
@@ -379,6 +462,9 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     // encode common things first
     [super encodeWithCoder:encoder];
+    
+    // encode nib name
+    [encoder encodeObject:nibName forKey:@"NibNameKey"];
 }
 
 @end

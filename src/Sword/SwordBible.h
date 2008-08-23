@@ -26,7 +26,7 @@ typedef enum {
 }
 
 // ----------- class methods -------------
-+ (void)decodeRef:(NSString *)ref intoBook:(NSString **)book chapter:(int *)chapter verse:(int *)verse;
++ (void)decodeRef:(NSString *)ref intoBook:(NSString **)bookName book:(int *)book chapter:(int *)chapter verse:(int *)verse;
 + (NSString *)firstRefName:(NSString *)abbr;
 + (NSString *)context:(NSString *)abbr;
 
@@ -46,8 +46,8 @@ typedef enum {
 - (int)versesForBible;
 
 // ------- SwordModuleAccess ---------
-- (int)textForRef:(NSString *)reference text:(NSString **)textString;
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString;
+- (NSArray *)stripedTextForRef:(NSString *)reference;
+- (NSArray *)renderedTextForRef:(NSString *)reference;
 - (long)entryCount;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
 

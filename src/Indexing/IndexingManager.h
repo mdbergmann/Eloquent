@@ -13,6 +13,8 @@
 
 @interface IndexingManager : NSObject {
 	NSString *baseIndexPath;
+    
+    NSLock *indexCheckLock;
 }
 
 /**
@@ -25,6 +27,12 @@
 
 - (void)setBaseIndexPath:(NSString *)aPath;
 - (NSString *)baseIndexPath;
+
+/**
+ calling this method will trigger checking for modules that do not have a valid index
+ in a separate thread.
+ */
+- (void)triggerBackgroundIndexCheck;
 
 /**
 \brief returns the path of the index folder for the given module name

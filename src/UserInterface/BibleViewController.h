@@ -24,15 +24,18 @@
     IBOutlet NSPopUpButton *modulePopBtn;
     // status line
     IBOutlet NSTextField *statusLine;
-    // progress indicator per BibleView
-    IBOutlet NSProgressIndicator *progressIndicator;
     
     // we need a webview for text display
     ExtTextViewController *textViewController;
     
+    // nib name
+    NSString *nibName;
+    
     // search type
     SearchType searchType;
 }
+
+@property (retain, readwrite) NSString *nibName;
 
 // ---------- initializers ---------
 - (id)initWithModule:(SwordBible *)aModule;
@@ -48,10 +51,13 @@
 // method called by subview
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
+- (void)adaptUIToHost;
 - (void)setStatusText:(NSString *)aText;
 
 // protocol definitions
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
+// selector called by menuitems
+- (void)moduleSelectionChanged:(id)sender;
 
 // Mouse tracking protocol implementation
 - (void)mouseEntered:(NSView *)theView;

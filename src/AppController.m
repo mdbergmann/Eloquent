@@ -173,6 +173,13 @@ sets up all needed folders so the application can work
 
 @implementation AppController
 
+/** the singleton */
+static AppController *singleton;
+
++ (AppController *)defaultAppController {
+    return singleton;
+}
+
 /**
 \brief init is called after alloc:. some initialization work can be done here.
  No GUI elements are available here. It additinally calls the init method of superclass
@@ -194,6 +201,9 @@ sets up all needed folders so the application can work
         if(!success) {
             MBLOG(MBLOG_ERR, @"[AppController -init] could not initialize AppSupport!");
         } else {
+            // set singleton
+            singleton = self;
+            
             // initialize ThreadedProgressSheet
             [MBThreadedProgressSheetController standardProgressSheetController];
             
@@ -211,12 +221,6 @@ sets up all needed folders so the application can work
             [SwordManager initStringManager];
             // init locale
             [SwordManager initLocale];
-            
-            /*
-            // load SingleViewHost
-            SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:bible];
-            [windowHosts addObject:svh];
-             */
         }
 	}
 	
@@ -229,6 +233,19 @@ sets up all needed folders so the application can work
 - (void)finalize {
 	// dealloc object
 	[super finalize];
+}
+
+/** opens a new single host window for the given module */
+- (void)openSingleHostWindowForModule:(SwordModule *)mod {
+    // open a default view
+    SingleViewHostController *svh = nil;
+    if(([mod type] == bible) ||
+       ([mod type] == commentary)) {
+        svh = [[SingleViewHostController alloc] initWithModule:mod];
+    }
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    [svh showWindow:self];    
 }
 
 //-------------------------------------------------------------------
@@ -336,6 +353,9 @@ sets up all needed folders so the application can work
             }
         }
 	}
+    
+    // start background indexer
+    [[IndexingManager sharedManager] triggerBackgroundIndexCheck];
 }
 
 /**

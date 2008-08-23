@@ -142,7 +142,7 @@ class sword::SWModule;
              forModuletype:(int)type 
             withMenuTarget:(id)aTarget 
             withMenuAction:(SEL)aSelector;
-    
+
 - (void)setCipherKey:(NSString*)key forModuleNamed:(NSString *)name;
 - (void)setGlobalOption:(NSString*)option value:(NSString *)value;
 

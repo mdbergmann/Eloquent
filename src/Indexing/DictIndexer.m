@@ -9,9 +9,7 @@
 #import "DictIndexer.h"
 #import "SearchResultEntry.h"
 
-@interface DictIndexer : Indexer
-{
-    SKIndexRef contentIndexRef;
+@interface DictIndexer : Indexer {
 }
 
 @end
@@ -201,29 +199,6 @@
     }
     
     return array;
-}
-
-/**
-\brief flush the data to file
- */
-- (BOOL)flushIndex {
-	// flush all indexes
-    BOOL content = SKIndexFlush(contentIndexRef);
-    if(!content) {
-        MBLOG(MBLOG_ERR, @"could not flush content index!");
-    }
-	
-	return content;
-}
-
-/**
-\brief closes all indexes
- */
-- (void)close {
-	CFRelease(contentIndexRef);
-    // or SKIndexClose(contentIndexRef);
-    
-    contentIndexRef = NULL;
 }
 
 @end

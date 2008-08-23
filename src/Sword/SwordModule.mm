@@ -34,6 +34,7 @@
     self.type = [SwordModule moduleTypeForModuleTypeString:[self typeString]];
     // init lock
     self.moduleLock = [[NSRecursiveLock alloc] init];
+    self.indexLock = [[NSLock alloc] init];
     // nil values
     self.configEntries = [NSMutableDictionary dictionary];
 }
@@ -47,6 +48,7 @@
 @synthesize type;
 @synthesize status;
 @synthesize moduleLock;
+@synthesize indexLock;
 @synthesize swManager;
 
 /**
@@ -220,8 +222,8 @@
     return 0;
 }
 
-- (int)textForRef:(NSString *)reference text:(NSString **)textString {
-    int ret = 1;
+- (NSArray *)stripedTextForRef:(NSString *)reference {
+    NSArray *ret = nil;
     
     [moduleLock lock];
     if([self isUnicode]) {
@@ -232,13 +234,18 @@
     char *bytes = (char *)swModule->StripText();
     [moduleLock unlock];
     
-    *textString = [NSString stringWithUTF8String:bytes];
+    if(bytes != NULL) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [dict setObject:[NSString stringWithUTF8String:bytes] forKey:SW_OUTPUT_TEXT_KEY];
+        [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
+        ret = [NSArray arrayWithObject:dict];
+    }
     
     return ret;    
 }
 
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
-    int ret = 1;
+- (NSArray *)renderedTextForRef:(NSString *)reference {
+    NSArray *ret = nil;
     
     [moduleLock lock];
     if([self isUnicode]) {
@@ -249,7 +256,11 @@
     char *bytes = (char *)swModule->RenderText();
     [moduleLock unlock];
     
-    *htmlString = [NSString stringWithUTF8String:bytes];
+    if(bytes != NULL) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:[NSString stringWithUTF8String:bytes] forKey:SW_OUTPUT_TEXT_KEY];
+        [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
+        ret = [NSArray arrayWithObject:dict];
+    }
     
     return ret;
 }

@@ -16,6 +16,7 @@
 #import "globals.h"
 #import "utils.h"
 
+#include "msstringmgr.h"
 using sword::AttributeTypeList;
 using sword::AttributeList;
 using sword::AttributeValue;
@@ -40,14 +41,15 @@ NSLock *bibleLock = nil;
 
 // changes an abbreviated reference into a full
 // eg. Dan4:5-7 => Daniel4:5
-+ (void)decodeRef:(NSString *)ref intoBook:(NSString **)book chapter:(int *)chapter verse:(int *)verse {
++ (void)decodeRef:(NSString *)ref intoBook:(NSString **)bookName book:(int *)book chapter:(int *)chapter verse:(int *)verse {
     
 	if(!bibleLock) bibleLock = [[NSLock alloc] init];
 	[bibleLock lock];
 	
 	sword::VerseKey vk([ref UTF8String]);
 	
-	*book = [NSString stringWithUTF8String:vk.getBookName()];
+	*bookName = [NSString stringWithUTF8String:vk.getBookName()];
+    *book = vk.Book();
 	*chapter = vk.Chapter();
 	*verse = vk.Verse();
     
@@ -362,27 +364,20 @@ NSLock *bibleLock = nil;
     return verseHighIndex - verseLowIndex;
 }
 
-- (int)textForRef:(NSString *)reference text:(NSString **)textString {
-	return [super textForRef:[reference uppercaseString] text:textString];    
+- (NSArray *)stripedTextForRef:(NSString *)reference {
+	return nil;
 }
 
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
-    int ret = 0;
+- (NSArray *)renderedTextForRef:(NSString *)reference {
+    NSMutableArray *ret = nil;
     
-    // result string
-    NSMutableString *html = [NSMutableString string];
-    
-    // get user defaults
-    BOOL vool = [userDefaults boolForKey:DefaultsBibleTextVersesOnOneLineKey];
-    BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
-    BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
-
     sword::VerseKey	vk;
     const char *cref = [reference UTF8String];
     sword::ListKey listkey = vk.ParseVerseList(cref, "Gen1", true);
     int lastIndex;
-    int lastChapter = -1;
-    int lastBook = -1;
+    ret = [NSMutableArray arrayWithCapacity:listkey.Count()];
+    // this is what get s stored in return array
+    MSStringMgr *strMgr = new MSStringMgr();
     for(int i = 0; i < listkey.Count(); i++) {
         sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
         
@@ -402,48 +397,23 @@ NSLock *bibleLock = nil;
         
         // while not past the upper bound
         do {
-            char *ctxt = (char *)swModule->RenderText();
-            int clen = strlen(ctxt);
-            
-            int book = ((sword::VerseKey)(swModule->Key())).Book();
-            int chapter = ((sword::VerseKey)(swModule->Key())).Chapter();
-            int verse = ((sword::VerseKey)(swModule->Key())).Verse();
-            
-            NSString *bookName = @"";
-            NSString *bookAbbr = @"";
+            const char *keyCStr = swModule->Key().getText();
+            const char *txtCStr = swModule->RenderText();
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
+            NSString *key = [NSString stringWithUTF8String:keyCStr];
             NSString *txt = @"";
-            //if([self isUnicode]) {
-                bookName = [NSString stringWithUTF8String:((sword::VerseKey)(swModule->Key())).getBookName()];
-                bookAbbr = [NSString stringWithUTF8String:((sword::VerseKey)(swModule->Key())).getBookAbbrev()];
-                //NSString *verse = [NSString stringWithUTF8String:swModule->Key().getText()];
-                txt = [NSString stringWithUTF8String:ctxt];
-            //} else {
-            //    bookName = [NSString stringWithCString:((sword::VerseKey)(swModule->Key())).getBookName() encoding:NSISOLatin1StringEncoding];
-            //    bookAbbr = [NSString stringWithCString:((sword::VerseKey)(swModule->Key())).getBookAbbrev() encoding:NSISOLatin1StringEncoding];            
-            //    txt = [NSString stringWithCString:ctxt encoding:NSISOLatin1StringEncoding];
-            //}
-
-            // generate text according to userdefaults
-            if(!vool) {
-                // not verses on one line
-                // then mark new chapters
-                if(chapter != lastChapter) {
-                    [html appendFormat:@"<br /><b>%@ - %i:</b><br />\n", bookName, chapter];
-                }
-                // normal text with verse and text
-                [html appendFormat:@"<b>%i<b/> %@\n", chapter, txt];
+            if(strMgr->isUtf8(txtCStr)) {
+                txt = [NSString stringWithUTF8String:txtCStr];
             } else {
-                if(showBookNames) {
-                    [html appendFormat:@"<b>%@ %i:%i: </b>", bookName, chapter, verse];
-                    [html appendFormat:@"%@<br />\n", txt];
-                } else if(showBookAbbr) {
-                    [html appendFormat:@"<b>%@ %i:%i: </b>", bookAbbr, chapter, verse];
-                    [html appendFormat:@"%@<br />\n", txt];
-                }
+                txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
             }
-            //[ret appendString:@"<a href=\"strongs://helloStrong\">Strongs</a>\n"];            
-            ret++;
+            // add to dict
+            [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+            // add to array
+            [ret addObject:dict];
             
+            /*
             // check for any entry attributes
             AttributeTypeList::iterator i1;
             AttributeList::iterator i2;
@@ -456,7 +426,8 @@ NSLock *bibleLock = nil;
                         MBLOGV(MBLOG_DEBUG, @"\t\t%@ = %@\n", [NSString stringWithUTF8String:i3->first], [NSString stringWithUTF8String:i3->second]);
                     }
                 }                    
-            }            
+            }
+             */
             
             // get current index
             lastIndex = (swModule->Key()).Index();
@@ -468,9 +439,6 @@ NSLock *bibleLock = nil;
             }
         }while(element && swModule->Key() <= vk);
     }
-    
-    // set output
-    *htmlString = [NSString stringWithString:html];
     
     return ret;
 }

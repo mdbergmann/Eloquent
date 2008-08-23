@@ -18,12 +18,12 @@
 
 #define BUNDLEVERSION			CFBundleGetVersionNumber(CFBundleGetMainBundle())
 #define BUNDLEVERSIONSTRING		CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey)
-#define APPNAME					@"MacSword2"
-#define DEFAULT_APPSUPPORT_PATH	[@"~/Library/Application Support/MacSword2" stringByExpandingTildeInPath]
+#define APPNAME					@"MacSword"
+#define DEFAULT_APPSUPPORT_PATH	[@"~/Library/Application Support/MacSword" stringByExpandingTildeInPath]
 #define DEFAULT_MODULE_PATH     [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
 #define SWINSTALLMGR_NAME       @"InstallMgr"
 #define LOGFILE					[@"~/Library/Logs/MacSword2.log" stringByExpandingTildeInPath]
-#define TMPFOLDER				[@"~/Library/Caches/MacSword2" stringByExpandingTildeInPath]
+#define TMPFOLDER				[@"~/Library/Caches/MacSword" stringByExpandingTildeInPath]
 
 // OS version
 #define OSVERSION [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"]
@@ -46,8 +46,8 @@
 // Notification identifiers
 
 /**
-\brief this notification is send, when in one of the views the DELETE key has been pressed
+\brief this notification is send, when the modules have changed (updated, added, removed)
  */
-//#define MBDeleteKeyPressedNotification @"MBDeleteKeyPressedNotification"
-//#define MBSendNotifyDeleteKeyPressed(X) [[NSNotificationCenter defaultCenter] postNotificationName:MBDeleteKeyPressedNotification object:X];
+#define NotificationModulesChanged @"NotificationModulesChanged"
+#define SendNotifyModulesChanged(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationModulesChanged object:X];
 

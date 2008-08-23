@@ -28,8 +28,8 @@
 - (NSString *)fullRefName:(NSString *)ref;
 
 // ------- SwordModuleAccess ---------
-- (int)textForRef:(NSString *)reference text:(NSString **)textString;
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString;
+- (NSArray *)stripedTextForRef:(NSString *)reference;
+- (NSArray *)renderedTextForRef:(NSString *)reference;
 - (long)entryCount;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
 

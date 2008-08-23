@@ -11,7 +11,6 @@
 #import "IndexingManager.h"
 #import "Indexer.h"
 #import "SearchResultEntry.h"
-#import "MBThreadedProgressSheetController.h"
 #import "utils.h"
 #import "SwordModule.h"
 #import "SwordBible.h"
@@ -55,43 +54,41 @@ NSString *MacSwordIndexVersion = @"2.2";
 	if(clen > 3 && ctxt[clen-3] == -96) {
 		ctxt[clen-3] = 0;
 	}
-    ret = [NSString stringWithCString:ctxt encoding:NSUTF8StringEncoding];
+    ret = [NSString stringWithUTF8String:ctxt];
 
 	return ret;
 }
 
 - (BOOL)hasIndex {
-
     BOOL ret = NO;
     
-	// get IndexingManager
-	IndexingManager *im = [IndexingManager sharedManager]; 
-    
-	NSString *path = [im indexFolderPathForModuleName:[self name]];
+    [indexLock lock];
+    // get IndexingManager
+    IndexingManager *im = [IndexingManager sharedManager]; 
+    NSString *path = [im indexFolderPathForModuleName:[self name]];
     BOOL isDir;
-	
-	if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir) {
-		NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:[path stringByAppendingPathComponent:@"version.plist"]];
-		
-		if(d) {		
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir) {
+        NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:[path stringByAppendingPathComponent:@"version.plist"]];
+        if(d) {		
             if([[d objectForKey:@"MacSword Index Version"] isEqualToString: MacSwordIndexVersion]) {
-                if([d objectForKey:@"Sword Module Version"] == NULL) {
-                    ret = YES;
-                }
-                
-                if([[d objectForKey:@"Sword Module Version"] isEqualToString:[self version]])
-                {
+                if(([d objectForKey:@"Sword Module Version"] == NULL) ||
+                    ([[d objectForKey:@"Sword Module Version"] isEqualToString:[self version]])) {
+                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has valid index", [self name]);
                     ret = YES;
                 } else {
                     //index out of date remove it
+                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", [self name]);
                     [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];                
                 }
             } else {
                 //index out of date remove it
+                MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", [self name]);
                 [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];            
             }
         }		
-	}
+    }
+    [indexLock unlock];
     
 	return ret;
 }
@@ -109,7 +106,7 @@ NSString *MacSwordIndexVersion = @"2.2";
 	// save key information so as not to disrupt original
 	// module position
 	if (!swModule->getKey()->Persist()) {
-        // key does nmot persist
+        // key does not persist
 		savekey = swModule->CreateKey();
 		*savekey = *swModule->getKey();
 	} else {
@@ -124,14 +121,6 @@ NSString *MacSwordIndexVersion = @"2.2";
 
 	// position module at the beginning
 	*swModule = sword::TOP;
-
-    // prepare progress sheet
-    MBThreadedProgressSheetController *ps = [[MBThreadedProgressSheetController alloc] init];
-    //[pSheet setSheetWindow:parentWindow];
-    [ps setProgressAction:[NSNumber numberWithInt:INDEXING_PROGRESS_ACTION]];
-    [ps setMinProgressValue:[NSNumber numberWithDouble:0.0]];
-    [ps setShouldKeepTrackOfProgress:[NSNumber numberWithBool:YES]];
-    [ps setIsThreaded:[NSNumber numberWithBool:YES]];
     
 	// get Indexer
     Indexer *indexer = [Indexer indexerWithModuleName:[self name] 
@@ -139,24 +128,12 @@ NSString *MacSwordIndexVersion = @"2.2";
     if(indexer == nil) {
         MBLOG(MBLOG_ERR, @"Could not create Indexer for this module!");
     } else {
-        
-        // bring up sheet
-        [ps performSelectorOnMainThread:@selector(beginSheet) withObject:nil waitUntilDone:YES];
-        
-        [self indexContentsIntoIndex:indexer progressSheet:ps];
-        
-        // get ThreadedProgressSheet and see if process has been canceled
-        if([ps sheetReturnCode] == CANCELED_END) {
-            [indexer close];
-            return;                
-        }
-        
+        MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] start indexing...");
+        [self indexContentsIntoIndex:indexer];
         [indexer flushIndex];
         [indexer close];
+        MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
 
-        // bring up sheet
-        [ps performSelectorOnMainThread:@selector(endSheet) withObject:nil waitUntilDone:YES];
-        
         // reposition module back to where it was before we were called
         swModule->setKey(*savekey);
         if (!savekey->Persist()) {
@@ -165,8 +142,6 @@ NSString *MacSwordIndexVersion = @"2.2";
         if (searchkey) {
             delete searchkey;
         }
-        
-        [moduleLock unlock];
 
         MBLOG(MBLOG_DEBUG, @"end index");
                 
@@ -179,17 +154,19 @@ NSString *MacSwordIndexVersion = @"2.2";
                            @"Sword Module Version", nil];
         [d writeToFile:[path stringByAppendingPathComponent:@"version.plist"] atomically:NO];
     }
+    
+    [moduleLock unlock];
 }
 
 /** abstract method */
-- (void)indexContentsIntoIndex:(Indexer *)indexer progressSheet:(MBThreadedProgressSheetController *)ps {    
+- (void)indexContentsIntoIndex:(Indexer *)indexer {
 }
 
 @end
 
 @implementation SwordBible(Searching)
 
-- (void)indexContentsIntoIndex:(Indexer *)indexer progressSheet:(MBThreadedProgressSheetController *)ps {
+- (void)indexContentsIntoIndex:(Indexer *)indexer {
 
 	sword::VerseKey *vkcheck = NULL;
 	vkcheck = My_SWDYNAMIC_CAST(VerseKey, swModule->getKey());
@@ -197,15 +174,10 @@ NSString *MacSwordIndexVersion = @"2.2";
 	if(!highIndex) {
 		highIndex = 1;		// avoid division by zero errors.
 	}
-    // set max progress value, 100%
-    [ps performSelectorOnMainThread:@selector(setMaxProgressValue:) 
-                         withObject:[NSNumber numberWithDouble:(double)100.0]
-                      waitUntilDone:YES];
 
 	bool savePEA = swModule->isProcessEntryAttributes();
 	swModule->processEntryAttributes(true);
 	
-	char perc = 1;
 	while(!swModule->Error()) {        
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
@@ -216,19 +188,6 @@ NSString *MacSwordIndexVersion = @"2.2";
 			mindex = swModule->getKey()->Index();
 		}
 
-		// compute percent complete so we can report to our progress callback
-		float per = (float)mindex / highIndex;
-		// between 5%-98%
-		per *= 93;
-        per += 5;
-		char newperc = (char)per;
-		if(newperc > perc) {
-			perc = newperc;
-            [ps performSelectorOnMainThread:@selector(setProgressValue:) 
-                                 withObject:[NSNumber numberWithDouble:(double)perc] 
-                              waitUntilDone:YES];
-		}
-				
 		// get "content" field
 		const char *content = swModule->StripText();
 		if(content && *content) {
@@ -261,9 +220,13 @@ NSString *MacSwordIndexVersion = @"2.2";
             NSString *keyIndex = [SwordModule indexOfVerseKey:vk];
             
             NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
+            if(contentStr == nil) {
+                contentStr = @"";
+            }
+
             // additionally save content and key string
             [propDict setObject:contentStr forKey:IndexPropSwordKeyContent];
-            [propDict setObject:keyStr forKey:IndexPropSwordKeyString];
+            [propDict setObject:keyStr forKey:IndexPropSwordKeyString];                
             
             NSMutableString *strongStr = [NSMutableString string];
 			if(strong.length() > 0) {
@@ -288,12 +251,7 @@ NSString *MacSwordIndexVersion = @"2.2";
 		
 		(*swModule)++;
 		
-		[pool drain];
-		
-        // get ThreadedProgressSheet and see if process has been canceled
-        if([ps sheetReturnCode] == CANCELED_END) {
-            return;                
-        }
+		[pool drain];		
 	}
 	
 	swModule->processEntryAttributes(savePEA);	
@@ -303,7 +261,7 @@ NSString *MacSwordIndexVersion = @"2.2";
 
 @implementation SwordDictionary(Searching)
 
-- (void)indexContentsIntoIndex:(Indexer *)indexer progressSheet:(MBThreadedProgressSheetController *)ps {
+- (void)indexContentsIntoIndex:(Indexer *)indexer {
     
 	swModule->setSkipConsecutiveLinks(true);
     
@@ -311,16 +269,7 @@ NSString *MacSwordIndexVersion = @"2.2";
 	*swModule = sword::TOP;
 	swModule->getRawEntry();
  
-	int counter = 0;
-    int max = [self entryCount];
-    if(max == 0) {
-        max = 1;    // avoid division by zero
-    }
-    // set maximum value
-    [ps performSelectorOnMainThread:@selector(setMaxProgressValue:) 
-                         withObject:[NSNumber numberWithDouble:(double)max] 
-                      waitUntilDone:YES];
-	
+    int counter = 0;
     while (!swModule->Error()) {
 
         // this is the content of the 
@@ -348,17 +297,7 @@ NSString *MacSwordIndexVersion = @"2.2";
         [indexer addDocument:keyStr text:indexContent textType:ContentTextType storeDict:propDict];
 
         (*swModule)++;
-        counter++;
-        
-        // set progress
-        [ps performSelectorOnMainThread:@selector(setProgressValue:) 
-                             withObject:[NSNumber numberWithDouble:(double)counter] 
-                          waitUntilDone:YES];
-
-        // get ThreadedProgressSheet and see if process has been canceled
-        if([ps sheetReturnCode] == CANCELED_END) {
-            return;                
-        }
+        counter++;        
     }
 }
 
@@ -366,14 +305,13 @@ NSString *MacSwordIndexVersion = @"2.2";
 
 @implementation SwordBook(Searching)
 
-- (void)indexContentsIntoIndex:(Indexer *)indexer progressSheet:(MBThreadedProgressSheetController *)ps {
+- (void)indexContentsIntoIndex:(Indexer *)indexer {
 	sword::TreeKeyIdx *treeKey = dynamic_cast<sword::TreeKeyIdx *>((sword::SWKey *)*(swModule));
-	[self indexContents:treeKey intoIndex:indexer progressSheet:ps];
+	[self indexContents:treeKey intoIndex:indexer];
 }
 
 - (id)indexContents:(sword::TreeKeyIdx *)treeKey 
-          intoIndex:(Indexer *)indexer 
-      progressSheet:(MBThreadedProgressSheetController *)ps {
+          intoIndex:(Indexer *)indexer {
     
 	// we need to check for any Unicode names here
 	char *treeNodeName = (char *)treeKey->getText();
@@ -418,7 +356,7 @@ NSString *MacSwordIndexVersion = @"2.2";
             // add content with key
             [indexer addDocument:keyStr text:indexContent textType:ContentTextType storeDict:propDict];
 
-			[self indexContents:treeKey intoIndex:indexer progressSheet:ps];
+			[self indexContents:treeKey intoIndex:indexer];
 		}
 		while(treeKey->nextSibling());
 		

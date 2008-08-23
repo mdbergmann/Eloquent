@@ -16,7 +16,7 @@
 
 #define BIBLECOMBIVIEW_NIBNAME   @"BibleCombiView"
 
-@class SwordModule, ScrollSynchronizableView;
+@class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
 @interface BibleCombiViewController : HostableViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking> {
     // the lookup field
@@ -25,8 +25,10 @@
     
     IBOutlet NSSplitView *horiSplitView;
     IBOutlet NSSplitView *parBibleSplitView;
+    IBOutlet NSSplitView *parMiscSplitView;
     
     NSMutableArray *parBibleViewControllers;
+    NSMutableArray *parMiscViewControllers;
     
     // the current right ScrollSynchronizableView
     ScrollSynchronizableView *currentSyncView;
@@ -42,20 +44,19 @@
 
 // initializers
 - (id)initWithDelegate:(id)aDelegate;
+- (id)initWithDelegate:(id)aDelegate andInitialModule:(SwordBible *)aBible;
 
 // methods
-- (void)addNewBibleViewWithModule:(SwordModule *)aModule;
+- (void)addNewBibleViewWithModule:(SwordBible *)aModule;
+- (void)addNewCommentViewWithModule:(SwordCommentary *)aModule;
 
 // method called by subview
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
+- (NSNumber *)bibleViewCount;
 
 // protocol
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
-
-// view search delegate methods
-- (void)viewSearchPrevious;
-- (void)viewSearchNext;
 
 // Mouse tracking protocol implementation
 - (void)mouseEntered:(NSView *)theView;

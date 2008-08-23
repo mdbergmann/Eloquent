@@ -10,7 +10,6 @@
 #import "SearchResultEntry.h"
 
 @interface BookIndexer : Indexer {
-    SKIndexRef contentIndexRef;
 }
 
 @end
@@ -204,29 +203,6 @@
     }
     
     return array;
-}
-
-/**
-\brief flush the data to file
- */
-- (BOOL)flushIndex {
-	// flush all indexes
-    BOOL content = SKIndexFlush(contentIndexRef);
-    if(!content) {
-        MBLOG(MBLOG_ERR, @"could not flush content index!");
-    }
-    
-	return content;
-}
-
-/**
-\brief closes all indexes
- */
-- (void)close {
-	CFRelease(contentIndexRef);
-	//SKIndexClose(contentIndexRef);
-    
-    contentIndexRef = NULL;
 }
 
 @end

@@ -24,5 +24,6 @@
 /** report the loading of the view is completed */
 - (void)reportLoadingComplete;
 - (void)removeFromSuperview;
+- (void)adaptUIToHost;
 
 @end

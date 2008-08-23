@@ -5,7 +5,7 @@
 SRCROOT="/Users/mbergmann/_inProgress/Sources/macsword/macsword/trunk";
 BUILD_DIR="$SRCROOT/build";
 CONFIG="Release";
-TARGET="MacSword2";
+TARGET="MacSword";
 
 # check these values
 if [ $SRCROOT = "" ]; then

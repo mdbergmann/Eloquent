@@ -95,36 +95,12 @@
     return [[self getContents] count];
 }
 
-- (int)textForRef:(NSString *)reference text:(NSString **)textString {
-	return [super textForRef:[reference uppercaseString] text:textString];    
+- (NSArray *)stripedTextForRef:(NSString *)reference {
+	return [super stripedTextForRef:[reference uppercaseString]];    
 }
 
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
-    int ret = 1;
-    
-    // lock
-    [moduleLock lock];
-    
-    const char *refStr = NULL;
-    // encoding depends on module encoding
-    if([self isUnicode]) {
-        refStr = [reference UTF8String];
-    } else {
-        refStr = [reference cStringUsingEncoding:NSISOLatin1StringEncoding];
-    }
-    
-    //sword::TreeKeyIdx *key = new sword::TreeKeyIdx(refStr);
-    sword::SWKey *key = new sword::SWKey(refStr);
-    swModule->setKey(key);
-    if(key) {
-        delete key;
-    }
-    char *bytes = (char *)swModule->RenderText();
-    [moduleLock unlock];
-    
-    *htmlString = [NSString stringWithUTF8String:bytes];
-    
-    return ret;
+- (NSArray *)renderedTextForRef:(NSString *)reference {
+    return [super renderedTextForRef:reference];
 }
 
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference {

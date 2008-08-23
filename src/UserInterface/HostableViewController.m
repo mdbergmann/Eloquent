@@ -61,4 +61,8 @@
     }    
 }
 
+- (void)adaptUIToHost {
+    // does nothing here
+}
+
 @end

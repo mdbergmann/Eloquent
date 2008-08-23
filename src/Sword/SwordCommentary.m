@@ -19,12 +19,12 @@
 
 #pragma mark - SwordModuleAccess
 
-- (int)textForRef:(NSString *)reference text:(NSString **)textString {
-	return [super textForRef:[reference uppercaseString] text:textString];    
+- (NSArray *)stripedTextForRef:(NSString *)reference {
+	return [super stripedTextForRef:[reference uppercaseString]];    
 }
 
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString {
-    return [super htmlForRef:reference html:htmlString];
+- (NSArray *)renderedTextForRef:(NSString *)reference {
+    return [super renderedTextForRef:reference];
 }
 
 - (long)entryCount {

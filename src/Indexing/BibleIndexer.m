@@ -14,7 +14,6 @@
 NSRange searchRange;
 
 @interface BibleIndexer : Indexer {
-    SKIndexRef contentIndexRef;
 }
 
 @end
@@ -238,30 +237,6 @@ NSRange searchRange;
     }
     
     return array;
-}
-
-/**
-\brief flush the data to file
- */
-- (BOOL)flushIndex {
-	// flush all indexes
-    BOOL content = SKIndexFlush(contentIndexRef);
-    if(!content) {
-        MBLOG(MBLOG_ERR, @"could not flush content index!");
-    }
-	
-	return content;
-}
-
-/**
-\brief closes all indexes
- */
-- (void)close {
-    if(contentIndexRef) {
-        CFRelease(contentIndexRef);
-        //SKIndexClose(contentIndexRef);
-    }
-    contentIndexRef = NULL;
 }
 
 @end

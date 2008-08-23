@@ -8,6 +8,7 @@
 
 #import "SingleViewHostController.h"
 #import "BibleCombiViewController.h"
+#import "CommentaryViewController.h"
 #import "HostableViewController.h"
 #import "SearchOptionsViewController.h"
 #import "BibleSearchOptionsViewController.h"
@@ -43,6 +44,7 @@
 @synthesize searchTextsForTypes;
 @synthesize recentSearchesForTypes;
 @synthesize searchType;
+@synthesize moduleType;
 
 - (NSView *)view {
     return [placeHolderView contentView];
@@ -84,9 +86,15 @@
 - (id)initForViewType:(ModuleType)aType {
     self = [self init];
     if(self) {
-        type = aType;
+        moduleType = aType;
         if(aType == bible) {
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self];
+            searchType = ReferenceSearchType;
+            
+            // init search view controller
+            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+        } else if(aType == commentary) {
+            viewController = [[CommentaryViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;
             
             // init search view controller
@@ -95,6 +103,28 @@
     }
     
     return self;
+}
+
+- (id)initWithModule:(SwordModule *)aModule {
+    self = [self init];
+    if(self) {
+        moduleType = [aModule type];
+        if(moduleType == bible) {
+            viewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
+            searchType = ReferenceSearchType;
+            
+            // init search view controller
+            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+        } else if(moduleType == commentary) {
+            viewController = [[CommentaryViewController alloc] initWithModule:(SwordCommentary *)aModule delegate:self];
+            searchType = ReferenceSearchType;
+            
+            // init search view controller
+            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+        }
+    }
+    
+    return self;    
 }
 
 - (void)awakeFromNib {
@@ -137,7 +167,7 @@
     [item setAction:@selector(toggleModulesTB:)];
     [tbIdentifiers setObject:item forKey:TB_TOGGLE_MODULES_ITEM];
 
-    if(type == bible) {
+    if(moduleType == bible) {
         // add bibleview
         item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADD_BIBLE_ITEM];
         [item setLabel:NSLocalizedString(@"AddBibleLabel", @"")];
@@ -163,9 +193,9 @@
     mItem = [[NSMenuItem alloc] initWithTitle:@"Index" action:@selector(searchType:) keyEquivalent:@""];
     [mItem setTag:IndexSearchType];
     [searchTypeMenu addItem:mItem];
-    mItem = [[NSMenuItem alloc] initWithTitle:@"View" action:@selector(searchType:) keyEquivalent:@""];
-    [mItem setTag:ViewSearchType];
-    [searchTypeMenu addItem:mItem];
+//    mItem = [[NSMenuItem alloc] initWithTitle:@"View" action:@selector(searchType:) keyEquivalent:@""];
+//    [mItem setTag:ViewSearchType];
+//    [searchTypeMenu addItem:mItem];
     [searchTypePopup setMenu:searchTypeMenu];
     [searchTypePopup selectItemWithTitle:@"Reference"];
     // item toolbaritem
@@ -214,6 +244,8 @@
     if([referenceText length] > 0) {
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
             [(BibleCombiViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
+        } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
+                [(CommentaryViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
         }
     }
     
@@ -224,6 +256,8 @@
         [searchTypePopup selectItemWithTag:searchType];
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
             [(BibleCombiViewController *)viewController displayTextForReference:currentSearchText searchType:searchType];
+        } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
+            [(CommentaryViewController *)viewController displayTextForReference:currentSearchText searchType:searchType];
         }
     }
     
@@ -317,6 +351,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     
     if([viewController isKindOfClass:[BibleCombiViewController class]]) {
         [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:searchType];
+    } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
+        [(CommentaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
     }
 }
 
@@ -327,7 +363,7 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         showingModules = NO;
     } else {
         // add
-        [splitView addSubview:[modulesViewController view] positioned:NSWindowAbove relativeTo:defaultView];        
+        [splitView addSubview:[modulesViewController view] positioned:NSWindowBelow relativeTo:defaultView];        
         showingModules = YES;
     }
 }
@@ -358,6 +394,10 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 }
 
 #pragma mark - methods
+
+- (HostableViewController *)contentViewController {
+    return viewController;
+}
 
 - (void)showSearchOptionsView:(BOOL)flag {
     
@@ -487,7 +527,11 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
             // init search view controller
             searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
-            type = bible;
+            moduleType = bible;
+        } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
+            // init search view controller
+            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+            moduleType = commentary;
         }
         
         // load nib

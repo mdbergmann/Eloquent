@@ -16,6 +16,7 @@
 @class SearchOptionsViewController;
 @class HostableViewController;
 @class ModuleOutlineViewController;
+@class SwordModule;
 
 @interface SingleViewHostController : NSWindowController <NSCoding> {
     
@@ -35,7 +36,7 @@
     id delegate;
     
     // the type of view
-    ModuleType type;
+    ModuleType moduleType;
     
     // every host has a module list view
     ModuleOutlineViewController *modulesViewController;
@@ -61,13 +62,16 @@
 }
 
 @property (readwrite) id delegate;
+@property (readwrite) ModuleType moduleType;
 
 // initializers
 - (id)initForViewType:(ModuleType)aType;
+- (id)initWithModule:(SwordModule *)aModule;
 
 // methods
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
+- (HostableViewController *)contentViewController;
 
 // method called by subview
 - (void)contentViewInitFinished:(HostableViewController *)aView;

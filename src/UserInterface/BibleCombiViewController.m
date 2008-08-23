@@ -8,13 +8,16 @@
 
 #import "BibleCombiViewController.h"
 #import "BibleViewController.h"
+#import "CommentaryViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "SwordManager.h"
+#import "SwordSearching.h"
 #import "ReferenceCacheManager.h"
 
 @interface BibleCombiViewController (/* Private, class continuation */)
 /** private property */
 @property(readwrite, retain) NSMutableArray *parBibleViewControllers;
+@property(readwrite, retain) NSMutableArray *parMiscViewControllers;
 
 /** distribute the reference */
 - (void)distributeReference:(NSString *)aRef;
@@ -35,6 +38,7 @@
 #pragma mark - properties
 
 @synthesize parBibleViewControllers;
+@synthesize parMiscViewControllers;
 
 #pragma mark - initialization
 
@@ -43,14 +47,17 @@
 }
 
 - (id)initWithDelegate:(id)aDelegate {
+    return [self initWithDelegate:aDelegate andInitialModule:nil];
+}
+
+- (id)initWithDelegate:(id)aDelegate andInitialModule:(SwordBible *)aBible {
     self = [super init];
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -init] loading nib");
-
+        
         // delegate
         self.delegate = aDelegate;
         searchType = ReferenceSearchType;
-        viewSearchDirRight = YES;
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
@@ -59,6 +66,8 @@
         } else {
             // init bible views array
             self.parBibleViewControllers = [NSMutableArray array];
+            // init misc views array
+            self.parMiscViewControllers = [NSMutableArray array];
             
             regex = [[MBRegex alloc] initWithPattern:@"^(.+\\d+:\\d+:).*"];
             // check error
@@ -68,7 +77,7 @@
             }
             
             // add initial bible view
-            [self addNewBibleViewWithModule:nil];
+            [self addNewBibleViewWithModule:aBible];
         }
     }
     
@@ -78,12 +87,22 @@
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -awakeFromNib]");
     
+    [horiSplitView setDividerStyle:NSSplitViewDividerStyleThin];
+    
     // set vertical parallel splitview
     [parBibleSplitView setVertical:YES];
     [parBibleSplitView setDividerStyle:NSSplitViewDividerStyleThin];
+
+    // set vertical parallel misc splitview
+    [parMiscSplitView setVertical:YES];
+    [parMiscSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     
     // add parallel bible split view to main
     [horiSplitView addSubview:parBibleSplitView positioned:NSWindowAbove relativeTo:nil];
+    // if this is the first entry, we need to add the parallel misc view itself
+    if([parMiscViewControllers count] > 0) {
+        [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
+    }
     
     // loading finished
     viewLoaded = YES;
@@ -97,8 +116,16 @@
             loaded = NO;
         } else {
             // add the webview as contentvew to the placeholder
-            [parBibleSplitView addSubview:[hc view] positioned:NSWindowBelow relativeTo:nil];        
+            [parBibleSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
             [self tileSubViews];
+        }
+    }
+    for(HostableViewController *hc in parMiscViewControllers) {
+        if(hc.viewLoaded == NO) {
+            loaded = NO;
+        } else {
+            // add the webview as contentvew to the placeholder
+            [parMiscSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
         }
     }
     
@@ -113,29 +140,55 @@
  Creates a new parallel bible view and presets the given bible module.
  If nil is given, the first module found is taken.
  */
-- (void)addNewBibleViewWithModule:(SwordModule *)aModule {
+- (void)addNewBibleViewWithModule:(SwordBible *)aModule {
     // if given module is nil, choose the first found in SwordManager
     if(aModule == nil) {
-        NSArray *modArray = [[SwordManager defaultManager] moduleNames];
+        NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
         if([modArray count] > 0) {
-            aModule = [[SwordManager defaultManager] moduleWithName:[modArray objectAtIndex:0]];
+            aModule = [modArray objectAtIndex:0];
         }
     }
     
     // after loading this combi view there is only one bibleview, nothing more
-    BibleViewController *bvc = [[BibleViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
+    BibleViewController *bvc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
     // add to array
     [parBibleViewControllers addObject:bvc];
     [self tileSubViews];
 }
 
+/**
+ Creates a new parallel commentary view and presets the given commentary module.
+ If nil is given, the first module found is taken.
+ */
+- (void)addNewCommentViewWithModule:(SwordCommentary *)aModule {
+    // if given module is nil, choose the first found in SwordManager
+    if(aModule == nil) {
+        NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_COMMENTARIES];
+        if([modArray count] > 0) {
+            aModule = [modArray objectAtIndex:0];
+        }
+    }
+    
+    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+    // add to array
+    [parMiscViewControllers addObject:cvc];
+    // if this is the first entry, we need to add the parallel misc view itself
+    if([parMiscViewControllers count] == 1) {
+        [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
+    }
+}
+
 - (void)distributeReference:(NSString *)aRef {
     // loop over all BibleViewControllers and set this reference
     for(BibleViewController *bvc in parBibleViewControllers) {
-        // set view search direction
-        bvc.viewSearchDirectionRight = viewSearchDirRight;
         // set reference
         [bvc displayTextForReference:aRef searchType:searchType];
+    }
+    
+    // loop over all misc ViewControllers and set this reference
+    for(CommentaryViewController *cvc in parMiscViewControllers) {
+        // set reference
+        [cvc displayTextForReference:aRef searchType:searchType];
     }
 }
 
@@ -347,6 +400,10 @@
 
 #pragma mark - SubviewHosting protocol
 
+- (NSNumber *)bibleViewCount {
+    return [NSNumber numberWithInt:[parBibleViewControllers count]];
+}
+
 - (void)contentViewInitFinished:(HostableViewController *)aView {
     MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -contentViewInitFinished:]");
     // get latest view
@@ -354,18 +411,28 @@
     
     // check if this view has completed loading annd also all of the subviews    
     if(viewLoaded == YES) {
-        // add the webview as contentvew to the placeholder
-        [parBibleSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];
-        
-        [self tileSubViews];
-
         BOOL loaded = YES;
-        for(HostableViewController *hc in parBibleViewControllers) {
-            if(hc.viewLoaded == NO) {
-                loaded = NO;
+        if([aView isKindOfClass:[CommentaryViewController class]]) {
+            // add the webview as contentview to the placeholder
+            [parMiscSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];        
+
+            for(HostableViewController *hc in parMiscViewControllers) {
+                if(hc.viewLoaded == NO) {
+                    loaded = NO;
+                }
             }
-        }
-        
+        } else if([aView isKindOfClass:[BibleViewController class]]) {
+            // add the webview as contentview to the placeholder
+            [parBibleSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];
+            
+            [self tileSubViews];
+            
+            for(HostableViewController *hc in parBibleViewControllers) {
+                if(hc.viewLoaded == NO) {
+                    loaded = NO;
+                }
+            }
+        }        
         if(loaded) {
             // report to super controller
             [self reportLoadingComplete];
@@ -378,27 +445,58 @@
     NSView *view = [aViewController view];
     [view removeFromSuperview];
     
-    // remove controller
-    [parBibleViewControllers removeObject:aViewController];
-    
-    [self tileSubViews];
+    if([aViewController isKindOfClass:[CommentaryViewController class]]) {
+        // remove controller
+        [parMiscViewControllers removeObject:aViewController];
+        if([parMiscViewControllers count] == 0) {
+            [parMiscSplitView removeFromSuperview];
+        }
+    } else if([aViewController isKindOfClass:[BibleViewController class]]) {
+        // remove controller
+        [parBibleViewControllers removeObject:aViewController];
+        [self tileSubViews];
+    }
 }
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     searchType = aType;
-    [self distributeReference:aReference];
-}
-
-#pragma mark - view search delegate methods
-
-- (void)viewSearchPrevious {
-    viewSearchDirRight = NO;
-    [self distributeReference:nil];
-}
-
-- (void)viewSearchNext {
-    viewSearchDirRight = YES;
-    [self distributeReference:nil];
+    
+    if(searchType == IndexSearchType) {
+        // for search type index, check before hand that all modules that are open
+        // have a valid index
+        BOOL validIndex = YES;
+        // bibles
+        for(BibleViewController *bvc in parBibleViewControllers) {
+            SwordModule *mod = [bvc module];
+            if(mod != nil) {
+                if(![mod hasIndex]) {
+                    validIndex = NO;
+                    break;
+                }
+            }
+        }
+        // commentaries
+        for(CommentaryViewController *cvc in parMiscViewControllers) {
+            SwordModule *mod = [cvc module];
+            if(mod != nil) {
+                if(![mod hasIndex]) {
+                    validIndex = NO;
+                    break;
+                }
+            }
+        }
+        if(!validIndex) {
+            // show Alert
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Index not ready"
+                                             defaultButton:@"OK" alternateButton:nil otherButton:nil 
+                                 informativeTextWithFormat:@"The index of one or more modules is not created yet. Please try again later!"];
+            [alert runModal];
+        } else {
+            [self distributeReference:aReference];    
+        }
+    } else {
+        [self distributeReference:aReference];    
+    }
 }
 
 #pragma mark - mouse tracking protocol
@@ -430,11 +528,18 @@
         
         // init bible views array
         self.parBibleViewControllers = [decoder decodeObjectForKey:@"ParallelBibleViewControllerEncoded"];
+        // init commentary views array
+        self.parMiscViewControllers = [decoder decodeObjectForKey:@"ParallelMiscViewControllerEncoded"];
         // loop and set delegate
         for(HostableViewController *hc in parBibleViewControllers) {
             hc.delegate = self;
+            [hc adaptUIToHost];
         }
-
+        for(HostableViewController *hc in parMiscViewControllers) {
+            hc.delegate = self;
+            [hc adaptUIToHost];
+        }
+        
         regex = [[MBRegex alloc] initWithPattern:@"^(.+\\d+:\\d+:).*"];
         // check error
         if([regex errorCodeOfLastAction] != MBRegexSuccess) {
@@ -457,6 +562,8 @@
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
     // encode parallel bible view controllers
     [encoder encodeObject:parBibleViewControllers forKey:@"ParallelBibleViewControllerEncoded"];
+    // encode parallel commentary view controllers
+    [encoder encodeObject:parMiscViewControllers forKey:@"ParallelMiscViewControllerEncoded"];
 }
 
 #pragma mark - actions

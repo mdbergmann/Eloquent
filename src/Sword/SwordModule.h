@@ -23,6 +23,9 @@ class sword::SWModule;
 
 #define My_SWDYNAMIC_CAST(className, object) (sword::className *)((object)?((object->getClass()->isAssignableFrom(#className))?object:0):0)
 
+#define SW_OUTPUT_TEXT_KEY  @"OutputTextKey"
+#define SW_OUTPUT_REF_KEY   @"OutputRefKey"
+
 @class SwordManager;
 
 typedef enum {
@@ -45,19 +48,17 @@ typedef enum {
  abstract method, override in subclass
  This method generates stripped text string for a given reference.
  @param[in] reference bible reference
- @param[out] htmlString html string of generated data
- @return number of generated verses/entries or -1 for error
+ @return dictionary with key = reference, value = stripped text
  */
- - (int)textForRef:(NSString *)reference text:(NSString **)textString;
+- (NSDictionary *)stripedTextForRef:(NSString *)reference;
 
 /** 
  abstract method, override in subclass
  This method generates HTML string for a given reference.
  @param[in] reference bible reference
- @param[out] htmlString html string of generated data
- @return number of generated verses/entries or -1 for error
+ @return dictionary with key = reference, value = rendered text
  */
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString;
+- (NSDictionary *)renderedTextForRef:(NSString *)reference;
 
 /** 
  write value to reference 
@@ -73,6 +74,7 @@ typedef enum {
     int status;
 	SwordManager *swManager;	
 	NSRecursiveLock *moduleLock;
+    NSLock *indexLock;
 
 #ifdef __cplusplus
 	sword::SWModule	*swModule;
@@ -83,6 +85,7 @@ typedef enum {
 @property (readwrite) ModuleType type;
 @property (readwrite) int status;
 @property (retain, readwrite) NSRecursiveLock *moduleLock;
+@property (retain, readwrite) NSLock *indexLock;
 @property (retain, readwrite) SwordManager *swManager;
 
 // -------------- class methods --------------
@@ -117,8 +120,8 @@ typedef enum {
 - (NSString *)configEntryForKey:(NSString *)entryKey;
 
 // ------- SwordModuleAccess ---------
-- (int)textForRef:(NSString *)reference text:(NSString **)textString;
-- (int)htmlForRef:(NSString *)reference html:(NSString **)htmlString;
+- (NSArray *)stripedTextForRef:(NSString *)reference;
+- (NSArray *)renderedTextForRef:(NSString *)reference;
 - (long)entryCount;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
 

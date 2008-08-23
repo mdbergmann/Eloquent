@@ -53,7 +53,7 @@
 		// open index
 		indexRef = SKIndexOpenWithURL((CFURLRef)indexURL, (CFStringRef)indexName, NO);
 	} else {
-		// open index
+		// create index
 		indexRef = SKIndexCreateWithURL((CFURLRef)indexURL, 
 										(CFStringRef)indexName, 
 										kSKIndexInverted, 
@@ -93,6 +93,7 @@
     // we currently know 3 module types to index
     switch(aModType) {
         case bible:
+        case commentary:
             indexer = [[BibleIndexer alloc] initWithModuleName:aModName];
             break;
         case dictionary:
@@ -102,7 +103,6 @@
             indexer = [[BookIndexer alloc] initWithModuleName:aModName];
             break;
         case devotional:
-        case commentary:
             MBLOG(MBLOG_WARN, @"No indexing available for these type of modules!");
             break;
     }
@@ -184,17 +184,25 @@
 
 /**
 \brief flush the data to file
- This method is abstract and should be overriden by the subclasses
  */
 - (BOOL)flushIndex {
-	return NO;
+	// flush all indexes
+    BOOL content = SKIndexFlush(contentIndexRef);
+    if(!content) {
+        MBLOG(MBLOG_ERR, @"could not flush content index!");
+    }
+	
+	return content;
 }
 
 /**
 \brief closes all indexes
- This method is abstract and should be overriden by the subclasses
  */
 - (void)close {
+	CFRelease(contentIndexRef);
+    // or SKIndexClose(contentIndexRef);
+    
+    contentIndexRef = NULL;
 }
 
 @end

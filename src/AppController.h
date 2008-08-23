@@ -17,6 +17,7 @@ typedef enum AppErrorCodes {
 }AppErrorCode;
 
 @class MBPreferenceController;
+@class SwordModule;
 
 @interface AppController : NSObject {
 	// our preference controller
@@ -25,6 +26,11 @@ typedef enum AppErrorCodes {
     
     NSMutableArray *windowHosts;
 }
+
++ (AppController *)defaultAppController;
+
+/** opens a new single host window for the given module */
+- (void)openSingleHostWindowForModule:(SwordModule *)mod;
 
 // NSApplication delegate methods
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames;

@@ -28,6 +28,7 @@ typedef enum {
 }IndexTextType;
 
 @interface Indexer : NSObject  {
+    SKIndexRef contentIndexRef;
 	ModuleType modType;
     NSString *modTypeStr;
 	NSString *modName;
