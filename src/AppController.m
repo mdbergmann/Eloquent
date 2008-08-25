@@ -240,7 +240,8 @@ static AppController *singleton;
     // open a default view
     SingleViewHostController *svh = nil;
     if(([mod type] == bible) ||
-       ([mod type] == commentary)) {
+       ([mod type] == commentary) ||
+       ([mod type] == dictionary)) {
         svh = [[SingleViewHostController alloc] initWithModule:mod];
     }
     [windowHosts addObject:svh];

@@ -10,6 +10,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */; };
+		A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90545B70E62F11900CF4D18 /* DictionaryView.xib */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
 		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
 		A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A916FCE50E05483F009CAA2F /* BibleView.xib */; };
@@ -110,6 +112,9 @@
 		32CA4F630368D1EE00C91783 /* MacSword_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSword_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MacSword.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacSword.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A90545B30E62EEB400CF4D18 /* DictionaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DictionaryViewController.h; path = src/UserInterface/DictionaryViewController.h; sourceTree = "<group>"; };
+		A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DictionaryViewController.m; path = src/UserInterface/DictionaryViewController.m; sourceTree = "<group>"; };
+		A90545B80E62F11900CF4D18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DictionaryView.xib; sourceTree = "<group>"; };
 		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
 		A916FCDD0E053910009CAA2F /* ModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleViewController.h; path = src/UserInterface/ModuleViewController.h; sourceTree = "<group>"; };
 		A916FCDE0E053910009CAA2F /* ModuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleViewController.m; path = src/UserInterface/ModuleViewController.m; sourceTree = "<group>"; };
@@ -333,6 +338,7 @@
 				A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */,
 				A916FCE50E05483F009CAA2F /* BibleView.xib */,
 				A9202A2B0E59A2650094F629 /* CommentaryView.xib */,
+				A90545B70E62F11900CF4D18 /* DictionaryView.xib */,
 				A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */,
 				A9F185480E083117005F3B35 /* WebView.xib */,
 				A9969B4A0E2BB38400173305 /* BibleSearchOptions.xib */,
@@ -488,6 +494,8 @@
 				A99055AB0E04273E00E8D7A2 /* BibleViewController.m */,
 				A9202A280E59A0E80094F629 /* CommentaryViewController.h */,
 				A9202A290E59A0E80094F629 /* CommentaryViewController.m */,
+				A90545B30E62EEB400CF4D18 /* DictionaryViewController.h */,
+				A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */,
 				A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */,
 				A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */,
 				A99E63CC0E266AA700DC672F /* BibleSearchOptionsViewController.h */,
@@ -614,6 +622,7 @@
 				A91A234D0E61955000382F44 /* refresh.png in Resources */,
 				A91A234E0E61955000382F44 /* reload.png in Resources */,
 				A91A234F0E61955000382F44 /* remove.png in Resources */,
+				A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,6 +674,7 @@
 				A996239D0E4F0D5A0082F18F /* OutlineListObject.m in Sources */,
 				A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */,
 				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
+				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,6 +687,14 @@
 				089C165DFE840E0CC02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A90545B70E62F11900CF4D18 /* DictionaryView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A90545B80E62F11900CF4D18 /* English */,
+			);
+			name = DictionaryView.xib;
 			sourceTree = "<group>";
 		};
 		A916FCE50E05483F009CAA2F /* BibleView.xib */ = {

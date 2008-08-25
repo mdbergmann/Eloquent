@@ -9,6 +9,7 @@
 #import "SingleViewHostController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
+#import "DictionaryViewController.h"
 #import "HostableViewController.h"
 #import "SearchOptionsViewController.h"
 #import "BibleSearchOptionsViewController.h"
@@ -99,6 +100,9 @@
             
             // init search view controller
             searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+        } else if(aType == dictionary) {
+            viewController = [[DictionaryViewController alloc] initWithDelegate:self];
+            searchType = ReferenceSearchType;        
         }
     }
     
@@ -121,6 +125,9 @@
             
             // init search view controller
             searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+        } else if(moduleType == dictionary) {
+            viewController = [[DictionaryViewController alloc] initWithModule:(SwordDictionary *)aModule delegate:self];
+            searchType = ReferenceSearchType;
         }
     }
     
@@ -215,9 +222,15 @@
     [searchTextField sizeToFit];
     [searchTextField setTarget:self];
     [searchTextField setAction:@selector(searchInput:)];
-    [searchTextField setContinuous:NO];
-    [[searchTextField cell] setSendsSearchStringImmediately:NO];
-    [[searchTextField cell] setSendsWholeSearchString:YES];
+    if(moduleType == dictionary) {
+        [searchTextField setContinuous:YES];
+        [[searchTextField cell] setSendsSearchStringImmediately:YES];
+        //[[searchTextField cell] setSendsWholeSearchString:NO];        
+    } else {
+        [searchTextField setContinuous:NO];
+        [[searchTextField cell] setSendsSearchStringImmediately:NO];
+        [[searchTextField cell] setSendsWholeSearchString:YES];        
+    }
     // the item itself
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TEXT_ITEM];
     [item setLabel:NSLocalizedString(@"TextSearchLabel", @"")];
@@ -353,6 +366,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:searchType];
     } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
         [(CommentaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
+    } else if([viewController isKindOfClass:[DictionaryViewController class]]) {
+        [(DictionaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
     }
 }
 
@@ -524,14 +539,16 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         modulesViewController = [[ModuleOutlineViewController alloc] initWithDelegate:self];
         showingModules = NO;
         
-        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-            // init search view controller
-            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
-            moduleType = bible;
-        } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
+        if([viewController isKindOfClass:[CommentaryViewController class]]) {
             // init search view controller
             searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
             moduleType = commentary;
+        } else if([viewController isKindOfClass:[BibleCombiViewController class]]) {
+            // init search view controller
+            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
+            moduleType = bible;
+        } else if([viewController isKindOfClass:[DictionaryViewController class]]) {
+            moduleType = dictionary;
         }
         
         // load nib

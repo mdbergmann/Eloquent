@@ -9,7 +9,6 @@
 #import "BibleViewController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
-#import "MBThreadedProgressSheetController.h"
 #import "MBPreferenceController.h"
 #import "ReferenceCacheManager.h"
 #import "ReferenceCacheObject.h"
@@ -421,6 +420,8 @@
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];
     }
+    
+    [self adaptUIToHost];
 }
 
 #pragma mark - mouse tracking protocol
