@@ -15,7 +15,6 @@
 
 @synthesize module;
 @dynamic reference;
-@synthesize viewSearchDirectionRight;
 
 - (NSString *)reference {
     return reference;
@@ -32,8 +31,6 @@
 - (id)init {
     self = [super init];
     if(self) {
-        // init things
-        viewSearchLastFound = NSMakeRange(NSNotFound, -1);
     }
     
     return self;
@@ -80,8 +77,6 @@
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
         // decode reference
         self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
-        // init things
-        viewSearchLastFound = NSMakeRange(NSNotFound, -1);
     }
     
     return self;

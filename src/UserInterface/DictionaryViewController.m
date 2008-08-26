@@ -22,6 +22,7 @@
 @interface DictionaryViewController (/* class continuation */)
 
 @property (retain, readwrite) NSMutableArray *selection;
+@property (retain, readwrite) NSArray *dictKeys;
 
 /** modules menu */
 - (void)populateModulesMenu;
@@ -33,6 +34,7 @@
 @implementation DictionaryViewController
 
 @synthesize selection;
+@synthesize dictKeys;
 
 - (id)init {
     self = [super init];
@@ -42,6 +44,7 @@
         self.module = nil;
         self.delegate = nil;
         self.selection = [NSMutableArray array];
+        self.dictKeys = [NSArray array];
     }
     
     return self;
@@ -57,6 +60,9 @@
         MBLOG(MBLOG_DEBUG, @"[DictionaryViewController -init]");
         self.module = (SwordDictionary *)aModule;
         self.delegate = aDelegate;
+        
+        // set keys
+        self.dictKeys = [aModule allKeys];
         
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
@@ -170,7 +176,9 @@
                 NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
                 NSAttributedString *contentString = [Highlighter highlightText:[entry keyContent] forTokens:searchQuery attributes:contentAttributes];
                 [ret appendAttributedString:keyString];
+                [ret appendAttributedString:newLine];
                 [ret appendAttributedString:contentString];
+                [ret appendAttributedString:newLine];
                 [ret appendAttributedString:newLine];
             }
         }
@@ -232,20 +240,29 @@
             NSString *statusText = @"";
             
             if(searchType == ReferenceSearchType) {
-                NSMutableArray *sel = [NSMutableArray array];
+
                 if([aReference length] > 0) {
-                    // collect keys that begin with the entered text
-                    for(NSString *key in [(SwordDictionary *)self.module allKeys]) {
-                        NSString *subString = [[key substringToIndex:[aReference length]] uppercaseString];
-                        if([subString isEqualToString:[aReference uppercaseString]]) {
+                    NSMutableArray *sel = [NSMutableArray array];
+                    // init Reg ex
+                    MBRegex *regex = [MBRegex regexWithPattern:aReference];
+                    
+                    for(NSString *key in [(SwordDictionary *)module allKeys]) {
+                        // try to match
+                        [regex setCaseSensitive:NO];
+                        if([regex matchIn:key matchResult:nil] == MBRegexMatch) {
+                            // add
                             [sel addObject:key];
                         }
-                    }                    
+                    }
+                    self.dictKeys = sel;
+                } else {
+                    self.dictKeys = [(SwordDictionary *)module allKeys];
                 }
-                // display
-                NSAttributedString *string = [self displayableHTMLForKeys:sel];
-                [textViewController setAttributedString:string];
-                statusText = [NSString stringWithFormat:@"Displaying %i entries", [sel count]];
+
+                // refresh tableview
+                [entriesTableView reloadData];
+                
+                statusText = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
             } else if(searchType == IndexSearchType) {
                 // search in index
                 if(![module hasIndex]) {
@@ -331,7 +348,7 @@
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
 				
 				for(int i = 0;i < len;i++) {
-                    item = [[(SwordDictionary *)module allKeys] objectAtIndex:indexes[i]];
+                    item = [dictKeys objectAtIndex:indexes[i]];
                     
                     // add to array
                     [sel addObject:item];
@@ -356,7 +373,7 @@
     int ret = 0;
     
     if(self.module != nil) {
-        ret = [(SwordDictionary *)self.module entryCount];
+        ret = [dictKeys count];
     }
     
     return ret;
@@ -366,7 +383,7 @@
     NSString *ret = @"";
     
     if(self.module != nil) {
-        ret = [[(SwordDictionary *)self.module allKeys] objectAtIndex:rowIndex];
+        ret = [dictKeys objectAtIndex:rowIndex];
     }
     
     return ret;
@@ -391,6 +408,9 @@
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
         
+        self.selection = [NSMutableArray array];        
+        self.dictKeys = [(SwordDictionary *)module allKeys];
+
         // load nib
         BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
         if(!stat) {

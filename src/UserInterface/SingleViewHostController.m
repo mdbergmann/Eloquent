@@ -72,13 +72,7 @@
         
         // load moduleListViewController
         modulesViewController = [[ModuleOutlineViewController alloc] initWithDelegate:self];
-        showingModules = NO;
-        
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
-        }
+        showingModules = NO;        
     }
     
     return self;
@@ -104,6 +98,12 @@
             viewController = [[DictionaryViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;        
         }
+
+        // load nib
+        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
+        if(!stat) {
+            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
+        }        
     }
     
     return self;
@@ -129,6 +129,12 @@
             viewController = [[DictionaryViewController alloc] initWithModule:(SwordDictionary *)aModule delegate:self];
             searchType = ReferenceSearchType;
         }
+        
+        // load nib
+        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
+        if(!stat) {
+            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
+        }        
     }
     
     return self;    
@@ -396,15 +402,22 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     NSArray *recentSearches = [self recentSearchsForType:searchType];
     [searchTextField setRecentSearches:recentSearches];
     
-    // if search type is view then show search options
-    // else hide
-    if(searchType == ViewSearchType) {
-        [self showSearchOptionsView:YES];
-        showingOptions = YES;
-    } else {
-        //[searchOptionsView removeFromSuperview];
-        [self showSearchOptionsView:NO];
-        showingOptions = NO;
+    //[searchOptionsView removeFromSuperview];
+    [self showSearchOptionsView:NO];
+    showingOptions = NO;
+    
+    // change searchfield behaviour for dictionary
+    if(moduleType == dictionary) {
+        if(searchType == ReferenceSearchType) {
+            [searchTextField setContinuous:YES];
+            [[searchTextField cell] setSendsSearchStringImmediately:YES];
+            //[[searchTextField cell] setSendsWholeSearchString:NO];            
+        } else {
+            // <CR> required
+            [searchTextField setContinuous:NO];
+            [[searchTextField cell] setSendsSearchStringImmediately:NO];
+            [[searchTextField cell] setSendsWholeSearchString:YES];            
+        }
     }
 }
 

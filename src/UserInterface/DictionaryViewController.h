@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <CocoPCRE/CocoPCRE.h>
 #import <HostableViewController.h>
 #import <ModuleViewController.h>
 #import <ProtocolHelper.h>
@@ -29,6 +30,7 @@
     ExtTextViewController *textViewController;
     
     NSMutableArray *selection;
+    NSArray *dictKeys;
     
     // search type
     SearchType searchType;    

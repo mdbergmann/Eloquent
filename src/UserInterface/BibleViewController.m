@@ -365,8 +365,8 @@
                     [rm addCacheObject:o];
                 } else if(searchType == ViewSearchType) {
                     // store found range
-                    NSRange temp = [textViewController rangeOfTextToken:aReference lastFound:viewSearchLastFound directionRight:viewSearchDirectionRight];
-                    if(temp.location != NSNotFound) {
+                    //NSRange temp = [textViewController rangeOfTextToken:aReference lastFound:viewSearchLastFound directionRight:viewSearchDirectionRight];
+                    //if(temp.location != NSNotFound) {
                         // if not visible, scroll to visible
                         /*
                         NSRect rect;
@@ -382,9 +382,9 @@
                         [scrollView reflectScrolledClipView:[scrollView contentView]];
                          */
                         // show find indicator
-                        [[textViewController textView] showFindIndicatorForRange:temp];
-                    }
-                    viewSearchLastFound = temp;
+                        //[[textViewController textView] showFindIndicatorForRange:temp];
+                    //}
+                    //viewSearchLastFound = temp;
                 }
             }
 
