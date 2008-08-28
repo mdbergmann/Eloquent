@@ -23,7 +23,6 @@
 	if(self == nil) {
 		MBLOG(MBLOG_ERR, @"[MBPreferenceController -init] cannot init!");		
 	} else {
-        
 		// init web preferences
         webPreferences = [[WebPreferences alloc] init];
         [webPreferences setAutosaves:NO];

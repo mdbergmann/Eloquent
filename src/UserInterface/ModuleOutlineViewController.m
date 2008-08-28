@@ -84,7 +84,7 @@ enum ModuleMenu_Items{
         [data removeAllObjects];
         
         // add root modules element
-        OutlineListObject *obj = [[OutlineListObject alloc] initWithType:LISTOBJECTTYPE_MODULESROOT andDisplayString:@"Modules"];
+        OutlineListObject *obj = [[OutlineListObject alloc] initWithType:LISTOBJECTTYPE_MODULESROOT andDisplayString:@"MODULES"];
         [data addObject:obj];
         
         // add module categories
@@ -248,15 +248,21 @@ enum ModuleMenu_Items{
 */
 
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+
 	// display call with std font
 	NSFont *font = FontLarge;
+    
+    if([item isKindOfClass:[OutlineListObject class]]) {
+        OutlineListObject *obj = (OutlineListObject *)item;
+        if(obj.listType == LISTOBJECTTYPE_MODULESROOT) {
+            font = FontLarge;
+        }
+    }
+
 	[cell setFont:font];
-	// set row height according to used font
-	// get font height
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
 	float pointSize = [font pointSize];
 	[aOutlineView setRowHeight:pointSize+6];
-	//[aOutlineView setRowHeight:imageHeight];	
 }
 
 

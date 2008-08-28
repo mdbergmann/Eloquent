@@ -43,7 +43,7 @@
 									<object class="NSTextView" id="338003844">
 										<reference key="NSNextResponder" ref="95105895"/>
 										<int key="NSvFlags">2322</int>
-										<string key="NSFrameSize">{500, 88}</string>
+										<string key="NSFrameSize">{500, 84}</string>
 										<reference key="NSSuperview" ref="95105895"/>
 										<object class="NSTextContainer" key="NSTextContainer" id="2441802">
 											<object class="NSLayoutManager" key="NSLayoutManager">
@@ -298,13 +298,14 @@
 											<nil key="NSDefaultParagraphStyle"/>
 										</object>
 										<int key="NSTVFlags">6</int>
-										<string key="NSMaxSize">{993, 1e+07}</string>
+										<string key="NSMaxSize">{1015, 1e+07}</string>
 										<string key="NSMinize">{83, 0}</string>
 										<nil key="NSDelegate"/>
 									</object>
 								</object>
 								<string key="NSFrameSize">{500, 391}</string>
 								<reference key="NSSuperview" ref="620119398"/>
+								<reference key="NSNextKeyView" ref="338003844"/>
 								<reference key="NSDocView" ref="338003844"/>
 								<reference key="NSBGColor" ref="793180260"/>
 								<object class="NSCursor" key="NSCursor">
@@ -336,6 +337,7 @@
 						</object>
 						<string key="NSFrameSize">{515, 391}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSNextKeyView" ref="95105895"/>
 						<int key="NSsFlags">16</int>
 						<reference key="NSVScroller" ref="731413634"/>
 						<reference key="NSHScroller" ref="996641260"/>
@@ -472,7 +474,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{270, 122}, {515, 391}}</string>
+					<string>{{264, 139}, {515, 391}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{426, 507}, {515, 391}}</string>

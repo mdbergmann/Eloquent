@@ -13,7 +13,6 @@
 
 #define SINGLEVIEWHOST_NIBNAME   @"SingleViewHost"
 
-@class SearchOptionsViewController;
 @class HostableViewController;
 @class ModuleOutlineViewController;
 @class SwordModule;
@@ -42,8 +41,6 @@
     ModuleOutlineViewController *modulesViewController;
     BOOL showingModules;
     
-    // view controller for search options
-    SearchOptionsViewController *searchOptionsViewController;
     NSSearchField *searchTextField;
     NSView *searchOptionsView;
     BOOL showingOptions;

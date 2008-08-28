@@ -78,7 +78,9 @@ NSString* pathForFolderType(OSType dir,short domain,BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
     [defaultsDict setObject:@"Lucida Grande" forKey:DefaultsBibleTextDisplayFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsBibleTextDisplayFontSizeKey];
-	
+	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
+    
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];
 }
@@ -267,6 +269,22 @@ static AppController *singleton;
     [windowHosts addObject:svh];
     svh.delegate = self;
     [svh showWindow:self];
+}
+
+- (IBAction)openNewSingleCommentaryHostWindow:(id)sender {
+    // open a default view
+    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:commentary];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    [svh showWindow:self];    
+}
+
+- (IBAction)openNewSingleDictionaryHostWindow:(id)sender {
+    // open a default view
+    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:dictionary];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    [svh showWindow:self];    
 }
 
 - (IBAction)showPreferenceSheet:(id)sender {

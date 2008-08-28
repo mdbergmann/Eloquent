@@ -15,6 +15,8 @@
 #define DefaultsBibleTextVersesOnOneLineKey     @"DefaultsBibleTextVersesOnOneLineKey"
 #define DefaultsBibleTextDisplayFontFamilyKey   @"DefaultsBibleTextDisplayFontFamilyKey"
 #define DefaultsBibleTextDisplayFontSizeKey     @"DefaultsBibleTextDisplayFontSizeKey"
+#define DefaultsHeaderViewFontFamilyKey         @"DefaultsHeaderViewFontFamilyKey"
+#define DefaultsHeaderViewFontSizeKey           @"DefaultsHeaderViewFontSizeKey"
 
 // define some userdefaults keys
 #define DEFAULTS_SWMODULE_PATH_KEY      @"SwordModulePath"

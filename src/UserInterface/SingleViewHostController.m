@@ -11,7 +11,6 @@
 #import "CommentaryViewController.h"
 #import "DictionaryViewController.h"
 #import "HostableViewController.h"
-#import "SearchOptionsViewController.h"
 #import "BibleSearchOptionsViewController.h"
 #import "ModuleOutlineViewController.h"
 #import "SwordManager.h"
@@ -25,7 +24,6 @@
 
 @interface SingleViewHostController (/* */)
 - (void)setupToolbar;
-- (void)showSearchOptionsView:(BOOL)flag;
 - (NSString *)searchTextForType:(SearchType)aType;
 - (void)setSearchText:(NSString *)aText forSearchType:(SearchType)aType;
 - (NSMutableArray *)recentSearchsForType:(SearchType)aType;
@@ -85,15 +83,9 @@
         if(aType == bible) {
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;
-            
-            // init search view controller
-            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
         } else if(aType == commentary) {
             viewController = [[CommentaryViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;
-            
-            // init search view controller
-            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
         } else if(aType == dictionary) {
             viewController = [[DictionaryViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;        
@@ -116,15 +108,9 @@
         if(moduleType == bible) {
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
             searchType = ReferenceSearchType;
-            
-            // init search view controller
-            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
         } else if(moduleType == commentary) {
             viewController = [[CommentaryViewController alloc] initWithModule:(SwordCommentary *)aModule delegate:self];
             searchType = ReferenceSearchType;
-            
-            // init search view controller
-            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
         } else if(moduleType == dictionary) {
             viewController = [[DictionaryViewController alloc] initWithModule:(SwordDictionary *)aModule delegate:self];
             searchType = ReferenceSearchType;
@@ -153,15 +139,6 @@
         [placeHolderView setContentView:[viewController view]];
     }
 
-    // check for options view loaded
-    if(searchOptionsViewController.viewLoaded == YES) {
-        // add to placeholder
-        [placeHolderSearchOptionsView setContentView:[searchOptionsViewController optionsViewForSearchType:searchType]];
-        // set 0 height for place holder at first
-        NSSize s = [placeHolderSearchOptionsView frame].size;
-        [placeHolderSearchOptionsView setFrameSize:NSMakeSize(s.width, 0)];
-    }
-    
     // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     
@@ -174,7 +151,7 @@
     [item setLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
     [item setToolTip:NSLocalizedString(@"ToggleModulesToolTip", @"")];
-    image = [NSImage imageNamed:@"add.png"];
+    image = [NSImage imageNamed:@"fifteenpieces.png"];
     [item setImage:image];
     [item setTarget:self];
     [item setAction:@selector(toggleModulesTB:)];
@@ -193,6 +170,7 @@
         [tbIdentifiers setObject:item forKey:TB_ADD_BIBLE_ITEM];
     }
 
+    /*
     // search type
     searchTypePopup = [[NSPopUpButton alloc] init];
     [searchTypePopup setFrame:NSMakeRect(0,0,140,32)];
@@ -221,6 +199,43 @@
     [item setMinSize:[searchTypePopup frame].size];
     [item setMaxSize:[searchTypePopup frame].size];
     // add toolbar item to dict
+    [tbIdentifiers setObject:item forKey:TB_SEARCH_TYPE_ITEM];
+     */
+
+    float segmentControlHeight = 32.0;
+    float segmentControlWidth = (2*64.0);
+    NSSegmentedControl *segmentedControl = [[NSSegmentedControl alloc] init];
+    [segmentedControl setFrame:NSMakeRect(0.0,0.0,segmentControlWidth,segmentControlHeight)];
+    [segmentedControl setSegmentCount:2];
+    // set tracking style
+    [[segmentedControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
+    // insert text only segments
+    [segmentedControl setLabel:@"Ref" forSegment:0];
+    //[segmentedControl setImage:[NSImage imageNamed:@"list"] forSegment:0];		
+    [[segmentedControl cell] setTag:ReferenceSearchType forSegment:0];
+    [[segmentedControl cell] setEnabled:YES forSegment:0];
+    [[segmentedControl cell] setSelected:YES forSegment:0];
+    [segmentedControl setLabel:@"Index" forSegment:1];
+    //[segmentedControl setImage:[NSImage imageNamed:@"search"] forSegment:1];
+    [[segmentedControl cell] setTag:IndexSearchType forSegment:1];
+    [[segmentedControl cell] setEnabled:YES forSegment:1];
+    [[segmentedControl cell] setSelected:NO forSegment:1];
+    [segmentedControl sizeToFit];
+    // resize the height to what we have defined
+    [segmentedControl setFrameSize:NSMakeSize([segmentedControl frame].size.width,segmentControlHeight)];
+    [segmentedControl setTarget:self];
+    [segmentedControl setAction:@selector(searchType:)];
+    
+    // add detailview toolbaritem
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TYPE_ITEM];
+    [item setLabel:NSLocalizedString(@"SearchTypeLabel", @"")];
+    [item setPaletteLabel:NSLocalizedString(@"SearchTypePalette", @"")];
+    [item setToolTip:NSLocalizedString(@"SearchTypeTooltip", @"")];
+    [item setMinSize:[segmentedControl frame].size];
+    [item setMaxSize:[segmentedControl frame].size];
+    // set the segmented control as the view of the toolbar item
+    [item setView:segmentedControl];
+    [segmentedControl release];
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TYPE_ITEM];
     
     // search text
@@ -390,9 +405,13 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 }
 
 - (void)searchType:(id)sender {
-    MBLOGV(MBLOG_DEBUG, @"search type: %@", [sender title]);
+    MBLOGV(MBLOG_DEBUG, @"search type: %@", [(NSSegmentedControl *)sender labelForSegment:[(NSSegmentedControl *)sender selectedSegment]]);
     
-    searchType = [sender tag];
+    if([(NSSegmentedControl *)sender selectedSegment] == 0) {
+        searchType = ReferenceSearchType;
+    } else {
+        searchType = IndexSearchType;
+    }
     
     // set text according search type
     NSString *text = [self searchTextForType:searchType];
@@ -401,10 +420,6 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     // switch recentSearches
     NSArray *recentSearches = [self recentSearchsForType:searchType];
     [searchTextField setRecentSearches:recentSearches];
-    
-    //[searchOptionsView removeFromSuperview];
-    [self showSearchOptionsView:NO];
-    showingOptions = NO;
     
     // change searchfield behaviour for dictionary
     if(moduleType == dictionary) {
@@ -427,6 +442,7 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     return viewController;
 }
 
+/*
 - (void)showSearchOptionsView:(BOOL)flag {
     
     if(showingOptions != flag) {
@@ -473,7 +489,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         }
     }
 }
-
+*/
+ 
 /**
  return the search text for the given type
  */
@@ -513,13 +530,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 - (void)contentViewInitFinished:(HostableViewController *)aView {    
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -contentViewInitFinished:]");
     
-    if([aView isKindOfClass:[SearchOptionsViewController class]]) {
-        // add to placeholder
-        [placeHolderSearchOptionsView setContentView:[searchOptionsViewController optionsViewForSearchType:searchType]];
-    } else {
-        // add the webview as contentvew to the placeholder
-        [placeHolderView setContentView:[aView view]];    
-    }
+    // add the webview as contentvew to the placeholder
+    [placeHolderView setContentView:[aView view]];    
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -553,12 +565,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         showingModules = NO;
         
         if([viewController isKindOfClass:[CommentaryViewController class]]) {
-            // init search view controller
-            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
             moduleType = commentary;
         } else if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-            // init search view controller
-            searchOptionsViewController = [[BibleSearchOptionsViewController alloc] initWithDelegate:self andTarget:viewController];
             moduleType = bible;
         } else if([viewController isKindOfClass:[DictionaryViewController class]]) {
             moduleType = dictionary;

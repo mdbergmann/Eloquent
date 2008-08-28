@@ -39,6 +39,7 @@
 // ---------- initializers ---------
 - (id)initWithModule:(SwordDictionary *)aModule;
 - (id)initWithModule:(SwordDictionary *)aModule delegate:(id)aDelegate;
+- (id)initWithDelegate:(id)aDelegate;
 
 // ---------- methods --------------
 

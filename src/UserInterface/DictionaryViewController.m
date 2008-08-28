@@ -54,6 +54,10 @@
     return [self initWithModule:aModule delegate:nil];
 }
 
+- (id)initWithDelegate:(id)aDelegate {
+    return [self initWithModule:nil delegate:aDelegate];
+}
+
 - (id)initWithModule:(SwordDictionary *)aModule delegate:(id)aDelegate {
     self = [self init];
     if(self) {
@@ -61,8 +65,10 @@
         self.module = (SwordDictionary *)aModule;
         self.delegate = aDelegate;
         
-        // set keys
-        self.dictKeys = [aModule allKeys];
+        if(aModule != nil) {
+            // set keys
+            self.dictKeys = [aModule allKeys];
+        }
         
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
