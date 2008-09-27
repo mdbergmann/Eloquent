@@ -12,9 +12,9 @@
 @implementation Highlighter
 
 + (NSString *)stripSearchQuery:(NSString *)searchQuery {
-    // remove any characters from the tokens like: "+, -, *, !, &, |, AND, OR, (, )"
+    // remove any characters from the tokens like: "+, -, *, !, &, |, AND, OR, (, ), ""
     NSMutableString *query = [searchQuery mutableCopy];
-    for(int i = 0;i < 10;i++) {
+    for(int i = 0;i < 11;i++) {
         NSString *token = @"+";
         switch(i) {
             case 0:
@@ -46,6 +46,9 @@
                 break;
             case 9:
                 token = @")";
+                break;
+            case 10:
+                token = @"\"";
                 break;
         }
         

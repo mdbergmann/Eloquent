@@ -19,15 +19,16 @@
 #include "msstringmgr.h"
 #endif
 
-@class SwordModule, SwordManager;
+@class SwordModule, SwordManager, SwordTreeEntry;
 
 @interface SwordBook : SwordModule <SwordModuleAccess> {
-	NSMutableArray *contents;
+	NSMutableDictionary *contents;
 }
 
-- (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager;
+@property(readwrite, retain) NSMutableDictionary *contents;
 
-- (NSArray *)getContents;
+- (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager;
+- (SwordTreeEntry *)treeContentForKey:(NSString *)treeKey;
 
 // ------- SwordModuleAccess ---------
 - (NSArray *)stripedTextForRef:(NSString *)reference;

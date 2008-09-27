@@ -162,7 +162,7 @@ using std::list;
     // for every language, check if we know the locales
     while((lang = [langIter nextObject])) {
         // if first language is english, then go no further
-        if([lang isEqualToString:@"en"] && (i == 0)) {
+        if([[lang substringToIndex:2] isEqualToString:@"en"] && (i == 0)) {
             haveLocale = YES;
             break;
         }

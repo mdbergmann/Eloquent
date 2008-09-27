@@ -67,6 +67,7 @@
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
 		A996239D0E4F0D5A0082F18F /* OutlineListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A996239C0E4F0D5A0082F18F /* OutlineListObject.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
+		A9DA0B390E67F4600018ADE1 /* SwordTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */; };
 		A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */; };
 		A9E821010E0B95C70020A64E /* ScrollSynchronizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */; };
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
@@ -212,6 +213,8 @@
 		A996239B0E4F0D5A0082F18F /* OutlineListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineListObject.h; path = src/UserInterface/OutlineListObject.h; sourceTree = "<group>"; };
 		A996239C0E4F0D5A0082F18F /* OutlineListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineListObject.m; path = src/UserInterface/OutlineListObject.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
+		A9DA0B370E67F4600018ADE1 /* SwordTreeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordTreeEntry.h; sourceTree = "<group>"; };
+		A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordTreeEntry.m; sourceTree = "<group>"; };
 		A9DC14E40E0AA83D00E3F944 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ExtTextView.xib; sourceTree = "<group>"; };
 		A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollSynchronizableView.h; path = src/UserInterface/ScrollSynchronizableView.h; sourceTree = "<group>"; };
 		A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollSynchronizableView.m; path = src/UserInterface/ScrollSynchronizableView.m; sourceTree = "<group>"; };
@@ -450,6 +453,8 @@
 				A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */,
 				A91C94180DF9B149006B7361 /* SwordSearching.h */,
 				A91C94190DF9B149006B7361 /* SwordSearching.mm */,
+				A9DA0B370E67F4600018ADE1 /* SwordTreeEntry.h */,
+				A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */,
 			);
 			name = Sword;
 			path = src/Sword;
@@ -673,6 +678,7 @@
 				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
 				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,
 				A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */,
+				A9DA0B390E67F4600018ADE1 /* SwordTreeEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

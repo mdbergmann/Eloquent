@@ -53,11 +53,15 @@
 		// open index
 		indexRef = SKIndexOpenWithURL((CFURLRef)indexURL, (CFStringRef)indexName, NO);
 	} else {
+        // create properties for indexing
+        NSMutableDictionary *props = [NSMutableDictionary dictionary];
+        [props setObject:(NSNumber *)kCFBooleanTrue forKey:(NSString *)kSKProximityIndexing];
+        
 		// create index
 		indexRef = SKIndexCreateWithURL((CFURLRef)indexURL, 
 										(CFStringRef)indexName, 
-										kSKIndexInverted, 
-										NULL);					
+										kSKIndexInvertedVector, 
+										(CFDictionaryRef)props);
 	}
 	
 	return indexRef;

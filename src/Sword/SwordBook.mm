@@ -13,13 +13,11 @@
 
 #import "SwordBook.h"
 #import "SwordModule.h"
+#import "SwordTreeEntry.h"
 #import "utils.h"
 
 @interface SwordBook (/* Private, class continuation */)
-/** private property */
-@property(readwrite, retain) NSMutableArray *contents;
-
-- (id)createContentsB:(sword::TreeKeyIdx *)treeKey;
+- (SwordTreeEntry *)loadTreeContentsForKey:(sword::TreeKeyIdx *)treeKey;
 @end
 
 @implementation SwordBook
@@ -30,29 +28,47 @@
     
 	self = [super initWithName:aName swordManager:aManager];
     if(self) {
-        self.contents = nil;
+        self.contents = [NSMutableDictionary dictionary];
     }
                          
 	return self;
 }
 
-- (NSArray *)getContents {
-    NSArray *ret = self.contents;
-    if(ret == nil) {
-        [moduleLock lock];
-        if([contents count] == 0) {
+/**
+ return the tree content for the given treekey
+ the treekey has to be on ethat is already loaded
+ @param[in]: treekey that we should look for, nil for root
+ @return: NSArray for if the treekey is a subtree
+ @return: NSString for if the treekey is content
+ */
+- (SwordTreeEntry *)treeContentForKey:(NSString *)treeKey {
+    SwordTreeEntry * ret = nil;
+    
+    if(treeKey == nil) {
+        ret = [contents objectForKey:@"root"];
+        if(ret == nil) {
             sword::TreeKeyIdx *treeKey = dynamic_cast<sword::TreeKeyIdx*>((sword::SWKey *)*(swModule));
-            self.contents = (NSMutableArray *)[self createContentsB:treeKey];
+            ret = [self loadTreeContentsForKey:treeKey];
+            // add to content
+            [contents setObject:ret forKey:@"root"];
         }
-        [moduleLock unlock];
-        // try again
-        ret = self.contents;
+    } else {
+        ret = [contents objectForKey:treeKey];
+        if(ret == nil) {
+            const char *keyStr = [treeKey UTF8String];
+            sword::TreeKeyIdx *key = new sword::TreeKeyIdx(keyStr);
+            ret = [self loadTreeContentsForKey:key];
+            // add to content
+            [contents setObject:ret forKey:treeKey];
+        }
     }
-	return ret;    
+    
+    return ret;
 }
 
 // fill tree content with keys of book
-- (id)createContentsB:(sword::TreeKeyIdx *)treeKey {
+- (SwordTreeEntry *)loadTreeContentsForKey:(sword::TreeKeyIdx *)treeKey {
+    SwordTreeEntry *ret = [[SwordTreeEntry alloc] init];    
     
 	char *treeNodeName = (char *)treeKey->getText();
 	NSString *name = @"";
@@ -63,36 +79,40 @@
 	} else {
 		name = [NSString stringWithCString:treeNodeName encoding:NSISOLatin1StringEncoding];
 	}
+    // set name
+    ret.key = name;
 	
     // if this node has children, walk them
 	if(treeKey->hasChildren()) {
 		NSMutableArray *c = [NSMutableArray array];
-		
-		[c addObject:name];
         // get first child
-		treeKey->firstChild();
-		
+		treeKey->firstChild();		
         // walk the subtree
-		do {
-			[c addObject:[self createContentsB:treeKey]];
-		}
-		while(treeKey->nextSibling());
-		
-        // back to parent
-		treeKey->parent();
-        
-        // returns the subtree array
-		return c;
+        if(treeKey->hasChildren()) {
+            do {
+                NSString *subname = @"";
+                // key encoding depends on module encoding
+                const char *textStr = treeKey->getText();
+                if([self isUnicode]) {
+                    subname = [NSString stringWithUTF8String:textStr];
+                } else {
+                    subname = [NSString stringWithCString:textStr encoding:NSISOLatin1StringEncoding];
+                }
+                [c addObject:subname];
+            }
+            while(treeKey->nextSibling());            
+        }
+        // set content
+        ret.content = c;
 	}
 	
-    // returns the node name
-	return name;
+	return ret;
 }
 
 #pragma mark - SwordModuleAccess
 
 - (long)entryCount {
-    return [[self getContents] count];
+    return [contents count];
 }
 
 - (NSArray *)stripedTextForRef:(NSString *)reference {

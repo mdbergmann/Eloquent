@@ -17,7 +17,7 @@
 #import "SwordDictionary.h"
 #import "SwordBook.h"
 
-NSString *MacSwordIndexVersion = @"2.2";
+NSString *MacSwordIndexVersion = @"2.3";
 
 @implementation SwordModule(Searching)
 
@@ -274,16 +274,17 @@ NSString *MacSwordIndexVersion = @"2.2";
 
         // this is the content of the 
         const char *content = swModule->StripText();
+        const char *key = swModule->getKey()->getText();
         
         NSString *keyStr = nil;
         NSString *contentStr = nil;
 
         if([self isUnicode]) {
-            keyStr = fromUTF8(swModule->getKey()->getText());
-            contentStr = fromUTF8(content);
+            keyStr = [NSString stringWithUTF8String:key];
+            contentStr = [NSString stringWithUTF8String:content];
         } else {
-            keyStr = fromLatin1(swModule->getKey()->getText());
-            contentStr = fromLatin1(content);            
+            keyStr = [NSString stringWithCString:key encoding:NSISOLatin1StringEncoding];
+            contentStr = [NSString stringWithCString:content encoding:NSISOLatin1StringEncoding];
         }
         
         NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:1];
@@ -310,8 +311,7 @@ NSString *MacSwordIndexVersion = @"2.2";
 	[self indexContents:treeKey intoIndex:indexer];
 }
 
-- (id)indexContents:(sword::TreeKeyIdx *)treeKey 
-          intoIndex:(Indexer *)indexer {
+- (id)indexContents:(sword::TreeKeyIdx *)treeKey intoIndex:(Indexer *)indexer {
     
 	// we need to check for any Unicode names here
 	char *treeNodeName = (char *)treeKey->getText();
