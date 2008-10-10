@@ -17,7 +17,7 @@
 #import "utils.h"
 
 @interface SwordBook (/* Private, class continuation */)
-- (SwordTreeEntry *)loadTreeContentsForKey:(sword::TreeKeyIdx *)treeKey;
+- (SwordTreeEntry *)loadTreeEntryForKey:(sword::TreeKeyIdx *)treeKey;
 @end
 
 @implementation SwordBook
@@ -28,7 +28,7 @@
     
 	self = [super initWithName:aName swordManager:aManager];
     if(self) {
-        self.contents = [NSMutableDictionary dictionary];
+        [self setContents:[NSMutableDictionary dictionary]];
     }
                          
 	return self;
@@ -36,19 +36,18 @@
 
 /**
  return the tree content for the given treekey
- the treekey has to be on ethat is already loaded
+ the treekey has to be already loaded
  @param[in]: treekey that we should look for, nil for root
- @return: NSArray for if the treekey is a subtree
- @return: NSString for if the treekey is content
+ @return: SwordTreeEntry
  */
-- (SwordTreeEntry *)treeContentForKey:(NSString *)treeKey {
+- (SwordTreeEntry *)treeEntryForKey:(NSString *)treeKey {
     SwordTreeEntry * ret = nil;
     
     if(treeKey == nil) {
         ret = [contents objectForKey:@"root"];
         if(ret == nil) {
             sword::TreeKeyIdx *treeKey = dynamic_cast<sword::TreeKeyIdx*>((sword::SWKey *)*(swModule));
-            ret = [self loadTreeContentsForKey:treeKey];
+            ret = [self loadTreeEntryForKey:treeKey];
             // add to content
             [contents setObject:ret forKey:@"root"];
         }
@@ -56,8 +55,14 @@
         ret = [contents objectForKey:treeKey];
         if(ret == nil) {
             const char *keyStr = [treeKey UTF8String];
-            sword::TreeKeyIdx *key = new sword::TreeKeyIdx(keyStr);
-            ret = [self loadTreeContentsForKey:key];
+            if(![self isUnicode]) {
+                keyStr = [treeKey cStringUsingEncoding:NSISOLatin1StringEncoding];
+            }
+            // position module
+            sword::SWKey *mkey = new sword::SWKey(keyStr);
+            swModule->setKey(mkey);
+            sword::TreeKeyIdx *key = dynamic_cast<sword::TreeKeyIdx*>((sword::SWKey *)*(swModule));
+            ret = [self loadTreeEntryForKey:key];
             // add to content
             [contents setObject:ret forKey:treeKey];
         }
@@ -67,46 +72,61 @@
 }
 
 // fill tree content with keys of book
-- (SwordTreeEntry *)loadTreeContentsForKey:(sword::TreeKeyIdx *)treeKey {
+- (SwordTreeEntry *)loadTreeEntryForKey:(sword::TreeKeyIdx *)treeKey {
     SwordTreeEntry *ret = [[SwordTreeEntry alloc] init];    
     
 	char *treeNodeName = (char *)treeKey->getText();
 	NSString *name = @"";
     
-    // key encoding depends on module encoding
-	if([self isUnicode]) {
-		name = [NSString stringWithUTF8String:treeNodeName];
-	} else {
-		name = [NSString stringWithCString:treeNodeName encoding:NSISOLatin1StringEncoding];
-	}
+    if(strlen(treeNodeName) == 0) {
+        name = @"root";
+    } else {    
+        // key encoding depends on module encoding
+        if([self isUnicode]) {
+            name = [NSString stringWithUTF8String:treeNodeName];
+        } else {
+            name = [NSString stringWithCString:treeNodeName encoding:NSISOLatin1StringEncoding];
+        }
+    }
     // set name
-    ret.key = name;
+    [ret setKey:name];
+    NSMutableArray *c = [NSMutableArray array];
+    [ret setContent:c];
 	
     // if this node has children, walk them
 	if(treeKey->hasChildren()) {
-		NSMutableArray *c = [NSMutableArray array];
         // get first child
-		treeKey->firstChild();		
-        // walk the subtree
-        if(treeKey->hasChildren()) {
-            do {
-                NSString *subname = @"";
-                // key encoding depends on module encoding
-                const char *textStr = treeKey->getText();
-                if([self isUnicode]) {
-                    subname = [NSString stringWithUTF8String:textStr];
-                } else {
-                    subname = [NSString stringWithCString:textStr encoding:NSISOLatin1StringEncoding];
-                }
-                [c addObject:subname];
+		treeKey->firstChild();
+        do {
+            NSString *subname = @"";
+            // key encoding depends on module encoding
+            const char *textStr = treeKey->getText();
+            if([self isUnicode]) {
+                subname = [NSString stringWithUTF8String:textStr];
+            } else {
+                subname = [NSString stringWithCString:textStr encoding:NSISOLatin1StringEncoding];
             }
-            while(treeKey->nextSibling());            
+            [c addObject:subname];
         }
-        // set content
-        ret.content = c;
+        while(treeKey->nextSibling());            
 	}
 	
 	return ret;
+}
+
+- (void)testLoop {
+    SwordTreeEntry *entry = [self treeEntryForKey:nil];
+    if([[entry content] count] > 0) {
+        for(NSString *subkey in [entry content]) {
+            entry = [self treeEntryForKey:subkey];
+            if([[entry content] count] > 0) {
+            } else {
+                MBLOGV(MBLOG_DEBUG, @"Entry: %@\n", [entry key]);
+            }    
+        }
+    } else {
+        MBLOGV(MBLOG_DEBUG, @"Entry: %@\n", [entry key]);
+    }    
 }
 
 #pragma mark - SwordModuleAccess

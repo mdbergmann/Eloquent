@@ -31,7 +31,7 @@
 
 - (void)mainInit {
     // set type
-    self.type = [SwordModule moduleTypeForModuleTypeString:[self typeString]];
+    [self setType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
     // init lock
     self.moduleLock = [[NSRecursiveLock alloc] init];
     self.indexLock = [[NSLock alloc] init];

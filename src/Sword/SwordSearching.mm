@@ -17,7 +17,7 @@
 #import "SwordDictionary.h"
 #import "SwordBook.h"
 
-NSString *MacSwordIndexVersion = @"2.3";
+NSString *MacSwordIndexVersion = @"2.4";
 
 @implementation SwordModule(Searching)
 
@@ -307,65 +307,36 @@ NSString *MacSwordIndexVersion = @"2.3";
 @implementation SwordBook(Searching)
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
-	sword::TreeKeyIdx *treeKey = dynamic_cast<sword::TreeKeyIdx *>((sword::SWKey *)*(swModule));
-	[self indexContents:treeKey intoIndex:indexer];
+    // we start at root
+	[self indexContents:nil intoIndex:indexer];
 }
 
-- (id)indexContents:(sword::TreeKeyIdx *)treeKey intoIndex:(Indexer *)indexer {
+- (void)indexContents:(NSString *)treeKey intoIndex:(Indexer *)indexer {
     
-	// we need to check for any Unicode names here
-	char *treeNodeName = (char *)treeKey->getText();
-
-	NSString *name = @"";
-	if([self isUnicode]) {
-		name = fromUTF8(treeNodeName);
-	} else {
-		name = fromLatin1(treeNodeName);	
-	}
-	
-	if(treeKey->hasChildren()) {
-		NSMutableArray *c = [NSMutableArray array];
-		
-		[c addObject:name];
-		treeKey->firstChild();
-		
-		// look over keys
-		do {
-			*swModule = (long)treeKey;
-			char *keyCString = (char *)swModule->getKey()->getText();
-			const char *content = swModule->StripText();
-
-            NSString *contentStr = @"";
-            NSString *keyStr = @"";
-            if([self isUnicode]) {
-                keyStr = fromUTF8(keyCString);
-                contentStr = fromUTF8(content);
-            } else {
-                keyStr = fromLatin1(keyCString);
-                contentStr = fromLatin1(content);
-			}
-            
+    SwordTreeEntry *entry = [(SwordBook *)self treeEntryForKey:treeKey];
+    for(NSString *key in [entry content]) {
+        
+        // get key
+        NSArray *stripedAr = [(SwordBook *)self stripedTextForRef:key];
+        if(stripedAr != nil) {
+            // get content
+            NSString *stripped = [(NSDictionary *)[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+            // define properties
             NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
             // additionally save content
-            [propDict setObject:contentStr forKey:IndexPropSwordKeyContent];
-            [propDict setObject:keyStr forKey:IndexPropSwordKeyString];
+            [propDict setObject:stripped forKey:IndexPropSwordKeyContent];
+            [propDict setObject:key forKey:IndexPropSwordKeyString];
             
             // let's add the key also into the searchable content
-            NSString *indexContent = [NSString stringWithFormat:@"%@ - %@ - %@", keyStr, name, contentStr];
-
+            NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", key, stripped];
+            
             // add content with key
-            [indexer addDocument:keyStr text:indexContent textType:ContentTextType storeDict:propDict];
+            [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:propDict];            
+        }
 
-			[self indexContents:treeKey intoIndex:indexer];
-		}
-		while(treeKey->nextSibling());
-		
-		treeKey->parent();
-		
-		return c;
+        // go deeper
+        [self indexContents:key intoIndex:indexer];
 	}
-	
-	return name;
 }
 
 @end

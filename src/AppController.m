@@ -15,7 +15,10 @@
 #import "IndexingManager.h"
 #import "globals.h"
 
-NSString* pathForFolderType(OSType dir,short domain,BOOL createFolder) {
+#import "SwordBook.h"
+#import "SwordTreeEntry.h"
+
+NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
 	OSStatus err = 0;
 	FSRef folderRef;
 	NSString *path = nil;
@@ -50,7 +53,7 @@ NSString* pathForFolderType(OSType dir,short domain,BOOL createFolder) {
 #ifdef DEBUG
 	// init the logging facility in first place
 	[MBLogger initLogger:logPath 
-			   logPrefix:@"[MacSword2]" 
+			   logPrefix:@"[MacSword]" 
 		  logFilterLevel:MBLOG_DEBUG 
 			appendToFile:YES 
 			logToConsole:YES];
@@ -58,7 +61,7 @@ NSString* pathForFolderType(OSType dir,short domain,BOOL createFolder) {
 #ifdef RELEASE
 	// init the logging facility in first place
 	[MBLogger initLogger:logPath 
-			   logPrefix:@"[MacSword2]" 
+			   logPrefix:@"[MacSword]" 
 		  logFilterLevel:MBLOG_WARN 
 			appendToFile:YES 
 			logToConsole:NO];	
@@ -222,7 +225,7 @@ static AppController *singleton;
             // set SwordString Manager
             [SwordManager initStringManager];
             // init locale
-            [SwordManager initLocale];
+            [SwordManager initLocale];            
         }
 	}
 	
@@ -243,12 +246,13 @@ static AppController *singleton;
     SingleViewHostController *svh = nil;
     if(([mod type] == bible) ||
        ([mod type] == commentary) ||
-       ([mod type] == dictionary)) {
+       ([mod type] == dictionary) ||
+       ([mod type] == genbook)) {
         svh = [[SingleViewHostController alloc] initWithModule:mod];
+        [windowHosts addObject:svh];
+        svh.delegate = self;
+        [svh showWindow:self];    
     }
-    [windowHosts addObject:svh];
-    svh.delegate = self;
-    [svh showWindow:self];    
 }
 
 //-------------------------------------------------------------------
@@ -282,6 +286,14 @@ static AppController *singleton;
 - (IBAction)openNewSingleDictionaryHostWindow:(id)sender {
     // open a default view
     SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:dictionary];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    [svh showWindow:self];    
+}
+
+- (IBAction)openNewSingleGenBookHostWindow:(id)sender {
+    // open a default view
+    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:genbook];
     [windowHosts addObject:svh];
     svh.delegate = self;
     [svh showWindow:self];    
@@ -372,6 +384,10 @@ static AppController *singleton;
             }
         }
 	}
+
+    // test some stuff
+    //SwordBook *book = (SwordBook *)[[SwordManager defaultManager] moduleWithName:@"Josephus"];
+    //[book testLoop];
     
     // start background indexer
     [[IndexingManager sharedManager] triggerBackgroundIndexCheck];

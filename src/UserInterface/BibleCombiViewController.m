@@ -169,7 +169,8 @@
         }
     }
     
-    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithDelegate:self];
+    [cvc setModule:(SwordModule *)aModule];
     // add to array
     [parMiscViewControllers addObject:cvc];
     // if this is the first entry, we need to add the parallel misc view itself

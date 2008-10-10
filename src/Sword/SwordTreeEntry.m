@@ -14,7 +14,7 @@
 @synthesize key;
 @synthesize content;
 
-- (id)initWithKey:(NSString *)aKey content:(id)aContent {
+- (id)initWithKey:(NSString *)aKey content:(NSArray *)aContent {
     self = [super init];
     if(self) {
         self.key = aKey;

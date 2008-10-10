@@ -11,12 +11,12 @@
 
 @interface SwordTreeEntry : NSObject {
     NSString *key;
-    id content;
+    NSArray *content;
 }
 
 @property (retain, readwrite) NSString *key;
-@property (retain, readwrite) id content;
+@property (retain, readwrite) NSArray *content;
 
-- (id)initWithKey:(NSString *)aKey content:(id)aContent;
+- (id)initWithKey:(NSString *)aKey content:(NSArray *)aContent;
 
 @end

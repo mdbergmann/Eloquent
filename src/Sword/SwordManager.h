@@ -13,8 +13,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class SwordModule, SwordBook, SwordBible, SwordDictionary, SwordCommentary;
-
 #ifdef __cplusplus
 #include <swmgr.h>		// C++ Sword API
 #include <localemgr.h>
@@ -27,6 +25,8 @@
 #include <plainhtml.h>
 class sword::SWModule;
 #endif
+
+@class SwordModule;
 
 #define SWMOD_CATEGORY_BIBLES			@"Biblical Texts"
 #define SWMOD_CATEGORY_COMMENTARIES     @"Commentaries"

@@ -12,27 +12,16 @@
 */
 
 #import "SwordCommentary.h"
-#import "utils.h"
 
 // Well this is pretty much an empty sub-class of SwordBible
 @implementation SwordCommentary
 
-#pragma mark - SwordModuleAccess
-
-- (NSArray *)stripedTextForRef:(NSString *)reference {
-	return [super stripedTextForRef:[reference uppercaseString]];    
+- (id)init {
+    return [super init];
 }
 
-- (NSArray *)renderedTextForRef:(NSString *)reference {
-    return [super renderedTextForRef:reference];
-}
-
-- (long)entryCount {
-    return [super entryCount];
-}
-
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
-    [super writeEntry:value forRef:reference];
+- (void)finalize {
+    [super finalize];
 }
 
 @end

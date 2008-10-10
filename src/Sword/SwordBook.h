@@ -19,6 +19,8 @@
 #include "msstringmgr.h"
 #endif
 
+#define GenBookRootKey @"root"
+
 @class SwordModule, SwordManager, SwordTreeEntry;
 
 @interface SwordBook : SwordModule <SwordModuleAccess> {
@@ -28,7 +30,9 @@
 @property(readwrite, retain) NSMutableDictionary *contents;
 
 - (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager;
-- (SwordTreeEntry *)treeContentForKey:(NSString *)treeKey;
+- (SwordTreeEntry *)treeEntryForKey:(NSString *)treeKey;
+
+- (void)testLoop;
 
 // ------- SwordModuleAccess ---------
 - (NSArray *)stripedTextForRef:(NSString *)reference;

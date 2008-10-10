@@ -33,11 +33,11 @@
  */
 - (id)initWithModuleName:(NSString *)aModName {
 	
-	MBLOG(MBLOG_DEBUG,@"init of BookIndexer");
+	MBLOG(MBLOG_DEBUG,@"[BookIndexer -initWithModuleName]");
 	
 	self = [self init];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR,@"cannot alloc BookIndexer!");
+		MBLOG(MBLOG_ERR,@"[BookIndexer -initWithModuleName] cannot alloc BookIndexer!");
 	} else {
 		[self setModName:aModName];
 		[self setModType:genbook];
@@ -47,7 +47,7 @@
         contentIndexRef = [Indexer openOrCreateIndexforModName:aModName textType:[self modTypeStr]];
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
-            MBLOG(MBLOG_ERR, @"Error on creating content index!");
+            MBLOG(MBLOG_ERR, @"[BookIndexer -initWithModuleName] Error on creating content index!");
         }
 	}
 	
@@ -58,7 +58,7 @@
 \brief dealloc of this class is called on closing this document
  */
 - (void)dealloc {
-	MBLOG(MBLOG_DEBUG,@"dealloc of BookIndexer");
+	MBLOG(MBLOG_DEBUG,@"[BookIndexer -dealloc]");
 	
 	// dealloc object
 	[super dealloc];
@@ -88,13 +88,13 @@
         
 		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
 		if(docRef == NULL) {
-			MBLOG(MBLOG_ERR, @"could nor create document!");
+			MBLOG(MBLOG_ERR, @"[BookIndexer -addDocument] could nor create document!");
 		} else {			
 			// add Document
 			//MBLOGV(MBLOG_DEBUG, @"adding doc with text: %@", aText);
 			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (CFStringRef)aText, YES);
 			if(!success) {
-				MBLOG(MBLOG_ERR, @"Could not add document!");
+				MBLOG(MBLOG_ERR, @"[BookIndexer -addDocument] Could not add document!");
 			} else {
                 if(aDict != nil) {
                     // set document properties for this document
@@ -198,7 +198,7 @@
             // release Search object
             CFRelease(searchRef);
         } else {
-            MBLOG(MBLOG_ERR, @"Could not create SearchRef!");
+            MBLOG(MBLOG_ERR, @"[BookIndexer -performSearchOperation] Could not create SearchRef!");
         }
     }
     

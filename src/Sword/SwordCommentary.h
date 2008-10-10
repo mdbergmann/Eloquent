@@ -11,17 +11,10 @@
 	General Public License for more details. (http://www.gnu.org/licenses/gpl.html)
 */
 
+#import <Cocoa/Cocoa.h>
 #import "SwordBible.h"
 
-@class SwordManager;
-
-@interface SwordCommentary : SwordBible <SwordModuleAccess> {
+@interface SwordCommentary : SwordBible {
 }
-
-// ------- SwordModuleAccess ---------
-- (NSArray *)stripedTextForRef:(NSString *)reference;
-- (NSArray *)renderedTextForRef:(NSString *)reference;
-- (long)entryCount;
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
 
 @end

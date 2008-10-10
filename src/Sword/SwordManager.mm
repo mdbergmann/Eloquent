@@ -26,7 +26,7 @@
 #import "SwordBook.h"
 #import "SwordModule.h"
 #import "SwordBible.h"
-#import "SwordCommentary.h"
+//#import "SwordCommentary.h"
 #import "SwordDictionary.h"
 
 using std::string;
@@ -61,7 +61,8 @@ using std::list;
         if([type isEqualToString:SWMOD_CATEGORY_BIBLES]) {
             sm = [[[SwordBible alloc] initWithName:name swordManager:self] autorelease];
         } else if([type isEqualToString:SWMOD_CATEGORY_COMMENTARIES]) {
-            sm = [[[SwordCommentary alloc] initWithName:name swordManager:self] autorelease];
+            sm = [[[SwordBible alloc] initWithName:name swordManager:self] autorelease];
+            //sm = [[[SwordCommentary alloc] initWithName:name swordManager:self] autorelease];
         } else if([type isEqualToString:SWMOD_CATEGORY_DICTIONARIES]) {
             sm = [[[SwordDictionary alloc] initWithName:name swordManager:self] autorelease];
         } else if([type isEqualToString:SWMOD_CATEGORY_GENBOOKS]) {
@@ -399,7 +400,8 @@ using std::list;
             if([type isEqualToString:SWMOD_CATEGORY_BIBLES]) {
                 ret = [[[SwordBible alloc] initWithName:name swordManager:self] autorelease];
             } else if([type isEqualToString:SWMOD_CATEGORY_COMMENTARIES]) {
-                ret = [[[SwordCommentary alloc] initWithName:name swordManager:self] autorelease];
+                ret = [[[SwordBible alloc] initWithName:name swordManager:self] autorelease];
+                //ret = [[[SwordCommentary alloc] initWithName:name swordManager:self] autorelease];
             } else if([type isEqualToString:SWMOD_CATEGORY_DICTIONARIES]) {
                 ret = [[[SwordDictionary alloc] initWithName:name swordManager:self] autorelease];
             } else if([type isEqualToString:SWMOD_CATEGORY_GENBOOKS]) {

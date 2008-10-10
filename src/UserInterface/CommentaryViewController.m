@@ -17,7 +17,7 @@
 #import "SwordBible.h"
 #import "SwordCommentary.h"
 
-@interface BibleViewController (/* class continuation */)
+@interface CommentaryViewController (/* class continuation */)
 - (void)populateModulesMenu;
 
 /** generates HTML for display */

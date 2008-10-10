@@ -11,8 +11,9 @@
 
 int main(int argc, char *argv[]) {
 	// start application
-	//return NSApplicationMain(argc,  (const char **) argv);
+	return NSApplicationMain(argc,  (const char **) argv);
     
+    /*
 	// create application
 	Application *app = (Application *)[Application sharedApplication];
     
@@ -28,4 +29,5 @@ int main(int argc, char *argv[]) {
 	[app deinitLogging];
     
     return 0;
+     */
 }

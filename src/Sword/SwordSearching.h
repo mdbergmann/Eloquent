@@ -42,8 +42,5 @@
 @interface SwordBook(Searching)
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer;
-#ifdef __cplusplus
-- (id)indexContents:(sword::TreeKeyIdx *)treeKey 
-          intoIndex:(Indexer *)indexer;
-#endif    
+- (void)indexContents:(NSString *)treeKey intoIndex:(Indexer *)indexer;
 @end

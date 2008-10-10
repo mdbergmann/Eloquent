@@ -14,7 +14,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SwordModule.h"
 
-@class SwordModule, SwordManager;
+@class SwordManager;
 
 typedef enum {
 	OldTestament,
@@ -32,7 +32,6 @@ typedef enum {
 
 // ----------- instance methods ------------
 - (id)initWithName:(NSString *)name swordManager:(SwordManager *)aManager;
-- (void)finalize;
 
 - (BOOL)hasReference:(NSString *)ref;
 

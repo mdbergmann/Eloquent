@@ -121,7 +121,7 @@ enum ModuleMenu_Items{
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 	MBLOGV(MBLOG_DEBUG, @"[ModuleOutlineViewController -validateMenuItem:] %@", [menuItem description]);
     
-    BOOL ret = YES;
+    BOOL ret = YES; // all of the module stype should be able to show in a single view host
     
     // get menuitem tag
     int tag = [menuItem tag];
@@ -135,6 +135,7 @@ enum ModuleMenu_Items{
             SwordModule *mod = clicked.listObject;
             
             // get displaying type of delegate
+            // only commentary and bible views are able to show within bible the current
             if([delegate isKindOfClass:[SingleViewHostController class]]) {
                 SingleViewHostController *host = (SingleViewHostController *)delegate;
                 if((host.moduleType == mod.type) ||

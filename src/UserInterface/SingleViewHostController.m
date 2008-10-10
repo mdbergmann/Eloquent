@@ -10,6 +10,7 @@
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
 #import "DictionaryViewController.h"
+#import "GenBookViewController.h"
 #import "HostableViewController.h"
 #import "BibleSearchOptionsViewController.h"
 #import "ModuleOutlineViewController.h"
@@ -89,8 +90,11 @@
         } else if(aType == dictionary) {
             viewController = [[DictionaryViewController alloc] initWithDelegate:self];
             searchType = ReferenceSearchType;        
+        } else if(aType == genbook) {
+            viewController = [[GenBookViewController alloc] initWithDelegate:self];
+            searchType = ReferenceSearchType;        
         }
-
+        
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
@@ -109,10 +113,16 @@
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
             searchType = ReferenceSearchType;
         } else if(moduleType == commentary) {
-            viewController = [[CommentaryViewController alloc] initWithModule:(SwordCommentary *)aModule delegate:self];
+            viewController = [[CommentaryViewController alloc] initWithDelegate:self];
+            [(CommentaryViewController *)viewController setModule:aModule];
             searchType = ReferenceSearchType;
         } else if(moduleType == dictionary) {
-            viewController = [[DictionaryViewController alloc] initWithModule:(SwordDictionary *)aModule delegate:self];
+            viewController = [[DictionaryViewController alloc] initWithDelegate:self];
+            [(DictionaryViewController *)viewController setModule:aModule];
+            searchType = ReferenceSearchType;
+        } else if(moduleType == genbook) {
+            viewController = [[GenBookViewController alloc] initWithDelegate:self];
+            [(GenBookViewController *)viewController setModule:aModule];
             searchType = ReferenceSearchType;
         }
         
@@ -279,7 +289,7 @@
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
             [(BibleCombiViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
         } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
-                [(CommentaryViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
+            [(CommentaryViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
         }
     }
     
@@ -389,6 +399,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         [(CommentaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
     } else if([viewController isKindOfClass:[DictionaryViewController class]]) {
         [(DictionaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
+    } else if([viewController isKindOfClass:[GenBookViewController class]]) {
+        [(GenBookViewController *)viewController displayTextForReference:searchText searchType:searchType];
     }
 }
 
@@ -422,7 +434,7 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     [searchTextField setRecentSearches:recentSearches];
     
     // change searchfield behaviour for dictionary
-    if(moduleType == dictionary) {
+    if(moduleType == dictionary || moduleType == genbook) {
         if(searchType == ReferenceSearchType) {
             [searchTextField setContinuous:YES];
             [[searchTextField cell] setSendsSearchStringImmediately:YES];
@@ -570,6 +582,8 @@ willBeInsertedIntoToolbar:(BOOL)flag {
             moduleType = bible;
         } else if([viewController isKindOfClass:[DictionaryViewController class]]) {
             moduleType = dictionary;
+        } else if([viewController isKindOfClass:[GenBookViewController class]]) {
+            moduleType = genbook;
         }
         
         // load nib
