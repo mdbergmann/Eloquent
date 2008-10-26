@@ -250,7 +250,7 @@
                 
                 //statusText = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordBook *)module allKeys] count]];
             } else if(searchType == IndexSearchType) {
-                // search in index
+                // search in index                
                 if(![module hasIndex]) {
                     // create index first if not exists
                     [module createIndex];

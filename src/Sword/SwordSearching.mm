@@ -318,6 +318,7 @@ NSString *MacSwordIndexVersion = @"2.4";
         
         // get key
         NSArray *stripedAr = [(SwordBook *)self stripedTextForRef:key];
+        //NSArray *stripedAr = [(SwordBook *)self renderedTextForRef:key];
         if(stripedAr != nil) {
             // get content
             NSString *stripped = [(NSDictionary *)[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];

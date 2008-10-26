@@ -7,6 +7,8 @@
 //
 
 #import "IndexingManager.h"
+#import "MBPreferenceController.h"
+#import "globals.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SwordSearching.h"
@@ -51,13 +53,11 @@
     if([indexCheckLock tryLock]) {
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
-        // get default SwordManager and loop over all modules and check for index
-        SwordManager *sm = [SwordManager defaultManager];
         // make copy of array
-        NSArray *modNames = [NSArray arrayWithArray:[sm moduleNames]];
+        NSArray *modNames = [NSArray arrayWithArray:[swordManager moduleNames]];
         for(NSString *name in modNames) {
             MBLOGV(MBLOG_DEBUG, @"[IndexingManager -runIndexCheck] checking index for module: %@", name);
-            SwordModule *mod = [sm moduleWithName:name];
+            SwordModule *mod = [swordManager moduleWithName:name];
             if(![mod hasIndex]) {
                 MBLOGV(MBLOG_DEBUG, @"[IndexingManager -runIndexCheck] creating index for module: %@", name);
                 [mod createIndex];
@@ -73,6 +73,10 @@
 
 
 @implementation IndexingManager
+
+@synthesize baseIndexPath;
+@synthesize swordManager;
+@synthesize interval;
 
 /**
 \brief this is a singleton
@@ -100,6 +104,7 @@
 	}
 	else {
 		[self setBaseIndexPath:@""];
+        [self setInterval:30];
         indexCheckLock = [[NSLock alloc] init];
 	}
 	
@@ -109,23 +114,10 @@
 /**
 \brief dealloc of this class is called on closing this document
  */
-- (void)dealloc {
-	MBLOG(MBLOG_DEBUG,@"dealloc of IndexingManager");
-	
-	[self setBaseIndexPath:nil];
-	
-	// dealloc object
-	[super dealloc];
-}
-
-- (void)setBaseIndexPath:(NSString *)aPath {
-	[aPath retain];
-	[baseIndexPath release];
-	baseIndexPath = aPath;
-}
-
-- (NSString *)baseIndexPath {
-	return baseIndexPath;
+- (void)finalize {
+    MBLOG(MBLOG_DEBUG, @"[IndexingManager -finalize]");
+    
+    [super finalize];
 }
 
 /**
@@ -133,9 +125,16 @@
  in a separate thread.
  */
 - (void)triggerBackgroundIndexCheck {
-	// run every 15 seconds
+    
+    // check for swordManager
+    if(swordManager == nil) {    
+        MBLOG(MBLOG_ERR, @"[IndexingManager -triggerBackgroundIndexCheck] no SwordManager instance available!");
+        return;
+    }
+    
+	// run every $interval seconds
     MBLOG(MBLOG_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
-	[NSTimer scheduledTimerWithTimeInterval:30.0 
+	[NSTimer scheduledTimerWithTimeInterval:(float)interval
 									 target:self 
 								   selector:@selector(runIndexCheck) 
 								   userInfo:nil 

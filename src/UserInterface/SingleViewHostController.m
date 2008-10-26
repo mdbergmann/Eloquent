@@ -13,7 +13,7 @@
 #import "GenBookViewController.h"
 #import "HostableViewController.h"
 #import "BibleSearchOptionsViewController.h"
-#import "ModuleOutlineViewController.h"
+#import "LeftSideBarViewController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 
@@ -69,9 +69,9 @@
         self.recentSearchesForTypes = [NSMutableDictionary dictionary];
         showingOptions = NO;
         
-        // load moduleListViewController
-        modulesViewController = [[ModuleOutlineViewController alloc] initWithDelegate:self];
-        showingModules = NO;        
+        // load leftSideBar
+        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
+        showingLSB = NO;
     }
     
     return self;
@@ -92,7 +92,7 @@
             searchType = ReferenceSearchType;        
         } else if(aType == genbook) {
             viewController = [[GenBookViewController alloc] initWithDelegate:self];
-            searchType = ReferenceSearchType;        
+            searchType = IndexSearchType;        
         }
         
         // load nib
@@ -222,14 +222,21 @@
     // insert text only segments
     [segmentedControl setLabel:@"Ref" forSegment:0];
     //[segmentedControl setImage:[NSImage imageNamed:@"list"] forSegment:0];		
-    [[segmentedControl cell] setTag:ReferenceSearchType forSegment:0];
-    [[segmentedControl cell] setEnabled:YES forSegment:0];
-    [[segmentedControl cell] setSelected:YES forSegment:0];
     [segmentedControl setLabel:@"Index" forSegment:1];
     //[segmentedControl setImage:[NSImage imageNamed:@"search"] forSegment:1];
+    [[segmentedControl cell] setTag:ReferenceSearchType forSegment:0];
     [[segmentedControl cell] setTag:IndexSearchType forSegment:1];
-    [[segmentedControl cell] setEnabled:YES forSegment:1];
-    [[segmentedControl cell] setSelected:NO forSegment:1];
+    if(moduleType == genbook) {
+        [[segmentedControl cell] setEnabled:NO forSegment:0];
+        [[segmentedControl cell] setEnabled:YES forSegment:1];
+        [[segmentedControl cell] setSelected:NO forSegment:0];
+        [[segmentedControl cell] setSelected:YES forSegment:1];        
+    } else {        
+        [[segmentedControl cell] setEnabled:YES forSegment:0];
+        [[segmentedControl cell] setEnabled:YES forSegment:1];
+        [[segmentedControl cell] setSelected:YES forSegment:0];
+        [[segmentedControl cell] setSelected:NO forSegment:1];
+    }
     [segmentedControl sizeToFit];
     // resize the height to what we have defined
     [segmentedControl setFrameSize:NSMakeSize([segmentedControl frame].size.width,segmentControlHeight)];
@@ -405,14 +412,15 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 }
 
 - (void)toggleModulesTB:(id)sender {
-    if(showingModules) {
+    NSView *view = [lsbViewController view];
+    if(showingLSB) {
         // remove
-        [[modulesViewController view] removeFromSuperview];
-        showingModules = NO;
+        [[view animator] removeFromSuperview];
+        showingLSB = NO;
     } else {
         // add
-        [splitView addSubview:[modulesViewController view] positioned:NSWindowBelow relativeTo:defaultView];        
-        showingModules = YES;
+        [splitView addSubview:view positioned:NSWindowBelow relativeTo:defaultView];        
+        showingLSB = YES;
     }
 }
 
@@ -542,8 +550,10 @@ willBeInsertedIntoToolbar:(BOOL)flag {
 - (void)contentViewInitFinished:(HostableViewController *)aView {    
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -contentViewInitFinished:]");
     
-    // add the webview as contentvew to the placeholder
-    [placeHolderView setContentView:[aView view]];    
+    if([aView isKindOfClass:[ModuleViewController class]]) {
+        // add the webview as contentvew to the placeholder
+        [placeHolderView setContentView:[aView view]];    
+    }
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -572,9 +582,9 @@ willBeInsertedIntoToolbar:(BOOL)flag {
         // decode recent searches
         self.recentSearchesForTypes = [decoder decodeObjectForKey:@"RecentSearchesForTypesEncoded"];
         
-        // load modules view
-        modulesViewController = [[ModuleOutlineViewController alloc] initWithDelegate:self];
-        showingModules = NO;
+        // load lsb view
+        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
+        showingLSB = NO;
         
         if([viewController isKindOfClass:[CommentaryViewController class]]) {
             moduleType = commentary;

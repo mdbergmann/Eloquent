@@ -20,6 +20,7 @@
 #define BUNDLEVERSIONSTRING		CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey)
 #define APPNAME					@"MacSword"
 #define DEFAULT_APPSUPPORT_PATH	[@"~/Library/Application Support/MacSword" stringByExpandingTildeInPath]
+#define DEFAULT_BOOKMARK_PATH   [@"~/Library/Application Support/MacSword/Bookmarks.plist" stringByExpandingTildeInPath]
 #define DEFAULT_MODULE_PATH     [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
 #define SWINSTALLMGR_NAME       @"InstallMgr"
 #define LOGFILE					[@"~/Library/Logs/MacSword2.log" stringByExpandingTildeInPath]

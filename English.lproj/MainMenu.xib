@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.02">
 	<data>
 		<int key="IBDocument.SystemTarget">0</int>
-		<string key="IBDocument.SystemVersion">9E17</string>
-		<string key="IBDocument.InterfaceBuilderVersion">670</string>
-		<string key="IBDocument.AppKitVersion">949.33</string>
+		<string key="IBDocument.SystemVersion">9F33</string>
+		<string key="IBDocument.InterfaceBuilderVersion">672</string>
+		<string key="IBDocument.AppKitVersion">949.34</string>
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -219,6 +219,14 @@
 											<object class="NSMenuItem" id="553895897">
 												<reference key="NSMenu" ref="201521186"/>
 												<string key="NSTitle">Dictionary host</string>
+												<string key="NSKeyEquiv"/>
+												<int key="NSMnemonicLoc">2147483647</int>
+												<reference key="NSOnImage" ref="780798457"/>
+												<reference key="NSMixedImage" ref="1039508180"/>
+											</object>
+											<object class="NSMenuItem" id="141591776">
+												<reference key="NSMenu" ref="201521186"/>
+												<string key="NSTitle">GenBook host</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="780798457"/>
@@ -1107,6 +1115,14 @@
 					</object>
 					<int key="connectionID">404</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openNewSingleGenBookHostWindow:</string>
+						<reference key="source" ref="528392195"/>
+						<reference key="destination" ref="141591776"/>
+					</object>
+					<int key="connectionID">406</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1709,6 +1725,7 @@
 							<reference ref="829483814"/>
 							<reference ref="261823869"/>
 							<reference ref="553895897"/>
+							<reference ref="141591776"/>
 						</object>
 						<reference key="parent" ref="886149549"/>
 					</object>
@@ -1730,6 +1747,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">402</int>
 						<reference key="object" ref="553895897"/>
+						<reference key="parent" ref="201521186"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">405</int>
+						<reference key="object" ref="141591776"/>
 						<reference key="parent" ref="201521186"/>
 					</object>
 				</object>
@@ -1886,6 +1908,7 @@
 					<string>399.IBPluginDependency</string>
 					<string>401.IBPluginDependency</string>
 					<string>402.IBPluginDependency</string>
+					<string>405.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.ImportedFromIB2</string>
 					<string>56.IBPluginDependency</string>
@@ -2063,7 +2086,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{329, 373}, {176, 63}}</string>
+					<string>{{329, 353}, {176, 83}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2123,7 +2147,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">404</int>
+			<int key="maxID">406</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2138,12 +2162,14 @@
 							<string>openNewSingleBibleHostWindow:</string>
 							<string>openNewSingleCommentaryHostWindow:</string>
 							<string>openNewSingleDictionaryHostWindow:</string>
+							<string>openNewSingleGenBookHostWindow:</string>
 							<string>showAboutWindow:</string>
 							<string>showModuleManager:</string>
 							<string>showPreferenceSheet:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

@@ -38,6 +38,7 @@ typedef enum AppErrorCodes {
 - (IBAction)openNewSingleBibleHostWindow:(id)sender;
 - (IBAction)openNewSingleCommentaryHostWindow:(id)sender;
 - (IBAction)openNewSingleDictionaryHostWindow:(id)sender;
+- (IBAction)openNewSingleGenBookHostWindow:(id)sender;
 - (IBAction)showPreferenceSheet:(id)sender;
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showModuleManager:(id)sender;

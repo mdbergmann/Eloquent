@@ -13,7 +13,7 @@
 #import "SingleViewHostController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
-#import "OutlineListObject.h"
+#import "SwordModCategory.h"
 
 enum ModuleMenu_Items{
     ModuleMenuOpenSingle = 1,
@@ -23,11 +23,6 @@ enum ModuleMenu_Items{
 
 @interface ModuleOutlineViewController ()
 
-/** private property */
-@property(readwrite, retain) NSMutableArray *data;
-
-/** builds the data structure for display */
-- (void)buildData;
 - (void)doubleClick;
 
 @end
@@ -35,7 +30,6 @@ enum ModuleMenu_Items{
 @implementation ModuleOutlineViewController
 
 @synthesize manager;
-@synthesize data;
 
 - (id)initWithDelegate:(id)aDelegate {
     self = [super init];
@@ -52,12 +46,6 @@ enum ModuleMenu_Items{
         } else {
             // get the default manager
             self.manager = [SwordManager defaultManager];
-            
-            // init data
-            self.data = [NSMutableArray array];
-            
-            // build data
-            [self buildData];
         }            
     }
     
@@ -68,47 +56,15 @@ enum ModuleMenu_Items{
     MBLOG(MBLOG_DEBUG, @"[ModuleOutlineViewController -awakeFromNib]");
 
     // set double click action
-    [moduleOutlineView setTarget:self];
-    [moduleOutlineView setDoubleAction:@selector(doubleClick)];
+    [outlineView setTarget:self];
+    [outlineView setDoubleAction:@selector(doubleClick)];
     
     // loading finished
     viewLoaded = YES;
     [self reportLoadingComplete];
 }
 
-# pragma mark - methods
-
-- (void)buildData {
-    if(manager != nil) {
-        // clear data
-        [data removeAllObjects];
-        
-        // add root modules element
-        OutlineListObject *obj = [[OutlineListObject alloc] initWithType:LISTOBJECTTYPE_MODULESROOT andDisplayString:@"MODULES"];
-        [data addObject:obj];
-        
-        // add module categories
-        NSString *cat = nil;
-        NSMutableArray *cats = [NSMutableArray array];
-        for(cat in [SwordManager moduleTypes]) {
-            OutlineListObject *buf = [[OutlineListObject alloc] initWithType:LISTOBJECTTYPE_MODULECATEGORY andDisplayString:cat];
-            [cats addObject:buf];
-            
-            // add modules for category
-            SwordModule *mod = nil;
-            NSMutableArray *mods = [NSMutableArray array];
-            for(mod in [manager modulesForType:cat]) {
-                OutlineListObject *modBuf = [[OutlineListObject alloc] initWithType:LISTOBJECTTYPE_MODULE andDisplayString:[mod name]];
-                modBuf.listObject = mod;
-                [mods addObject:modBuf];
-            }
-            // add array
-            buf.listObject = mods;
-        }
-        // add array
-        obj.listObject = cats;
-    }
-}
+# pragma mark - Methods
 
 #pragma mark - Module menu
 
@@ -130,9 +86,9 @@ enum ModuleMenu_Items{
         ret = NO;
     } else if(tag == ModuleMenuOpenCurrent) {
         // get module
-        OutlineListObject *clicked = [moduleOutlineView itemAtRow:[moduleOutlineView clickedRow]];
-        if(clicked.listType == LISTOBJECTTYPE_MODULE) {
-            SwordModule *mod = clicked.listObject;
+        id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
+        if([clicked isKindOfClass:[SwordModule class]]) {
+            SwordModule *mod = clicked;
             
             // get displaying type of delegate
             // only commentary and bible views are able to show within bible the current
@@ -169,9 +125,9 @@ enum ModuleMenu_Items{
         {
             // get module
             SwordModule *mod = nil;
-            OutlineListObject *clicked = [moduleOutlineView itemAtRow:[moduleOutlineView clickedRow]];
-            if(clicked.listType == LISTOBJECTTYPE_MODULE) {
-                mod = clicked.listObject;
+            id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
+            if([clicked isKindOfClass:[SwordModule class]]) {
+                mod = clicked;
             }
             
             if(mod != nil) {
@@ -192,12 +148,12 @@ enum ModuleMenu_Items{
 
 - (void)doubleClick {
     // get clicked row
-    int clickedRow = [moduleOutlineView clickedRow];
+    int clickedRow = [outlineView clickedRow];
     
-    OutlineListObject *clickedObj = [moduleOutlineView itemAtRow:clickedRow];
-    if(clickedObj.listType == LISTOBJECTTYPE_MODULE) {
+    id clickedObj = [outlineView itemAtRow:clickedRow];
+    if([clickedObj isKindOfClass:[SwordModule class]]) {
         // default action on this is open another single view host with this module
-        [[AppController defaultAppController] openSingleHostWindowForModule:clickedObj.listObject];
+        [[AppController defaultAppController] openSingleHostWindowForModule:(SwordModule *)clickedObj];
     }
 }
 
@@ -251,15 +207,7 @@ enum ModuleMenu_Items{
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 
 	// display call with std font
-	NSFont *font = FontLarge;
-    
-    if([item isKindOfClass:[OutlineListObject class]]) {
-        OutlineListObject *obj = (OutlineListObject *)item;
-        if(obj.listType == LISTOBJECTTYPE_MODULESROOT) {
-            font = FontLarge;
-        }
-    }
-
+	NSFont *font = FontLarge;    
 	[cell setFont:font];
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
 	float pointSize = [font pointSize];
@@ -271,11 +219,12 @@ enum ModuleMenu_Items{
     int count = 0;
 	
 	if(item == nil) {
-        // number of root items
-        count = [data count];
-	} else if([item isKindOfClass:[OutlineListObject class]]) {
-        OutlineListObject *obj = (OutlineListObject *)item;
-        count = [(NSArray *)obj.listObject count];
+        // module categories
+        count = [[SwordModCategory moduleCategories] count];        
+	} else if([item isKindOfClass:[SwordModCategory class]]) {
+        // the modules under a certain category
+        SwordModCategory *obj = (SwordModCategory *)item;
+        count = [[[SwordManager defaultManager] modulesForType:[obj name]] count];
     }
 	
 	return count;
@@ -283,13 +232,15 @@ enum ModuleMenu_Items{
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
     
-    OutlineListObject *ret = nil;
+    id ret = nil;
     
     if(item == nil) {
-        ret = [data objectAtIndex:0];
-	} else if([item isKindOfClass:[OutlineListObject class]]) {
-        OutlineListObject *obj = (OutlineListObject *)item;
-        ret = [(NSArray *)obj.listObject objectAtIndex:index];
+        // module categories
+        ret = [[SwordModCategory moduleCategories] objectAtIndex:index];        
+	} else if([item isKindOfClass:[SwordModCategory class]]) {
+        // the modules under a certain category
+        SwordModCategory *obj = (SwordModCategory *)item;
+        ret = [[[SwordManager defaultManager] modulesForType:[obj name]] objectAtIndex:index];
     } else {
         ret = @"test";
     }
@@ -301,22 +252,20 @@ enum ModuleMenu_Items{
     
     NSString *ret = @"test";
     
-    // cast object
-    OutlineListObject *listObject = (OutlineListObject *)item;
-    
-    if(item != nil && [item isKindOfClass:[OutlineListObject class]]) {
-        ret = listObject.displayString;
+    if(item != nil) {
+        if([item isKindOfClass:[SwordModCategory class]]) {
+            ret = [(SwordModCategory *)item name];
+        } else if([item isKindOfClass:[SwordModule class]]) {
+            ret = [(SwordModule *)item name];
+        }
     }
-    
+
     return ret;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
     
-    // cast object
-    OutlineListObject *listObject = (OutlineListObject *)item;
-    
-    if(item != nil && (listObject.listType != LISTOBJECTTYPE_MODULE)) {
+    if(item != nil && [item isKindOfClass:[SwordModCategory class]]) {
         return YES;
     }
     
@@ -324,18 +273,13 @@ enum ModuleMenu_Items{
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item {
-    BOOL ret = NO;
-    
-    // cast object
-    OutlineListObject *listObject = (OutlineListObject *)item;
-
     if(item != nil) {
-        if(listObject.listType == LISTOBJECTTYPE_MODULE) {
-            ret = YES;
+        if([item isKindOfClass:[SwordModule class]]) {
+            return YES;
         }
     }
     
-    return ret;
+    return NO;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {

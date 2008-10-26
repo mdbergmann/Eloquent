@@ -14,7 +14,7 @@
 #define SINGLEVIEWHOST_NIBNAME   @"SingleViewHost"
 
 @class HostableViewController;
-@class ModuleOutlineViewController;
+@class LeftSideBarViewController;
 @class SwordModule;
 
 @interface SingleViewHostController : NSWindowController <NSCoding> {
@@ -37,9 +37,9 @@
     // the type of view
     ModuleType moduleType;
     
-    // every host has a module list view
-    ModuleOutlineViewController *modulesViewController;
-    BOOL showingModules;
+    // every host has a side bar view
+    LeftSideBarViewController *lsbViewController;
+    BOOL showingLSB;
     
     NSSearchField *searchTextField;
     NSView *searchOptionsView;

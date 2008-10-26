@@ -399,11 +399,12 @@
     return ret;
 }
 
-#pragma mark - SubviewHosting protocol
-
 - (NSNumber *)bibleViewCount {
     return [NSNumber numberWithInt:[parBibleViewControllers count]];
 }
+
+
+#pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
     MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -contentViewInitFinished:]");

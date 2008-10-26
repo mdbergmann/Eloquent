@@ -14,6 +14,7 @@
 #import "MBThreadedProgressSheetController.h"
 #import "IndexingManager.h"
 #import "globals.h"
+#import "BookmarkManager.h"
 
 #import "SwordBook.h"
 #import "SwordTreeEntry.h"
@@ -215,17 +216,18 @@ static AppController *singleton;
             // init install manager
             SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
             [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
-            
+                        
+            // init default SwordManager
+            SwordManager *sm = [SwordManager defaultManager];
+
             // init indexingmanager, set base index path
             IndexingManager *im = [IndexingManager sharedManager];
             [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
+            [im setSwordManager:sm];
             
-            // init SwordManager
-            SwordManager *sm = [SwordManager defaultManager];
-            // set SwordString Manager
-            [SwordManager initStringManager];
-            // init locale
-            [SwordManager initLocale];            
+            // test BookmarkManager
+            [[BookmarkManager defaultManager] bookmarks];
+            //[[BookmarkManager defaultManager] saveBookmarks];            
         }
 	}
 	

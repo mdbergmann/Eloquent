@@ -11,6 +11,9 @@
 #define LISTOBJECTTYPE_MODULESROOT      0
 #define LISTOBJECTTYPE_MODULECATEGORY   1
 #define LISTOBJECTTYPE_MODULE           2
+#define LISTOBJECTTYPE_BOOKMARKSROOT    10
+#define LISTOBJECTTYPE_BOOKMARKDIR      11
+#define LISTOBJECTTYPE_BOOKMARK         12
 
 @interface OutlineListObject : NSObject {
     NSString *displayString;

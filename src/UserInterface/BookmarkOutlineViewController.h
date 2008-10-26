@@ -1,8 +1,8 @@
 //
-//  ModuleOutlineViewController.h
+//  BookmarkOutlineViewController.h
 //  MacSword2
 //
-//  Created by Manfred Bergmann on 08.08.08.
+//  Created by Manfred Bergmann on 26.10.08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
@@ -10,19 +10,19 @@
 #import <CocoLogger/CocoLogger.h>
 #import <HostableViewController.h>
 
-#define MODULEOUTLINEVIEW_NIBNAME   @"ModuleOutlineView"
+#define BOOKMARKOUTLINEVIEW_NIBNAME   @"BookmarkOutlineView"
 
-@class SwordManager;
+@class BookmarkManager;
 
-@interface ModuleOutlineViewController : HostableViewController {
+@interface BookmarkOutlineViewController : HostableViewController {
     IBOutlet NSOutlineView *outlineView;
-    IBOutlet NSMenu *moduleMenu;
+    IBOutlet NSMenu *bookmarkMenu;
     
-    // the SwordManager instance
-    SwordManager *manager;
+    // the BookmarkManager instance
+    BookmarkManager *manager;    
 }
 
-@property (readwrite) SwordManager *manager;
+@property (readwrite) BookmarkManager *manager;
 
 // initialitazion
 - (id)initWithDelegate:(id)aDelegate;
@@ -35,5 +35,5 @@
  \brief validate menu
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
-- (IBAction)moduleMenuClicked:(id)sender;
+- (IBAction)bookmarkMenuClicked:(id)sender;
 @end

@@ -11,11 +11,23 @@
 #import <SwordModule.h>
 #import <Indexer.h>
 
+@class SwordManager;
+
 @interface IndexingManager : NSObject {
 	NSString *baseIndexPath;
     
+    /** interval in seconds for timer to fire */
+    int interval;
+    
+    /** this indexing manager has a dedicated SwordManager instance */
+    SwordManager *swordManager;
+    
     NSLock *indexCheckLock;
 }
+
+@property (retain, readwrite) NSString *baseIndexPath;
+@property (retain, readwrite) SwordManager *swordManager;
+@property (readwrite) int interval;
 
 /**
  \brief singleton convenient allocator and getter of instance
@@ -24,9 +36,6 @@
 
 // init
 - (id)init;
-
-- (void)setBaseIndexPath:(NSString *)aPath;
-- (NSString *)baseIndexPath;
 
 /**
  calling this method will trigger checking for modules that do not have a valid index
