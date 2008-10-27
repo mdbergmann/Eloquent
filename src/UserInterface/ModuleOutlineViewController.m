@@ -92,8 +92,8 @@ enum ModuleMenu_Items{
             
             // get displaying type of delegate
             // only commentary and bible views are able to show within bible the current
-            if([delegate isKindOfClass:[SingleViewHostController class]]) {
-                SingleViewHostController *host = (SingleViewHostController *)delegate;
+            if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+                SingleViewHostController *host = (SingleViewHostController *)hostingDelegate;
                 if((host.moduleType == mod.type) ||
                    (host.moduleType == bible && mod.type == commentary)) {
                     ret = YES;
@@ -131,7 +131,7 @@ enum ModuleMenu_Items{
             }
             
             if(mod != nil) {
-                HostableViewController *contentViewController = [delegate contentViewController];
+                HostableViewController *contentViewController = [hostingDelegate contentViewController];
                 if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
                     if(mod.type == bible) {
                         [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:(SwordBible *)mod];

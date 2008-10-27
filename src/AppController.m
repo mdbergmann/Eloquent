@@ -85,6 +85,9 @@ NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
 	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
     
+    // set default bible
+    [defaultsDict setObject:@"GerSch" forKey:DefaultsBibleModule];
+    
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];
 }
@@ -243,7 +246,24 @@ static AppController *singleton;
 }
 
 /** opens a new single host window for the given module */
-- (void)openSingleHostWindowForModule:(SwordModule *)mod {
+- (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod {
+    
+    // if module is nil, we open with default bible module
+    if(mod == nil) {
+        // get default bible
+        NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
+        if(sBible == nil) {
+            NSAlert *alert = [NSAlert alertWithMessageText:@"No default bible set" 
+                                             defaultButton:@"Ok" 
+                                           alternateButton:nil 
+                                               otherButton:nil 
+                                 informativeTextWithFormat:@"Please set your prefered default bible to be used!"];
+            [alert runModal];
+        } else {
+            mod = [[SwordManager defaultManager] moduleWithName:sBible];
+        }
+    }
+    
     // open a default view
     SingleViewHostController *svh = nil;
     if(([mod type] == bible) ||
@@ -255,6 +275,8 @@ static AppController *singleton;
         svh.delegate = self;
         [svh showWindow:self];    
     }
+    
+    return svh;
 }
 
 //-------------------------------------------------------------------

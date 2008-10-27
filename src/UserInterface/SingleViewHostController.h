@@ -69,6 +69,7 @@
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
 - (HostableViewController *)contentViewController;
+- (void)setSearchText:(NSString *)aString;
 
 // method called by subview
 - (void)contentViewInitFinished:(HostableViewController *)aView;

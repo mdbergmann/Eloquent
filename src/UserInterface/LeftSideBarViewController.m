@@ -23,7 +23,9 @@
     if(self) {
         // load subview controllers
         moduleViewController = [[ModuleOutlineViewController alloc] initWithDelegate:self];
+        [moduleViewController setHostingDelegate:delegate];        
         bookmarksViewController = [[BookmarkOutlineViewController alloc] initWithDelegate:self];
+        [bookmarksViewController setHostingDelegate:delegate];
     }
     
     return self;
@@ -78,9 +80,11 @@
     if(viewLoaded == YES) {
         if([aView isKindOfClass:[ModuleOutlineViewController class]]) {
             moduleViewController = (ModuleOutlineViewController *)aView;
+            [moduleViewController setHostingDelegate:delegate];
             [self setupView:[aView view]];
         } else if([aView isKindOfClass:[BookmarkOutlineViewController class]]) {
             bookmarksViewController = (BookmarkOutlineViewController *)aView;
+            [bookmarksViewController setHostingDelegate:delegate];
         }
 
         if([moduleViewController viewLoaded] && [bookmarksViewController viewLoaded]) {

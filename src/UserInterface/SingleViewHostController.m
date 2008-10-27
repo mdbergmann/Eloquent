@@ -545,6 +545,12 @@ willBeInsertedIntoToolbar:(BOOL)flag {
     [recentSearchesForTypes setObject:searches forKey:[NSNumber numberWithInt:aType]];
 }        
 
+/** used to set text to the search field from outside */
+- (void)setSearchText:(NSString *)aString {
+    [searchTextField setStringValue:aString];
+    [self searchInput:searchTextField];
+}
+
 #pragma mark - delegate methods
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {    

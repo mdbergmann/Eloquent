@@ -13,12 +13,16 @@
     // the delegate
     IBOutlet id delegate;
     
+    // hosting component
+    id hostingDelegate;
+    
     // is view loaded?
     BOOL viewLoaded;    
 }
 
 // properties
 @property (assign, readwrite) id delegate;
+@property (assign, readwrite) id hostingDelegate;
 @property (readwrite) BOOL viewLoaded;
 
 /** report the loading of the view is completed */

@@ -23,6 +23,9 @@
 #define DEFAULTS_SWINSTALLMGR_PATH_KEY  @"SwordInstallMgrPath"
 #define DEFAULTS_SWINDEX_PATH_KEY       @"SwordIndexPath"
 
+// default bible
+#define DefaultsBibleModule             @"DefaultsBibleModule"
+
 @interface MBPreferenceController : NSWindowController {
 	// global stuff
 	IBOutlet NSButton *okButton;

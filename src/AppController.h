@@ -10,6 +10,8 @@
 #import <CocoLogger/CocoLogger.h>
 #import <ModuleManager.h>
 
+@class SingleViewHostController;
+
 typedef enum AppErrorCodes {
     INIT_SUCCESS = 0,
     UNABLE_TO_FIND_APPSUPPORT,
@@ -30,7 +32,7 @@ typedef enum AppErrorCodes {
 + (AppController *)defaultAppController;
 
 /** opens a new single host window for the given module */
-- (void)openSingleHostWindowForModule:(SwordModule *)mod;
+- (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod;
 
 // NSApplication delegate methods
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames;

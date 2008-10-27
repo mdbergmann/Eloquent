@@ -11,6 +11,7 @@
 
 @implementation HostableViewController
 
+@synthesize hostingDelegate;
 @dynamic delegate;
 @synthesize viewLoaded;
 

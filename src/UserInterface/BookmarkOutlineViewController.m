@@ -85,12 +85,19 @@ enum BookmarkMenu_Items{
     if(tag == BookmarkMenuAddNewBM) {
         ret = NO;
     } else if(tag == BookmarkMenuOpenBMInNew) {
-        // get module
-        id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
+        ;
     } else if(tag == BookmarkMenuOpenBMInCurrent) {
+        // we can only open in current, if it is a commentary or bible view
+        if([hostingDelegate isKindOfClass:[SingleViewHostController class]] && 
+           ([(SingleViewHostController *)hostingDelegate moduleType] == bible || [(SingleViewHostController *)hostingDelegate moduleType] == commentary)) {
+            ret = YES;
+        }
     } else if(tag == BookmarkMenuRemoveBM) {
         // get module
         id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
+        if(clicked != nil) {
+            ret = YES;
+        }
     }
     
     return ret;
@@ -103,14 +110,15 @@ enum BookmarkMenu_Items{
     
     switch(tag) {
         case BookmarkMenuAddNewBM:
-            [self doubleClick];
             break;
         case BookmarkMenuOpenBMInNew:
             // do nothing
+            [self doubleClick];
             break;
         case BookmarkMenuOpenBMInCurrent:
         {
             id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
+            
         }
             break;
         case BookmarkMenuRemoveBM:
@@ -124,10 +132,12 @@ enum BookmarkMenu_Items{
     // get clicked row
     int clickedRow = [outlineView clickedRow];
     
-    id clickedObj = [outlineView itemAtRow:clickedRow];
-    if([clickedObj isKindOfClass:[SwordModule class]]) {
+    Bookmark *clickedObj = [outlineView itemAtRow:clickedRow];
+    // check for type of host
+    if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
         // default action on this is open another single view host with this module
-        [[AppController defaultAppController] openSingleHostWindowForModule:(SwordModule *)clickedObj];
+        SingleViewHostController *newC = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
+        [newC setSearchText:[clickedObj reference]];
     }
 }
 
