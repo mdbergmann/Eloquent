@@ -142,6 +142,14 @@
     return ret;
 }
 
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"CommentView";
+}
+
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {

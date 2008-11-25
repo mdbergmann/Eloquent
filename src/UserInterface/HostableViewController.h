@@ -17,7 +17,10 @@
     id hostingDelegate;
     
     // is view loaded?
-    BOOL viewLoaded;    
+    BOOL viewLoaded;
+    
+    // has been reported loading complete already?
+    BOOL isLoadingCopleteReported;
 }
 
 // properties
@@ -29,5 +32,6 @@
 - (void)reportLoadingComplete;
 - (void)removeFromSuperview;
 - (void)adaptUIToHost;
+- (NSString *)label;
 
 @end

@@ -272,6 +272,16 @@
     }
 }
 
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"GenBookView";
+}
+
+#pragma mark - SubviewHosting
+
 - (void)removeSubview:(HostableViewController *)aViewController {
     // does nothing
 }

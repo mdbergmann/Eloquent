@@ -265,9 +265,9 @@ using std::list;
 				if(directory) {
 					// if swManager has not been created yet then do so - otherwise add path to swManager
 					if(!swManager) {
-						swManager = new sword::SWMgr(toUTF8(fullSubDir), true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
+						swManager = new sword::SWMgr([fullSubDir UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
                     } else {
-						swManager->augmentModules(toUTF8(fullSubDir));
+						swManager->augmentModules([fullSubDir UTF8String]);
                     }
 				}
 			}
@@ -283,7 +283,7 @@ using std::list;
         if(bundlePath && swManager) {
             // remove last path component
             NSString *appPath = [bundlePath stringByDeletingLastPathComponent];
-            swManager->augmentModules(toUTF8(appPath));
+            swManager->augmentModules([appPath UTF8String]);
         }
 
         [SwordManager initStringManager];
@@ -335,7 +335,7 @@ using std::list;
     
 	[managerLock lock];
     if(modulesPath && [modulesPath length] > 0) {
-        swManager = (sword::SWMgr *)new sword::SWMgr(toUTF8(modulesPath), true, NULL, false, true);    
+        swManager = (sword::SWMgr *)new sword::SWMgr([modulesPath UTF8String], true, NULL, false, true);    
         
         // clear some data
         [self refreshModules];
@@ -354,9 +354,9 @@ using std::list;
     
 	[managerLock lock];
 	if([modules count] == 0) {
-		swManager = new sword::SWMgr(toUTF8(path), true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
+		swManager = new sword::SWMgr([path UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
     } else {
-		swManager->augmentModules(toUTF8(path));
+		swManager->augmentModules([path UTF8String]);
     }
 	
 	[self refreshModules];

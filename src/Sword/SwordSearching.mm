@@ -183,7 +183,7 @@ NSString *MacSwordIndexVersion = @"2.4";
 		
 		long mindex = 0;
 		if (vkcheck) {
-			mindex = vkcheck->NewIndex();
+			//mindex = vkcheck->NewIndex();
 		} else {
 			mindex = swModule->getKey()->Index();
 		}

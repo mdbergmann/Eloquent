@@ -11,6 +11,7 @@
 #import "BibleCombiViewController.h"
 #import "HostableViewController.h"
 #import "SingleViewHostController.h"
+#import "WorkspaceViewHostController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SwordModCategory.h"
@@ -82,27 +83,28 @@ enum ModuleMenu_Items{
     // get menuitem tag
     int tag = [menuItem tag];
     
-    if(tag == ModuleMenuOpenWorkspace) {
-        ret = NO;
-    } else if(tag == ModuleMenuOpenCurrent) {
+    if(tag == ModuleMenuOpenCurrent) {
         // get module
         id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
         if([clicked isKindOfClass:[SwordModule class]]) {
             SwordModule *mod = clicked;
             
-            // get displaying type of delegate
-            // only commentary and bible views are able to show within bible the current
-            if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-                SingleViewHostController *host = (SingleViewHostController *)hostingDelegate;
-                if((host.moduleType == mod.type) ||
-                   (host.moduleType == bible && mod.type == commentary)) {
+            if([[hostingDelegate contentViewController] isKindOfClass:[BibleCombiViewController class]]) {
+                // only commentary and bible views are able to show within bible the current
+                if(([hostingDelegate moduleType] == mod.type) ||
+                   ([hostingDelegate moduleType] == bible && mod.type == commentary)) {
                     ret = YES;
                 } else {
                     ret = NO;
-                }
+                }                
             } else {
                 ret = NO;
             }
+        }
+    } else if(tag == ModuleMenuOpenWorkspace) {
+        // we only open in workspace if the histingDelegate is a workspace
+        if(![hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            ret = NO;
         }
     }
         
@@ -114,30 +116,25 @@ enum ModuleMenu_Items{
     
     int tag = [sender tag];
     
+    // get module
+    SwordModule *mod = nil;
+    id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
+    if([clicked isKindOfClass:[SwordModule class]]) {
+        mod = clicked;
+    }
+
     switch(tag) {
         case ModuleMenuOpenSingle:
-            [self doubleClick];
-            break;
         case ModuleMenuOpenWorkspace:
-            // do nothing
+            [self doubleClick];
             break;
         case ModuleMenuOpenCurrent:
         {
-            // get module
-            SwordModule *mod = nil;
-            id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
-            if([clicked isKindOfClass:[SwordModule class]]) {
-                mod = clicked;
-            }
-            
             if(mod != nil) {
-                HostableViewController *contentViewController = [hostingDelegate contentViewController];
-                if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-                    if(mod.type == bible) {
-                        [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:(SwordBible *)mod];
-                    } else if(mod.type == commentary) {
-                        [(BibleCombiViewController *)contentViewController addNewCommentViewWithModule:(SwordCommentary *)mod];                    
-                    }
+                if(mod.type == bible) {
+                    [(BibleCombiViewController *)[hostingDelegate contentViewController] addNewBibleViewWithModule:(SwordBible *)mod];
+                } else if(mod.type == commentary) {
+                    [(BibleCombiViewController *)[hostingDelegate contentViewController] addNewCommentViewWithModule:(SwordCommentary *)mod];                    
                 }
             }
         }
@@ -152,8 +149,14 @@ enum ModuleMenu_Items{
     
     id clickedObj = [outlineView itemAtRow:clickedRow];
     if([clickedObj isKindOfClass:[SwordModule class]]) {
-        // default action on this is open another single view host with this module
-        [[AppController defaultAppController] openSingleHostWindowForModule:(SwordModule *)clickedObj];
+        
+        // depending on the hosting window we open a new tab or window
+        if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:(SwordModule *)clickedObj];        
+        } else if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+            // default action on this is open another single view host with this module
+            [[AppController defaultAppController] openSingleHostWindowForModule:(SwordModule *)clickedObj];        
+        }
     }
 }
 

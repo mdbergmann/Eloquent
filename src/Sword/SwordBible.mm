@@ -368,76 +368,110 @@ NSLock *bibleLock = nil;
 	return nil;
 }
 
+/*
+ - (NSArray *)renderedTextForRef:(NSString *)reference {
+ NSMutableArray *ret = nil;
+ 
+ const char *cref = [reference UTF8String];
+ sword::VerseKey	vk;
+ sword::ListKey listkey = vk.ParseVerseList(cref, "Gen1", true);
+ int lastIndex;
+ int listKeyLen = listkey.Count();
+ ret = [NSMutableArray arrayWithCapacity:listKeyLen];
+ // this is what get s stored in return array
+ MSStringMgr *strMgr = new MSStringMgr();
+ for(int i = 0; i < listKeyLen; i++) {
+ sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
+ 
+ // is it a chapter or book - not atomic
+ if(element) {
+ // start at lower bound
+ element->Headings(1);
+ swModule->Key(element->LowerBound());
+ // find the upper bound
+ vk = element->UpperBound();
+ vk.Headings(true);
+ } else {
+ // set it up
+ swModule->setKey(*listkey.GetElement(i));
+ }
+ 
+ // while not past the upper bound
+ do {
+ const char *keyCStr = swModule->Key().getText();
+ const char *txtCStr = swModule->RenderText();
+ NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
+ NSString *key = [NSString stringWithUTF8String:keyCStr];
+ NSString *txt = @"";
+ if(strMgr->isUtf8(txtCStr)) {
+ txt = [NSString stringWithUTF8String:txtCStr];
+ } else {
+ txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
+ }
+ // add to dict
+ [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+ [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+ // add to array
+ [ret addObject:dict];
+
+ // check for any entry attributes
+ AttributeTypeList::iterator i1;
+ AttributeList::iterator i2;
+ AttributeValue::iterator i3;
+ for (i1 = swModule->getEntryAttributes().begin(); i1 != swModule->getEntryAttributes().end(); i1++) {
+ MBLOGV(MBLOG_DEBUG, @"%@\n", [NSString stringWithUTF8String:i1->first]);
+ for (i2 = i1->second.begin(); i2 != i1->second.end(); i2++) {
+ MBLOGV(MBLOG_DEBUG, @"\t%@\n", [NSString stringWithUTF8String:i2->first]);
+ for (i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
+ MBLOGV(MBLOG_DEBUG, @"\t\t%@ = %@\n", [NSString stringWithUTF8String:i3->first], [NSString stringWithUTF8String:i3->second]);
+ }
+ }                    
+ }
+
+// get current index
+lastIndex = (swModule->Key()).Index();
+// increment index
+(*swModule)++;
+// check for index has not changed afer increment
+if(lastIndex == (swModule->Key()).Index()) {
+    break;
+}
+//}while(swModule->Key() <= vk);
+}while(element && swModule->Key() <= vk);
+}
+
+return ret;
+}
+*/
+
 - (NSArray *)renderedTextForRef:(NSString *)reference {
-    NSMutableArray *ret = nil;
+    NSMutableArray *ret = [NSMutableArray array];
     
-    sword::VerseKey	vk;
+    // needed to check for UTF8 string
+    MSStringMgr *strMgr = new MSStringMgr();    
+
     const char *cref = [reference UTF8String];
-    sword::ListKey listkey = vk.ParseVerseList(cref, "Gen1", true);
-    int lastIndex;
-    ret = [NSMutableArray arrayWithCapacity:listkey.Count()];
-    // this is what get s stored in return array
-    MSStringMgr *strMgr = new MSStringMgr();
-    for(int i = 0; i < listkey.Count(); i++) {
-        sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
-        
-        // is it a chapter or book - not atomic
-        if(element) {
-            // start at lower bound
-            element->Headings(1);
-            swModule->Key(element->LowerBound());
-            
-            // find the upper bound
-            vk = element->UpperBound();
-            vk.Headings(true);
+    sword::VerseKey	vk;
+    sword::ListKey listkey = vk.ParseVerseList(cref, vk, true);
+    listkey.Persist(true);
+    swModule->setKey(listkey);
+    // iterate through keys
+    for ((*swModule) = TOP; !swModule->Error(); (*swModule)++) {
+        const char *keyCStr = swModule->getKeyText();
+        const char *txtCStr = swModule->RenderText();
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
+        NSString *key = [NSString stringWithUTF8String:keyCStr];
+        NSString *txt = @"";
+        if(strMgr->isUtf8(txtCStr)) {
+            txt = [NSString stringWithUTF8String:txtCStr];
         } else {
-            // set it up
-            swModule->Key(*listkey.GetElement(i));
+            txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
         }
-        
-        // while not past the upper bound
-        do {
-            const char *keyCStr = swModule->Key().getText();
-            const char *txtCStr = swModule->RenderText();
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
-            NSString *key = [NSString stringWithUTF8String:keyCStr];
-            NSString *txt = @"";
-            if(strMgr->isUtf8(txtCStr)) {
-                txt = [NSString stringWithUTF8String:txtCStr];
-            } else {
-                txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
-            }
-            // add to dict
-            [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
-            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-            // add to array
-            [ret addObject:dict];
-            
-            /*
-            // check for any entry attributes
-            AttributeTypeList::iterator i1;
-            AttributeList::iterator i2;
-            AttributeValue::iterator i3;
-            for (i1 = swModule->getEntryAttributes().begin(); i1 != swModule->getEntryAttributes().end(); i1++) {
-                MBLOGV(MBLOG_DEBUG, @"%@\n", [NSString stringWithUTF8String:i1->first]);
-                for (i2 = i1->second.begin(); i2 != i1->second.end(); i2++) {
-                    MBLOGV(MBLOG_DEBUG, @"\t%@\n", [NSString stringWithUTF8String:i2->first]);
-                    for (i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
-                        MBLOGV(MBLOG_DEBUG, @"\t\t%@ = %@\n", [NSString stringWithUTF8String:i3->first], [NSString stringWithUTF8String:i3->second]);
-                    }
-                }                    
-            }
-             */
-            
-            // get current index
-            lastIndex = (swModule->Key()).Index();
-            // increment index
-            (*swModule)++;
-            // check for index has not changed afer increment
-            if(lastIndex == (swModule->Key()).Index()) {
-                break;
-            }
-        }while(element && swModule->Key() <= vk);
+        // add to dict
+        [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+        [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+        // add to array
+        [ret addObject:dict];
     }
     
     return ret;

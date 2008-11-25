@@ -20,6 +20,7 @@
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[HostableViewController -init]");
         viewLoaded = NO;
+        isLoadingCopleteReported = NO;
     }
     
     return self;
@@ -39,9 +40,10 @@
 }
 
 - (void)reportLoadingComplete {
-    if(delegate) {
+    if(delegate && isLoadingCopleteReported == NO) {
         if([delegate respondsToSelector:@selector(contentViewInitFinished:)]) {
             [delegate performSelector:@selector(contentViewInitFinished:) withObject:self];
+            isLoadingCopleteReported = YES;
         } else {
             MBLOG(MBLOG_WARN, @"[HostableViewController -reportLoadingComplete] delegate does not respond to selector!");
         }
@@ -64,6 +66,10 @@
 
 - (void)adaptUIToHost {
     // does nothing here
+}
+
+- (NSString *)label {
+    return @"";
 }
 
 @end

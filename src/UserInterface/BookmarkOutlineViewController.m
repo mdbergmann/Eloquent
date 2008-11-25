@@ -16,9 +16,10 @@
 
 enum BookmarkMenu_Items{
     BookmarkMenuAddNewBM = 1,
+    BookmarkMenuEditBM,
+    BookmarkMenuRemoveBM,
     BookmarkMenuOpenBMInNew,
     BookmarkMenuOpenBMInCurrent,
-    BookmarkMenuRemoveBM
 };
 
 @interface BookmarkOutlineViewController ()
@@ -39,13 +40,16 @@ enum BookmarkMenu_Items{
         // set delegate
         self.delegate = aDelegate;
         
+        // get the default manager
+        self.manager = [BookmarkManager defaultManager];
+        
+        // init selection
+        selection = [[NSMutableArray alloc] init];
+
         // load nib
         BOOL stat = [NSBundle loadNibNamed:BOOKMARKOUTLINEVIEW_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[BookmarkOutlineViewController -init] unable to load nib!");
-        } else {
-            // get the default manager
-            self.manager = [BookmarkManager defaultManager];
         }            
     }
     
@@ -66,7 +70,7 @@ enum BookmarkMenu_Items{
 
 # pragma mark - Methods
 
-#pragma mark - Module menu
+#pragma mark - Module menu/actions
 
 //--------------------------------------------------------------------
 //----------- NSMenu validation --------------------------------
@@ -77,25 +81,27 @@ enum BookmarkMenu_Items{
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 	MBLOGV(MBLOG_DEBUG, @"[BookmarkOutlineViewController -validateMenuItem:] %@", [menuItem description]);
     
-    BOOL ret = YES; // all of the module stype should be able to show in a single view host
+    BOOL ret = YES;
     
     // get menuitem tag
     int tag = [menuItem tag];
     
     if(tag == BookmarkMenuAddNewBM) {
-        ret = NO;
+        ret = YES;
+    } else if(tag == BookmarkMenuRemoveBM) {
+        if([[bmTreeController selectedObjects] count] > 0) {
+            ret = YES;
+        }
+    } else if(tag == BookmarkMenuEditBM) {
+        if([[bmTreeController selectedObjects] count] > 0) {
+            ret = YES;
+        }
     } else if(tag == BookmarkMenuOpenBMInNew) {
         ;
     } else if(tag == BookmarkMenuOpenBMInCurrent) {
         // we can only open in current, if it is a commentary or bible view
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]] && 
            ([(SingleViewHostController *)hostingDelegate moduleType] == bible || [(SingleViewHostController *)hostingDelegate moduleType] == commentary)) {
-            ret = YES;
-        }
-    } else if(tag == BookmarkMenuRemoveBM) {
-        // get module
-        id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
-        if(clicked != nil) {
             ret = YES;
         }
     }
@@ -107,37 +113,106 @@ enum BookmarkMenu_Items{
 	MBLOGV(MBLOG_DEBUG, @"[BookmarkOutlineViewController -menuClicked:] %@", [sender description]);
     
     int tag = [sender tag];
-    
+    bookmarkAction = tag;
+        
     switch(tag) {
         case BookmarkMenuAddNewBM:
-            break;
-        case BookmarkMenuOpenBMInNew:
-            // do nothing
-            [self doubleClick];
-            break;
-        case BookmarkMenuOpenBMInCurrent:
         {
-            id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
-            
+            Bookmark *new = [[Bookmark alloc] init];
+            // set as content
+            [bmObjectController setContent:new];
+            // bring up bookmark panel
+            NSWindow *window = [(NSWindowController *)hostingDelegate window];
+            [NSApp beginSheet:bookmarkPanel
+               modalForWindow:window
+                modalDelegate:self
+               didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
+                  contextInfo:nil];
+            break;
+        }
+        case BookmarkMenuEditBM:
+        {
+            Bookmark *clickedObj = [[outlineView itemAtRow:[outlineView clickedRow]] representedObject];
+            // set as content
+            [bmObjectController setContent:clickedObj];
+            // bring up bookmark panel
+            NSWindow *window = [(NSWindowController *)hostingDelegate window];
+            [NSApp beginSheet:bookmarkPanel 
+               modalForWindow:window 
+                modalDelegate:self 
+               didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
+                  contextInfo:nil];
+            break;
+        }
+        case BookmarkMenuRemoveBM:
+        {
+            NSArray *indexes = [bmTreeController selectionIndexPaths];
+            [bmTreeController removeObjectsAtArrangedObjectIndexPaths:indexes];
+            [manager saveBookmarks];
+            break;
+        }
+        case BookmarkMenuOpenBMInNew:
+        {
+            Bookmark *clickedObj = [[outlineView itemAtRow:[outlineView clickedRow]] representedObject];
+            // open new window
+            SingleViewHostController *newC = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
+            [newC setSearchText:[clickedObj reference]];
         }
             break;
-        case BookmarkMenuRemoveBM:
+        case BookmarkMenuOpenBMInCurrent:
+            [self doubleClick];
             break;
     }    
+}
+
+- (IBAction)bmWindowCancel:(id)sender {
+    [NSApp endSheet:bookmarkPanel];
+}
+
+- (IBAction)bmWindowOk:(id)sender {
+    [NSApp endSheet:bookmarkPanel];
+    
+    // get bookmark
+    Bookmark *bm = [bmObjectController content];
+    if(bookmarkAction == BookmarkMenuAddNewBM) {
+        if([[bmTreeController selectedObjects] count] > 0) {
+            Bookmark *selected = [[bmTreeController selectedObjects] objectAtIndex:0];
+            if(selected == nil) {
+                // we add to root
+                [[manager bookmarks] addObject:bm];
+            } else {
+                NSIndexPath *ip = [bmTreeController selectionIndexPath];
+                //if([selected isLeaf]) {
+                //    [bmTreeController insertObject:bm atArrangedObjectIndexPath:ip];                    
+                //} else {
+                    [bmTreeController insertObject:bm atArrangedObjectIndexPath:[ip indexPathByAddingIndex:0]];
+                //}
+            }
+        }
+    }
+    
+    // save
+    [manager saveBookmarks];
+    
+    // reload outline view
+    [outlineView reloadData];
+}
+
+// end sheet callback
+- (void)sheetDidEnd:(NSWindow *)sSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	// hide sheet
+	[sSheet orderOut:nil];
 }
 
 #pragma mark - outline delegate methods
 
 - (void)doubleClick {
     // get clicked row
-    int clickedRow = [outlineView clickedRow];
-    
+    int clickedRow = [outlineView clickedRow];    
     Bookmark *clickedObj = [outlineView itemAtRow:clickedRow];
     // check for type of host
     if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-        // default action on this is open another single view host with this module
-        SingleViewHostController *newC = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
-        [newC setSearchText:[clickedObj reference]];
+        [(SingleViewHostController *)hostingDelegate setSearchText:[clickedObj reference]];
     }
 }
 
@@ -148,45 +223,36 @@ enum BookmarkMenu_Items{
  \brief Notification is called when the selection has changed 
  */
 /*
- - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
- MBLOG(MBLOG_DEBUG,@"[ModuleOutlineViewController outlineViewSelectionDidChange:]");
- 
- if(notification != nil) {
- NSOutlineView *oview = [notification object];
- if(oview != nil) {
- 
- NSIndexSet *selectedRows = [oview selectedRowIndexes];
- int len = [selectedRows count];
- NSMutableArray *selection = [NSMutableArray arrayWithCapacity:len];
- NSDictionary *item = nil;
- if(len > 0) {
- unsigned int indexes[len];
- [selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
- 
- for(int i = 0;i < len;i++) {
- item = [oview itemAtRow:indexes[i]];
- 
- // add to array
- [selection addObject:item];
- }
- 
- // set install source menu
- //[oview setMenu:installSourceMenu];
- }
- 
- // update modules
- NSArray *selected = [NSArray arrayWithArray:selection];
- [self setSelectedInstallSources:selected];
- [modListViewController setInstallSources:selected];
- [modListViewController refreshModulesList];
- } else {
- MBLOG(MBLOG_WARN,@"[ModuleOutlineViewController outlineViewSelectionDidChange:] have a nil notification object!");
- }
- } else {
- MBLOG(MBLOG_WARN,@"[ModuleOutlineViewController outlineViewSelectionDidChange:] have a nil notification!");
- }
- }
- */
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+    MBLOG(MBLOG_DEBUG,@"[ModuleOutlineViewController outlineViewSelectionDidChange:]");
+    
+    if(notification != nil) {
+        NSOutlineView *oview = [notification object];
+        if(oview != nil) {
+            
+            [selection removeAllObjects];
+            
+            NSIndexSet *selectedRows = [oview selectedRowIndexes];
+            int len = [selectedRows count];
+            NSDictionary *item = nil;
+            if(len > 0) {
+                unsigned int indexes[len];
+                [selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
+                
+                for(int i = 0;i < len;i++) {
+                    item = [oview itemAtRow:indexes[i]];
+                    
+                    // add to array
+                    [selection addObject:item];
+                }
+            }
+        } else {
+            MBLOG(MBLOG_WARN,@"[ModuleOutlineViewController outlineViewSelectionDidChange:] have a nil notification object!");
+        }
+    } else {
+        MBLOG(MBLOG_WARN,@"[ModuleOutlineViewController outlineViewSelectionDidChange:] have a nil notification!");
+    }
+}
 
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
     
@@ -198,13 +264,12 @@ enum BookmarkMenu_Items{
 	[aOutlineView setRowHeight:pointSize+6];
 }
 
-
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     int count = 0;
 	
 	if(item == nil) {
         // bookmarks
-        count = [[[BookmarkManager defaultManager] bookmarks] count];
+        count = [[manager bookmarks] count];
     } else if([item isKindOfClass:[Bookmark class]]) {
         // bookmarks subgroups
         Bookmark *bitem = item;
@@ -222,7 +287,7 @@ enum BookmarkMenu_Items{
     
     if(item == nil) {
         // bookmarks
-        ret = [[[BookmarkManager defaultManager] bookmarks] objectAtIndex:index];
+        ret = [[manager bookmarks] objectAtIndex:index];
     } else if([item isKindOfClass:[Bookmark class]]) {
         // subgroup bookmarks
         ret = [[(Bookmark *)item subGroups] objectAtIndex:index];
@@ -265,9 +330,22 @@ enum BookmarkMenu_Items{
     
     return NO;
 }
-
+ 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
     return NO;
 }
+*/
 
+ - (NSString *)outlineView:(NSOutlineView *)ov toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
+     
+     if(item != nil) {
+         Bookmark *bitem = [item representedObject];
+         if([bitem isLeaf]) {
+             return [bitem reference];
+         }
+     }
+
+     return @"";
+}
+ 
 @end

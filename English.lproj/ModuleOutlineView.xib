@@ -9,6 +9,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="1" id="9"/>
+			<integer value="23"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -170,6 +171,7 @@
 						<string key="NSFrameSize">{354, 469}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSNextKeyView" ref="632935624"/>
+						<bool key="NSViewIsLayerTreeHost">YES</bool>
 						<object class="NSDictionary" key="NSViewAnimations">
 							<string key="NS.key.0">subviews</string>
 							<object class="CATransition" key="NS.object.0">
@@ -234,7 +236,8 @@
 					<object class="NSMenuItem" id="750345421">
 						<reference key="NSMenu" ref="317870271"/>
 						<string key="NSTitle">Open module in new single window</string>
-						<string key="NSKeyEquiv"/>
+						<string key="NSKeyEquiv">S</string>
+						<int key="NSKeyEquivModMask">262144</int>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<object class="NSCustomResource" key="NSOnImage" id="135326815">
 							<string key="NSClassName">NSImage</string>
@@ -248,8 +251,9 @@
 					</object>
 					<object class="NSMenuItem" id="548455001">
 						<reference key="NSMenu" ref="317870271"/>
-						<string key="NSTitle">Open module in new workspace</string>
-						<string key="NSKeyEquiv"/>
+						<string key="NSTitle">Open module in workspace</string>
+						<string key="NSKeyEquiv">W</string>
+						<int key="NSKeyEquivModMask">262144</int>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="135326815"/>
 						<reference key="NSMixedImage" ref="1001144547"/>
@@ -257,8 +261,9 @@
 					</object>
 					<object class="NSMenuItem" id="90357728">
 						<reference key="NSMenu" ref="317870271"/>
-						<string key="NSTitle">Open module in current window</string>
-						<string key="NSKeyEquiv"/>
+						<string key="NSTitle">Open module in current view</string>
+						<string key="NSKeyEquiv">V</string>
+						<int key="NSKeyEquivModMask">262144</int>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="135326815"/>
 						<reference key="NSMixedImage" ref="1001144547"/>
@@ -502,7 +507,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilderKit</string>
-					<string>{{264, 118}, {354, 469}}</string>
+					<string>{{676, 417}, {354, 469}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{217, 442}, {480, 272}}</string>
@@ -512,7 +517,7 @@
 					<reference ref="289770912"/>
 					<reference ref="8"/>
 					<reference ref="8"/>
-					<string>{{569, 231}, {297, 63}}</string>
+					<string>{{163, 455}, {336, 63}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="395"/>
+			<integer value="81"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -203,7 +203,8 @@
 											<object class="NSMenuItem" id="829483814">
 												<reference key="NSMenu" ref="201521186"/>
 												<string key="NSTitle">Bible host</string>
-												<string key="NSKeyEquiv"/>
+												<string key="NSKeyEquiv">N</string>
+												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="780798457"/>
 												<reference key="NSMixedImage" ref="1039508180"/>
@@ -211,7 +212,8 @@
 											<object class="NSMenuItem" id="261823869">
 												<reference key="NSMenu" ref="201521186"/>
 												<string key="NSTitle">Commentary host</string>
-												<string key="NSKeyEquiv"/>
+												<string key="NSKeyEquiv">C</string>
+												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="780798457"/>
 												<reference key="NSMixedImage" ref="1039508180"/>
@@ -219,7 +221,8 @@
 											<object class="NSMenuItem" id="553895897">
 												<reference key="NSMenu" ref="201521186"/>
 												<string key="NSTitle">Dictionary host</string>
-												<string key="NSKeyEquiv"/>
+												<string key="NSKeyEquiv">D</string>
+												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="780798457"/>
 												<reference key="NSMixedImage" ref="1039508180"/>
@@ -227,13 +230,23 @@
 											<object class="NSMenuItem" id="141591776">
 												<reference key="NSMenu" ref="201521186"/>
 												<string key="NSTitle">GenBook host</string>
-												<string key="NSKeyEquiv"/>
+												<string key="NSKeyEquiv">G</string>
+												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="780798457"/>
 												<reference key="NSMixedImage" ref="1039508180"/>
 											</object>
 										</object>
 									</object>
+								</object>
+								<object class="NSMenuItem" id="474242654">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">New Workspace</string>
+									<string key="NSKeyEquiv">W</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="780798457"/>
+									<reference key="NSMixedImage" ref="1039508180"/>
 								</object>
 								<object class="NSMenuItem" id="425164168">
 									<reference key="NSMenu" ref="720053764"/>
@@ -1123,6 +1136,14 @@
 					</object>
 					<int key="connectionID">406</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openNewWorkspaceHostWindow:</string>
+						<reference key="source" ref="528392195"/>
+						<reference key="destination" ref="474242654"/>
+					</object>
+					<int key="connectionID">408</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1229,6 +1250,7 @@
 							<reference ref="579971712"/>
 							<reference ref="1010469920"/>
 							<reference ref="886149549"/>
+							<reference ref="474242654"/>
 						</object>
 						<reference key="parent" ref="379814623"/>
 					</object>
@@ -1754,6 +1776,11 @@
 						<reference key="object" ref="141591776"/>
 						<reference key="parent" ref="201521186"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">407</int>
+						<reference key="object" ref="474242654"/>
+						<reference key="parent" ref="720053764"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1909,6 +1936,7 @@
 					<string>401.IBPluginDependency</string>
 					<string>402.IBPluginDependency</string>
 					<string>405.IBPluginDependency</string>
+					<string>407.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.ImportedFromIB2</string>
 					<string>56.IBPluginDependency</string>
@@ -2049,7 +2077,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{352, 905}, {197, 73}}</string>
-					<string>{{26, 436}, {438, 20}}</string>
+					<string>{{60, 288}, {438, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{74, 862}</string>
@@ -2086,7 +2114,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{329, 353}, {176, 83}}</string>
+					<string>{{329, 353}, {214, 83}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2117,7 +2146,7 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{130, 273}, {199, 163}}</string>
+					<string>{{164, 105}, {201, 183}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{150, 775}, {199, 203}}</string>
@@ -2147,7 +2176,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">406</int>
+			<int key="maxID">408</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2163,12 +2192,14 @@
 							<string>openNewSingleCommentaryHostWindow:</string>
 							<string>openNewSingleDictionaryHostWindow:</string>
 							<string>openNewSingleGenBookHostWindow:</string>
+							<string>openNewWorkspaceHostWindow:</string>
 							<string>showAboutWindow:</string>
 							<string>showModuleManager:</string>
 							<string>showPreferenceSheet:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

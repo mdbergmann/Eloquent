@@ -292,6 +292,16 @@
     }
 }
 
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"DictView";
+}
+
+#pragma mark - SubviewHosting
+
 - (void)removeSubview:(HostableViewController *)aViewController {
     // does nothing
 }

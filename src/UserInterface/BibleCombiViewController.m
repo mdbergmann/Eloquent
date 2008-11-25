@@ -136,6 +136,10 @@
 
 #pragma mark - methods
 
+- (NSString *)label {
+    return @"BibleView";
+}
+
 /**
  Creates a new parallel bible view and presets the given bible module.
  If nil is given, the first module found is taken.
@@ -434,7 +438,8 @@
                     loaded = NO;
                 }
             }
-        }        
+        }
+        
         if(loaded) {
             // report to super controller
             [self reportLoadingComplete];

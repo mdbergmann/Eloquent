@@ -56,6 +56,14 @@
     
 }
 
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"ModuleView";
+}
+
 #pragma mark - mouse tracking protocol
 
 - (void)mouseEntered:(NSView *)theView {

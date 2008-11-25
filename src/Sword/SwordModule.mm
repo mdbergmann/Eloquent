@@ -227,9 +227,9 @@
     
     [moduleLock lock];
     if([self isUnicode]) {
-        swModule->setKey(toUTF8(reference));
+        swModule->setKey([reference UTF8String]);
     } else {
-        swModule->setKey(toLatin1(reference));
+        swModule->setKey([reference cStringUsingEncoding:NSISOLatin1StringEncoding]);
     }
     char *bytes = (char *)swModule->StripText();
     [moduleLock unlock];
@@ -249,9 +249,9 @@
     
     [moduleLock lock];
     if([self isUnicode]) {
-        swModule->setKey(toUTF8(reference));
+        swModule->setKey([reference UTF8String]);
     } else {
-        swModule->setKey(toLatin1(reference));
+        swModule->setKey([reference cStringUsingEncoding:NSISOLatin1StringEncoding]);
     }
     char *bytes = (char *)swModule->RenderText();
     [moduleLock unlock];

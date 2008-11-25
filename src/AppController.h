@@ -11,6 +11,7 @@
 #import <ModuleManager.h>
 
 @class SingleViewHostController;
+@class WorkspaceViewHostController;
 
 typedef enum AppErrorCodes {
     INIT_SUCCESS = 0,
@@ -33,6 +34,7 @@ typedef enum AppErrorCodes {
 
 /** opens a new single host window for the given module */
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod;
+- (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod;
 
 // NSApplication delegate methods
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames;
@@ -41,6 +43,7 @@ typedef enum AppErrorCodes {
 - (IBAction)openNewSingleCommentaryHostWindow:(id)sender;
 - (IBAction)openNewSingleDictionaryHostWindow:(id)sender;
 - (IBAction)openNewSingleGenBookHostWindow:(id)sender;
+- (IBAction)openNewWorkspaceHostWindow:(id)sender;
 - (IBAction)showPreferenceSheet:(id)sender;
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showModuleManager:(id)sender;

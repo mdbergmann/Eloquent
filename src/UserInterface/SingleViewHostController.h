@@ -8,58 +8,30 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <WindowHostController.h>
 #import <Indexer.h>
 #import <SwordModule.h>
+#import <ProtocolHelper.h>
 
 #define SINGLEVIEWHOST_NIBNAME   @"SingleViewHost"
 
 @class HostableViewController;
 @class LeftSideBarViewController;
 @class SwordModule;
+@class SearchTextObject;
 
-@interface SingleViewHostController : NSWindowController <NSCoding> {
+@interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
     
-    // splitView to add and remove modules view. splitview hosts placeHolderView
-    IBOutlet NSSplitView *splitView;
-    // default View
-    IBOutlet NSView *defaultView;    
-    // placeholder for the main content view
-    IBOutlet NSBox *placeHolderView;
     // the main view for placeHolderView
     HostableViewController *viewController;
-
-    // placeholder for the search options
-    IBOutlet NSBox *placeHolderSearchOptionsView;
-    
-    // our delegate
-    id delegate;
-    
+        
     // the type of view
     ModuleType moduleType;
     
     // every host has a side bar view
     LeftSideBarViewController *lsbViewController;
-    BOOL showingLSB;
-    
-    NSSearchField *searchTextField;
-    NSView *searchOptionsView;
-    BOOL showingOptions;
-    
-	// we need a dictionary for all our toolbar identifiers
-	NSMutableDictionary *tbIdentifiers;
-    
-    // the popup button
-    NSPopUpButton *searchTypePopup;
-    // selected search type
-    SearchType searchType;
-    // texts for search type
-    NSMutableDictionary *searchTextsForTypes;
-    // recent search arrays for search type
-    NSMutableDictionary *recentSearchesForTypes;
+    BOOL showingLSB;    
 }
-
-@property (readwrite) id delegate;
-@property (readwrite) ModuleType moduleType;
 
 // initializers
 - (id)initForViewType:(ModuleType)aType;
@@ -69,10 +41,13 @@
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
 - (HostableViewController *)contentViewController;
-- (void)setSearchText:(NSString *)aString;
 
-// method called by subview
+// WindowHosting
+- (ModuleType)moduleType;
+
+// SubviewHosting
 - (void)contentViewInitFinished:(HostableViewController *)aView;
+- (void)removeSubview:(HostableViewController *)aViewController;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

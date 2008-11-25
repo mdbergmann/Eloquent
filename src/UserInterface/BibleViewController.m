@@ -292,6 +292,14 @@
     return ret;
 }
 
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"BibleView";
+}
+
 #pragma mark - protocol implementations
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
@@ -304,7 +312,7 @@
         aReference = self.reference;
     }
     
-    if(aReference != nil) {
+    if(aReference != nil && [aReference length] > 0) {
         self.reference = aReference;
         
         if(self.module != nil) {

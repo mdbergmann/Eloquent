@@ -8,6 +8,7 @@
 #import "AppController.h"
 #import "MBPreferenceController.h"
 #import "SingleViewHostController.h"
+#import "WorkspaceViewHostController.h"
 #import "SwordManager.h"
 #import "SwordInstallSourceController.h"
 #import "SwordInstallSource.h"
@@ -279,6 +280,33 @@ static AppController *singleton;
     return svh;
 }
 
+- (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod {
+    // if module is nil, we open with default bible module
+    if(mod == nil) {
+        // get default bible
+        NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
+        if(sBible == nil) {
+            NSAlert *alert = [NSAlert alertWithMessageText:@"No default bible set" 
+                                             defaultButton:@"Ok" 
+                                           alternateButton:nil 
+                                               otherButton:nil 
+                                 informativeTextWithFormat:@"Please set your prefered default bible to be used!"];
+            [alert runModal];
+        } else {
+            mod = [[SwordManager defaultManager] moduleWithName:sBible];
+        }
+    }
+    
+    // open a default view
+    WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
+    [svh addTabContentForModule:mod];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    [svh showWindow:self];    
+    
+    return svh;    
+}
+
 //-------------------------------------------------------------------
 // NSApplication delegate method
 //-------------------------------------------------------------------
@@ -321,6 +349,13 @@ static AppController *singleton;
     [windowHosts addObject:svh];
     svh.delegate = self;
     [svh showWindow:self];    
+}
+
+- (IBAction)openNewWorkspaceHostWindow:(id)sender {
+    WorkspaceViewHostController *wvh = [[WorkspaceViewHostController alloc] init];
+    [windowHosts addObject:wvh];
+    [wvh setDelegate:self];
+    [wvh showWindow:self];
 }
 
 - (IBAction)showPreferenceSheet:(id)sender {
@@ -382,8 +417,8 @@ static AppController *singleton;
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
         for(NSWindowController *wc in windowHosts) {
-            if([wc isKindOfClass:[SingleViewHostController class]]) {
-                [(SingleViewHostController *)wc setDelegate:self];
+            if([wc isKindOfClass:[WindowHostController class]]) {
+                [(WindowHostController *)wc setDelegate:self];
             }
         }
     }
@@ -403,8 +438,8 @@ static AppController *singleton;
 	if(self != nil) {
         // show svh
         for(id entry in windowHosts) {
-            if([entry isKindOfClass:[SingleViewHostController class]]) {
-                [(SingleViewHostController *)entry showWindow:self];
+            if([entry isKindOfClass:[WindowHostController class]]) {
+                [(WindowHostController *)entry showWindow:self];
             }
         }
 	}
@@ -414,7 +449,7 @@ static AppController *singleton;
     //[book testLoop];
     
     // start background indexer
-    [[IndexingManager sharedManager] triggerBackgroundIndexCheck];
+    //[[IndexingManager sharedManager] triggerBackgroundIndexCheck];
 }
 
 /**

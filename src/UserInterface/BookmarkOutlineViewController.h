@@ -17,9 +17,20 @@
 @interface BookmarkOutlineViewController : HostableViewController {
     IBOutlet NSOutlineView *outlineView;
     IBOutlet NSMenu *bookmarkMenu;
+    IBOutlet NSPanel *bookmarkPanel;
+    
+    /** the bookmark binding interface controller */
+    IBOutlet NSTreeController *bmTreeController;
+    IBOutlet NSObjectController *bmObjectController;
+    
+    /** the action in sheet */
+    int bookmarkAction;
+    
+    /** bookmark selection */
+    NSMutableArray *selection;
     
     // the BookmarkManager instance
-    BookmarkManager *manager;    
+    BookmarkManager *manager;
 }
 
 @property (readwrite) BookmarkManager *manager;
@@ -36,4 +47,8 @@
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (IBAction)bookmarkMenuClicked:(id)sender;
+
+- (IBAction)bmWindowCancel:(id)sender;
+- (IBAction)bmWindowOk:(id)sender;
+
 @end
