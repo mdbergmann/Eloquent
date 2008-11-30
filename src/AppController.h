@@ -27,6 +27,8 @@ typedef enum AppErrorCodes {
 	MBPreferenceController *preferenceController;
     ModuleManager *moduleManager;
     
+    BOOL isModuleManagerShowing;
+    
     NSMutableArray *windowHosts;
 }
 

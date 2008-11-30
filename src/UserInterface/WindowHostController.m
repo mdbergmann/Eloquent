@@ -7,7 +7,9 @@
 //
 
 #import "WindowHostController.h"
+#import "AppController.h"
 #import "SearchTextObject.h"
+#import "SwordManager.h"
 
 @implementation WindowHostController
 
@@ -21,8 +23,9 @@
     self = [super init];
     if(self) {
         // enable global options for testing
-        //[[SwordManager defaultManager] setGlobalOption:SW_OPTION_STRONGS value:SW_ON];
-        //[[SwordManager defaultManager] setGlobalOption:SW_OPTION_SCRIPTREFS value:SW_ON];
+        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_STRONGS value:SW_ON];
+        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_SCRIPTREFS value:SW_ON];
+        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_FOOTNOTES value:SW_ON];
         
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         
@@ -55,6 +58,7 @@
     [item setAction:@selector(toggleModulesTB:)];
     [tbIdentifiers setObject:item forKey:TB_TOGGLE_MODULES_ITEM];
     
+    /*
     if([self moduleType] == bible) {
         // add bibleview
         item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADD_BIBLE_ITEM];
@@ -67,6 +71,7 @@
         [item setAction:@selector(addBibleTB:)];
         [tbIdentifiers setObject:item forKey:TB_ADD_BIBLE_ITEM];
     }
+     */
     
     /*
      // search type
@@ -167,6 +172,17 @@
     [item setMaxSize:NSMakeSize(350, NSHeight([searchTextField frame]))];
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TEXT_ITEM];
     
+    // module installer item
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_MODULEINSTALLER_ITEM];
+    [item setLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
+    [item setPaletteLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
+    [item setToolTip:NSLocalizedString(@"ModuleInstallerToolTip", @"")];
+    image = [NSImage imageNamed:@"ModuleManager.png"];
+    [item setImage:image];
+    [item setTarget:[AppController defaultAppController]];
+    [item setAction:@selector(showModuleManager:)];
+    [tbIdentifiers setObject:item forKey:TB_MODULEINSTALLER_ITEM];
+    
     // add std items
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarFlexibleSpaceItemIdentifier];
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSpaceItemIdentifier];
@@ -219,11 +235,11 @@
  */
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
-                                 TB_ADD_BIBLE_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
                                  TB_SEARCH_TYPE_ITEM,
                                  TB_SEARCH_TEXT_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
+                                 TB_MODULEINSTALLER_ITEM,
                                  nil];
 	
 	return defaultItemArray;

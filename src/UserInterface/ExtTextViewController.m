@@ -48,11 +48,12 @@
     
     // set delegate for mouse tracking
     scrollView.delegate = self;
+    
     // register for frame changed notifications of mouse tracking scrollview
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollViewFrameDidChange:)
                                                  name:NSViewFrameDidChangeNotification
-                                               object:scrollView];    
+                                               object:scrollView];
     // tell scrollview to post bounds notifications
     [scrollView setPostsFrameChangedNotifications:YES];    
     // enable mouse tracking
@@ -181,6 +182,24 @@
     NSLayoutManager *layoutManager = [textView layoutManager];
     NSRect rect = [layoutManager lineFragmentRectForGlyphAtIndex:range.location effectiveRange:nil];
     return rect;
+}
+
+#pragma mark - NSTextView delegates
+
+- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
+    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:willDisplayToolTip:]");
+    
+    return tooltip;
+}
+
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:]");
+    
+    // this is NSURL
+    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] classname: %@", [link className]);    
+    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] link: %@", [link description]);
+    
+    return YES;
 }
 
 #pragma mark - mouse tracking protocol

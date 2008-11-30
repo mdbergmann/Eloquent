@@ -75,16 +75,13 @@
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
             searchType = ReferenceSearchType;
         } else if(moduleType == commentary) {
-            viewController = [[CommentaryViewController alloc] initWithDelegate:self];
-            [(CommentaryViewController *)viewController setModule:aModule];
+            viewController = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
             searchType = ReferenceSearchType;
         } else if(moduleType == dictionary) {
-            viewController = [[DictionaryViewController alloc] initWithDelegate:self];
-            [(DictionaryViewController *)viewController setModule:aModule];
+            viewController = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
             searchType = ReferenceSearchType;
         } else if(moduleType == genbook) {
-            viewController = [[GenBookViewController alloc] initWithDelegate:self];
-            [(GenBookViewController *)viewController setModule:aModule];
+            viewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
             searchType = ReferenceSearchType;
         }
         

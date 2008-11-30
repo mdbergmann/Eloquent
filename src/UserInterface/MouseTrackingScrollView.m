@@ -54,8 +54,8 @@
 	}
     [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds] 
                                                         options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow) 
-                                                                 owner:self 
-                                                                 userInfo:nil] autorelease]];
+                                                          owner:self 
+                                                       userInfo:nil] autorelease]];
 }
 
 @end

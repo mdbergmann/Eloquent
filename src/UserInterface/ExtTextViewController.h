@@ -46,4 +46,8 @@
 - (void)mouseEntered:(NSView *)theView;
 - (void)mouseExited:(NSView *)theView;
 
+// delegate methods
+- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex;
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex;
+
 @end

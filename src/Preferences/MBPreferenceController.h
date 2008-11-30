@@ -17,6 +17,7 @@
 #define DefaultsBibleTextDisplayFontSizeKey     @"DefaultsBibleTextDisplayFontSizeKey"
 #define DefaultsHeaderViewFontFamilyKey         @"DefaultsHeaderViewFontFamilyKey"
 #define DefaultsHeaderViewFontSizeKey           @"DefaultsHeaderViewFontSizeKey"
+#define DefaultsHeaderViewFontSizeBigKey        @"DefaultsHeaderViewFontSizeBigKey"
 
 // define some userdefaults keys
 #define DEFAULTS_SWMODULE_PATH_KEY      @"SwordModulePath"

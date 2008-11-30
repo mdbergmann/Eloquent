@@ -20,6 +20,8 @@
 @interface BibleViewController : ModuleViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking> {
     // close button
     IBOutlet NSButton *closeBtn;
+    // add button
+    IBOutlet NSButton *addBtn;
     // module popup button
     IBOutlet NSPopUpButton *modulePopBtn;
     // status line
@@ -69,5 +71,6 @@
 
 // actions
 - (IBAction)closeButton:(id)sender;
+- (IBAction)addButton:(id)sender;
 
 @end

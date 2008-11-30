@@ -85,6 +85,7 @@ NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsBibleTextDisplayFontSizeKey];
 	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
     
     // set default bible
     [defaultsDict setObject:@"GerSch" forKey:DefaultsBibleModule];
@@ -211,6 +212,9 @@ static AppController *singleton;
         if(!success) {
             MBLOG(MBLOG_ERR, @"[AppController -init] could not initialize AppSupport!");
         } else {
+            
+            isModuleManagerShowing = NO;
+            
             // set singleton
             singleton = self;
             
@@ -388,7 +392,13 @@ static AppController *singleton;
     }
     
     // show window
-    [moduleManager showWindow:self];
+    if(!isModuleManagerShowing) {
+        [moduleManager showWindow:self];
+        isModuleManagerShowing = YES;
+    } else {
+        [moduleManager close];    
+        isModuleManagerShowing = NO;
+    }
 }
 
 #pragma mark - host window delegate methods

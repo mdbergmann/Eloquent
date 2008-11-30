@@ -173,14 +173,11 @@
         if(moduleType == bible) {
             vc = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
         } else if(moduleType == commentary) {
-            vc = [[CommentaryViewController alloc] initWithDelegate:self];
-            [(CommentaryViewController *)vc setModule:aModule];
+            vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
         } else if(moduleType == dictionary) {
-            vc = [[DictionaryViewController alloc] initWithDelegate:self];
-            [(DictionaryViewController *)vc setModule:aModule];
+            vc = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
         } else if(moduleType == genbook) {
-            vc = [[GenBookViewController alloc] initWithDelegate:self];
-            [(GenBookViewController *)vc setModule:aModule];
+            vc = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
         }
         
         // add view controller

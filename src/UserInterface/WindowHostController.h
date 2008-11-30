@@ -12,6 +12,7 @@
 
 // toolbar identifiers
 #define TB_ADD_BIBLE_ITEM       @"IdAddBible"
+#define TB_MODULEINSTALLER_ITEM @"IdModuleInstaller"
 #define TB_TOGGLE_MODULES_ITEM  @"IdToggleModules"
 #define TB_SEARCH_TYPE_ITEM     @"IdSearchType"
 #define TB_SEARCH_TEXT_ITEM     @"IdSearchText"

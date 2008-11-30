@@ -8,6 +8,7 @@
 
 #import "CommentaryViewController.h"
 #import "SingleViewHostController.h"
+#import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
 #import "ExtTextViewController.h"
 #import "globals.h"
@@ -46,7 +47,7 @@
         BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[CommentaryViewController -init] unable to load nib!");
-        }        
+        }
     } else {
         MBLOG(MBLOG_ERR, @"[CommentaryViewController -init] unable init!");
     }
@@ -58,16 +59,14 @@
     MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -awakeFromNib]");
     
     [super awakeFromNib];
-    
-    // check which delegate we have and en/disable the close button
-    [self adaptUIToHost];
 }
 
 #pragma mark - methods
 
 - (void)adaptUIToHost {
     if(delegate) {
-        if([delegate isKindOfClass:[SingleViewHostController class]]) {
+        if([delegate isKindOfClass:[SingleViewHostController class]] || 
+            [delegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [closeBtn setEnabled:NO];
             [closeBtn setHidden:YES];
         } else if([delegate isKindOfClass:[BibleCombiViewController class]]) {

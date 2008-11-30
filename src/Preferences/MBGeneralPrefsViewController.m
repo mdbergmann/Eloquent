@@ -39,8 +39,6 @@
 	MBLOG(MBLOG_DEBUG,@"awakeFromNib of MBGeneralPrefsViewController");
 	
 	if(self != nil) {
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		
 		// init the viewRect
 		viewFrame = [[self view] frame];
 	}

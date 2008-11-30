@@ -404,16 +404,23 @@
     }
 }
 
-- (void)removeSubview:(HostableViewController *)aViewController {
-    // does nothing
-}
-
 #pragma mark - actions
 
 - (IBAction)closeButton:(id)sender {
     // send close view to super view
     [self removeFromSuperview];
 }
+
+- (IBAction)addButton:(id)sender {
+    // call delegate and tell to add a new bible view
+    if(delegate) {
+        if([delegate respondsToSelector:@selector(addNewBibleViewWithModule:)]) {
+            [delegate performSelector:@selector(addNewBibleViewWithModule:) withObject:nil];
+        }
+    }
+}
+
+#pragma mark - SubviewHosting
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -contentViewInitFinished:]");
@@ -428,8 +435,10 @@
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];
     }
-    
-    [self adaptUIToHost];
+}
+
+- (void)removeSubview:(HostableViewController *)aViewController {
+    // does nothing
 }
 
 #pragma mark - mouse tracking protocol

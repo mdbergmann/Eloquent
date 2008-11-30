@@ -158,6 +158,11 @@
     // add to array
     [parBibleViewControllers addObject:bvc];
     [self tileSubViews];
+    
+    // tell views to adapt any UI components
+    for(HostableViewController *hc in parBibleViewControllers) {
+        [hc adaptUIToHost];
+    }
 }
 
 /**
@@ -180,6 +185,11 @@
     // if this is the first entry, we need to add the parallel misc view itself
     if([parMiscViewControllers count] == 1) {
         [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
+    }
+
+    // tell views to adapt any UI components
+    for(HostableViewController *hc in parMiscViewControllers) {
+        [hc adaptUIToHost];
     }
 }
 
@@ -463,6 +473,14 @@
         [parBibleViewControllers removeObject:aViewController];
         [self tileSubViews];
     }
+    
+    // loop and tell controller to adapt UI
+    for(HostableViewController *hc in parBibleViewControllers) {
+        [hc adaptUIToHost];
+    }
+    for(HostableViewController *hc in parMiscViewControllers) {
+        [hc adaptUIToHost];
+    }    
 }
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
