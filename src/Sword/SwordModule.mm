@@ -212,6 +212,84 @@
     return locked;
 }
 
+- (id)attributeValueForEntryData:(NSDictionary *)data {
+
+    id ret = nil;
+    
+    // first set module to key
+    [moduleLock lock];
+    NSString *passage = [data objectForKey:ATTRTYPE_PASSAGE];
+    if(passage) {
+        passage = [[passage stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    } 
+    NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+    if([attrType isEqualToString:@"n"]) {
+        if([self isUnicode]) {
+            swModule->setKey([passage UTF8String]);
+        } else {
+            swModule->setKey([passage cStringUsingEncoding:NSISOLatin1StringEncoding]);
+        }
+        swModule->RenderText(); // force processing of key
+        
+        sword::SWBuf footnoteText = swModule->getEntryAttributes()["Footnote"][[[data objectForKey:ATTRTYPE_VALUE] UTF8String]]["body"].c_str();
+        // convert from base markup to display markup
+        char *fText = (char *)swModule->StripText(footnoteText);
+        ret = [NSString stringWithUTF8String:fText];
+    } else if([attrType isEqualToString:@"x"]) {
+        if([self isUnicode]) {
+            swModule->setKey([passage UTF8String]);
+        } else {
+            swModule->setKey([passage cStringUsingEncoding:NSISOLatin1StringEncoding]);
+        }
+        swModule->RenderText(); // force processing of key
+        
+        sword::SWBuf refList = swModule->getEntryAttributes()["Footnote"][[[data objectForKey:ATTRTYPE_VALUE] UTF8String]]["refList"];
+        sword::VerseKey parser([passage UTF8String]);
+        sword::ListKey refs = parser.ParseVerseList(refList, parser, true);
+        
+        ret = [NSMutableArray array];
+        // collect references
+        for(refs = sword::TOP; !refs.Error(); refs++) {
+            swModule->setKey(refs);
+            
+            NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
+            NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
+            
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
+            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+            [ret addObject:dict];            
+        }
+    } else if([attrType isEqualToString:@"scriptRef"] || [attrType isEqualToString:@"scripRef"]) {
+        NSString *key = [[[data objectForKey:ATTRTYPE_VALUE] stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        sword::VerseKey parser("gen.1.1");
+        sword::ListKey refs = parser.ParseVerseList([key UTF8String], parser, true);
+        
+        ret = [NSMutableArray array];
+        // collect references
+        for(refs = sword::TOP; !refs.Error(); refs++) {
+            swModule->setKey(refs);
+            
+            NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
+            NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
+            
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
+            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+            [ret addObject:dict];            
+        }
+    } else if([attrType isEqualToString:@"Greek"] || [attrType isEqualToString:@"Hebrew"]) {
+        NSString *key = [data objectForKey:ATTRTYPE_VALUE];        
+        swModule->setKey([key UTF8String]);
+        ret = [NSString stringWithUTF8String:swModule->StripText()];
+    }
+    
+    
+    [moduleLock unlock];
+    
+    return ret;
+}
+
 #pragma mark - SwordModuleAccess
 
 /** 

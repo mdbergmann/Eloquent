@@ -19,6 +19,7 @@
 
 @synthesize searchTextsForTypes;
 @synthesize recentSearchesForTypes;
+@synthesize searchType;
 
 - (id)init {
     self = [super init];

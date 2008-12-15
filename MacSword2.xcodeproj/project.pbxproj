@@ -14,6 +14,7 @@
 		A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90545B70E62F11900CF4D18 /* DictionaryView.xib */; };
 		A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
+		A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */ = {isa = PBXBuildFile; fileRef = A913C2BE0EC182E200A85F8D /* sword2.icns */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
 		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
 		A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A916FCE50E05483F009CAA2F /* BibleView.xib */; };
@@ -22,7 +23,6 @@
 		A91A23440E61955000382F44 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23380E61955000382F44 /* add.png */; };
 		A91A23450E61955000382F44 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23390E61955000382F44 /* edit.png */; };
 		A91A23460E61955000382F44 /* editdelete.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A233A0E61955000382F44 /* editdelete.png */; };
-		A91A23470E61955000382F44 /* Eloquent.icns in Resources */ = {isa = PBXBuildFile; fileRef = A91A233B0E61955000382F44 /* Eloquent.icns */; };
 		A91A23480E61955000382F44 /* exec.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A233C0E61955000382F44 /* exec.png */; };
 		A91A23490E61955000382F44 /* header_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A233D0E61955000382F44 /* header_gradient.png */; };
 		A91A234A0E61955000382F44 /* minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A91A233E0E61955000382F44 /* minus.tiff */; };
@@ -44,7 +44,6 @@
 		A91C94290DF9B149006B7361 /* msstringmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A91C94060DF9B149006B7361 /* msstringmgr.cpp */; };
 		A91C942A0DF9B149006B7361 /* SwordBible.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94090DF9B149006B7361 /* SwordBible.mm */; };
 		A91C942B0DF9B149006B7361 /* SwordBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940B0DF9B149006B7361 /* SwordBook.mm */; };
-		A91C942C0DF9B149006B7361 /* SwordCommentary.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.m */; };
 		A91C942D0DF9B149006B7361 /* SwordDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940F0DF9B149006B7361 /* SwordDictionary.mm */; };
 		A91C942E0DF9B149006B7361 /* SwordInstallSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94110DF9B149006B7361 /* SwordInstallSource.mm */; };
 		A91C942F0DF9B149006B7361 /* SwordInstallSourceController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */; };
@@ -55,21 +54,47 @@
 		A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */; };
 		A9202A2D0E59A2650094F629 /* CommentaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9202A2B0E59A2650094F629 /* CommentaryView.xib */; };
 		A92819980E100F240007B767 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
+		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
+		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
+		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
+		A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */; };
+		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
 		A96515EF0E06C79D0058AA91 /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */; };
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
+		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
+		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
+		A9880FE80EB49A430066943B /* BookmarkOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9880FE70EB49A430066943B /* BookmarkOutlineViewController.m */; };
+		A9880FED0EB49D9D0066943B /* BookmarkOutlineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9880FEB0EB49D9D0066943B /* BookmarkOutlineView.xib */; };
+		A98810300EB4A4580066943B /* SideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A988102E0EB4A4580066943B /* SideBarView.xib */; };
+		A98810340EB4A6820066943B /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810330EB4A6820066943B /* SideBarViewController.m */; };
+		A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810360EB4A9350066943B /* LeftSideBarViewController.m */; };
 		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
+		A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = A991F4A20EE2E224009A6D08 /* ModuleManager.png */; };
 		A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A992B52A0DF9AD6E00207967 /* Localizable.strings */; };
 		A992B5350DF9AD6E00207967 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52C0DF9AD6E00207967 /* MainMenu.xib */; };
 		A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52E0DF9AD6E00207967 /* ModuleManager.xib */; };
 		A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5300DF9AD6E00207967 /* ModuleManageView.xib */; };
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
 		A996239D0E4F0D5A0082F18F /* OutlineListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A996239C0E4F0D5A0082F18F /* OutlineListObject.m */; };
+		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
+		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
+		A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */; };
+		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
+		A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D102580EC1ED0A0023FF23 /* WindowHostController.m */; };
+		A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */; };
+		A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */; };
+		A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D9F52C0EAF17890035222E /* SenTestingKit.framework */; };
+		A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
+		A9D9F5320EAF17CF0035222E /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
 		A9DA0B390E67F4600018ADE1 /* SwordTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */; };
 		A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */; };
+		A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DCB0D30E9F252C004169EB /* GenBookView.xib */; };
 		A9E821010E0B95C70020A64E /* ScrollSynchronizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */; };
+		A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
+		A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
 		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
@@ -95,6 +120,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
 				A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-fat.a in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
 				A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */,
@@ -119,6 +145,7 @@
 		A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_gradient.png; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
+		A913C2BE0EC182E200A85F8D /* sword2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sword2.icns; sourceTree = "<group>"; };
 		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
 		A916FCDD0E053910009CAA2F /* ModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleViewController.h; path = src/UserInterface/ModuleViewController.h; sourceTree = "<group>"; };
 		A916FCDE0E053910009CAA2F /* ModuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleViewController.m; path = src/UserInterface/ModuleViewController.m; sourceTree = "<group>"; };
@@ -132,7 +159,6 @@
 		A91A23380E61955000382F44 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		A91A23390E61955000382F44 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		A91A233A0E61955000382F44 /* editdelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editdelete.png; sourceTree = "<group>"; };
-		A91A233B0E61955000382F44 /* Eloquent.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Eloquent.icns; sourceTree = "<group>"; };
 		A91A233C0E61955000382F44 /* exec.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exec.png; sourceTree = "<group>"; };
 		A91A233D0E61955000382F44 /* header_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header_gradient.png; sourceTree = "<group>"; };
 		A91A233E0E61955000382F44 /* minus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = minus.tiff; sourceTree = "<group>"; };
@@ -197,14 +223,33 @@
 		A9202A2C0E59A2650094F629 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CommentaryView.xib; sourceTree = "<group>"; };
 		A92819960E100F240007B767 /* Highlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Highlighter.h; sourceTree = "<group>"; };
 		A92819970E100F240007B767 /* Highlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Highlighter.m; sourceTree = "<group>"; };
+		A939B7E00E9DCED000A0A8F9 /* GenBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenBookViewController.h; path = src/UserInterface/GenBookViewController.h; sourceTree = "<group>"; };
+		A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenBookViewController.m; path = src/UserInterface/GenBookViewController.m; sourceTree = "<group>"; };
+		A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTextObject.h; path = src/UserInterface/SearchTextObject.h; sourceTree = "<group>"; };
+		A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchTextObject.m; path = src/UserInterface/SearchTextObject.m; sourceTree = "<group>"; };
 		A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MouseTrackingScrollView.h; path = src/UserInterface/MouseTrackingScrollView.h; sourceTree = "<group>"; };
 		A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MouseTrackingScrollView.m; path = src/UserInterface/MouseTrackingScrollView.m; sourceTree = "<group>"; };
+		A94D66CE0EC2CFC9006A84CB /* WorkspaceViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceViewHostController.h; path = src/UserInterface/WorkspaceViewHostController.h; sourceTree = "<group>"; };
+		A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceViewHostController.m; path = src/UserInterface/WorkspaceViewHostController.m; sourceTree = "<group>"; };
+		A94D66D20EC2D175006A84CB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
+		A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDPreviewController.h; path = src/UserInterface/HUDPreviewController.h; sourceTree = "<group>"; };
+		A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDPreviewController.m; path = src/UserInterface/HUDPreviewController.m; sourceTree = "<group>"; };
 		A96515EE0E06C79D0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BibleCombiView.xib; sourceTree = "<group>"; };
 		A965162A0E06D0BD0058AA91 /* SingleViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleViewHostController.h; path = src/UserInterface/SingleViewHostController.h; sourceTree = "<group>"; };
 		A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleViewHostController.m; path = src/UserInterface/SingleViewHostController.m; sourceTree = "<group>"; };
 		A96516620E06D3DA0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
+		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
+		A9880FE60EB49A430066943B /* BookmarkOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkOutlineViewController.h; path = src/UserInterface/BookmarkOutlineViewController.h; sourceTree = "<group>"; };
+		A9880FE70EB49A430066943B /* BookmarkOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkOutlineViewController.m; path = src/UserInterface/BookmarkOutlineViewController.m; sourceTree = "<group>"; };
+		A9880FEC0EB49D9D0066943B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BookmarkOutlineView.xib; sourceTree = "<group>"; };
+		A988102F0EB4A4580066943B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SideBarView.xib; sourceTree = "<group>"; };
+		A98810320EB4A6820066943B /* SideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SideBarViewController.h; path = src/UserInterface/SideBarViewController.h; sourceTree = "<group>"; };
+		A98810330EB4A6820066943B /* SideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SideBarViewController.m; path = src/UserInterface/SideBarViewController.m; sourceTree = "<group>"; };
+		A98810350EB4A9350066943B /* LeftSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeftSideBarViewController.h; path = src/UserInterface/LeftSideBarViewController.h; sourceTree = "<group>"; };
+		A98810360EB4A9350066943B /* LeftSideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeftSideBarViewController.m; path = src/UserInterface/LeftSideBarViewController.m; sourceTree = "<group>"; };
 		A99055AA0E04273E00E8D7A2 /* BibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleViewController.h; path = src/UserInterface/BibleViewController.h; sourceTree = "<group>"; };
 		A99055AB0E04273E00E8D7A2 /* BibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleViewController.m; path = src/UserInterface/BibleViewController.m; sourceTree = "<group>"; };
+		A991F4A20EE2E224009A6D08 /* ModuleManager.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ModuleManager.png; sourceTree = "<group>"; };
 		A992B52B0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A992B52D0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		A992B52F0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManager.xib; sourceTree = "<group>"; };
@@ -212,12 +257,29 @@
 		A992B5330DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
 		A996239B0E4F0D5A0082F18F /* OutlineListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineListObject.h; path = src/UserInterface/OutlineListObject.h; sourceTree = "<group>"; };
 		A996239C0E4F0D5A0082F18F /* OutlineListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineListObject.m; path = src/UserInterface/OutlineListObject.m; sourceTree = "<group>"; };
+		A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordModuleTest.h; path = test/SwordModuleTest.h; sourceTree = "<group>"; };
+		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordModuleTest.m; path = test/SwordModuleTest.m; sourceTree = "<group>"; };
+		A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
+		A9CC33500EB0699900810821 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
+		A9D102570EC1ED0A0023FF23 /* WindowHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowHostController.h; path = src/UserInterface/WindowHostController.h; sourceTree = "<group>"; };
+		A9D102580EC1ED0A0023FF23 /* WindowHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowHostController.m; path = src/UserInterface/WindowHostController.m; sourceTree = "<group>"; };
+		A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		A9D9F51A0EAF151E0035222E /* Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9D9F51B0EAF151E0035222E /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
+		A9D9F5270EAF156D0035222E /* BookmarkManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManagerTest.h; path = test/BookmarkManagerTest.h; sourceTree = "<group>"; };
+		A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManagerTest.m; path = test/BookmarkManagerTest.m; sourceTree = "<group>"; };
+		A9D9F52C0EAF17890035222E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		A9DA0B370E67F4600018ADE1 /* SwordTreeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordTreeEntry.h; sourceTree = "<group>"; };
 		A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordTreeEntry.m; sourceTree = "<group>"; };
 		A9DC14E40E0AA83D00E3F944 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ExtTextView.xib; sourceTree = "<group>"; };
+		A9DCB0D40E9F252C004169EB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GenBookView.xib; sourceTree = "<group>"; };
 		A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollSynchronizableView.h; path = src/UserInterface/ScrollSynchronizableView.h; sourceTree = "<group>"; };
 		A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollSynchronizableView.m; path = src/UserInterface/ScrollSynchronizableView.m; sourceTree = "<group>"; };
+		A9E8BD2A0EADAE2800E58D1E /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bookmark.h; path = src/Bookmarks/Bookmark.h; sourceTree = "<group>"; };
+		A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bookmark.m; path = src/Bookmarks/Bookmark.m; sourceTree = "<group>"; };
+		A9E8BD2D0EADB01700E58D1E /* BookmarkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManager.h; path = src/Bookmarks/BookmarkManager.h; sourceTree = "<group>"; };
+		A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManager.m; path = src/Bookmarks/BookmarkManager.m; sourceTree = "<group>"; };
 		A9F184610E0811C8005F3B35 /* HostableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostableViewController.h; path = src/UserInterface/HostableViewController.h; sourceTree = "<group>"; };
 		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
 		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
@@ -249,6 +311,17 @@
 				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
 				A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11-fat.a in Frameworks */,
 				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
+				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9D9F5170EAF151E0035222E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-fat.a in Frameworks */,
+				A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */,
+				A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +342,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
+				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,
 				A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */,
 				A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */,
 				A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */,
@@ -292,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* MacSword.app */,
+				A9D9F51A0EAF151E0035222E /* Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -299,10 +375,12 @@
 		29B97314FDCFA39411CA2CEA /* MacSword2 */ = {
 			isa = PBXGroup;
 			children = (
+				A9D9F5260EAF15410035222E /* Tests */,
 				A9FD341C0E0A70F6001287DD /* Preferences */,
 				A91C93EB0DF9B149006B7361 /* Indexing */,
 				A91C93F80DF9B149006B7361 /* InstallerConsole */,
 				A91C93FA0DF9B149006B7361 /* ModuleManager */,
+				A9E8BD290EADADD000E58D1E /* Bookmarks */,
 				A99055A90E041C3400E8D7A2 /* UserInterface */,
 				A91C94050DF9B149006B7361 /* Sword */,
 				A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */,
@@ -311,6 +389,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				A9D9F51B0EAF151E0035222E /* Tests-Info.plist */,
 			);
 			name = MacSword2;
 			sourceTree = "<group>";
@@ -329,6 +408,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */,
 				A91A23370E61955000382F44 /* Icons */,
 				A9F61C210E01028700C3A0EF /* locales.d */,
 				A992B52A0DF9AD6E00207967 /* Localizable.strings */,
@@ -337,13 +417,17 @@
 				A992B5300DF9AD6E00207967 /* ModuleManageView.xib */,
 				A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */,
 				A96516610E06D3DA0058AA91 /* SingleViewHost.xib */,
+				A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */,
 				A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */,
 				A916FCE50E05483F009CAA2F /* BibleView.xib */,
 				A9202A2B0E59A2650094F629 /* CommentaryView.xib */,
 				A90545B70E62F11900CF4D18 /* DictionaryView.xib */,
+				A9DCB0D30E9F252C004169EB /* GenBookView.xib */,
 				A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */,
 				A9F185480E083117005F3B35 /* WebView.xib */,
 				A9F1EE3D0E4C1EFF00939B85 /* ModuleOutlineView.xib */,
+				A9880FEB0EB49D9D0066943B /* BookmarkOutlineView.xib */,
+				A988102E0EB4A4580066943B /* SideBarView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -362,12 +446,13 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A991F4A20EE2E224009A6D08 /* ModuleManager.png */,
+				A913C2BE0EC182E200A85F8D /* sword2.icns */,
 				A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */,
 				A9CDC4570E652FD700BDA30F /* fifteenpieces.png */,
 				A91A23380E61955000382F44 /* add.png */,
 				A91A23390E61955000382F44 /* edit.png */,
 				A91A233A0E61955000382F44 /* editdelete.png */,
-				A91A233B0E61955000382F44 /* Eloquent.icns */,
 				A91A233C0E61955000382F44 /* exec.png */,
 				A91A233D0E61955000382F44 /* header_gradient.png */,
 				A91A233E0E61955000382F44 /* minus.tiff */,
@@ -455,6 +540,8 @@
 				A91C94190DF9B149006B7361 /* SwordSearching.mm */,
 				A9DA0B370E67F4600018ADE1 /* SwordTreeEntry.h */,
 				A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */,
+				A9CC334F0EB0699900810821 /* SwordModCategory.h */,
+				A9CC33500EB0699900810821 /* SwordModCategory.m */,
 			);
 			name = Sword;
 			path = src/Sword;
@@ -473,9 +560,15 @@
 		A96516290E06D0940058AA91 /* Hosts */ = {
 			isa = PBXGroup;
 			children = (
+				A9D102570EC1ED0A0023FF23 /* WindowHostController.h */,
+				A9D102580EC1ED0A0023FF23 /* WindowHostController.m */,
 				A965162A0E06D0BD0058AA91 /* SingleViewHostController.h */,
 				A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */,
+				A94D66CE0EC2CFC9006A84CB /* WorkspaceViewHostController.h */,
+				A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */,
 				A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */,
+				A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */,
+				A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */,
 			);
 			name = Hosts;
 			sourceTree = "<group>";
@@ -499,10 +592,20 @@
 				A9202A290E59A0E80094F629 /* CommentaryViewController.m */,
 				A90545B30E62EEB400CF4D18 /* DictionaryViewController.h */,
 				A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */,
+				A939B7E00E9DCED000A0A8F9 /* GenBookViewController.h */,
+				A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */,
 				A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */,
 				A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */,
 				A9F1EE380E4C1B9500939B85 /* ModuleOutlineViewController.h */,
 				A9F1EE390E4C1B9500939B85 /* ModuleOutlineViewController.m */,
+				A9880FE60EB49A430066943B /* BookmarkOutlineViewController.h */,
+				A9880FE70EB49A430066943B /* BookmarkOutlineViewController.m */,
+				A98810320EB4A6820066943B /* SideBarViewController.h */,
+				A98810330EB4A6820066943B /* SideBarViewController.m */,
+				A98810350EB4A9350066943B /* LeftSideBarViewController.h */,
+				A98810360EB4A9350066943B /* LeftSideBarViewController.m */,
+				A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */,
+				A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -514,6 +617,17 @@
 				A996239C0E4F0D5A0082F18F /* OutlineListObject.m */,
 			);
 			name = HelperObjects;
+			sourceTree = "<group>";
+		};
+		A9D9F5260EAF15410035222E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A9D9F5270EAF156D0035222E /* BookmarkManagerTest.h */,
+				A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */,
+				A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */,
+				A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */,
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 		A9E820FE0E0B95900020A64E /* Views */ = {
@@ -529,6 +643,17 @@
 				A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		A9E8BD290EADADD000E58D1E /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				A9E8BD2A0EADAE2800E58D1E /* Bookmark.h */,
+				A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */,
+				A9E8BD2D0EADB01700E58D1E /* BookmarkManager.h */,
+				A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */,
+			);
+			name = Bookmarks;
 			sourceTree = "<group>";
 		};
 		A9F4E3540E1DF0E000B0148E /* Caching */ = {
@@ -576,6 +701,24 @@
 			productReference = 8D1107320486CEB800E47090 /* MacSword.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A9D9F5190EAF151E0035222E /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9D9F51E0EAF151F0035222E /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				A9D9F5150EAF151E0035222E /* Resources */,
+				A9D9F5160EAF151E0035222E /* Sources */,
+				A9D9F5170EAF151E0035222E /* Frameworks */,
+				A9D9F5180EAF151E0035222E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = A9D9F51A0EAF151E0035222E /* Tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -589,6 +732,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* MacSword */,
+				A9D9F5190EAF151E0035222E /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -615,7 +759,6 @@
 				A91A23440E61955000382F44 /* add.png in Resources */,
 				A91A23450E61955000382F44 /* edit.png in Resources */,
 				A91A23460E61955000382F44 /* editdelete.png in Resources */,
-				A91A23470E61955000382F44 /* Eloquent.icns in Resources */,
 				A91A23480E61955000382F44 /* exec.png in Resources */,
 				A91A23490E61955000382F44 /* header_gradient.png in Resources */,
 				A91A234A0E61955000382F44 /* minus.tiff in Resources */,
@@ -627,10 +770,40 @@
 				A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */,
 				A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */,
 				A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */,
+				A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */,
+				A9880FED0EB49D9D0066943B /* BookmarkOutlineView.xib in Resources */,
+				A98810300EB4A4580066943B /* SideBarView.xib in Resources */,
+				A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */,
+				A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */,
+				A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */,
+				A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9D9F5150EAF151E0035222E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A9D9F5180EAF151E0035222E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
@@ -651,7 +824,6 @@
 				A91C94290DF9B149006B7361 /* msstringmgr.cpp in Sources */,
 				A91C942A0DF9B149006B7361 /* SwordBible.mm in Sources */,
 				A91C942B0DF9B149006B7361 /* SwordBook.mm in Sources */,
-				A91C942C0DF9B149006B7361 /* SwordCommentary.m in Sources */,
 				A91C942D0DF9B149006B7361 /* SwordDictionary.mm in Sources */,
 				A91C942E0DF9B149006B7361 /* SwordInstallSource.mm in Sources */,
 				A91C942F0DF9B149006B7361 /* SwordInstallSourceController.mm in Sources */,
@@ -679,6 +851,28 @@
 				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,
 				A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */,
 				A9DA0B390E67F4600018ADE1 /* SwordTreeEntry.m in Sources */,
+				A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */,
+				A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */,
+				A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */,
+				A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */,
+				A9880FE80EB49A430066943B /* BookmarkOutlineViewController.m in Sources */,
+				A98810340EB4A6820066943B /* SideBarViewController.m in Sources */,
+				A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */,
+				A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */,
+				A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */,
+				A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */,
+				A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9D9F5160EAF151E0035222E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */,
+				A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */,
+				A9D9F5320EAF17CF0035222E /* BookmarkManager.m in Sources */,
+				A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -717,6 +911,14 @@
 			name = CommentaryView.xib;
 			sourceTree = "<group>";
 		};
+		A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A94D66D20EC2D175006A84CB /* English */,
+			);
+			name = WorkspaceViewHost.xib;
+			sourceTree = "<group>";
+		};
 		A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -731,6 +933,22 @@
 				A96516620E06D3DA0058AA91 /* English */,
 			);
 			name = SingleViewHost.xib;
+			sourceTree = "<group>";
+		};
+		A9880FEB0EB49D9D0066943B /* BookmarkOutlineView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9880FEC0EB49D9D0066943B /* English */,
+			);
+			name = BookmarkOutlineView.xib;
+			sourceTree = "<group>";
+		};
+		A988102E0EB4A4580066943B /* SideBarView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A988102F0EB4A4580066943B /* English */,
+			);
+			name = SideBarView.xib;
 			sourceTree = "<group>";
 		};
 		A992B52A0DF9AD6E00207967 /* Localizable.strings */ = {
@@ -781,6 +999,14 @@
 			name = ExtTextView.xib;
 			sourceTree = "<group>";
 		};
+		A9DCB0D30E9F252C004169EB /* GenBookView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9DCB0D40E9F252C004169EB /* English */,
+			);
+			name = GenBookView.xib;
+			sourceTree = "<group>";
+		};
 		A9F185480E083117005F3B35 /* WebView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -800,6 +1026,77 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A9D9F51C0EAF151F0035222E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/Resources\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		A9D9F51D0EAF151F0035222E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/Resources\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -816,10 +1113,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MacSword_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include/sword\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_OPENMP_FLAGS = "-fopenmp";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
@@ -908,6 +1207,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A9D9F51E0EAF151F0035222E /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9D9F51C0EAF151F0035222E /* Debug */,
+				A9D9F51D0EAF151F0035222E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MacSword" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

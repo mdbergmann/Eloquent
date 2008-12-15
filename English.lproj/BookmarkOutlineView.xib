@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.02">
+<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">9F33</string>
-		<string key="IBDocument.InterfaceBuilderVersion">672</string>
+		<string key="IBDocument.InterfaceBuilderVersion">677</string>
 		<string key="IBDocument.AppKitVersion">949.34</string>
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="5"/>
+			<integer value="1" id="9"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilderKit</string>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -46,7 +55,6 @@
 										<int key="NSvFlags">274</int>
 										<string key="NSFrameSize">{354, 469}</string>
 										<reference key="NSSuperview" ref="632935624"/>
-										<bool key="NSViewIsLayerTreeHost">YES</bool>
 										<bool key="NSEnabled">YES</bool>
 										<object class="_NSCornerView" key="NSCornerView">
 											<nil key="NSNextResponder"/>
@@ -171,7 +179,6 @@
 						<string key="NSFrameSize">{354, 469}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSNextKeyView" ref="632935624"/>
-						<bool key="NSViewIsLayerTreeHost">YES</bool>
 						<object class="NSDictionary" key="NSViewAnimations">
 							<string key="NS.key.0">subviews</string>
 							<object class="CATransition" key="NS.object.0">
@@ -192,7 +199,7 @@
 								<real value="0.000000e+00" key="duration"/>
 								<string key="fillMode">removed</string>
 								<real value="0.000000e+00" key="frameInterval"/>
-								<integer value="1" key="removedOnCompletion"/>
+								<reference key="removedOnCompletion" ref="9"/>
 								<real value="0.000000e+00" key="repeatCount"/>
 								<real value="0.000000e+00" key="repeatDuration"/>
 								<real value="1.000000e+00" key="speed"/>
@@ -958,7 +965,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilderKit</string>
-					<string>{{27, 531}, {354, 469}}</string>
+					<string>{{588, 336}, {354, 469}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{217, 442}, {480, 272}}</string>

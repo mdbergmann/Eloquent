@@ -356,16 +356,49 @@ NSLock *bibleLock = nil;
  */
 - (long)entryCount {
     
-    *swModule = sword::TOP;
+    //*swModule = sword::TOP;
+    swModule->setPosition(sword::TOP);
     unsigned long verseLowIndex = swModule->Index();
-    *swModule = sword::BOTTOM;
+    //*swModule = sword::BOTTOM;
+    swModule->setPosition(sword::BOTTOM);
     unsigned long verseHighIndex = swModule->Index();
     
     return verseHighIndex - verseLowIndex;
 }
 
 - (NSArray *)stripedTextForRef:(NSString *)reference {
-	return nil;
+    NSMutableArray *ret = [NSMutableArray array];
+    
+    // needed to check for UTF8 string
+    MSStringMgr *strMgr = new MSStringMgr();    
+    
+    const char *cref = [reference UTF8String];
+    sword::VerseKey	vk;
+    sword::ListKey listkey = vk.ParseVerseList(cref, vk, true);
+    listkey.Persist(true);
+    swModule->setKey(listkey);
+    // iterate through keys
+    for ((*swModule) = TOP; !swModule->Error(); (*swModule)++) {
+        const char *keyCStr = swModule->getKeyText();
+        const char *txtCStr = swModule->StripText();
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
+        NSString *key = [NSString stringWithUTF8String:keyCStr];
+        NSString *txt = @"";
+        if(strMgr->isUtf8(txtCStr)) {
+            txt = [NSString stringWithUTF8String:txtCStr];
+        } else {
+            txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
+        }
+        // add to dict
+        [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+        [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+        // add to array
+        [ret addObject:dict];
+    }
+    // remove persitent key
+    swModule->setKey("gen.1.1");
+    
+    return ret;
 }
 
 /*
@@ -447,6 +480,8 @@ return ret;
 - (NSArray *)renderedTextForRef:(NSString *)reference {
     NSMutableArray *ret = [NSMutableArray array];
     
+	[moduleLock lock];
+
     // needed to check for UTF8 string
     MSStringMgr *strMgr = new MSStringMgr();    
 
@@ -454,9 +489,10 @@ return ret;
     sword::VerseKey	vk;
     sword::ListKey listkey = vk.ParseVerseList(cref, vk, true);
     listkey.Persist(true);
+    // for the duration of this query be want the key to persist
     swModule->setKey(listkey);
     // iterate through keys
-    for ((*swModule) = TOP; !swModule->Error(); (*swModule)++) {
+    for ((*swModule) = sword::TOP; !swModule->Error(); (*swModule)++) {
         const char *keyCStr = swModule->getKeyText();
         const char *txtCStr = swModule->RenderText();
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
@@ -473,7 +509,11 @@ return ret;
         // add to array
         [ret addObject:dict];
     }
-    
+    // remove persitent key
+    swModule->setKey("gen.1.1");
+
+	[moduleLock unlock];
+
     return ret;
 }
 

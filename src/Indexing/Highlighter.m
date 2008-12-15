@@ -68,7 +68,7 @@
 + (NSAttributedString *)highlightText:(NSString *)text forTokens:(NSString *)tokenStr attributes:(NSDictionary *)attributes {
     NSMutableAttributedString *ret = nil;
     
-    NSColor *blue = [NSColor blueColor];
+    NSColor *blue = [NSColor redColor];
     NSRange found, area;
     unsigned int length = [text length];
     
@@ -113,7 +113,7 @@
 + (NSString *)htmlHighlightText:(NSString *)text forTokens:(NSString *)tokenStr {
     NSMutableString *ret = nil;
     
-    NSString *blueHighlightTempl = @"<font color=\"#0000ff\">%@</font>";
+    NSString *blueHighlightTempl = @"<font color=\"#ff0000\">%@</font>";
     NSRange found, area;
     unsigned int length = [text length];
     

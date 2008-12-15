@@ -11,6 +11,7 @@
 #import "BibleCombiViewController.h"
 #import "HostableViewController.h"
 #import "SingleViewHostController.h"
+#import "WorkspaceViewHostController.h"
 #import "BookmarkManager.h"
 #import "Bookmark.h"
 
@@ -179,7 +180,7 @@ enum BookmarkMenu_Items{
             Bookmark *selected = [[bmTreeController selectedObjects] objectAtIndex:0];
             if(selected == nil) {
                 // we add to root
-                [[manager bookmarks] addObject:bm];
+                [bmTreeController addObject:bm];
             } else {
                 NSIndexPath *ip = [bmTreeController selectionIndexPath];
                 //if([selected isLeaf]) {
@@ -188,6 +189,9 @@ enum BookmarkMenu_Items{
                     [bmTreeController insertObject:bm atArrangedObjectIndexPath:[ip indexPathByAddingIndex:0]];
                 //}
             }
+        } else {
+            // we add to root
+            [bmTreeController addObject:bm];
         }
     }
     
@@ -209,10 +213,12 @@ enum BookmarkMenu_Items{
 - (void)doubleClick {
     // get clicked row
     int clickedRow = [outlineView clickedRow];    
-    Bookmark *clickedObj = [outlineView itemAtRow:clickedRow];
+    Bookmark *clickedObj = [[outlineView itemAtRow:clickedRow] representedObject];
     // check for type of host
     if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
         [(SingleViewHostController *)hostingDelegate setSearchText:[clickedObj reference]];
+    } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+        [(WorkspaceViewHostController *)hostingDelegate setSearchText:[clickedObj reference]];
     }
 }
 

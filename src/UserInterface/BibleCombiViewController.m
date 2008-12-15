@@ -30,6 +30,10 @@
 - (void)synchronizedViewContentBoundsDidChange:(NSNotification *)aNotification;
 - (NSRange)rangeFromViewableFirstLineInTextView:(NSTextView *)theTextView lineRect:(NSRect *)lineRect;
 - (NSString *)verseKeyInTextLine:(NSString *)text;
+- (NSString *)verseMarkerInTextLine:(NSAttributedString *)text;
+- (NSRect)rectForTextRange:(NSRange)range inTextView:(NSTextView *)textView;
+- (NSRect)rectForAttributeName:(NSString *)attrName attributeValue:(id)attrValue inTextView:(NSTextView *)textView;
+- (NSString *)verseMarkerOfFirstLineOfTextView:(ScrollSynchronizableView *)syncView;
 
 @end
 
@@ -69,7 +73,7 @@
             // init misc views array
             self.parMiscViewControllers = [NSMutableArray array];
             
-            regex = [[MBRegex alloc] initWithPattern:@"^(.+\\d+:\\d+:).*"];
+            regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
             // check error
             if([regex errorCodeOfLastAction] != MBRegexSuccess) {
                 // set error string and return
@@ -247,6 +251,10 @@
     }
 }
 
+- (NSNumber *)bibleViewCount {
+    return [NSNumber numberWithInt:[parBibleViewControllers count]];
+}
+
 #pragma mark - scrollview synchronization
 
 - (void)stopScrollSynchronizationForView:(NSScrollView *)aScrollView {
@@ -284,16 +292,9 @@
     // we're watching
     NSPoint changedBoundsOrigin = [changedContentView bounds].origin;
     
-    NSString *match = nil;
+    NSString *sourceMarker = nil;
     if(searchType == ReferenceSearchType) {
-        // all bible views display all verse keys whether they are empty or not. But we can search for the verse location
-        NSRect lineRect;
-        NSRange lineRange = [self rangeFromViewableFirstLineInTextView:[currentSyncView textView] lineRect:&lineRect];
-        // try to get characters of textStorage
-        NSAttributedString *attrString = [[[currentSyncView textView] textStorage] attributedSubstringFromRange:NSMakeRange(lineRange.location, lineRange.length)];
-        NSString *rangeString = [attrString string];
-        // now, that we have the first line, extract the sword key
-        match = [self verseKeyInTextLine:rangeString];
+        sourceMarker = [self verseMarkerOfFirstLineOfTextView:currentSyncView];
     }
     
     // loop over all parallel views and check bounds
@@ -318,8 +319,13 @@
             
             BOOL updateScroll = YES;
             if(searchType == ReferenceSearchType) {
+                
+                // get the cerseMarker of this syncview
+                NSString *marker = [self verseMarkerOfFirstLineOfTextView:v];
+                
                 // the sender is the rightest scrollview
-                if((match != nil) && ([match length] > 0)) {
+                if((sourceMarker != nil) && ([sourceMarker length] > 0) && ![marker isEqualToString:sourceMarker]) {
+                    /*
                     // get all text
                     NSAttributedString *allText = [[v textView] textStorage];
                     // get index of match
@@ -329,10 +335,17 @@
                     NSRange glyphRange = [[[v textView] layoutManager] glyphRangeForCharacterRange:destRange actualCharacterRange:nil];
                     // get view rect of this glyph range
                     NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
+                     */
                     
-                    // set point
-                    destPoint.x = destRect.origin.x;
-                    destPoint.y = destRect.origin.y;                    
+                    NSRect destRect = [self rectForAttributeName:@"VerseMarkerAttributeName" attributeValue:sourceMarker inTextView:v.textView];
+                    
+                    if(destRect.origin.x != NSNotFound) {
+                        // set point
+                        destPoint.x = destRect.origin.x;
+                        destPoint.y = destRect.origin.y;                                            
+                    } else {
+                        updateScroll = NO;                        
+                    }
                 } else {
                     updateScroll = NO;
                 }
@@ -413,10 +426,68 @@
     return ret;
 }
 
-- (NSNumber *)bibleViewCount {
-    return [NSNumber numberWithInt:[parBibleViewControllers count]];
+- (NSString *)verseMarkerInTextLine:(NSAttributedString *)text {
+    NSString *ret = nil;
+    
+    // get the first found verseMarker attribute in the given text
+    long len = [text length];
+    for(int i = 0;i < len;i++) {
+        NSString * val = [text attribute:@"VerseMarkerAttributeName" atIndex:i effectiveRange:nil];
+        if(val != nil) {
+            ret = val;
+            break;
+        }
+    }
+    
+    return ret;
 }
 
+- (NSRect)rectForTextRange:(NSRange)range inTextView:(NSTextView *)textView {
+    NSLayoutManager *layoutManager = [textView layoutManager];
+    NSRect rect = [layoutManager lineFragmentRectForGlyphAtIndex:range.location effectiveRange:nil];
+    return rect;
+}
+
+/**
+ tries to find the given attribute value
+ if not found, ret.origin.x == NSNotFound
+ */
+- (NSRect)rectForAttributeName:(NSString *)attrName attributeValue:(id)attrValue inTextView:(NSTextView *)textView {
+    NSRect ret;
+    ret.origin.x = NSNotFound;
+    
+    NSAttributedString *text = [textView attributedString];
+    long len = [[textView string] length];
+    NSRange foundRange;
+    foundRange.location = NSNotFound;
+    for(int i = 0;i < len;i++) {
+        id val = [text attribute:attrName atIndex:i effectiveRange:&foundRange];
+        if(val != nil) {
+            if([val isKindOfClass:[NSString class]] && [(NSString *)val isEqualToString:(NSString *)attrValue]) {
+                break;
+            } else {
+                i = foundRange.location + foundRange.length;
+                foundRange.location = NSNotFound;
+            }
+        }
+    }
+    
+    if(foundRange.location != NSNotFound) {
+        ret = [self rectForTextRange:foundRange inTextView:textView];
+    }
+    
+    return ret;
+}
+
+- (NSString *)verseMarkerOfFirstLineOfTextView:(ScrollSynchronizableView *)syncView {
+    // all bible views display all verse keys whether they are empty or not. But we can search for the verse location
+    NSRect lineRect;
+    NSRange lineRange = [self rangeFromViewableFirstLineInTextView:[syncView textView] lineRect:&lineRect];
+    // try to get characters of textStorage
+    NSAttributedString *attrString = [[[syncView textView] textStorage] attributedSubstringFromRange:NSMakeRange(lineRange.location, lineRange.length)];
+    // now, that we have the first line, extract the verse Marker
+    return [self verseMarkerInTextLine:attrString];    
+}
 
 #pragma mark - SubviewHosting protocol
 

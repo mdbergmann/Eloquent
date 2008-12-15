@@ -16,10 +16,18 @@
     IBOutlet NSBox *placeholderView;
     IBOutlet NSPopUpButton *viewSwitcher;
     IBOutlet NSMenu *viewMenu;
+    
+    NSMutableDictionary *additionalViews;
 }
 
 // initialitazion
 - (id)initWithDelegate:(id)aDelegate;
+
+// adding additional item views
+- (void)addView:(NSView *)aView withName:(NSString *)aName;
+- (void)removeView:(NSView *)aView withName:(NSString *)aName;
+- (void)selectViewForTag:(int)aTag;
+- (void)selectViewForName:(NSString *)aName;
 
 // subviewhosting
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;

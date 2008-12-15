@@ -12,8 +12,6 @@
 
 @interface LeftSideBarViewController ()
 
-- (void)setupView:(NSView *)aView;
-
 @end
 
 @implementation LeftSideBarViewController
@@ -36,7 +34,6 @@
     
     if(!viewLoaded) {
         // create menu with our available views
-        viewMenu = [[NSMenu alloc] init];
         NSMenuItem *item = [[NSMenuItem alloc] init];
         [item setTag:0];
         [item setTarget:self];
@@ -62,13 +59,40 @@
         viewLoaded = YES;
         if(loaded) {
             [self reportLoadingComplete];
-            [self setupView:[moduleViewController view]];
+            [placeholderView setContentView:[moduleViewController view]];
         }
     }
 }
 
-- (void)setupView:(NSView *)aView {
-    [placeholderView setContentView:aView];
+/** abstract, sub class should override */
+- (void)selectViewForTag:(int)aTag {
+    NSMenuItem *item = [viewMenu itemWithTag:aTag];
+    [viewSwitcher selectItem:item];
+    if(aTag == 0) {
+        [placeholderView setContentView:[moduleViewController view]];
+    } else if(aTag == 1) {
+        [placeholderView setContentView:[bookmarksViewController view]];    
+    } else {
+        // let super class handle
+        [super selectViewForTag:aTag];
+    }
+}
+
+- (void)selectViewForName:(NSString *)aName {
+    
+    NSMenuItem *item = [viewMenu itemWithTitle:aName];
+    if(item != nil) {
+        [viewSwitcher selectItem:item]; 
+
+        if([aName isEqualToString:@"Modules"]) {
+            [placeholderView setContentView:[moduleViewController view]];
+        } else if([aName isEqualToString:@"Bookmarks"]) {
+            [placeholderView setContentView:[bookmarksViewController view]];        
+        } else {
+            // let super class handle
+            [super selectViewForName:aName];
+        }
+    }
 }
 
 #pragma mark - SubviewHosting protocol
@@ -81,7 +105,7 @@
         if([aView isKindOfClass:[ModuleOutlineViewController class]]) {
             moduleViewController = (ModuleOutlineViewController *)aView;
             [moduleViewController setHostingDelegate:delegate];
-            [self setupView:[aView view]];
+            [placeholderView setContentView:[aView view]];
         } else if([aView isKindOfClass:[BookmarkOutlineViewController class]]) {
             bookmarksViewController = (BookmarkOutlineViewController *)aView;
             [bookmarksViewController setHostingDelegate:delegate];
@@ -106,13 +130,18 @@
     
     int tag = [sender tag];
     
-    switch(tag) {
-        case 0:
-            [placeholderView setContentView:[moduleViewController view]];
-            break;
-        case 1:
-            [placeholderView setContentView:[bookmarksViewController view]];
-            break;
+    if(tag <= 2) {
+        switch(tag) {
+            case 0:
+                [placeholderView setContentView:[moduleViewController view]];
+                break;
+            case 1:
+                [placeholderView setContentView:[bookmarksViewController view]];
+                break;
+        }        
+    } else {
+        // super class will handle everything else
+        [super viewMenuChanged:sender];
     }
 }
 

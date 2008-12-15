@@ -40,6 +40,8 @@
 - (NSRange)rangeOfVisibleText;
 - (NSRange)rangeOfTextToken:(NSString *)token lastFound:(NSRange)lastFoundRange directionRight:(BOOL)right;
 - (NSRect)rectForTextRange:(NSRange)range;
+- (NSRect)rectForAttributeName:(NSString *)attrName attributeValue:(id)attrValue;
+
 - (void)setAttributedString:(NSAttributedString *)aString;
 
 // MouseTrackingScrollView delegate methods

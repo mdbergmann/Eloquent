@@ -3,7 +3,7 @@
 #
 
 APP=sword
-VERS=1.5.11
+VERS=1.5.11-svn
 BDIR=`pwd`
 
 DEBUG=0
@@ -81,6 +81,7 @@ fi
 if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
     echo "building ppc version of library..."
 	cd sword-trunk
+	make distclean
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++
@@ -106,6 +107,7 @@ fi
 if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	#cd $APP-$VERS
 	cd sword-trunk
+	make distclean
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++

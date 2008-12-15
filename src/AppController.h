@@ -12,6 +12,7 @@
 
 @class SingleViewHostController;
 @class WorkspaceViewHostController;
+@class HUDPreviewController;
 
 typedef enum AppErrorCodes {
     INIT_SUCCESS = 0,
@@ -25,9 +26,13 @@ typedef enum AppErrorCodes {
 @interface AppController : NSObject {
 	// our preference controller
 	MBPreferenceController *preferenceController;
+    BOOL isPreferencesShowing;
+
     ModuleManager *moduleManager;
-    
     BOOL isModuleManagerShowing;
+    
+    IBOutlet HUDPreviewController *previewController;
+    BOOL isPreviewShowing;
     
     NSMutableArray *windowHosts;
 }
@@ -49,6 +54,7 @@ typedef enum AppErrorCodes {
 - (IBAction)showPreferenceSheet:(id)sender;
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showModuleManager:(id)sender;
+- (IBAction)showPreviewPanel:(id)sender;
 
 // host delegate method
 - (void)hostClosing:(NSWindowController *)aHost;

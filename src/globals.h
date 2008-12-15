@@ -52,3 +52,8 @@
 #define NotificationModulesChanged @"NotificationModulesChanged"
 #define SendNotifyModulesChanged(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationModulesChanged object:X];
 
+/**
+ \brief this notification is send when the user clicks on a link in ExtTextView or the tooltip sows up
+ */
+#define NotificationShowPreviewData @"NotificationShowPreviewData"
+#define SendNotifyShowPreviewData(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationShowPreviewData object:X];

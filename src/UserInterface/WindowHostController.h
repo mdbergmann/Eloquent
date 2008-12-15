@@ -20,6 +20,7 @@
 @class SearchTextObject;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
+    IBOutlet NSDrawer *rightDrawer;
     // splitView to add and remove modules view. splitview hosts placeHolderView
     IBOutlet NSSplitView *splitView;
     // default View
@@ -28,6 +29,9 @@
     IBOutlet NSBox *placeHolderView;
     // placeholder for the search options
     IBOutlet NSBox *placeHolderSearchOptionsView;
+    
+    /** search type segmented control */
+    NSSegmentedControl *segmentedControl;
     
     // our delegate
     id delegate;
@@ -60,6 +64,9 @@
 
 /** action of any input to the search text field */
 - (void)searchInput:(id)sender;
+
+/** change the module type that is currently displaying */
+- (void)adaptUIToCurrentlyDisplayingModuleType;
 
 // WindowHosting
 - (ModuleType)moduleType;

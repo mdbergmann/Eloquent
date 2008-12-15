@@ -112,9 +112,15 @@
     
     // check which delegate we have and en/disable the close button
     [self adaptUIToHost];
+    
+    [self displayTextForReference:reference searchType:searchType];
 }
 
 #pragma mark - methods
+
+- (NSView *)listContentView {
+    return [entriesTableView enclosingScrollView];
+}
 
 - (void)adaptUIToHost {
 }
@@ -339,7 +345,7 @@
         [entriesTableView reloadData];
         
         // set selection
-        if((self.reference != nil) && ([self.reference length] > 0)) {
+        if(self.reference != nil) {
             // redisplay text
             [self displayTextForReference:self.reference searchType:searchType];
         }        
@@ -407,13 +413,13 @@
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 	// display call with std font
-	NSFont *font = FontLarge;
+	NSFont *font = FontStd;
 	[aCell setFont:font];
 	// set row height according to used font
 	// get font height
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
 	float pointSize = [font pointSize];
-	[aTableView setRowHeight:pointSize+6];
+	[aTableView setRowHeight:pointSize+4];
 }
 
 #pragma mark - NSCoding protocol

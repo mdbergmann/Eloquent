@@ -78,6 +78,9 @@ class sword::SWModule;
 #define SW_OPTION_SCRIPTREFS        @"Cross-references"
 #define SW_OPTION_VARIANTS          @"Variants"
 #define SW_OPTION_REDLETTERWORDS    @"Words of Christ in Red"
+// this is not part of Sword
+#define SW_OPTION_REF               @"Reference"
+#define SW_OPTION_MODULENAME        @"ModuleName"
 
 /** config features definitions */
 #define SWMOD_CONF_FEATURE_STRONGS       @"StrongsNumbers"

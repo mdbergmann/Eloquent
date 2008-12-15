@@ -40,6 +40,16 @@
     [splitView setVertical:YES];
     [splitView setDividerStyle:NSSplitViewDividerStyleThin];    
 
+    // setup the drawer
+    if(rightDrawer == nil) {
+        rightDrawer = [[NSDrawer alloc] initWithContentSize:NSMakeSize(200.0, 400.0) preferredEdge:NSMaxXEdge];
+    }
+    [rightDrawer setDelegate:self];
+    [rightDrawer setParentWindow:[self window]];
+    [rightDrawer setPreferredEdge:NSMaxXEdge];
+    [rightDrawer setMaxContentSize:NSMakeSize(400.0, 400.0)];
+    [rightDrawer setMinContentSize:NSMakeSize(25.0, 400.0)];
+    
     // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     
@@ -107,7 +117,7 @@
     
     float segmentControlHeight = 32.0;
     float segmentControlWidth = (2*64.0);
-    NSSegmentedControl *segmentedControl = [[NSSegmentedControl alloc] init];
+    segmentedControl = [[NSSegmentedControl alloc] init];
     [segmentedControl setFrame:NSMakeRect(0.0,0.0,segmentControlWidth,segmentControlHeight)];
     [segmentedControl setSegmentCount:2];
     // set tracking style
@@ -330,6 +340,32 @@
     } else {
         MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
     }
+}
+
+- (void)adaptUIToCurrentlyDisplayingModuleType {
+    
+    ModuleType type = [self moduleType];
+    if(type == dictionary) {
+        [searchTextField setContinuous:YES];
+        [[searchTextField cell] setSendsSearchStringImmediately:YES];
+        //[[searchTextField cell] setSendsWholeSearchString:NO];        
+    } else {
+        [searchTextField setContinuous:NO];
+        [[searchTextField cell] setSendsSearchStringImmediately:NO];
+        [[searchTextField cell] setSendsWholeSearchString:YES];        
+    }
+    
+    if(type == genbook) {
+        [[segmentedControl cell] setEnabled:NO forSegment:0];
+        [[segmentedControl cell] setEnabled:YES forSegment:1];
+        [[segmentedControl cell] setSelected:NO forSegment:0];
+        [[segmentedControl cell] setSelected:YES forSegment:1];        
+    } else {        
+        [[segmentedControl cell] setEnabled:YES forSegment:0];
+        [[segmentedControl cell] setEnabled:YES forSegment:1];
+        [[segmentedControl cell] setSelected:YES forSegment:0];
+        [[segmentedControl cell] setSelected:NO forSegment:1];
+    }    
 }
 
 #pragma mark - WindowHosting protocol

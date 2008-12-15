@@ -16,7 +16,7 @@
 #import "IndexingManager.h"
 #import "globals.h"
 #import "BookmarkManager.h"
-
+#import "HUDPreviewController.h"
 #import "SwordBook.h"
 #import "SwordTreeEntry.h"
 
@@ -89,6 +89,8 @@ NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
     
     // set default bible
     [defaultsDict setObject:@"GerSch" forKey:DefaultsBibleModule];
+    [defaultsDict setObject:@"StrongsGreek" forKey:DefaultsStrongsGreekModule];
+    [defaultsDict setObject:@"StrongsHebrew" forKey:DefaultsStrongsHebrewModule];
     
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];
@@ -399,6 +401,21 @@ static AppController *singleton;
         [moduleManager close];    
         isModuleManagerShowing = NO;
     }
+}
+
+- (IBAction)showPreviewPanel:(id)sender {
+    if(previewController == nil) {
+        previewController = [[HUDPreviewController alloc] init]; 
+    }
+    
+    // show window
+    if(!isPreviewShowing) {
+        [previewController showWindow:self];
+        isPreviewShowing = YES;
+    } else {
+        [previewController close];    
+        isPreviewShowing = NO;
+    }    
 }
 
 #pragma mark - host window delegate methods

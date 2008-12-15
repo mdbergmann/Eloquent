@@ -26,6 +26,14 @@ class sword::SWModule;
 #define SW_OUTPUT_TEXT_KEY  @"OutputTextKey"
 #define SW_OUTPUT_REF_KEY   @"OutputRefKey"
 
+// defines for dictionary entries for passagestudy
+#define ATTRTYPE_TYPE       @"type"
+#define ATTRTYPE_PASSAGE    @"passage"
+#define ATTRTYPE_MODULE     @"modulename"
+#define ATTRTYPE_NOTENUMBER @"notenumber"
+#define ATTRTYPE_ACTION     @"action"
+#define ATTRTYPE_VALUE      @"value"
+
 @class SwordManager;
 
 typedef enum {
@@ -118,6 +126,13 @@ typedef enum {
 
 - (BOOL)hasFeature:(NSString *)feature;
 - (NSString *)configEntryForKey:(NSString *)entryKey;
+
+/**
+ returns attribute values from the engine for notes, cross-refs and such for the given link type
+ @return NSArray for references
+ @return NSString for text data
+ */
+- (id)attributeValueForEntryData:(NSDictionary *)data;
 
 // ------- SwordModuleAccess ---------
 - (NSArray *)stripedTextForRef:(NSString *)reference;

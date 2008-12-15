@@ -104,6 +104,12 @@
     if(viewController.viewLoaded == YES) {
         // add content view
         [(NSBox *)placeHolderView setContentView:[viewController view]];
+        
+        // for dictionaries and genbooks we show the content as another switchable view in the left side bar
+        if([viewController isKindOfClass:[DictionaryViewController class]] ||
+            [viewController isKindOfClass:[GenBookViewController class]]) {
+            [lsbViewController addView:[(DictionaryViewController *)viewController listContentView] withName:@"Content"];
+        }
     }
     
     // if a reference is stored, we should load it
@@ -253,6 +259,12 @@
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {    
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -contentViewInitFinished:]");
+    
+    // for GenBook and Dictionary view controller we set the content to the left side bar
+    if([aView isKindOfClass:[DictionaryViewController class]] ||
+        [aView isKindOfClass:[GenBookViewController class]]) {
+        [lsbViewController addView:[(DictionaryViewController *) aView listContentView] withName:@"Content"];
+    }
     
     if([aView isKindOfClass:[ModuleViewController class]]) {
         // add the webview as contentvew to the placeholder

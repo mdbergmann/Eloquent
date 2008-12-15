@@ -43,6 +43,9 @@
 
 // ---------- methods --------------
 
+// the table view of the dictionary entries
+- (NSView *)listContentView;
+
 // method called by subview
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;

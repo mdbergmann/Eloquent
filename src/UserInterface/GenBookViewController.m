@@ -108,6 +108,10 @@
 
 #pragma mark - methods
 
+- (NSView *)listContentView {
+    return [entriesOutlineView enclosingScrollView];
+}
+
 - (void)adaptUIToHost {
 }
 
@@ -369,11 +373,11 @@
 
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {    
 	// display call with std font
-	NSFont *font = FontLarge;    
+	NSFont *font = FontStd;    
 	[cell setFont:font];
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
 	float pointSize = [font pointSize];
-	[aOutlineView setRowHeight:pointSize+6];
+	[aOutlineView setRowHeight:pointSize+4];
 }
 
 

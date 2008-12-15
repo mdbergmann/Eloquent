@@ -10,14 +10,15 @@
 // UserDefault defines
 
 // bible display
-#define DefaultsBibleTextShowBookNameKey        @"DefaultsBibleTextShowBookNameKey"
-#define DefaultsBibleTextShowBookAbbrKey        @"DefaultsBibleTextShowBookAbbrKey"
-#define DefaultsBibleTextVersesOnOneLineKey     @"DefaultsBibleTextVersesOnOneLineKey"
-#define DefaultsBibleTextDisplayFontFamilyKey   @"DefaultsBibleTextDisplayFontFamilyKey"
-#define DefaultsBibleTextDisplayFontSizeKey     @"DefaultsBibleTextDisplayFontSizeKey"
-#define DefaultsHeaderViewFontFamilyKey         @"DefaultsHeaderViewFontFamilyKey"
-#define DefaultsHeaderViewFontSizeKey           @"DefaultsHeaderViewFontSizeKey"
-#define DefaultsHeaderViewFontSizeBigKey        @"DefaultsHeaderViewFontSizeBigKey"
+#define DefaultsBibleTextShowBookNameKey            @"DefaultsBibleTextShowBookNameKey"
+#define DefaultsBibleTextShowBookAbbrKey            @"DefaultsBibleTextShowBookAbbrKey"
+#define DefaultsBibleTextVersesOnOneLineKey         @"DefaultsBibleTextVersesOnOneLineKey"
+#define DefaultsBibleTextDisplayFontFamilyKey       @"DefaultsBibleTextDisplayFontFamilyKey"
+#define DefaultsBibleTextDisplayBoldFontFamilyKey   @"DefaultsBibleTextDisplayBoldFontFamilyKey"
+#define DefaultsBibleTextDisplayFontSizeKey         @"DefaultsBibleTextDisplayFontSizeKey"
+#define DefaultsHeaderViewFontFamilyKey             @"DefaultsHeaderViewFontFamilyKey"
+#define DefaultsHeaderViewFontSizeKey               @"DefaultsHeaderViewFontSizeKey"
+#define DefaultsHeaderViewFontSizeBigKey            @"DefaultsHeaderViewFontSizeBigKey"
 
 // define some userdefaults keys
 #define DEFAULTS_SWMODULE_PATH_KEY      @"SwordModulePath"
@@ -26,6 +27,8 @@
 
 // default bible
 #define DefaultsBibleModule             @"DefaultsBibleModule"
+#define DefaultsStrongsHebrewModule     @"DefaultsStrongsHebrewModule"
+#define DefaultsStrongsGreekModule      @"DefaultsStrongsGreekModule"
 
 @interface MBPreferenceController : NSWindowController {
 	// global stuff

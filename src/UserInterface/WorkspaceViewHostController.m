@@ -126,6 +126,14 @@
             [self setView:[vc view]];
             // set active controller
             activeViewController = vc;
+
+            // for dictionaries and genbooks we show the content as another switchable view in the left side bar
+            if([vc isKindOfClass:[DictionaryViewController class]] ||
+               [vc isKindOfClass:[GenBookViewController class]]) {
+                [lsbViewController addView:[(DictionaryViewController *)vc listContentView] withName:@"Content"];
+            } else {
+                [lsbViewController selectViewForName:@"Bookmarks"];
+            }
             
             // set current search text object
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:[viewControllers indexOfObject:vc]]];
@@ -259,13 +267,24 @@
     [self setView:[vc view]];
     activeViewController = vc;
     
+    // for GenBook and Dictionary view controller we set the content to the left side bar
+    if([vc isKindOfClass:[DictionaryViewController class]] ||
+       [vc isKindOfClass:[GenBookViewController class]]) {
+        [lsbViewController addView:[(DictionaryViewController *)vc listContentView] withName:@"Content"];
+    } else {
+        [lsbViewController selectViewForName:@"Bookmarks"];
+    }
+
     // also set current search Text
     [self setCurrentSearchText:[searchTextObjs objectAtIndex:sel]];
     
     // set text according search type
     [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
     // switch recentSearches
-    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
+    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];
+    
+    // tell host to adapt ui
+    [self adaptUIToCurrentlyDisplayingModuleType];
 }
 
 - (IBAction)menuItemSelected:(id)sender {
@@ -378,6 +397,14 @@
         [self setView:[aViewController view]];
         // set active controller
         activeViewController = aViewController;
+
+        // for GenBook and Dictionary view controller we set the content to the left side bar
+        if([aViewController isKindOfClass:[DictionaryViewController class]] ||
+           [aViewController isKindOfClass:[GenBookViewController class]]) {
+            [lsbViewController addView:[(DictionaryViewController *)aViewController listContentView] withName:@"Content"];
+        } else {
+            [lsbViewController selectViewForName:@"Bookmarks"];
+        }
     }
 }
 

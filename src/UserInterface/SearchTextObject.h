@@ -14,8 +14,12 @@
     // texts for search type
     NSMutableDictionary *searchTextsForTypes;
     // recent search arrays for search type
-    NSMutableDictionary *recentSearchesForTypes;    
+    NSMutableDictionary *recentSearchesForTypes;
+    // the search type
+    SearchType searchType;
 }
+
+@property (readwrite) SearchType searchType;
 
 - (NSString *)searchTextForType:(SearchType)aType;
 - (void)setSearchText:(NSString *)aText forSearchType:(SearchType)aType;
