@@ -81,8 +81,11 @@ NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowBookNameKey];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
+
+    [defaultsDict setObject:@"Lucida Grande Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
     [defaultsDict setObject:@"Lucida Grande" forKey:DefaultsBibleTextDisplayFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsBibleTextDisplayFontSizeKey];
+
 	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
@@ -365,21 +368,13 @@ static AppController *singleton;
 }
 
 - (IBAction)showPreferenceSheet:(id)sender {
-	// check if preference controller already exists
-	if(preferenceController == nil) {
-		// create it
-		preferenceController = [MBPreferenceController defaultPrefsController];
-		// set delegate of preferenceController
-		[preferenceController setDelegate:self];
-		// load PreferenceSheet, so we have the views we need
-		BOOL success = [NSBundle loadNibNamed:PREFERENCE_CONTROLLER_NIB_NAME owner:preferenceController];
-		if(success == NO) {
-			MBLOG(MBLOG_ERR,@"[AppController]: cannot load Preferences.nib!");
-		}		
-	}
-	
 	// show panel
-	[preferenceController beginSheetForWindow:nil];
+    // create it
+    if(!preferenceController) {
+        preferenceController = [[MBPreferenceController alloc] init];
+    }
+	//[preferenceController beginSheetForWindow:nil];
+	[preferenceController showWindow:self];
 }
 
 - (IBAction)showAboutWindow:(id)sender {

@@ -7,6 +7,8 @@
 //
 
 #import "Highlighter.h"
+#import "globals.h"
+#import "MBPreferenceController.h"
 
 
 @implementation Highlighter
@@ -75,6 +77,9 @@
     if(length > 0) {
         // create attributes Dictinary
         NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
+        NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                           size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+        [attr setObject:fontBold forKey:NSFontAttributeName];        
         
         // create NSMutableAttributedString
         ret = [[[NSMutableAttributedString alloc] initWithString:text attributes:attributes] autorelease];

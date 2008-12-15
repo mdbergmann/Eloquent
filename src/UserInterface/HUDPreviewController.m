@@ -43,9 +43,10 @@
         if(!module || [module length] == 0) {
             // get default bible module
             module = [userDefaults stringForKey:DefaultsBibleModule];
-            if([[data objectForKey:ATTRTYPE_TYPE] isEqualToString:@"Hebrew"]) {
+            NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+            if([attrType isEqualToString:@"Hebrew"]) {
                 module = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
-            } else if([[data objectForKey:ATTRTYPE_TYPE] isEqualToString:@"Hebrew"]) {
+            } else if([attrType isEqualToString:@"Greek"]) {
                 module = [userDefaults stringForKey:DefaultsStrongsGreekModule];
             }
         }

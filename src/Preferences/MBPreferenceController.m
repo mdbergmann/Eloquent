@@ -1,4 +1,5 @@
 #import "MBPreferenceController.h"
+#import "SwordManager.h"
 #import "globals.h"
 
 @implementation MBPreferenceController
@@ -7,8 +8,9 @@
 @synthesize sheetWindow;
 @synthesize webPreferences;
 
+static MBPreferenceController *instance;
+
 + (MBPreferenceController *)defaultPrefsController {
-    static MBPreferenceController *instance;
     if(instance == nil) {
         instance = [[MBPreferenceController alloc] init];
     }
@@ -19,10 +21,12 @@
 - (id)init {
 	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -init]");
 	
-	self = [super init];
+	self = [super initWithWindowNibName:@"Preferences" owner:self];
 	if(self == nil) {
 		MBLOG(MBLOG_ERR, @"[MBPreferenceController -init] cannot init!");		
-	} else {
+	} else {        
+        instance = self;
+
 		// init web preferences
         webPreferences = [[WebPreferences alloc] init];
         [webPreferences setAutosaves:NO];
@@ -32,7 +36,7 @@
         [webPreferences setPlugInsEnabled:NO];
         // set default font
         [webPreferences setStandardFontFamily:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
-        [webPreferences setDefaultFontSize:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+        [webPreferences setDefaultFontSize:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];        
 	}
 	
 	return self;
@@ -46,29 +50,41 @@
 	[super finalize];
 }
 
+- (NSArray *)moduleNamesOfTypeBible {
+    return [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
+}
+
+- (NSArray *)moduleNamesOfTypeStrongsGreek {
+    return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_GREEKDEF];
+}
+
+- (NSArray *)moduleNamesOfTypeStrongsHebrew {
+    return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_HEBREWDEF];
+}
+
 //--------------------------------------------------------------------
 //----------- bundle delegates ---------------------------------------
 //--------------------------------------------------------------------
 - (void)awakeFromNib {
 	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -awakeFromNib]");
 	
-	if(self != nil) {
-		// calculate margins
-		northMargin = [[self window] frame].size.height - southMargin - [prefsTabView frame].size.height;
-		southMargin = [prefsTabView frame].origin.y;
-		sideMargin = ([[self window] frame].size.width - [prefsTabView frame].size.width) / 2;
-		//sideMargin = 0;
-		
-		// topTabViewmargin
-		topTabViewMargin = [prefsTabView frame].size.height - [prefsTabView contentRect].size.height;
-		
-		// init tabview
-		//preselect tabitem general
-		NSTabViewItem *tvi = [prefsTabView tabViewItemAtIndex:0];
-		[prefsTabView selectTabViewItem:tvi];
-		// call delegate directly
-		[self tabView:prefsTabView didSelectTabViewItem:tvi];
-	}
+    generalViewRect = [generalView frame];
+    
+    // calculate margins
+    northMargin = [[self window] frame].size.height - southMargin - [prefsTabView frame].size.height;
+    southMargin = [prefsTabView frame].origin.y;
+    sideMargin = ([[self window] frame].size.width - [prefsTabView frame].size.width) / 2;
+    //sideMargin = 0;
+    
+    // topTabViewmargin
+    topTabViewMargin = [prefsTabView frame].size.height - [prefsTabView contentRect].size.height;
+    
+    // init tabview
+    //preselect tabitem general
+    NSTabViewItem *tvi = [prefsTabView tabViewItemAtIndex:0];
+    [prefsTabView selectTabViewItem:tvi];
+    // call delegate directly
+    [self tabView:prefsTabView didSelectTabViewItem:tvi];
 }
 
 //--------------------------------------------------------------------
@@ -84,8 +100,8 @@
 	
 	if([[tabViewItem identifier] isEqualToString:@"general"] == YES) {
 		// set view
-		viewframe = [generalViewController viewFrame];
-		prefsView = [generalViewController view];
+		viewframe = generalViewRect;
+		prefsView = generalView;
 	}
 	
 	// calculate the difference in size
@@ -156,6 +172,7 @@
 //--------------------------------------------------------------------
 - (IBAction)okButton:(id)sender {
 	[self endSheet];
+    [self close];
 }
 
 @end

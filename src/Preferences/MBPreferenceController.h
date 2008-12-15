@@ -3,7 +3,6 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 #import <CocoLogger/CocoLogger.h>
-#import <MBGeneralPrefsViewController.h>
 
 #define PREFERENCE_CONTROLLER_NIB_NAME          @"Preferences"
 
@@ -30,13 +29,16 @@
 #define DefaultsStrongsHebrewModule     @"DefaultsStrongsHebrewModule"
 #define DefaultsStrongsGreekModule      @"DefaultsStrongsGreekModule"
 
+@class SwordManager;
+
 @interface MBPreferenceController : NSWindowController {
 	// global stuff
 	IBOutlet NSButton *okButton;
 	IBOutlet NSTabView *prefsTabView;
 	
 	// the controllers
-	IBOutlet MBGeneralPrefsViewController *generalViewController;
+	IBOutlet NSView *generalView;
+    NSRect generalViewRect;
 	
     // WebPreferences for display
     WebPreferences *webPreferences;
@@ -63,6 +65,10 @@
 
 // the default prefs controller
 + (MBPreferenceController *)defaultPrefsController;
+
+- (NSArray *)moduleNamesOfTypeBible;
+- (NSArray *)moduleNamesOfTypeStrongsGreek;
+- (NSArray *)moduleNamesOfTypeStrongsHebrew;
 
 // begin sheet
 - (void)beginSheetForWindow:(NSWindow *)docWindow;

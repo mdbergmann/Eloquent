@@ -281,6 +281,8 @@
     // set scroll to line height
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
                                    size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+    NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                       size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
     [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
@@ -325,8 +327,9 @@
                 
                 // options
                 NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:2];
-                [markerOpts setObject:verseURL forKey:NSLinkAttributeName];
+                //[markerOpts setObject:verseURL forKey:NSLinkAttributeName];
                 [markerOpts setObject:verseMarker forKey:@"VerseMarkerAttributeName"];
+                [markerOpts setObject:fontBold forKey:NSFontAttributeName];
                 
                 // replace string
                 [ret replaceCharactersInRange:replaceRange withString:visible];

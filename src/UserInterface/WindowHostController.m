@@ -62,7 +62,7 @@
     [item setLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
     [item setToolTip:NSLocalizedString(@"ToggleModulesToolTip", @"")];
-    image = [NSImage imageNamed:@"fifteenpieces.png"];
+    image = [NSImage imageNamed:@"agt_add-to-autorun.png"];
     [item setImage:image];
     [item setTarget:self];
     [item setAction:@selector(toggleModulesTB:)];
@@ -245,6 +245,7 @@
  */
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
+                                 TB_TOGGLE_MODULES_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
                                  TB_SEARCH_TYPE_ITEM,
                                  TB_SEARCH_TEXT_ITEM,
