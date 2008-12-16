@@ -95,6 +95,9 @@ NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
     [defaultsDict setObject:@"StrongsGreek" forKey:DefaultsStrongsGreekModule];
     [defaultsDict setObject:@"StrongsHebrew" forKey:DefaultsStrongsHebrewModule];
     
+    // indexer stuff
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBackgroundIndexerEnabled];
+    
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];
 }
@@ -240,7 +243,6 @@ static AppController *singleton;
             
             // test BookmarkManager
             [[BookmarkManager defaultManager] bookmarks];
-            //[[BookmarkManager defaultManager] saveBookmarks];            
         }
 	}
 	
@@ -470,8 +472,10 @@ static AppController *singleton;
     //SwordBook *book = (SwordBook *)[[SwordManager defaultManager] moduleWithName:@"Josephus"];
     //[book testLoop];
     
-    // start background indexer
-    //[[IndexingManager sharedManager] triggerBackgroundIndexCheck];
+    // start background indexer if enabled
+    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+        [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
+    }
 }
 
 /**

@@ -124,6 +124,7 @@ NSRange searchRange;
 - (NSArray *)performSearchOperation:(NSString *)query range:(NSRange)range maxResults:(int)maxResults {
     NSMutableArray *array = nil;
     
+    [searchLock lock];
     if(contentIndexRef != NULL) {
         // copy range
         searchRange.location = range.location;
@@ -235,6 +236,7 @@ NSRange searchRange;
             MBLOG(MBLOG_ERR, @"Could not create SearchRef!");
         }
     }
+    [searchLock unlock];
     
     return array;
 }

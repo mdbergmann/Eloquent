@@ -269,17 +269,20 @@ base path of the module installation
 /** refresh modules of this source 
  refreshing the install source is necessary before installation of 
  */
-- (void)refreshInstallSource:(SwordInstallSource *)is
-{
+- (int)refreshInstallSource:(SwordInstallSource *)is {
+    int ret = 1;
+    
     if(is == nil) {
         MBLOG(MBLOG_ERR, @"[SwordInstallManager -refreshInstallSourceForName:] install source is nil");
     } else {
         if([[is source] isEqualToString:@"localhost"] == NO) {
-            swInstallMgr->refreshRemoteSource([is installSource]);
+            ret = swInstallMgr->refreshRemoteSource([is installSource]);
         } else {
             MBLOG(MBLOG_INFO, @"[SwordInstallSourceController -refreshInstallSource:] not refreshing, DIR source");
         }
     }
+    
+    return ret;
 }
 
 /**

@@ -244,9 +244,11 @@
             if(searchType == ReferenceSearchType) {
 
                 if([aReference length] > 0) {
+                    /*
                     NSMutableArray *sel = [NSMutableArray array];
                     // init Reg ex
                     MBRegex *regex = [MBRegex regexWithPattern:aReference];
+                     */
                 }
 
                 // refresh outlineview

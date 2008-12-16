@@ -69,6 +69,7 @@ static MBPreferenceController *instance;
 	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -awakeFromNib]");
 	
     generalViewRect = [generalView frame];
+    bibleDisplayViewRect = [bibleDisplayView frame];
     
     // calculate margins
     northMargin = [[self window] frame].size.height - southMargin - [prefsTabView frame].size.height;
@@ -85,6 +86,34 @@ static MBPreferenceController *instance;
     [prefsTabView selectTabViewItem:tvi];
     // call delegate directly
     [self tabView:prefsTabView didSelectTabViewItem:tvi];
+    
+    // set font family and size in bible text
+    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
+    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, fontSize];
+    [bibleFontTextField setStringValue:fontText];
+    bibleDisplayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
+}
+
+- (void)changeFont:(id)sender {
+	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -changeFont]");
+    
+    NSFont *newFont = [sender convertFont:bibleDisplayFont];
+    // get font data
+    NSString *fontFamily = [newFont familyName];
+    float fontSize = [newFont pointSize];
+    
+    // update user defaults
+    [userDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
+    [userDefaults setObject:[NSString stringWithFormat:@"%@ Bold"] forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+    [userDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
+    // update webPreferences
+    [webPreferences setStandardFontFamily:fontFamily];
+    [webPreferences setDefaultFontSize:(int)fontSize];        
+    
+    NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, (int)fontSize];
+    [bibleFontTextField setStringValue:fontText];
+    bibleDisplayFont = newFont;
 }
 
 //--------------------------------------------------------------------
@@ -98,11 +127,15 @@ static MBPreferenceController *instance;
 	// set nil contentview
 	//[tabViewItem setView:prefsView];
 	
-	if([[tabViewItem identifier] isEqualToString:@"general"] == YES) {
+	if([[tabViewItem identifier] isEqualToString:@"general"]) {
 		// set view
 		viewframe = generalViewRect;
 		prefsView = generalView;
-	}
+	} else if([[tabViewItem identifier] isEqualToString:@"bibledisplay"]) {
+		// set view
+		viewframe = bibleDisplayViewRect;
+		prefsView = bibleDisplayView;
+    }
 	
 	// calculate the difference in size
 	//NSRect contentFrame = [[sheet contentView] frame];

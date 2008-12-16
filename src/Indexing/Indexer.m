@@ -24,6 +24,11 @@
 
 @implementation Indexer
 
+@synthesize modType;
+@synthesize modTypeStr;
+@synthesize modName;
+@synthesize searchLock;
+
 /**
 \brief open or create index for the given parameters
  @return SKIndexRef or NULL on error
@@ -82,6 +87,7 @@
 		MBLOG(MBLOG_ERR,@"cannot alloc Indexer!");
 	} else {
         [self setModName:@""];
+        [self setSearchLock:[[NSLock alloc] init]];
     }
 	
 	return self;
@@ -122,42 +128,6 @@
 	[super finalize];
 }
 
-
-/**********************************************************
- Getter/Setter
- **********************************************************/
-- (ModuleType)modType {
-    return modType;
-}
-
-- (void)setModType:(ModuleType)value {
-    if(modType != value) {
-        modType = value;
-    }
-}
-
-- (NSString *)modName {
-    return modName;
-}
-
-- (void)setModName:(NSString *)value {
-    if(modName != value) {
-        [modName release];
-        modName = [value copy];
-    }
-}
-
-- (NSString *)modTypeStr {
-    return modTypeStr;
-}
-
-- (void)setModTypeStr:(NSString *)value { 
-    if(modTypeStr != value) {
-        [modTypeStr release];
-        modTypeStr = [value copy];
-    }    
-}
-
 /**
 \brief add a text to be indexed to this indexer.
  This method is abstract and should be overriden by the subclasses
@@ -181,7 +151,10 @@
  @return array of NSDictionaries with search results
  */
 - (NSArray *)performSearchOperation:(NSString *)query range:(NSRange)range maxResults:(int)maxResults {
+    
+    [searchLock lock];
     NSArray *array = nil;
+    [searchLock unlock];
     
     return array;
 }

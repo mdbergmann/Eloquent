@@ -12,9 +12,11 @@
 #define DefaultsBibleTextShowBookNameKey            @"DefaultsBibleTextShowBookNameKey"
 #define DefaultsBibleTextShowBookAbbrKey            @"DefaultsBibleTextShowBookAbbrKey"
 #define DefaultsBibleTextVersesOnOneLineKey         @"DefaultsBibleTextVersesOnOneLineKey"
+
 #define DefaultsBibleTextDisplayFontFamilyKey       @"DefaultsBibleTextDisplayFontFamilyKey"
 #define DefaultsBibleTextDisplayBoldFontFamilyKey   @"DefaultsBibleTextDisplayBoldFontFamilyKey"
 #define DefaultsBibleTextDisplayFontSizeKey         @"DefaultsBibleTextDisplayFontSizeKey"
+
 #define DefaultsHeaderViewFontFamilyKey             @"DefaultsHeaderViewFontFamilyKey"
 #define DefaultsHeaderViewFontSizeKey               @"DefaultsHeaderViewFontSizeKey"
 #define DefaultsHeaderViewFontSizeBigKey            @"DefaultsHeaderViewFontSizeBigKey"
@@ -29,6 +31,9 @@
 #define DefaultsStrongsHebrewModule     @"DefaultsStrongsHebrewModule"
 #define DefaultsStrongsGreekModule      @"DefaultsStrongsGreekModule"
 
+// indexing defaults
+#define DefaultsBackgroundIndexerEnabled    @"DefaultsBackgroundIndexerEnabled"
+
 @class SwordManager;
 
 @interface MBPreferenceController : NSWindowController {
@@ -36,9 +41,15 @@
 	IBOutlet NSButton *okButton;
 	IBOutlet NSTabView *prefsTabView;
 	
-	// the controllers
+    IBOutlet NSFontManager *fontManager;
+    IBOutlet NSTextField *bibleFontTextField;
+    NSFont *bibleDisplayFont;
+    
+	// the views
 	IBOutlet NSView *generalView;
     NSRect generalViewRect;
+	IBOutlet NSView *bibleDisplayView;
+    NSRect bibleDisplayViewRect;
 	
     // WebPreferences for display
     WebPreferences *webPreferences;

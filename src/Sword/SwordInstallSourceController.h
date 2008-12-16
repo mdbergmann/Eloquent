@@ -90,7 +90,7 @@ base path of the module installation
 - (NSArray *)listModulesForSource:(SwordInstallSource *)is;
 
 // remote source list
-- (void)refreshInstallSource:(SwordInstallSource *)is;
+- (int)refreshInstallSource:(SwordInstallSource *)is;
 
 // get module status
 - (NSArray *)moduleStatusInInstallSource:(SwordInstallSource *)is baseManager:(SwordManager *)baseMgr;

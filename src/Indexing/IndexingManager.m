@@ -30,6 +30,7 @@
  this method can be run in seperate thread for checking index validity
  */
 - (void)runIndexCheck;
+- (void)detachedIndexCheckRunner;
 
 @end
 
@@ -49,7 +50,10 @@
  this method can be run in seperate thread for checking index validity
  */
 - (void)runIndexCheck {
-    
+    [NSThread detachNewThreadSelector:@selector(detachedIndexCheckRunner) toTarget:self withObject:nil];
+}
+
+- (void)detachedIndexCheckRunner {
     if([indexCheckLock tryLock]) {
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
@@ -66,7 +70,7 @@
         
         [pool drain];
         [indexCheckLock unlock];
-    }
+    }    
 }
 
 @end

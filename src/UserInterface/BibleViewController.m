@@ -329,7 +329,9 @@
                 NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:2];
                 //[markerOpts setObject:verseURL forKey:NSLinkAttributeName];
                 [markerOpts setObject:verseMarker forKey:@"VerseMarkerAttributeName"];
-                [markerOpts setObject:fontBold forKey:NSFontAttributeName];
+                if(fontBold) {
+                    [markerOpts setObject:fontBold forKey:NSFontAttributeName];                
+                }
                 
                 // replace string
                 [ret replaceCharactersInRange:replaceRange withString:visible];

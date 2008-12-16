@@ -371,6 +371,43 @@
     [categoryOutlineView reloadData];
     
     initialized = YES;
+    
+    // test install sources for availability
+    NSMutableArray *uis = [NSMutableArray array];
+    SwordInstallSourceController *isc = [SwordInstallSourceController defaultController];
+    for(SwordInstallSource *is in [isc installSourceList]) {
+        
+        NSString *host = [is source];
+        if(![host isEqualToString:@"localhost"]) {
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, [is directory]]];
+            
+            NSURLResponse *response = [[NSURLResponse alloc] init];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            NSData *data = [NSURLConnection sendSynchronousRequest:request 
+                                                 returningResponse:&response error:nil];
+            if(!data) {
+                [uis addObject:[is caption]];
+            }
+        }
+    }
+    
+    // install sources not available?
+    NSMutableString *uisStr = [NSMutableString stringWithString:NSLocalizedString(@"The following install sources could not be contacted:\n", @"")];
+    for(int i = 0;i < [uis count];i++) {
+        if(i == 0) {
+            [uisStr appendString:[uis objectAtIndex:i]];
+        } else {
+            [uisStr appendFormat:@", %@", [uis objectAtIndex:i]];
+        }
+    }
+    if([uis count] > 0) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil
+                                           otherButton:nil 
+                             informativeTextWithFormat:uisStr];
+        [alert runModal];        
+    }
 }
 
 //--------------------------------------------------------------------
@@ -566,14 +603,31 @@
         
         NSEnumerator *iter = [selectedInstallSources objectEnumerator];
         InstallSourceListObject *source = nil;
+        int stat = 0;
         while((source = [iter nextObject])) {
-            [sis refreshInstallSource:[source installSource]];
+            stat = [sis refreshInstallSource:[source installSource]];
+            if(stat != 0) {
+                MBLOG(MBLOG_ERR, @"[ModuleManageViewController -refreshInstallSource:] error on refreshing install source!");
+                break;
+            }
         }
 
-        // re initialize sis
-        //[[SwordManager defaultManager] reInit];
-        [sis reinitialize];
+        [ps stopProgressAnimation];
+        [ps endSheet];        
 
+        if(stat != 0) {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                             defaultButton:NSLocalizedString(@"OK", @"") 
+                                           alternateButton:nil
+                                               otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"ErrorOnRefreshingModules", @"")];
+            [alert runModal];            
+        } else {
+            // re initialize sis
+            //[[SwordManager defaultManager] reInit];
+            [sis reinitialize];
+        }
+        
         // remove selection
         [self setSelectedInstallSources:[NSArray array]];
         [categoryOutlineView deselectAll:self];
@@ -586,9 +640,6 @@
         // set selection to none and reload
         [modListViewController setInstallSources:[NSArray array]];
         [modListViewController refreshModulesList];
-
-        [ps stopProgressAnimation];
-        [ps endSheet];        
     }
 }
 

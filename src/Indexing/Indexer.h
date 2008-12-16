@@ -32,7 +32,14 @@ typedef enum {
 	ModuleType modType;
     NSString *modTypeStr;
 	NSString *modName;
+    
+    NSLock *searchLock;
 }
+
+@property (readwrite) ModuleType modType;
+@property (retain, readwrite) NSString *modTypeStr;
+@property (retain, readwrite) NSString *modName;
+@property (retain, readwrite) NSLock *searchLock;
 
 /**
 \brief open or create index for the given parameters
@@ -50,18 +57,6 @@ typedef enum {
  if there is no existing index available a new one is created
  */
 - (id)initWithModuleName:(NSString *)aModName moduleType:(ModuleType)aModType;
-
-//----------------------
-// getter / setter
-//----------------------
-- (ModuleType)modType;
-- (void)setModType:(ModuleType)value;
-
-- (NSString *)modName;
-- (void)setModName:(NSString *)value;
-
-- (NSString *)modTypeStr;
-- (void)setModTypeStr:(NSString *)value;
 
 /**
 \brief add a text to be indexed to this indexer

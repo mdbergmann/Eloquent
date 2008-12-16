@@ -121,8 +121,8 @@
 - (NSArray *)performSearchOperation:(NSString *)query range:(NSRange)range maxResults:(int)maxResults {
     NSMutableArray *array = nil;
     
+    [searchLock lock];
     if(contentIndexRef != NULL) {
-        // use 10.4 searching on Tiger and above
         SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (CFStringRef)query, 0);
         if(searchRef != NULL) {
             if(maxResults == 0) {
@@ -201,6 +201,7 @@
             MBLOG(MBLOG_ERR, @"[BookIndexer -performSearchOperation] Could not create SearchRef!");
         }
     }
+    [searchLock unlock];
     
     return array;
 }

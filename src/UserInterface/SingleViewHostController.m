@@ -82,7 +82,7 @@
             searchType = ReferenceSearchType;
         } else if(moduleType == genbook) {
             viewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
-            searchType = ReferenceSearchType;
+            searchType = IndexSearchType;
         }
         
         // load nib
