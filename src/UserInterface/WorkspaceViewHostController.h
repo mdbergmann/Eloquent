@@ -15,7 +15,6 @@
 #define WORKSPACEVIEWHOST_NIBNAME   @"WorkspaceViewHost"
 
 @class HostableViewController;
-@class LeftSideBarViewController;
 @class SwordModule;
 
 @interface WorkspaceViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
@@ -30,10 +29,6 @@
         
     /** the current selected view contoller */
     HostableViewController *activeViewController;
-    
-    // every host has a side bar view
-    LeftSideBarViewController *lsbViewController;
-    BOOL showingLSB;
     
     /** array of search text objects */
     NSMutableArray *searchTextObjs;

@@ -58,3 +58,9 @@
  */
 #define NotificationShowPreviewData @"NotificationShowPreviewData"
 #define SendNotifyShowPreviewData(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationShowPreviewData object:X];
+
+/**
+ \brief this notification is send when among the currently displayed and active modules is a dictionary or genbook
+ */
+#define NotificationSetHUDContentView @"NotificationSetHUDContentView"
+#define SendNotifySetHUDContentView(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationSetHUDContentView object:X];

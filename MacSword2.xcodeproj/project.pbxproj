@@ -65,9 +65,6 @@
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
-		A9880FE80EB49A430066943B /* BookmarkOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9880FE70EB49A430066943B /* BookmarkOutlineViewController.m */; };
-		A9880FED0EB49D9D0066943B /* BookmarkOutlineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9880FEB0EB49D9D0066943B /* BookmarkOutlineView.xib */; };
-		A98810300EB4A4580066943B /* SideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A988102E0EB4A4580066943B /* SideBarView.xib */; };
 		A98810340EB4A6820066943B /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810330EB4A6820066943B /* SideBarViewController.m */; };
 		A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810360EB4A9350066943B /* LeftSideBarViewController.m */; };
 		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
@@ -78,6 +75,8 @@
 		A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5300DF9AD6E00207967 /* ModuleManageView.xib */; };
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
 		A996239D0E4F0D5A0082F18F /* OutlineListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A996239C0E4F0D5A0082F18F /* OutlineListObject.m */; };
+		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
+		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */; };
@@ -87,6 +86,9 @@
 		A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */; };
 		A9D760F30EF715BB00A78AA8 /* agt_add-to-autorun.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */; };
 		A9D760F40EF715BB00A78AA8 /* bookmarks_list_add.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */; };
+		A9D849660EFA2D34000457EC /* LeftSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D849620EFA2D34000457EC /* LeftSideBarView.xib */; };
+		A9D849670EFA2D34000457EC /* RightSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D849640EFA2D34000457EC /* RightSideBarView.xib */; };
+		A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */; };
 		A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */; };
 		A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D9F52C0EAF17890035222E /* SenTestingKit.framework */; };
 		A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
@@ -101,8 +103,6 @@
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
 		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
-		A9F1EE3A0E4C1B9500939B85 /* ModuleOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F1EE390E4C1B9500939B85 /* ModuleOutlineViewController.m */; };
-		A9F1EE3F0E4C1EFF00939B85 /* ModuleOutlineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F1EE3D0E4C1EFF00939B85 /* ModuleOutlineView.xib */; };
 		A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */; };
 		A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */; };
 		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
@@ -241,10 +241,6 @@
 		A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleViewHostController.m; path = src/UserInterface/SingleViewHostController.m; sourceTree = "<group>"; };
 		A96516620E06D3DA0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
-		A9880FE60EB49A430066943B /* BookmarkOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkOutlineViewController.h; path = src/UserInterface/BookmarkOutlineViewController.h; sourceTree = "<group>"; };
-		A9880FE70EB49A430066943B /* BookmarkOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkOutlineViewController.m; path = src/UserInterface/BookmarkOutlineViewController.m; sourceTree = "<group>"; };
-		A9880FEC0EB49D9D0066943B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BookmarkOutlineView.xib; sourceTree = "<group>"; };
-		A988102F0EB4A4580066943B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SideBarView.xib; sourceTree = "<group>"; };
 		A98810320EB4A6820066943B /* SideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SideBarViewController.h; path = src/UserInterface/SideBarViewController.h; sourceTree = "<group>"; };
 		A98810330EB4A6820066943B /* SideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SideBarViewController.m; path = src/UserInterface/SideBarViewController.m; sourceTree = "<group>"; };
 		A98810350EB4A9350066943B /* LeftSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeftSideBarViewController.h; path = src/UserInterface/LeftSideBarViewController.h; sourceTree = "<group>"; };
@@ -259,6 +255,9 @@
 		A992B5330DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
 		A996239B0E4F0D5A0082F18F /* OutlineListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineListObject.h; path = src/UserInterface/OutlineListObject.h; sourceTree = "<group>"; };
 		A996239C0E4F0D5A0082F18F /* OutlineListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineListObject.m; path = src/UserInterface/OutlineListObject.m; sourceTree = "<group>"; };
+		A99DB3220EF96ABF0065482A /* scopebar_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_gradient.png; sourceTree = "<group>"; };
+		A99DB3240EF96C310065482A /* ScopeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopeBarView.h; path = src/UserInterface/ScopeBarView.h; sourceTree = "<group>"; };
+		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
 		A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordModuleTest.h; path = test/SwordModuleTest.h; sourceTree = "<group>"; };
 		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordModuleTest.m; path = test/SwordModuleTest.m; sourceTree = "<group>"; };
 		A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
@@ -269,6 +268,10 @@
 		A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agt_add-to-autorun.png"; sourceTree = "<group>"; };
 		A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmarks_list_add.png; sourceTree = "<group>"; };
+		A9D849630EFA2D34000457EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/LeftSideBarView.xib; sourceTree = "<group>"; };
+		A9D849650EFA2D34000457EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/RightSideBarView.xib; sourceTree = "<group>"; };
+		A9D849690EFA361F000457EC /* RightSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RightSideBarViewController.h; path = src/UserInterface/RightSideBarViewController.h; sourceTree = "<group>"; };
+		A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RightSideBarViewController.m; path = src/UserInterface/RightSideBarViewController.m; sourceTree = "<group>"; };
 		A9D9F51A0EAF151E0035222E /* Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D9F51B0EAF151E0035222E /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		A9D9F5270EAF156D0035222E /* BookmarkManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManagerTest.h; path = test/BookmarkManagerTest.h; sourceTree = "<group>"; };
@@ -289,9 +292,6 @@
 		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
 		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
 		A9F1856A0E0833F9005F3B35 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
-		A9F1EE380E4C1B9500939B85 /* ModuleOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleOutlineViewController.h; path = src/UserInterface/ModuleOutlineViewController.h; sourceTree = "<group>"; };
-		A9F1EE390E4C1B9500939B85 /* ModuleOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleOutlineViewController.m; path = src/UserInterface/ModuleOutlineViewController.m; sourceTree = "<group>"; };
-		A9F1EE3E0E4C1EFF00939B85 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleOutlineView.xib; sourceTree = "<group>"; };
 		A9F4E3510E1DF0D800B0148E /* ReferenceCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheManager.h; path = src/UserInterface/ReferenceCacheManager.h; sourceTree = "<group>"; };
 		A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheManager.m; path = src/UserInterface/ReferenceCacheManager.m; sourceTree = "<group>"; };
 		A9F4E3550E1DF16F00B0148E /* ReferenceCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheObject.h; path = src/UserInterface/ReferenceCacheObject.h; sourceTree = "<group>"; };
@@ -428,10 +428,9 @@
 				A9DCB0D30E9F252C004169EB /* GenBookView.xib */,
 				A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */,
 				A9F185480E083117005F3B35 /* WebView.xib */,
-				A9F1EE3D0E4C1EFF00939B85 /* ModuleOutlineView.xib */,
-				A9880FEB0EB49D9D0066943B /* BookmarkOutlineView.xib */,
-				A988102E0EB4A4580066943B /* SideBarView.xib */,
 				A9DFBC3E0EF6ECF30061BE19 /* Preferences.xib */,
+				A9D849620EFA2D34000457EC /* LeftSideBarView.xib */,
+				A9D849640EFA2D34000457EC /* RightSideBarView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -450,6 +449,7 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A99DB3220EF96ABF0065482A /* scopebar_gradient.png */,
 				A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */,
 				A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */,
 				A991F4A20EE2E224009A6D08 /* ModuleManager.png */,
@@ -602,14 +602,12 @@
 				A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */,
 				A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */,
 				A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */,
-				A9F1EE380E4C1B9500939B85 /* ModuleOutlineViewController.h */,
-				A9F1EE390E4C1B9500939B85 /* ModuleOutlineViewController.m */,
-				A9880FE60EB49A430066943B /* BookmarkOutlineViewController.h */,
-				A9880FE70EB49A430066943B /* BookmarkOutlineViewController.m */,
 				A98810320EB4A6820066943B /* SideBarViewController.h */,
 				A98810330EB4A6820066943B /* SideBarViewController.m */,
 				A98810350EB4A9350066943B /* LeftSideBarViewController.h */,
 				A98810360EB4A9350066943B /* LeftSideBarViewController.m */,
+				A9D849690EFA361F000457EC /* RightSideBarViewController.h */,
+				A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */,
 				A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */,
 				A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */,
 			);
@@ -639,6 +637,8 @@
 		A9E820FE0E0B95900020A64E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A99DB3240EF96C310065482A /* ScopeBarView.h */,
+				A99DB3250EF96C310065482A /* ScopeBarView.m */,
 				A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */,
 				A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */,
 				A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */,
@@ -758,7 +758,6 @@
 				A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */,
 				A9F1854A0E083117005F3B35 /* WebView.xib in Resources */,
 				A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */,
-				A9F1EE3F0E4C1EFF00939B85 /* ModuleOutlineView.xib in Resources */,
 				A9202A2D0E59A2650094F629 /* CommentaryView.xib in Resources */,
 				A91A23440E61955000382F44 /* add.png in Resources */,
 				A91A23450E61955000382F44 /* edit.png in Resources */,
@@ -775,8 +774,6 @@
 				A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */,
 				A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */,
 				A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */,
-				A9880FED0EB49D9D0066943B /* BookmarkOutlineView.xib in Resources */,
-				A98810300EB4A4580066943B /* SideBarView.xib in Resources */,
 				A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */,
 				A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */,
 				A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */,
@@ -784,6 +781,9 @@
 				A9DFBC400EF6ECF30061BE19 /* Preferences.xib in Resources */,
 				A9D760F30EF715BB00A78AA8 /* agt_add-to-autorun.png in Resources */,
 				A9D760F40EF715BB00A78AA8 /* bookmarks_list_add.png in Resources */,
+				A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */,
+				A9D849660EFA2D34000457EC /* LeftSideBarView.xib in Resources */,
+				A9D849670EFA2D34000457EC /* RightSideBarView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,7 +850,6 @@
 				A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */,
 				A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */,
 				A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */,
-				A9F1EE3A0E4C1B9500939B85 /* ModuleOutlineViewController.m in Sources */,
 				A996239D0E4F0D5A0082F18F /* OutlineListObject.m in Sources */,
 				A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */,
 				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
@@ -861,13 +860,14 @@
 				A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */,
 				A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */,
 				A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */,
-				A9880FE80EB49A430066943B /* BookmarkOutlineViewController.m in Sources */,
 				A98810340EB4A6820066943B /* SideBarViewController.m in Sources */,
 				A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */,
 				A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */,
 				A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */,
 				A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */,
 				A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */,
+				A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */,
+				A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,22 +941,6 @@
 			name = SingleViewHost.xib;
 			sourceTree = "<group>";
 		};
-		A9880FEB0EB49D9D0066943B /* BookmarkOutlineView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A9880FEC0EB49D9D0066943B /* English */,
-			);
-			name = BookmarkOutlineView.xib;
-			sourceTree = "<group>";
-		};
-		A988102E0EB4A4580066943B /* SideBarView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A988102F0EB4A4580066943B /* English */,
-			);
-			name = SideBarView.xib;
-			sourceTree = "<group>";
-		};
 		A992B52A0DF9AD6E00207967 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -997,6 +981,22 @@
 			name = ThreadedProgressSheet.xib;
 			sourceTree = "<group>";
 		};
+		A9D849620EFA2D34000457EC /* LeftSideBarView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9D849630EFA2D34000457EC /* English */,
+			);
+			name = LeftSideBarView.xib;
+			sourceTree = "<group>";
+		};
+		A9D849640EFA2D34000457EC /* RightSideBarView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9D849650EFA2D34000457EC /* English */,
+			);
+			name = RightSideBarView.xib;
+			sourceTree = "<group>";
+		};
 		A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1027,14 +1027,6 @@
 				A9F185490E083117005F3B35 /* English */,
 			);
 			name = WebView.xib;
-			sourceTree = "<group>";
-		};
-		A9F1EE3D0E4C1EFF00939B85 /* ModuleOutlineView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A9F1EE3E0E4C1EFF00939B85 /* English */,
-			);
-			name = ModuleOutlineView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

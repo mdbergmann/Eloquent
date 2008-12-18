@@ -16,21 +16,16 @@
 #define SINGLEVIEWHOST_NIBNAME   @"SingleViewHost"
 
 @class HostableViewController;
-@class LeftSideBarViewController;
 @class SwordModule;
 @class SearchTextObject;
 
 @interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
-            
+
     // the main view for placeHolderView
     HostableViewController *viewController;
     
     // the type of view
     ModuleType moduleType;
-    
-    // every host has a side bar view
-    LeftSideBarViewController *lsbViewController;
-    BOOL showingLSB;    
 }
 
 // initializers

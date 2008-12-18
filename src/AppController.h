@@ -13,6 +13,7 @@
 @class SingleViewHostController;
 @class WorkspaceViewHostController;
 @class HUDPreviewController;
+@class HUDContentViewController;
 
 typedef enum AppErrorCodes {
     INIT_SUCCESS = 0,
@@ -28,11 +29,17 @@ typedef enum AppErrorCodes {
 	MBPreferenceController *preferenceController;
     BOOL isPreferencesShowing;
 
+    // module installer
     ModuleManager *moduleManager;
     BOOL isModuleManagerShowing;
     
+    // HUD preview
     IBOutlet HUDPreviewController *previewController;
     BOOL isPreviewShowing;
+    
+    // HUD content view
+    IBOutlet HUDContentViewController *contentController;
+    BOOL isContentShowing;
     
     NSMutableArray *windowHosts;
 }

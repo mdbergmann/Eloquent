@@ -18,31 +18,44 @@
 #define TB_SEARCH_TEXT_ITEM     @"IdSearchText"
 
 @class SearchTextObject;
+@class LeftSideBarViewController;
+@class RightSideBarViewController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
-    IBOutlet NSDrawer *rightDrawer;
     // splitView to add and remove modules view. splitview hosts placeHolderView
-    IBOutlet NSSplitView *splitView;
-    // default View
-    IBOutlet NSView *defaultView;    
+    IBOutlet NSSplitView *mainSplitView;
+    // the contentview of the window
+    IBOutlet NSView *view;
+    // splitView for placeholderview
+    IBOutlet NSSplitView *contentSplitView;
     // placeholder for the main content view
     IBOutlet NSBox *placeHolderView;
     // placeholder for the search options
     IBOutlet NSBox *placeHolderSearchOptionsView;
-    
-    /** search type segmented control */
-    NSSegmentedControl *segmentedControl;
-    
+    // progress indicator
+    IBOutlet NSProgressIndicator *progressIndicator;
+        
     // our delegate
     id delegate;
-
-    NSSearchField *searchTextField;
-    NSView *searchOptionsView;
-    BOOL showingOptions;
     
 	// we need a dictionary for all our toolbar identifiers
 	NSMutableDictionary *tbIdentifiers;
 
+    // every host has a left side bar view
+    LeftSideBarViewController *lsbViewController;
+    float lsbWidth;
+    BOOL showingLSB;    
+    
+    // every host has a right side bar view
+    RightSideBarViewController *rsbViewController;
+    float rsbWidth;
+    BOOL showingRSB;
+
+    // search stuff
+    NSSearchField *searchTextField;
+    NSView *searchOptionsView;
+    /** search type segmented control */
+    NSSegmentedControl *searchTypeSegControl;
     // selected search type
     SearchType searchType;
     // the search text helper object
@@ -56,6 +69,12 @@
 // methods
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
+
+// sidebars
+- (void)showLeftSideBar;
+- (void)hideLeftSideBar;
+- (void)showRightSideBar;
+- (void)hideRightSideBar;
 
 - (void)setupToolbar;
 

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 
-
 @interface HUDPreviewController : NSWindowController {
     IBOutlet NSBox *placeholderView;
     IBOutlet NSTextField *previewType;

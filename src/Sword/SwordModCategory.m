@@ -12,25 +12,25 @@
 
 @implementation SwordModCategory
 
-@synthesize name;
+@synthesize type;
 
 + (NSArray *)moduleCategories {
     static NSArray *cats;
     if(cats == nil) {
         cats = [NSArray arrayWithObjects:
-                [[SwordModCategory alloc] initWithName:SWMOD_CATEGORY_BIBLES], 
-                [[SwordModCategory alloc] initWithName:SWMOD_CATEGORY_COMMENTARIES],
-                [[SwordModCategory alloc] initWithName:SWMOD_CATEGORY_DICTIONARIES],
-                [[SwordModCategory alloc] initWithName:SWMOD_CATEGORY_GENBOOKS], nil];
+                [[SwordModCategory alloc] initWithType:bible], 
+                [[SwordModCategory alloc] initWithType:commentary],
+                [[SwordModCategory alloc] initWithType:dictionary],
+                [[SwordModCategory alloc] initWithType:genbook], nil];
     }
     
     return cats;
 }
 
-- (id)initWithName:(NSString *)aName {
+- (id)initWithType:(ModuleType)aType {
     self = [super init];
     if(self) {
-        [self setName:aName];
+        [self setType:aType];
     }
     
     return self;
@@ -38,6 +38,31 @@
 
 - (void)finalize {
     [super finalize];
+}
+
+- (NSString *)name {
+    NSString *ret = @"";
+    
+    switch(type) {
+        case bible:
+            ret = SWMOD_CATEGORY_BIBLES;
+            break;
+        case commentary:
+            ret = SWMOD_CATEGORY_COMMENTARIES;
+            break;
+        case dictionary:
+            ret = SWMOD_CATEGORY_DICTIONARIES;
+            break;
+        case genbook:
+            ret = SWMOD_CATEGORY_GENBOOKS;
+            break;
+    }
+    
+    return ret;    
+}
+
+- (NSString *)description {    
+    return NSLocalizedString([self name], @"");
 }
 
 @end

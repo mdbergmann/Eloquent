@@ -7,15 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <SwordModule.h>
 
 @interface SwordModCategory : NSObject {
-    NSString *name;
+    ModuleType type;
 }
 
-@property (retain, readwrite) NSString *name;
+@property (readwrite) ModuleType type;
 
 + (NSArray *)moduleCategories;
-- (id)initWithName:(NSString *)aName;
+- (id)initWithType:(ModuleType)aType;
+
+- (NSString *)name;
 
 @end

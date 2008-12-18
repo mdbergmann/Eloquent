@@ -9,6 +9,8 @@
 #import "WindowHostController.h"
 #import "AppController.h"
 #import "SearchTextObject.h"
+#import "LeftSideBarViewController.h"
+#import "RightSideBarViewController.h"
 #import "SwordManager.h"
 
 @implementation WindowHostController
@@ -28,27 +30,31 @@
         [[SwordManager defaultManager] setGlobalOption:SW_OPTION_FOOTNOTES value:SW_ON];
         
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
-        
-        showingOptions = NO;        
+
+        // load leftSideBar
+        lsbWidth = 200;
+        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
+        [lsbViewController setHostingDelegate:self];
+        showingLSB = NO;
+
+        // load rightSideBar
+        rsbWidth = 200;
+        rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
+        [rsbViewController setHostingDelegate:self];
+        showingRSB = NO;
     }
     
     return self;
 }
 
 - (void)awakeFromNib {
-    // set vertical splitview
-    [splitView setVertical:YES];
-    [splitView setDividerStyle:NSSplitViewDividerStyleThin];    
+    // set main split vertical
+    [mainSplitView setVertical:YES];
+    [mainSplitView setDividerStyle:NSSplitViewDividerStyleThin];
 
-    // setup the drawer
-    if(rightDrawer == nil) {
-        rightDrawer = [[NSDrawer alloc] initWithContentSize:NSMakeSize(200.0, 400.0) preferredEdge:NSMaxXEdge];
-    }
-    [rightDrawer setDelegate:self];
-    [rightDrawer setParentWindow:[self window]];
-    [rightDrawer setPreferredEdge:NSMaxXEdge];
-    [rightDrawer setMaxContentSize:NSMakeSize(400.0, 400.0)];
-    [rightDrawer setMinContentSize:NSMakeSize(25.0, 400.0)];
+    // set content split vertical
+    [contentSplitView setVertical:YES];
+    [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     
     // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
@@ -117,45 +123,47 @@
     
     float segmentControlHeight = 32.0;
     float segmentControlWidth = (2*64.0);
-    segmentedControl = [[NSSegmentedControl alloc] init];
-    [segmentedControl setFrame:NSMakeRect(0.0,0.0,segmentControlWidth,segmentControlHeight)];
-    [segmentedControl setSegmentCount:2];
+    searchTypeSegControl = [[NSSegmentedControl alloc] init];
+    [searchTypeSegControl setFrame:NSMakeRect(0.0,0.0,segmentControlWidth,segmentControlHeight)];
+    [searchTypeSegControl setSegmentCount:2];
+    // style
+    [[searchTypeSegControl cell] setSegmentStyle:NSSegmentStyleTexturedRounded];
     // set tracking style
-    [[segmentedControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
+    [[searchTypeSegControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
     // insert text only segments
-    [segmentedControl setLabel:@"Ref" forSegment:0];
-    //[segmentedControl setImage:[NSImage imageNamed:@"list"] forSegment:0];		
-    [segmentedControl setLabel:@"Index" forSegment:1];
-    //[segmentedControl setImage:[NSImage imageNamed:@"search"] forSegment:1];
-    [[segmentedControl cell] setTag:ReferenceSearchType forSegment:0];
-    [[segmentedControl cell] setTag:IndexSearchType forSegment:1];
+    [searchTypeSegControl setLabel:NSLocalizedString(@"Reference", @"") forSegment:0];
+    //[searchTypeSegControl setImage:[NSImage imageNamed:@"list"] forSegment:0];		
+    [searchTypeSegControl setLabel:NSLocalizedString(@"Index", "") forSegment:1];
+    //[searchTypeSegControl setImage:[NSImage imageNamed:@"search"] forSegment:1];
+    [[searchTypeSegControl cell] setTag:ReferenceSearchType forSegment:0];
+    [[searchTypeSegControl cell] setTag:IndexSearchType forSegment:1];
     if([self moduleType] == genbook) {
-        [[segmentedControl cell] setEnabled:NO forSegment:0];
-        [[segmentedControl cell] setEnabled:YES forSegment:1];
-        [[segmentedControl cell] setSelected:NO forSegment:0];
-        [[segmentedControl cell] setSelected:YES forSegment:1];        
+        [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
+        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
+        [[searchTypeSegControl cell] setSelected:NO forSegment:0];
+        [[searchTypeSegControl cell] setSelected:YES forSegment:1];        
     } else {        
-        [[segmentedControl cell] setEnabled:YES forSegment:0];
-        [[segmentedControl cell] setEnabled:YES forSegment:1];
-        [[segmentedControl cell] setSelected:YES forSegment:0];
-        [[segmentedControl cell] setSelected:NO forSegment:1];
+        [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
+        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
+        [[searchTypeSegControl cell] setSelected:YES forSegment:0];
+        [[searchTypeSegControl cell] setSelected:NO forSegment:1];
     }
-    [segmentedControl sizeToFit];
+    [searchTypeSegControl sizeToFit];
     // resize the height to what we have defined
-    [segmentedControl setFrameSize:NSMakeSize([segmentedControl frame].size.width,segmentControlHeight)];
-    [segmentedControl setTarget:self];
-    [segmentedControl setAction:@selector(searchType:)];
+    [searchTypeSegControl setFrameSize:NSMakeSize([searchTypeSegControl frame].size.width,segmentControlHeight)];
+    [searchTypeSegControl setTarget:self];
+    [searchTypeSegControl setAction:@selector(searchType:)];
     
     // add detailview toolbaritem
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TYPE_ITEM];
     [item setLabel:NSLocalizedString(@"SearchTypeLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"SearchTypePalette", @"")];
     [item setToolTip:NSLocalizedString(@"SearchTypeTooltip", @"")];
-    [item setMinSize:[segmentedControl frame].size];
-    [item setMaxSize:[segmentedControl frame].size];
+    [item setMinSize:[searchTypeSegControl frame].size];
+    [item setMaxSize:[searchTypeSegControl frame].size];
     // set the segmented control as the view of the toolbar item
-    [item setView:segmentedControl];
-    [segmentedControl release];
+    [item setView:searchTypeSegControl];
+    [searchTypeSegControl release];
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TYPE_ITEM];
     
     // search text
@@ -176,17 +184,19 @@
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TEXT_ITEM];
     [item setLabel:NSLocalizedString(@"TextSearchLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"TextSearchLabel", @"")];
-    [item setToolTip:NSLocalizedString(@"TextSearchToolTip", @"")];
+    [item setToolTip:NSLocalizedString(@"TextSearchTooltip", @"")];
     [item setView:searchTextField];
     [item setMinSize:NSMakeSize(100, NSHeight([searchTextField frame]))];
     [item setMaxSize:NSMakeSize(350, NSHeight([searchTextField frame]))];
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TEXT_ITEM];
     
+    // add button
+    
     // module installer item
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_MODULEINSTALLER_ITEM];
     [item setLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
-    [item setToolTip:NSLocalizedString(@"ModuleInstallerToolTip", @"")];
+    [item setToolTip:NSLocalizedString(@"ModuleInstallerTooltip", @"")];
     image = [NSImage imageNamed:@"ModuleManager.png"];
     [item setImage:image];
     [item setTarget:[AppController defaultAppController]];
@@ -203,6 +213,17 @@
     
     // activate mouse movement in subviews
     [[self window] setAcceptsMouseMovedEvents:YES];
+    // set window status bar
+	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
+	[self.window setContentBorderThickness:30.0f forEdge:NSMinYEdge];
+    
+    // set up left and right side bar
+    if([lsbViewController viewLoaded]) {
+        [mainSplitView addSubview:[lsbViewController view] positioned:NSWindowBelow relativeTo:nil];
+    }
+    if([rsbViewController viewLoaded]) {
+        [contentSplitView addSubview:[rsbViewController view] positioned:NSWindowAbove relativeTo:nil];
+    }    
 }
 
 #pragma mark - toolbar stuff
@@ -268,8 +289,15 @@
 
 #pragma mark - toolbar actions
 
-/** abstract method */
 - (void)addBibleTB:(id)sender {
+}
+
+- (void)toggleModulesTB:(id)sender {
+    if(showingLSB) {
+        [self hideLeftSideBar];
+    } else {
+        [self showLeftSideBar];
+    }
 }
 
 - (void)searchInput:(id)sender {
@@ -321,10 +349,61 @@
 #pragma mark - Methods
 
 - (NSView *)view {
-    return nil;
+    return view;
 }
 
 - (void)setView:(NSView *)aView {
+    view = aView;
+}
+
+- (void)showLeftSideBar {
+    if(!showingLSB) {
+        // change size of view
+        NSView *v = [lsbViewController view];
+        NSSize size = [v frame].size;
+        size.width = lsbWidth;
+        [[v animator] setFrameSize:size];
+        
+        showingLSB = YES;
+    }
+}
+
+- (void)hideLeftSideBar {
+    if(showingLSB) {
+        // shrink the view
+        NSView *v = [lsbViewController view];
+        NSSize size = [v frame].size;
+        lsbWidth = size.width;
+        size.width = 0;
+        [[v animator] setFrameSize:size];
+        
+        showingLSB = NO;
+    }
+}
+
+- (void)showRightSideBar {
+    if(!showingRSB) {
+        // change size of view
+        NSView *v = [rsbViewController view];
+        NSSize size = [v frame].size;
+        size.width = rsbWidth;
+        [[v animator] setFrameSize:size];
+        
+        showingRSB = YES;
+    }    
+}
+
+- (void)hideRightSideBar {
+    if(showingRSB) {
+        // shrink the view
+        NSView *v = [rsbViewController view];
+        NSSize size = [v frame].size;
+        rsbWidth = size.width;
+        size.width = 0;
+        [[v animator] setFrameSize:size];
+        
+        showingRSB = NO;
+    }    
 }
 
 /** used to set text to the search field from outside */
@@ -357,15 +436,15 @@
     }
     
     if(type == genbook) {
-        [[segmentedControl cell] setEnabled:NO forSegment:0];
-        [[segmentedControl cell] setEnabled:YES forSegment:1];
-        [[segmentedControl cell] setSelected:NO forSegment:0];
-        [[segmentedControl cell] setSelected:YES forSegment:1];        
+        [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
+        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
+        [[searchTypeSegControl cell] setSelected:NO forSegment:0];
+        [[searchTypeSegControl cell] setSelected:YES forSegment:1];        
     } else {        
-        [[segmentedControl cell] setEnabled:YES forSegment:0];
-        [[segmentedControl cell] setEnabled:YES forSegment:1];
-        [[segmentedControl cell] setSelected:YES forSegment:0];
-        [[segmentedControl cell] setSelected:NO forSegment:1];
+        [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
+        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
+        [[searchTypeSegControl cell] setSelected:YES forSegment:0];
+        [[searchTypeSegControl cell] setSelected:NO forSegment:1];
     }    
 }
 
@@ -373,17 +452,23 @@
 
 /** abstract method */
 - (ModuleType)moduleType {
-    return bible;
+    return bible;   // default is bible
 }
 
 #pragma mark - SubviewHosting protocol
 
-/** abstract method */
 - (void)contentViewInitFinished:(HostableViewController *)aView {
+    MBLOG(MBLOG_DEBUG, @"[WindowHostController -contentViewInitFinished:]");
+
+    if([aView isKindOfClass:[LeftSideBarViewController class]]) {
+        [mainSplitView addSubview:[aView view] positioned:NSWindowBelow relativeTo:placeHolderView];
+    } else if([aView isKindOfClass:[RightSideBarViewController class]]) {
+        [contentSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:nil];
+    }    
 }
 
-/** abstract method */
 - (void)removeSubview:(HostableViewController *)aViewController {
+    [[aViewController view] removeFromSuperview];
 }
 
 #pragma mark - NSCoding protocol
@@ -394,6 +479,15 @@
     self.searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
     // decode searchQuery
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
+    // load lsb view
+    lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
+    [lsbViewController setHostingDelegate:self];
+    showingLSB = NO;    
+    // load rsb view
+    rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
+    [rsbViewController setHostingDelegate:self];
+    showingRSB = NO;    
+    
     return self;
 }
 

@@ -15,6 +15,7 @@
 #import "HostableViewController.h"
 #import "BibleSearchOptionsViewController.h"
 #import "LeftSideBarViewController.h"
+#import "RightSideBarViewController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SearchTextObject.h"
@@ -42,10 +43,6 @@
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");
         
-        // load leftSideBar
-        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
-        showingLSB = NO;
-
         // init view controller array
         [self setViewControllers:[NSMutableArray array]];
         // init search texts
@@ -98,7 +95,8 @@
     }
     
     // show left side bar
-    [self toggleModulesTB:self];
+    [self showLeftSideBar];
+    [self hideRightSideBar];
 }
 
 #pragma mark - Methods
@@ -130,9 +128,8 @@
             // for dictionaries and genbooks we show the content as another switchable view in the left side bar
             if([vc isKindOfClass:[DictionaryViewController class]] ||
                [vc isKindOfClass:[GenBookViewController class]]) {
-                [lsbViewController addView:[(DictionaryViewController *)vc listContentView] withName:@"Content"];
-            } else {
-                [lsbViewController selectViewForName:@"Bookmarks"];
+                [self showRightSideBar];
+                [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
             }
             
             // set current search text object
@@ -245,19 +242,6 @@
     }
 }
 
-- (void)toggleModulesTB:(id)sender {
-    NSView *view = [lsbViewController view];
-    if(showingLSB) {
-        // remove
-        [[view animator] removeFromSuperview];
-        showingLSB = NO;
-    } else {
-        // add
-        [splitView addSubview:view positioned:NSWindowBelow relativeTo:defaultView];        
-        showingLSB = YES;
-    }
-}
-
 #pragma mark - Actions
 
 - (IBAction)segmentButtonChange:(id)sender {
@@ -270,9 +254,8 @@
     // for GenBook and Dictionary view controller we set the content to the left side bar
     if([vc isKindOfClass:[DictionaryViewController class]] ||
        [vc isKindOfClass:[GenBookViewController class]]) {
-        [lsbViewController addView:[(DictionaryViewController *)vc listContentView] withName:@"Content"];
-    } else {
-        [lsbViewController selectViewForName:@"Bookmarks"];
+        [self showRightSideBar];
+        [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
     }
 
     // also set current search Text
@@ -369,6 +352,9 @@
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {    
     MBLOG(MBLOG_DEBUG, @"[WorkspaceViewHostController -contentViewInitFinished:]");
     
+    // let super class first handle it's things
+    [super contentViewInitFinished:aViewController];
+    
     // we are only interessted in view controllers that show information
     if([aViewController isKindOfClass:[ModuleViewController class]] ||
         [aViewController isKindOfClass:[BibleCombiViewController class]]) {
@@ -401,15 +387,16 @@
         // for GenBook and Dictionary view controller we set the content to the left side bar
         if([aViewController isKindOfClass:[DictionaryViewController class]] ||
            [aViewController isKindOfClass:[GenBookViewController class]]) {
-            [lsbViewController addView:[(DictionaryViewController *)aViewController listContentView] withName:@"Content"];
-        } else {
-            [lsbViewController selectViewForName:@"Bookmarks"];
+            [self showRightSideBar];
+            [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
         }
     }
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
-    [[aViewController view] removeFromSuperview];
+    
+    [super removeSubview:aViewController];
+
     // get index for if this is a module based controller
     int index = [viewControllers indexOfObject:aViewController];
     if(index > 0) {
@@ -435,10 +422,6 @@
 
         // decode search texts
         self.searchTextObjs = [decoder decodeObjectForKey:@"SearchTextObjects"];
-        
-        // load lsb view
-        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
-        showingLSB = NO;
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];

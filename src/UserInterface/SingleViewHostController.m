@@ -14,9 +14,11 @@
 #import "HostableViewController.h"
 #import "BibleSearchOptionsViewController.h"
 #import "LeftSideBarViewController.h"
+#import "RightSideBarViewController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SearchTextObject.h"
+#import "globals.h"
 
 @interface SingleViewHostController (/* */)
 
@@ -29,11 +31,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");
-        
-        // load leftSideBar
-        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
-        showingLSB = NO;
+        MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");        
     }
     
     return self;
@@ -103,12 +101,12 @@
     // check if view has loaded
     if(viewController.viewLoaded == YES) {
         // add content view
-        [(NSBox *)placeHolderView setContentView:[viewController view]];
+        [placeHolderView setContentView:[viewController view]];
         
         // for dictionaries and genbooks we show the content as another switchable view in the left side bar
         if([viewController isKindOfClass:[DictionaryViewController class]] ||
             [viewController isKindOfClass:[GenBookViewController class]]) {
-            [lsbViewController addView:[(DictionaryViewController *)viewController listContentView] withName:@"Content"];
+            [self showRightSideBar];
         }
     }
     
@@ -193,19 +191,6 @@
     }
 }
 
-- (void)toggleModulesTB:(id)sender {
-    NSView *view = [lsbViewController view];
-    if(showingLSB) {
-        // remove
-        [[view animator] removeFromSuperview];
-        showingLSB = NO;
-    } else {
-        // add
-        [splitView addSubview:view positioned:NSWindowBelow relativeTo:defaultView];        
-        showingLSB = YES;
-    }
-}
-
 /*
 - (void)showSearchOptionsView:(BOOL)flag {
     
@@ -257,48 +242,46 @@
 
 #pragma mark - SubviewHosting protocol
 
-- (void)contentViewInitFinished:(HostableViewController *)aView {    
+- (void)contentViewInitFinished:(HostableViewController *)aView {
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -contentViewInitFinished:]");
+    
+    // first let super class handle it's things
+    [super contentViewInitFinished:aView];
     
     // for GenBook and Dictionary view controller we set the content to the left side bar
     if([aView isKindOfClass:[DictionaryViewController class]] ||
         [aView isKindOfClass:[GenBookViewController class]]) {
-        [lsbViewController addView:[(DictionaryViewController *) aView listContentView] withName:@"Content"];
+        [self showRightSideBar];
     }
     
     if([aView isKindOfClass:[ModuleViewController class]]) {
         // add the webview as contentvew to the placeholder
-        [(NSBox *)placeHolderView setContentView:[aView view]];    
+        [placeHolderView setContentView:[aView view]];    
     }
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
-    [[aViewController view] removeFromSuperview];
+    [super removeSubview:aViewController];
 }
 
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
-    if(self) {
-
-        // load the common things
-        [super initWithCoder:decoder];
-        
+    if(self) {        
         // decode viewController
         viewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
         // set delegate
         [viewController setDelegate:self];
 
-        // load lsb view
-        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
-        showingLSB = NO;
-                
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
         }
+
+        // load the common things
+        [super initWithCoder:decoder];
 
         // set window frame
         NSRect frame;

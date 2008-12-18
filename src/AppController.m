@@ -222,6 +222,7 @@ static AppController *singleton;
         } else {
             
             isModuleManagerShowing = NO;
+            isContentShowing = NO;
             
             // set singleton
             singleton = self;
