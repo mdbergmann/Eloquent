@@ -20,13 +20,13 @@
 #import "SwordBook.h"
 #import "SwordTreeEntry.h"
 
-NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
+NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err = 0;
 	FSRef folderRef;
 	NSString *path = nil;
 	NSURL *url = nil;
 	
-	err = FSFindFolder(domain,dir,createFolder,&folderRef);
+	err = FSFindFolder(domain, dir, createFolder, &folderRef);
 	if(err == 0) {
 		url = (NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
 		if(url) {
@@ -97,6 +97,10 @@ NSString *pathForFolderType(OSType dir,short domain,BOOL createFolder) {
     
     // indexer stuff
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBackgroundIndexerEnabled];
+    
+    // UI defaults
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSB];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSB];
     
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];

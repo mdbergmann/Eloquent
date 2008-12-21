@@ -11,9 +11,13 @@
 
 @interface ScopeBarView : NSView {
     // the image
-    NSImage *bgImage;
+    NSImage *bgImageActive;
+    NSImage *bgImageNoneActive;
+    BOOL windowActive;
 }
 
-@property (retain, readwrite) NSImage *bgImage;
+@property (retain, readwrite) NSImage *bgImageActive;
+@property (retain, readwrite) NSImage *bgImageNoneActive;
+@property (readwrite) BOOL windowActive;
 
 @end

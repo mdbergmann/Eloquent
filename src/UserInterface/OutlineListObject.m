@@ -17,12 +17,14 @@
 
 @synthesize listObject;
 @synthesize type;
+@synthesize path;
 
 - (id)initWithObject:(id)anObject {
     self = [super init];
     if(self) {
         self.listObject = anObject;
         self.type = OutlineItemUnset;
+        self.path = nil;
     }
     
     return self;

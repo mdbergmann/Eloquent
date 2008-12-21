@@ -15,6 +15,7 @@
 
 @class SwordManager;
 @class BookmarkManager;
+@class ThreeCellsCell;
 
 @interface LeftSideBarViewController : SideBarViewController <SubviewHosting> {
     
@@ -39,6 +40,13 @@
     SwordManager *swordManager;
     // the BookmarkManager instance
     BookmarkManager *bookmarkManager;
+    
+    // images
+    NSImage *bookmarkGroupImage;
+    NSImage *bookmarkImage;
+    
+    // our custom cell
+    ThreeCellsCell *threeCellsCell;
 }
 
 @property (readwrite) SwordManager *swordManager;

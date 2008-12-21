@@ -18,6 +18,7 @@
     if (self) {
         // Initialization code here.
         self.bgImage = [NSImage imageNamed:@"dark_gradient.png"];
+        //self.bgImage = [NSImage imageNamed:@"scopebar_gradient.png"];
     }
     return self;
 }

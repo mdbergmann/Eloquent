@@ -43,6 +43,7 @@
 
 // actions
 - (IBAction)segmentButtonChange:(id)sender;
+- (IBAction)sideBarSegChange:(id)sender;
 - (IBAction)menuItemSelected:(id)sender;
 
 // WindowHosting

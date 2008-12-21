@@ -7,6 +7,8 @@
 //
 
 #import "SingleViewHostController.h"
+#import "globals.h"
+#import "MBPreferenceController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
 #import "DictionaryViewController.h"
@@ -18,7 +20,6 @@
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SearchTextObject.h"
-#import "globals.h"
 
 @interface SingleViewHostController (/* */)
 
@@ -97,19 +98,7 @@
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -awakeFromNib]");
     
     [super awakeFromNib];
-    
-    // check if view has loaded
-    if(viewController.viewLoaded == YES) {
-        // add content view
-        [placeHolderView setContentView:[viewController view]];
         
-        // for dictionaries and genbooks we show the content as another switchable view in the left side bar
-        if([viewController isKindOfClass:[DictionaryViewController class]] ||
-            [viewController isKindOfClass:[GenBookViewController class]]) {
-            [self showRightSideBar];
-        }
-    }
-    
     // if a reference is stored, we should load it
     NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
     if([referenceText length] > 0) {
@@ -133,6 +122,24 @@
     
     // set recent searche array
     [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];
+    
+    // check if view has loaded
+    if(viewController.viewLoaded == YES) {
+        // add content view
+        [placeHolderView setContentView:[viewController view]];
+        
+        // for dictionaries and genbooks we show the content as another switchable view in the left side bar
+        if([viewController isKindOfClass:[DictionaryViewController class]] ||
+           [viewController isKindOfClass:[GenBookViewController class]]) {
+            [rsbViewController setContentView:[(GenBookViewController *)viewController listContentView]];
+            [self showRightSideBar:YES];
+        } else {
+            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+        }
+    }
+    
+    // set font for bottombar segmented control
+    [sideBarSegControl setFont:FontStd];    
 }
 
 #pragma mark - methods
@@ -240,6 +247,8 @@
 }
 */
 
+#pragma mark - Actions
+
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
@@ -248,13 +257,15 @@
     // first let super class handle it's things
     [super contentViewInitFinished:aView];
     
-    // for GenBook and Dictionary view controller we set the content to the left side bar
-    if([aView isKindOfClass:[DictionaryViewController class]] ||
-        [aView isKindOfClass:[GenBookViewController class]]) {
-        [self showRightSideBar];
-    }
-    
     if([aView isKindOfClass:[ModuleViewController class]]) {
+        // for GenBook and Dictionary view controller we set the content to the left side bar
+        if([aView isKindOfClass:[DictionaryViewController class]] ||
+            [aView isKindOfClass:[GenBookViewController class]]) {
+            [rsbViewController setContentView:[(GenBookViewController *)aView listContentView]];
+            [self showRightSideBar:YES];
+        } else {
+            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+        }
         // add the webview as contentvew to the placeholder
         [placeHolderView setContentView:[aView view]];    
     }

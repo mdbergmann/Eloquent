@@ -7,6 +7,8 @@
 //
 
 #import "WorkspaceViewHostController.h"
+#import "globals.h"
+#import "MBPreferenceController.h"
 #import "AppController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
@@ -63,11 +65,6 @@
     
     // super class has some things to set
     [super awakeFromNib];
-
-    // in case this instance has been initialized with a coder we have view controllers
-    // which may not necessarily call here if they have finished loading
-    // we have to loop over the controllers and add segments for them
-    [self rearrangeSegments];    
     
     // if a reference is stored, we should load it
     NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
@@ -94,9 +91,18 @@
         }
     }
     
+    // set font for tabs
+    [tabControl setFont:FontStdBold];
+    // set font for bottombar segmented control
+    [sideBarSegControl setFont:FontStd];
+    
     // show left side bar
-    [self showLeftSideBar];
-    [self hideRightSideBar];
+    [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
+    [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];
+    // in case this instance has been initialized with a coder we have view controllers
+    // which may not necessarily call here if they have finished loading
+    // we have to loop over the controllers and add segments for them
+    [self rearrangeSegments];
 }
 
 #pragma mark - Methods
@@ -124,13 +130,6 @@
             [self setView:[vc view]];
             // set active controller
             activeViewController = vc;
-
-            // for dictionaries and genbooks we show the content as another switchable view in the left side bar
-            if([vc isKindOfClass:[DictionaryViewController class]] ||
-               [vc isKindOfClass:[GenBookViewController class]]) {
-                [self showRightSideBar];
-                [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
-            }
             
             // set current search text object
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:[viewControllers indexOfObject:vc]]];
@@ -139,7 +138,16 @@
             // switch recentSearches
             [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
         }
-    }    
+    }
+    
+    // for dictionaries and genbooks we show the content as another switchable view in the left side bar
+    if([activeViewController isKindOfClass:[DictionaryViewController class]] ||
+       [activeViewController isKindOfClass:[GenBookViewController class]]) {
+        [rsbViewController setContentView:[(GenBookViewController *)activeViewController listContentView]];
+        [self showRightSideBar:YES];
+    } else {
+        [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+    }
 }
 
 - (ModuleType)moduleType {
@@ -254,8 +262,10 @@
     // for GenBook and Dictionary view controller we set the content to the left side bar
     if([vc isKindOfClass:[DictionaryViewController class]] ||
        [vc isKindOfClass:[GenBookViewController class]]) {
-        [self showRightSideBar];
         [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
+        [self showRightSideBar:YES];
+    } else {
+        [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
     }
 
     // also set current search Text
@@ -357,7 +367,7 @@
     
     // we are only interessted in view controllers that show information
     if([aViewController isKindOfClass:[ModuleViewController class]] ||
-        [aViewController isKindOfClass:[BibleCombiViewController class]]) {
+        [aViewController isKindOfClass:[BibleCombiViewController class]]) { // this also handles commentary view
         
         // add segment to control and set this as current view
         [tabControl setSegmentCount:[tabControl segmentCount]+1];
@@ -387,8 +397,10 @@
         // for GenBook and Dictionary view controller we set the content to the left side bar
         if([aViewController isKindOfClass:[DictionaryViewController class]] ||
            [aViewController isKindOfClass:[GenBookViewController class]]) {
-            [self showRightSideBar];
             [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
+            [self showRightSideBar:YES];
+        } else {
+            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
         }
     }
 }

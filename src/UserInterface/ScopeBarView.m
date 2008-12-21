@@ -11,25 +11,44 @@
 
 @implementation ScopeBarView
 
-@synthesize bgImage;
+@synthesize bgImageActive;
+@synthesize bgImageNoneActive;
+@dynamic windowActive;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
-        self.bgImage = [NSImage imageNamed:@"scopebar_gradient.png"];
+        self.bgImageActive = [NSImage imageNamed:@"scopebar-active.png"];
+        self.bgImageNoneActive = [NSImage imageNamed:@"scopebar-notactive.png"];
+        windowActive = YES;
     }
+    
     return self;
 }
 
 - (void)drawRect:(NSRect)rect {
     // Drawing code here.
+    
+    NSImage *currImg = bgImageActive;
+    if(!windowActive) {
+        currImg = bgImageNoneActive;
+    }
+    
     NSRect tmp = [self bounds];
     int repeat = (tmp.size.width / 5) + 1;
     for(int i = 0;i < repeat;i++) {
-        [bgImage drawInRect:tmp fromRect:[self bounds] operation:NSCompositeSourceOver fraction:1.0];
+        [currImg drawInRect:tmp fromRect:[self bounds] operation:NSCompositeSourceOver fraction:1.0];
         tmp.origin.x += 5;
     }
+}
+
+- (BOOL)windowActive {
+    return windowActive;
+}
+
+- (void)setWindowActive:(BOOL)flag {
+    windowActive = flag;
 }
 
 @end

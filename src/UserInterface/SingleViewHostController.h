@@ -20,7 +20,6 @@
 @class SearchTextObject;
 
 @interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
-
     // the main view for placeHolderView
     HostableViewController *viewController;
     
@@ -36,6 +35,9 @@
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
 - (HostableViewController *)contentViewController;
+
+// Actions
+- (IBAction)sideBarSegChange:(id)sender;
 
 // WindowHosting
 - (ModuleType)moduleType;

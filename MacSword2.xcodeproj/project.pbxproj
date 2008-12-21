@@ -53,6 +53,8 @@
 		A91C94330DF9B149006B7361 /* MBThreadedProgressSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */; };
 		A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */; };
 		A9202A2D0E59A2650094F629 /* CommentaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9202A2B0E59A2650094F629 /* CommentaryView.xib */; };
+		A9206EEC0EFBA91300B94E41 /* scopebar-active.png in Resources */ = {isa = PBXBuildFile; fileRef = A9206EEA0EFBA91300B94E41 /* scopebar-active.png */; };
+		A9206EED0EFBA91300B94E41 /* scopebar-notactive.png in Resources */ = {isa = PBXBuildFile; fileRef = A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */; };
 		A92819980E100F240007B767 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
@@ -80,15 +82,21 @@
 		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */; };
+		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
+		A9C0F4230EFD67F700CFDF06 /* MBConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */; };
 		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
 		A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D102580EC1ED0A0023FF23 /* WindowHostController.m */; };
 		A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */; };
+		A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */; };
+		A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */; };
 		A9D760F30EF715BB00A78AA8 /* agt_add-to-autorun.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */; };
 		A9D760F40EF715BB00A78AA8 /* bookmarks_list_add.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */; };
 		A9D849660EFA2D34000457EC /* LeftSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D849620EFA2D34000457EC /* LeftSideBarView.xib */; };
 		A9D849670EFA2D34000457EC /* RightSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D849640EFA2D34000457EC /* RightSideBarView.xib */; };
 		A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */; };
+		A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */; };
+		A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */; };
 		A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */; };
 		A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D9F52C0EAF17890035222E /* SenTestingKit.framework */; };
 		A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
@@ -223,6 +231,8 @@
 		A9202A280E59A0E80094F629 /* CommentaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentaryViewController.h; path = src/UserInterface/CommentaryViewController.h; sourceTree = "<group>"; };
 		A9202A290E59A0E80094F629 /* CommentaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentaryViewController.m; path = src/UserInterface/CommentaryViewController.m; sourceTree = "<group>"; };
 		A9202A2C0E59A2650094F629 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CommentaryView.xib; sourceTree = "<group>"; };
+		A9206EEA0EFBA91300B94E41 /* scopebar-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scopebar-active.png"; sourceTree = "<group>"; };
+		A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scopebar-notactive.png"; sourceTree = "<group>"; };
 		A92819960E100F240007B767 /* Highlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Highlighter.h; sourceTree = "<group>"; };
 		A92819970E100F240007B767 /* Highlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Highlighter.m; sourceTree = "<group>"; };
 		A939B7E00E9DCED000A0A8F9 /* GenBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenBookViewController.h; path = src/UserInterface/GenBookViewController.h; sourceTree = "<group>"; };
@@ -260,18 +270,27 @@
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
 		A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordModuleTest.h; path = test/SwordModuleTest.h; sourceTree = "<group>"; };
 		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordModuleTest.m; path = test/SwordModuleTest.m; sourceTree = "<group>"; };
+		A9C0F4060EFD67DA00CFDF06 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
+		A9C0F4210EFD67F700CFDF06 /* MBConfirmationSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBConfirmationSheetController.h; sourceTree = "<group>"; };
+		A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBConfirmationSheetController.m; sourceTree = "<group>"; };
 		A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
 		A9CC33500EB0699900810821 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
 		A9D102570EC1ED0A0023FF23 /* WindowHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowHostController.h; path = src/UserInterface/WindowHostController.h; sourceTree = "<group>"; };
 		A9D102580EC1ED0A0023FF23 /* WindowHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowHostController.m; path = src/UserInterface/WindowHostController.m; sourceTree = "<group>"; };
 		A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = groupbookmark.tiff; sourceTree = "<group>"; };
+		A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallbookmark.tiff; sourceTree = "<group>"; };
 		A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agt_add-to-autorun.png"; sourceTree = "<group>"; };
 		A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmarks_list_add.png; sourceTree = "<group>"; };
 		A9D849630EFA2D34000457EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/LeftSideBarView.xib; sourceTree = "<group>"; };
 		A9D849650EFA2D34000457EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/RightSideBarView.xib; sourceTree = "<group>"; };
 		A9D849690EFA361F000457EC /* RightSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RightSideBarViewController.h; path = src/UserInterface/RightSideBarViewController.h; sourceTree = "<group>"; };
 		A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RightSideBarViewController.m; path = src/UserInterface/RightSideBarViewController.m; sourceTree = "<group>"; };
+		A9D84B5A0EFA88A4000457EC /* ThreeCellsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThreeCellsCell.h; path = src/UserInterface/ThreeCellsCell.h; sourceTree = "<group>"; };
+		A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThreeCellsCell.m; path = src/UserInterface/ThreeCellsCell.m; sourceTree = "<group>"; };
+		A9D84D740EFB00F3000457EC /* BookmarkDragItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkDragItem.h; path = src/UserInterface/BookmarkDragItem.h; sourceTree = "<group>"; };
+		A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkDragItem.m; path = src/UserInterface/BookmarkDragItem.m; sourceTree = "<group>"; };
 		A9D9F51A0EAF151E0035222E /* Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D9F51B0EAF151E0035222E /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		A9D9F5270EAF156D0035222E /* BookmarkManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManagerTest.h; path = test/BookmarkManagerTest.h; sourceTree = "<group>"; };
@@ -386,7 +405,6 @@
 				A9E8BD290EADADD000E58D1E /* Bookmarks */,
 				A99055A90E041C3400E8D7A2 /* UserInterface */,
 				A91C94050DF9B149006B7361 /* Sword */,
-				A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -431,6 +449,7 @@
 				A9DFBC3E0EF6ECF30061BE19 /* Preferences.xib */,
 				A9D849620EFA2D34000457EC /* LeftSideBarView.xib */,
 				A9D849640EFA2D34000457EC /* RightSideBarView.xib */,
+				A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -449,6 +468,10 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */,
+				A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */,
+				A9206EEA0EFBA91300B94E41 /* scopebar-active.png */,
+				A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */,
 				A99DB3220EF96ABF0065482A /* scopebar_gradient.png */,
 				A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */,
 				A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */,
@@ -582,6 +605,9 @@
 		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				A9C0F4200EFD67F700CFDF06 /* ConfirmationDialog */,
+				A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */,
+				A9D84B590EFA8896000457EC /* Cells */,
 				A996239A0E4F0D120082F18F /* HelperObjects */,
 				A9F4E3540E1DF0E000B0148E /* Caching */,
 				A9E820FE0E0B95900020A64E /* Views */,
@@ -617,10 +643,31 @@
 		A996239A0E4F0D120082F18F /* HelperObjects */ = {
 			isa = PBXGroup;
 			children = (
+				A9D84D740EFB00F3000457EC /* BookmarkDragItem.h */,
+				A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */,
 				A996239B0E4F0D5A0082F18F /* OutlineListObject.h */,
 				A996239C0E4F0D5A0082F18F /* OutlineListObject.m */,
 			);
 			name = HelperObjects;
+			sourceTree = "<group>";
+		};
+		A9C0F4200EFD67F700CFDF06 /* ConfirmationDialog */ = {
+			isa = PBXGroup;
+			children = (
+				A9C0F4210EFD67F700CFDF06 /* MBConfirmationSheetController.h */,
+				A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */,
+			);
+			name = ConfirmationDialog;
+			path = src/ConfirmationDialog;
+			sourceTree = "<group>";
+		};
+		A9D84B590EFA8896000457EC /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A9D84B5A0EFA88A4000457EC /* ThreeCellsCell.h */,
+				A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		A9D9F5260EAF15410035222E /* Tests */ = {
@@ -784,6 +831,11 @@
 				A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */,
 				A9D849660EFA2D34000457EC /* LeftSideBarView.xib in Resources */,
 				A9D849670EFA2D34000457EC /* RightSideBarView.xib in Resources */,
+				A9206EEC0EFBA91300B94E41 /* scopebar-active.png in Resources */,
+				A9206EED0EFBA91300B94E41 /* scopebar-notactive.png in Resources */,
+				A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */,
+				A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */,
+				A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,6 +920,9 @@
 				A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */,
 				A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */,
 				A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */,
+				A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */,
+				A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */,
+				A9C0F4230EFD67F700CFDF06 /* MBConfirmationSheetController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -979,6 +1034,14 @@
 				A992B5330DF9AD6E00207967 /* English */,
 			);
 			name = ThreadedProgressSheet.xib;
+			sourceTree = "<group>";
+		};
+		A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9C0F4060EFD67DA00CFDF06 /* English */,
+			);
+			name = ConfirmationDialog.xib;
 			sourceTree = "<group>";
 		};
 		A9D849620EFA2D34000457EC /* LeftSideBarView.xib */ = {

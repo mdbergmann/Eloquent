@@ -43,6 +43,7 @@
 
 @synthesize parBibleViewControllers;
 @synthesize parMiscViewControllers;
+@synthesize reference;
 
 #pragma mark - initialization
 
@@ -91,6 +92,7 @@
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -awakeFromNib]");
     
+    defaultMiscViewHeight = 60;
     [horiSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     
     // set vertical parallel splitview
@@ -103,10 +105,15 @@
     
     // add parallel bible split view to main
     [horiSplitView addSubview:parBibleSplitView positioned:NSWindowAbove relativeTo:nil];
+    [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
     // if this is the first entry, we need to add the parallel misc view itself
+    NSSize s = [parMiscSplitView frame].size;
     if([parMiscViewControllers count] > 0) {
-        [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
+        s.height = defaultMiscViewHeight;
+    } else {
+        s.height = 0;
     }
+    [parMiscSplitView setFrameSize:s];
     
     // loading finished
     viewLoaded = YES;
@@ -131,6 +138,11 @@
             // add the webview as contentvew to the placeholder
             [parMiscSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
         }
+    }
+    
+    // if we have a reference, process it
+    if(reference) {
+        [self displayTextForReference:reference searchType:searchType];
     }
     
     if(loaded) {
@@ -186,10 +198,6 @@
     [cvc setModule:(SwordModule *)aModule];
     // add to array
     [parMiscViewControllers addObject:cvc];
-    // if this is the first entry, we need to add the parallel misc view itself
-    if([parMiscViewControllers count] == 1) {
-        [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
-    }
 
     // tell views to adapt any UI components
     for(HostableViewController *hc in parMiscViewControllers) {
@@ -499,28 +507,34 @@
     // check if this view has completed loading annd also all of the subviews    
     if(viewLoaded == YES) {
         BOOL loaded = YES;
-        if([aView isKindOfClass:[CommentaryViewController class]]) {
-            // add the webview as contentview to the placeholder
-            [parMiscSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];        
+        if([aView isKindOfClass:[BibleViewController class]]) {
 
-            for(HostableViewController *hc in parMiscViewControllers) {
-                if(hc.viewLoaded == NO) {
-                    loaded = NO;
+            if([aView isKindOfClass:[CommentaryViewController class]]) {
+                // add the webview as contentview to the placeholder
+                [parMiscSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];        
+                
+                for(HostableViewController *hc in parMiscViewControllers) {
+                    if(hc.viewLoaded == NO) {
+                        loaded = NO;
+                    }
+                }
+            } else {
+                // add the webview as contentview to the placeholder
+                [parBibleSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];
+                
+                [self tileSubViews];
+                
+                for(HostableViewController *hc in parBibleViewControllers) {
+                    if(hc.viewLoaded == NO) {
+                        loaded = NO;
+                    }
                 }
             }
-        } else if([aView isKindOfClass:[BibleViewController class]]) {
-            // add the webview as contentview to the placeholder
-            [parBibleSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];
             
-            [self tileSubViews];
-            
-            for(HostableViewController *hc in parBibleViewControllers) {
-                if(hc.viewLoaded == NO) {
-                    loaded = NO;
-                }
-            }
+            // set search text and let the controller handle it
+            [(BibleViewController *)aView displayTextForReference:reference searchType:searchType];
         }
-        
+                
         if(loaded) {
             // report to super controller
             [self reportLoadingComplete];
@@ -537,7 +551,9 @@
         // remove controller
         [parMiscViewControllers removeObject:aViewController];
         if([parMiscViewControllers count] == 0) {
-            [parMiscSplitView removeFromSuperview];
+            NSSize s = [parMiscSplitView frame].size;
+            s.height = 0;
+            [parMiscSplitView setFrameSize:s];
         }
     } else if([aViewController isKindOfClass:[BibleViewController class]]) {
         // remove controller
@@ -556,6 +572,7 @@
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     searchType = aType;
+    self.reference = aReference;
     
     if(searchType == IndexSearchType) {
         // for search type index, check before hand that all modules that are open
@@ -620,7 +637,7 @@
         MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -initWithCoder] loading nib");
         
         searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
-        viewSearchDirRight = YES;
+        reference = [decoder decodeObjectForKey:@"SearchReference"];
         
         // init bible views array
         self.parBibleViewControllers = [decoder decodeObjectForKey:@"ParallelBibleViewControllerEncoded"];
@@ -656,6 +673,8 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     // encode searchType
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
+    // encode reference
+    [encoder encodeObject:reference forKey:@"SearchReference"];
     // encode parallel bible view controllers
     [encoder encodeObject:parBibleViewControllers forKey:@"ParallelBibleViewControllerEncoded"];
     // encode parallel commentary view controllers

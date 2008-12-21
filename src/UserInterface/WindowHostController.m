@@ -7,11 +7,14 @@
 //
 
 #import "WindowHostController.h"
+#import "globals.h"
+#import "MBPreferenceController.h"
 #import "AppController.h"
 #import "SearchTextObject.h"
 #import "LeftSideBarViewController.h"
 #import "RightSideBarViewController.h"
 #import "SwordManager.h"
+#import "ScopeBarView.h"
 
 @implementation WindowHostController
 
@@ -32,29 +35,32 @@
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
 
         // load leftSideBar
-        lsbWidth = 200;
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
         [lsbViewController setHostingDelegate:self];
-        showingLSB = NO;
 
         // load rightSideBar
-        rsbWidth = 200;
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
         [rsbViewController setHostingDelegate:self];
-        showingRSB = NO;
     }
     
     return self;
 }
 
 - (void)awakeFromNib {
+    
+    // set default widths for sbs
+    defaultLSBWidth = 200;
+    defaultRSBWidth = 200;
+    
     // set main split vertical
     [mainSplitView setVertical:YES];
     [mainSplitView setDividerStyle:NSSplitViewDividerStyleThin];
+    [mainSplitView setDelegate:self];
 
     // set content split vertical
     [contentSplitView setVertical:YES];
     [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
+    [contentSplitView setDelegate:self];
     
     // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
@@ -64,6 +70,7 @@
     
     // ----------------------------------------------------------------------------------------
     // toggle module list view
+    /*
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TOGGLE_MODULES_ITEM];
     [item setLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
@@ -73,6 +80,7 @@
     [item setTarget:self];
     [item setAction:@selector(toggleModulesTB:)];
     [tbIdentifiers setObject:item forKey:TB_TOGGLE_MODULES_ITEM];
+     */
     
     /*
     if([self moduleType] == bible) {
@@ -131,6 +139,7 @@
     // set tracking style
     [[searchTypeSegControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
     // insert text only segments
+    [searchTypeSegControl setFont:FontStdBold];
     [searchTypeSegControl setLabel:NSLocalizedString(@"Reference", @"") forSegment:0];
     //[searchTypeSegControl setImage:[NSImage imageNamed:@"list"] forSegment:0];		
     [searchTypeSegControl setLabel:NSLocalizedString(@"Index", "") forSegment:1];
@@ -215,15 +224,21 @@
     [[self window] setAcceptsMouseMovedEvents:YES];
     // set window status bar
 	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
-	[self.window setContentBorderThickness:30.0f forEdge:NSMinYEdge];
+	[self.window setContentBorderThickness:35.0f forEdge:NSMinYEdge];
     
     // set up left and right side bar
     if([lsbViewController viewLoaded]) {
         [mainSplitView addSubview:[lsbViewController view] positioned:NSWindowBelow relativeTo:nil];
+        NSSize s = [[lsbViewController view] frame].size;
+        s.width = lsbWidth;
+        [[lsbViewController view] setFrameSize:s];
     }
     if([rsbViewController viewLoaded]) {
         [contentSplitView addSubview:[rsbViewController view] positioned:NSWindowAbove relativeTo:nil];
-    }    
+        NSSize s = [[rsbViewController view] frame].size;
+        s.width = rsbWidth;
+        [[rsbViewController view] setFrameSize:s];
+    }
 }
 
 #pragma mark - toolbar stuff
@@ -266,7 +281,6 @@
  */
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
-                                 TB_TOGGLE_MODULES_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
                                  TB_SEARCH_TYPE_ITEM,
                                  TB_SEARCH_TEXT_ITEM,
@@ -293,10 +307,12 @@
 }
 
 - (void)toggleModulesTB:(id)sender {
-    if(showingLSB) {
-        [self hideLeftSideBar];
+    if(![self showingLSB]) {
+        [self showLeftSideBar:YES];
+        [userDefaults setBool:YES forKey:DefaultsShowLSB];
     } else {
-        [self showLeftSideBar];
+        [self showLeftSideBar:NO];
+        [userDefaults setBool:NO forKey:DefaultsShowLSB];
     }
 }
 
@@ -346,6 +362,19 @@
     }
 }
 
+#pragma mark - Actions
+
+- (IBAction)sideBarSegChange:(id)sender {
+
+    int clickedSegment = [sender selectedSegment];
+    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    if(clickedSegmentTag == 0) {
+        [self toggleLSB];
+    } else {
+        [self toggleRSB];    
+    }
+}
+
 #pragma mark - Methods
 
 - (NSView *)view {
@@ -356,54 +385,91 @@
     view = aView;
 }
 
-- (void)showLeftSideBar {
-    if(!showingLSB) {
+- (BOOL)showingLSB {
+    BOOL ret = YES;
+    if([[lsbViewController view] frame].size.width == 0) {
+        ret = NO;
+    }
+    
+    return ret;
+}
+
+- (BOOL)showingRSB {
+    BOOL ret = YES;
+    if([[rsbViewController view] frame].size.width == 0) {
+        ret = NO;
+    }
+    
+    return ret;
+}
+
+- (void)toggleLSB {
+    BOOL show = ![self showingLSB];
+    [self showLeftSideBar:show];
+    
+    // store in user defaults
+    [userDefaults setBool:show forKey:DefaultsShowLSB];
+}
+
+- (void)toggleRSB {
+    BOOL show = ![self showingRSB];
+    [self showRightSideBar:show];
+
+    // store in user defaults
+    [userDefaults setBool:show forKey:DefaultsShowRSB];
+}
+
+- (void)showLeftSideBar:(BOOL)flag {
+    if(flag) {
+        // if size is 0 set to default size
+        if(lsbWidth == 0) {
+            lsbWidth = defaultLSBWidth;
+        }        
         // change size of view
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
         size.width = lsbWidth;
         [[v animator] setFrameSize:size];
-        
-        showingLSB = YES;
-    }
-}
-
-- (void)hideLeftSideBar {
-    if(showingLSB) {
+    } else {
         // shrink the view
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
-        lsbWidth = size.width;
+        if(size.width > 0) {
+            lsbWidth = size.width;
+        }
         size.width = 0;
         [[v animator] setFrameSize:size];
-        
-        showingLSB = NO;
     }
+    
+    // we need to redisplay
+    [mainSplitView setNeedsDisplay:YES];
 }
 
-- (void)showRightSideBar {
-    if(!showingRSB) {
+- (void)showRightSideBar:(BOOL)flag {
+    if(flag) {
+        // if size is 0 set to default size
+        if(rsbWidth == 0) {
+            rsbWidth = defaultRSBWidth;
+        }
         // change size of view
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
         size.width = rsbWidth;
         [[v animator] setFrameSize:size];
-        
-        showingRSB = YES;
-    }    
-}
-
-- (void)hideRightSideBar {
-    if(showingRSB) {
+    } else {
         // shrink the view
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
-        rsbWidth = size.width;
+        if(size.width > 0) {
+            rsbWidth = size.width;
+        }
         size.width = 0;
         [[v animator] setFrameSize:size];
-        
-        showingRSB = NO;
-    }    
+    }
+    
+    // we need to redisplay
+    [contentSplitView setNeedsDisplay:YES];
+    [contentSplitView adjustSubviews];
 }
 
 /** used to set text to the search field from outside */
@@ -445,7 +511,52 @@
         [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
         [[searchTypeSegControl cell] setSelected:YES forSegment:0];
         [[searchTypeSegControl cell] setSelected:NO forSegment:1];
-    }    
+    }
+}
+
+#pragma mark - NSSplitView delegate methods
+
+- (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview {
+    return ((subview == [lsbViewController view]) || (subview == [rsbViewController view]));
+}
+
+- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)offset {
+    return proposedMin + 60.0;
+}
+
+- (CGFloat)splitView:(NSSplitView *)sender constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)offset {
+    return proposedMax - 90.0;
+}
+
+- (void)splitViewDidResizeSubviews:(NSNotification *)aNotification {
+    NSSplitView *sv = [aNotification object];
+    if(sv == mainSplitView) {
+        /*
+        NSSize s = [[lsbViewController view] frame].size;
+        if(s.width > 10) {
+            lsbWidth = (int)s.width;
+        }
+         */
+    } else if(sv == contentSplitView) {
+        /*
+        NSSize s = [[rsbViewController view] frame].size;
+        if(s.width > 10) {
+            rsbWidth = (int)s.width;
+        }
+         */
+    }
+}
+
+#pragma mark - NSWindow delegate methods
+
+- (void)windowDidBecomeKey:(NSNotification *)notification {
+    [scopeBarView setWindowActive:YES];
+    [scopeBarView setNeedsDisplay:YES];
+}
+
+- (void)windowDidResignMain:(NSNotification *)notification {
+    [scopeBarView setWindowActive:NO];
+    [scopeBarView setNeedsDisplay:YES];
 }
 
 #pragma mark - WindowHosting protocol
@@ -462,9 +573,15 @@
 
     if([aView isKindOfClass:[LeftSideBarViewController class]]) {
         [mainSplitView addSubview:[aView view] positioned:NSWindowBelow relativeTo:placeHolderView];
+        NSSize s = [[lsbViewController view] frame].size;
+        s.width = lsbWidth;
+        [[lsbViewController view] setFrameSize:s];
     } else if([aView isKindOfClass:[RightSideBarViewController class]]) {
         [contentSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:nil];
-    }    
+        NSSize s = [[rsbViewController view] frame].size;
+        s.width = rsbWidth;
+        [[rsbViewController view] setFrameSize:s];
+    }
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -480,18 +597,30 @@
     // decode searchQuery
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
     // load lsb view
+    lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
     lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
     [lsbViewController setHostingDelegate:self];
-    showingLSB = NO;    
     // load rsb view
+    rsbWidth = [decoder decodeIntForKey:@"RSBWidth"];
     rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
     [rsbViewController setHostingDelegate:self];
-    showingRSB = NO;    
     
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
+    // encode LSB and RSB width
+    int w = lsbWidth;
+    if([self showingLSB]) {
+        w = [[lsbViewController view] frame].size.width;
+    }
+    [encoder encodeInt:w forKey:@"LSBWidth"];
+    w = rsbWidth;
+    if([self showingRSB]) {
+        w = [[rsbViewController view] frame].size.width;
+    }
+    [encoder encodeInt:w forKey:@"RSBWidth"];
+    
     // encode searchType
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
     // encode searchQuery

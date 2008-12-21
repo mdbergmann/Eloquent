@@ -34,6 +34,10 @@
 // indexing defaults
 #define DefaultsBackgroundIndexerEnabled    @"DefaultsBackgroundIndexerEnabled"
 
+// UI defaults
+#define DefaultsShowLSB     @"DefaultsShowLSB"
+#define DefaultsShowRSB     @"DefaultsShowRSB"
+
 @class SwordManager;
 
 @interface MBPreferenceController : NSWindowController {

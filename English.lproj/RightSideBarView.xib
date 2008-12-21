@@ -53,6 +53,12 @@
 						</object>
 						<string key="NSFrameSize">{312, 508}</string>
 						<reference key="NSSuperview" ref="957365683"/>
+						<object class="NSShadow" key="NSViewShadow">
+							<object class="NSColor" key="NSShadowColor">
+								<int key="NSColorSpace">3</int>
+								<bytes key="NSWhite">MAA</bytes>
+							</object>
+						</object>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>

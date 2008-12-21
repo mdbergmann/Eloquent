@@ -10,21 +10,23 @@
 
 typedef enum OutlineListObjectType{
     OutlineItemUnset,
-    OutlineItemModuleRoot,
+    OutlineItemModuleRoot = 10,
     OutlineItemModuleCategory,
     OutlineItemModule,
-    OutlineItemBookmarkRoot,
+    OutlineItemBookmarkRoot = 20,
     OutlineItemBookmarkDir,
     OutlineItemBookmark,    
 }OutlineListObjectType;
 
-@interface OutlineListObject : NSObject {
+@interface OutlineListObject : NSObject <NSCoding> {
     id listObject;
     OutlineListObjectType type;
+    NSIndexPath *path;
 }
 
 @property (retain, readwrite) id listObject;
 @property (readwrite) OutlineListObjectType type;
+@property (retain, readwrite) NSIndexPath *path;
 
 - (id)initWithObject:(id)anObject;
 

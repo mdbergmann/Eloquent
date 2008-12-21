@@ -30,6 +30,9 @@
     NSMutableArray *parBibleViewControllers;
     NSMutableArray *parMiscViewControllers;
     
+    // default width parMiscSplitView
+    float defaultMiscViewHeight;
+    
     // the current right ScrollSynchronizableView
     ScrollSynchronizableView *currentSyncView;
     
@@ -38,9 +41,11 @@
     
     // search type
     SearchType searchType;
-    // view search direction
-    BOOL viewSearchDirRight;
+    // search text
+    NSString *reference;
 }
+
+@property (retain, readwrite) NSString *reference;
 
 // initializers
 - (id)initWithDelegate:(id)aDelegate;

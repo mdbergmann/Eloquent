@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="409"/>
+			<integer value="410"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -803,7 +803,7 @@
 			<object class="NSWindowTemplate" id="604109967">
 				<int key="NSWindowStyleMask">8219</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 90}, {408, 420}}</string>
+				<string key="NSWindowRect">{{586, 59}, {500, 250}}</string>
 				<int key="NSWTFlags">603979776</int>
 				<string key="NSWindowTitle">Preview</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -811,13 +811,13 @@
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="966951882">
 					<reference key="NSNextResponder"/>
-					<int key="NSvFlags">256</int>
+					<int key="NSvFlags">258</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSTextField" id="907290120">
 							<reference key="NSNextResponder" ref="966951882"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 394}, {49, 17}}</string>
+							<string key="NSFrame">{{17, 224}, {49, 17}}</string>
 							<reference key="NSSuperview" ref="966951882"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="752246353">
@@ -839,16 +839,16 @@
 										<bytes key="NSWhite">MC42NjY2NjY2OQA</bytes>
 									</object>
 								</object>
-								<object class="NSColor" key="NSTextColor" id="32219595">
+								<object class="NSColor" key="NSTextColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC43MjU4MDY0NyAwLjcyNTgwNjQ3IDAuNzI1ODA2NDcAA</bytes>
+									<bytes key="NSRGB">MC44NjY2NjY2NyAwLjg2NjY2NjY3IDAuODY2NjY2NjcAA</bytes>
 								</object>
 							</object>
 						</object>
 						<object class="NSTextField" id="270580830">
 							<reference key="NSNextResponder" ref="966951882"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{68, 394}, {323, 17}}</string>
+							<string key="NSFrame">{{68, 224}, {415, 17}}</string>
 							<reference key="NSSuperview" ref="966951882"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="850460304">
@@ -859,13 +859,16 @@
 								<string key="NSPlaceholderString">type of preview</string>
 								<reference key="NSControlView" ref="270580830"/>
 								<reference key="NSBackgroundColor" ref="965823777"/>
-								<reference key="NSTextColor" ref="32219595"/>
+								<object class="NSColor" key="NSTextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC43MjU4MDY0NyAwLjcyNTgwNjQ3IDAuNzI1ODA2NDcAA</bytes>
+								</object>
 							</object>
 						</object>
 						<object class="NSBox" id="897146557">
 							<reference key="NSNextResponder" ref="966951882"/>
-							<int key="NSvFlags">12</int>
-							<string key="NSFrame">{{20, 383}, {368, 5}}</string>
+							<int key="NSvFlags">10</int>
+							<string key="NSFrame">{{20, 213}, {457, 5}}</string>
 							<reference key="NSSuperview" ref="966951882"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
@@ -895,13 +898,13 @@
 						<object class="NSTextField" id="745404782">
 							<reference key="NSNextResponder" ref="966951882"/>
 							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{20, 20}, {368, 357}}</string>
+							<string key="NSFrame">{{20, 20}, {460, 187}}</string>
 							<reference key="NSSuperview" ref="966951882"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="675363170">
 								<int key="NSCellFlags">-2078147071</int>
 								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">Test</string>
+								<string key="NSContents"/>
 								<reference key="NSSupport" ref="26467771"/>
 								<reference key="NSControlView" ref="745404782"/>
 								<object class="NSColor" key="NSBackgroundColor">
@@ -915,7 +918,7 @@
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{408, 420}</string>
+					<string key="NSFrameSize">{500, 250}</string>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
@@ -2377,8 +2380,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{241, 78}, {408, 420}}</string>
-					<string>{{241, 78}, {408, 420}}</string>
+					<string>{{468, 213}, {500, 250}}</string>
+					<string>{{468, 213}, {500, 250}}</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2506,18 +2509,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">src/Application.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HUDContentViewController</string>
-					<string key="superclassName">NSWindowController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">placeholderView</string>
-						<string key="NS.object.0">NSBox</string>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">src/UserInterface/HUDContentViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

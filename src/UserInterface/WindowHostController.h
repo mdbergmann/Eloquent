@@ -13,10 +13,10 @@
 // toolbar identifiers
 #define TB_ADD_BIBLE_ITEM       @"IdAddBible"
 #define TB_MODULEINSTALLER_ITEM @"IdModuleInstaller"
-#define TB_TOGGLE_MODULES_ITEM  @"IdToggleModules"
 #define TB_SEARCH_TYPE_ITEM     @"IdSearchType"
 #define TB_SEARCH_TEXT_ITEM     @"IdSearchText"
 
+@class ScopeBarView;
 @class SearchTextObject;
 @class LeftSideBarViewController;
 @class RightSideBarViewController;
@@ -32,9 +32,15 @@
     IBOutlet NSBox *placeHolderView;
     // placeholder for the search options
     IBOutlet NSBox *placeHolderSearchOptionsView;
+    // scopebar for tabs
+    IBOutlet ScopeBarView *scopeBarView;
+    // options bar
+    IBOutlet NSView *optionsView;
     // progress indicator
     IBOutlet NSProgressIndicator *progressIndicator;
-        
+    /** the segmentedcontrol for SideBars */
+    IBOutlet NSSegmentedControl *sideBarSegControl;
+
     // our delegate
     id delegate;
     
@@ -44,12 +50,12 @@
     // every host has a left side bar view
     LeftSideBarViewController *lsbViewController;
     float lsbWidth;
-    BOOL showingLSB;    
+    float defaultLSBWidth;
     
     // every host has a right side bar view
     RightSideBarViewController *rsbViewController;
     float rsbWidth;
-    BOOL showingRSB;
+    float defaultRSBWidth;
 
     // search stuff
     NSSearchField *searchTextField;
@@ -71,10 +77,12 @@
 - (void)setView:(NSView *)aView;
 
 // sidebars
-- (void)showLeftSideBar;
-- (void)hideLeftSideBar;
-- (void)showRightSideBar;
-- (void)hideRightSideBar;
+- (void)toggleLSB;
+- (void)toggleRSB;
+- (void)showLeftSideBar:(BOOL)flag;
+- (void)showRightSideBar:(BOOL)flag;
+- (BOOL)showingLSB;
+- (BOOL)showingRSB;
 
 - (void)setupToolbar;
 
