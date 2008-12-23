@@ -66,6 +66,9 @@
     SearchType searchType;
     // the search text helper object
     SearchTextObject *currentSearchText;
+    
+    /** flag indicating that the host has fully loaded */
+    BOOL hostLoaded;
 }
 
 @property (readwrite) id delegate;

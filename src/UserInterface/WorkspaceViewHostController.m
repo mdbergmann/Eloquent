@@ -21,6 +21,7 @@
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SearchTextObject.h"
+#import "FakeModel.h"
 
 @interface WorkspaceViewHostController ()
 
@@ -43,7 +44,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");
+        MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] nib loaded");
         
         // init view controller array
         [self setViewControllers:[NSMutableArray array]];
@@ -53,8 +54,8 @@
         // load nib
         BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
-            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
-        }        
+            MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
+        }
     }
     
     return self;
@@ -91,8 +92,29 @@
         }
     }
     
-    // set font for tabs
-    [tabControl setFont:FontStdBold];
+    //[tabControl setHideForSingleTab:NO];
+    //[tabControl setFont:FontStdBold];
+    [tabControl setOrientation:PSMTabBarHorizontalOrientation];
+    [tabControl setStyleNamed:@"Metal"];
+//    [[tabControl addTabButton] setTarget:self];
+//    [[tabControl addTabButton] setAction:@selector(addTab:)];
+//    [tabControl setShowAddTabButton:YES];
+
+    // remove all tabs
+    for(NSTabViewItem *item in [tabView tabViewItems]) {
+        [tabView removeTabViewItem:item];    
+    }
+    
+    // re-set tabview items
+    for(HostableViewController *vc in viewControllers) {
+        if([vc viewLoaded]) {
+            NSTabViewItem *item = [[NSTabViewItem alloc] init];
+            [item setLabel:[vc label]];
+            [item setView:[vc view]];
+            [tabView addTabViewItem:item];
+        }
+    }
+    
     // set font for bottombar segmented control
     [sideBarSegControl setFont:FontStd];
     
@@ -103,41 +125,34 @@
     // which may not necessarily call here if they have finished loading
     // we have to loop over the controllers and add segments for them
     [self rearrangeSegments];
+    
+    hostLoaded = YES;
 }
 
 #pragma mark - Methods
 
 - (void)rearrangeSegments {
     
-    // set segments to 0
-    [tabControl setSegmentCount:0];    
-
-    for(HostableViewController *vc in viewControllers) {
-        if([vc viewLoaded]) {
-            // add segment to control and set this as current view
-            [tabControl setSegmentCount:[tabControl segmentCount]+1];
-            [[tabControl cell] setTag:[vc hash] forSegment:[tabControl segmentCount]-1];
-            [tabControl setLabel:[self tabViewItemLabelForText:[vc label]] forSegment:[tabControl segmentCount]-1];
-            [tabControl setSelected:YES forSegment:[tabControl segmentCount]-1];
-            NSMenu *menu = [segmentMenu copy];
-            [[tabControl cell] setMenu:menu forSegment:[tabControl segmentCount]-1];
-            [tabControl setTarget:self];
-            [tabControl sizeToFit];
-            [tabControl setHidden:NO];
-            [tabControl setNeedsDisplay:YES];
-
-            // add view
-            [self setView:[vc view]];
-            // set active controller
-            activeViewController = vc;
-            
-            // set current search text object
-            [self setCurrentSearchText:[searchTextObjs objectAtIndex:[viewControllers indexOfObject:vc]]];
-            // set text according search type
-            [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
-            // switch recentSearches
-            [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
-        }
+    /*
+    int i = 0;
+    NSTabViewItem *item = nil;
+    for(NSTabViewItem *item in [tabView tabViewItems]) {
+        [item setLabel:[vc label]];
+        
+        // set active controller
+        activeViewController = vc;
+        
+        // set current search text object
+        [self setCurrentSearchText:[searchTextObjs objectAtIndex:[viewControllers indexOfObject:vc]]];
+        // set text according search type
+        [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
+        // switch recentSearches
+        [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
+    }
+    
+    // select the last tabview item
+    if(item != nil) {
+        [tabView selectTabViewItem:item];
     }
     
     // for dictionaries and genbooks we show the content as another switchable view in the left side bar
@@ -148,6 +163,7 @@
     } else {
         [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
     }
+     */
 }
 
 - (ModuleType)moduleType {
@@ -221,7 +237,7 @@
 }
 
 - (NSString *)tabViewItemLabelForText:(NSString *)aText {
-    return [NSString stringWithFormat:@"%@ - %i", aText, [tabControl segmentCount]];
+    return [NSString stringWithFormat:@"%@ - %i", aText, [[[tabControl tabView] tabViewItems] count]];
 }
 
 #pragma mark - Toolbar Actions
@@ -252,62 +268,12 @@
 
 #pragma mark - Actions
 
-- (IBAction)segmentButtonChange:(id)sender {
-    // get tag
-    int sel = [(NSSegmentedControl *)sender selectedSegment];
-    HostableViewController *vc = [viewControllers objectAtIndex:sel];
-    [self setView:[vc view]];
-    activeViewController = vc;
-    
-    // for GenBook and Dictionary view controller we set the content to the left side bar
-    if([vc isKindOfClass:[DictionaryViewController class]] ||
-       [vc isKindOfClass:[GenBookViewController class]]) {
-        [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
-        [self showRightSideBar:YES];
-    } else {
-        [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
-    }
-
-    // also set current search Text
-    [self setCurrentSearchText:[searchTextObjs objectAtIndex:sel]];
-    
-    // set text according search type
-    [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
-    // switch recentSearches
-    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];
-    
-    // tell host to adapt ui
-    [self adaptUIToCurrentlyDisplayingModuleType];
-}
-
 - (IBAction)menuItemSelected:(id)sender {
     int tag = [(NSMenuItem *)sender tag];
     
-    NSMenuItem *mitem = sender;
-    // every segment has it's own copy of the menu which we will find now here
-    // to identify the viewController
-    int selSeg = -1;
-    for(int i = 0;i < [tabControl segmentCount];i++) {
-        NSMenu *m = [tabControl menuForSegment:i];
-        if(m == [mitem menu]) {
-            // get the tag of this segment
-            selSeg = [[tabControl cell] tagForSegment:i];
-            break;
-        }
-    }
-    
-    // this is the controller of the view which segment has been selected for menu
-    HostableViewController *vc = nil;
-    if(selSeg > -1) {
-        for(HostableViewController *c in viewControllers) {
-            int hash = [c hash];
-            if(hash == selSeg) {
-                vc = c;
-                break;
-            }
-        }        
-    }
-    
+    int index = [[tabView tabViewItems] indexOfObject:[tabView selectedTabViewItem]];
+    HostableViewController *vc = [viewControllers objectAtIndex:index];
+
     // found view controller?
     if(vc != nil) {
         switch(tag) {
@@ -327,7 +293,6 @@
             {
                 // open in single
                 if([viewControllers count] > 1) {
-                    int index = [viewControllers indexOfObject:vc];
                     // also remove search text obj
                     [searchTextObjs removeObjectAtIndex:index];
                     // remove this view controller from our list
@@ -357,6 +322,71 @@
     return YES;
 }
 
+#pragma mark - NSTabView delegates
+
+- (BOOL)tabView:(NSTabView *)aTabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
+    
+    // find view controller
+    int index = [[aTabView tabViewItems] indexOfObject:tabViewItem];
+    HostableViewController *vc = [viewControllers objectAtIndex:index];
+    
+    // found view controller?
+    if(vc != nil) {
+        // also remove search text obj
+        [searchTextObjs removeObjectAtIndex:index];
+        // remove this view controller from our list
+        [viewControllers removeObject:vc];
+        // now rearrange the segments
+        [self rearrangeSegments];
+    }
+    
+    return YES;
+}
+
+- (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem {
+}
+
+- (NSMenu *)tabView:(NSTabView *)aTabView menuForTabViewItem:(NSTabViewItem *)tabViewItem {
+    return tabItemMenu;
+}
+
+- (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+
+    if(hostLoaded) {
+        int index = [[aTabView tabViewItems] indexOfObject:tabViewItem];
+        HostableViewController *vc = [viewControllers objectAtIndex:index];
+        // set active view controller
+        activeViewController = vc;
+        
+        // for GenBook and Dictionary view controller we set the content to the left side bar
+        if([vc isKindOfClass:[DictionaryViewController class]] ||
+           [vc isKindOfClass:[GenBookViewController class]]) {
+            [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
+            [self showRightSideBar:YES];
+        } else {
+            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+        }
+        
+        // also set current search Text
+        [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
+        
+        // set text according search type
+        [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
+        // switch recentSearches
+        [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];
+        
+        // tell host to adapt ui
+        [self adaptUIToCurrentlyDisplayingModuleType];        
+    }
+}
+
+- (void)addTab:(id)sender {
+    NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
+    [newItem setLabel:@"test"];
+    //[newItem setView:[aViewController view]];
+    [tabView addTabViewItem:newItem];
+}
+
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {    
@@ -369,15 +399,11 @@
     if([aViewController isKindOfClass:[ModuleViewController class]] ||
         [aViewController isKindOfClass:[BibleCombiViewController class]]) { // this also handles commentary view
         
-        // add segment to control and set this as current view
-        [tabControl setSegmentCount:[tabControl segmentCount]+1];
-        [[tabControl cell] setTag:[aViewController hash] forSegment:[tabControl segmentCount]-1];
-        [tabControl setLabel:[self tabViewItemLabelForText:[aViewController label]] forSegment:[tabControl segmentCount]-1];
-        [tabControl setSelected:YES forSegment:[tabControl segmentCount]-1];
-        [[tabControl cell] setMenu:[segmentMenu copy] forSegment:[tabControl segmentCount]-1];
-        [tabControl sizeToFit];
-        [tabControl setHidden:NO];
-        [tabControl setNeedsDisplay:YES];
+        NSTabViewItem *newItem = [[NSTabViewItem alloc] initWithIdentifier:[[FakeModel alloc] init]];
+        [newItem setLabel:[aViewController label]];
+        [newItem setView:[aViewController view]];
+        [tabView addTabViewItem:newItem];
+        //[tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
         
         // extend searchTexts
         SearchTextObject *sto = [[SearchTextObject alloc] init];
@@ -389,8 +415,6 @@
         // switch recentSearches
         [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
         
-        // add view
-        [self setView:[aViewController view]];
         // set active controller
         activeViewController = aViewController;
 

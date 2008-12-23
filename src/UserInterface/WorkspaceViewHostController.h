@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <PSMTabBarControl/PSMTabBarControl.h>
 #import <WindowHostController.h>
 #import <Indexer.h>
 #import <SwordModule.h>
@@ -20,9 +21,12 @@
 @interface WorkspaceViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
 
     /** the view switcher */
-    IBOutlet NSSegmentedControl *tabControl;
-    /** each segment should have this menu */
-    IBOutlet NSMenu *segmentMenu;
+    //IBOutlet NSSegmentedControl *tabControl;
+    IBOutlet PSMTabBarControl *tabControl;
+    IBOutlet NSTabView *tabView;
+    
+    /** each tabItem should have this menu */
+    IBOutlet NSMenu *tabItemMenu;
 
     /** one view controller for each tab */
     NSMutableArray *viewControllers;
