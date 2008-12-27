@@ -29,7 +29,6 @@
 @property (retain, readwrite) NSMutableArray *searchTextObjs;
 
 - (NSString *)tabViewItemLabelForText:(NSString *)aText;
-- (void)rearrangeSegments;
 
 @end
 
@@ -67,6 +66,11 @@
     // super class has some things to set
     [super awakeFromNib];
     
+    // set currect searchText if available
+    if([searchTextObjs count] > 0) {
+        currentSearchText = [searchTextObjs objectAtIndex:0];
+    }
+    
     // if a reference is stored, we should load it
     NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
     if([referenceText length] > 0) {
@@ -92,27 +96,37 @@
         }
     }
     
-    //[tabControl setHideForSingleTab:NO];
+    [tabControl setHideForSingleTab:NO];
     //[tabControl setFont:FontStdBold];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];
-    [tabControl setStyleNamed:@"Metal"];
-//    [[tabControl addTabButton] setTarget:self];
-//    [[tabControl addTabButton] setAction:@selector(addTab:)];
-//    [tabControl setShowAddTabButton:YES];
+    [tabControl setStyleNamed:@"Aqua"];
+    [[tabControl addTabButton] setTarget:self];
+    [[tabControl addTabButton] setAction:@selector(addTab:)];
+    [tabControl setShowAddTabButton:YES];
+    [tabControl setCanCloseOnlyTab:YES];
 
     // remove all tabs
     for(NSTabViewItem *item in [tabView tabViewItems]) {
         [tabView removeTabViewItem:item];    
     }
     
-    // re-set tabview items
+    // re-set already loaded tabview items
+    int i = 0;
     for(HostableViewController *vc in viewControllers) {
         if([vc viewLoaded]) {
             NSTabViewItem *item = [[NSTabViewItem alloc] init];
             [item setLabel:[vc label]];
             [item setView:[vc view]];
             [tabView addTabViewItem:item];
+            
+            // select first
+            if(i == 0) {
+                activeViewController = vc;
+                [tabView selectTabViewItem:item];
+            }
         }
+        
+        i++;
     }
     
     // set font for bottombar segmented control
@@ -121,50 +135,11 @@
     // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
     [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];
-    // in case this instance has been initialized with a coder we have view controllers
-    // which may not necessarily call here if they have finished loading
-    // we have to loop over the controllers and add segments for them
-    [self rearrangeSegments];
     
     hostLoaded = YES;
 }
 
 #pragma mark - Methods
-
-- (void)rearrangeSegments {
-    
-    /*
-    int i = 0;
-    NSTabViewItem *item = nil;
-    for(NSTabViewItem *item in [tabView tabViewItems]) {
-        [item setLabel:[vc label]];
-        
-        // set active controller
-        activeViewController = vc;
-        
-        // set current search text object
-        [self setCurrentSearchText:[searchTextObjs objectAtIndex:[viewControllers indexOfObject:vc]]];
-        // set text according search type
-        [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
-        // switch recentSearches
-        [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
-    }
-    
-    // select the last tabview item
-    if(item != nil) {
-        [tabView selectTabViewItem:item];
-    }
-    
-    // for dictionaries and genbooks we show the content as another switchable view in the left side bar
-    if([activeViewController isKindOfClass:[DictionaryViewController class]] ||
-       [activeViewController isKindOfClass:[GenBookViewController class]]) {
-        [rsbViewController setContentView:[(GenBookViewController *)activeViewController listContentView]];
-        [self showRightSideBar:YES];
-    } else {
-        [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
-    }
-     */
-}
 
 - (ModuleType)moduleType {
     ModuleType moduleType = bible;
@@ -209,10 +184,7 @@
             vc = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
         }
         
-        // add view controller
-        [viewControllers addObject:vc];
-        // make the last added the active one
-        activeViewController = vc;
+        // the view controller will be added in contentViewDidFinisLoading:
     }
 }
 
@@ -227,12 +199,7 @@
     } else if(aType == genbook) {
         vc = [[GenBookViewController alloc] initWithDelegate:self];
     }
-    
-    // add view controller
-    [viewControllers addObject:vc];
-    // make the last added the active one
-    activeViewController = vc;
-    
+
     // search text objects are added when this view reports it has loaded
 }
 
@@ -254,19 +221,19 @@
     [super searchInput:sender];
     
     NSString *searchText = [sender stringValue];
-    
-    if([activeViewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)activeViewController displayTextForReference:searchText searchType:searchType];
-    } else if([activeViewController isKindOfClass:[CommentaryViewController class]]) {
-        [(CommentaryViewController *)activeViewController displayTextForReference:searchText searchType:searchType];
-    } else if([activeViewController isKindOfClass:[DictionaryViewController class]]) {
-        [(DictionaryViewController *)activeViewController displayTextForReference:searchText searchType:searchType];
-    } else if([activeViewController isKindOfClass:[GenBookViewController class]]) {
-        [(GenBookViewController *)activeViewController displayTextForReference:searchText searchType:searchType];
+    if([activeViewController isKindOfClass:[BibleCombiViewController class]] ||
+        [activeViewController isKindOfClass:[CommentaryViewController class]] ||
+        [activeViewController isKindOfClass:[DictionaryViewController class]] ||
+        [activeViewController isKindOfClass:[GenBookViewController class]]) {
+        [(id<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:searchType];
     }
 }
 
 #pragma mark - Actions
+
+- (IBAction)addTab:(id)sender {
+    [self addTabContentForModuleType:[self moduleType]];
+}
 
 - (IBAction)menuItemSelected:(id)sender {
     int tag = [(NSMenuItem *)sender tag];
@@ -285,8 +252,6 @@
                 [searchTextObjs removeObjectAtIndex:index];
                 // remove this view controller from our list
                 [viewControllers removeObject:vc];
-                // now rearrange the segments
-                [self rearrangeSegments];
                 break;
             }
             case 1:
@@ -297,8 +262,6 @@
                     [searchTextObjs removeObjectAtIndex:index];
                     // remove this view controller from our list
                     [viewControllers removeObject:vc];
-                    // now rearrange the segments
-                    [self rearrangeSegments];
                 }
                 if([vc isKindOfClass:[ModuleViewController class]]) {
                     // get module of vc and use it to open a single view
@@ -327,7 +290,7 @@
 - (BOOL)tabView:(NSTabView *)aTabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
     
     // find view controller
-    int index = [[aTabView tabViewItems] indexOfObject:tabViewItem];
+    int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
     HostableViewController *vc = [viewControllers objectAtIndex:index];
     
     // found view controller?
@@ -335,9 +298,7 @@
         // also remove search text obj
         [searchTextObjs removeObjectAtIndex:index];
         // remove this view controller from our list
-        [viewControllers removeObject:vc];
-        // now rearrange the segments
-        [self rearrangeSegments];
+        [viewControllers removeObjectAtIndex:index];
     }
     
     return YES;
@@ -353,38 +314,28 @@
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
 
     if(hostLoaded) {
-        int index = [[aTabView tabViewItems] indexOfObject:tabViewItem];
-        HostableViewController *vc = [viewControllers objectAtIndex:index];
-        // set active view controller
-        activeViewController = vc;
-        
-        // for GenBook and Dictionary view controller we set the content to the left side bar
-        if([vc isKindOfClass:[DictionaryViewController class]] ||
-           [vc isKindOfClass:[GenBookViewController class]]) {
-            [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
-            [self showRightSideBar:YES];
-        } else {
-            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+        if([[tabControl representedTabViewItems] containsObject:tabViewItem]) {
+            int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
+            HostableViewController *vc = [viewControllers objectAtIndex:index];
+            // set active view controller
+            activeViewController = vc;
+            
+            // for GenBook and Dictionary view controller we set the content to the left side bar
+            if([vc isKindOfClass:[DictionaryViewController class]] ||
+               [vc isKindOfClass:[GenBookViewController class]]) {
+                [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
+                [self showRightSideBar:YES];
+            } else {
+                [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+            }
+            
+            // also set current search Text
+            [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
+            
+            // tell host to adapt ui
+            [self adaptUIToCurrentlyDisplayingModuleType];                    
         }
-        
-        // also set current search Text
-        [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
-        
-        // set text according search type
-        [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
-        // switch recentSearches
-        [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];
-        
-        // tell host to adapt ui
-        [self adaptUIToCurrentlyDisplayingModuleType];        
     }
-}
-
-- (void)addTab:(id)sender {
-    NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
-    [newItem setLabel:@"test"];
-    //[newItem setView:[aViewController view]];
-    [tabView addTabViewItem:newItem];
 }
 
 #pragma mark - SubviewHosting protocol
@@ -395,38 +346,45 @@
     // let super class first handle it's things
     [super contentViewInitFinished:aViewController];
     
-    // we are only interessted in view controllers that show information
-    if([aViewController isKindOfClass:[ModuleViewController class]] ||
-        [aViewController isKindOfClass:[BibleCombiViewController class]]) { // this also handles commentary view
-        
-        NSTabViewItem *newItem = [[NSTabViewItem alloc] initWithIdentifier:[[FakeModel alloc] init]];
-        [newItem setLabel:[aViewController label]];
-        [newItem setView:[aViewController view]];
-        [tabView addTabViewItem:newItem];
-        //[tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
-        
-        // extend searchTexts
-        SearchTextObject *sto = [[SearchTextObject alloc] init];
-        [searchTextObjs addObject:sto];
-        // also set current search Text
-        [self setCurrentSearchText:sto];
-        // set text according search type
-        [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
-        // switch recentSearches
-        [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
-        
-        // set active controller
-        activeViewController = aViewController;
+    if(hostLoaded) {
+        // we are only interessted in view controllers that show information
+        if([aViewController isKindOfClass:[ModuleViewController class]] ||
+           [aViewController isKindOfClass:[BibleCombiViewController class]]) { // this also handles commentary view
+            
+            // add view controller
+            [viewControllers addObject:aViewController];
+            // make the last added the active one
+            activeViewController = aViewController;
+            
+            // extend searchTexts
+            SearchTextObject *sto = [[SearchTextObject alloc] init];
+            [sto setSearchText:@"" forSearchType:searchType];
+            [sto setRecentSearches:[NSMutableArray array] forSearchType:searchType];
+            [sto setSearchType:searchType];
+            [searchTextObjs addObject:sto];
+            // also set current search Text
+            [self setCurrentSearchText:sto];
+            // set text according search type
+            [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
+            // switch recentSearches
+            [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
 
-        // for GenBook and Dictionary view controller we set the content to the left side bar
-        if([aViewController isKindOfClass:[DictionaryViewController class]] ||
-           [aViewController isKindOfClass:[GenBookViewController class]]) {
-            [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
-            [self showRightSideBar:YES];
-        } else {
-            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
-        }
-    }
+            NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
+            [newItem setLabel:[aViewController label]];
+            [newItem setView:[aViewController view]];
+            [tabView addTabViewItem:newItem];
+            [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
+                        
+            // for GenBook and Dictionary view controller we set the content to the left side bar
+            if([aViewController isKindOfClass:[DictionaryViewController class]] ||
+               [aViewController isKindOfClass:[GenBookViewController class]]) {
+                [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
+                [self showRightSideBar:YES];
+            } else {
+                [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+            }
+        }        
+    }    
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -449,6 +407,9 @@
         // load the common things
         [super initWithCoder:decoder];
         
+        // decode search texts
+        self.searchTextObjs = [decoder decodeObjectForKey:@"SearchTextObjects"];
+
         // decode viewControllers
         self.viewControllers = [decoder decodeObjectForKey:@"HostableViewControllerListEncoded"];
         // set delegate
@@ -456,9 +417,6 @@
             [vc setDelegate:self];
         }
 
-        // decode search texts
-        self.searchTextObjs = [decoder decodeObjectForKey:@"SearchTextObjects"];
-        
         // load nib
         BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
         if(!stat) {

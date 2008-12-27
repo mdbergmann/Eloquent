@@ -90,8 +90,6 @@
 		A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */; };
 		A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */; };
 		A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */; };
-		A9D4B9AD0EFEA93800A5AFF9 /* TabItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D4B9AC0EFEA93800A5AFF9 /* TabItemCell.m */; };
-		A9D4B9B40EFEBD9D00A5AFF9 /* TabSegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D4B9B30EFEBD9D00A5AFF9 /* TabSegmentControl.m */; };
 		A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */; };
 		A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */; };
 		A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */; };
@@ -287,10 +285,6 @@
 		A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = groupbookmark.tiff; sourceTree = "<group>"; };
 		A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallbookmark.tiff; sourceTree = "<group>"; };
-		A9D4B9AB0EFEA93800A5AFF9 /* TabItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabItemCell.h; path = src/UserInterface/TabItemCell.h; sourceTree = "<group>"; };
-		A9D4B9AC0EFEA93800A5AFF9 /* TabItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabItemCell.m; path = src/UserInterface/TabItemCell.m; sourceTree = "<group>"; };
-		A9D4B9B20EFEBD9D00A5AFF9 /* TabSegmentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabSegmentControl.h; path = src/UserInterface/TabSegmentControl.h; sourceTree = "<group>"; };
-		A9D4B9B30EFEBD9D00A5AFF9 /* TabSegmentControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabSegmentControl.m; path = src/UserInterface/TabSegmentControl.m; sourceTree = "<group>"; };
 		A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMTabBarControl.framework; path = Resources/PSMTabBarControl.framework; sourceTree = "<group>"; };
 		A9D4BB1C0EFEF74000A5AFF9 /* FakeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeModel.h; path = src/UserInterface/FakeModel.h; sourceTree = "<group>"; };
 		A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FakeModel.m; path = src/UserInterface/FakeModel.m; sourceTree = "<group>"; };
@@ -611,8 +605,6 @@
 				A94D66CE0EC2CFC9006A84CB /* WorkspaceViewHostController.h */,
 				A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */,
 				A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */,
-				A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */,
-				A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */,
 			);
 			name = Hosts;
 			sourceTree = "<group>";
@@ -622,7 +614,6 @@
 			children = (
 				A9C0F4200EFD67F700CFDF06 /* ConfirmationDialog */,
 				A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */,
-				A9D4B9B10EFEBD6200A5AFF9 /* Controls */,
 				A9D84B590EFA8896000457EC /* Cells */,
 				A996239A0E4F0D120082F18F /* HelperObjects */,
 				A9F4E3540E1DF0E000B0148E /* Caching */,
@@ -665,6 +656,8 @@
 				A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */,
 				A996239B0E4F0D5A0082F18F /* OutlineListObject.h */,
 				A996239C0E4F0D5A0082F18F /* OutlineListObject.m */,
+				A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */,
+				A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */,
 			);
 			name = HelperObjects;
 			sourceTree = "<group>";
@@ -679,20 +672,9 @@
 			path = src/ConfirmationDialog;
 			sourceTree = "<group>";
 		};
-		A9D4B9B10EFEBD6200A5AFF9 /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-				A9D4B9B20EFEBD9D00A5AFF9 /* TabSegmentControl.h */,
-				A9D4B9B30EFEBD9D00A5AFF9 /* TabSegmentControl.m */,
-			);
-			name = Controls;
-			sourceTree = "<group>";
-		};
 		A9D84B590EFA8896000457EC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				A9D4B9AB0EFEA93800A5AFF9 /* TabItemCell.h */,
-				A9D4B9AC0EFEA93800A5AFF9 /* TabItemCell.m */,
 				A9D84B5A0EFA88A4000457EC /* ThreeCellsCell.h */,
 				A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */,
 			);
@@ -952,8 +934,6 @@
 				A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */,
 				A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */,
 				A9C0F4230EFD67F700CFDF06 /* MBConfirmationSheetController.m in Sources */,
-				A9D4B9AD0EFEA93800A5AFF9 /* TabItemCell.m in Sources */,
-				A9D4B9B40EFEBD9D00A5AFF9 /* TabSegmentControl.m in Sources */,
 				A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

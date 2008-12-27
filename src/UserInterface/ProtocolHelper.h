@@ -8,6 +8,7 @@
  */
 
 #import <SwordModule.h>
+#import <Indexer.h>
 
 @class HostableViewController;
 
@@ -25,4 +26,8 @@
 @protocol MouseTracking
 - (void)mouseEntered:(NSView *)theView;
 - (void)mouseExited:(NSView *)theView;
+@end
+
+@protocol TextDisplayable
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 @end

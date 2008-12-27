@@ -496,13 +496,20 @@ return ret;
         const char *keyCStr = swModule->getKeyText();
         const char *txtCStr = swModule->RenderText();
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
-        NSString *key = [NSString stringWithUTF8String:keyCStr];
+        NSString *key = @"";
         NSString *txt = @"";
         if(strMgr->isUtf8(txtCStr)) {
             txt = [NSString stringWithUTF8String:txtCStr];
         } else {
             txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
         }
+        
+        if([self isUnicode]) {
+            key = [NSString stringWithUTF8String:keyCStr];
+        } else {
+            key = [NSString stringWithCString:keyCStr encoding:NSISOLatin1StringEncoding];        
+        }
+        
         // add to dict
         [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
         [dict setObject:key forKey:SW_OUTPUT_REF_KEY];

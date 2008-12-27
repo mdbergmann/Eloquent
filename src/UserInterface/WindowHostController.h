@@ -11,10 +11,11 @@
 #import <Indexer.h>
 
 // toolbar identifiers
-#define TB_ADD_BIBLE_ITEM       @"IdAddBible"
-#define TB_MODULEINSTALLER_ITEM @"IdModuleInstaller"
-#define TB_SEARCH_TYPE_ITEM     @"IdSearchType"
-#define TB_SEARCH_TEXT_ITEM     @"IdSearchText"
+#define TB_ADD_BIBLE_ITEM           @"IdAddBible"
+#define TB_MODULEINSTALLER_ITEM     @"IdModuleInstaller"
+#define TB_SEARCH_TYPE_ITEM         @"IdSearchType"
+#define TB_SEARCH_TEXT_ITEM         @"IdSearchText"
+#define TB_ADDBOOKMARK_TYPE_ITEM    @"IdAddBookmark"
 
 @class ScopeBarView;
 @class SearchTextObject;

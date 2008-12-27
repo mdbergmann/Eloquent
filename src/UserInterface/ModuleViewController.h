@@ -14,10 +14,6 @@
 
 @class SwordModule;
 
-@protocol TextDisplayable
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
-@end
-
 @interface ModuleViewController : HostableViewController <NSCoding, MouseTracking> {
 
     // placeholder for webview or other views depending on nodule tyoe

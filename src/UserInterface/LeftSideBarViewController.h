@@ -63,6 +63,9 @@
 // menu validation
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
+// convenience methods
+- (void)bookmarkDialog:(id)sender;
+
 // actions
 - (IBAction)moduleMenuClicked:(id)sender;
 - (IBAction)bookmarkMenuClicked:(id)sender;

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
+#import <PSMTabBarControl/PSMTabStyle.h>
 #import <WindowHostController.h>
 #import <Indexer.h>
 #import <SwordModule.h>
@@ -46,8 +47,7 @@
 - (void)addTabContentForModuleType:(ModuleType)aType;
 
 // actions
-- (IBAction)segmentButtonChange:(id)sender;
-- (IBAction)sideBarSegChange:(id)sender;
+- (IBAction)addTab:(id)sender;
 - (IBAction)menuItemSelected:(id)sender;
 
 // WindowHosting

@@ -20,6 +20,7 @@
 #import "OutlineListObject.h"
 #import "ThreeCellsCell.h"
 #import "BookmarkDragItem.h"
+#import "SearchTextObject.h"
 
 // drag & drop types
 #define DD_BOOKMARK_TYPE   @"ddbookmarktype"
@@ -172,6 +173,25 @@ enum ModuleMenu_Items{
     return -1;
 }
 
+- (void)bookmarkDialog:(id)sender {
+    
+    // create new bookmark instance
+    Bookmark *new = [[Bookmark alloc] init];
+    [new setReference:[(SearchTextObject *)[(WindowHostController *)hostingDelegate currentSearchText] searchTextForType:ReferenceSearchType]];
+
+    // set as content
+    [bmObjectController setContent:new];
+
+    // bring up bookmark panel
+    bookmarkAction = BookmarkMenuAddNewBM;
+    NSWindow *window = [(NSWindowController *)hostingDelegate window];
+    [NSApp beginSheet:bookmarkPanel
+       modalForWindow:window
+        modalDelegate:self
+       didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
+          contextInfo:nil];    
+}
+
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
@@ -320,7 +340,7 @@ enum ModuleMenu_Items{
             for(NSIndexPath *path in indexes) {
                 if([path length] == 2) {
                     // we have to remove from root
-                    int index = [path indexAtPosition:0];
+                    int index = [path indexAtPosition:1];
                     [[bookmarkManager bookmarks] removeObjectAtIndex:index];
                 } else if([path length] > 2) {
                     Bookmark *bm = [[bookmarkManager bookmarks] objectAtIndex:[path indexAtPosition:1]];
@@ -363,32 +383,34 @@ enum ModuleMenu_Items{
     
     // get bookmark
     Bookmark *bm = [bmObjectController content];
-    if(bookmarkAction == BookmarkMenuAddNewBM) {
-        if([[treeController selectedObjects] count] > 0) {
-            // OutlineListObject will be generated on the fly, so we don't need to update them
-            Bookmark *selected = [[[treeController selectedObjects] objectAtIndex:0] listObject];
-            if(selected == nil) {
+    if([[bm name] length] > 0) {
+        if(bookmarkAction == BookmarkMenuAddNewBM) {
+            if([[treeController selectedObjects] count] > 0) {
+                // OutlineListObject will be generated on the fly, so we don't need to update them
+                Bookmark *selected = [[[treeController selectedObjects] objectAtIndex:0] listObject];
+                if(selected == nil) {
+                    // we add to root
+                    [[bookmarkManager bookmarks] addObject:bm];
+                } else {
+                    // add to selected
+                    [[selected subGroups] addObject:bm];
+                    /*
+                     NSIndexPath *ip = [treeController selectionIndexPath];
+                     [treeController insertObject:bm atArrangedObjectIndexPath:[ip indexPathByAddingIndex:0]];
+                     */
+                }
+            } else {
                 // we add to root
                 [[bookmarkManager bookmarks] addObject:bm];
-            } else {
-                // add to selected
-                [[selected subGroups] addObject:bm];
-                /*
-                 NSIndexPath *ip = [treeController selectionIndexPath];
-                 [treeController insertObject:bm atArrangedObjectIndexPath:[ip indexPathByAddingIndex:0]];
-                 */
+                //[treeController addObject:bm];
             }
-        } else {
-            // we add to root
-            [[bookmarkManager bookmarks] addObject:bm];
-            //[treeController addObject:bm];
         }
+        
+        // save
+        [bookmarkManager saveBookmarks];
+        // trigger reloading of tree elements
+        [treeController rearrangeObjects];        
     }
-    
-    // save
-    [bookmarkManager saveBookmarks];
-    // trigger reloading of tree elements
-    [treeController rearrangeObjects];
     
     // reload outline view
     [outlineView reloadData];
@@ -547,7 +569,7 @@ enum ModuleMenu_Items{
             if(len == 1) {
                 OutlineListObject *item = [[oview itemAtRow:[oview selectedRow]] representedObject];
                 int t = [item objectType];
-                if(t == OutlineItemBookmarkDir || t == OutlineItemBookmark) {
+                if(t == OutlineItemBookmarkDir || t == OutlineItemBookmark || t == OutlineItemBookmarkRoot) {
                     [oview setMenu:bookmarkMenu];
                 } else if(t == OutlineItemModule) {
                     [oview setMenu:moduleMenu];
@@ -571,6 +593,7 @@ enum ModuleMenu_Items{
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
+    /*
     if(item != nil) {
         OutlineListObject *o = [item representedObject];
         int t = [o objectType];
@@ -578,6 +601,7 @@ enum ModuleMenu_Items{
             return YES;
         }
     }
+     */
     
     return NO;
 }
@@ -590,7 +614,7 @@ enum ModuleMenu_Items{
             NSFont *font = FontLargeBold;
             [cell setTextFont:font];
             [cell setTextColor:[NSColor grayColor]];
-            [(ThreeCellsCell *)cell setImage:nil];            
+            [(ThreeCellsCell *)cell setImage:nil];
             //[(ThreeCellsCell *)cell setNumberValue:[NSNumber numberWithInt:4]];
             //float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
             //float pointSize = [font pointSize];

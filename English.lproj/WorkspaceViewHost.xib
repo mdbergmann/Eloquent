@@ -39,7 +39,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{314, 150}, {800, 600}}</string>
 				<int key="NSWTFlags">805306368</int>
-				<string key="NSWindowTitle">Fenster</string>
+				<string key="NSWindowTitle">Workspace</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
@@ -61,7 +61,7 @@
 										<object class="NSCustomView" id="1004626699">
 											<reference key="NSNextResponder" ref="322589580"/>
 											<int key="NSvFlags">266</int>
-											<string key="NSFrame">{{0, 543}, {800, 22}}</string>
+											<string key="NSFrame">{{0, 544}, {800, 22}}</string>
 											<reference key="NSSuperview" ref="322589580"/>
 											<string key="NSClassName">PSMTabBarControl</string>
 										</object>
@@ -542,11 +542,11 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{100, 236}, {800, 600}}</string>
+					<string>{{129, 288}, {800, 600}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<boolean value="NO"/>
-					<string>{{100, 236}, {800, 600}}</string>
+					<string>{{129, 288}, {800, 600}}</string>
 					<integer value="0"/>
 					<string>{196, 240}</string>
 					<string>{{143, 384}, {754, 598}}</string>
@@ -669,12 +669,10 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>menuItemSelected:</string>
-							<string>segmentButtonChange:</string>
 							<string>sideBarSegChange:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>

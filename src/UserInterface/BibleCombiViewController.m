@@ -64,23 +64,23 @@
         self.delegate = aDelegate;
         searchType = ReferenceSearchType;
         
+        // init bible views array
+        self.parBibleViewControllers = [NSMutableArray array];
+        // init misc views array
+        self.parMiscViewControllers = [NSMutableArray array];
+        
+        regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
+        // check error
+        if([regex errorCodeOfLastAction] != MBRegexSuccess) {
+            // set error string and return
+            MBLOGV(MBLOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
+        }
+
         // load nib
         BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
         } else {
-            // init bible views array
-            self.parBibleViewControllers = [NSMutableArray array];
-            // init misc views array
-            self.parMiscViewControllers = [NSMutableArray array];
-            
-            regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
-            // check error
-            if([regex errorCodeOfLastAction] != MBRegexSuccess) {
-                // set error string and return
-                MBLOGV(MBLOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
-            }
-            
             // add initial bible view
             [self addNewBibleViewWithModule:aBible];
         }

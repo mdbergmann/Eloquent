@@ -135,7 +135,7 @@
     float segmentControlHeight = 32.0;
     float segmentControlWidth = (2*64.0);
     searchTypeSegControl = [[NSSegmentedControl alloc] init];
-    [searchTypeSegControl setFrame:NSMakeRect(0.0,0.0,segmentControlWidth,segmentControlHeight)];
+    [searchTypeSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
     [searchTypeSegControl setSegmentCount:2];
     // style
     [[searchTypeSegControl cell] setSegmentStyle:NSSegmentStyleTexturedRounded];
@@ -203,6 +203,34 @@
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TEXT_ITEM];
     
     // add button
+    segmentControlHeight = 32.0;
+    segmentControlWidth = 64.0;
+    NSSegmentedControl *addBookmarkSegControl = [[NSSegmentedControl alloc] init];
+    [addBookmarkSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
+    [addBookmarkSegControl setSegmentCount:1];
+    // style
+    [[addBookmarkSegControl cell] setSegmentStyle:NSSegmentStyleTexturedRounded];
+    // set tracking style
+    [[addBookmarkSegControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
+    // insert text only segments
+    [addBookmarkSegControl setFont:FontStdBold];
+    [addBookmarkSegControl setImage:[NSImage imageNamed:NSImageNameAddTemplate] forSegment:0];		
+    [addBookmarkSegControl sizeToFit];
+    // resize the height to what we have defined
+    [addBookmarkSegControl setFrameSize:NSMakeSize([addBookmarkSegControl frame].size.width, segmentControlHeight)];
+    [addBookmarkSegControl setTarget:lsbViewController];
+    [addBookmarkSegControl setAction:@selector(bookmarkDialog:)];    
+    // add bookmark item
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADDBOOKMARK_TYPE_ITEM];
+    [item setLabel:NSLocalizedString(@"AddBookmarkLabel", @"")];
+    [item setPaletteLabel:NSLocalizedString(@"AddBookmarkPalette", @"")];
+    [item setToolTip:NSLocalizedString(@"AddBookmarkTooltip", @"")];
+    [item setMinSize:[addBookmarkSegControl frame].size];
+    [item setMaxSize:[addBookmarkSegControl frame].size];
+    // set the segmented control as the view of the toolbar item
+    [item setView:addBookmarkSegControl];
+    [addBookmarkSegControl release];
+    [tbIdentifiers setObject:item forKey:TB_ADDBOOKMARK_TYPE_ITEM];
     
     // module installer item
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_MODULEINSTALLER_ITEM];
@@ -268,6 +296,16 @@
     // We are the delegate
     [toolbar setDelegate:self];
     
+    /*
+    SInt32 MacVersion;
+    if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr) {
+        if (MacVersion >= 0x1040) {
+            // this call is Tiger only
+            [toolbar setShowsBaselineSeparator:NO];
+        }
+    }
+     */
+
     // Attach the toolbar to the document window 
     [[self window] setToolbar:toolbar];
 }
@@ -341,6 +379,7 @@
     } else {
         searchType = IndexSearchType;
     }
+    [currentSearchText setSearchType:searchType];
     
     // set text according search type
     NSString *text = [currentSearchText searchTextForType:searchType];
@@ -504,6 +543,15 @@
         [[searchTextField cell] setSendsWholeSearchString:YES];        
     }
     
+    // set search type
+    [self setSearchType:[currentSearchText searchType]];
+    // set text according search type
+    NSString *buf = [currentSearchText searchTextForType:searchType];
+    [searchTextField setStringValue:buf];
+    // switch recentSearches
+    NSArray *bufAr = [currentSearchText recentSearchsForType:searchType];
+    [searchTextField setRecentSearches:bufAr];
+
     if(type == genbook) {
         [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
         [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
@@ -512,9 +560,17 @@
     } else {        
         [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
         [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-        [[searchTypeSegControl cell] setSelected:YES forSegment:0];
-        [[searchTypeSegControl cell] setSelected:NO forSegment:1];
-    }
+        switch(searchType) {
+            case ReferenceSearchType:
+                [[searchTypeSegControl cell] setSelected:YES forSegment:0];
+                [[searchTypeSegControl cell] setSelected:NO forSegment:1];
+                break;
+            case IndexSearchType:
+                [[searchTypeSegControl cell] setSelected:NO forSegment:0];
+                [[searchTypeSegControl cell] setSelected:YES forSegment:1];
+                break;
+        }
+    }    
 }
 
 #pragma mark - NSSplitView delegate methods
