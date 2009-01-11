@@ -105,16 +105,11 @@
     
     // add parallel bible split view to main
     [horiSplitView addSubview:parBibleSplitView positioned:NSWindowAbove relativeTo:nil];
-    [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
     // if this is the first entry, we need to add the parallel misc view itself
-    NSSize s = [parMiscSplitView frame].size;
+    //NSSize s = [parMiscSplitView frame].size;
     if([parMiscViewControllers count] > 0) {
-        s.height = defaultMiscViewHeight;
-    } else {
-        s.height = 0;
-    }
-    [parMiscSplitView setFrameSize:s];
-    
+        [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
+    }    
     // loading finished
     viewLoaded = YES;
     
@@ -194,8 +189,14 @@
         }
     }
     
-    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithDelegate:self];
-    [cvc setModule:(SwordModule *)aModule];
+    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+    //[cvc setModule:(SwordModule *)aModule];
+    
+    if([parMiscViewControllers count] == 0) {
+        // add pane
+        [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];        
+    }
+    
     // add to array
     [parMiscViewControllers addObject:cvc];
 
@@ -551,9 +552,7 @@
         // remove controller
         [parMiscViewControllers removeObject:aViewController];
         if([parMiscViewControllers count] == 0) {
-            NSSize s = [parMiscSplitView frame].size;
-            s.height = 0;
-            [parMiscSplitView setFrameSize:s];
+            [parMiscSplitView removeFromSuperview];
         }
     } else if([aViewController isKindOfClass:[BibleViewController class]]) {
         // remove controller

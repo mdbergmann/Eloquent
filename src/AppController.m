@@ -64,7 +64,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	// init the logging facility in first place
 	[MBLogger initLogger:logPath 
 			   logPrefix:@"[MacSword]" 
-		  logFilterLevel:MBLOG_WARN 
+		  logFilterLevel:MBLOG_DEBUG 
 			appendToFile:YES 
 			logToConsole:NO];	
 #endif
@@ -126,10 +126,10 @@ sets up all needed folders so the application can work
         // check if dir for application exists
         NSFileManager *manager = [NSFileManager defaultManager];
         if([manager fileExistsAtPath:path] == NO) {
-            MBLOG(MBLOG_INFO, @"path to Eloquent does not exist, creating it!");
+            MBLOG(MBLOG_INFO, @"path to MacSword does not exist, creating it!");
             // create APP dir
             if([manager createDirectoryAtPath:path attributes:nil] == NO) {
-                MBLOG(MBLOG_ERR,@"Cannot create Eloquent folder in Application Support!");
+                MBLOG(MBLOG_ERR,@"Cannot create MacSword folder in Application Support!");
                 ret = NO;
             }
         }

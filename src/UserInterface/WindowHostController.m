@@ -211,7 +211,7 @@
     // style
     [[addBookmarkSegControl cell] setSegmentStyle:NSSegmentStyleTexturedRounded];
     // set tracking style
-    [[addBookmarkSegControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
+    [[addBookmarkSegControl cell] setTrackingMode:NSSegmentSwitchTrackingMomentary];
     // insert text only segments
     [addBookmarkSegControl setFont:FontStdBold];
     [addBookmarkSegControl setImage:[NSImage imageNamed:NSImageNameAddTemplate] forSegment:0];		
@@ -264,12 +264,14 @@
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
     }
+    /*
     if([rsbViewController viewLoaded]) {
         [contentSplitView addSubview:[rsbViewController view] positioned:NSWindowAbove relativeTo:nil];
         NSSize s = [[rsbViewController view] frame].size;
         s.width = rsbWidth;
         [[rsbViewController view] setFrameSize:s];
     }
+     */
 }
 
 #pragma mark - toolbar stuff
@@ -437,9 +439,9 @@
 }
 
 - (BOOL)showingRSB {
-    BOOL ret = YES;
-    if([[rsbViewController view] frame].size.width == 0) {
-        ret = NO;
+    BOOL ret = NO;
+    if([[contentSplitView subviews] containsObject:[rsbViewController view]]) {
+        ret = YES;
     }
     
     return ret;
@@ -497,6 +499,9 @@
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
         size.width = rsbWidth;
+        // add
+        [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
+        // change size
         [[v animator] setFrameSize:size];
     } else {
         // shrink the view
@@ -505,8 +510,13 @@
         if(size.width > 0) {
             rsbWidth = size.width;
         }
+        /*
         size.width = 0;
         [[v animator] setFrameSize:size];
+         */
+        
+        // remove
+        [[v animator] removeFromSuperview];
     }
     
     // we need to redisplay
@@ -636,7 +646,9 @@
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
     } else if([aView isKindOfClass:[RightSideBarViewController class]]) {
+        /*
         [contentSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:nil];
+         */
         NSSize s = [[rsbViewController view] frame].size;
         s.width = rsbWidth;
         [[rsbViewController view] setFrameSize:s];
