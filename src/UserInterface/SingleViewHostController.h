@@ -36,9 +36,6 @@
 - (void)setView:(NSView *)aView;
 - (HostableViewController *)contentViewController;
 
-// Actions
-- (IBAction)sideBarSegChange:(id)sender;
-
 // WindowHosting
 - (ModuleType)moduleType;
 

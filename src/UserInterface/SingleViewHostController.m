@@ -127,6 +127,8 @@
     if(viewController.viewLoaded == YES) {
         // add content view
         [placeHolderView setContentView:[viewController view]];
+        // add display options view
+        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)viewController referenceOptionsView]];        
         
         // for dictionaries and genbooks we show the content as another switchable view in the left side bar
         if([viewController isKindOfClass:[DictionaryViewController class]] ||
@@ -139,7 +141,23 @@
     }
     
     // set font for bottombar segmented control
-    [sideBarSegControl setFont:FontStd];    
+    [sideBarSegControl setFont:FontStd];
+    
+    switch(moduleType) {
+        case bible:
+            [[self window] setTitle:NSLocalizedString(@"Bible Window", @"")];
+            break;
+        case commentary:
+            [[self window] setTitle:NSLocalizedString(@"Commentary Window", @"")];
+            break;
+        case dictionary:
+        case devotional:
+            [[self window] setTitle:NSLocalizedString(@"Dictionary Window", @"")];
+            break;
+        case genbook:
+            [[self window] setTitle:NSLocalizedString(@"Genbook Window", @"")];
+            break;
+    }
 }
 
 #pragma mark - methods
@@ -257,7 +275,7 @@
     // first let super class handle it's things
     [super contentViewInitFinished:aView];
     
-    if([aView isKindOfClass:[ModuleViewController class]]) {
+    if([aView isKindOfClass:[ModuleViewController class]] || [aView isKindOfClass:[BibleCombiViewController class]]) {
         // for GenBook and Dictionary view controller we set the content to the left side bar
         if([aView isKindOfClass:[DictionaryViewController class]] ||
             [aView isKindOfClass:[GenBookViewController class]]) {
@@ -267,7 +285,8 @@
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
         }
         // add the webview as contentvew to the placeholder
-        [placeHolderView setContentView:[aView view]];    
+        [placeHolderView setContentView:[aView view]];
+        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)aView referenceOptionsView]];
     }
 }
 

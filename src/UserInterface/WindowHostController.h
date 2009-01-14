@@ -110,4 +110,8 @@
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
+// actions
+- (IBAction)sideBarSegChange:(id)sender;
+
+
 @end

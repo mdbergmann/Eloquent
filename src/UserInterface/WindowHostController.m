@@ -30,11 +30,6 @@
     if(self) {
         hostLoaded = NO;
         
-        // enable global options for testing
-        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_STRONGS value:SW_ON];
-        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_SCRIPTREFS value:SW_ON];
-        [[SwordManager defaultManager] setGlobalOption:SW_OPTION_FOOTNOTES value:SW_ON];
-        
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         
         // load leftSideBar

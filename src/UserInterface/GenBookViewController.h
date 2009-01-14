@@ -32,7 +32,7 @@
     NSMutableArray *selection;
     
     // search type
-    SearchType searchType;    
+    SearchType searchType;
 }
 
 // ---------- initializers ---------
@@ -60,5 +60,10 @@
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
+
+// actions
+- (IBAction)moduleSelectionChanged:(id)sender;
+- (IBAction)displayOptionShowFootnotes:(id)sender;
+- (IBAction)displayOptionShowCrossRefs:(id)sender;
 
 @end

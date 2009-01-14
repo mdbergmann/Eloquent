@@ -72,5 +72,10 @@
 // actions
 - (IBAction)closeButton:(id)sender;
 - (IBAction)addButton:(id)sender;
+- (IBAction)displayOptionShowStrongs:(id)sender;
+- (IBAction)displayOptionShowMorphs:(id)sender;
+- (IBAction)displayOptionShowFootnotes:(id)sender;
+- (IBAction)displayOptionShowCrossRefs:(id)sender;
+- (IBAction)displayOptionShowRedLetterWords:(id)sender;
 
 @end

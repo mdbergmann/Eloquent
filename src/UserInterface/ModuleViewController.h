@@ -14,7 +14,7 @@
 
 @class SwordModule;
 
-@interface ModuleViewController : HostableViewController <NSCoding, MouseTracking> {
+@interface ModuleViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking> {
 
     // placeholder for webview or other views depending on nodule tyoe
     IBOutlet NSBox *placeHolderView;
@@ -23,21 +23,40 @@
     SwordModule *module;
     // current reference
     NSString *reference;
+    
+    /** options */
+    IBOutlet NSMenu *modDisplayOptionsMenu;
+    IBOutlet NSView *referenceOptionsView;
+    NSMutableDictionary *modDisplayOptions;
+    
+    // force redisplay
+    BOOL forceRedisplay;
 }
 
 // --------- properties ---------
 @property (retain, readwrite) SwordModule *module;
 @property (retain, readwrite) NSString *reference;
+@property (readwrite) BOOL forceRedisplay;
+@property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
 
 // ---------- methods ---------
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results;
-    
+/** 
+ default module display options dictionary 
+ can be overriden by subclasses
+ */
+- (void)initDefaultModDisplayOptions;
+
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;
 
 // --------- getter / setter ----------
 - (NSString *)reference;
 - (void)setReference:(NSString *)aReference;
+
+// TextDisplayable protocol
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
+- (NSView *)referenceOptionsView;
 
 // Mouse tracking protocol implementation
 - (void)mouseEntered:(NSView *)theView;

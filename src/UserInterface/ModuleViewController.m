@@ -14,6 +14,8 @@
 #pragma mark - getter/setter
 
 @synthesize module;
+@synthesize forceRedisplay;
+@synthesize modDisplayOptions;
 @dynamic reference;
 
 - (NSString *)reference {
@@ -32,6 +34,7 @@
     self = [super init];
     if(self) {
         [self setReference:@""];
+        forceRedisplay = NO;
     }
     
     return self;
@@ -51,6 +54,16 @@
     return nil;
 }
 
+- (void)initDefaultModDisplayOptions {
+    NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_STRONGS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_MORPHS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
+    self.modDisplayOptions = dOpts;
+}
+
 #pragma mark - Hostable delegate methods
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
@@ -63,6 +76,16 @@
     }
     
     return @"ModuleView";
+}
+
+#pragma mark - TextDisplayable protocol
+
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
+    // do nothing here, subclass will handle
+}
+
+- (NSView *)referenceOptionsView {
+    return referenceOptionsView;
 }
 
 #pragma mark - mouse tracking protocol
@@ -86,6 +109,13 @@
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
         // decode reference
         self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
+        self.modDisplayOptions = [decoder decodeObjectForKey:@"ReferenceDisplayOptions"];
+        if(!modDisplayOptions) {
+            // set defaults
+            [self initDefaultModDisplayOptions];
+        }
+        
+        forceRedisplay = NO;
     }
     
     return self;
@@ -96,6 +126,8 @@
     [encoder encodeObject:reference forKey:@"ReferenceEncoded"];
     // encode module name
     [encoder encodeObject:[module name] forKey:@"ModuleNameEncoded"];
+    // display options
+    [encoder encodeObject:modDisplayOptions forKey:@"ReferenceDisplayOptions"];
 }
 
 @end

@@ -13,16 +13,21 @@
 #import "SwordManager.h"
 #import "SwordSearching.h"
 #import "ReferenceCacheManager.h"
+#import "NSButton+Color.h"
 
 @interface BibleCombiViewController (/* Private, class continuation */)
 /** private property */
 @property(readwrite, retain) NSMutableArray *parBibleViewControllers;
 @property(readwrite, retain) NSMutableArray *parMiscViewControllers;
+@property(retain, readwrite) NSMutableDictionary *modDisplayOptions;
 
 /** distribute the reference */
 - (void)distributeReference:(NSString *)aRef;
 /** when a subview is added we have to recalculate the subview sizes */
 - (void)tileSubViews;
+
+/** default module display options dictionary */
+- (void)initDefaultModDisplayOptions;
 
 // for synchronization of scrollview we need the following methods
 - (void)stopScrollSynchronizationForView:(NSScrollView *)aView;
@@ -44,6 +49,8 @@
 @synthesize parBibleViewControllers;
 @synthesize parMiscViewControllers;
 @synthesize reference;
+@synthesize modDisplayOptions;
+@synthesize forceRedisplay;
 
 #pragma mark - initialization
 
@@ -63,6 +70,11 @@
         // delegate
         self.delegate = aDelegate;
         searchType = ReferenceSearchType;
+        
+        forceRedisplay = NO;
+        
+        // set default display options
+        [self initDefaultModDisplayOptions];
         
         // init bible views array
         self.parBibleViewControllers = [NSMutableArray array];
@@ -206,16 +218,22 @@
     }
 }
 
+- (NSView *)referenceOptionsView {
+    return referenceOptionsView;
+}
+
 - (void)distributeReference:(NSString *)aRef {
     // loop over all BibleViewControllers and set this reference
     for(BibleViewController *bvc in parBibleViewControllers) {
         // set reference
+        [bvc setForceRedisplay:forceRedisplay];
         [bvc displayTextForReference:aRef searchType:searchType];
     }
     
     // loop over all misc ViewControllers and set this reference
     for(CommentaryViewController *cvc in parMiscViewControllers) {
         // set reference
+        [cvc setForceRedisplay:forceRedisplay];
         [cvc displayTextForReference:aRef searchType:searchType];
     }
 }
@@ -262,6 +280,88 @@
 
 - (NSNumber *)bibleViewCount {
     return [NSNumber numberWithInt:[parBibleViewControllers count]];
+}
+
+- (void)initDefaultModDisplayOptions {
+    NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_STRONGS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_MORPHS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
+    self.modDisplayOptions = dOpts;        
+}
+
+#pragma mark - actions
+
+- (IBAction)displayOptionShowStrongs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_STRONGS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_STRONGS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowMorphs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_MORPHS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_MORPHS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowFootnotes:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_FOOTNOTES];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowCrossRefs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_SCRIPTREFS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowRedLetterWords:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
 }
 
 #pragma mark - scrollview synchronization
@@ -607,6 +707,13 @@
             [self distributeReference:aReference];    
         }
     } else {
+        
+        // set global display options
+        for(NSString *key in modDisplayOptions) {
+            NSString *val = [modDisplayOptions objectForKey:key];
+            [[SwordManager defaultManager] setGlobalOption:key value:val];
+        }
+        
         [self distributeReference:aReference];    
     }
 }
@@ -635,8 +742,14 @@
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -initWithCoder] loading nib");
         
+        forceRedisplay = NO;
         searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
-        reference = [decoder decodeObjectForKey:@"SearchReference"];
+        self.reference = [decoder decodeObjectForKey:@"SearchReference"];
+        self.modDisplayOptions = [decoder decodeObjectForKey:@"ReferenceDisplayOptions"];
+        if(!modDisplayOptions) {
+            // set defaults
+            [self initDefaultModDisplayOptions];
+        }
         
         // init bible views array
         self.parBibleViewControllers = [decoder decodeObjectForKey:@"ParallelBibleViewControllerEncoded"];
@@ -674,6 +787,8 @@
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
     // encode reference
     [encoder encodeObject:reference forKey:@"SearchReference"];
+    // display options
+    [encoder encodeObject:modDisplayOptions forKey:@"ReferenceDisplayOptions"];
     // encode parallel bible view controllers
     [encoder encodeObject:parBibleViewControllers forKey:@"ParallelBibleViewControllerEncoded"];
     // encode parallel commentary view controllers

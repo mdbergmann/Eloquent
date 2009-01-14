@@ -123,6 +123,7 @@
 		A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */; };
 		A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
+		A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */; };
 		A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
 /* End PBXBuildFile section */
 
@@ -326,6 +327,8 @@
 		A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoPCRE.framework; path = Resources/CocoPCRE.framework; sourceTree = "<group>"; };
 		A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.5.11-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.5.11-fat.a"; sourceTree = "<group>"; };
 		A9F61C210E01028700C3A0EF /* locales.d */ = {isa = PBXFileReference; lastKnownFileType = folder; name = locales.d; path = sword_mac_build/build/result_inst/locales.d; sourceTree = "<group>"; };
+		A9F74DD30F1BA9A3000D3F3E /* NSButton+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSButton+Color.h"; path = "src/UserInterface/NSButton+Color.h"; sourceTree = "<group>"; };
+		A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSButton+Color.m"; path = "src/UserInterface/NSButton+Color.m"; sourceTree = "<group>"; };
 		A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPreferenceController.h; sourceTree = "<group>"; };
 		A9FD34200E0A70F6001287DD /* MBPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBPreferenceController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -658,6 +661,8 @@
 				A996239C0E4F0D5A0082F18F /* OutlineListObject.m */,
 				A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */,
 				A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */,
+				A9F74DD30F1BA9A3000D3F3E /* NSButton+Color.h */,
+				A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */,
 			);
 			name = HelperObjects;
 			sourceTree = "<group>";
@@ -935,6 +940,7 @@
 				A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */,
 				A9C0F4230EFD67F700CFDF06 /* MBConfirmationSheetController.m in Sources */,
 				A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */,
+				A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

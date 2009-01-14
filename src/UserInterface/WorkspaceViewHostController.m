@@ -135,6 +135,10 @@
     // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
     [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];
+    if(activeViewController != nil) {
+        // add display options view
+        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
+    }
     
     hostLoaded = YES;
 }
@@ -225,7 +229,7 @@
         [activeViewController isKindOfClass:[CommentaryViewController class]] ||
         [activeViewController isKindOfClass:[DictionaryViewController class]] ||
         [activeViewController isKindOfClass:[GenBookViewController class]]) {
-        [(id<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:searchType];
+        [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:searchType];
     }
 }
 
@@ -319,6 +323,10 @@
             HostableViewController *vc = [viewControllers objectAtIndex:index];
             // set active view controller
             activeViewController = vc;
+            if(activeViewController != nil) {
+                // add display options view
+                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
+            }
             
             // for GenBook and Dictionary view controller we set the content to the left side bar
             if([vc isKindOfClass:[DictionaryViewController class]] ||
@@ -374,7 +382,7 @@
             [newItem setView:[aViewController view]];
             [tabView addTabViewItem:newItem];
             [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
-                        
+
             // for GenBook and Dictionary view controller we set the content to the left side bar
             if([aViewController isKindOfClass:[DictionaryViewController class]] ||
                [aViewController isKindOfClass:[GenBookViewController class]]) {
@@ -383,6 +391,11 @@
             } else {
                 [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
             }
+            
+            if(activeViewController != nil) {
+                // add display options view
+                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
+            }            
         }        
     }    
 }

@@ -27,6 +27,11 @@
     IBOutlet NSSplitView *parBibleSplitView;
     IBOutlet NSSplitView *parMiscSplitView;
     
+    /** options */
+    IBOutlet NSMenu *modDisplayOptionsMenu;
+    IBOutlet NSView *referenceOptionsView;
+    NSMutableDictionary *modDisplayOptions;
+    
     NSMutableArray *parBibleViewControllers;
     NSMutableArray *parMiscViewControllers;
     
@@ -43,9 +48,13 @@
     SearchType searchType;
     // search text
     NSString *reference;
+    
+    // force redisplay
+    BOOL forceRedisplay;
 }
 
 @property (retain, readwrite) NSString *reference;
+@property (readwrite) BOOL forceRedisplay;
 
 // initializers
 - (id)initWithDelegate:(id)aDelegate;
@@ -54,6 +63,14 @@
 // methods
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule;
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule;
+- (NSView *)referenceOptionsView;
+
+// actions
+- (IBAction)displayOptionShowStrongs:(id)sender;
+- (IBAction)displayOptionShowMorphs:(id)sender;
+- (IBAction)displayOptionShowFootnotes:(id)sender;
+- (IBAction)displayOptionShowCrossRefs:(id)sender;
+- (IBAction)displayOptionShowRedLetterWords:(id)sender;
 
 // method called by subview
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;

@@ -30,4 +30,5 @@
 
 @protocol TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
+- (NSView *)referenceOptionsView;
 @end

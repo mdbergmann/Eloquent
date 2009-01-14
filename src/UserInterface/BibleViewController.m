@@ -204,16 +204,25 @@
             NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
             // key attributes
             NSFont *keyFont = [NSFont fontWithName:[NSString stringWithFormat:@"%@ Bold", [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]] 
-                                           size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
-            NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
+                                              size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+            NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
             // content font
             NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                              size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];            
+                                                  size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];            
             NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
             // strip binary search tokens
             searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
             // build search string
-            for(SearchResultEntry *entry in sortedSearchResults) {
+            for(SearchResultEntry *entry in sortedSearchResults) {                
+                // prepare verse URL link
+                NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], [entry keyString]];
+                NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
+                // add attributes
+                [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
+                [keyAttributes setObject:[entry keyString] forKey:@"VerseMarkerAttributeName"];
+                
+                // prepare output
                 NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
                 NSAttributedString *contentString = [Highlighter highlightText:[entry keyContent] forTokens:searchQuery attributes:contentAttributes];
                 [ret appendAttributedString:keyString];
@@ -311,8 +320,8 @@
                 NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
                 
                 // prepare verse URL link
-                NSString *verseLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], verseMarker];
-                NSURL *verseURL = [NSURL URLWithString:[verseLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                //NSString *verseLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], verseMarker];
+                //NSURL *verseURL = [NSURL URLWithString:[verseLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
                 // prepare various link usages
                 NSString *visible = @"";
@@ -380,6 +389,10 @@
             // check cache first
             ReferenceCacheManager *rm = [ReferenceCacheManager defaultCacheManager];
             ReferenceCacheObject *o = [rm cacheObjectForReference:aReference andModuleName:[module name]];
+            if(forceRedisplay) {
+                o = nil;
+            }
+            
             if(o != nil) {
                 // use cache object
                 [textViewController setAttributedString:o.displayText];
@@ -408,6 +421,10 @@
                                                                                             numberOfFinds:verses
                                                                                              andReference:aReference];
                         [rm addCacheObject:o];
+                        
+                        if(forceRedisplay) {
+                            forceRedisplay = NO;
+                        }
                     }
                 } else if(searchType == IndexSearchType) {
                     // search in index
@@ -476,6 +493,76 @@
             [delegate performSelector:@selector(addNewBibleViewWithModule:) withObject:nil];
         }
     }
+}
+
+- (IBAction)displayOptionShowStrongs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_STRONGS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_STRONGS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowMorphs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_MORPHS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_MORPHS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowFootnotes:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_FOOTNOTES];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowCrossRefs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_SCRIPTREFS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowRedLetterWords:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
 }
 
 #pragma mark - SubviewHosting
