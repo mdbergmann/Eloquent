@@ -77,5 +77,6 @@
 - (IBAction)displayOptionShowFootnotes:(id)sender;
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
+- (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 @end

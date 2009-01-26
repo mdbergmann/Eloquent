@@ -25,9 +25,11 @@
     NSString *reference;
     
     /** options */
+    IBOutlet NSMenu *displayOptionsMenu;
     IBOutlet NSMenu *modDisplayOptionsMenu;
     IBOutlet NSView *referenceOptionsView;
     NSMutableDictionary *modDisplayOptions;
+    NSMutableDictionary *displayOptions;
     
     // force redisplay
     BOOL forceRedisplay;
@@ -38,6 +40,7 @@
 @property (retain, readwrite) NSString *reference;
 @property (readwrite) BOOL forceRedisplay;
 @property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
+@property (retain, readwrite) NSMutableDictionary *displayOptions;
 
 // ---------- methods ---------
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results;
@@ -46,6 +49,11 @@
  can be overriden by subclasses
  */
 - (void)initDefaultModDisplayOptions;
+/** 
+ default display options dictionary 
+ can be overriden by subclasses
+ */
+- (void)initDefaultDisplayOptions;
 
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;

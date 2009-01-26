@@ -28,9 +28,11 @@
     IBOutlet NSSplitView *parMiscSplitView;
     
     /** options */
+    IBOutlet NSMenu *displayOptionsMenu;
     IBOutlet NSMenu *modDisplayOptionsMenu;
     IBOutlet NSView *referenceOptionsView;
     NSMutableDictionary *modDisplayOptions;
+    NSMutableDictionary *displayOptions;
     
     NSMutableArray *parBibleViewControllers;
     NSMutableArray *parMiscViewControllers;
@@ -71,6 +73,7 @@
 - (IBAction)displayOptionShowFootnotes:(id)sender;
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
+- (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 // method called by subview
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;

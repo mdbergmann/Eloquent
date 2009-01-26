@@ -7,6 +7,8 @@
 //
 
 #import "ModuleViewController.h"
+#import "globals.h"
+#import "MBPreferenceController.h"
 #import "SwordManager.h"
 
 @implementation ModuleViewController
@@ -16,6 +18,7 @@
 @synthesize module;
 @synthesize forceRedisplay;
 @synthesize modDisplayOptions;
+@synthesize displayOptions;
 @dynamic reference;
 
 - (NSString *)reference {
@@ -35,6 +38,10 @@
     if(self) {
         [self setReference:@""];
         forceRedisplay = NO;
+        
+        // init display options
+        [self initDefaultModDisplayOptions];
+        [self initDefaultDisplayOptions];
     }
     
     return self;
@@ -62,6 +69,12 @@
     [dOpts setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
     [dOpts setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
     self.modDisplayOptions = dOpts;
+}
+
+- (void)initDefaultDisplayOptions {
+    NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
+    [dOpts setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
+    self.displayOptions = dOpts;        
 }
 
 #pragma mark - Hostable delegate methods
@@ -109,10 +122,16 @@
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
         // decode reference
         self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
-        self.modDisplayOptions = [decoder decodeObjectForKey:@"ReferenceDisplayOptions"];
+        // display options
+        self.modDisplayOptions = [decoder decodeObjectForKey:@"ReferenceModDisplayOptions"];
         if(!modDisplayOptions) {
             // set defaults
             [self initDefaultModDisplayOptions];
+        }
+        self.displayOptions = [decoder decodeObjectForKey:@"ReferenceDisplayOptions"];
+        if(!displayOptions) {
+            // set defaults
+            [self initDefaultDisplayOptions];
         }
         
         forceRedisplay = NO;
@@ -127,7 +146,9 @@
     // encode module name
     [encoder encodeObject:[module name] forKey:@"ModuleNameEncoded"];
     // display options
-    [encoder encodeObject:modDisplayOptions forKey:@"ReferenceDisplayOptions"];
+    [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
+    // display options
+    [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
 }
 
 @end

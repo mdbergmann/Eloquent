@@ -76,7 +76,7 @@
 						<object class="NSPopUpButtonCell" key="NSCell" id="483240999">
 							<int key="NSCellFlags">-2076049856</int>
 							<int key="NSCellFlags2">133120</int>
-							<object class="NSFont" key="NSSupport">
+							<object class="NSFont" key="NSSupport" id="29">
 								<string key="NSName">LucidaGrande-Bold</string>
 								<double key="NSSize">1.200000e+01</double>
 								<int key="NSfFlags">16</int>
@@ -169,6 +169,63 @@
 									</object>
 								</object>
 							</object>
+							<bool key="NSPullDown">YES</bool>
+							<int key="NSPreferredEdge">1</int>
+							<bool key="NSUsesItemFromMenu">YES</bool>
+							<bool key="NSAltersState">YES</bool>
+							<int key="NSArrowPosition">2</int>
+						</object>
+					</object>
+					<object class="NSPopUpButton" id="423373293">
+						<reference key="NSNextResponder" ref="870439869"/>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{140, -1}, {124, 26}}</string>
+						<reference key="NSSuperview" ref="870439869"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSPopUpButtonCell" key="NSCell" id="593098228">
+							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags2">133120</int>
+							<reference key="NSSupport" ref="29"/>
+							<reference key="NSControlView" ref="423373293"/>
+							<int key="NSButtonFlags">-1232977665</int>
+							<int key="NSButtonFlags2">173</int>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">400</int>
+							<int key="NSPeriodicInterval">75</int>
+							<object class="NSMenuItem" key="NSMenuItem" id="217574258">
+								<reference key="NSMenu" ref="502589186"/>
+								<bool key="NSIsHidden">YES</bool>
+								<string key="NSTitle">Display Options</string>
+								<string key="NSKeyEquiv"/>
+								<int key="NSMnemonicLoc">2147483647</int>
+								<reference key="NSOnImage" ref="939504943"/>
+								<reference key="NSMixedImage" ref="833883188"/>
+								<string key="NSAction">_popUpItemAction:</string>
+								<reference key="NSTarget" ref="593098228"/>
+							</object>
+							<bool key="NSMenuItemRespectAlignment">YES</bool>
+							<object class="NSMenu" key="NSMenu" id="502589186">
+								<string key="NSTitle">OtherViews</string>
+								<object class="NSMutableArray" key="NSMenuItems">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<reference ref="217574258"/>
+									<object class="NSMenuItem" id="903739052">
+										<reference key="NSMenu" ref="502589186"/>
+										<string key="NSTitle">Verses On One Line</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSKeyEquivModMask">1048576</int>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<int key="NSState">1</int>
+										<reference key="NSOnImage" ref="939504943"/>
+										<reference key="NSMixedImage" ref="833883188"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">1</int>
+										<reference key="NSTarget" ref="593098228"/>
+									</object>
+								</object>
+							</object>
+							<int key="NSSelectedIndex">-1</int>
 							<bool key="NSPullDown">YES</bool>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
@@ -297,6 +354,22 @@
 					</object>
 					<int key="connectionID">64</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">displayOptionsMenu</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="502589186"/>
+					</object>
+					<int key="connectionID">85</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">displayOptionVersesOnOneLine:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="903739052"/>
+					</object>
+					<int key="connectionID">86</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -360,6 +433,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1057979576"/>
+							<reference ref="423373293"/>
 						</object>
 						<reference key="parent" ref="1002"/>
 						<string key="objectName">ReferenceOptions</string>
@@ -426,6 +500,44 @@
 						<reference key="object" ref="421580450"/>
 						<reference key="parent" ref="260178136"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">78</int>
+						<reference key="object" ref="423373293"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="593098228"/>
+						</object>
+						<reference key="parent" ref="870439869"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">79</int>
+						<reference key="object" ref="593098228"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="502589186"/>
+						</object>
+						<reference key="parent" ref="423373293"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">80</int>
+						<reference key="object" ref="502589186"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="903739052"/>
+							<reference ref="217574258"/>
+						</object>
+						<reference key="parent" ref="593098228"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">81</int>
+						<reference key="object" ref="903739052"/>
+						<reference key="parent" ref="502589186"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">84</int>
+						<reference key="object" ref="217574258"/>
+						<reference key="parent" ref="502589186"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -455,6 +567,11 @@
 					<string>52.IBPluginDependency</string>
 					<string>61.IBPluginDependency</string>
 					<string>63.IBPluginDependency</string>
+					<string>78.IBPluginDependency</string>
+					<string>79.IBPluginDependency</string>
+					<string>80.IBPluginDependency</string>
+					<string>81.IBPluginDependency</string>
+					<string>84.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -469,11 +586,16 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{295, 606}, {576, 361}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{126, 382}, {500, 24}}</string>
+					<string>{{17, 203}, {500, 24}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{116, 179}, {154, 71}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -503,7 +625,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">64</int>
+			<int key="maxID">86</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -520,9 +642,11 @@
 							<string>displayOptionShowMorphs:</string>
 							<string>displayOptionShowRedLetterWords:</string>
 							<string>displayOptionShowStrongs:</string>
+							<string>displayOptionVersesOnOneLine:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -534,6 +658,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>displayOptionsMenu</string>
 							<string>horiSplitView</string>
 							<string>lookupTF</string>
 							<string>modDisplayOptionsMenu</string>
@@ -544,6 +669,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSMenu</string>
 							<string>NSSplitView</string>
 							<string>NSTextField</string>
 							<string>NSMenu</string>

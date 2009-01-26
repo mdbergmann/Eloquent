@@ -92,6 +92,9 @@
     // loading finished
     viewLoaded = YES;
     
+    // set menu states of display options
+    [[displayOptionsMenu itemWithTag:1] setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] intValue]];
+
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
     if(textViewController.viewLoaded == YES) {
@@ -240,10 +243,10 @@
 
     // some defaults
     // get user defaults
-    BOOL vool = [userDefaults boolForKey:DefaultsBibleTextVersesOnOneLineKey];
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
-
+    BOOL vool = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
+    
     // generate html string for verses
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...\n");
     NSMutableString *htmlString = [NSMutableString string];
@@ -327,9 +330,15 @@
                 NSString *visible = @"";
                 NSRange linkRange;
                 if(showBookNames) {
-                    visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
-                    linkRange.location = replaceRange.location;
-                    linkRange.length = [visible length] - 2;
+                    if(vool) {
+                        visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
+                        linkRange.location = replaceRange.location;
+                        linkRange.length = [visible length] - 2;                        
+                    } else {
+                        visible = [NSString stringWithFormat:@"%@ ", [comps objectAtIndex:2]];
+                        linkRange.location = replaceRange.location;
+                        linkRange.length = [visible length] - 1;
+                    }
                 } else if(showBookAbbr) {
                     // TODO: show abbrevation
                 }
@@ -557,6 +566,20 @@
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
         [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionVersesOnOneLine:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextVersesOnOneLineKey];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
