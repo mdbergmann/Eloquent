@@ -16,7 +16,16 @@
 @implementation HUDPreviewController
 
 - (id)init {
-    return [super init];
+    return [self initWithDelegate:nil];
+}
+
+- (id)initWithDelegate:(id)aDelegate {
+	self = [super init];
+    if(self) {
+        delegate = aDelegate;
+	}
+	
+	return self;
 }
 
 - (void)awakeFromNib {
@@ -31,6 +40,16 @@
 
 - (void)finalize {
     [super finalize];
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
+    // tell delegate that we are closing
+    if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
+        [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
+    } else {
+        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+    }
 }
 
 #pragma mark - Notifications

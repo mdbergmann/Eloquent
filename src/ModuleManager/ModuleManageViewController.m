@@ -277,7 +277,6 @@
 // ------------------- methods ----------------
 
 - (id)init {
-
 	self = [self initWithDelegate:nil];
 	
 	return self;
@@ -370,44 +369,74 @@
     // reload data
     [categoryOutlineView reloadData];
     
-    initialized = YES;
-    
-    // test install sources for availability
-    NSMutableArray *uis = [NSMutableArray array];
-    SwordInstallSourceController *isc = [SwordInstallSourceController defaultController];
-    for(SwordInstallSource *is in [isc installSourceList]) {
-        
-        NSString *host = [is source];
-        if(![host isEqualToString:@"localhost"]) {
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, [is directory]]];
-            
-            NSURLResponse *response = [[NSURLResponse alloc] init];
-            NSURLRequest *request = [NSURLRequest requestWithURL:url];
-            NSData *data = [NSURLConnection sendSynchronousRequest:request 
-                                                 returningResponse:&response error:nil];
-            if(!data) {
-                [uis addObject:[is caption]];
-            }
-        }
-    }
-    
-    // install sources not available?
-    NSMutableString *uisStr = [NSMutableString stringWithString:NSLocalizedString(@"The following install sources could not be contacted:\n", @"")];
-    for(int i = 0;i < [uis count];i++) {
-        if(i == 0) {
-            [uisStr appendString:[uis objectAtIndex:i]];
-        } else {
-            [uisStr appendFormat:@", %@", [uis objectAtIndex:i]];
-        }
-    }
-    if([uis count] > 0) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
-                                         defaultButton:NSLocalizedString(@"OK", @"") 
-                                       alternateButton:nil
+    // check first start
+    NSString *firstStartStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"FirstStartModInstaller"];
+    if(firstStartStr == nil) {
+        // first start
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"Yes", @"") 
+                                       alternateButton:NSLocalizedString(@"No", @"")
                                            otherButton:nil 
-                             informativeTextWithFormat:uisStr];
-        [alert runModal];        
+                             informativeTextWithFormat:NSLocalizedString(@"FirstStart", @"")];
+        if([alert runModal] == NSAlertDefaultReturn) {
+            SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+            InstallSourceListObject *ilo = [[[InstallSourceListObject alloc] initWithType:TypeInstallSource] autorelease];
+            [ilo setInstallSource:[[sis installSources] objectForKey:@"CrossWire"]];
+            [self setSelectedInstallSources:[NSArray arrayWithObject:ilo]];
+            // refresh
+            [self refreshInstallSource:self];
+        }
+        // set user default object
+        [[NSUserDefaults standardUserDefaults] setObject:@"started" forKey:@"FirstStartModInstaller"];
+    } else {
+        // lets show an requester and let the iser decide to check install sources
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"Yes", @"") 
+                                       alternateButton:NSLocalizedString(@"No", @"")
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"AwakeCheckInstallSources", @"")];
+        int stat = [alert runModal];
+        if(stat == NSAlertDefaultReturn) {
+            // test install sources for availability
+            NSMutableArray *uis = [NSMutableArray array];
+            SwordInstallSourceController *isc = [SwordInstallSourceController defaultController];
+            for(SwordInstallSource *is in [isc installSourceList]) {
+                
+                NSString *host = [is source];
+                if(![host isEqualToString:@"localhost"]) {
+                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, [is directory]]];
+                    
+                    NSURLResponse *response = [[NSURLResponse alloc] init];
+                    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                    NSData *data = [NSURLConnection sendSynchronousRequest:request 
+                                                         returningResponse:&response error:nil];
+                    if(!data) {
+                        [uis addObject:[is caption]];
+                    }
+                }
+            }
+            
+            // install sources not available?
+            NSMutableString *uisStr = [NSMutableString stringWithString:NSLocalizedString(@"The following install sources could not be contacted:\n", @"")];
+            for(int i = 0;i < [uis count];i++) {
+                if(i == 0) {
+                    [uisStr appendString:[uis objectAtIndex:i]];
+                } else {
+                    [uisStr appendFormat:@", %@", [uis objectAtIndex:i]];
+                }
+            }
+            if([uis count] > 0) {
+                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                                 defaultButton:NSLocalizedString(@"OK", @"") 
+                                               alternateButton:nil
+                                                   otherButton:nil 
+                                     informativeTextWithFormat:uisStr];
+                [alert runModal];        
+            }        
+        }        
     }
+
+    initialized = YES;    
 }
 
 //--------------------------------------------------------------------

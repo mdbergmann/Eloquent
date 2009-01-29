@@ -65,5 +65,6 @@ typedef enum AppErrorCodes {
 
 // host delegate method
 - (void)hostClosing:(NSWindowController *)aHost;
+- (void)auxWindowClosing:(NSWindowController *)aController;
 
 @end

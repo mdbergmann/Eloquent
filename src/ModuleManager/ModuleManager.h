@@ -15,9 +15,16 @@
     // the module view controller
     ModuleManageViewController *moduleViewController;
     
+    // delegate
+    id delegate;
+    
 	// we need a dictionary for all our toolbar identifiers
 	NSMutableDictionary *tbIdentifiers;
 }
+
+@property (readwrite) id delegate;
+
+- (id)initWithDelegate:(id)aDelegate;
 
 - (void)setupToolbar;
 

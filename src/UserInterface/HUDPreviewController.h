@@ -13,6 +13,12 @@
     IBOutlet NSBox *placeholderView;
     IBOutlet NSTextField *previewType;
     IBOutlet NSTextField *previewText;
+    
+    id delegate;
 }
+
+@property (readwrite) id delegate;
+
+- (id)initWithDelegate:(id)aDelegate;
 
 @end

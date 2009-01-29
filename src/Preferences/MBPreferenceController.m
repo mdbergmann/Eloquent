@@ -19,6 +19,10 @@ static MBPreferenceController *instance;
 }
 
 - (id)init {
+    return [self initWithDelegate:nil];
+}
+
+- (id)initWithDelegate:(id)aDelegate {
 	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -init]");
 	
 	self = [super initWithWindowNibName:@"Preferences" owner:self];
@@ -26,7 +30,8 @@ static MBPreferenceController *instance;
 		MBLOG(MBLOG_ERR, @"[MBPreferenceController -init] cannot init!");		
 	} else {        
         instance = self;
-
+        delegate = aDelegate;
+        
 		// init web preferences
         webPreferences = [[WebPreferences alloc] init];
         [webPreferences setAutosaves:NO];
@@ -40,6 +45,16 @@ static MBPreferenceController *instance;
 	}
 	
 	return self;
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
+    // tell delegate that we are closing
+    if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
+        [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
+    } else {
+        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+    }
 }
 
 /**

@@ -81,6 +81,8 @@
 // the default prefs controller
 + (MBPreferenceController *)defaultPrefsController;
 
+- (id)initWithDelegate:(id)aDelegate;
+
 - (NSArray *)moduleNamesOfTypeBible;
 - (NSArray *)moduleNamesOfTypeStrongsGreek;
 - (NSArray *)moduleNamesOfTypeStrongsHebrew;

@@ -18,18 +18,24 @@
 
 @implementation ModuleManager
 
+@synthesize delegate;
+
 - (id)init {
-	
+	return [self initWithDelegate:nil];
+}
+
+- (id)initWithDelegate:(id)aDelegate {
 	self = [super initWithWindowNibName:@"ModuleManager" owner:self];
 	if(self == nil) {
 		MBLOG(MBLOG_ERR,@"[ModuleManager -init]");		
 	}
 	else {
+        delegate = aDelegate;
         // init module manage view controller
         moduleViewController = [[ModuleManageViewController alloc] initWithDelegate:self];
 	}
 	
-	return self;	
+	return self;    
 }
 
 /**
@@ -148,6 +154,16 @@
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarPrintItemIdentifier];
     
     [self setupToolbar];
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
+    // tell delegate that we are closing
+    if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
+        [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
+    } else {
+        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+    }
 }
 
 // ============================================================

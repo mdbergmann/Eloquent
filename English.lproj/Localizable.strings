@@ -1,3 +1,54 @@
+// ------------------- install manager ------------------------
+// --------- module manager stuff -----------
+// alerts
+"Alert" = "Alert";
+"Alert_AllFeeldsNeedToBeFilled" = "All feelds need to be filled!";
+
+// warnings
+"Warning" = "Warning";
+"OneOrMoreEmptyFields" = "One or more fields are empty!";
+"ISNotValid" = "The information is not valid. Please check again!";
+
+// informations
+"Information" = "Information";
+"PleaseMakeSelection" = "Please select something first";
+"DeleteConfirm" = "Do you really want to delete the selected item?";
+"NoPendingTasks" = "There are no pending tasks!";
+"ISValidInformation" = "Install source information is valid";
+"FirstStart" = "This is the first use of the module installer. Do you want to refresh the default install source now?";
+"AwakeCheckInstallSources" = "Do you want the remote install sources to be checked for availablility? This process can take one or two minutes if you have a slow internet connection.";
+
+// mod status strings
+"ModStatSameVersion" = "Installed";
+"ModStatNew" = "Not installed";
+"ModStatUpdated" = "Updateable";
+
+// ModuleManager Toolbar
+"AddInstallSourceLabel" = "Add Install Source";
+"AddInstallSourceToolTip" = "Add a new install source for installing new modules";
+"EditInstallSourceLabel" = "Edit Install Source";
+"EditInstallSourceToolTip" = "Edit the selected install source";
+"RefreshInstallSourceLabel" = "Refresh Install Source";
+"RefreshInstallSourceToolTip" = "Refresh the selected install source to sync with the server";
+"DeleteInstallSourceLabel" = "Delete Install Source";
+"DeleteInstallSourceToolTip" = "Delete the selected install source";
+"PreviewTasksLabel" = "Preview Tasks";
+"PreviewTasksToolTip" = "Preview all the changes to be made when processing";
+"ProcessTasksLabel" = "Process Tasks";
+"ProcessTasksToolTip" = "Process all the changes";
+
+// progress window strings
+"WindowTitle_Progress" = "Progress";
+
+// actions
+"Action_RemovingModules" = "Removing modules";
+"Action_InstallingModules" = "Installing modules";
+"Action_RefreshingInstallSourceAction" = "Refreshing install source";
+"ActionStep_Refreshing" = "Refreshing...";
+
+
+// ------------------- MacSword --------------------------
+
 // toolbar
 "ToggleModulesLabel" = "Sidebar";
 "ToggleModulesToolTip" = "Show Sidebar";

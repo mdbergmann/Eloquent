@@ -378,10 +378,17 @@ static AppController *singleton;
 	// show panel
     // create it
     if(!preferenceController) {
-        preferenceController = [[MBPreferenceController alloc] init];
+        preferenceController = [[MBPreferenceController alloc] initWithDelegate:self];
     }
-	//[preferenceController beginSheetForWindow:nil];
-	[preferenceController showWindow:self];
+    
+    // show window
+    if(!isPreferencesShowing) {
+        [preferenceController showWindow:self];
+        isPreferencesShowing = YES;
+    } else {
+        [preferenceController close];    
+        isPreferencesShowing = NO;
+    }
 }
 
 - (IBAction)showAboutWindow:(id)sender {
@@ -392,7 +399,7 @@ static AppController *singleton;
  */
 - (IBAction)showModuleManager:(id)sender {
     if(moduleManager == nil) {
-        moduleManager = [[ModuleManager alloc] init]; 
+        moduleManager = [[ModuleManager alloc] initWithDelegate:self]; 
     }
     
     // show window
@@ -407,7 +414,7 @@ static AppController *singleton;
 
 - (IBAction)showPreviewPanel:(id)sender {
     if(previewController == nil) {
-        previewController = [[HUDPreviewController alloc] init]; 
+        previewController = [[HUDPreviewController alloc] initWithDelegate:self]; 
     }
     
     // show window
@@ -427,6 +434,16 @@ static AppController *singleton;
     [windowHosts removeObject:aHost];
 }
 
+- (void)auxWindowClosing:(NSWindowController *)aController {
+    if([aController isKindOfClass:[ModuleManager class]]) {
+        isModuleManagerShowing = NO;
+    } else if([aController isKindOfClass:[MBPreferenceController class]]) {
+        isPreferencesShowing = NO;
+    } else if([aController isKindOfClass:[HUDPreviewController class]]) {
+        isPreviewShowing = NO;
+    }
+}
+
 #pragma mark - app delegate methods
 
 /**
@@ -437,12 +454,7 @@ static AppController *singleton;
     
     // load saved windows
     NSData *data = [NSData dataWithContentsOfFile:@"/tmp/MacSwordWindows.plist"];
-    if(data == nil) {
-        // open a default view
-        SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:bible];
-        svh.delegate = self;
-        [windowHosts addObject:svh];
-    } else {
+    if(data != nil) {
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
         for(NSWindowController *wc in windowHosts) {
@@ -450,6 +462,13 @@ static AppController *singleton;
                 [(WindowHostController *)wc setDelegate:self];
             }
         }
+    } else {
+        /*
+        // open a default view
+        SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:bible];
+        svh.delegate = self;
+        [windowHosts addObject:svh];
+         */
     }
 }
 

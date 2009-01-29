@@ -44,7 +44,7 @@
     ModuleListObject *ret = nil;
     
     int clickedRow = [moduleOutlineView clickedRow];
-    if(clickedRow > 0) {
+    if(clickedRow >= 0) {
         // get row
         ret = [moduleOutlineView itemAtRow:clickedRow];
     }

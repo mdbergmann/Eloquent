@@ -525,16 +525,6 @@
     [self searchInput:searchTextField];
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
-    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
-    // tell delegate that we are closing
-    if(delegate && [delegate respondsToSelector:@selector(hostClosing:)]) {
-        [delegate performSelector:@selector(hostClosing:) withObject:self];
-    } else {
-        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
-    }
-}
-
 - (void)adaptUIToCurrentlyDisplayingModuleType {
     
     ModuleType type = [self moduleType];
@@ -614,13 +604,27 @@
 #pragma mark - NSWindow delegate methods
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
+    /*
     [scopeBarView setWindowActive:YES];
     [scopeBarView setNeedsDisplay:YES];
+     */
 }
 
 - (void)windowDidResignMain:(NSNotification *)notification {
+    /*
     [scopeBarView setWindowActive:NO];
     [scopeBarView setNeedsDisplay:YES];
+     */
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
+    // tell delegate that we are closing
+    if(delegate && [delegate respondsToSelector:@selector(hostClosing:)]) {
+        [delegate performSelector:@selector(hostClosing:) withObject:self];
+    } else {
+        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+    }
 }
 
 #pragma mark - WindowHosting protocol
@@ -664,12 +668,16 @@
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
     // load lsb view
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
-    lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
-    [lsbViewController setHostingDelegate:self];
+    if(lsbViewController == nil) {
+        lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
+        [lsbViewController setHostingDelegate:self];    
+    }
     // load rsb view
     rsbWidth = [decoder decodeIntForKey:@"RSBWidth"];
-    rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
-    [rsbViewController setHostingDelegate:self];
+    if(rsbViewController == nil) {
+        rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
+        [rsbViewController setHostingDelegate:self];    
+    }
     
     return self;
 }
