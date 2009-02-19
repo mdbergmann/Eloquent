@@ -776,6 +776,7 @@
                                                  defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
                                      informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
                 [alert runModal];                
+                [self distributeReference:aReference];    
             }
         } else {
             [self distributeReference:aReference];    

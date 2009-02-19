@@ -302,7 +302,12 @@
         // set delegate
         [viewController setDelegate:self];
         [viewController setHostingDelegate:self];
-        moduleType = [[(ModuleViewController *)viewController module] type];
+        
+        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
+            moduleType = bible;
+        } else {
+            moduleType = [[(ModuleViewController *)viewController module] type];        
+        }
 
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
