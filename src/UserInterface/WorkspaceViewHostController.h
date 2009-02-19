@@ -43,8 +43,8 @@
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
 - (HostableViewController *)contentViewController;
-- (void)addTabContentForModule:(SwordModule *)aModule;
-- (void)addTabContentForModuleType:(ModuleType)aType;
+- (HostableViewController *)addTabContentForModule:(SwordModule *)aModule;
+- (HostableViewController *)addTabContentForModuleType:(ModuleType)aType;
 
 // actions
 - (IBAction)addTab:(id)sender;

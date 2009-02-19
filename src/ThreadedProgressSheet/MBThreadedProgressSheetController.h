@@ -73,7 +73,7 @@ enum ThreadedeProgressReturnCode {
 - (void)setProgressAction:(NSNumber *)aAction;
 - (int)progressAction;
 // reset progressValue
-- (void)resetProgressValue;
+- (void)reset;
 // reset returnCode
 - (void)resetReturnCode;
 

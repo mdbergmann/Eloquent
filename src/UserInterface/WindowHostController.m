@@ -19,8 +19,13 @@
 @implementation WindowHostController
 
 @synthesize delegate;
-@synthesize searchType;
+@dynamic searchType;
 @synthesize currentSearchText;
+
+typedef enum _NavigationDirectionType {
+    DirectionBackward = 1,
+    DirectionForward
+}NavigationDirectionType;
 
 #pragma mark - initializers
 
@@ -29,6 +34,7 @@
     self = [super init];
     if(self) {
         hostLoaded = NO;
+        navigationAction = NO;
         
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         
@@ -129,6 +135,41 @@
     
     float segmentControlHeight = 32.0;
     float segmentControlWidth = (2*64.0);
+    
+    // Vavigation Control
+    navigationSegControl = [[NSSegmentedControl alloc] init];
+    [navigationSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
+    [navigationSegControl setSegmentCount:2];
+    // set tracking style
+    [[navigationSegControl cell] setTrackingMode:NSSegmentSwitchTrackingMomentary];
+    // insert image for segments
+    image = [NSImage imageNamed:NSImageNameGoLeftTemplate];
+    [navigationSegControl setImage:image forSegment:0];
+    [[navigationSegControl cell] setTag:DirectionBackward forSegment:0];
+    image = [NSImage imageNamed:NSImageNameGoRightTemplate];
+    [navigationSegControl setImage:image forSegment:1];
+    [[navigationSegControl cell] setTag:DirectionForward forSegment:1];
+    [navigationSegControl sizeToFit];
+    // resize the height to what we have defined
+    [navigationSegControl setFrameSize:NSMakeSize([navigationSegControl frame].size.width, segmentControlHeight)];
+    [navigationSegControl setTarget:self];
+    [navigationSegControl setAction:@selector(navigationAction:)];
+    if([self moduleType] != bible && [self moduleType] != commentary) {
+        [[navigationSegControl cell] setEnabled:NO forSegment:0];
+        [[navigationSegControl cell] setEnabled:NO forSegment:1];        
+    }
+    // the Toolbar itemitem
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_NAVIGATION_TYPE_ITEM];
+    [item setLabel:NSLocalizedString(@"NavigationItemLabel", @"")];
+    [item setPaletteLabel:NSLocalizedString(@"NavigationItemPalette", @"")];
+    [item setToolTip:NSLocalizedString(@"NavigationItemTooltip", @"")];
+    [item setMinSize:[navigationSegControl frame].size];
+    [item setMaxSize:[navigationSegControl frame].size];
+    // set the segmented control as the view of the toolbar item
+    [item setView:navigationSegControl];
+    [tbIdentifiers setObject:item forKey:TB_NAVIGATION_TYPE_ITEM];
+    
+    // Search Control
     searchTypeSegControl = [[NSSegmentedControl alloc] init];
     [searchTypeSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
     [searchTypeSegControl setSegmentCount:2];
@@ -160,8 +201,7 @@
     [searchTypeSegControl setFrameSize:NSMakeSize([searchTypeSegControl frame].size.width,segmentControlHeight)];
     [searchTypeSegControl setTarget:self];
     [searchTypeSegControl setAction:@selector(searchType:)];
-    
-    // add detailview toolbaritem
+    // the Toolbar item
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TYPE_ITEM];
     [item setLabel:NSLocalizedString(@"SearchTypeLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"SearchTypePalette", @"")];
@@ -170,7 +210,6 @@
     [item setMaxSize:[searchTypeSegControl frame].size];
     // set the segmented control as the view of the toolbar item
     [item setView:searchTypeSegControl];
-    [searchTypeSegControl release];
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TYPE_ITEM];
     
     // search text
@@ -181,7 +220,7 @@
     if([self moduleType] == dictionary) {
         [searchTextField setContinuous:YES];
         [[searchTextField cell] setSendsSearchStringImmediately:YES];
-        //[[searchTextField cell] setSendsWholeSearchString:NO];        
+        //[[searchTextField cell] setSendsWholeSearchString:NO];
     } else {
         [searchTextField setContinuous:NO];
         [[searchTextField cell] setSendsSearchStringImmediately:NO];
@@ -269,6 +308,14 @@
      */
 }
 
+- (void)setSearchType:(SearchType)aType {
+    [currentSearchText setSearchType:aType];
+}
+
+- (SearchType)searchType; {
+    return [currentSearchText searchType];
+}
+
 #pragma mark - toolbar stuff
 
 // ============================================================
@@ -319,6 +366,7 @@
  */
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
+                                 TB_NAVIGATION_TYPE_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
                                  TB_SEARCH_TYPE_ITEM,
                                  TB_SEARCH_TEXT_ITEM,
@@ -356,49 +404,34 @@
 
 - (void)searchInput:(id)sender {
     // buffer search text string
+    SearchType type = [currentSearchText searchType];
     NSString *searchText = [sender stringValue];
-    [currentSearchText setSearchText:searchText forSearchType:searchType];
+    [currentSearchText setSearchText:searchText forSearchType:type];
     
-    // add to recent searches
-    NSMutableArray *recentSearches = [currentSearchText recentSearchsForType:searchType];
-    [recentSearches addObject:searchText];
-    // remove everything above 10 searches
-    int len = [recentSearches count];
-    if(len > 10) {
-        [recentSearches removeObjectAtIndex:0];
+    if(!navigationAction) {
+        // add to recent searches
+        NSMutableArray *recentSearches = [currentSearchText recentSearchsForType:type];
+        [recentSearches addObject:searchText];
+        // remove everything above 10 searches
+        int len = [recentSearches count];
+        if(len > 10) {
+            [recentSearches removeObjectAtIndex:0];
+        }        
     }
+    
+    // unset
+    navigationAction = NO;
 }
 
 - (void)searchType:(id)sender {
 
+    SearchType type;
     if([(NSSegmentedControl *)sender selectedSegment] == 0) {
-        searchType = ReferenceSearchType;
+        type = ReferenceSearchType;
     } else {
-        searchType = IndexSearchType;
+        type = IndexSearchType;
     }
-    [currentSearchText setSearchType:searchType];
-    
-    // set text according search type
-    NSString *text = [currentSearchText searchTextForType:searchType];
-    [searchTextField setStringValue:text];
-    
-    // switch recentSearches
-    NSArray *recentSearches = [currentSearchText recentSearchsForType:searchType];
-    [searchTextField setRecentSearches:recentSearches];
-    
-    // change searchfield behaviour for dictionary
-    if([self moduleType] == dictionary || [self moduleType] == genbook) {
-        if(searchType == ReferenceSearchType) {
-            [searchTextField setContinuous:YES];
-            [[searchTextField cell] setSendsSearchStringImmediately:YES];
-            //[[searchTextField cell] setSendsWholeSearchString:NO];            
-        } else {
-            // <CR> required
-            [searchTextField setContinuous:NO];
-            [[searchTextField cell] setSendsSearchStringImmediately:NO];
-            [[searchTextField cell] setSendsWholeSearchString:YES];            
-        }
-    }
+    [self setSearchTypeUI:type];
 }
 
 #pragma mark - Actions
@@ -411,6 +444,41 @@
         [self toggleLSB];
     } else {
         [self toggleRSB];    
+    }
+}
+
+- (IBAction)navigationAction:(id)sender {
+    int clickedSegment = [sender selectedSegment];
+    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+
+    // get recent searches
+    NSArray *rs = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
+    
+    NSString *sstr = nil;
+    if(clickedSegmentTag == DirectionBackward) {
+        if([rs count] > 0) {
+            // find the index of the currect search text
+            int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+            if(index > 0) {
+                // get the last
+                sstr = [rs objectAtIndex:index - 1];                
+            }
+        }
+    } else {
+        if([rs count] > 0) {
+            // find the index of the currect search text
+            int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+            if(index < [rs count] - 1) {
+                // get next
+                sstr = [rs objectAtIndex:index + 1];
+            }
+        }
+    }
+    
+    if(sstr) {
+        // this is a navigation action
+        navigationAction = YES;
+        [self setSearchText:sstr];
     }
 }
 
@@ -525,6 +593,37 @@
     [self searchInput:searchTextField];
 }
 
+/** sets the type of search to UI */
+- (void)setSearchTypeUI:(SearchType)aType {
+    [currentSearchText setSearchType:aType];
+    
+    // set UI
+    [searchTypeSegControl selectSegmentWithTag:aType];
+    
+    // set text according search type
+    NSString *text = [currentSearchText searchTextForType:aType];
+    // display last search result
+    [self setSearchText:text];
+    
+    // switch recentSearches
+    NSArray *recentSearches = [currentSearchText recentSearchsForType:aType];
+    [searchTextField setRecentSearches:recentSearches];
+    
+    // change searchfield behaviour for dictionary
+    if([self moduleType] == dictionary || [self moduleType] == genbook) {
+        if(aType == ReferenceSearchType) {
+            [searchTextField setContinuous:YES];
+            [[searchTextField cell] setSendsSearchStringImmediately:YES];
+            //[[searchTextField cell] setSendsWholeSearchString:NO];            
+        } else {
+            // <CR> required
+            [searchTextField setContinuous:NO];
+            [[searchTextField cell] setSendsSearchStringImmediately:NO];
+            [[searchTextField cell] setSendsWholeSearchString:YES];            
+        }
+    }    
+}
+
 - (void)adaptUIToCurrentlyDisplayingModuleType {
     
     ModuleType type = [self moduleType];
@@ -539,12 +638,12 @@
     }
     
     // set search type
-    [self setSearchType:[currentSearchText searchType]];
+    SearchType stype = [currentSearchText searchType];
     // set text according search type
-    NSString *buf = [currentSearchText searchTextForType:searchType];
+    NSString *buf = [currentSearchText searchTextForType:stype];
     [searchTextField setStringValue:buf];
     // switch recentSearches
-    NSArray *bufAr = [currentSearchText recentSearchsForType:searchType];
+    NSArray *bufAr = [currentSearchText recentSearchsForType:stype];
     [searchTextField setRecentSearches:bufAr];
 
     if(type == genbook) {
@@ -555,7 +654,7 @@
     } else {        
         [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
         [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-        switch(searchType) {
+        switch(stype) {
             case ReferenceSearchType:
                 [[searchTypeSegControl cell] setSelected:YES forSegment:0];
                 [[searchTypeSegControl cell] setSelected:NO forSegment:1];
@@ -564,7 +663,19 @@
                 [[searchTypeSegControl cell] setSelected:NO forSegment:0];
                 [[searchTypeSegControl cell] setSelected:YES forSegment:1];
                 break;
+            case ViewSearchType:
+                // not used but make compiler happy
+                break;
         }
+    }
+    
+    // navigation
+    if([self moduleType] == bible || [self moduleType] == commentary) {
+        [[navigationSegControl cell] setEnabled:YES forSegment:0];
+        [[navigationSegControl cell] setEnabled:YES forSegment:1];    
+    } else {
+        [[navigationSegControl cell] setEnabled:NO forSegment:0];
+        [[navigationSegControl cell] setEnabled:NO forSegment:1];        
     }    
 }
 
@@ -662,10 +773,9 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
 
-    // decode searchtype
-    self.searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
     // decode searchQuery
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
+    
     // load lsb view
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
     if(lsbViewController == nil) {
@@ -679,6 +789,14 @@
         [rsbViewController setHostingDelegate:self];    
     }
     
+    // set window frame
+    NSRect frame;
+    frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
+    frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
+    if(frame.size.width > 0 && frame.size.height > 0) {
+        [[self window] setFrame:frame display:YES];
+    }
+
     return self;
 }
 
@@ -695,8 +813,6 @@
     }
     [encoder encodeInt:w forKey:@"RSBWidth"];
     
-    // encode searchType
-    [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
     // encode searchQuery
     [encoder encodeObject:currentSearchText forKey:@"SearchTextObject"];
     // encode window frame

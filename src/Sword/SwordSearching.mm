@@ -263,42 +263,21 @@ NSString *MacSwordIndexVersion = @"2.4";
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
     
-	swModule->setSkipConsecutiveLinks(true);
-    
-    // we start on top
-	*swModule = sword::TOP;
-	swModule->getRawEntry();
- 
-    int counter = 0;
-    while (!swModule->Error()) {
-
-        // this is the content of the 
-        const char *content = swModule->StripText();
-        const char *key = swModule->getKey()->getText();
+    // get all dict entries
+    for(NSString *key in [self allKeys]) {
+        NSString *entry = [self entryForKey:key];
         
-        NSString *keyStr = nil;
-        NSString *contentStr = nil;
-
-        if([self isUnicode]) {
-            keyStr = [NSString stringWithUTF8String:key];
-            contentStr = [NSString stringWithUTF8String:content];
-        } else {
-            keyStr = [NSString stringWithCString:key encoding:NSISOLatin1StringEncoding];
-            contentStr = [NSString stringWithCString:content encoding:NSISOLatin1StringEncoding];
+        if(entry != nil) {
+            NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
+            // additionally save content
+            [propDict setObject:entry forKey:IndexPropSwordKeyContent];
+            [propDict setObject:key forKey:IndexPropSwordKeyString];
+            
+            // let's add the key also into the searchable content
+            NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", key, entry];
+            // add content
+            [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:propDict];            
         }
-        
-        NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:1];
-        // additionally save content
-        [propDict setObject:contentStr forKey:IndexPropSwordKeyContent];
-        [propDict setObject:keyStr forKey:IndexPropSwordKeyString];
-        
-        // let's add the key also into the searchable content
-        NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", keyStr, contentStr];
-        // add content
-        [indexer addDocument:keyStr text:indexContent textType:ContentTextType storeDict:propDict];
-
-        (*swModule)++;
-        counter++;        
     }
 }
 
@@ -318,7 +297,6 @@ NSString *MacSwordIndexVersion = @"2.4";
         
         // get key
         NSArray *stripedAr = [(SwordBook *)self stripedTextForRef:key];
-        //NSArray *stripedAr = [(SwordBook *)self renderedTextForRef:key];
         if(stripedAr != nil) {
             // get content
             NSString *stripped = [(NSDictionary *)[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];

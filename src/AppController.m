@@ -96,7 +96,8 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:@"StrongsHebrew" forKey:DefaultsStrongsHebrewModule];
     
     // indexer stuff
-    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBackgroundIndexerEnabled];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBackgroundIndexerEnabled];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsRemoveIndexOnModuleRemoval];
     
     // UI defaults
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSB];
@@ -203,16 +204,24 @@ static AppController *singleton;
     return singleton;
 }
 
-/**
-\brief init is called after alloc:. some initialization work can be done here.
- No GUI elements are available here. It additinally calls the init method of superclass
- @returns initialized not nil object
- */
 - (id)init {
 	self = [super init];
 	if(self == nil) {
 		MBLOG(MBLOG_ERR,@"cannot alloc AppController!");		
     } else {
+        
+        // first thing we do is check for system version
+        if([OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
+            // we can't run here
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                             defaultButton:NSLocalizedString(@"OK", @"") 
+                                           alternateButton:nil 
+                                               otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"MacSwordNeedsLeopard", @"")];
+            [alert runModal];
+			[[NSApplication sharedApplication] terminate:nil];            
+        }
+        
         // init window Hosts array
         windowHosts = [[NSMutableArray alloc] init];
         
@@ -270,11 +279,11 @@ static AppController *singleton;
         // get default bible
         NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
         if(sBible == nil) {
-            NSAlert *alert = [NSAlert alertWithMessageText:@"No default bible set" 
-                                             defaultButton:@"Ok" 
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
+                                             defaultButton:NSLocalizedString(@"OK", @"") 
                                            alternateButton:nil 
                                                otherButton:nil 
-                                 informativeTextWithFormat:@"Please set your prefered default bible to be used!"];
+                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultBibleSelected", @"")];
             [alert runModal];
         } else {
             mod = [[SwordManager defaultManager] moduleWithName:sBible];
@@ -406,9 +415,15 @@ static AppController *singleton;
     if(!isModuleManagerShowing) {
         [moduleManager showWindow:self];
         isModuleManagerShowing = YES;
+        
+        // we stall the background indexer here
+        [[IndexingManager sharedManager] setStalled:YES];
     } else {
         [moduleManager close];    
         isModuleManagerShowing = NO;
+
+        // it may run again
+        [[IndexingManager sharedManager] setStalled:NO];
     }
 }
 
@@ -437,6 +452,8 @@ static AppController *singleton;
 - (void)auxWindowClosing:(NSWindowController *)aController {
     if([aController isKindOfClass:[ModuleManager class]]) {
         isModuleManagerShowing = NO;
+        // it may run again
+        [[IndexingManager sharedManager] setStalled:NO];
     } else if([aController isKindOfClass:[MBPreferenceController class]]) {
         isPreferencesShowing = NO;
     } else if([aController isKindOfClass:[HUDPreviewController class]]) {

@@ -1,10 +1,13 @@
+
 #import "ModuleManageViewController.h"
-#import <SwordManager.h>
-#import <MBThreadedProgressSheetController.h>
-#import <SwordInstallSource.h>
-#import <SwordModule.h>
-#import <ModuleListObject.h>
-#import <InstallSourceListObject.h>
+#import "SwordManager.h"
+#import "MBThreadedProgressSheetController.h"
+#import "SwordInstallSource.h"
+#import "SwordModule.h"
+#import "ModuleListObject.h"
+#import "InstallSourceListObject.h"
+#import "IndexingManager.h"
+#import "MBPreferenceController.h"
 
 @interface ModuleManageViewController (PrivateAPI)
 
@@ -52,7 +55,7 @@
     MBThreadedProgressSheetController *pSheet = [MBThreadedProgressSheetController standardProgressSheetController];
     [pSheet setSheetWindow:parentWindow];
     [pSheet setMinProgressValue:[NSNumber numberWithDouble:0.0]];
-    [pSheet resetProgressValue];
+    [pSheet reset];
     [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:YES]];
     [pSheet setIsThreaded:[NSNumber numberWithBool:YES]];
     
@@ -112,6 +115,11 @@
             int stat = [sis uninstallModule:[modObj module] fromManager:sm];
             if(stat != 0) {
                 error++;
+            } else {
+                // shall we remove the index as well?
+                if([userDefaults boolForKey:DefaultsRemoveIndexOnModuleRemoval]) {
+                    [[IndexingManager sharedManager] removeIndexForModuleName:[[modObj module] name]];
+                }
             }
         }
     }
@@ -166,7 +174,7 @@
     // do some cleanup
     [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:NO]];
     [pSheet setProgressAction:[NSNumber numberWithInt:NONE_PROGRESS_ACTION]];
-    [pSheet resetProgressValue];
+    [pSheet reset];
     
     // release pool
     [pool release];

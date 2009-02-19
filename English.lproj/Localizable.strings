@@ -49,6 +49,15 @@
 
 // ------------------- MacSword --------------------------
 
+// commons
+"OK" = "Ok";
+"Yes" = "Yes";
+"No" = "No";
+"Cancel" = "Cancel";
+"Information" = "Information";
+"Warning" = "Warning";
+"Error" = "Error";
+
 // toolbar
 "ToggleModulesLabel" = "Sidebar";
 "ToggleModulesToolTip" = "Show Sidebar";
@@ -60,6 +69,13 @@
 "ModuleInstallerTooltip" = "Open Module Manager";
 "Reference" = "Reference";
 "Index" = "Index";
+
+// Warnings/Information
+"NoDefaultDictionarySelected" = "No default Dictionary module has been selected, please do so in Preferences!";
+"NoDefaultBibleSelected" = "No default Bible module has been selected, please do so in Preferences!";
+"IndexNotReady" = "Index not ready!";
+"IndexNotReadyBGOn" = "The index of one or more modules is not created yet. Please try again later!";
+"IndexNotReadyBGOff" = "The index of one or more modules is not created yet. Creating it can take some time!";
 
 // sword module categories
 "Biblical Texts" = "Biblical Texts";

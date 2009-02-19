@@ -50,6 +50,7 @@
         case commentary:
             ret = SWMOD_CATEGORY_COMMENTARIES;
             break;
+        case devotional:
         case dictionary:
             ret = SWMOD_CATEGORY_DICTIONARIES;
             break;

@@ -15,6 +15,8 @@
 
 @implementation HUDPreviewController
 
+@synthesize delegate;
+
 - (id)init {
     return [self initWithDelegate:nil];
 }

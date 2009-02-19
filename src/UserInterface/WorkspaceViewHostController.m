@@ -65,37 +65,7 @@
     
     // super class has some things to set
     [super awakeFromNib];
-    
-    // set currect searchText if available
-    if([searchTextObjs count] > 0) {
-        currentSearchText = [searchTextObjs objectAtIndex:0];
-    }
-    
-    // if a reference is stored, we should load it
-    NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
-    if([referenceText length] > 0) {
-        for(HostableViewController *vc in viewControllers) {
-            if([vc isKindOfClass:[BibleCombiViewController class]]) {
-                [(BibleCombiViewController *)vc displayTextForReference:referenceText searchType:ReferenceSearchType];
-            } else if([vc isKindOfClass:[CommentaryViewController class]]) {
-                [(CommentaryViewController *)vc displayTextForReference:referenceText searchType:ReferenceSearchType];
-            }
-        }
-    }
-    
-    // This is the last selected search type and the text for it
-    NSString *searchText = [currentSearchText searchTextForType:searchType];
-    if([searchText length] > 0) {
-        [searchTextField setStringValue:searchText];
-        for(HostableViewController *vc in viewControllers) {
-            if([vc isKindOfClass:[BibleCombiViewController class]]) {
-                [(BibleCombiViewController *)vc displayTextForReference:searchText searchType:searchType];
-            } else if([vc isKindOfClass:[CommentaryViewController class]]) {
-                [(CommentaryViewController *)vc displayTextForReference:searchText searchType:searchType];
-            }
-        }
-    }
-    
+        
     [tabControl setHideForSingleTab:NO];
     //[tabControl setFont:FontStdBold];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];
@@ -132,12 +102,54 @@
     // set font for bottombar segmented control
     [sideBarSegControl setFont:FontStd];
     
+    // set currect searchText if available
+    if([searchTextObjs count] > 0) {
+        currentSearchText = [searchTextObjs objectAtIndex:0];
+    }
+    
+    // if a reference is stored, we should load it
+    NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
+    if([referenceText length] > 0) {
+        for(HostableViewController *vc in viewControllers) {
+            if([vc isKindOfClass:[BibleCombiViewController class]]) {
+                [(BibleCombiViewController *)vc displayTextForReference:referenceText searchType:ReferenceSearchType];
+            } else if([vc isKindOfClass:[CommentaryViewController class]]) {
+                [(CommentaryViewController *)vc displayTextForReference:referenceText searchType:ReferenceSearchType];
+            }
+        }
+    }
+    
+    // This is the last selected search type and the text for it
+    NSString *searchText = [currentSearchText searchTextForType:self.searchType];
+    if([searchText length] > 0) {
+        [searchTextField setStringValue:searchText];
+        for(HostableViewController *vc in viewControllers) {
+            if([vc isKindOfClass:[BibleCombiViewController class]]) {
+                [(BibleCombiViewController *)vc displayTextForReference:searchText searchType:self.searchType];
+            } else if([vc isKindOfClass:[CommentaryViewController class]]) {
+                [(CommentaryViewController *)vc displayTextForReference:searchText searchType:self.searchType];
+            }
+        }
+    }
+    
     // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
-    [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];
     if(activeViewController != nil) {
+        // add content view
+        [placeHolderView setContentView:[activeViewController view]];
         // add display options view
-        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
+        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];        
+        
+        // all booktypes have something to show in the right side bar
+        [rsbViewController setContentView:[(GenBookViewController *)activeViewController listContentView]];
+        if([activeViewController isKindOfClass:[DictionaryViewController class]] ||
+           [activeViewController isKindOfClass:[GenBookViewController class]]) {
+            [self showRightSideBar:YES];
+        } else {
+            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+        }
+        
+        [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
     hostLoaded = YES;
@@ -173,10 +185,10 @@
     [(NSBox *)placeHolderView setContentView:aView];
 }
 
-- (void)addTabContentForModule:(SwordModule *)aModule {
+- (HostableViewController *)addTabContentForModule:(SwordModule *)aModule {
+    HostableViewController *vc = nil;
 
     if(aModule != nil) {
-        HostableViewController *vc = nil;
         ModuleType moduleType = [aModule type];
         if(moduleType == bible) {
             vc = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
@@ -190,9 +202,11 @@
         
         // the view controller will be added in contentViewDidFinisLoading:
     }
+    
+    return vc;
 }
 
-- (void)addTabContentForModuleType:(ModuleType)aType {
+- (HostableViewController *)addTabContentForModuleType:(ModuleType)aType {
     HostableViewController *vc = nil;
     if(aType == bible) {
         vc = [[BibleCombiViewController alloc] initWithDelegate:self];
@@ -205,6 +219,7 @@
     }
 
     // search text objects are added when this view reports it has loaded
+    return vc;
 }
 
 - (NSString *)tabViewItemLabelForText:(NSString *)aText {
@@ -229,7 +244,7 @@
         [activeViewController isKindOfClass:[CommentaryViewController class]] ||
         [activeViewController isKindOfClass:[DictionaryViewController class]] ||
         [activeViewController isKindOfClass:[GenBookViewController class]]) {
-        [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:searchType];
+        [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:self.searchType];
     }
 }
 
@@ -328,10 +343,10 @@
                 [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
             }
             
-            // for GenBook and Dictionary view controller we set the content to the left side bar
+            // all booktypes have something to show in the right side bar
+            [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
             if([vc isKindOfClass:[DictionaryViewController class]] ||
                [vc isKindOfClass:[GenBookViewController class]]) {
-                [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
                 [self showRightSideBar:YES];
             } else {
                 [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
@@ -341,7 +356,7 @@
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
             
             // tell host to adapt ui
-            [self adaptUIToCurrentlyDisplayingModuleType];                    
+            [self adaptUIToCurrentlyDisplayingModuleType];                 
         }
     }
 }
@@ -366,16 +381,16 @@
             
             // extend searchTexts
             SearchTextObject *sto = [[SearchTextObject alloc] init];
-            [sto setSearchText:@"" forSearchType:searchType];
-            [sto setRecentSearches:[NSMutableArray array] forSearchType:searchType];
-            [sto setSearchType:searchType];
+            [sto setSearchText:@"" forSearchType:self.searchType];
+            [sto setRecentSearches:[NSMutableArray array] forSearchType:self.searchType];
+            [sto setSearchType:self.searchType];
             [searchTextObjs addObject:sto];
             // also set current search Text
             [self setCurrentSearchText:sto];
             // set text according search type
-            [searchTextField setStringValue:[currentSearchText searchTextForType:searchType]];
+            [searchTextField setStringValue:[currentSearchText searchTextForType:self.searchType]];
             // switch recentSearches
-            [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];    
+            [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];    
 
             NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
             [newItem setLabel:[aViewController label]];
@@ -383,10 +398,10 @@
             [tabView addTabViewItem:newItem];
             [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
 
-            // for GenBook and Dictionary view controller we set the content to the left side bar
+            // all booktypes have something to show in the right side bar
+            [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
             if([aViewController isKindOfClass:[DictionaryViewController class]] ||
                [aViewController isKindOfClass:[GenBookViewController class]]) {
-                [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
                 [self showRightSideBar:YES];
             } else {
                 [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
@@ -416,10 +431,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {
-        
-        // load the common things
-        [super initWithCoder:decoder];
-        
+                
         // decode search texts
         self.searchTextObjs = [decoder decodeObjectForKey:@"SearchTextObjects"];
 
@@ -428,6 +440,7 @@
         // set delegate
         for(HostableViewController *vc in viewControllers) {
             [vc setDelegate:self];
+            [vc setHostingDelegate:self];
         }
 
         // load nib
@@ -436,13 +449,8 @@
             MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
         }
         
-        // set window frame
-        NSRect frame;
-        frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
-        frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
-        if(frame.size.width > 0 && frame.size.height > 0) {
-            [[self window] setFrame:frame display:YES];
-        }
+        // load the common things
+        [super initWithCoder:decoder];
     }
     
     return self;

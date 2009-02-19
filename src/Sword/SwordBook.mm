@@ -106,7 +106,9 @@
             } else {
                 subname = [NSString stringWithCString:textStr encoding:NSISOLatin1StringEncoding];
             }
-            [c addObject:subname];
+            if(subname != nil) {
+                [c addObject:subname];            
+            }
         }
         while(treeKey->nextSibling());            
 	}

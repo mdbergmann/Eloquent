@@ -62,6 +62,9 @@
 - (id)initWithDelegate:(id)aDelegate;
 - (id)initWithDelegate:(id)aDelegate andInitialModule:(SwordBible *)aBible;
 
+// the index view of combibible
+- (NSView *)listContentView;
+
 // methods
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule;
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule;
@@ -81,6 +84,7 @@
 - (NSNumber *)bibleViewCount;
 
 // protocol
+- (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
 // Mouse tracking protocol implementation

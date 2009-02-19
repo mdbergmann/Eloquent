@@ -1,5 +1,6 @@
 #import "MBPreferenceController.h"
 #import "SwordManager.h"
+#import "IndexingManager.h"
 #import "globals.h"
 
 @implementation MBPreferenceController
@@ -67,6 +68,10 @@ static MBPreferenceController *instance;
 
 - (NSArray *)moduleNamesOfTypeBible {
     return [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
+}
+
+- (NSArray *)moduleNamesOfTypeDictionary {
+    return [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_DICTIONARIES];
 }
 
 - (NSArray *)moduleNamesOfTypeStrongsGreek {
@@ -137,6 +142,9 @@ static MBPreferenceController *instance;
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
 	// alter the size of the sheet to display the tab
 	NSRect viewframe;
+    viewframe.size.height = 0;
+    viewframe.size.width = 0;
+    
 	NSView *prefsView = nil;
 	
 	// set nil contentview
@@ -221,6 +229,14 @@ static MBPreferenceController *instance;
 - (IBAction)okButton:(id)sender {
 	[self endSheet];
     [self close];
+}
+
+- (IBAction)toggleBackgroundIndexer:(id)sender {
+    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+        [[IndexingManager sharedManager] triggerBackgroundIndexCheck];
+    } else {
+        [[IndexingManager sharedManager] invalidateBackgroundIndexer];
+    }
 }
 
 @end

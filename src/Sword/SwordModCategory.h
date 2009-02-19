@@ -17,7 +17,6 @@
 
 + (NSArray *)moduleCategories;
 - (id)initWithType:(ModuleType)aType;
-
 - (NSString *)name;
 
 @end

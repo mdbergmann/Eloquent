@@ -170,7 +170,7 @@
                 // options
                 NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:2];
                 [markerOpts setObject:verseURL forKey:NSLinkAttributeName];
-                [markerOpts setObject:verseMarker forKey:@"VerseMarkerAttributeName"];
+                [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
                 
                 // replace string
                 [ret replaceCharactersInRange:replaceRange withString:visible];

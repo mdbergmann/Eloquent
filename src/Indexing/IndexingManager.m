@@ -15,6 +15,12 @@
 
 #define INDEXTYPE kSKIndexInverted
 
+@interface IndexingManager ()
+
+@property (retain, readwrite) NSTimer *timer;
+
+@end
+
 
 @interface IndexingManager (PrivateAPI)
 
@@ -50,10 +56,15 @@
  this method can be run in seperate thread for checking index validity
  */
 - (void)runIndexCheck {
-    [NSThread detachNewThreadSelector:@selector(detachedIndexCheckRunner) toTarget:self withObject:nil];
+    if(!stalled) {
+        [NSThread detachNewThreadSelector:@selector(detachedIndexCheckRunner) toTarget:self withObject:nil];    
+    }
 }
 
 - (void)detachedIndexCheckRunner {
+    
+    // set thread priority
+    [NSThread setThreadPriority:0.1];
     if([indexCheckLock tryLock]) {
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
@@ -81,6 +92,8 @@
 @synthesize baseIndexPath;
 @synthesize swordManager;
 @synthesize interval;
+@synthesize stalled;
+@synthesize timer;
 
 /**
 \brief this is a singleton
@@ -109,6 +122,7 @@
 	else {
 		[self setBaseIndexPath:@""];
         [self setInterval:30];
+        [self setStalled:NO];
         indexCheckLock = [[NSLock alloc] init];
 	}
 	
@@ -138,11 +152,26 @@
     
 	// run every $interval seconds
     MBLOG(MBLOG_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
-	[NSTimer scheduledTimerWithTimeInterval:(float)interval
-									 target:self 
-								   selector:@selector(runIndexCheck) 
-								   userInfo:nil 
-									repeats:YES];
+    if(![timer isValid] || timer == nil) {
+        MBLOG(MBLOG_DEBUG, @"[IndexingManager -triggerBackgroundIndexCheck] starting new timer");
+        NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:(float)interval
+                                                      target:self 
+                                                    selector:@selector(runIndexCheck) 
+                                                    userInfo:nil 
+                                                     repeats:YES];
+        [self setTimer:t];
+    } else {
+        MBLOG(MBLOG_WARN, @"[IndexingManager -triggerBackgroundIndexCheck] timer still valid!");
+    }
+}
+
+/**
+ stops the background indexer and removes the timer
+ */
+- (void)invalidateBackgroundIndexer {
+    if(timer) {
+        [timer invalidate];
+    }
 }
 
 /**
@@ -156,7 +185,7 @@
     if(folderPath != nil) {
         ret = [folderPath stringByAppendingPathComponent:aModType];
     } else {
-        MBLOG(MBLOG_ERR, @"Cannot get index folder path!");
+        MBLOG(MBLOG_ERR, @"[IndexingManager -indexPathForModuleName:] Cannot get index folder path!");
     }
     
     return ret;
@@ -188,6 +217,24 @@
     NSString *indexPath = [self indexFolderPathForModuleName:aModName];
 	
 	return [fm fileExistsAtPath:indexPath];
+}
+
+/**
+ removed the index for the given module name
+ */
+- (BOOL)removeIndexForModuleName:(NSString *)modName {
+    BOOL ret = YES;
+    
+	NSFileManager *fm = [NSFileManager defaultManager];	
+    NSString *indexPath = [self indexFolderPathForModuleName:modName];	
+	if([fm fileExistsAtPath:indexPath]) {
+        ret = [fm removeFileAtPath:indexPath handler:nil];
+        if(!ret) {
+            MBLOGV(MBLOG_ERR, @"[IndexingManager -removeIndexForModuleName:] could not remove index for module: %@", modName);
+        }
+    }
+    
+    return ret;
 }
 
 @end

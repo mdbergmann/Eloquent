@@ -28,11 +28,13 @@
 
 // default bible
 #define DefaultsBibleModule             @"DefaultsBibleModule"
+#define DefaultsDictionaryModule        @"DefaultsDictionaryModule"
 #define DefaultsStrongsHebrewModule     @"DefaultsStrongsHebrewModule"
 #define DefaultsStrongsGreekModule      @"DefaultsStrongsGreekModule"
 
 // indexing defaults
 #define DefaultsBackgroundIndexerEnabled    @"DefaultsBackgroundIndexerEnabled"
+#define DefaultsRemoveIndexOnModuleRemoval  @"DefaultsRemoveIndexOnModuleRemoval"
 
 // UI defaults
 #define DefaultsShowLSB     @"DefaultsShowLSB"
@@ -84,6 +86,7 @@
 - (id)initWithDelegate:(id)aDelegate;
 
 - (NSArray *)moduleNamesOfTypeBible;
+- (NSArray *)moduleNamesOfTypeDictionary;
 - (NSArray *)moduleNamesOfTypeStrongsGreek;
 - (NSArray *)moduleNamesOfTypeStrongsHebrew;
 
@@ -102,5 +105,6 @@
 
 // actions
 - (IBAction)okButton:(id)sender;
+- (IBAction)toggleBackgroundIndexer:(id)sender;
 
 @end

@@ -44,16 +44,16 @@
         moduleType = aType;
         if(aType == bible) {
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self];
-            searchType = ReferenceSearchType;
+            self.searchType = ReferenceSearchType;
         } else if(aType == commentary) {
             viewController = [[CommentaryViewController alloc] initWithDelegate:self];
-            searchType = ReferenceSearchType;
+            self.searchType = ReferenceSearchType;
         } else if(aType == dictionary) {
             viewController = [[DictionaryViewController alloc] initWithDelegate:self];
-            searchType = ReferenceSearchType;        
+            self.searchType = ReferenceSearchType;        
         } else if(aType == genbook) {
             viewController = [[GenBookViewController alloc] initWithDelegate:self];
-            searchType = IndexSearchType;        
+            self.searchType = IndexSearchType;        
         }
         
         // load nib
@@ -72,16 +72,16 @@
         moduleType = [aModule type];
         if(moduleType == bible) {
             viewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
-            searchType = ReferenceSearchType;
+            self.searchType = ReferenceSearchType;
         } else if(moduleType == commentary) {
             viewController = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
-            searchType = ReferenceSearchType;
+            self.searchType = ReferenceSearchType;
         } else if(moduleType == dictionary) {
             viewController = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
-            searchType = ReferenceSearchType;
+            self.searchType = ReferenceSearchType;
         } else if(moduleType == genbook) {
             viewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
-            searchType = IndexSearchType;
+            self.searchType = IndexSearchType;
         }
         
         // load nib
@@ -110,18 +110,18 @@
     }
     
     // This is the last selected search type and the text for it
-    NSString *searchText = [currentSearchText searchTextForType:searchType];
+    NSString *searchText = [currentSearchText searchTextForType:self.searchType];
     if([searchText length] > 0) {
         [searchTextField setStringValue:searchText];
         if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:searchType];
+            [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:self.searchType];
         } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
-            [(CommentaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
+            [(CommentaryViewController *)viewController displayTextForReference:searchText searchType:self.searchType];
         }
     }
     
     // set recent searche array
-    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:searchType]];
+    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
     
     // check if view has loaded
     if(viewController.viewLoaded == YES) {
@@ -130,25 +130,27 @@
         // add display options view
         [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)viewController referenceOptionsView]];        
         
-        // for dictionaries and genbooks we show the content as another switchable view in the left side bar
+        // all booktypes have something to show in the right side bar
+        [rsbViewController setContentView:[(GenBookViewController *)viewController listContentView]];
         if([viewController isKindOfClass:[DictionaryViewController class]] ||
            [viewController isKindOfClass:[GenBookViewController class]]) {
-            [rsbViewController setContentView:[(GenBookViewController *)viewController listContentView]];
             [self showRightSideBar:YES];
         } else {
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
         }
+        
+        [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
     // set font for bottombar segmented control
-    [sideBarSegControl setFont:FontStd];
-    
+    [sideBarSegControl setFont:FontStd];    
+
     switch(moduleType) {
         case bible:
             [[self window] setTitle:NSLocalizedString(@"Bible Window", @"")];
             break;
         case commentary:
-            [[self window] setTitle:NSLocalizedString(@"Commentary Window", @"")];
+            [[self window] setTitle:NSLocalizedString(@"Commentary Window", @"")];            
             break;
         case dictionary:
         case devotional:
@@ -157,7 +159,7 @@
         case genbook:
             [[self window] setTitle:NSLocalizedString(@"Genbook Window", @"")];
             break;
-    }
+    }    
 }
 
 #pragma mark - methods
@@ -204,15 +206,11 @@
     [super searchInput:sender];
     
     NSString *searchText = [sender stringValue];
-    
-    if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:searchType];
-    } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
-        [(CommentaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
-    } else if([viewController isKindOfClass:[DictionaryViewController class]]) {
-        [(DictionaryViewController *)viewController displayTextForReference:searchText searchType:searchType];
-    } else if([viewController isKindOfClass:[GenBookViewController class]]) {
-        [(GenBookViewController *)viewController displayTextForReference:searchText searchType:searchType];
+    if([viewController isKindOfClass:[BibleCombiViewController class]] ||
+       [viewController isKindOfClass:[CommentaryViewController class]] ||
+       [viewController isKindOfClass:[DictionaryViewController class]] ||
+       [viewController isKindOfClass:[GenBookViewController class]]) {
+        [(<TextDisplayable>)viewController displayTextForReference:searchText searchType:self.searchType];
     }
 }
 
@@ -276,10 +274,10 @@
     [super contentViewInitFinished:aView];
     
     if([aView isKindOfClass:[ModuleViewController class]] || [aView isKindOfClass:[BibleCombiViewController class]]) {
-        // for GenBook and Dictionary view controller we set the content to the left side bar
+        // all booktypes have something to show in the right side bar
+        [rsbViewController setContentView:[(GenBookViewController *)aView listContentView]];
         if([aView isKindOfClass:[DictionaryViewController class]] ||
             [aView isKindOfClass:[GenBookViewController class]]) {
-            [rsbViewController setContentView:[(GenBookViewController *)aView listContentView]];
             [self showRightSideBar:YES];
         } else {
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
@@ -303,6 +301,8 @@
         viewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
         // set delegate
         [viewController setDelegate:self];
+        [viewController setHostingDelegate:self];
+        moduleType = [[(ModuleViewController *)viewController module] type];
 
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
@@ -312,14 +312,6 @@
 
         // load the common things
         [super initWithCoder:decoder];
-
-        // set window frame
-        NSRect frame;
-        frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
-        frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
-        if(frame.size.width > 0 && frame.size.height > 0) {
-            [[self window] setFrame:frame display:YES];
-        }
     }
     
     return self;

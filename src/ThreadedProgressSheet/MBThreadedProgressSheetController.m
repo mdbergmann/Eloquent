@@ -53,8 +53,9 @@
 /**
  \brief set value to min
  */
-- (void)resetProgressValue {
+- (void)reset {
 	[progressIndicator setDoubleValue:[progressIndicator minValue]];
+    [cancelButton setEnabled:YES];
 	// display at once
 	[progressIndicator display];
 }

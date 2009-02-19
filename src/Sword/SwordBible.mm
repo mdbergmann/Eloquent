@@ -15,26 +15,24 @@
 #import "MBPreferenceController.h"
 #import "globals.h"
 #import "utils.h"
+#import "SwordBibleBook.h"
 
-#include "msstringmgr.h"
 using sword::AttributeTypeList;
 using sword::AttributeList;
 using sword::AttributeValue;
+#include "versemgr.h"
 
-#define BOOKNAMES_KEY       @"BookNames"
-#define ENGBOOKNAMES_KEY    @"EngBookNames"
-#define BOOKNUMBERS_KEY     @"BookNumbers"
+@interface SwordBible ()
 
-@interface SwordBible (/* Private, class continuation */)
-/** private property */
-@property(readwrite, retain) NSMutableDictionary *bookData;
-- (void)getBookNames;
+- (void)getBookData;
 - (NSNumber *)bookNumberForSWKey:(sword::VerseKey *)key;
+- (BOOL)containsBookNumber:(NSNumber *)aBookNum;
+
 @end
 
 @implementation SwordBible
 
-@synthesize bookData;
+@dynamic books;
 
 #pragma mark - class methods
 NSLock *bibleLock = nil;
@@ -61,8 +59,8 @@ NSLock *bibleLock = nil;
 	if(!bibleLock) bibleLock = [[NSLock alloc] init];
 	[bibleLock lock];
 	
-	sword::VerseKey vk(toUTF8(abbr));
-	NSString *result = fromUTF8(vk);
+	sword::VerseKey vk([abbr UTF8String]);
+	NSString *result = [NSString stringWithUTF8String:vk];
     
 	[bibleLock unlock];
 	
@@ -97,7 +95,7 @@ NSLock *bibleLock = nil;
 	self = [super initWithName:aName swordManager:aManager];
     if(self) {
         // init bookData
-        [self setBookData:[NSMutableDictionary dictionary]];
+        [self setBooks:nil];
 	}
     
 	return self;
@@ -107,9 +105,40 @@ NSLock *bibleLock = nil;
 	[super finalize];
 }
 
-- (void)getBookNames {
+/**
+ build book list
+ */
+- (void)getBookData {
     
 	[moduleLock lock];
+    
+    sword::VerseMgr *vmgr = sword::VerseMgr::getSystemVerseMgr();
+    const sword::VerseMgr::System *system = vmgr->getVersificationSystem("KJV");
+        
+    // number of books in this module
+    NSMutableDictionary *buf = [NSMutableDictionary dictionary];
+    int bookCount = system->getBookCount();
+    for(int i = 0;i < bookCount;i++) {
+        sword::VerseMgr::Book *book = (sword::VerseMgr::Book *)system->getBook(i);
+        /*
+        int maxChapters = book->getChapterMax();
+        const char *cbookn = book->getLongName();
+        
+        NSString *bookName = @"";
+        bookName = [NSString stringWithUTF8String:cbookn];
+        SwordBibleBook *bb = [[SwordBibleBook alloc] initWithName:bookName];
+        [bb setNumber:[NSNumber numberWithInt:i+1]];
+        [bb setNumberOfChapters:[NSNumber numberWithInt:maxChapters]];
+         */
+        
+        SwordBibleBook *bb = [[SwordBibleBook alloc] initWithBook:book];
+        [bb setNumber:[NSNumber numberWithInt:i+1]];
+        
+        [buf setObject:bb forKey:[bb name]];
+    }
+    self.books = buf;
+    
+    /*
 	bool skipsLinks;
     
     // save this
@@ -127,26 +156,25 @@ NSLock *bibleLock = nil;
     // we start from top
 	*swModule = sword::TOP;
 	
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	NSMutableArray *bookNames = [NSMutableArray array];
-	NSMutableArray *engBookNames = [NSMutableArray array];
-	NSMutableArray *bookNumbers = [NSMutableArray array];
+	NSMutableArray *buf = [NSMutableArray array];
 	currentKey = (sword::VerseKey)swModule->Key();	
 	while (!swModule->Key().Error() && currentKey < bottom) {
 		currentKey = (sword::VerseKey)swModule->Key();
         const char *cbookn = currentKey.getBookName();
         // bookname and number
         NSString *bookName = @"";
-        bookName = [NSString stringWithCString:cbookn encoding:NSUTF8StringEncoding];
-        [bookNames addObject:bookName];
-        [bookNumbers addObject:[self bookNumberForSWKey:&currentKey]];
+        bookName = [NSString stringWithUTF8String:cbookn];
+        SwordBibleBook *bb = [[SwordBibleBook alloc] initWithName:bookName];
+        [bb setNumber:[self bookNumberForSWKey:&currentKey]];
+        [bb setNumberOfChapters:[NSNumber numberWithInt:[self chaptersForBookName:bookName]]];
         
         // get english bookname
         sword::VerseKey engKey = currentKey;
         engKey.setLocale("en");
         cbookn = engKey.getBookName();
-        NSString *engBookName = [NSString stringWithCString:cbookn encoding:NSUTF8StringEncoding];
-        [engBookNames addObject:engBookName];            
+        NSString *engBookName = [NSString stringWithUTF8String:cbookn];
+        [bb setEngName:engBookName];
+        [buf addObject:bb];
         
 		lastBook = currentKey.Book();
 		currentKey.Book(currentKey.Book() + 1 );
@@ -154,21 +182,58 @@ NSLock *bibleLock = nil;
 	}
 	
     // add arrays
-    [dict setObject:bookNames forKey:BOOKNAMES_KEY];
-    [dict setObject:engBookNames forKey:ENGBOOKNAMES_KEY];
-    [dict setObject:bookNumbers forKey:BOOKNUMBERS_KEY];
-    self.bookData = dict;
+    self.books = buf;
     
     // set back
 	swModule->setSkipConsecutiveLinks(skipsLinks);
+     */
 	
 	[moduleLock unlock];    
 }
 
+/**
+ get book number for versekey
+ TODO: create new version which uses SwordBibleBook
+ */
 - (NSNumber *)bookNumberForSWKey:(sword::VerseKey *)key {
     return [NSNumber numberWithInt:key->Book() + key->Testament() * 100];
 }
 
+/**
+ checks whether the given book number is part of this module
+ TODO: create new version which uses SwordBibleBook
+ */
+- (BOOL)containsBookNumber:(NSNumber *)aBookNum {
+    for(SwordBibleBook *bb in [self books]) {
+        if([[bb number] intValue] == [aBookNum intValue]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (NSMutableDictionary *)books {
+    if(books == nil) {
+        [self getBookData];
+    }
+    
+    return books;
+}
+
+- (void)setBooks:(NSMutableDictionary *)aBooks {
+    [aBooks retain];
+    [books release];
+    books = aBooks;
+}
+
+- (NSArray *)bookList {
+    NSDictionary *b = [self books];
+    NSArray *bl = [[b allValues] sortedArrayUsingSelector:@selector(compare:)];
+    return bl;
+}
+
+/*
 // returns an array containing all the book names found in this module.
 - (NSArray *)bookNames {
     NSArray *ret = [NSArray arrayWithArray:[bookData objectForKey:BOOKNAMES_KEY]];
@@ -191,18 +256,34 @@ NSLock *bibleLock = nil;
     }
 	return ret;
 }
+*/
 
 // just checks whether module contains book atm
 - (BOOL)hasReference:(NSString *)ref {
+    BOOL ret = NO;    
+    
 	[moduleLock lock];
 	
 	sword::VerseKey	*key = (sword::VerseKey *)(swModule->CreateKey());
-	(*key) = toUTF8(ref);
-	BOOL result = !key->Error() && [[bookData objectForKey:BOOKNUMBERS_KEY] containsObject:[self bookNumberForSWKey:key]];
-	
+	(*key) = [ref UTF8String];
+    // get bookname
+    NSString *bookName = [NSString stringWithUTF8String:key->getBookName()];
+    int chapter = key->Chapter();
+    int verse = key->Verse();
+    
+    // get the correct book
+    SwordBibleBook *bb = [[self books] objectForKey:bookName];
+    if(bb) {
+        if(chapter > 0 && chapter < [[bb numberOfChapters] intValue]) {
+            if(verse > 0 && verse < [[bb numberOfVersesForChapter:chapter] intValue]) {
+                ret = YES;
+            }
+        }
+    }    
+    
 	[moduleLock unlock];
 	
-	return result;
+	return ret;
 }
 
 - (NSString *)fullRefName:(NSString *)ref { 	
@@ -290,9 +371,8 @@ NSLock *bibleLock = nil;
 	
 	int maxChapters = 0;
 	sword::VerseKey *key = (sword::VerseKey *)swModule->CreateKey();
-	(*key) = toUTF8(bookName);
-	(*key) = sword::MAXCHAPTER;
-	maxChapters = key->Chapter();
+	(*key) = [bookName UTF8String];
+	maxChapters = key->getChapterMax();
 	delete key;
 	
 	[moduleLock unlock];
@@ -302,25 +382,18 @@ NSLock *bibleLock = nil;
 
 
 - (int)versesForChapter:(int)chapter bookName:(NSString *)bookName {
-
+    int ret = -1;
+    
 	[moduleLock lock];
 	
-	int maxVerses = 0;
-	sword::VerseKey *key;
-
-	if( chapter < 1 || chapter > [self chaptersForBookName:bookName] ) {
-        maxVerses = 0; 
-    } else {
-        key = (sword::VerseKey *)swModule->CreateKey();
-        (*key) = toUTF8(bookName);
-        key->Chapter(chapter);
-        (*key) = sword::MAXVERSE;
-        maxVerses = key->Verse();
-        delete key;
-	}
+    SwordBibleBook *bb = [[self books] objectForKey:bookName];
+    if(bb) {
+        ret = [[bb numberOfVersesForChapter:chapter] intValue];
+    }
+    
 	[moduleLock unlock];
 	
-	return maxVerses;
+	return ret;
 }
 
 /**
@@ -329,19 +402,14 @@ NSLock *bibleLock = nil;
 - (int)versesForBible {
 
     int ret = 0;
-    
-    NSArray *books = [bookData objectForKey:BOOKNAMES_KEY];
-    int len = [books count];
-    for(int i = 0;i < len;i++) {
-        // get book name
-        NSString *bookName = [books objectAtIndex:i];
-        
+
+    for(SwordBibleBook *bb in [self books]) {
         // get chapters for book
-        int chapters = [self chaptersForBookName:bookName];
+        int chapters = [[bb numberOfChapters] intValue];
         // calculate all verses for this book
         int verses = 0;
         for(int j = 1;j <= chapters;j++) {
-            verses += [self versesForChapter:j bookName:bookName];
+            verses += [[bb numberOfVersesForChapter:j] intValue];
         }
         ret += verses;
     }
@@ -368,27 +436,20 @@ NSLock *bibleLock = nil;
 
 - (NSArray *)stripedTextForRef:(NSString *)reference {
     NSMutableArray *ret = [NSMutableArray array];
-    
-    // needed to check for UTF8 string
-    MSStringMgr *strMgr = new MSStringMgr();    
-    
+        
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
     sword::ListKey listkey = vk.ParseVerseList(cref, vk, true);
     listkey.Persist(true);
     swModule->setKey(listkey);
     // iterate through keys
-    for ((*swModule) = TOP; !swModule->Error(); (*swModule)++) {
+    for ((*swModule) = sword::TOP; !swModule->Error(); (*swModule)++) {
         const char *keyCStr = swModule->getKeyText();
         const char *txtCStr = swModule->StripText();
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
         NSString *key = [NSString stringWithUTF8String:keyCStr];
         NSString *txt = @"";
-        if(strMgr->isUtf8(txtCStr)) {
-            txt = [NSString stringWithUTF8String:txtCStr];
-        } else {
-            txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
-        }
+        txt = [NSString stringWithUTF8String:txtCStr];
         // add to dict
         [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
         [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
@@ -483,34 +544,34 @@ return ret;
 	[moduleLock lock];
 
     // needed to check for UTF8 string
-    MSStringMgr *strMgr = new MSStringMgr();    
+    //sword::StringMgr *strMgr = sword::StringMgr::getSystemStringMgr();    
 
+    /*
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
     sword::ListKey listkey = vk.ParseVerseList(cref, vk, true);
-    listkey.Persist(true);
     // for the duration of this query be want the key to persist
+    listkey.Persist(true);
     swModule->setKey(listkey);
+     */
+    /*
+    sword::VerseKey key = "par.1.1";
+    swModule->setKey(key);
+    const char *txt = swModule->RenderText();
+     */
+
+    /*
     // iterate through keys
     for ((*swModule) = sword::TOP; !swModule->Error(); (*swModule)++) {
         const char *keyCStr = swModule->getKeyText();
         const char *txtCStr = swModule->RenderText();
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
         NSString *key = @"";
         NSString *txt = @"";
-        if(strMgr->isUtf8(txtCStr)) {
-            txt = [NSString stringWithUTF8String:txtCStr];
-        } else {
-            txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
-        }
-        
-        if([self isUnicode]) {
-            key = [NSString stringWithUTF8String:keyCStr];
-        } else {
-            key = [NSString stringWithCString:keyCStr encoding:NSISOLatin1StringEncoding];        
-        }
+        txt = [NSString stringWithUTF8String:txtCStr];
+        key = [NSString stringWithUTF8String:keyCStr];
         
         // add to dict
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
         [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
         [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
         // add to array
@@ -518,6 +579,49 @@ return ret;
     }
     // remove persitent key
     swModule->setKey("gen.1.1");
+    */
+
+	sword::VerseKey vk;
+    int lastIndex;
+	((sword::VerseKey*)(swModule->getKey()))->Headings(1);
+	sword::ListKey listkey = vk.ParseVerseList(toUTF8(reference), "Gen1", true);	
+	for (int i = 0; i < listkey.Count(); i++) {
+		sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
+		
+		// is it a chapter or book - not atomic
+		if(element) {
+			swModule->Key(element->LowerBound());            
+			// find the upper bound
+			vk = element->UpperBound();
+			vk.Headings(true);
+		} else {
+			// set it up
+			swModule->Key(*listkey.GetElement(i));
+		}
+        
+		// while not past the upper bound
+		do {
+			//add verse index to dictionary
+            NSString *verse = @"";
+            NSString *text = @"";
+            const char *keyCStr = swModule->Key().getText();
+            const char *txtCStr = swModule->RenderText();
+            text = fromUTF8(txtCStr);
+            verse = fromUTF8(keyCStr);
+
+            // add to dict
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
+            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
+            [dict setObject:verse forKey:SW_OUTPUT_REF_KEY];
+            // add to array
+            [ret addObject:dict];
+
+			lastIndex = (swModule->Key()).Index();
+			(*swModule)++;
+			if(lastIndex == (swModule->Key()).Index())
+				break;
+		}while (element && swModule->Key() <= vk);
+	}
 
 	[moduleLock unlock];
 

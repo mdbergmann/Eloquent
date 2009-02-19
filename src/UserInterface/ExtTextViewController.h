@@ -16,6 +16,7 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <HostableViewController.h>
+#import <MBTextView.h>
 #import <ProtocolHelper.h>
 
 #define EXTTEXTVIEW_NIBNAME   @"ExtTextView"
@@ -23,15 +24,18 @@
 @class MouseTrackingScrollView;
 
 @interface ExtTextViewController : HostableViewController <MouseTracking> {
-    IBOutlet NSTextView *textView;
+    IBOutlet MBTextView *textView;
     IBOutlet MouseTrackingScrollView *scrollView;
 }
 
 - (id)initWithDelegate:(id)aDelegate;
 
 // getter
-- (NSTextView *)textView;
+- (MBTextView *)textView;
 - (MouseTrackingScrollView *)scrollView;
+
+// textview methods
+- (void)setContextMenu:(NSMenu *)aMenu;
 
 // methods
 - (NSRange)rangeOfFirstLineWithLineRect:(NSRect *)lineRect;
@@ -41,6 +45,7 @@
 - (NSRange)rangeOfTextToken:(NSString *)token lastFound:(NSRange)lastFoundRange directionRight:(BOOL)right;
 - (NSRect)rectForTextRange:(NSRange)range;
 - (NSRect)rectForAttributeName:(NSString *)attrName attributeValue:(id)attrValue;
+- (NSString *)selectedString;
 
 - (void)setAttributedString:(NSAttributedString *)aString;
 

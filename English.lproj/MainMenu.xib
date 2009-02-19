@@ -8,7 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="81"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -813,7 +812,7 @@
 				<int key="NSWindowStyleMask">8219</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{586, 59}, {500, 250}}</string>
-				<int key="NSWTFlags">603979776</int>
+				<int key="NSWTFlags">-1543503872</int>
 				<string key="NSWindowTitle">Preview</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
@@ -2542,12 +2541,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>delegate</string>
 							<string>placeholderView</string>
 							<string>previewText</string>
 							<string>previewType</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>NSBox</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
@@ -2570,8 +2571,19 @@
 					<string key="className">WindowHostController</string>
 					<string key="superclassName">NSWindowController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">searchInput:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NavigationAction:</string>
+							<string>searchInput:</string>
+							<string>sideBarSegChange:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2616,11 +2628,9 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addTab:</string>
 							<string>menuItemSelected:</string>
-							<string>sideBarSegChange:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>

@@ -79,13 +79,23 @@
 
 #pragma mark - getter/setter
 
-- (NSTextView *)textView {
+- (MBTextView *)textView {
     return textView;
 }
 
 - (MouseTrackingScrollView *)scrollView {
     return scrollView;
 }
+
+- (void)setAttributedString:(NSAttributedString *)aString {
+    [[textView textStorage] setAttributedString:aString];    
+}
+
+- (void)setContextMenu:(NSMenu *)aMenu {
+    [textView setContextMenu:aMenu];
+}
+
+#pragma mark - methods
 
 /**
  Delivers the range of the first visible line in the textview.
@@ -275,10 +285,20 @@
     return ret;
 }
 
-#pragma mark - methods
-
-- (void)setAttributedString:(NSAttributedString *)aString {
-    [[textView textStorage] setAttributedString:aString];    
+- (NSString *)selectedString {
+    NSString *ret = nil;
+    
+    NSRange selRange = [textView selectedRange];
+    if(selRange.length == 0) {
+        // no selection
+        MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -selectedString:] no selection!");
+    } else {
+        // get text for selection
+        ret = [[textView string] substringWithRange:selRange];
+        MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -selectedString:] selected text: %@", ret);
+    }
+    
+    return ret;
 }
 
 #pragma mark - NSTextView delegates

@@ -26,6 +26,10 @@
     IBOutlet NSPopUpButton *modulePopBtn;
     // status line
     IBOutlet NSTextField *statusLine;
+    // the context menu for textview
+    IBOutlet NSMenu *contextMenu;
+    // the outlineview view for the bible books and chapters items
+    IBOutlet NSOutlineView *entriesOutlineView;
     
     // we need a webview for text display
     ExtTextViewController *textViewController;
@@ -35,6 +39,9 @@
     
     // search type
     SearchType searchType;
+    
+    // bible book selection in right sidebar
+    NSMutableArray *bookSelection;
 }
 
 @property (retain, readwrite) NSString *nibName;
@@ -45,6 +52,9 @@
 - (id)initWithDelegate:(id)aDelegate;
 
 // ----------- methods -------------
+
+// the index view of bible
+- (NSView *)listContentView;
 
 // pass further the scroll and textview
 - (NSTextView *)textView;
@@ -78,5 +88,12 @@
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
+
+// context menu actions
+- (IBAction)lookUpInIndex:(id)sender;
+- (IBAction)lookUpInIndexOfBible:(id)sender;
+- (IBAction)lookUpInDictionary:(id)sender;
+- (IBAction)lookUpInDictionaryOfModule:(id)sender;
+
 
 @end

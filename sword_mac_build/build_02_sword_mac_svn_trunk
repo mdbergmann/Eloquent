@@ -87,14 +87,14 @@ if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
 	export CXX=g++
 	export SDK=/Developer/SDKs/MacOSX10.5.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK"
+		export CFLAGS="-O0 -g -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
 	else
-	    export CFLAGS="-O2 -g0 -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK"
+	    export CFLAGS="-O2 -g0 -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$PPCPREFIX/bin
-	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-curl --disable-shared --disable-utilities
+	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-icu --with-curl --disable-shared --disable-utilities
 	make all install
 	make clean		
 	cd $BDIR
@@ -113,14 +113,14 @@ if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	export CXX=g++
 	export SDK=/Developer/SDKs/MacOSX10.5.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK"
+		export CFLAGS="-O0 -g -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
 	else
-	    export CFLAGS="-O2 -g0 -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK"
+	    export CFLAGS="-O2 -g0 -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$INTELPREFIX/bin
-	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-curl --disable-shared --disable-utilities
+	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-icu --with-curl --disable-shared --disable-utilities
 	make all install
 	make clean		
 	cd $BDIR

@@ -12,6 +12,8 @@
 #import <ProtocolHelper.h>
 #import <Indexer.h>
 
+#define TEXT_VERSE_MARKER @"VerseMarkerAttributeName"
+
 @class SwordModule;
 
 @interface ModuleViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking> {

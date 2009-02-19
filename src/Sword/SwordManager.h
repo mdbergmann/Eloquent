@@ -121,7 +121,7 @@ class sword::SWModule;
 + (SwordManager *)managerWithPath:(NSString*)path;
 + (SwordManager *)defaultManager;
 
-+ (void)initStringManager;
+//+ (void)initStringManager;
 + (void)initLocale;
 + (NSArray *)moduleTypes;
 

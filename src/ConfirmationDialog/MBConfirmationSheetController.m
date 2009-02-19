@@ -41,6 +41,7 @@
 @synthesize sheetReturnCode;
 @synthesize defaultsAskAgainKey;
 @synthesize contextInfo;
+@synthesize sheetWindow;
 
 - (id)init {
 	MBLOG(MBLOG_DEBUG,@"init of MBConfirmationSheetController");

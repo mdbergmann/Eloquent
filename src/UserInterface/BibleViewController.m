@@ -7,6 +7,9 @@
 //
 
 #import "BibleViewController.h"
+#import "AppController.h"
+#import "SingleViewHostController.h"
+#import "WorkspaceViewHostController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
@@ -18,15 +21,21 @@
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "globals.h"
+#import "SwordBibleBook.h"
+#import "SwordBibleChapter.h"
 
 @interface BibleViewController (/* class continuation */)
+
+@property (retain, readwrite) NSMutableArray *bookSelection;
+
 - (void)populateModulesMenu;
 
-// selector called by menuitems
+/** selector called by menuitems */
 - (void)moduleSelectionChanged:(id)sender;
 
 /** generates HTML for display */
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
+
 @end
 
 @implementation BibleViewController
@@ -34,6 +43,7 @@
 #pragma mark - getter/setter
 
 @synthesize nibName;
+@synthesize bookSelection;
 
 - (void)setReference:(NSString *)aReference {
     [super setReference:aReference];
@@ -50,6 +60,7 @@
         searchType = ReferenceSearchType;
         self.module = nil;
         self.delegate = nil;
+        self.bookSelection = [NSMutableArray array];
     }
     
     return self;
@@ -72,7 +83,7 @@
 
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
-
+        
         self.nibName = BIBLEVIEW_NIBNAME;
         
         // load nib
@@ -107,6 +118,9 @@
         [self reportLoadingComplete];
     }
     
+    // set the context menu
+    [textViewController setContextMenu:contextMenu];
+    
     // create popup button menu
     [self populateModulesMenu];
     
@@ -115,10 +129,24 @@
         [modulePopBtn selectItemWithTitle:[module name]];
     }
     
+    // populate menu items with modules
+    NSMenu *bibleModules = [[NSMenu alloc] init];
+    [[SwordManager defaultManager] generateModuleMenu:&bibleModules forModuletype:bible withMenuTarget:self withMenuAction:@selector(lookUpInIndexOfBible:)];
+    NSMenuItem *item = [contextMenu itemWithTag:2];
+    [item setSubmenu:bibleModules];
+    NSMenu *dictModules = [[NSMenu alloc] init];
+    [[SwordManager defaultManager] generateModuleMenu:&dictModules forModuletype:dictionary withMenuTarget:self withMenuAction:@selector(lookUpInDictionaryOfModule:)];
+    item = [contextMenu itemWithTag:4];
+    [item setSubmenu:dictModules];
+    
     [self adaptUIToHost];
 }
 
 #pragma mark - methods
+
+- (NSView *)listContentView {
+    return [entriesOutlineView enclosingScrollView];
+}
 
 - (void)adaptUIToHost {
     if(delegate) {
@@ -223,7 +251,7 @@
 
                 // add attributes
                 [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
-                [keyAttributes setObject:[entry keyString] forKey:@"VerseMarkerAttributeName"];
+                [keyAttributes setObject:[entry keyString] forKey:TEXT_VERSE_MARKER];
                 
                 // prepare output
                 NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
@@ -329,6 +357,8 @@
                 // prepare various link usages
                 NSString *visible = @"";
                 NSRange linkRange;
+                linkRange.length = 0;
+                linkRange.location = NSNotFound;
                 if(showBookNames) {
                     if(vool) {
                         visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
@@ -346,7 +376,7 @@
                 // options
                 NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:2];
                 //[markerOpts setObject:verseURL forKey:NSLinkAttributeName];
-                [markerOpts setObject:verseMarker forKey:@"VerseMarkerAttributeName"];
+                [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
                 if(fontBold) {
                     [markerOpts setObject:fontBold forKey:NSFontAttributeName];                
                 }
@@ -588,6 +618,102 @@
     [self displayTextForReference:reference searchType:searchType];
 }
 
+- (IBAction)lookUpInIndex:(id)sender {
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -loopUpInIndex:]");
+    
+    // get selection
+    NSString *sel = [textViewController selectedString];
+    if(sel != nil) {
+        // if the host is a single view, switch to index and search for the given word
+        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+            [(SingleViewHostController *)hostingDelegate setSearchTypeUI:IndexSearchType];
+            [(SingleViewHostController *)hostingDelegate setSearchText:sel];
+        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            [(WorkspaceViewHostController *)hostingDelegate setSearchTypeUI:IndexSearchType];
+            [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+        }
+    }
+}
+
+- (IBAction)lookUpInIndexOfBible:(id)sender {
+    // sender is the menuitem
+    NSMenuItem *item = (NSMenuItem *)sender;
+    NSString *modName = [item title];
+    SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
+    
+    // get selection
+    NSString *sel = [textViewController selectedString];
+    if(sel != nil) {
+        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+            // create new single host
+            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            [host setSearchTypeUI:IndexSearchType];
+            [host setSearchText:sel];
+        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
+            [(WorkspaceViewHostController *)hostingDelegate setSearchTypeUI:IndexSearchType];
+            [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+        }
+    }
+}
+
+- (IBAction)lookUpInDictionary:(id)sender {
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -loopUpInDictionary:]");
+
+    NSString *sel = [textViewController selectedString];
+    if(sel != nil) {
+        // get default dictionary module
+        NSString *defDictName = [userDefaults stringForKey:DefaultsDictionaryModule];
+        if(defDictName == nil) {
+            // requester to set default dictionary module
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
+                                             defaultButton:NSLocalizedString(@"OK" , @"")
+                                           alternateButton:nil 
+                                               otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultDictionarySelected", @"")];
+            [alert runModal];
+        } else {
+            SwordModule *dict = [[SwordManager defaultManager] moduleWithName:defDictName];
+            if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+                SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:dict];
+                [host setSearchText:sel];
+            } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+                [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:dict];
+                [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+            }            
+        }        
+    }
+}
+
+- (IBAction)lookUpInDictionaryOfModule:(id)sender {
+    // sender is the menuitem
+    NSMenuItem *item = (NSMenuItem *)sender;
+    NSString *modName = [item title];
+    SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
+    
+    // get selection
+    NSString *sel = [textViewController selectedString];
+    if(sel != nil) {
+        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            [host setSearchText:sel];
+        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
+            [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+        }            
+    }    
+}
+
+#pragma mark - Context Menu validation
+
+/*
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    if([menuItem menu] == contextMenu) {
+        
+    } 
+}
+ */
+
 #pragma mark - SubviewHosting
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
@@ -607,6 +733,126 @@
 
 - (void)removeSubview:(HostableViewController *)aViewController {
     // does nothing
+}
+
+#pragma mark - NSOutlineView delegate methods
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+	MBLOG(MBLOG_DEBUG,@"[BibleViewController outlineViewSelectionDidChange:]");
+	
+	if(notification != nil) {
+		NSOutlineView *oview = [notification object];
+		if(oview != nil) {
+            
+			NSIndexSet *selectedRows = [oview selectedRowIndexes];
+			int len = [selectedRows count];
+			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
+            id item = nil;
+			if(len > 0) {
+				unsigned int indexes[len];
+				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
+				
+				for(int i = 0;i < len;i++) {
+                    item = [oview itemAtRow:indexes[i]];
+                    
+                    // add to array
+                    [sel addObject:item];
+				}
+            }
+            
+            self.bookSelection = sel;
+            
+            // loop over selection and build reference to display
+            BOOL haveBook = NO;
+            NSMutableString *selRef = [NSMutableString string];
+            for(item in sel) {
+                if([item isKindOfClass:[SwordBibleBook class]]) {
+                    haveBook = YES;
+                    [selRef appendFormat:@"%@ ;", [(SwordBibleBook *)item localizedName]];
+                } else if([item isKindOfClass:[SwordBibleChapter class]]) {
+                    if(haveBook) {
+                        [selRef appendFormat:@"%i; ", [[(SwordBibleChapter *)item number] intValue]];
+                    } else {
+                        [selRef appendFormat:@"%@ %i; ", [[(SwordBibleChapter *)item book] localizedName], [[(SwordBibleChapter *)item number] intValue]];
+                    }
+                }
+            } 
+            
+            // send the reference to delegate
+            [delegate performSelector:@selector(displayTextForReference:) withObject:selRef];
+            
+		} else {
+			MBLOG(MBLOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");
+		}
+	} else {
+		MBLOG(MBLOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification!");
+	}
+}
+
+- (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {    
+	// display call with std font
+	NSFont *font = FontStd;    
+	[cell setFont:font];
+	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
+	float pointSize = [font pointSize];
+	[aOutlineView setRowHeight:pointSize+4];
+}
+
+- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    int ret = 0;
+    
+    if(item == nil) {
+        ret = [[(SwordBible *)module books] count];
+    } else {
+        if([item isKindOfClass:[SwordBibleBook class]]) {
+            SwordBibleBook *bb = item;
+            ret = [[bb numberOfChapters] intValue];
+        }
+    }
+    
+    return ret;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
+    id ret = nil;
+    
+    if(item == nil) {
+        ret = [[(SwordBible *)module bookList] objectAtIndex:index];
+    } else if([item isKindOfClass:[SwordBibleBook class]]) {
+        ret = [[(SwordBibleBook *)item chapters] objectAtIndex:index];
+    }
+    
+    return ret;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+    NSString *ret = @"";
+    
+    if([item isKindOfClass:[SwordBibleBook class]]) {
+        ret = [(SwordBibleBook *)item localizedName];
+    } else if([item isKindOfClass:[SwordBibleChapter class]]) {
+        ret = [[(SwordBibleChapter*)item number] stringValue];
+    }
+    
+    return ret;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    
+    if([item isKindOfClass:[SwordBibleBook class]]) {
+        SwordBibleBook *bb = item;
+        if([[bb numberOfChapters] intValue] > 0) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    return NO;
 }
 
 #pragma mark - mouse tracking protocol

@@ -14,7 +14,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SwordModule.h"
 
-@class SwordManager;
+@class SwordManager, SwordBibleBook;
 
 typedef enum {
 	OldTestament,
@@ -22,8 +22,10 @@ typedef enum {
 }Testament;
 
 @interface SwordBible : SwordModule <SwordModuleAccess> {
-	NSMutableDictionary *bookData;
+    NSMutableDictionary *books;
 }
+
+@property (retain, readwrite) NSMutableDictionary *books;
 
 // ----------- class methods -------------
 + (void)decodeRef:(NSString *)ref intoBook:(NSString **)bookName book:(int *)book chapter:(int *)chapter verse:(int *)verse;
@@ -35,9 +37,11 @@ typedef enum {
 
 - (BOOL)hasReference:(NSString *)ref;
 
-// book names
-- (NSArray *)bookNames;
+// book lists
+- (NSArray *)bookList;
+/*
 - (NSArray *)engBookNames;
+*/
 
 // some numbers
 - (int)chaptersForBookName:(NSString *)bookName;

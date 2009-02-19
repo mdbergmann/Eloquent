@@ -19,15 +19,22 @@
     /** interval in seconds for timer to fire */
     int interval;
     
+    /** timer for background indexer */
+    NSTimer *timer;
+    
     /** this indexing manager has a dedicated SwordManager instance */
     SwordManager *swordManager;
     
+    BOOL stalled;
+    
+    /** don't start two threads */
     NSLock *indexCheckLock;
 }
 
 @property (retain, readwrite) NSString *baseIndexPath;
 @property (retain, readwrite) SwordManager *swordManager;
 @property (readwrite) int interval;
+@property (readwrite) BOOL stalled;
 
 /**
  \brief singleton convenient allocator and getter of instance
@@ -42,6 +49,11 @@
  in a separate thread.
  */
 - (void)triggerBackgroundIndexCheck;
+
+/**
+ stops the background indexer and removes the timer
+ */
+- (void)invalidateBackgroundIndexer;
 
 /**
 \brief returns the path of the index folder for the given module name
@@ -62,5 +74,10 @@
  @return: YES/NO
  */
 - (BOOL)indexExistsForModuleName:(NSString *)modName;
+
+/**
+ removed the index for the given module name
+ */
+- (BOOL)removeIndexForModuleName:(NSString *)modName;
 
 @end

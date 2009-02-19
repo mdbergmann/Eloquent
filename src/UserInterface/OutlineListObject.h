@@ -15,10 +15,10 @@ typedef enum OutlineListObjectType{
     OutlineItemModule,
     OutlineItemBookmarkRoot = 20,
     OutlineItemBookmarkDir,
-    OutlineItemBookmark,    
+    OutlineItemBookmark,
 }OutlineListObjectType;
 
-@interface OutlineListObject : NSObject <NSCoding> {
+@interface OutlineListObject : NSObject {
     id listObject;
     OutlineListObjectType type;
     NSIndexPath *path;

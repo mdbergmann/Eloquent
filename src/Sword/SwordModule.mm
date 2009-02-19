@@ -314,7 +314,16 @@
     
     if(bytes != NULL) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-        [dict setObject:[NSString stringWithUTF8String:bytes] forKey:SW_OUTPUT_TEXT_KEY];
+        NSString *entry = [NSString stringWithUTF8String:bytes];
+        if(!entry) {
+            entry = [NSString stringWithCString:bytes encoding:NSISOLatin1StringEncoding];
+            if(!entry) {
+                MBLOG(MBLOG_ERR, @"[SwordModule -stripedTextForRef:] cannot convert string!");
+                // make valid String
+                entry = @"";
+            }
+        }
+        [dict setObject:entry forKey:SW_OUTPUT_TEXT_KEY];        
         [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
         ret = [NSArray arrayWithObject:dict];
     }
@@ -335,7 +344,17 @@
     [moduleLock unlock];
     
     if(bytes != NULL) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObject:[NSString stringWithUTF8String:bytes] forKey:SW_OUTPUT_TEXT_KEY];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+        NSString *entry = [NSString stringWithUTF8String:bytes];
+        if(!entry) {
+            entry = [NSString stringWithCString:bytes encoding:NSISOLatin1StringEncoding];
+            if(!entry) {
+                MBLOG(MBLOG_ERR, @"[SwordModule -stripedTextForRef:] cannot convert string!");
+                // make valid String
+                entry = @"";
+            }
+        }
+        [dict setObject:entry forKey:SW_OUTPUT_TEXT_KEY];        
         [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
         ret = [NSArray arrayWithObject:dict];
     }

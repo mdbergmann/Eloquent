@@ -49,15 +49,13 @@ typedef enum {
 @property (readonly) int sheetReturnCode;
 @property (readwrite) id delegate;
 @property (retain, readwrite) NSString *defaultsAskAgainKey;
+@property (retain, readwrite) NSWindow *sheetWindow;
 
 - (id)initForKind:(MBConfirmationDialogKind)aKind;
 
 // window title
 - (void)setSheetTitle:(NSString *)aTitle;
 - (NSString *)sheetTitle;
-// sheet Window
-- (void)setSheetWindow:(NSWindow *)aWindow;
-- (NSWindow *)sheetWindow;
 // sheet return code
 - (int)sheetReturnCode;
 // confirmation message

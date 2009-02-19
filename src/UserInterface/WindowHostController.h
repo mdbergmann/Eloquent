@@ -16,6 +16,7 @@
 #define TB_SEARCH_TYPE_ITEM         @"IdSearchType"
 #define TB_SEARCH_TEXT_ITEM         @"IdSearchText"
 #define TB_ADDBOOKMARK_TYPE_ITEM    @"IdAddBookmark"
+#define TB_NAVIGATION_TYPE_ITEM     @"IdNavigation"
 
 @class ScopeBarView;
 @class SearchTextObject;
@@ -58,13 +59,15 @@
     float rsbWidth;
     float defaultRSBWidth;
 
+    // navigation segment control
+    NSSegmentedControl *navigationSegControl;
+    BOOL navigationAction;
+    
     // search stuff
     NSSearchField *searchTextField;
     NSView *searchOptionsView;
     /** search type segmented control */
     NSSegmentedControl *searchTypeSegControl;
-    // selected search type
-    SearchType searchType;
     // the search text helper object
     SearchTextObject *currentSearchText;
     
@@ -93,6 +96,9 @@
 /** sets the text string into the search text field */
 - (void)setSearchText:(NSString *)aString;
 
+/** sets the type of search to UI */
+- (void)setSearchTypeUI:(SearchType)aType;
+
 /** action of any input to the search text field */
 - (void)searchInput:(id)sender;
 
@@ -112,6 +118,7 @@
 
 // actions
 - (IBAction)sideBarSegChange:(id)sender;
+- (IBAction)navigationAction:(id)sender;
 
 
 @end

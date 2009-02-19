@@ -170,8 +170,31 @@
 
 #pragma mark - methods
 
+- (NSView *)listContentView {
+    NSView *ret = nil;
+    
+    if([parBibleViewControllers count] > 0) {
+        ret = [(BibleViewController *)[parBibleViewControllers objectAtIndex:0] listContentView];
+    }
+    
+    return ret;
+}
+
 - (NSString *)label {
     return @"BibleView";
+}
+
+/** we override this in order to be able to set it to all sub views */
+- (void)setHostingDelegate:(id)aDelegate {
+    [super setHostingDelegate:aDelegate];
+    
+    // also set it to all sub view controllers
+    for(HostableViewController *hc in parBibleViewControllers) {
+        [hc setHostingDelegate:hostingDelegate];
+    }
+    for(HostableViewController *hc in parMiscViewControllers) {
+        [hc setHostingDelegate:hostingDelegate];
+    }    
 }
 
 /**
@@ -189,6 +212,7 @@
     
     // after loading this combi view there is only one bibleview, nothing more
     BibleViewController *bvc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
+    [bvc setHostingDelegate:delegate];
     // add to array
     [parBibleViewControllers addObject:bvc];
     [self tileSubViews];
@@ -213,6 +237,7 @@
     }
     
     CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+    [cvc setHostingDelegate:delegate];
     //[cvc setModule:(SwordModule *)aModule];
     
     if([parMiscViewControllers count] == 0) {
@@ -440,7 +465,10 @@
     }
     
     // loop over all parallel views and check bounds
-    NSEnumerator *iter = [[parBibleSplitView subviews] reverseObjectEnumerator];
+    NSMutableArray *subViews = [NSMutableArray arrayWithArray:[parBibleSplitView subviews]];
+    [subViews addObjectsFromArray:[parMiscSplitView subviews]];
+    
+    NSEnumerator *iter = [subViews reverseObjectEnumerator];
     ScrollSynchronizableView *v = nil;
     while((v = [iter nextObject])) {
         // get scrollView
@@ -457,7 +485,7 @@
             newOffset.y = changedBoundsOrigin.y;            
             
             // the point to scroll to
-            NSPoint destPoint;
+            NSPoint destPoint = curOffset;
             
             BOOL updateScroll = YES;
             if(searchType == ReferenceSearchType) {
@@ -479,7 +507,7 @@
                     NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
                      */
                     
-                    NSRect destRect = [self rectForAttributeName:@"VerseMarkerAttributeName" attributeValue:sourceMarker inTextView:v.textView];
+                    NSRect destRect = [self rectForAttributeName:TEXT_VERSE_MARKER attributeValue:sourceMarker inTextView:v.textView];
                     
                     if(destRect.origin.x != NSNotFound) {
                         // set point
@@ -492,7 +520,7 @@
                     updateScroll = NO;
                 }
             } else {
-                // for al others we can't garatie that all view have the verse key
+                // for all others we can't garantie that all view have the verse key
                 destPoint = newOffset;
             }
             
@@ -702,6 +730,10 @@
     }    
 }
 
+- (void)displayTextForReference:(NSString *)aReference {
+    [self displayTextForReference:aReference searchType:searchType];
+}
+
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     searchType = aType;
     self.reference = aReference;
@@ -731,11 +763,20 @@
             }
         }
         if(!validIndex) {
-            // show Alert
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Index not ready"
-                                             defaultButton:@"OK" alternateButton:nil otherButton:nil 
-                                 informativeTextWithFormat:@"The index of one or more modules is not created yet. Please try again later!"];
-            [alert runModal];
+            if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+                // show Alert
+                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                 defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                     informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOn", @"")];
+                [alert runModal];                
+            } else {
+                // let the user know that creaing the index on the fly might take a while
+                // show Alert
+                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                 defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                     informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
+                [alert runModal];                
+            }
         } else {
             [self distributeReference:aReference];    
         }

@@ -11,7 +11,7 @@
 
 @implementation HostableViewController
 
-@synthesize hostingDelegate;
+@dynamic hostingDelegate;
 @dynamic delegate;
 @synthesize viewLoaded;
 
@@ -37,6 +37,14 @@
     if(viewLoaded) {
         [self reportLoadingComplete];
     }
+}
+
+- (id)hostingDelegate {
+    return hostingDelegate;
+}
+
+- (void)setHostingDelegate:(id)aDelegate {
+    hostingDelegate = aDelegate;
 }
 
 - (void)reportLoadingComplete {

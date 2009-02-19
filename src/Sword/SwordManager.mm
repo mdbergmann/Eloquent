@@ -140,10 +140,12 @@ using std::list;
 
 # pragma mark - class methods
 
+/*
 + (void)initStringManager {
     //string swManager
     StringMgr::setSystemStringMgr(new MSStringMgr());
 }
+*/
 
 + (void)initLocale {
     // set locale swManager
@@ -286,7 +288,10 @@ using std::list;
             swManager->augmentModules([appPath UTF8String]);
         }
 
-        [SwordManager initStringManager];
+        //string swManager
+        //[SwordManager initStringManager];
+        
+        // setting locale
         [SwordManager initLocale];
         
 		self.modules = [NSDictionary dictionary];
