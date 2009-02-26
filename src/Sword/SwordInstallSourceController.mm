@@ -313,6 +313,10 @@ base path of the module installation
     return ret;
 }
 
+- (void)setUserDisclainerConfirmed:(BOOL)flag {
+    swInstallMgr->setUserDisclaimerConfirmed(flag);
+}
+
 /** low level access */
 - (sword::InstallMgr *)installMgr {
     return swInstallMgr;

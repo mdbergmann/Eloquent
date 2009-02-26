@@ -86,6 +86,9 @@ base path of the module installation
 - (void)removeInstallSource:(SwordInstallSource *)is;
 - (void)updateInstallSource:(SwordInstallSource *)is;
 
+// disclaimer
+- (void)setUserDisclainerConfirmed:(BOOL)flag;
+
 // list modules in sources
 - (NSArray *)listModulesForSource:(SwordInstallSource *)is;
 

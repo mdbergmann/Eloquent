@@ -88,6 +88,9 @@
 /** process all the tasks that we have to do */
 - (void)processTasks;
 
+// disclaimer
+- (void)showDisclaimer;
+
 // actions
 - (IBAction)addInstallSource:(id)sender;
 - (IBAction)deleteInstallSource:(id)sender;

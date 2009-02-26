@@ -1,5 +1,24 @@
 // ------------------- install manager ------------------------
 // --------- module manager stuff -----------
+
+// Disclaimer
+"Disclaimer" = "Disclaimer";
+"DisclaimerText" = "-=+* WARNING *+=- -=+* WARNING *+= \n\n\n
+Although Install Manager provides a convenient way for installing\n
+and upgrading SWORD components, it also uses a systematic method\n
+for accessing sites which gives packet sniffers a target to lock\n
+into for singling out users. \n\n
+IF YOU LIVE IN A PERSECUTED COUNTRY AND DO NOT WISH TO RISK DETECTION,\n
+YOU SHOULD *NOT* USE INSTALL MANAGER'S REMOTE SOURCE FEATURES.\n\n
+Also, Remote Sources other than CrossWire may contain less than\n
+quality modules, module with unorthodox content, or even modules\n
+which are not legitimately distributable.  Many repositories\n
+contain wonderfully useful content.  These repositories simply\n
+are not reviewed or maintained by CrossWire and CrossWire\n
+cannot be held responsible for their content. CAVEAT EMPTOR.\n\n
+If you understand this and are willing to enable remote source features\n
+then type yes at the prompt!";
+
 // alerts
 "Alert" = "Alert";
 "Alert_AllFeeldsNeedToBeFilled" = "All feelds need to be filled!";
@@ -8,6 +27,7 @@
 "Warning" = "Warning";
 "OneOrMoreEmptyFields" = "One or more fields are empty!";
 "ISNotValid" = "The information is not valid. Please check again!";
+"ErrorOnRefreshingModules" = "An unknown problem occured while refreshing the install source!";
 
 // informations
 "Information" = "Information";

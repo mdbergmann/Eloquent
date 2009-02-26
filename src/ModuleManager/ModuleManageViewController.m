@@ -8,6 +8,10 @@
 #import "InstallSourceListObject.h"
 #import "IndexingManager.h"
 #import "MBPreferenceController.h"
+#import "globals.h"
+
+// defaults entyr for disclainer
+#define DefaultsUserDisplaimerConfirmed @"DefaultsUserDisplaimerConfirmed"
 
 @interface ModuleManageViewController (PrivateAPI)
 
@@ -377,6 +381,12 @@
     // reload data
     [categoryOutlineView reloadData];
     
+    // first thing, we check the disclaimer
+    if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil) {
+        [self showDisclaimer];
+    }
+    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];
+    
     // check first start
     NSString *firstStartStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"FirstStartModInstaller"];
     if(firstStartStr == nil) {
@@ -503,6 +513,20 @@
                              informativeTextWithFormat:NSLocalizedString(@"NoPendingTasks", @"")];
         [alert runModal];        
     }
+}
+
+- (void)showDisclaimer {
+    // show disclaimer
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Disclaimer", @"")
+                                     defaultButton:NSLocalizedString(@"No", @"") 
+                                   alternateButton:NSLocalizedString(@"Yes", @"")
+                                       otherButton:nil 
+                         informativeTextWithFormat:NSLocalizedString(@"DisclaimerText", @"")];
+    if([alert runModal] == NSAlertDefaultReturn) {
+        [userDefaults setBool:NO forKey:DefaultsUserDisplaimerConfirmed];
+    } else {
+        [userDefaults setBool:YES forKey:DefaultsUserDisplaimerConfirmed];
+    }    
 }
 
 //--------------------------------------------------------------------
