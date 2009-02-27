@@ -289,13 +289,15 @@
 // ------------------- methods ----------------
 
 - (id)init {
-	self = [self initWithDelegate:nil];
-	
-	return self;
+	return [self initWithDelegate:nil];
 }
 
 - (id)initWithDelegate:(id)aDelegate {
-    
+    return [self initWithDelegate:aDelegate parent:nil];
+}
+
+- (id)initWithDelegate:(id)aDelegate parent:(NSWindow *)aParent {
+
 	self = [super init];
 	if(self == nil) {
 		MBLOG(MBLOG_ERR,@"[ModuleManageViewController -init]");		
@@ -305,10 +307,13 @@
         
         // first set delegate
         delegate = aDelegate;
-                
+        
+        // set parent window
+        parentWindow = aParent;
+        
 		BOOL success = [NSBundle loadNibNamed:@"ModuleManageView" owner:self];
 		if(success == YES) {
-
+            
             // init selected sources
             selectedInstallSources = [[NSArray array] retain];
             
@@ -319,16 +324,16 @@
             // build installsource list objects
             installSourceListObjects = [[NSMutableArray array] retain];
             [self refreshInstallSourceListObjects];
-
+            
             // reload data
             [categoryOutlineView reloadData];
-		
+            
         } else {
 			MBLOG(MBLOG_ERR,@"[ModuleManageViewController]: cannot load ModuleManagerView.nib!");
 		}		
 	}
 	
-	return self;	
+	return self;    
 }
 
 /**
@@ -383,9 +388,10 @@
     
     // first thing, we check the disclaimer
     if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil) {
-        [self showDisclaimer];
+        [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];        
+    } else {
+        [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];    
     }
-    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];
     
     // check first start
     NSString *firstStartStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"FirstStartModInstaller"];
@@ -515,18 +521,22 @@
     }
 }
 
-- (void)showDisclaimer {
-    // show disclaimer
-    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Disclaimer", @"")
-                                     defaultButton:NSLocalizedString(@"No", @"") 
-                                   alternateButton:NSLocalizedString(@"Yes", @"")
-                                       otherButton:nil 
-                         informativeTextWithFormat:NSLocalizedString(@"DisclaimerText", @"")];
-    if([alert runModal] == NSAlertDefaultReturn) {
-        [userDefaults setBool:NO forKey:DefaultsUserDisplaimerConfirmed];
-    } else {
-        [userDefaults setBool:YES forKey:DefaultsUserDisplaimerConfirmed];
-    }    
+- (IBAction)showDisclaimer {
+    
+    if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil || [userDefaults boolForKey:DefaultsUserDisplaimerConfirmed] == NO) {
+        if(disclaimerWindow) {
+            [[NSApplication sharedApplication] beginSheet:disclaimerWindow 
+                                           modalForWindow:parentWindow 
+                                            modalDelegate:self 
+                                           didEndSelector:nil 
+                                              contextInfo:nil];
+        }        
+    }
+}
+
+- (void)disclaimerSheetEnd {
+    [disclaimerWindow close];
+    [[NSApplication sharedApplication] endSheet:disclaimerWindow];
 }
 
 //--------------------------------------------------------------------
@@ -853,6 +863,20 @@
     }
 }
 
+// disclaimer window actions
+- (IBAction)confirmNo:(id)sender {
+    [userDefaults setBool:NO forKey:DefaultsUserDisplaimerConfirmed];
+    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];
+    // end sheet
+    [self disclaimerSheetEnd];
+}
+
+- (IBAction)confirmYes:(id)sender {
+    [userDefaults setBool:YES forKey:DefaultsUserDisplaimerConfirmed];    
+    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:YES];
+    // end sheet
+    [self disclaimerSheetEnd];
+}
 
 //--------------------------------------------------------------------
 //----------- NSOutlineView delegates --------------------------------

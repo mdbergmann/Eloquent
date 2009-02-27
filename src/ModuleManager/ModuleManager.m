@@ -32,7 +32,7 @@
 	else {
         delegate = aDelegate;
         // init module manage view controller
-        moduleViewController = [[ModuleManageViewController alloc] initWithDelegate:self];
+        moduleViewController = [[ModuleManageViewController alloc] initWithDelegate:self parent:[self window]];
 	}
 	
 	return self;    
@@ -52,7 +52,7 @@
 - (void)showWindow:(id)sender {
     
     [super showWindow:sender];
-    
+
     // do some additional stuff here
     NSView *view = [moduleViewController contentView];
     if(view != nil) {
@@ -60,8 +60,10 @@
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleManager -moduleManageViewInitialized] view is nil");
     }
+    [[self window] setContentView:[moduleViewController contentView]];
     
-    [[self window] setContentView:[moduleViewController contentView]];    
+    // show disclaimer if needed
+    [moduleViewController showDisclaimer];
 }
 
 //--------------------------------------------------------------------
@@ -71,11 +73,11 @@
     
 	MBLOG(MBLOG_DEBUG,@"[ModuleManager -awakeFromNib]");
     
-    // set the hosting window of the module manager view
-    moduleViewController.parentWindow = [self window];
-    
     // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
+    
+    // set parent window
+    [moduleViewController setParentWindow:[self window]];
     
     NSToolbarItem *item = nil;
     NSImage *image = nil;
@@ -153,7 +155,7 @@
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSeparatorItemIdentifier];
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarPrintItemIdentifier];
     
-    [self setupToolbar];
+    [self setupToolbar];    
 }
 
 - (void)windowWillClose:(NSNotification *)notification {

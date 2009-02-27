@@ -31,7 +31,9 @@
     // the type popup
     IBOutlet NSPopUpButton *editISType;
     IBOutlet NSButton *editISDirSelect;
-    
+    // disclaimer window
+    IBOutlet NSWindow *disclaimerWindow;
+        
     // the hosting window
     IBOutlet NSWindow *parentWindow;
     
@@ -76,6 +78,7 @@
 
 // --------------- methods ----------------
 - (id)initWithDelegate:(id)aDelegate;
+- (id)initWithDelegate:(id)aDelegate parent:(NSWindow *)aParent;
 
 - (NSView *)contentView;
 
@@ -89,7 +92,8 @@
 - (void)processTasks;
 
 // disclaimer
-- (void)showDisclaimer;
+- (IBAction)showDisclaimer;
+- (void)disclaimerSheetEnd;
 
 // actions
 - (IBAction)addInstallSource:(id)sender;
@@ -103,5 +107,9 @@
 - (IBAction)editISTestButton:(id)sender;
 - (IBAction)editISDirSelectButton:(id)sender;
 - (IBAction)editISTypeSelect:(id)sender;
+
+// disclaimer window actions
+- (IBAction)confirmNo:(id)sender;
+- (IBAction)confirmYes:(id)sender;
 
 @end
