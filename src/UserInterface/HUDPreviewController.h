@@ -10,11 +10,13 @@
 #import <CocoLogger/CocoLogger.h>
 
 @interface HUDPreviewController : NSWindowController {
+    
     IBOutlet NSBox *placeholderView;
     IBOutlet NSTextField *previewType;
-    IBOutlet NSTextField *previewText;
+    //IBOutlet NSTextField *previewText;
+    IBOutlet NSTextView *previewText;
     
-    id delegate;
+    IBOutlet id delegate;
 }
 
 @property (readwrite) id delegate;

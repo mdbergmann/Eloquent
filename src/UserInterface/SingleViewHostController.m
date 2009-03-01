@@ -143,7 +143,8 @@
     }
     
     // set font for bottombar segmented control
-    [sideBarSegControl setFont:FontStd];    
+    [leftSideBottomSegControl setFont:FontStd];
+    [rightSideBottomSegControl setFont:FontStd];
 
     switch(moduleType) {
         case bible:

@@ -33,6 +33,9 @@
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[HUDPreviewController -awakeFromNib]");
     
+    // set NSTextView text color
+    [previewText setTextColor:[NSColor lightGrayColor]];
+    
     // register notification 
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(showPreviewData:)
@@ -104,7 +107,7 @@
                 }
             }
             // show
-            [previewText setStringValue:displayText];            
+            [previewText setString:displayText];            
         }
     }
 }

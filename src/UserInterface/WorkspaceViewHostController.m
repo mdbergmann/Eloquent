@@ -100,7 +100,8 @@
     }
     
     // set font for bottombar segmented control
-    [sideBarSegControl setFont:FontStd];
+    [rightSideBottomSegControl setFont:FontStd];
+    [leftSideBottomSegControl setFont:FontStd];
     
     // set currect searchText if available
     if([searchTextObjs count] > 0) {

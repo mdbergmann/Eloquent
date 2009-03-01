@@ -90,6 +90,7 @@
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
 		A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D102580EC1ED0A0023FF23 /* WindowHostController.m */; };
 		A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */; };
+		A9D450C60F59884A001617B1 /* NSImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D450C50F59884A001617B1 /* NSImage+Additions.m */; };
 		A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */; };
 		A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */; };
 		A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */; };
@@ -110,6 +111,8 @@
 		A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */; };
 		A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DCB0D30E9F252C004169EB /* GenBookView.xib */; };
 		A9DFBC400EF6ECF30061BE19 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DFBC3E0EF6ECF30061BE19 /* Preferences.xib */; };
+		A9E18B470F5AED1600AF13F2 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E18B460F5AED1600AF13F2 /* BGHUDAppKit.framework */; };
+		A9E18B4D0F5AED2400AF13F2 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9E18B460F5AED1600AF13F2 /* BGHUDAppKit.framework */; };
 		A9E821010E0B95C70020A64E /* ScrollSynchronizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */; };
 		A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
 		A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
@@ -136,6 +139,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A9E18B4D0F5AED2400AF13F2 /* BGHUDAppKit.framework in CopyFiles */,
 				A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
 				A9F61C800E0102BB00C3A0EF /* libsword-1.5.11.svn-fat.a in CopyFiles */,
@@ -290,6 +294,8 @@
 		A9D102570EC1ED0A0023FF23 /* WindowHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowHostController.h; path = src/UserInterface/WindowHostController.h; sourceTree = "<group>"; };
 		A9D102580EC1ED0A0023FF23 /* WindowHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowHostController.m; path = src/UserInterface/WindowHostController.m; sourceTree = "<group>"; };
 		A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		A9D450C40F59884A001617B1 /* NSImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+Additions.h"; path = "src/UserInterface/NSImage+Additions.h"; sourceTree = "<group>"; };
+		A9D450C50F59884A001617B1 /* NSImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage+Additions.m"; path = "src/UserInterface/NSImage+Additions.m"; sourceTree = "<group>"; };
 		A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = groupbookmark.tiff; sourceTree = "<group>"; };
 		A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallbookmark.tiff; sourceTree = "<group>"; };
 		A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMTabBarControl.framework; path = Resources/PSMTabBarControl.framework; sourceTree = "<group>"; };
@@ -315,6 +321,7 @@
 		A9DC14E40E0AA83D00E3F944 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ExtTextView.xib; sourceTree = "<group>"; };
 		A9DCB0D40E9F252C004169EB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GenBookView.xib; sourceTree = "<group>"; };
 		A9DFBC3F0EF6ECF30061BE19 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
+		A9E18B460F5AED1600AF13F2 /* BGHUDAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BGHUDAppKit.framework; path = Resources/BGHUDAppKit.framework; sourceTree = "<group>"; };
 		A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollSynchronizableView.h; path = src/UserInterface/ScrollSynchronizableView.h; sourceTree = "<group>"; };
 		A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollSynchronizableView.m; path = src/UserInterface/ScrollSynchronizableView.m; sourceTree = "<group>"; };
 		A9E8BD2A0EADAE2800E58D1E /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bookmark.h; path = src/Bookmarks/Bookmark.h; sourceTree = "<group>"; };
@@ -351,6 +358,7 @@
 				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
 				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
 				A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */,
+				A9E18B470F5AED1600AF13F2 /* BGHUDAppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +389,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9E18B460F5AED1600AF13F2 /* BGHUDAppKit.framework */,
 				A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */,
 				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
 				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,
@@ -671,6 +680,8 @@
 				A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */,
 				A9F74DD30F1BA9A3000D3F3E /* NSButton+Color.h */,
 				A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */,
+				A9D450C40F59884A001617B1 /* NSImage+Additions.h */,
+				A9D450C50F59884A001617B1 /* NSImage+Additions.m */,
 			);
 			name = HelperObjects;
 			sourceTree = "<group>";
@@ -953,6 +964,7 @@
 				A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */,
 				A98EDE450F4C77D000A3387D /* SwordBibleBook.mm in Sources */,
 				A92480C10F4D99630048A603 /* SwordBibleChapter.m in Sources */,
+				A9D450C60F59884A001617B1 /* NSImage+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

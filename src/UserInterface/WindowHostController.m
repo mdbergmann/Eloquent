@@ -15,6 +15,7 @@
 #import "RightSideBarViewController.h"
 #import "SwordManager.h"
 #import "ScopeBarView.h"
+#import "NSImage+Additions.h"
 
 @implementation WindowHostController
 
@@ -306,6 +307,13 @@ typedef enum _NavigationDirectionType {
         [[rsbViewController view] setFrameSize:s];
     }
      */
+    
+    
+    // lets show the images in sidebar seg control
+    [self showingLSB];
+    [self showingRSB];
+    [leftSideBottomSegControl sizeToFit];
+    [rightSideBottomSegControl sizeToFit];
 }
 
 - (void)setSearchType:(SearchType)aType {
@@ -436,15 +444,20 @@ typedef enum _NavigationDirectionType {
 
 #pragma mark - Actions
 
-- (IBAction)sideBarSegChange:(id)sender {
-
+- (IBAction)leftSideBottomSegChange:(id)sender {
     int clickedSegment = [sender selectedSegment];
     int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
     if(clickedSegmentTag == 0) {
         [self toggleLSB];
-    } else {
-        [self toggleRSB];    
     }
+}
+
+- (IBAction)rightSideBottomSegChange:(id)sender {
+    int clickedSegment = [sender selectedSegment];
+    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    if(clickedSegmentTag == 0) {
+        [self toggleRSB];
+    }    
 }
 
 - (IBAction)navigationAction:(id)sender {
@@ -496,6 +509,11 @@ typedef enum _NavigationDirectionType {
     BOOL ret = YES;
     if([[lsbViewController view] frame].size.width == 0) {
         ret = NO;
+        // show image play to right
+        [leftSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
+    } else {
+        // show image play to left
+        [leftSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
     }
     
     return ret;
@@ -505,6 +523,11 @@ typedef enum _NavigationDirectionType {
     BOOL ret = NO;
     if([[contentSplitView subviews] containsObject:[rsbViewController view]]) {
         ret = YES;
+        // show image play to left
+        [rightSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];    
+    } else {
+        // show image play to right
+        [rightSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     }
     
     return ret;
@@ -537,6 +560,8 @@ typedef enum _NavigationDirectionType {
         NSSize size = [v frame].size;
         size.width = lsbWidth;
         [[v animator] setFrameSize:size];
+        // show image play to left
+        [leftSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
     } else {
         // shrink the view
         NSView *v = [lsbViewController view];
@@ -546,6 +571,8 @@ typedef enum _NavigationDirectionType {
         }
         size.width = 0;
         [[v animator] setFrameSize:size];
+        // show image play to right
+        [leftSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     }
     
     // we need to redisplay
@@ -566,6 +593,8 @@ typedef enum _NavigationDirectionType {
         [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
         // change size
         [[v animator] setFrameSize:size];
+        // show image play to right
+        [rightSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     } else {
         // shrink the view
         NSView *v = [rsbViewController view];
@@ -580,6 +609,8 @@ typedef enum _NavigationDirectionType {
         
         // remove
         [[v animator] removeFromSuperview];
+        // show image play to left
+        [rightSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
     }
     
     // we need to redisplay

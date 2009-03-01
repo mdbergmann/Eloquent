@@ -40,8 +40,10 @@
     IBOutlet NSView *optionsView;
     // progress indicator
     IBOutlet NSProgressIndicator *progressIndicator;
-    /** the segmentedcontrol for SideBars */
-    IBOutlet NSSegmentedControl *sideBarSegControl;
+    /** the segmentedcontrol for left sides */
+    IBOutlet NSSegmentedControl *leftSideBottomSegControl;
+    /** the segmentedcontrol for right sides */
+    IBOutlet NSSegmentedControl *rightSideBottomSegControl;
 
     // our delegate
     id delegate;
@@ -117,7 +119,8 @@
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 // actions
-- (IBAction)sideBarSegChange:(id)sender;
+- (IBAction)leftSideBottomSegChange:(id)sender;
+- (IBAction)rightSideBottomSegChange:(id)sender;
 - (IBAction)navigationAction:(id)sender;
 
 
