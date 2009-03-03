@@ -89,6 +89,9 @@
         // init misc views array
         self.parMiscViewControllers = [NSMutableArray array];
         
+        // add initial bible view
+        [self addNewBibleViewWithModule:aBible];
+
         regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
         // check error
         if([regex errorCodeOfLastAction] != MBRegexSuccess) {
@@ -100,9 +103,6 @@
         BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
-        } else {
-            // add initial bible view
-            [self addNewBibleViewWithModule:aBible];
         }
     }
     
@@ -238,7 +238,6 @@
     
     CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
     [cvc setHostingDelegate:delegate];
-    //[cvc setModule:(SwordModule *)aModule];
     
     if([parMiscViewControllers count] == 0) {
         // add pane

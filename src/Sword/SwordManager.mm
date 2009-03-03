@@ -345,9 +345,6 @@ using std::list;
         // clear some data
         [self refreshModules];
         [self addRenderFilters];
-        
-        // send notification about module change
-        //SendNotifyModulesChanged(nil);
     }
 	[managerLock unlock];
 }

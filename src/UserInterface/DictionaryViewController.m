@@ -24,9 +24,6 @@
 @property (retain, readwrite) NSMutableArray *selection;
 @property (retain, readwrite) NSArray *dictKeys;
 
-/** modules menu */
-- (void)populateModulesMenu;
-
 /** generates HTML for display */
 - (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray;
 @end
@@ -105,11 +102,6 @@
     // create popup button menu
     [self populateModulesMenu];
     
-    // select module
-    if(self.module != nil) {
-        [modulePopBtn selectItemWithTitle:[module name]];
-    }
-    
     // check which delegate we have and en/disable the close button
     [self adaptUIToHost];
     
@@ -134,6 +126,22 @@
                                        withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
+    
+    // select module
+    if(self.module != nil) {
+        // on change, still exists?
+        if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
+            // select the first one found
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_DICTIONARIES];
+            if([modArray count] > 0) {
+                [self setModule:[modArray objectAtIndex:0]];
+                // and redisplay if needed
+                [self displayTextForReference:[self reference] searchType:searchType];
+            }
+        }
+        
+        [modulePopBtn selectItemWithTitle:[module name]];
+    }
 }
 
 - (void)setStatusText:(NSString *)aText {

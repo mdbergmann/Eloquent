@@ -45,8 +45,5 @@
 - (IBAction)installModule:(id)sender;
 - (IBAction)removeModule:(id)sender;
 - (IBAction)updateModule:(id)sender;
-// disclaimer window actions
-- (IBAction)confirmNo:(id)sender;
-- (IBAction)confirmYes:(id)sender;
 
 @end

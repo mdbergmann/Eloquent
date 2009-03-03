@@ -76,20 +76,20 @@
     SwordTreeEntry *ret = [[SwordTreeEntry alloc] init];    
     
 	char *treeNodeName = (char *)treeKey->getText();
-	NSString *name = @"";
+	NSString *nname = @"";
     
     if(strlen(treeNodeName) == 0) {
-        name = @"root";
+        nname = @"root";
     } else {    
         // key encoding depends on module encoding
         if([self isUnicode]) {
-            name = [NSString stringWithUTF8String:treeNodeName];
+            nname = [NSString stringWithUTF8String:treeNodeName];
         } else {
-            name = [NSString stringWithCString:treeNodeName encoding:NSISOLatin1StringEncoding];
+            nname = [NSString stringWithCString:treeNodeName encoding:NSISOLatin1StringEncoding];
         }
     }
     // set name
-    [ret setKey:name];
+    [ret setKey:nname];
     NSMutableArray *c = [NSMutableArray array];
     [ret setContent:c];
 	

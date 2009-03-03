@@ -57,6 +57,12 @@
  */
 - (void)initDefaultDisplayOptions;
 
+/**
+ populates the modules menu
+ to be overriden by subclasses
+ */
+- (void)populateModulesMenu;
+
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;
 

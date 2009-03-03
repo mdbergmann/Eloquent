@@ -83,6 +83,9 @@ typedef enum {
 	SwordManager *swManager;	
 	NSRecursiveLock *moduleLock;
     NSLock *indexLock;
+    
+    /** we store the name separately */
+    NSString *name;
 
 #ifdef __cplusplus
 	sword::SWModule	*swModule;
@@ -94,6 +97,7 @@ typedef enum {
 @property (readwrite) int status;
 @property (retain, readwrite) NSRecursiveLock *moduleLock;
 @property (retain, readwrite) NSLock *indexLock;
+@property (retain, readwrite) NSString *name;
 @property (retain, readwrite) SwordManager *swManager;
 
 // -------------- class methods --------------
@@ -113,7 +117,6 @@ typedef enum {
 #endif
 - (void)finalize;
 
-- (NSString *)name;
 - (NSString *)descr;
 - (NSString *)lang;
 - (NSString *)typeString;

@@ -10,6 +10,7 @@
 #import "AppController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
+#import "BibleCombiViewController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
@@ -25,10 +26,6 @@
 #import "SwordBibleChapter.h"
 
 @interface BibleViewController (/* class continuation */)
-
-@property (retain, readwrite) NSMutableArray *bookSelection;
-
-- (void)populateModulesMenu;
 
 /** selector called by menuitems */
 - (void)moduleSelectionChanged:(id)sender;
@@ -78,6 +75,14 @@
     self = [self init];
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -init]");
+        
+        // if given module is nil, choose the first found in SwordManager
+        if(aModule == nil) {
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
+            if([modArray count] > 0) {
+                aModule = [modArray objectAtIndex:0];
+            }
+        }
         self.module = (SwordModule *)aModule;
         self.delegate = aDelegate;
 
@@ -89,13 +94,13 @@
         // load nib
         BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
         if(!stat) {
-            MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable to load nib!");
+            MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable to load nib!");            
         }        
     } else {
         MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable init!");
     }
     
-    return self;    
+    return self;
 }
 
 - (void)awakeFromNib {
@@ -123,12 +128,7 @@
     
     // create popup button menu
     [self populateModulesMenu];
-    
-    // select module
-    if(self.module != nil) {
-        [modulePopBtn selectItemWithTitle:[module name]];
-    }
-    
+        
     // populate menu items with modules
     NSMenu *bibleModules = [[NSMenu alloc] init];
     [[SwordManager defaultManager] generateModuleMenu:&bibleModules forModuletype:bible withMenuTarget:self withMenuAction:@selector(lookUpInIndexOfBible:)];
@@ -172,6 +172,22 @@
                                        withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
+
+    // select module
+    if(self.module != nil) {
+        // on change, still exists?
+        if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
+            // select the first one found
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
+            if([modArray count] > 0) {
+                [self setModule:[modArray objectAtIndex:0]];
+                // and redisplay if needed
+                [self displayTextForReference:[self reference] searchType:searchType];
+            }
+        }
+
+        [modulePopBtn selectItemWithTitle:[module name]];
+    }
 }
 
 - (void)moduleSelectionChanged:(id)sender {
@@ -186,6 +202,9 @@
             [self displayTextForReference:self.reference searchType:searchType];
         }
     }
+    
+    // reload book entries
+    [entriesOutlineView reloadData];
 }
 
 - (NSTextView *)textView {
@@ -779,7 +798,11 @@
             } 
             
             // send the reference to delegate
-            [delegate performSelector:@selector(displayTextForReference:) withObject:selRef];
+            if([self.delegate isKindOfClass:[BibleCombiViewController class]]) {
+                [self.delegate performSelector:@selector(displayTextForReference:) withObject:selRef];            
+            } else {
+                [self displayTextForReference:selRef searchType:searchType];
+            }
             
 		} else {
 			MBLOG(MBLOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");

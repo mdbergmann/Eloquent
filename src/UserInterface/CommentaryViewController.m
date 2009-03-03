@@ -18,9 +18,7 @@
 #import "SwordBible.h"
 #import "SwordCommentary.h"
 
-@interface CommentaryViewController (/* class continuation */)
-- (void)populateModulesMenu;
-
+@interface CommentaryViewController ()
 /** generates HTML for display */
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
 @end
@@ -68,10 +66,10 @@
         if([delegate isKindOfClass:[SingleViewHostController class]] || 
             [delegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [closeBtn setEnabled:NO];
-            [closeBtn setHidden:YES];
+            [addBtn setEnabled:NO];
         } else if([delegate isKindOfClass:[BibleCombiViewController class]]) {
-            [closeBtn setHidden:NO];
             [closeBtn setEnabled:YES];
+            [addBtn setEnabled:YES];
         }
     }
 }
@@ -206,6 +204,36 @@
             [delegate performSelector:@selector(addNewCommentViewWithModule:) withObject:nil];
         }
     }
+}
+
+#pragma mark - NSOutlineView delegate methods
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+    [super outlineViewSelectionDidChange:notification];
+}
+
+- (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {    
+    [super outlineView:aOutlineView willDisplayCell:cell forTableColumn:tableColumn item:item];
+}
+
+- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    return [super outlineView:outlineView numberOfChildrenOfItem:item];
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
+    return [super outlineView:outlineView child:index ofItem:item];
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+    return [super outlineView:outlineView objectValueForTableColumn:tableColumn byItem:item];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    return [super outlineView:outlineView isItemExpandable:item];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    return [super outlineView:outlineView shouldEditTableColumn:tableColumn item:item];
 }
 
 #pragma mark - NSCoding protocol

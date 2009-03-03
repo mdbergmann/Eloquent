@@ -439,9 +439,6 @@
     
     id ret = (NSString *)@"";
     
-    // get defaut module manager
-    SwordManager *dMgr = [SwordManager defaultManager];
-    
     // the key of the item (which is a dictionary) is the module
     ModuleListObject *mod = (ModuleListObject *)item;
 

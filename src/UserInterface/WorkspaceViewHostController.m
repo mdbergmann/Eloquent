@@ -393,12 +393,6 @@
             // switch recentSearches
             [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];    
 
-            NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
-            [newItem setLabel:[aViewController label]];
-            [newItem setView:[aViewController view]];
-            [tabView addTabViewItem:newItem];
-            [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
-
             // all booktypes have something to show in the right side bar
             [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
             if([aViewController isKindOfClass:[DictionaryViewController class]] ||
@@ -407,6 +401,12 @@
             } else {
                 [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
             }
+
+            NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
+            [newItem setLabel:[aViewController label]];
+            [newItem setView:[aViewController view]];
+            [tabView addTabViewItem:newItem];
+            [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
             
             if(activeViewController != nil) {
                 // add display options view

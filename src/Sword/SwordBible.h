@@ -39,9 +39,6 @@ typedef enum {
 
 // book lists
 - (NSArray *)bookList;
-/*
-- (NSArray *)engBookNames;
-*/
 
 // some numbers
 - (int)chaptersForBookName:(NSString *)bookName;

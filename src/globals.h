@@ -23,6 +23,7 @@
 #define OLD_BOOKMARK_PATH       [@"~/Library/Application Support/MacSword/Bookmarks.plist" stringByExpandingTildeInPath]
 #define DEFAULT_BOOKMARK_PATH   [@"~/Library/Application Support/MacSword/Bookmarklist.plist" stringByExpandingTildeInPath]
 #define DEFAULT_MODULE_PATH     [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
+#define DEFAULT_SESSION_PATH    [@"~/Library/Application Support/MacSword/DefaultSession.plist" stringByExpandingTildeInPath]
 #define SWINSTALLMGR_NAME       @"InstallMgr"
 #define LOGFILE					[@"~/Library/Logs/MacSword2.log" stringByExpandingTildeInPath]
 #define TMPFOLDER				[@"~/Library/Caches/MacSword" stringByExpandingTildeInPath]

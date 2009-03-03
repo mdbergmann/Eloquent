@@ -470,7 +470,7 @@ static AppController *singleton;
     MBLOG(MBLOG_DEBUG, @"[AppController -awakeFromNib]");
     
     // load saved windows
-    NSData *data = [NSData dataWithContentsOfFile:@"/tmp/MacSwordWindows.plist"];
+    NSData *data = [NSData dataWithContentsOfFile:DEFAULT_SESSION_PATH];
     if(data != nil) {
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
@@ -480,12 +480,10 @@ static AppController *singleton;
             }
         }
     } else {
-        /*
         // open a default view
-        SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:bible];
+        WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
         svh.delegate = self;
         [windowHosts addObject:svh];
-         */
     }
 }
 
@@ -531,7 +529,7 @@ static AppController *singleton;
     [archiver encodeObject:windowHosts forKey:@"WindowsEncoded"];
     [archiver finishEncoding];
     // write data object
-    [data writeToFile:@"/tmp/MacSwordWindows.plist" atomically:NO];
+    [data writeToFile:DEFAULT_SESSION_PATH atomically:NO];
     
     // close logger
 	[MBLogger closeLogger];

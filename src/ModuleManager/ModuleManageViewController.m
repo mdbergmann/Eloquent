@@ -179,7 +179,7 @@
     [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:NO]];
     [pSheet setProgressAction:[NSNumber numberWithInt:NONE_PROGRESS_ACTION]];
     [pSheet reset];
-    
+        
     // release pool
     [pool release];
 }
@@ -224,6 +224,9 @@
 // ---------------------------------------------------------------------
 - (void)threadWillExit:(NSNotification *)notify {
 	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -threadWillExit:]");
+
+    // send a notification that modules were added or removed
+    SendNotifyModulesChanged(nil);
 
 	// do some cleanup here
     // reload module data
@@ -311,7 +314,11 @@
         // set parent window
         parentWindow = aParent;
         
-		BOOL success = [NSBundle loadNibNamed:@"ModuleManageView" owner:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(threadWillExit:)
+                                                     name:NSThreadWillExitNotification object:nil];            
+		
+        BOOL success = [NSBundle loadNibNamed:@"ModuleManageView" owner:self];
 		if(success == YES) {
             
             // init selected sources

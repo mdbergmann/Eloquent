@@ -45,6 +45,7 @@
 }
 
 @property (retain, readwrite) NSString *nibName;
+@property (retain, readwrite) NSMutableArray *bookSelection;
 
 // ---------- initializers ---------
 - (id)initWithModule:(SwordBible *)aModule;

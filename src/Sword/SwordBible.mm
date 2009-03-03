@@ -120,16 +120,6 @@ NSLock *bibleLock = nil;
     int bookCount = system->getBookCount();
     for(int i = 0;i < bookCount;i++) {
         sword::VerseMgr::Book *book = (sword::VerseMgr::Book *)system->getBook(i);
-        /*
-        int maxChapters = book->getChapterMax();
-        const char *cbookn = book->getLongName();
-        
-        NSString *bookName = @"";
-        bookName = [NSString stringWithUTF8String:cbookn];
-        SwordBibleBook *bb = [[SwordBibleBook alloc] initWithName:bookName];
-        [bb setNumber:[NSNumber numberWithInt:i+1]];
-        [bb setNumberOfChapters:[NSNumber numberWithInt:maxChapters]];
-         */
         
         SwordBibleBook *bb = [[SwordBibleBook alloc] initWithBook:book];
         [bb setNumber:[NSNumber numberWithInt:i+1]];
@@ -138,56 +128,6 @@ NSLock *bibleLock = nil;
     }
     self.books = buf;
     
-    /*
-	bool skipsLinks;
-    
-    // save this
-	skipsLinks = swModule->getSkipConsecutiveLinks();
-	swModule->setSkipConsecutiveLinks(true);
-	
-	sword::VerseKey	currentKey, bottom;
-	int lastBook;
-    
-    // position bottom marker
-	bottom.setPosition(sword::BOTTOM);
-	*swModule = sword::BOTTOM;
-	bottom = swModule->Key();
-	
-    // we start from top
-	*swModule = sword::TOP;
-	
-	NSMutableArray *buf = [NSMutableArray array];
-	currentKey = (sword::VerseKey)swModule->Key();	
-	while (!swModule->Key().Error() && currentKey < bottom) {
-		currentKey = (sword::VerseKey)swModule->Key();
-        const char *cbookn = currentKey.getBookName();
-        // bookname and number
-        NSString *bookName = @"";
-        bookName = [NSString stringWithUTF8String:cbookn];
-        SwordBibleBook *bb = [[SwordBibleBook alloc] initWithName:bookName];
-        [bb setNumber:[self bookNumberForSWKey:&currentKey]];
-        [bb setNumberOfChapters:[NSNumber numberWithInt:[self chaptersForBookName:bookName]]];
-        
-        // get english bookname
-        sword::VerseKey engKey = currentKey;
-        engKey.setLocale("en");
-        cbookn = engKey.getBookName();
-        NSString *engBookName = [NSString stringWithUTF8String:cbookn];
-        [bb setEngName:engBookName];
-        [buf addObject:bb];
-        
-		lastBook = currentKey.Book();
-		currentKey.Book(currentKey.Book() + 1 );
-		swModule->setKey(currentKey);
-	}
-	
-    // add arrays
-    self.books = buf;
-    
-    // set back
-	swModule->setSkipConsecutiveLinks(skipsLinks);
-     */
-	
 	[moduleLock unlock];    
 }
 
@@ -201,7 +141,6 @@ NSLock *bibleLock = nil;
 
 /**
  checks whether the given book number is part of this module
- TODO: create new version which uses SwordBibleBook
  */
 - (BOOL)containsBookNumber:(NSNumber *)aBookNum {
     for(SwordBibleBook *bb in [self books]) {
@@ -232,31 +171,6 @@ NSLock *bibleLock = nil;
     NSArray *bl = [[b allValues] sortedArrayUsingSelector:@selector(compare:)];
     return bl;
 }
-
-/*
-// returns an array containing all the book names found in this module.
-- (NSArray *)bookNames {
-    NSArray *ret = [NSArray arrayWithArray:[bookData objectForKey:BOOKNAMES_KEY]];
-    if((ret == nil) || ([ret count] == 0)) {
-        // not loaded?
-        [self getBookNames];
-        // try again
-        ret = [NSArray arrayWithArray:[bookData objectForKey:BOOKNAMES_KEY]];
-    }
-	return ret;
-}
-
-- (NSArray *)engBookNames {	
-    NSArray *ret = [NSArray arrayWithArray:[bookData objectForKey:ENGBOOKNAMES_KEY]];
-    if((ret == nil) || ([ret count] == 0)) {
-        // not loaded?
-        [self getBookNames];
-        // try again
-        ret = [NSArray arrayWithArray:[bookData objectForKey:ENGBOOKNAMES_KEY]];
-    }
-	return ret;
-}
-*/
 
 // just checks whether module contains book atm
 - (BOOL)hasReference:(NSString *)ref {
@@ -631,15 +545,10 @@ return ret;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
 	[moduleLock lock];
 	
-	sword::ListKey listkey;
-	int	i, lastIndex;
-	bool havefirst = false;
-	sword::VerseKey firstverse;
-	sword::VerseKey vk;
-	
-	listkey = vk.ParseVerseList(toUTF8(reference), "Gen1:1", true);
-	
-	for (i = 0; i < listkey.Count(); i++) {
+	sword::VerseKey vk;	
+	sword::ListKey listkey = vk.ParseVerseList([reference UTF8String], "Gen1:1", true);
+	int lastIndex;
+	for(int i = 0; i < listkey.Count(); i++) {
 		sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
 		
 		// is it a chapter or book - not atomic
@@ -655,16 +564,15 @@ return ret;
 		}
 			
 		// while not past the upper bound
+        BOOL havefirst = NO;
+        sword::VerseKey firstverse;
 		do {
 			if (!havefirst) {
-				havefirst = true;
+				havefirst = YES;
 				firstverse = swModule->Key();
 				
-				const char	*data;
-				int		dLen;
-				
-				data = toUTF8(value);
-				dLen = strlen(data);
+				const char *data = [value UTF8String];
+				int dLen = strlen(data);
 
 				swModule->setEntry(data, dLen);	// save text to module at current position
 			} else {

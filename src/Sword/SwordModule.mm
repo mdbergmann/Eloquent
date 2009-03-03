@@ -37,6 +37,8 @@
     self.indexLock = [[NSLock alloc] init];
     // nil values
     self.configEntries = [NSMutableDictionary dictionary];
+    // set name
+    self.name = [NSString stringWithCString:swModule->Name() encoding:NSUTF8StringEncoding];
 }
 
 @end
@@ -50,6 +52,7 @@
 @synthesize moduleLock;
 @synthesize indexLock;
 @synthesize swManager;
+@synthesize name;
 
 /**
  \brief maps type string to ModuleType enum
@@ -120,10 +123,6 @@
 }
 
 #pragma mark - convenience methods
-
-- (NSString *)name {
-    return [NSString stringWithCString:swModule->Name() encoding:NSUTF8StringEncoding];
-}
 
 - (NSString *)descr {
     return [NSString stringWithCString:swModule->Description() encoding:NSUTF8StringEncoding];
@@ -261,7 +260,8 @@
             [ret addObject:dict];            
         }
     } else if([attrType isEqualToString:@"scriptRef"] || [attrType isEqualToString:@"scripRef"]) {
-        NSString *key = [[[data objectForKey:ATTRTYPE_VALUE] stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *key = [[[data objectForKey:ATTRTYPE_VALUE] stringByReplacingOccurrencesOfString:@"+" 
+                                                                                       withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         sword::VerseKey parser("gen.1.1");
         sword::ListKey refs = parser.ParseVerseList([key UTF8String], parser, true);
         
@@ -283,7 +283,6 @@
         swModule->setKey([key UTF8String]);
         ret = [NSString stringWithUTF8String:swModule->StripText()];
     }
-    
     
     [moduleLock unlock];
     
@@ -362,6 +361,9 @@
     return ret;
 }
 
+/**
+ subclasses need to implement this
+ */
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
 }
 
@@ -394,7 +396,7 @@
 	return has;
 }
 
-/** wrapper around getConfogEntry() */
+/** wrapper around getConfigEntry() */
 - (NSString *)configEntryForKey:(NSString *)entryKey {
 	NSString *result = nil;	
     

@@ -11,6 +11,13 @@
 #import "MBPreferenceController.h"
 #import "SwordManager.h"
 
+@interface ModuleViewController () 
+
+/** notification, called when modules have changed */
+- (void)modulesListChanged:(NSNotification *)aNotification;
+
+@end
+
 @implementation ModuleViewController
 
 #pragma mark - getter/setter
@@ -42,12 +49,26 @@
         // init display options
         [self initDefaultModDisplayOptions];
         [self initDefaultDisplayOptions];
+
+        // register for modules changed notification
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(modulesListChanged:)
+                                                     name:NotificationModulesChanged object:nil];            
     }
     
     return self;
 }
 
 #pragma mark - methods
+
+/** notification, called when modules have changed */
+- (void)modulesListChanged:(NSNotification *)aNotification {
+    [self populateModulesMenu];
+}
+
+- (void)populateModulesMenu {
+    // subclass will handle
+}
 
 /**
  Searches in index for the given searchQuery.
@@ -80,7 +101,6 @@
 #pragma mark - Hostable delegate methods
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    
 }
 
 - (NSString *)label {
@@ -134,6 +154,11 @@
             [self initDefaultDisplayOptions];
         }
         
+        // register for modules changed notification
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(modulesListChanged:)
+                                                     name:NotificationModulesChanged object:nil];            
+
         forceRedisplay = NO;
     }
     
