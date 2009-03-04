@@ -46,6 +46,7 @@ enum ModuleMenu_Items{
 - (BOOL)deleteBookmarkForPath:(NSIndexPath *)path;
 - (NSIndexPath *)indexPathForBookmark:(Bookmark *)bm;
 - (int)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list;
+- (void)modulesListChanged:(NSNotification *)notification;
 
 @end
 
@@ -74,6 +75,11 @@ enum ModuleMenu_Items{
         // prepare images
         bookmarkGroupImage = [[NSImage imageNamed:@"groupbookmark.tiff"] retain];
         bookmarkImage = [[NSImage imageNamed:@"smallbookmark.tiff"] retain];
+
+        // register for modules changed notification
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(modulesListChanged:)
+                                                     name:NotificationModulesChanged object:nil];            
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
@@ -101,10 +107,25 @@ enum ModuleMenu_Items{
     [outlineView registerForDraggedTypes:[NSArray arrayWithObject:DD_BOOKMARK_TYPE]];
     
     // expand the first two items
+    // second first, otherwise second is not second anymore
     [outlineView expandItem:[outlineView itemAtRow:1]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
     
     [super awakeFromNib];
+}
+
+/**
+ update module list
+ */
+- (void)modulesListChanged:(NSNotification *)notification {
+    [treeContent removeAllObjects];
+    // prepare again
+    [self prepareTreeContent];
+    // reload
+    [treeController rearrangeObjects];
+    //[outlineView reloadData];
+    [outlineView expandItem:[outlineView itemAtRow:1]];
+    [outlineView expandItem:[outlineView itemAtRow:0]];
 }
 
 /**
