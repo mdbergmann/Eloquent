@@ -34,4 +34,6 @@
 - (void)adaptUIToHost;
 - (NSString *)label;
 
+- (IBAction)fullScreenMode:(id)sender;
+
 @end

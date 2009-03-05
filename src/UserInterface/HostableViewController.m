@@ -80,4 +80,8 @@
     return @"";
 }
 
+- (IBAction)fullScreenMode:(id)sender {
+    [[self view] enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+}
+
 @end

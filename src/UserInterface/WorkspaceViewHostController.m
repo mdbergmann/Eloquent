@@ -65,7 +65,7 @@
     
     // super class has some things to set
     [super awakeFromNib];
-        
+    
     [tabControl setHideForSingleTab:NO];
     //[tabControl setFont:FontStdBold];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];

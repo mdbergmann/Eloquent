@@ -151,10 +151,10 @@ typedef enum _NavigationDirectionType {
     [navigationSegControl setImage:image forSegment:1];
     [[navigationSegControl cell] setTag:DirectionForward forSegment:1];
     [navigationSegControl sizeToFit];
+    [navigationSegControl setAction:@selector(navigationAction:)];
+    [navigationSegControl setTarget:self];
     // resize the height to what we have defined
     [navigationSegControl setFrameSize:NSMakeSize([navigationSegControl frame].size.width, segmentControlHeight)];
-    [navigationSegControl setTarget:self];
-    [navigationSegControl setAction:@selector(navigationAction:)];
     if([self moduleType] != bible && [self moduleType] != commentary) {
         [[navigationSegControl cell] setEnabled:NO forSegment:0];
         [[navigationSegControl cell] setEnabled:NO forSegment:1];        
@@ -444,6 +444,22 @@ typedef enum _NavigationDirectionType {
 
 #pragma mark - Actions
 
+- (IBAction)fullScreenModeOnOff:(id)sender {
+    if([mainSplitView isInFullScreenMode]) {
+        [mainSplitView exitFullScreenModeWithOptions:nil];
+    } else {
+        [mainSplitView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    }
+}
+
+- (IBAction)leftSideBarHideShow:(id)sender {
+    [self toggleLSB];
+}
+
+- (IBAction)rightSideBarHideShow:(id)sender {
+    [self toggleRSB];
+}
+
 - (IBAction)leftSideBottomSegChange:(id)sender {
     int clickedSegment = [sender selectedSegment];
     int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
@@ -460,31 +476,56 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
+- (IBAction)switchToRefLookup:(id)sender {
+    [self setSearchTypeUI:ReferenceSearchType];
+}
+
+- (IBAction)switchToIndexLookup:(id)sender {
+    [self setSearchTypeUI:IndexSearchType];
+}
+
 - (IBAction)navigationAction:(id)sender {
     int clickedSegment = [sender selectedSegment];
     int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    
+    if(clickedSegmentTag == DirectionBackward) {
+        [self navigationBack:nil];
+    } else {
+        [self navigationForward:nil];
+    }
+}
 
+
+- (IBAction)navigationBack:(id)sender {
     // get recent searches
     NSArray *rs = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
-    
     NSString *sstr = nil;
-    if(clickedSegmentTag == DirectionBackward) {
-        if([rs count] > 0) {
-            // find the index of the currect search text
-            int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
-            if(index > 0) {
-                // get the last
-                sstr = [rs objectAtIndex:index - 1];                
-            }
+    if([rs count] > 0) {
+        // find the index of the currect search text
+        int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+        if(index > 0) {
+            // get the last
+            sstr = [rs objectAtIndex:index - 1];                
         }
-    } else {
-        if([rs count] > 0) {
-            // find the index of the currect search text
-            int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
-            if(index < [rs count] - 1) {
-                // get next
-                sstr = [rs objectAtIndex:index + 1];
-            }
+    }
+
+    if(sstr) {
+        // this is a navigation action
+        navigationAction = YES;
+        [self setSearchText:sstr];
+    }
+}
+
+- (IBAction)navigationForward:(id)sender {
+    // get recent searches
+    NSArray *rs = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
+    NSString *sstr = nil;
+    if([rs count] > 0) {
+        // find the index of the currect search text
+        int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+        if(index < [rs count] - 1) {
+            // get next
+            sstr = [rs objectAtIndex:index + 1];
         }
     }
     
@@ -492,7 +533,7 @@ typedef enum _NavigationDirectionType {
         // this is a navigation action
         navigationAction = YES;
         [self setSearchText:sstr];
-    }
+    }    
 }
 
 #pragma mark - Methods

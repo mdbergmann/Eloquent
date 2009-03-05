@@ -119,9 +119,19 @@
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 // actions
+
+// direct connections
 - (IBAction)leftSideBottomSegChange:(id)sender;
 - (IBAction)rightSideBottomSegChange:(id)sender;
 - (IBAction)navigationAction:(id)sender;
 
+// menu first responder actions
+- (IBAction)leftSideBarHideShow:(id)sender;
+- (IBAction)rightSideBarHideShow:(id)sender;
+- (IBAction)fullScreenModeOnOff:(id)sender;
+- (IBAction)switchToRefLookup:(id)sender;
+- (IBAction)switchToIndexLookup:(id)sender;
+- (IBAction)navigationBack:(id)sender;
+- (IBAction)navigationForward:(id)sender;
 
 @end
