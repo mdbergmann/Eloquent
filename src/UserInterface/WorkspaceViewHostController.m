@@ -7,6 +7,7 @@
 //
 
 #import "WorkspaceViewHostController.h"
+#import "SingleViewHostController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "AppController.h"
@@ -267,7 +268,6 @@
             case 0:
             {
                 // close
-                int index = [viewControllers indexOfObject:vc];
                 // also remove search text obj
                 [searchTextObjs removeObjectAtIndex:index];
                 // remove this view controller from our list
@@ -277,17 +277,33 @@
             case 1:
             {
                 // open in single
-                if([viewControllers count] > 1) {
-                    // also remove search text obj
-                    [searchTextObjs removeObjectAtIndex:index];
-                    // remove this view controller from our list
-                    [viewControllers removeObject:vc];
+                NSTabViewItem *tvi = [[tabView tabViewItems] objectAtIndex:index];
+                // also remove search text obj
+                [searchTextObjs removeObjectAtIndex:index];
+                // remove this view controller from our list
+                [viewControllers removeObject:vc];
+                // remove tab
+                [tabView removeTabViewItem:tvi];
+
+                // if there are more tabviews, select the next one
+                if([[tabView tabViewItems] count] > 0) {
+                    [tabView selectTabViewItemAtIndex:0];
+                } else {
+                    [self setView:nil];
+                    [placeHolderSearchOptionsView setContentView:nil];
+                    [self showRightSideBar:NO];
                 }
+                
                 if([vc isKindOfClass:[ModuleViewController class]]) {
                     // get module of vc and use it to open a single view
                     SwordModule *mod = [(ModuleViewController *)vc module];
                     [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-                }
+                } else if([vc isKindOfClass:[BibleCombiViewController class]]) {                    
+                    // open single host window
+                    SingleViewHostController *svc = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
+                    [svc setView:[tvi view]];
+                    [svc setContentViewController:vc];
+                }                
                 break;
             }
         }

@@ -185,6 +185,10 @@
     return viewController;
 }
 
+- (void)setContentViewController:(HostableViewController *)aViewController {
+    viewController = aViewController;
+}
+
 - (NSView *)view {
     return [(NSBox *)placeHolderView contentView];
 }

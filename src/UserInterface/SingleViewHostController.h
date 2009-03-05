@@ -35,6 +35,7 @@
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
 - (HostableViewController *)contentViewController;
+- (void)setContentViewController:(HostableViewController *)aViewController;
 
 // WindowHosting
 - (ModuleType)moduleType;

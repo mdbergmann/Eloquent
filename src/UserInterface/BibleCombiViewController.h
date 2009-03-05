@@ -69,6 +69,8 @@
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule;
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule;
 - (NSView *)referenceOptionsView;
+- (NSArray *)openBibleModules;
+- (NSArray *)openMiscModules;
 
 // actions
 - (IBAction)displayOptionShowStrongs:(id)sender;

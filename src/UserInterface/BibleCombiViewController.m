@@ -335,6 +335,26 @@
     self.displayOptions = dOpts;        
 }
 
+- (NSArray *)openBibleModules {
+    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[parBibleViewControllers count]];
+    
+    for(BibleViewController *vc in parBibleViewControllers) {
+        [ret addObject:[vc module]];
+    }
+    
+    return ret;
+}
+
+- (NSArray *)openMiscModules {
+    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[parMiscViewControllers count]];
+    
+    for(ModuleViewController *vc in parMiscViewControllers) {
+        [ret addObject:[vc module]];
+    }
+    
+    return ret;    
+}
+
 #pragma mark - actions
 
 - (IBAction)displayOptionShowStrongs:(id)sender {
