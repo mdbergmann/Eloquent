@@ -8,7 +8,7 @@
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = A91403090DF9AABC001791BB /* MacSword */;
 		activeTarget = 8D1107260486CEB800E47090 /* MacSword */;
 		addToTargets = (
@@ -385,6 +385,11 @@
 			A9000F8B0F61525F00F07F3E /* PBXTextBookmark */ = A9000F8B0F61525F00F07F3E /* PBXTextBookmark */;
 			A9000F8C0F61525F00F07F3E /* PBXTextBookmark */ = A9000F8C0F61525F00F07F3E /* PBXTextBookmark */;
 			A9000F8D0F61525F00F07F3E /* PBXTextBookmark */ = A9000F8D0F61525F00F07F3E /* PBXTextBookmark */;
+			A9000F900F61531D00F07F3E /* PBXTextBookmark */ = A9000F900F61531D00F07F3E /* PBXTextBookmark */;
+			A9000F940F61567F00F07F3E /* PBXTextBookmark */ = A9000F940F61567F00F07F3E /* PBXTextBookmark */;
+			A9000F950F61567F00F07F3E /* PlistBookmark */ = A9000F950F61567F00F07F3E /* PlistBookmark */;
+			A9000F960F61567F00F07F3E /* PBXTextBookmark */ = A9000F960F61567F00F07F3E /* PBXTextBookmark */;
+			A9000F970F61567F00F07F3E /* PlistBookmark */ = A9000F970F61567F00F07F3E /* PlistBookmark */;
 			A92B83D50F5E9B1000EC70E6 = A92B83D50F5E9B1000EC70E6 /* PBXTextBookmark */;
 			A92B83EB0F5E9BB300EC70E6 = A92B83EB0F5E9BB300EC70E6 /* PBXTextBookmark */;
 			A92B83F00F5E9BB300EC70E6 = A92B83F00F5E9BB300EC70E6 /* PBXTextBookmark */;
@@ -2841,6 +2846,58 @@
 		vrLen = 2508;
 		vrLoc = 13043;
 	};
+	A9000F900F61531D00F07F3E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */;
+		name = "CommentaryViewController.m: 331";
+		rLen = 0;
+		rLoc = 13679;
+		rType = 0;
+		vrLen = 2508;
+		vrLoc = 13043;
+	};
+	A9000F940F61567F00F07F3E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */;
+		name = "CommentaryViewController.m: 331";
+		rLen = 0;
+		rLoc = 13679;
+		rType = 0;
+		vrLen = 1763;
+		vrLoc = 0;
+	};
+	A9000F950F61567F00F07F3E /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Volumes/User/mbergmann/_inProgress/Sources/macsword/macsword/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A9000F960F61567F00F07F3E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */;
+		name = "CommentaryViewController.m: 331";
+		rLen = 0;
+		rLoc = 13679;
+		rType = 0;
+		vrLen = 1763;
+		vrLoc = 0;
+	};
+	A9000F970F61567F00F07F3E /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Volumes/User/mbergmann/_inProgress/Sources/macsword/macsword/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
 	A90545B30E62EEB400CF4D18 /* DictionaryViewController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1032, 994}}";
@@ -3348,9 +3405,9 @@
 	};
 	A9202A290E59A0E80094F629 /* CommentaryViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1105, 5488}}";
-			sepNavSelRange = "{14068, 0}";
-			sepNavVisRange = "{13043, 2508}";
+			sepNavIntBoundsRect = "{{0, 0}, {1105, 5810}}";
+			sepNavSelRange = "{13679, 0}";
+			sepNavVisRange = "{0, 1763}";
 			sepNavWindowFrame = "{{15, 93}, {995, 930}}";
 		};
 	};
@@ -3656,7 +3713,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 20;
-		modificationTime = 258036317.016101;
+		modificationTime = 258036506.472486;
 		state = 0;
 	};
 	A9B979D40F338DAB0090FF8D /* msstringmgr.cpp:60 */ = {
@@ -3672,7 +3729,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 60;
-		modificationTime = 258036317.019521;
+		modificationTime = 258036506.488954;
 		state = 0;
 	};
 	A9C0F4210EFD67F700CFDF06 /* MBConfirmationSheetController.h */ = {
