@@ -39,6 +39,7 @@
 
 // methods
 - (NSRange)rangeOfFirstLineWithLineRect:(NSRect *)lineRect;
+- (NSRange)rangeOfLineAtIndex:(long)index;
 - (NSRect)rectOfFirstLine;
 - (NSRect)rectOfLastLine;
 - (NSRange)rangeOfVisibleText;

@@ -215,6 +215,25 @@
 
 #pragma mark - actions
 
+- (IBAction)closeButton:(id)sender {
+    
+    // do not close if we still are in editing mode
+    if(editEnabled) {
+        // show Alert
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"StillInEditingMode", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"")
+                                       alternateButton:NSLocalizedString(@"Cancel", @"") otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"StillInEditingModeText", @"")];
+        if([alert runModal] == NSAlertAlternateReturn) {
+            // send close view to super view
+            [self removeFromSuperview];            
+        }
+    } else {
+        // send close view to super view
+        [self removeFromSuperview];    
+    }
+}
+
 - (IBAction)addButton:(id)sender {
     // call delegate and tell to add a new bible view
     if(delegate) {
@@ -233,12 +252,19 @@
         [[textViewController textView] setContinuousSpellCheckingEnabled:YES];
         [[textViewController textView] setAllowsUndo:YES];        
         [editButton setTextColor:[NSColor redColor]];
+        
+        // set the delegate to be us temporarily
+        [[textViewController textView] setDelegate:self];
+        
     } else {
         [[textViewController textView] setEditable:NO];
         [[textViewController textView] setContinuousSpellCheckingEnabled:NO];
         [[textViewController textView] setAllowsUndo:NO];
         [editButton setTextColor:[NSColor blackColor]];
         
+        // set the delegate back to where it belongs
+        [[textViewController textView] setDelegate:textViewController];
+
         // go through the text and store it
         NSAttributedString *attrString = [[textViewController textView] attributedString];
         NSString *text = [[textViewController textView] string];
@@ -286,6 +312,35 @@
     }
     
     editEnabled = !editEnabled;
+}
+
+#pragma mark - NSTextView delegate methods
+
+- (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+    // changing text in lines with verse text markers it not allowed
+    NSRange lineRange = [textViewController rangeOfLineAtIndex:affectedCharRange.location];
+    if(lineRange.location != NSNotFound) {
+        NSDictionary *attrs = [[aTextView attributedString] attributesAtIndex:lineRange.location effectiveRange:nil];    
+        if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER]) {
+            return NO;
+        }
+    }
+
+    return YES;
+}
+
+/** 
+ for as long as we are delegate, forward to text controller
+ */
+- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
+    return [textViewController textView:textView willDisplayToolTip:tooltip forCharacterAtIndex:characterIndex];
+}
+
+/** 
+ for as long as we are delegate, forward to text controller
+ */
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+    return [textViewController textView:aTextView clickedOnLink:link atIndex:charIndex];
 }
 
 #pragma mark - NSOutlineView delegate methods

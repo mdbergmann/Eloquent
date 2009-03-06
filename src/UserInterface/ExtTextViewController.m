@@ -129,6 +129,26 @@
     return NSMakeRange(NSNotFound, 0);
 }
 
+/**
+ Delivers the range of the line at the given character index location
+ @param[in] index location
+ @return the range of line
+ */
+- (NSRange)rangeOfLineAtIndex:(long)index {
+    if([textView enclosingScrollView]) {
+        NSLayoutManager *layoutManager = [textView layoutManager];
+        // get line rect
+        NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:index effectiveRange:nil];
+        
+        // get range
+        NSRange lineRange = [layoutManager glyphRangeForBoundingRect:lineRect inTextContainer:[textView textContainer]];
+        
+        return lineRange;
+    }
+    
+    return NSMakeRange(NSNotFound, 0);
+}
+
 - (NSRect)rectOfFirstLine {
     NSRect visibleRect = [textView visibleRect];
     NSPoint containerOrigin = [textView textContainerOrigin];
