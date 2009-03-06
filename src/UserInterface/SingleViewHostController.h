@@ -21,11 +21,13 @@
 
 @interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
     // the main view for placeHolderView
-    HostableViewController *viewController;
+    HostableViewController *contentViewController;
     
     // the type of view
     ModuleType moduleType;
 }
+
+@property(retain, readwrite) HostableViewController *contentViewController;
 
 // initializers
 - (id)initForViewType:(ModuleType)aType;
@@ -34,8 +36,6 @@
 // methods
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
-- (HostableViewController *)contentViewController;
-- (void)setContentViewController:(HostableViewController *)aViewController;
 
 // WindowHosting
 - (ModuleType)moduleType;

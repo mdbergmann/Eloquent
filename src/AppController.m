@@ -102,6 +102,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     // UI defaults
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSB];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSB];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
     
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];
@@ -436,9 +437,11 @@ static AppController *singleton;
     if(!isPreviewShowing) {
         [previewController showWindow:self];
         isPreviewShowing = YES;
+        [userDefaults setBool:YES forKey:DefaultsShowHUDPreview];
     } else {
         [previewController close];    
         isPreviewShowing = NO;
+        [userDefaults setBool:NO forKey:DefaultsShowHUDPreview];
     }    
 }
 
@@ -514,6 +517,11 @@ static AppController *singleton;
     // start background indexer if enabled
     if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
+    }
+    
+    // show HUD preview if set
+    if([userDefaults boolForKey:DefaultsShowHUDPreview]) {
+        [self showPreviewPanel:nil];
     }
 }
 

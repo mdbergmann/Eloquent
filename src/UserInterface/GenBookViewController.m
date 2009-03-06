@@ -309,6 +309,10 @@
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[textViewController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[textViewController textView]];
         
+        // we have some special setting for the textview
+        // it should be allowed to edit images
+        [[textViewController textView] setAllowsImageEditing:YES];
+        
         // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];

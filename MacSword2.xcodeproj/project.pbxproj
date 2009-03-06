@@ -10,6 +10,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A9000E220F6114D300F07F3E /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = A9000E210F6114D300F07F3E /* CTGradient.m */; };
+		A9000E6E0F611BE700F07F3E /* GradientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9000E6D0F611BE700F07F3E /* GradientCell.m */; };
 		A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */; };
 		A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90545B70E62F11900CF4D18 /* DictionaryView.xib */; };
 		A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */; };
@@ -160,6 +162,10 @@
 		32CA4F630368D1EE00C91783 /* MacSword_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacSword_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MacSword.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacSword.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9000E200F6114D300F07F3E /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTGradient.h; sourceTree = "<group>"; };
+		A9000E210F6114D300F07F3E /* CTGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTGradient.m; sourceTree = "<group>"; };
+		A9000E6C0F611BE700F07F3E /* GradientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GradientCell.h; path = src/UserInterface/GradientCell.h; sourceTree = "<group>"; };
+		A9000E6D0F611BE700F07F3E /* GradientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientCell.m; path = src/UserInterface/GradientCell.m; sourceTree = "<group>"; };
 		A90545B30E62EEB400CF4D18 /* DictionaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DictionaryViewController.h; path = src/UserInterface/DictionaryViewController.h; sourceTree = "<group>"; };
 		A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DictionaryViewController.m; path = src/UserInterface/DictionaryViewController.m; sourceTree = "<group>"; };
 		A90545B80E62F11900CF4D18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DictionaryView.xib; sourceTree = "<group>"; };
@@ -492,6 +498,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A9000E1F0F6114D300F07F3E /* CTGradient */ = {
+			isa = PBXGroup;
+			children = (
+				A9000E200F6114D300F07F3E /* CTGradient.h */,
+				A9000E210F6114D300F07F3E /* CTGradient.m */,
+			);
+			name = CTGradient;
+			path = src/CTGradient;
+			sourceTree = "<group>";
+		};
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,6 +648,7 @@
 		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				A9000E1F0F6114D300F07F3E /* CTGradient */,
 				A9C0F4200EFD67F700CFDF06 /* ConfirmationDialog */,
 				A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */,
 				A9D84B590EFA8896000457EC /* Cells */,
@@ -701,6 +718,8 @@
 			children = (
 				A9D84B5A0EFA88A4000457EC /* ThreeCellsCell.h */,
 				A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */,
+				A9000E6C0F611BE700F07F3E /* GradientCell.h */,
+				A9000E6D0F611BE700F07F3E /* GradientCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -965,6 +984,8 @@
 				A98EDE450F4C77D000A3387D /* SwordBibleBook.mm in Sources */,
 				A92480C10F4D99630048A603 /* SwordBibleChapter.m in Sources */,
 				A9D450C60F59884A001617B1 /* NSImage+Additions.m in Sources */,
+				A9000E220F6114D300F07F3E /* CTGradient.m in Sources */,
+				A9000E6E0F611BE700F07F3E /* GradientCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

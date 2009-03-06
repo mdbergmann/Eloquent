@@ -27,6 +27,8 @@
 
 @implementation SingleViewHostController
 
+@synthesize contentViewController;
+
 #pragma mark - initializers
 
 - (id)init {
@@ -43,16 +45,16 @@
     if(self) {
         moduleType = aType;
         if(aType == bible) {
-            viewController = [[BibleCombiViewController alloc] initWithDelegate:self];
+            contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self];
             self.searchType = ReferenceSearchType;
         } else if(aType == commentary) {
-            viewController = [[CommentaryViewController alloc] initWithDelegate:self];
+            contentViewController = [[CommentaryViewController alloc] initWithDelegate:self];
             self.searchType = ReferenceSearchType;
         } else if(aType == dictionary) {
-            viewController = [[DictionaryViewController alloc] initWithDelegate:self];
+            contentViewController = [[DictionaryViewController alloc] initWithDelegate:self];
             self.searchType = ReferenceSearchType;        
         } else if(aType == genbook) {
-            viewController = [[GenBookViewController alloc] initWithDelegate:self];
+            contentViewController = [[GenBookViewController alloc] initWithDelegate:self];
             self.searchType = IndexSearchType;        
         }
         
@@ -71,16 +73,16 @@
     if(self) {
         moduleType = [aModule type];
         if(moduleType == bible) {
-            viewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
+            contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
             self.searchType = ReferenceSearchType;
         } else if(moduleType == commentary) {
-            viewController = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+            contentViewController = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
             self.searchType = ReferenceSearchType;
         } else if(moduleType == dictionary) {
-            viewController = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
+            contentViewController = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
             self.searchType = ReferenceSearchType;
         } else if(moduleType == genbook) {
-            viewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
+            contentViewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
             self.searchType = IndexSearchType;
         }
         
@@ -102,10 +104,10 @@
     // if a reference is stored, we should load it
     NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
     if([referenceText length] > 0) {
-        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
-        } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
-            [(CommentaryViewController *)viewController displayTextForReference:referenceText searchType:ReferenceSearchType];
+        if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
+            [(BibleCombiViewController *)contentViewController displayTextForReference:referenceText searchType:ReferenceSearchType];
+        } else if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
+            [(CommentaryViewController *)contentViewController displayTextForReference:referenceText searchType:ReferenceSearchType];
         }
     }
     
@@ -113,10 +115,10 @@
     NSString *searchText = [currentSearchText searchTextForType:self.searchType];
     if([searchText length] > 0) {
         [searchTextField setStringValue:searchText];
-        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)viewController displayTextForReference:searchText searchType:self.searchType];
-        } else if([viewController isKindOfClass:[CommentaryViewController class]]) {
-            [(CommentaryViewController *)viewController displayTextForReference:searchText searchType:self.searchType];
+        if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
+            [(BibleCombiViewController *)contentViewController displayTextForReference:searchText searchType:self.searchType];
+        } else if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
+            [(CommentaryViewController *)contentViewController displayTextForReference:searchText searchType:self.searchType];
         }
     }
     
@@ -124,16 +126,16 @@
     [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
     
     // check if view has loaded
-    if(viewController.viewLoaded == YES) {
+    if(contentViewController.viewLoaded == YES) {
         // add content view
-        [placeHolderView setContentView:[viewController view]];
+        [placeHolderView setContentView:[contentViewController view]];
         // add display options view
-        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)viewController referenceOptionsView]];        
+        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];        
         
         // all booktypes have something to show in the right side bar
-        [rsbViewController setContentView:[(GenBookViewController *)viewController listContentView]];
-        if([viewController isKindOfClass:[DictionaryViewController class]] ||
-           [viewController isKindOfClass:[GenBookViewController class]]) {
+        [rsbViewController setContentView:[(GenBookViewController *)contentViewController listContentView]];
+        if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
+           [contentViewController isKindOfClass:[GenBookViewController class]]) {
             [self showRightSideBar:YES];
         } else {
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
@@ -168,25 +170,17 @@
 - (ModuleType)moduleType {
     ModuleType type = bible;
     
-    if([viewController isKindOfClass:[CommentaryViewController class]]) {
+    if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
         type = commentary;
-    } else if([viewController isKindOfClass:[BibleCombiViewController class]]) {
+    } else if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
         type = bible;
-    } else if([viewController isKindOfClass:[DictionaryViewController class]]) {
+    } else if([contentViewController isKindOfClass:[DictionaryViewController class]]) {
         type = dictionary;
-    } else if([viewController isKindOfClass:[GenBookViewController class]]) {
+    } else if([contentViewController isKindOfClass:[GenBookViewController class]]) {
         type = genbook;
     }
-    
+
     return type;
-}
-
-- (HostableViewController *)contentViewController {
-    return viewController;
-}
-
-- (void)setContentViewController:(HostableViewController *)aViewController {
-    viewController = aViewController;
 }
 
 - (NSView *)view {
@@ -200,8 +194,8 @@
 #pragma mark - toolbar actions
 
 - (void)addBibleTB:(id)sender {
-    if([viewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)viewController addNewBibleViewWithModule:nil];
+    if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
+        [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:nil];
     }
 }
 
@@ -211,11 +205,11 @@
     [super searchInput:sender];
     
     NSString *searchText = [sender stringValue];
-    if([viewController isKindOfClass:[BibleCombiViewController class]] ||
-       [viewController isKindOfClass:[CommentaryViewController class]] ||
-       [viewController isKindOfClass:[DictionaryViewController class]] ||
-       [viewController isKindOfClass:[GenBookViewController class]]) {
-        [(<TextDisplayable>)viewController displayTextForReference:searchText searchType:self.searchType];
+    if([contentViewController isKindOfClass:[BibleCombiViewController class]] ||
+       [contentViewController isKindOfClass:[CommentaryViewController class]] ||
+       [contentViewController isKindOfClass:[DictionaryViewController class]] ||
+       [contentViewController isKindOfClass:[GenBookViewController class]]) {
+        [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:self.searchType];
     }
 }
 
@@ -302,16 +296,17 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {        
-        // decode viewController
-        viewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
+        // decode contentViewController
+        contentViewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
         // set delegate
-        [viewController setDelegate:self];
-        [viewController setHostingDelegate:self];
+        [contentViewController setDelegate:self];
+        [contentViewController setHostingDelegate:self];
+        [contentViewController adaptUIToHost];
         
-        if([viewController isKindOfClass:[BibleCombiViewController class]]) {
+        if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
             moduleType = bible;
         } else {
-            moduleType = [[(ModuleViewController *)viewController module] type];        
+            moduleType = [[(ModuleViewController *)contentViewController module] type];        
         }
 
         // load nib
@@ -329,7 +324,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     // encode hostableviewcontroller
-    [encoder encodeObject:viewController forKey:@"HostableViewControllerEncoded"];
+    [encoder encodeObject:contentViewController forKey:@"HostableViewControllerEncoded"];
     
     [super encodeWithCoder:encoder];
 }

@@ -24,6 +24,7 @@
 #import "globals.h"
 #import "SwordBibleBook.h"
 #import "SwordBibleChapter.h"
+#import "GradientCell.h"
 
 @interface BibleViewController (/* class continuation */)
 
@@ -108,6 +109,11 @@
     // loading finished
     viewLoaded = YES;
     
+    // prepare for our custom cell
+    gradientCell = [[GradientCell alloc] init];
+    NSTableColumn *tableColumn = [entriesOutlineView tableColumnWithIdentifier:@"common"];
+    [tableColumn setDataCell:gradientCell];    
+
     // set menu states of display options
     [[displayOptionsMenu itemWithTag:1] setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] intValue]];
 

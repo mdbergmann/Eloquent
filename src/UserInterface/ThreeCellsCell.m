@@ -7,14 +7,13 @@
 //
 
 #import "ThreeCellsCell.h"
-
+#import "CTGradient.h"
 
 @implementation ThreeCellsCell
 
 @synthesize image;
 @synthesize numberValue;
 @synthesize textColor;
-@synthesize textFont;
 
 - (id)init {
     self = [super init];
@@ -22,7 +21,6 @@
         self.textColor = [NSColor blackColor];
         self.numberValue = nil;
         self.image = nil;
-        self.textFont = nil;
     }
     
     return self;
@@ -31,6 +29,23 @@
 - (id)copyWithZone:(NSZone *)zone {
 	ThreeCellsCell *cell = (ThreeCellsCell *)[super copyWithZone:zone];
 	return cell;
+}
+
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+	[controlView lockFocus];
+    
+    NSRect drawRect = NSMakeRect(0.0, cellFrame.origin.y - 1, cellFrame.size.width + cellFrame.origin.x + 3, cellFrame.size.height + 1);
+
+	if ([self isHighlighted]) {
+		if ([[controlView window] isMainWindow] &&
+            [[controlView window] isKeyWindow]) {
+			[[CTGradient mailActiveGradient] fillRect:drawRect angle:270];
+		} else {
+			[[CTGradient mailInactiveGradient] fillRect:drawRect angle:270];
+		}
+	}
+    
+	[controlView unlockFocus];
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
@@ -67,17 +82,13 @@
         [buttonCell setSegmentStyle:NSSegmentStyleCapsule];
         [buttonCell setControlSize:NSMiniControlSize];
         [buttonCell setLabel:[numberValue stringValue] forSegment:0];
-        if(textFont) {
-            [buttonCell setFont:textFont];
-        }
+        [buttonCell setFont:[self font]];
     }
     
 	// text cell
 	NSTextFieldCell *textCell = [[[NSTextFieldCell alloc] initTextCell:title] autorelease];
 	[textCell setTextColor:textColor];
-    if(textFont) {
-        [textCell setFont:textFont];
-    }
+    [textCell setFont:[self font]];
     
     // text cell
 	NSRect textFrame;
@@ -89,6 +100,7 @@
 	[self setStringValue: @""];
 	// den hintergrund
 	[super drawWithFrame:cellFrame inView:controlView];
+
     // draw cells
     if(imageCell) {
         [imageCell drawWithFrame:imageFrame inView:controlView];

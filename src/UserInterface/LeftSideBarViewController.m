@@ -301,7 +301,8 @@ enum ModuleMenu_Items{
     
     switch(tag) {
         case ModuleMenuOpenSingle:
-                [[AppController defaultAppController] openSingleHostWindowForModule:mod];        
+            [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            break;
         case ModuleMenuOpenWorkspace:
             [self doubleClick];
             break;
@@ -633,7 +634,7 @@ enum ModuleMenu_Items{
         int t = [o objectType];
         if(t == OutlineItemModuleRoot || t == OutlineItemBookmarkRoot) {
             NSFont *font = FontLargeBold;
-            [cell setTextFont:font];
+            [cell setFont:font];
             [cell setTextColor:[NSColor grayColor]];
             [(ThreeCellsCell *)cell setImage:nil];
             //[(ThreeCellsCell *)cell setNumberValue:[NSNumber numberWithInt:4]];
@@ -642,7 +643,7 @@ enum ModuleMenu_Items{
             //[aOutlineView setRowHeight:pointSize+6];        
         } else {
             NSFont *font = FontStd;
-            [cell setTextFont:font];
+            [cell setFont:font];
             [cell setTextColor:[NSColor blackColor]];
             
             if(t == OutlineItemBookmark) {

@@ -753,6 +753,12 @@ typedef enum _NavigationDirectionType {
 
 #pragma mark - NSSplitView delegate methods
 
+/*
+- (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
+    MBLOGV(MBLOG_DEBUG, @"[WindowHostController -splitView:resizeSubviewsWithOldSize:] width:%f, height:%i", oldSize.width, oldSize.height);
+}
+*/
+ 
 - (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview {
     return ((subview == [lsbViewController view]) || (subview == [rsbViewController view]));
 }

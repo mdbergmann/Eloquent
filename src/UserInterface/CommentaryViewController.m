@@ -17,6 +17,7 @@
 #import "SwordModule.h"
 #import "SwordBible.h"
 #import "SwordCommentary.h"
+#import "NSButton+Color.h"
 
 @interface CommentaryViewController ()
 /** generates HTML for display */
@@ -35,6 +36,7 @@
         MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -init]");
         self.module = (SwordCommentary *)aModule;
         self.delegate = aDelegate;
+        editEnabled = NO;
         
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
@@ -84,6 +86,22 @@
                                        withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
+    
+    // select module
+    if(self.module != nil) {
+        // on change, still exists?
+        if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
+            // select the first one found
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_COMMENTARIES];
+            if([modArray count] > 0) {
+                [self setModule:[modArray objectAtIndex:0]];
+                // and redisplay if needed
+                [self displayTextForReference:[self reference] searchType:searchType];
+            }
+        }
+        
+        [modulePopBtn selectItemWithTitle:[module name]];
+    }
 }
 
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {
@@ -204,6 +222,70 @@
             [delegate performSelector:@selector(addNewCommentViewWithModule:) withObject:nil];
         }
     }
+}
+
+- (IBAction)toggleEdit:(id)sender {
+    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -toggleEdit:]");
+    
+    if(editEnabled == NO) {
+        // make textview editable
+        [[textViewController textView] setEditable:YES];
+        [[textViewController textView] setContinuousSpellCheckingEnabled:YES];
+        [[textViewController textView] setAllowsUndo:YES];        
+        [editButton setTextColor:[NSColor redColor]];
+    } else {
+        [[textViewController textView] setEditable:NO];
+        [[textViewController textView] setContinuousSpellCheckingEnabled:NO];
+        [[textViewController textView] setAllowsUndo:NO];
+        [editButton setTextColor:[NSColor blackColor]];
+        
+        // go through the text and store it
+        NSAttributedString *attrString = [[textViewController textView] attributedString];
+        NSString *text = [[textViewController textView] string];
+        NSArray *lines = [text componentsSeparatedByString:@"\n"];
+        long lineStartIndex = 0;
+        NSString *currentVerse = nil;
+        NSMutableString *currentText = [NSMutableString string];
+        for(int i = 0;i < [lines count];i++) {
+            NSMutableString *line = [NSMutableString stringWithString:[lines objectAtIndex:i]];
+            // add new line for all lines except the last
+            if(i < [lines count]-1) {
+                [line appendString:@"\n"];
+            }
+            // linestart still in range?
+            if(lineStartIndex < [text length]) {
+                NSDictionary *attrs = [attrString attributesAtIndex:lineStartIndex effectiveRange:nil];
+                if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER]) {
+                    
+                    // if we had a text before, store it under the current verse
+                    if(currentVerse != nil && [currentText length] > 0) {
+                        // remove last '\n' if there
+                        if([currentText hasSuffix:@"\n"]) {
+                            [currentText replaceCharactersInRange:NSMakeRange([currentText length]-1, 1) withString:@""];
+                        }
+                        // replace all '\n' characters with <br/>
+                        [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
+                        [module writeEntry:currentText forRef:currentVerse];
+                        // reset currentText
+                        currentText = [NSMutableString string];
+                    }
+                    
+                    // this is a verse marker
+                    currentVerse = [attrs objectForKey:TEXT_VERSE_MARKER];
+                } else {
+                    [currentText appendString:line];
+                }
+                
+                lineStartIndex += [line length];                
+            }
+        }
+        
+        // force redisplay
+        forceRedisplay = YES;
+        [self displayTextForReference:reference searchType:searchType];
+    }
+    
+    editEnabled = !editEnabled;
 }
 
 #pragma mark - NSOutlineView delegate methods

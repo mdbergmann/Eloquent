@@ -37,8 +37,9 @@
 #define DefaultsRemoveIndexOnModuleRemoval  @"DefaultsRemoveIndexOnModuleRemoval"
 
 // UI defaults
-#define DefaultsShowLSB     @"DefaultsShowLSB"
-#define DefaultsShowRSB     @"DefaultsShowRSB"
+#define DefaultsShowLSB         @"DefaultsShowLSB"
+#define DefaultsShowRSB         @"DefaultsShowRSB"
+#define DefaultsShowHUDPreview  @"DefaultsShowHUDPreview"
 
 @class SwordManager;
 

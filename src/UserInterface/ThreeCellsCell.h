@@ -13,12 +13,10 @@
     NSImage *image;
     NSNumber *numberValue;
     NSColor *textColor;
-    NSFont *textFont;
 }
 
 @property (retain, readwrite) NSImage *image;
 @property (retain, readwrite) NSColor *textColor;
 @property (retain, readwrite) NSNumber *numberValue;
-@property (retain, readwrite) NSFont *textFont;
 
 @end

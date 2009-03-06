@@ -434,14 +434,6 @@
 					</object>
 					<int key="connectionID">162</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1006"/>
-					</object>
-					<int key="connectionID">163</int>
-				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -726,7 +718,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">163</int>
+			<int key="maxID">164</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -786,6 +778,7 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>contentSplitView</string>
+							<string>contentView</string>
 							<string>delegate</string>
 							<string>leftSideBottomSegControl</string>
 							<string>mainSplitView</string>
@@ -795,11 +788,11 @@
 							<string>progressIndicator</string>
 							<string>rightSideBottomSegControl</string>
 							<string>scopeBarView</string>
-							<string>view</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSSplitView</string>
+							<string>NSView</string>
 							<string>id</string>
 							<string>NSSegmentedControl</string>
 							<string>NSSplitView</string>
@@ -809,7 +802,6 @@
 							<string>NSProgressIndicator</string>
 							<string>NSSegmentedControl</string>
 							<string>ScopeBarView</string>
-							<string>NSView</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -825,24 +817,10 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addTab:</string>
-							<string>fullScreenModeOnOff:</string>
-							<string>leftSideBarHideShow:</string>
 							<string>menuItemSelected:</string>
-							<string>navigationBack:</string>
-							<string>navigationForward:</string>
-							<string>rightSideBarHideShow:</string>
-							<string>switchToIndexLookup:</string>
-							<string>switchToRefLookup:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>

@@ -13,6 +13,7 @@
 #import <ProtocolHelper.h>
 
 @class SwordBible, ExtTextViewController;
+@class GradientCell;
 
 #define BIBLEVIEW_NIBNAME   @"BibleView"
 
@@ -33,6 +34,9 @@
     
     // we need a webview for text display
     ExtTextViewController *textViewController;
+    
+    // gradient cell for outline view
+    GradientCell *gradientCell;
     
     // nib name
     NSString *nibName;

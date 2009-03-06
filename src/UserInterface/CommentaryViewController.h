@@ -18,7 +18,8 @@
 
 /** the view of this view controller is a ScrollSynchronizableView */
 @interface CommentaryViewController : BibleViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking> {
-
+    IBOutlet NSButton *editButton;
+    BOOL editEnabled;
 }
 
 // ---------- initializers ---------
@@ -29,5 +30,8 @@
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
+
+// actions
+- (IBAction)toggleEdit:(id)sender;
 
 @end

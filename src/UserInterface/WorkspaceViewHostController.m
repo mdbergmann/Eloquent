@@ -154,6 +154,9 @@
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
+    // make window first responder    
+    [[self window] makeFirstResponder:nil];
+    
     hostLoaded = YES;
 }
 
@@ -204,7 +207,7 @@
         
         // the view controller will be added in contentViewDidFinisLoading:
     }
-    
+
     return vc;
 }
 
@@ -219,6 +222,9 @@
     } else if(aType == genbook) {
         vc = [[GenBookViewController alloc] initWithDelegate:self];
     }
+
+    // make window first responder    
+    [[self window] makeFirstResponder:nil];
 
     // search text objects are added when this view reports it has loaded
     return vc;
@@ -336,7 +342,7 @@
         // remove this view controller from our list
         [viewControllers removeObjectAtIndex:index];
     }
-    
+
     return YES;
 }
 
@@ -428,7 +434,7 @@
                 // add display options view
                 [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
             }            
-        }        
+        }
     }    
 }
 
@@ -458,6 +464,7 @@
         for(HostableViewController *vc in viewControllers) {
             [vc setDelegate:self];
             [vc setHostingDelegate:self];
+            [vc adaptUIToHost];
         }
 
         // load nib
