@@ -18,7 +18,6 @@
 - (id)init {
     self = [super init];
     if(self) {
-        self.textColor = [NSColor blackColor];
         self.numberValue = nil;
         self.image = nil;
     }
@@ -40,8 +39,10 @@
 		if ([[controlView window] isMainWindow] &&
             [[controlView window] isKeyWindow]) {
 			[[CTGradient mailActiveGradient] fillRect:drawRect angle:270];
+            [self setTextColor:[NSColor whiteColor]];
 		} else {
 			[[CTGradient mailInactiveGradient] fillRect:drawRect angle:270];
+            [self setTextColor:[NSColor blackColor]];
 		}
 	}
     
@@ -85,21 +86,20 @@
         [buttonCell setFont:[self font]];
     }
     
+	// hintergrund wird ohne text gepinselt
+	[self setStringValue: @""];
+	// den hintergrund
+	[super drawWithFrame:cellFrame inView:controlView];
+
 	// text cell
 	NSTextFieldCell *textCell = [[[NSTextFieldCell alloc] initTextCell:title] autorelease];
-	[textCell setTextColor:textColor];
-    [textCell setFont:[self font]];
-    
+	[textCell setTextColor:[self textColor]];
+    [textCell setFont:[self font]];    
     // text cell
 	NSRect textFrame;
 	textFrame = cellFrame;
 	textFrame.origin.x += imageFrame.size.width;
 	textFrame.size.width -= (imageFrame.size.width + buttonFrame.size.width);
-
-	// hintergrund wird ohne text gepinselt
-	[self setStringValue: @""];
-	// den hintergrund
-	[super drawWithFrame:cellFrame inView:controlView];
 
     // draw cells
     if(imageCell) {

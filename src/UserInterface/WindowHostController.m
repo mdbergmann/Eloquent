@@ -180,10 +180,10 @@ typedef enum _NavigationDirectionType {
     [[searchTypeSegControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
     // insert text only segments
     [searchTypeSegControl setFont:FontStdBold];
-    [searchTypeSegControl setLabel:NSLocalizedString(@"Reference", @"") forSegment:0];
-    //[searchTypeSegControl setImage:[NSImage imageNamed:@"list"] forSegment:0];		
-    [searchTypeSegControl setLabel:NSLocalizedString(@"Index", "") forSegment:1];
-    //[searchTypeSegControl setImage:[NSImage imageNamed:@"search"] forSegment:1];
+    //[searchTypeSegControl setLabel:NSLocalizedString(@"Reference", @"") forSegment:0];
+    [searchTypeSegControl setImage:[NSImage imageNamed:NSImageNameListViewTemplate] forSegment:0];		
+    //[searchTypeSegControl setLabel:NSLocalizedString(@"Index", "") forSegment:1];
+    [searchTypeSegControl setImage:[NSImage imageNamed:NSImageNameRevealFreestandingTemplate] forSegment:1];
     [[searchTypeSegControl cell] setTag:ReferenceSearchType forSegment:0];
     [[searchTypeSegControl cell] setTag:IndexSearchType forSegment:1];
     if([self moduleType] == genbook) {
