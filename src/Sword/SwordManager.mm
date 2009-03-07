@@ -352,7 +352,7 @@ using std::list;
 /**
  adds modules in this path
  */
-- (void)addPath:(NSString*)path {
+- (void)addPath:(NSString *)path {
     
 	[managerLock lock];
 	if([modules count] == 0) {
@@ -364,6 +364,8 @@ using std::list;
 	[self refreshModules];
 	[self addRenderFilters];	
 	[managerLock unlock];
+    
+    SendNotifyModulesChanged(nil);
 }
 
 /** 

@@ -63,6 +63,9 @@ typedef enum AppErrorCodes {
 - (IBAction)showModuleManager:(id)sender;
 - (IBAction)showPreviewPanel:(id)sender;
 
+// module creation
+- (IBAction)createCommentaryModule:(id)sender;
+
 // host delegate method
 - (void)hostClosing:(NSWindowController *)aHost;
 - (void)auxWindowClosing:(NSWindowController *)aController;

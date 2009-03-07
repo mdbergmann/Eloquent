@@ -16,6 +16,7 @@
 		A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90545B70E62F11900CF4D18 /* DictionaryView.xib */; };
 		A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
+		A90F05450F6167FF00E2D0FB /* Personal in Resources */ = {isa = PBXBuildFile; fileRef = A90F05340F6167FF00E2D0FB /* Personal */; };
 		A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */ = {isa = PBXBuildFile; fileRef = A913C2BE0EC182E200A85F8D /* sword2.icns */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
 		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
@@ -172,6 +173,7 @@
 		A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_gradient.png; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
+		A90F05340F6167FF00E2D0FB /* Personal */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Personal; path = Resources/Personal; sourceTree = "<group>"; };
 		A913C2BE0EC182E200A85F8D /* sword2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sword2.icns; sourceTree = "<group>"; };
 		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
 		A916FCDD0E053910009CAA2F /* ModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleViewController.h; path = src/UserInterface/ModuleViewController.h; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A90F05340F6167FF00E2D0FB /* Personal */,
 				A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */,
 				A91A23370E61955000382F44 /* Icons */,
 				A9F61C210E01028700C3A0EF /* locales.d */,
@@ -892,6 +895,7 @@
 				A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */,
 				A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */,
 				A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */,
+				A90F05450F6167FF00E2D0FB /* Personal in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
