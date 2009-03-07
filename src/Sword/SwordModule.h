@@ -126,6 +126,7 @@ typedef enum {
 - (BOOL)isUnicode;
 - (BOOL)isEncrypted;
 - (BOOL)isLocked;
+- (BOOL)isEditable;
 
 - (BOOL)hasFeature:(NSString *)feature;
 - (NSString *)configEntryForKey:(NSString *)entryKey;

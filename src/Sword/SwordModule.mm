@@ -145,6 +145,7 @@
             [configEntries setObject:cipherKey forKey:SWMOD_CONFENTRY_CIPHERKEY];
         }
     }
+    
     return cipherKey;
 }
 
@@ -157,6 +158,7 @@
             [configEntries setObject:version forKey:SWMOD_CONFENTRY_VERSION];
         }
     }
+    
     return version;
 }
 
@@ -169,6 +171,7 @@
             [configEntries setObject:minVersion forKey:SWMOD_CONFENTRY_MINVERSION];
         }
     }
+    
     return minVersion;
 }
 
@@ -180,7 +183,27 @@
             [configEntries setObject:aboutText forKey:SWMOD_CONFENTRY_ABOUT];
         }
     }
+    
     return aboutText;    
+}
+
+- (BOOL)isEditable {
+    BOOL ret = NO;
+    NSString *editable = [configEntries objectForKey:SWMOD_CONFENTRY_EDITABLE];
+    if(editable == nil) {
+        editable = [self configEntryForKey:SWMOD_CONFENTRY_EDITABLE];
+        if(editable != nil) {
+            [configEntries setObject:editable forKey:SWMOD_CONFENTRY_EDITABLE];
+        }
+    }
+    
+    if(editable) {
+        if([editable isEqualToString:@"YES"]) {
+            ret = YES;
+        }
+    }
+    
+    return ret;
 }
 
 /** read config entry for encoding */
@@ -194,13 +217,13 @@
     if([self cipherKey] == nil) {
         encrypted = NO;
     }
+    
     return encrypted;
 }
 
 /** is module locked/has cipherkey config entry but cipherkey entry is empty */
 - (BOOL)isLocked {
     BOOL locked = NO;
-    
     NSString *key = [self cipherKey];
     if(key != nil) {
         if([key length] == 0) {

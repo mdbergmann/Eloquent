@@ -59,6 +59,15 @@
     MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -awakeFromNib]");
     
     [super awakeFromNib];
+    
+    // check whether this module is editable
+    BOOL editable = NO;
+    if(module) {
+        if([module isEditable]) {
+            editable = YES;
+        }
+    }
+    [editButton setEnabled:editable];
 }
 
 #pragma mark - methods
@@ -102,6 +111,20 @@
         
         [modulePopBtn selectItemWithTitle:[module name]];
     }
+}
+
+- (void)moduleSelectionChanged:(id)sender {
+    [super moduleSelectionChanged:sender];
+    
+    // do some additional stuff
+    // check whether this module is editable
+    BOOL editable = NO;
+    if(module) {
+        if([module isEditable]) {
+            editable = YES;
+        }
+    }
+    [editButton setEnabled:editable];
 }
 
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {

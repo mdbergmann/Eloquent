@@ -54,6 +54,7 @@ class sword::SWModule;
 #define SWMOD_CONFENTRY_DISTRLICENSE        @"DistributionLicense"
 #define SWMOD_CONFENTRY_DISTRNOTES          @"DistributionNotes"
 #define SWMOD_CONFENTRY_TEXTSOURCE          @"TextSource"
+#define SWMOD_CONFENTRY_EDITABLE            @"Editable"
 
 /** module features */
 #define SWMOD_FEATURE_STRONGS           @"Strongs"

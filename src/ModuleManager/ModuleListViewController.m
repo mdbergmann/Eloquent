@@ -9,6 +9,7 @@
 #define TABLECOL_IDENTIFIER_MODDESCR @"moddescr"
 #define TABLECOL_IDENTIFIER_MODTYPE @"modtype"
 #define TABLECOL_IDENTIFIER_MODSTATUS @"modstatus"
+#define TABLECOL_IDENTIFIER_MODCIPHERED @"modciphered"
 #define TABLECOL_IDENTIFIER_MODRVERSION @"modrversion"
 #define TABLECOL_IDENTIFIER_MODLVERSION @"modlversion"
 #define TABLECOL_IDENTIFIER_TASK @"task"
@@ -17,7 +18,7 @@
 
 // some setters for convenience
 - (void)setModuleData:(NSMutableArray *)anArray;
-- (void)setModuleSelection:(NSArray *)anArray;
+- (void)setModuleSelection:(NSMutableArray *)anArray;
 
 /** get clicked mod object in row */
 - (ModuleListObject *)moduleObjectForClickedRow;
@@ -87,7 +88,7 @@
         // init module data array
         moduleData = [[NSMutableArray array] retain];
         // init selection
-        moduleSelection = [[NSArray array] retain];
+        moduleSelection = [[NSMutableArray array] retain];
     }
     
     return self;
@@ -169,7 +170,7 @@
     
     // get selected item
     // get current selected module
-    if([moduleSelection count] > 0) {
+    if([moduleSelection count] == 1) {
         ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
         
         // get menuitem tag
@@ -194,6 +195,8 @@
         } else if(tag == TaskNone) {
             return YES;
         }
+    } else if([moduleSelection count] > 1) {
+        ret = YES;
     }
     
     return ret;
@@ -208,26 +211,27 @@
 - (IBAction)noneTask:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -noneTask:]");
     
-    // get current selected module of clicked row
-    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    if([moduleSelection count] == 0) {
+        // get current selected module of clicked row
+        ModuleListObject *clicked = [self moduleObjectForClickedRow];
+        if(clicked) {
+            [moduleSelection addObject:clicked];
+        }
+    }
     
     // get current selected module
     if([moduleSelection count] > 0) {
-        ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
-        
-        if(modObj != clicked) {
-            // use clicked
-            modObj = clicked;
-        }
-        // set taskid
-        [modObj setTaskId:TaskNone];
-        
-        // register module for installation
-        if(delegate) {
-            if([delegate respondsToSelector:@selector(unregister:)]) {
-                [delegate performSelector:@selector(unregister:) withObject:modObj];
+        for(ModuleListObject *modObj in moduleSelection) {
+            // set taskid
+            [modObj setTaskId:TaskNone];
+            
+            // unregister module from installation or removal
+            if(delegate) {
+                if([delegate respondsToSelector:@selector(unregister:)]) {
+                    [delegate performSelector:@selector(unregister:) withObject:modObj];
+                }
             }
-        }
+        }        
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
     }    
@@ -236,30 +240,33 @@
 - (IBAction)installModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -installModule:]");
     
-    // get current selected module of clicked row
-    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    if([moduleSelection count] == 0) {
+        // get current selected module of clicked row
+        ModuleListObject *clicked = [self moduleObjectForClickedRow];
+        if(clicked) {
+            [moduleSelection addObject:clicked];
+        }
+    }
     
     // get current selected module
     if([moduleSelection count] > 0) {
-        ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
-
-        if(modObj != clicked) {
-            // use clicked
-            modObj = clicked;
-        }
-        // check if module is installed already
-        if(([[modObj module] status] & ModStatNew) > 0) {
-            // set taskid
-            [modObj setTaskId:TaskInstall];
+        for(ModuleListObject *modObj in moduleSelection) {
+            // only modules that are not installed can be registered for installation
             
-            // register module for installation
-            if(delegate) {
-                if([delegate respondsToSelector:@selector(registerForInstall:)]) {
-                    [delegate performSelector:@selector(registerForInstall:) withObject:modObj];
+            // check if module is installed already
+            if((([[modObj module] status] & ModStatNew) > 0) || (([[modObj module] status] & ModStatUpdated) > 0)) {
+                // set taskid
+                [modObj setTaskId:TaskInstall];
+                
+                // register module for installation
+                if(delegate) {
+                    if([delegate respondsToSelector:@selector(registerForInstall:)]) {
+                        [delegate performSelector:@selector(registerForInstall:) withObject:modObj];
+                    }
                 }
+            } else {
+                MBLOG(MBLOG_WARN, @"[ModuleListViewController -installModule:] module is already installed!");
             }
-        } else {
-            MBLOG(MBLOG_WARN, @"[ModuleListViewController -installModule:] module is already installed!");
         }
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
@@ -269,30 +276,33 @@
 - (IBAction)removeModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -removeModule:]");
     
-    // get current selected module of clicked row
-    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    if([moduleSelection count] == 0) {
+        // get current selected module of clicked row
+        ModuleListObject *clicked = [self moduleObjectForClickedRow];
+        if(clicked) {
+            [moduleSelection addObject:clicked];
+        }
+    }
     
     // get current selected module
     if([moduleSelection count] > 0) {
-        ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
-        
-        if(modObj != clicked) {
-            // use clicked
-            modObj = clicked;
-        }
-        // check if module is really installed
-        if(([[modObj module] status] & ModStatNew) == 0) {
-            // set taskid
-            [modObj setTaskId:TaskRemove];
+        for(ModuleListObject *modObj in moduleSelection) {
+            // only modules that are install can be removed
             
-            // register module for removal
-            if(delegate) {
-                if([delegate respondsToSelector:@selector(registerForRemove:)]) {
-                    [delegate performSelector:@selector(registerForRemove:) withObject:modObj];
+            // check if module is really installed
+            if(([[modObj module] status] & ModStatNew) == 0) {
+                // set taskid
+                [modObj setTaskId:TaskRemove];
+                
+                // register module for removal
+                if(delegate) {
+                    if([delegate respondsToSelector:@selector(registerForRemove:)]) {
+                        [delegate performSelector:@selector(registerForRemove:) withObject:modObj];
+                    }
                 }
+            } else {
+                MBLOG(MBLOG_WARN, @"[ModuleListViewController -removeModule:] module is not installed!");
             }
-        } else {
-            MBLOG(MBLOG_WARN, @"[ModuleListViewController -removeModule:] module is not installed!");
         }
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -removeModule:] no module selected!");
@@ -302,30 +312,33 @@
 - (IBAction)updateModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -updateModule:]");
 
-    // get current selected module of clicked row
-    ModuleListObject *clicked = [self moduleObjectForClickedRow];
+    if([moduleSelection count] == 0) {
+        // get current selected module of clicked row
+        ModuleListObject *clicked = [self moduleObjectForClickedRow];
+        if(clicked) {
+            [moduleSelection addObject:clicked];
+        }
+    }
     
     // get current selected module
     if([moduleSelection count] > 0) {
-        ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
-        
-        if(modObj != clicked) {
-            // use clicked
-            modObj = clicked;
-        }
-        // check if module is new version
-        if(([[modObj module] status] & ModStatUpdated) > 0) {
-            // set taskid
-            [modObj setTaskId:TaskUpdate];
+        for(ModuleListObject *modObj in moduleSelection) {
+            // only module that are updateable can be updated
             
-            // register module for update
-            if(delegate) {
-                if([delegate respondsToSelector:@selector(registerForInstall:)]) {
-                    [delegate performSelector:@selector(registerForInstall:) withObject:modObj];
+            // check if module is new version
+            if(([[modObj module] status] & ModStatUpdated) > 0) {
+                // set taskid
+                [modObj setTaskId:TaskUpdate];
+                
+                // register module for update
+                if(delegate) {
+                    if([delegate respondsToSelector:@selector(registerForUpdate:)]) {
+                        [delegate performSelector:@selector(registerForUpdate:) withObject:modObj];
+                    }
                 }
+            } else {
+                MBLOG(MBLOG_INFO, @"[ModuleListViewController -updateModule:] current version of module installed!");
             }
-        } else {
-            MBLOG(MBLOG_INFO, @"[ModuleListViewController -updateModule:] current version of module installed!");
         }
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -updateModule:] no module selected!");
@@ -446,12 +459,18 @@
         ret = [[mod module] name];
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODSTATUS]) {
         // print module status
-        if([[mod module] status] == ModStatSameVersion) {
+        if(([[mod module] status] & ModStatSameVersion) == ModStatSameVersion) {
             ret = NSLocalizedString(@"ModStatSameVersion", @"");
-        } else if([[mod module] status] == ModStatNew) {
+        } else if(([[mod module] status] & ModStatNew) == ModStatNew) {
             ret = NSLocalizedString(@"ModStatNew", @"");
-        } else if([[mod module] status] == ModStatUpdated) {
+        } else if(([[mod module] status] & ModStatUpdated) == ModStatUpdated) {
             ret = NSLocalizedString(@"ModStatUpdated", @"");
+        }
+    } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODCIPHERED]) {
+        if(([[mod module] status] & ModStatCiphered) == ModStatCiphered) {
+            ret = [NSNumber numberWithBool:YES];
+        } else {
+            ret = [NSNumber numberWithBool:NO];        
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_TASK]) {
         // for the cell we return the index number

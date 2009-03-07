@@ -22,7 +22,7 @@
     NSMutableArray *moduleData;
     
     /** the selection */
-    NSArray *moduleSelection;
+    NSMutableArray *moduleSelection;
     
     /** current sort descriptors */
     NSArray *sortDescriptors;
