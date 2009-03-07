@@ -284,7 +284,7 @@ static AppController *singleton;
                                              defaultButton:NSLocalizedString(@"OK", @"") 
                                            alternateButton:nil 
                                                otherButton:nil 
-                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultBibleSelected", @"")];
+                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultBibleSelectedText", @"")];
             [alert runModal];
         } else {
             mod = [[SwordManager defaultManager] moduleWithName:sBible];
@@ -312,11 +312,11 @@ static AppController *singleton;
         // get default bible
         NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
         if(sBible == nil) {
-            NSAlert *alert = [NSAlert alertWithMessageText:@"No default bible set" 
-                                             defaultButton:@"Ok" 
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
+                                             defaultButton:NSLocalizedString(@"OK", @"") 
                                            alternateButton:nil 
                                                otherButton:nil 
-                                 informativeTextWithFormat:@"Please set your prefered default bible to be used!"];
+                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultBibleSelectedText", @"")];
             [alert runModal];
         } else {
             mod = [[SwordManager defaultManager] moduleWithName:sBible];
@@ -445,18 +445,30 @@ static AppController *singleton;
     }    
 }
 
-- (IBAction)createCommentaryModule:(id)sender {
+- (IBAction)showCreateModuleWindow:(id)sender {
+    [[NSApplication sharedApplication] runModalForWindow:createModuleWindow];
+}
+
+- (IBAction)createCommentaryOk:(id)sender {
     
-    NSSavePanel *oPanel = [NSSavePanel savePanel];    
-    [oPanel setRequiredFileType:@"swd"];
-    [oPanel setCanCreateDirectories:NO];
-    int returnCode = [oPanel runModalForDirectory:DEFAULT_MODULE_PATH file:nil];
-    
-    // if click ok
-    if (returnCode == NSOKButton) {
-        NSString *fileName = [oPanel filename];
-        NSString *modName = [[fileName lastPathComponent] stringByDeletingPathExtension];
-        
+    // check for module name
+    NSString *modName = [createModuleNameTextField stringValue];
+    if([modName length] == 0) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ModuleNameCannotBeEmpty", @"") 
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil 
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"ModuleNameCannotBeEmptyText", @"")];
+        [alert runModal];
+    } else if([[[SwordManager defaultManager] modules] objectForKey:modName] != nil) {
+        // module exists already
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ModuleNameExists", @"") 
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil 
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"ModuleNameExistsText", @"")];
+        [alert runModal];
+    } else {    
         // get file manager
         NSFileManager *fm = [NSFileManager defaultManager];
 
@@ -484,8 +496,16 @@ static AppController *singleton;
         // remove old conf file
         [fm removeFileAtPath:[newModFolder stringByAppendingPathComponent:@"mods.d/personal.conf"] handler:nil];
         
-        [[SwordManager defaultManager] addPath:fileName];
+        [[SwordManager defaultManager] addPath:newModFolder];
+
+        [createModuleWindow close];
+        [NSApp stopModal];
     }
+}
+
+- (IBAction)createCommentaryCancel:(id)sender {
+    [createModuleWindow close];
+    [NSApp stopModal];
 }
 
 #pragma mark - host window delegate methods

@@ -41,6 +41,11 @@ typedef enum AppErrorCodes {
     IBOutlet HUDContentViewController *contentController;
     BOOL isContentShowing;
     
+    // Create module
+    IBOutlet NSWindow *createModuleWindow;
+    IBOutlet NSTextField *createModuleNameTextField;
+    
+    // all window hosts
     NSMutableArray *windowHosts;
 }
 
@@ -62,9 +67,11 @@ typedef enum AppErrorCodes {
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showModuleManager:(id)sender;
 - (IBAction)showPreviewPanel:(id)sender;
+- (IBAction)showCreateModuleWindow:(id)sender;
 
 // module creation
-- (IBAction)createCommentaryModule:(id)sender;
+- (IBAction)createCommentaryOk:(id)sender;
+- (IBAction)createCommentaryCancel:(id)sender;
 
 // host delegate method
 - (void)hostClosing:(NSWindowController *)aHost;
