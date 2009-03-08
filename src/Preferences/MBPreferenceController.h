@@ -21,6 +21,9 @@
 #define DefaultsHeaderViewFontSizeKey               @"DefaultsHeaderViewFontSizeKey"
 #define DefaultsHeaderViewFontSizeBigKey            @"DefaultsHeaderViewFontSizeBigKey"
 
+// cipher keys
+#define DefaultsModuleCipherKeysKey     @"DefaultsModuleCipherKeysKey"
+
 // define some userdefaults keys
 #define DEFAULTS_SWMODULE_PATH_KEY      @"SwordModulePath"
 #define DEFAULTS_SWINSTALLMGR_PATH_KEY  @"SwordInstallMgrPath"

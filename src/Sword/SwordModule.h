@@ -123,10 +123,12 @@ typedef enum {
 - (NSString *)version;
 - (NSString *)minVersion;
 - (NSString *)aboutText;
+- (NSAttributedString *)fullAboutText;
 - (BOOL)isUnicode;
 - (BOOL)isEncrypted;
 - (BOOL)isLocked;
 - (BOOL)isEditable;
+- (BOOL)unlock:(NSString *)unlockKey;
 
 - (BOOL)hasFeature:(NSString *)feature;
 - (NSString *)configEntryForKey:(NSString *)entryKey;

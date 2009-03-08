@@ -12,10 +12,12 @@
 @interface ThreeCellsCell : NSCell {
     NSImage *image;
     NSNumber *numberValue;
+    NSImage *rightImage;
     NSColor *textColor;
 }
 
 @property (retain, readwrite) NSImage *image;
+@property (retain, readwrite) NSImage *rightImage;
 @property (retain, readwrite) NSColor *textColor;
 @property (retain, readwrite) NSNumber *numberValue;
 

@@ -12,6 +12,7 @@
 @implementation ThreeCellsCell
 
 @synthesize image;
+@synthesize rightImage;
 @synthesize numberValue;
 @synthesize textColor;
 
@@ -20,6 +21,7 @@
     if(self) {
         self.numberValue = nil;
         self.image = nil;
+        self.rightImage = nil;
     }
     
     return self;
@@ -33,7 +35,7 @@
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
 	[controlView lockFocus];
     
-    NSRect drawRect = NSMakeRect(0.0, cellFrame.origin.y - 1, cellFrame.size.width + cellFrame.origin.x + 3, cellFrame.size.height + 1);
+    NSRect drawRect = NSMakeRect(0.0, cellFrame.origin.y - 1, cellFrame.size.width + cellFrame.origin.x + 3, cellFrame.size.height);
 
 	if ([self isHighlighted]) {
 		if ([[controlView window] isMainWindow] &&
@@ -54,60 +56,69 @@
 	// titel merken
 	NSString *title = [self stringValue];
 	
-    // image cell
-    NSRect imageFrame;
-    imageFrame = cellFrame;
-    imageFrame.size.width = cellFrame.size.height + 6;  // we set the width of the image to height of cell
-    NSImageCell *imageCell = nil;
-    if(image == nil) {
-        imageFrame.size.width = 0;    
-    } else {
-        imageCell = [[[NSImageCell alloc] initImageCell:[self image]] autorelease];
-        // leave some pixels between the arrow and the image
-        imageFrame.origin.x += 3;
-    }
-    
-    // recessed button cell
-    NSRect buttonFrame;
-    buttonFrame = cellFrame;
-    buttonFrame.size.width = 20;
-    if(numberValue == nil) {
-        buttonFrame.size.width = 0;
-    }
-    buttonFrame.origin.x = cellFrame.size.width - buttonFrame.size.width;
-    
-    NSSegmentedCell *buttonCell = nil;
-    if(numberValue != nil) {
-        buttonCell = [[[NSSegmentedCell alloc] init] autorelease];
-        [buttonCell setSegmentCount:1];
-        [buttonCell setSegmentStyle:NSSegmentStyleCapsule];
-        [buttonCell setControlSize:NSMiniControlSize];
-        [buttonCell setLabel:[numberValue stringValue] forSegment:0];
-        [buttonCell setFont:[self font]];
-    }
-    
 	// hintergrund wird ohne text gepinselt
 	[self setStringValue: @""];
 	// den hintergrund
 	[super drawWithFrame:cellFrame inView:controlView];
 
-	// text cell
-	NSTextFieldCell *textCell = [[[NSTextFieldCell alloc] initTextCell:title] autorelease];
-	[textCell setTextColor:[self textColor]];
-    [textCell setFont:[self font]];    
-    // text cell
+    // left image frame
+    NSRect imageFrame;
+    imageFrame = cellFrame;
+    imageFrame.size.width = cellFrame.size.height + 6;  // we set the width of the image to height of cell
+    // image cell
+    NSImageCell *imageCell = nil;
+    if(image == nil) {
+        imageFrame.size.width = 0;    
+    } else {
+        imageCell = [[NSImageCell alloc] initImageCell:[self image]];
+        [imageCell setImageAlignment:NSImageAlignTop];
+        // leave some pixels between the arrow and the image
+        imageFrame.origin.x += 3;
+    }
+    
+    // right frame
+    NSRect rightFrame;
+    rightFrame = cellFrame;
+    rightFrame.size.width = 20;
+    if(numberValue == nil && rightImage == nil) {
+        rightFrame.size.width = 0;
+    } else if(rightImage != nil) {
+        rightFrame.size.width = [rightImage size].width;
+    }
+    rightFrame.origin.x = (cellFrame.origin.x + cellFrame.size.width) - (rightFrame.size.width + 5);
+    // right cell
+    NSCell *rightCell = nil;
+    if(numberValue != nil) {
+        rightCell = [[NSSegmentedCell alloc] init];
+        [(NSSegmentedCell *)rightCell setSegmentCount:1];
+        [(NSSegmentedCell *)rightCell setSegmentStyle:NSSegmentStyleCapsule];
+        [(NSSegmentedCell *)rightCell setControlSize:NSMiniControlSize];
+        [(NSSegmentedCell *)rightCell setLabel:[numberValue stringValue] forSegment:0];
+        [(NSSegmentedCell *)rightCell setFont:[self font]];
+    } else if(rightImage != nil) {
+        rightCell = [[NSImageCell alloc] initImageCell:rightImage];
+        [(NSImageCell *)rightCell setImageAlignment:NSImageAlignTop];
+    }
+
+    // text frame
 	NSRect textFrame;
 	textFrame = cellFrame;
-	textFrame.origin.x += imageFrame.size.width;
-	textFrame.size.width -= (imageFrame.size.width + buttonFrame.size.width);
-
+	textFrame.origin.x += imageFrame.size.width + 3;
+	textFrame.size.width -= (imageFrame.size.width + rightFrame.size.width);
+	// text cell
+	NSTextFieldCell *textCell = [[NSTextFieldCell alloc] initTextCell:title];
+	[textCell setTextColor:[self textColor]];
+    [textCell setFont:[self font]];
+        
     // draw cells
     if(imageCell) {
         [imageCell drawWithFrame:imageFrame inView:controlView];
     }
+    // draw text cell
 	[textCell drawWithFrame:textFrame inView:controlView];
-    if(buttonCell) {
-        [buttonCell drawWithFrame:buttonFrame inView:controlView];    
+    // draw right cell
+    if(rightCell) {
+        [rightCell drawWithFrame:rightFrame inView:controlView];    
     }
 	
 	// und titel wieder setzen

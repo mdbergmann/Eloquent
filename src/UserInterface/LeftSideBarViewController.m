@@ -36,7 +36,9 @@ enum BookmarkMenu_Items{
 enum ModuleMenu_Items{
     ModuleMenuOpenSingle = 100,
     ModuleMenuOpenWorkspace,
-    ModuleMenuOpenCurrent
+    ModuleMenuOpenCurrent,
+    ModuleMenuShowAbout = 120,
+    ModuleMenuUnlock
 }ModuleMenuItems;
 
 @interface LeftSideBarViewController ()
@@ -75,7 +77,9 @@ enum ModuleMenu_Items{
         // prepare images
         bookmarkGroupImage = [[NSImage imageNamed:@"groupbookmark.tiff"] retain];
         bookmarkImage = [[NSImage imageNamed:@"smallbookmark.tiff"] retain];
-
+        lockedImage = [[NSImage imageNamed:NSImageNameLockLockedTemplate] retain];
+        unlockedImage = [[NSImage imageNamed:NSImageNameLockUnlockedTemplate] retain];
+        
         // register for modules changed notification
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(modulesListChanged:)
@@ -234,13 +238,14 @@ enum ModuleMenu_Items{
     
     BOOL ret = YES; // by default validate this item
     
+    // get module
+    OutlineListObject *clicked = [[outlineView itemAtRow:[outlineView clickedRow]] representedObject];
+
     // get menuitem tag
     int tag = [menuItem tag];
     
     // ------------ modules ---------------
     if(tag == ModuleMenuOpenCurrent) {
-        // get module
-        OutlineListObject *clicked = [[outlineView itemAtRow:[outlineView clickedRow]] representedObject];
         if([clicked objectType] == OutlineItemModule) {
             SwordModule *mod = [clicked listObject];
             
@@ -261,6 +266,15 @@ enum ModuleMenu_Items{
         if(![hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             ret = NO;
         }
+    } else if(tag == ModuleMenuShowAbout) {
+        if([clicked objectType] != OutlineItemModule) {
+            ret = NO;
+        }
+    } else if(tag == ModuleMenuUnlock) {
+        SwordModule *mod = [clicked listObject];
+        if([clicked objectType] != OutlineItemModule || ![mod isLocked]) {            
+            ret = NO;
+        }        
     }
     // ----------------------- bookmarks -----------------------
     else if(tag == BookmarkMenuAddNewBM) {
@@ -286,6 +300,8 @@ enum ModuleMenu_Items{
     
     return ret;
 }
+
+#pragma mark - Actions
 
 - (IBAction)moduleMenuClicked:(id)sender {
 	MBLOGV(MBLOG_DEBUG, @"[LeftSideBarViewController -moduleMenuClicked:] %@", [sender description]);
@@ -316,10 +332,77 @@ enum ModuleMenu_Items{
                 }
             }
         }
+        case ModuleMenuShowAbout:
+        {
+            if(mod != nil) {
+                clickedMod = mod;
+                // get about text as NSAttributedString
+                NSAttributedString *aboutText = [mod fullAboutText];
+                [[moduleAboutTextView textStorage] setAttributedString:aboutText];
+                // open window
+                [NSApp beginSheet:moduleAboutWindow 
+                   modalForWindow:[hostingDelegate window] 
+                    modalDelegate:self 
+                   didEndSelector:nil 
+                      contextInfo:nil];
+            }
+        }
+        case ModuleMenuUnlock:
+        {
+            if(mod != nil) {
+                clickedMod = mod;
+                // open window
+                [NSApp beginSheet:moduleUnlockWindow 
+                   modalForWindow:[hostingDelegate window] 
+                    modalDelegate:self 
+                   didEndSelector:nil 
+                      contextInfo:nil];                
+            }
+        }
     }
 }
 
-#pragma mark - Bookmark methods
+- (IBAction)moduleAboutClose:(id)sender {
+    [moduleAboutWindow close];
+    [NSApp endSheet:moduleAboutWindow];
+    // clear textview
+    [moduleAboutTextView setString:@""];
+}
+
+- (IBAction)moduleUnlockOk:(id)sender {
+    
+    NSString *unlockCode = [moduleUnlockTextField stringValue];
+    if([unlockCode length] > 0) {
+        // do something to unlock
+        SwordModule *mod = clickedMod;        
+        if(mod) {
+            [mod unlock:unlockCode];
+        }        
+
+        [moduleUnlockWindow close];
+        [NSApp endSheet:moduleUnlockWindow];
+        
+        // clear textfield
+        [moduleUnlockTextField setStringValue:@""];
+        
+        // reload item
+        [outlineView reloadData];
+    } else {
+        // show Alert
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"UnlockCodeMayNotBeEmpty", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"")
+                                       alternateButton:nil otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"UnlockCodeMayNotBeEmptyText", @"")];
+        [alert runModal];
+    }
+}
+
+- (IBAction)moduleUnlockCancel:(id)sender {
+    [moduleUnlockWindow close];
+    [NSApp endSheet:moduleUnlockWindow];
+    // clear textfield
+    [moduleUnlockTextField setStringValue:@""];    
+}
 
 - (IBAction)bookmarkMenuClicked:(id)sender {
 	MBLOGV(MBLOG_DEBUG, @"[LeftSideBarViewController -menuClicked:] %@", [sender description]);
@@ -628,30 +711,48 @@ enum ModuleMenu_Items{
     return NO;
 }
 
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
-    if(item != nil) {
+- (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+
+    if(item != nil) {        
         OutlineListObject *o = [item representedObject];
         int t = [o objectType];
         if(t == OutlineItemModuleRoot || t == OutlineItemBookmarkRoot) {
             NSFont *font = FontLargeBold;
+            //float pointSize = [font pointSize];
+            //[aOutlineView setRowHeight:pointSize + 6];
+            
             [cell setFont:font];
             [cell setTextColor:[NSColor grayColor]];
             [(ThreeCellsCell *)cell setImage:nil];
+            [(ThreeCellsCell *)cell setRightImage:nil];
             //[(ThreeCellsCell *)cell setNumberValue:[NSNumber numberWithInt:4]];
             //float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
-            //float pointSize = [font pointSize];
-            //[aOutlineView setRowHeight:pointSize+6];        
         } else {
             NSFont *font = FontStd;
+            //float pointSize = [font pointSize];
+            //[aOutlineView setRowHeight:pointSize + 6];
+            
             [cell setFont:font];
             [cell setTextColor:[NSColor blackColor]];
+            [(ThreeCellsCell *)cell setRightImage:nil];
+            [(ThreeCellsCell *)cell setImage:nil];
             
             if(t == OutlineItemBookmark) {
                 [(ThreeCellsCell *)cell setImage:bookmarkImage];
             } else if(t == OutlineItemBookmarkDir) {
                 [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];            
-            } else {
-                [(ThreeCellsCell *)cell setImage:nil];            
+            } else if(t == OutlineItemModule) {
+                [(ThreeCellsCell *)cell setImage:nil];
+                SwordModule *mod = [o listObject];
+                NSImage *img = nil;
+                if([mod isEncrypted]) {
+                    if([mod isLocked]) {
+                        img = lockedImage;
+                    } else {
+                        img = unlockedImage;                    
+                    }
+                }
+                [(ThreeCellsCell *)cell setRightImage:img];                
             }
         }
     }

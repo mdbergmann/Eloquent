@@ -15,6 +15,8 @@
 #import "rtfhtml.h"
 #import "utils.h"
 #import "SwordManager.h"
+#import "globals.h"
+#import "MBPreferenceController.h"
 
 @interface SwordModule (/* Private, class continuation */)
 /** private property */
@@ -124,6 +126,80 @@
 
 #pragma mark - convenience methods
 
+- (NSAttributedString *)fullAboutText {
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] init];
+    
+    // module Name, book name, type, lang, version, about
+    // module name
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleName", @"") 
+                                                                     attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [self name]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module description
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleDescription", @"")
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [self descr]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module type
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleType", @"") 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [self typeString]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module lang
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleLang", @"") 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [self lang]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module version
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleVersion", @"") 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [self version]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module about
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", NSLocalizedString(@"AboutModuleAboutText", @"")]
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    NSString *aboutStr = [self aboutText];
+    //NSData *aboutData = [NSData dataWithBytes:[aboutStr UTF8String] length:[aboutStr length]];
+    //NSData *aboutData = [NSData dataWithBytes:[aboutStr cStringUsingEncoding:NSISOLatin1StringEncoding] length:[aboutStr length]];
+//    if(aboutData) {
+//        attrString = [[NSAttributedString alloc] initWithRTF:aboutData documentAttributes:nil];
+//    } else {
+        attrString = [[NSAttributedString alloc] initWithString:aboutStr 
+                                                     attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];    
+//    }
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+
+    return ret;
+}
+
 - (NSString *)descr {
     return [NSString stringWithCString:swModule->Description() encoding:NSUTF8StringEncoding];
 }
@@ -175,6 +251,9 @@
     return minVersion;
 }
 
+/**
+ this might be RTF string
+ */
 - (NSString *)aboutText {
     NSString *aboutText = [configEntries objectForKey:SWMOD_CONFENTRY_ABOUT];
     if(aboutText == nil) {
@@ -226,12 +305,30 @@
     BOOL locked = NO;
     NSString *key = [self cipherKey];
     if(key != nil) {
-        if([key length] == 0) {
+        // check user defaults, that's where we store the entered keys
+        NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
+        if([key length] == 0 && [[cipherKeys allKeys] containsObject:[self name]] == NO) {
             locked = YES;
         }
     }
     
     return locked;
+}
+
+/** Sets the unlock key of the modules and writes the key into the pref file */
+- (BOOL)unlock:(NSString *)unlockKey {
+    
+	if (![self isEncrypted]) {
+		return NO;
+    }
+    
+    NSMutableDictionary	*cipherKeys = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:DefaultsModuleCipherKeysKey]];
+    [cipherKeys setObject:unlockKey forKey:[self name]];
+    [userDefaults setObject:cipherKeys forKey:DefaultsModuleCipherKeysKey];
+    
+	[swManager setCipherKey:unlockKey forModuleNamed:[self name]];
+    
+	return YES;
 }
 
 - (id)attributeValueForEntryData:(NSDictionary *)data {

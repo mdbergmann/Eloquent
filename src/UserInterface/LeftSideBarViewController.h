@@ -19,6 +19,14 @@
 
 @interface LeftSideBarViewController : SideBarViewController <SubviewHosting> {
     
+    // module about
+    IBOutlet NSWindow *moduleAboutWindow;
+    IBOutlet NSTextView *moduleAboutTextView;
+    
+    // unlock window
+    IBOutlet NSWindow *moduleUnlockWindow;
+    IBOutlet NSTextField *moduleUnlockTextField;
+    
     // tree controller
     IBOutlet NSTreeController *treeController;
     NSMutableArray *treeContent;
@@ -30,7 +38,7 @@
     IBOutlet NSMenu *bookmarkMenu;
     IBOutlet NSPanel *bookmarkPanel;
     /** the bookmark binding interface controller */
-    IBOutlet NSObjectController *bmObjectController;    
+    IBOutlet NSObjectController *bmObjectController;
     /** the action in sheet */
     int bookmarkAction;
     /** bookmark selection */
@@ -44,6 +52,11 @@
     // images
     NSImage *bookmarkGroupImage;
     NSImage *bookmarkImage;
+    NSImage *lockedImage;
+    NSImage *unlockedImage;
+    
+    // clicked module
+    SwordModule *clickedMod;
     
     // our custom cell
     ThreeCellsCell *threeCellsCell;
@@ -72,5 +85,9 @@
 
 - (IBAction)bmWindowCancel:(id)sender;
 - (IBAction)bmWindowOk:(id)sender;
+
+- (IBAction)moduleAboutClose:(id)sender;
+- (IBAction)moduleUnlockOk:(id)sender;
+- (IBAction)moduleUnlockCancel:(id)sender;
 
 @end

@@ -104,6 +104,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSB];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
     
+    // cipher keys
+    [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleCipherKeysKey];
+    
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];
 }
@@ -250,6 +253,12 @@ static AppController *singleton;
                         
             // init default SwordManager
             SwordManager *sm = [SwordManager defaultManager];
+            // make available all cipher keys to SwordManager
+            NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
+            for(NSString *modName in cipherKeys) {
+                NSString *key = [cipherKeys objectForKey:modName];
+                [sm setCipherKey:key forModuleNamed:modName];
+            }
 
             // init indexingmanager, set base index path
             IndexingManager *im = [IndexingManager sharedManager];

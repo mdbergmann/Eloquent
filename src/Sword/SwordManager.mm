@@ -423,7 +423,7 @@ using std::list;
 
 - (void)setCipherKey:(NSString *)key forModuleNamed:(NSString *)name {
 	[managerLock lock];	
-	swManager->setCipherKey(toLatin1(name), toLatin1(key));
+	swManager->setCipherKey([name UTF8String], [key UTF8String]);
 	[managerLock unlock];
 }
 

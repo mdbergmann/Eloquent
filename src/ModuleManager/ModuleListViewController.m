@@ -35,7 +35,7 @@
     moduleData = anArray;    
 }
 
-- (void)setModuleSelection:(NSArray *)anArray {
+- (void)setModuleSelection:(NSMutableArray *)anArray {
     [anArray retain];
     [moduleSelection release];
     moduleSelection = anArray;    
