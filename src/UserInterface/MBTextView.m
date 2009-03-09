@@ -22,6 +22,21 @@
     return self;
 }
 
+/** we react on save menu item */
+- (IBAction)saveDocument:(id)sender {
+    [[self delegate] saveDocument:sender];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    
+    if([self isEditable] && [menuItem action] == @selector(saveDocument:)) {
+        MBLOG(MBLOG_DEBUG, @"[MBTextView -validateMenuItem:] enabling Save menuItem");
+        return YES;    
+    }
+    
+    return NO;
+}
+
 - (NSMenu *)menuForEvent:(NSEvent *)event {
     MBLOGV(MBLOG_DEBUG, @"[MBTextView -menuForEvent:] %@\n", [event description]);
     

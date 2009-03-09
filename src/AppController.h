@@ -1,11 +1,5 @@
 /* AppController */
 
-// $Author: $
-// $HeadURL: $
-// $LastChangedBy: $
-// $LastChangedDate: $
-// $Rev: $
-
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <ModuleManager.h>
@@ -14,6 +8,7 @@
 @class WorkspaceViewHostController;
 @class HUDPreviewController;
 @class HUDContentViewController;
+@class MBAboutWindowController;
 
 typedef enum AppErrorCodes {
     INIT_SUCCESS = 0,
@@ -41,9 +36,13 @@ typedef enum AppErrorCodes {
     IBOutlet HUDContentViewController *contentController;
     BOOL isContentShowing;
     
+    // About window
+    MBAboutWindowController *aboutWindowController;
+    
     // Create module
     IBOutlet NSWindow *createModuleWindow;
     IBOutlet NSTextField *createModuleNameTextField;
+    IBOutlet NSButton *createModuleOKButton;
     
     // all window hosts
     NSMutableArray *windowHosts;

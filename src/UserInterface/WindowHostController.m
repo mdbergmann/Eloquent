@@ -445,11 +445,7 @@ typedef enum _NavigationDirectionType {
 #pragma mark - Actions
 
 - (IBAction)fullScreenModeOnOff:(id)sender {
-    if([mainSplitView isInFullScreenMode]) {
-        [mainSplitView exitFullScreenModeWithOptions:nil];
-    } else {
-        [mainSplitView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-    }
+    [self setFullScreenMode:![self isFullScreenMode]];
 }
 
 - (IBAction)leftSideBarHideShow:(id)sender {
@@ -534,6 +530,18 @@ typedef enum _NavigationDirectionType {
         navigationAction = YES;
         [self setSearchText:sstr];
     }    
+}
+
+#pragma mark - Events
+
+- (void)keyDown:(NSEvent *)theEvent {
+    // Escape key?
+    if([theEvent keyCode] == '\033') {
+        // are we in full screen mode?
+        if([self isFullScreenMode]) {
+            [self setFullScreenMode:NO];
+        }        
+    }
 }
 
 #pragma mark - Methods
@@ -749,6 +757,18 @@ typedef enum _NavigationDirectionType {
         [[navigationSegControl cell] setEnabled:NO forSegment:0];
         [[navigationSegControl cell] setEnabled:NO forSegment:1];        
     }    
+}
+
+- (BOOL)isFullScreenMode {
+    return [mainSplitView isInFullScreenMode];
+}
+
+- (void)setFullScreenMode:(BOOL)flag {
+    if(flag) {
+        [mainSplitView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    } else {
+        [mainSplitView exitFullScreenModeWithOptions:nil];
+    }
 }
 
 #pragma mark - NSSplitView delegate methods

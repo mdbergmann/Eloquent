@@ -107,6 +107,9 @@ enum ModuleMenu_Items{
     NSTableColumn *tableColumn = [outlineView tableColumnWithIdentifier:@"common"];
     [tableColumn setDataCell:threeCellsCell];    
     
+    // this text field shuld send continiuously
+    [moduleUnlockTextField setContinuous:YES];
+    
     // set drag & drop types
     [outlineView registerForDraggedTypes:[NSArray arrayWithObject:DD_BOOKMARK_TYPE]];
     
@@ -272,7 +275,7 @@ enum ModuleMenu_Items{
         }
     } else if(tag == ModuleMenuUnlock) {
         SwordModule *mod = [clicked listObject];
-        if([clicked objectType] != OutlineItemModule || ![mod isLocked]) {            
+        if([clicked objectType] != OutlineItemModule || ![mod isEncrypted]) {            
             ret = NO;
         }        
     }
@@ -377,7 +380,7 @@ enum ModuleMenu_Items{
         SwordModule *mod = clickedMod;        
         if(mod) {
             [mod unlock:unlockCode];
-        }        
+        }
 
         [moduleUnlockWindow close];
         [NSApp endSheet:moduleUnlockWindow];
@@ -387,13 +390,6 @@ enum ModuleMenu_Items{
         
         // reload item
         [outlineView reloadData];
-    } else {
-        // show Alert
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"UnlockCodeMayNotBeEmpty", @"")
-                                         defaultButton:NSLocalizedString(@"OK", @"")
-                                       alternateButton:nil otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"UnlockCodeMayNotBeEmptyText", @"")];
-        [alert runModal];
     }
 }
 
@@ -525,6 +521,18 @@ enum ModuleMenu_Items{
 - (void)sheetDidEnd:(NSWindow *)sSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	// hide sheet
 	[sSheet orderOut:nil];
+}
+
+#pragma mark - NSControl delegate methods
+
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+    if([aNotification object] == moduleUnlockTextField) {
+        if([[moduleUnlockTextField stringValue] length] == 0) {
+            [moduleUnlockOKButton setEnabled:NO];
+        } else {
+            [moduleUnlockOKButton setEnabled:YES];        
+        }        
+    }
 }
 
 #pragma mark - outline datasource methods

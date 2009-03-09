@@ -29,7 +29,7 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     
     // modulePath
-    NSString *modPath = [DEFAULT_MODULE_PATH stringByAppendingPathComponent:aName];
+    NSString *modPath = [DEFAULT_MODULE_PATH stringByAppendingFormat:@"/%@.swd", aName];
     if([fm fileExistsAtPath:modPath]) {
         MBLOGV(MBLOG_ERR, @"[SwordCommentary -createCommentaryWithName:] path exists already for mod: %@", aName);
     } else {
@@ -46,21 +46,21 @@
         [fm createDirectoryAtPath:dataPath attributes:nil];
         dataPath = [dataPath stringByAppendingPathComponent:@"comments"];
         [fm createDirectoryAtPath:dataPath attributes:nil];
-        dataPath = [dataPath stringByAppendingPathComponent:@"rawcom"];
+        dataPath = [dataPath stringByAppendingPathComponent:@"rawfiles"];
         [fm createDirectoryAtPath:dataPath attributes:nil];
         dataPath = [dataPath stringByAppendingPathComponent:aName];
         [fm createDirectoryAtPath:dataPath attributes:nil];
         
         // let's create a brand new empty module
-        sword::RawCom::createModule([dataPath UTF8String]);
+        sword::RawFiles::createModule([dataPath UTF8String]);
         // let's add our .conf file
-        sword::SWConfig newConf([[modsdPath stringByAppendingFormat:@"/%@.conf"] UTF8String]);
-        char *aNameCStr = [aName UTF8String];
-        newConf[aNameCStr]["DataPath"] = [[NSString stringWithFormat:@"./modules/comments/rawcom/%@", aName] UTF8String];
-        newConf[aNameCStr]["ModDrv"] = "RawCom";
+        sword::SWConfig newConf([[modsdPath stringByAppendingFormat:@"/%@.conf", aName] UTF8String]);
+        const char *aNameCStr = [aName UTF8String];
+        newConf[aNameCStr]["DataPath"] = [[NSString stringWithFormat:@"./modules/comments/rawfiles/%@", aName] UTF8String];
+        newConf[aNameCStr]["ModDrv"] = "RawFiles";
         newConf[aNameCStr]["SourceType"] = "ThML";
-        newConf[aNameCStr]["Decription"] = "Commentary module";
-        newConf[aNameCStr]["About"] = "...";
+        newConf[aNameCStr]["Editable"] = "YES";
+        newConf[aNameCStr]["About"] = "This module allows you to store your own commentary.";
         newConf.Save();        
         
         /*

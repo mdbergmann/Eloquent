@@ -1,15 +1,11 @@
 
-// $Author: $
-// $HeadURL: $
-// $LastChangedBy: $
-// $LastChangedDate: $
-// $Rev: $
-
 #import "AppController.h"
 #import "MBPreferenceController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
+#import "MBAboutWindowController.h"
 #import "SwordManager.h"
+#import "SwordCommentary.h"
 #import "SwordInstallSourceController.h"
 #import "SwordInstallSource.h"
 #import "MBThreadedProgressSheetController.h"
@@ -405,12 +401,17 @@ static AppController *singleton;
         [preferenceController showWindow:self];
         isPreferencesShowing = YES;
     } else {
-        [preferenceController close];    
+        [preferenceController close];
         isPreferencesShowing = NO;
     }
 }
 
 - (IBAction)showAboutWindow:(id)sender {
+    if(aboutWindowController == nil) {
+        aboutWindowController = [[MBAboutWindowController alloc] init];
+    }
+    
+    [aboutWindowController showWindow:self];
 }
 
 /**
@@ -462,14 +463,7 @@ static AppController *singleton;
     
     // check for module name
     NSString *modName = [createModuleNameTextField stringValue];
-    if([modName length] == 0) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ModuleNameCannotBeEmpty", @"") 
-                                         defaultButton:NSLocalizedString(@"OK", @"") 
-                                       alternateButton:nil 
-                                           otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"ModuleNameCannotBeEmptyText", @"")];
-        [alert runModal];
-    } else if([[[SwordManager defaultManager] modules] objectForKey:modName] != nil) {
+    if([[[SwordManager defaultManager] modules] objectForKey:modName] != nil) {
         // module exists already
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ModuleNameExists", @"") 
                                          defaultButton:NSLocalizedString(@"OK", @"") 
@@ -477,7 +471,8 @@ static AppController *singleton;
                                            otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"ModuleNameExistsText", @"")];
         [alert runModal];
-    } else {    
+    } else {
+        /*
         // get file manager
         NSFileManager *fm = [NSFileManager defaultManager];
 
@@ -504,8 +499,12 @@ static AppController *singleton;
         [confStr writeToFile:confStrNew atomically:YES encoding:NSUTF8StringEncoding error:nil];
         // remove old conf file
         [fm removeFileAtPath:[newModFolder stringByAppendingPathComponent:@"mods.d/personal.conf"] handler:nil];
+         */
         
-        [[SwordManager defaultManager] addPath:newModFolder];
+        NSString *modPath = [SwordCommentary createCommentaryWithName:modName];
+        if(modPath != nil) {
+            [[SwordManager defaultManager] addPath:modPath];        
+        }        
 
         [createModuleWindow close];
         [NSApp stopModal];
@@ -515,6 +514,18 @@ static AppController *singleton;
 - (IBAction)createCommentaryCancel:(id)sender {
     [createModuleWindow close];
     [NSApp stopModal];
+}
+
+#pragma mark - NSControl delegate methods
+
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+    if([aNotification object] == createModuleNameTextField) {
+        if([[createModuleNameTextField stringValue] length] == 0) {
+            [createModuleOKButton setEnabled:NO];
+        } else {
+            [createModuleOKButton setEnabled:YES];        
+        }
+    }
 }
 
 #pragma mark - host window delegate methods

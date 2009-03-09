@@ -16,7 +16,6 @@
 		A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90545B70E62F11900CF4D18 /* DictionaryView.xib */; };
 		A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
-		A90F05450F6167FF00E2D0FB /* Personal in Resources */ = {isa = PBXBuildFile; fileRef = A90F05340F6167FF00E2D0FB /* Personal */; };
 		A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */ = {isa = PBXBuildFile; fileRef = A913C2BE0EC182E200A85F8D /* sword2.icns */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
 		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
@@ -87,6 +86,8 @@
 		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B45CF00EF5B64E00B63848 /* libsword-1.5.11.svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a */; };
+		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
+		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
 		A9C0F4230EFD67F700CFDF06 /* MBConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */; };
 		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
@@ -119,6 +120,8 @@
 		A9E821010E0B95C70020A64E /* ScrollSynchronizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */; };
 		A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
 		A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
+		A9E9E29C0F650544007C4AB2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A9E9E29A0F650544007C4AB2 /* Credits.rtf */; };
+		A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.mm */; };
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
 		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
@@ -173,7 +176,6 @@
 		A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_gradient.png; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
-		A90F05340F6167FF00E2D0FB /* Personal */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Personal; path = Resources/Personal; sourceTree = "<group>"; };
 		A913C2BE0EC182E200A85F8D /* sword2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sword2.icns; sourceTree = "<group>"; };
 		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
 		A916FCDD0E053910009CAA2F /* ModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleViewController.h; path = src/UserInterface/ModuleViewController.h; sourceTree = "<group>"; };
@@ -230,7 +232,7 @@
 		A91C940A0DF9B149006B7361 /* SwordBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBook.h; sourceTree = "<group>"; };
 		A91C940B0DF9B149006B7361 /* SwordBook.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBook.mm; sourceTree = "<group>"; };
 		A91C940C0DF9B149006B7361 /* SwordCommentary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordCommentary.h; sourceTree = "<group>"; };
-		A91C940D0DF9B149006B7361 /* SwordCommentary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordCommentary.m; sourceTree = "<group>"; };
+		A91C940D0DF9B149006B7361 /* SwordCommentary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordCommentary.mm; sourceTree = "<group>"; };
 		A91C940E0DF9B149006B7361 /* SwordDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordDictionary.h; sourceTree = "<group>"; };
 		A91C940F0DF9B149006B7361 /* SwordDictionary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordDictionary.mm; sourceTree = "<group>"; };
 		A91C94100DF9B149006B7361 /* SwordInstallSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordInstallSource.h; sourceTree = "<group>"; };
@@ -293,6 +295,9 @@
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
 		A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordModuleTest.h; path = test/SwordModuleTest.h; sourceTree = "<group>"; };
 		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordModuleTest.m; path = test/SwordModuleTest.m; sourceTree = "<group>"; };
+		A9B7441B0F646223001960B0 /* MBAboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAboutWindowController.h; sourceTree = "<group>"; };
+		A9B7441C0F646223001960B0 /* MBAboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAboutWindowController.m; sourceTree = "<group>"; };
+		A9B7441F0F646346001960B0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
 		A9C0F4060EFD67DA00CFDF06 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
 		A9C0F4210EFD67F700CFDF06 /* MBConfirmationSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBConfirmationSheetController.h; sourceTree = "<group>"; };
 		A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBConfirmationSheetController.m; sourceTree = "<group>"; };
@@ -336,6 +341,7 @@
 		A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bookmark.m; path = src/Bookmarks/Bookmark.m; sourceTree = "<group>"; };
 		A9E8BD2D0EADB01700E58D1E /* BookmarkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManager.h; path = src/Bookmarks/BookmarkManager.h; sourceTree = "<group>"; };
 		A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManager.m; path = src/Bookmarks/BookmarkManager.m; sourceTree = "<group>"; };
+		A9E9E29B0F650544007C4AB2 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		A9F184610E0811C8005F3B35 /* HostableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostableViewController.h; path = src/UserInterface/HostableViewController.h; sourceTree = "<group>"; };
 		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
 		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
@@ -433,6 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				A9D9F5260EAF15410035222E /* Tests */,
+				A9B7441A0F646223001960B0 /* About */,
 				A9FD341C0E0A70F6001287DD /* Preferences */,
 				A91C93EB0DF9B149006B7361 /* Indexing */,
 				A91C93F80DF9B149006B7361 /* InstallerConsole */,
@@ -464,12 +471,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A90F05340F6167FF00E2D0FB /* Personal */,
+				A9E9E29A0F650544007C4AB2 /* Credits.rtf */,
 				A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */,
 				A91A23370E61955000382F44 /* Icons */,
 				A9F61C210E01028700C3A0EF /* locales.d */,
 				A992B52A0DF9AD6E00207967 /* Localizable.strings */,
 				A992B52C0DF9AD6E00207967 /* MainMenu.xib */,
+				A9B7441E0F646346001960B0 /* About.xib */,
 				A992B52E0DF9AD6E00207967 /* ModuleManager.xib */,
 				A992B5300DF9AD6E00207967 /* ModuleManageView.xib */,
 				A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */,
@@ -602,7 +610,7 @@
 				A91C940A0DF9B149006B7361 /* SwordBook.h */,
 				A91C940B0DF9B149006B7361 /* SwordBook.mm */,
 				A91C940C0DF9B149006B7361 /* SwordCommentary.h */,
-				A91C940D0DF9B149006B7361 /* SwordCommentary.m */,
+				A91C940D0DF9B149006B7361 /* SwordCommentary.mm */,
 				A91C940E0DF9B149006B7361 /* SwordDictionary.h */,
 				A91C940F0DF9B149006B7361 /* SwordDictionary.mm */,
 				A91C94100DF9B149006B7361 /* SwordInstallSource.h */,
@@ -704,6 +712,16 @@
 				A9D450C50F59884A001617B1 /* NSImage+Additions.m */,
 			);
 			name = HelperObjects;
+			sourceTree = "<group>";
+		};
+		A9B7441A0F646223001960B0 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				A9B7441B0F646223001960B0 /* MBAboutWindowController.h */,
+				A9B7441C0F646223001960B0 /* MBAboutWindowController.m */,
+			);
+			name = About;
+			path = src/About;
 			sourceTree = "<group>";
 		};
 		A9C0F4200EFD67F700CFDF06 /* ConfirmationDialog */ = {
@@ -895,7 +913,8 @@
 				A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */,
 				A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */,
 				A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */,
-				A90F05450F6167FF00E2D0FB /* Personal in Resources */,
+				A9B744200F646346001960B0 /* About.xib in Resources */,
+				A9E9E29C0F650544007C4AB2 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -990,6 +1009,8 @@
 				A9D450C60F59884A001617B1 /* NSImage+Additions.m in Sources */,
 				A9000E220F6114D300F07F3E /* CTGradient.m in Sources */,
 				A9000E6E0F611BE700F07F3E /* GradientCell.m in Sources */,
+				A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */,
+				A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1103,6 +1124,14 @@
 			name = ThreadedProgressSheet.xib;
 			sourceTree = "<group>";
 		};
+		A9B7441E0F646346001960B0 /* About.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9B7441F0F646346001960B0 /* English */,
+			);
+			name = About.xib;
+			sourceTree = "<group>";
+		};
 		A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1149,6 +1178,14 @@
 				A9DFBC3F0EF6ECF30061BE19 /* English */,
 			);
 			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		A9E9E29A0F650544007C4AB2 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9E9E29B0F650544007C4AB2 /* English */,
+			);
+			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 		A9F185480E083117005F3B35 /* WebView.xib */ = {

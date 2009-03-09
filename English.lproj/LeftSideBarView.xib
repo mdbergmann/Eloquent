@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="118"/>
+			<integer value="121"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -518,8 +518,9 @@
 				<string key="NSWindowTitle">Module About</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
+				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="597614902">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -536,9 +537,8 @@
 										<object class="NSTextView" id="1023875876">
 											<reference key="NSNextResponder" ref="919262442"/>
 											<int key="NSvFlags">2322</int>
-											<string key="NSFrameSize">{539, 67}</string>
+											<string key="NSFrameSize">{539, 14}</string>
 											<reference key="NSSuperview" ref="919262442"/>
-											<reference key="NSWindow"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="117037090">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -605,14 +605,13 @@
 												<nil key="NSDefaultParagraphStyle"/>
 											</object>
 											<int key="NSTVFlags">6</int>
-											<string key="NSMaxSize">{539, 1e+07}</string>
-											<string key="NSMinize">{223, 67}</string>
+											<string key="NSMaxSize">{1080, 1e+07}</string>
+											<string key="NSMinize">{223, 0}</string>
 											<nil key="NSDelegate"/>
 										</object>
 									</object>
 									<string key="NSFrame">{{1, 1}, {539, 397}}</string>
 									<reference key="NSSuperview" ref="550100237"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1023875876"/>
 									<reference key="NSDocView" ref="1023875876"/>
 									<reference key="NSBGColor" ref="1048835783"/>
@@ -627,7 +626,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{525, 1}, {15, 397}}</string>
 									<reference key="NSSuperview" ref="550100237"/>
-									<reference key="NSWindow"/>
 									<reference key="NSTarget" ref="550100237"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">9.695122e-01</double>
@@ -637,7 +635,6 @@
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="550100237"/>
-									<reference key="NSWindow"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="550100237"/>
 									<string key="NSAction">_doScroller:</string>
@@ -647,7 +644,6 @@
 							</object>
 							<string key="NSFrame">{{20, 60}, {541, 399}}</string>
 							<reference key="NSSuperview" ref="597614902"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="919262442"/>
 							<int key="NSsFlags">530</int>
 							<reference key="NSVScroller" ref="1018783104"/>
@@ -659,7 +655,6 @@
 							<int key="NSvFlags">288</int>
 							<string key="NSFrame">{{242, 12}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="597614902"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="698477685">
 								<int key="NSCellFlags">67239424</int>
@@ -677,8 +672,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{581, 479}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
@@ -691,6 +684,7 @@
 				<string key="NSWindowTitle">Module unlocking</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
+				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="623847372">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -736,7 +730,7 @@
 							<reference key="NSSuperview" ref="623847372"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="658977707">
-								<int key="NSCellFlags">67239424</int>
+								<int key="NSCellFlags">604110336</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">OK</string>
 								<reference key="NSSupport" ref="25404308"/>
@@ -1099,6 +1093,30 @@
 						<reference key="destination" ref="208973089"/>
 					</object>
 					<int key="connectionID">130</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">moduleUnlockOKButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="964510339"/>
+					</object>
+					<int key="connectionID">131</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="208973089"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">134</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">moduleUnlockTextEntered:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="206469664"/>
+					</object>
+					<int key="connectionID">135</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1637,9 +1655,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{16, 707}, {480, 127}}</string>
+					<string>{{31, 687}, {480, 127}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{16, 707}, {480, 127}}</string>
+					<string>{{31, 687}, {480, 127}}</string>
 					<reference ref="6"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1711,7 +1729,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">130</int>
+			<int key="maxID">135</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1756,9 +1774,11 @@
 							<string>moduleMenuClicked:</string>
 							<string>moduleUnlockCancel:</string>
 							<string>moduleUnlockOk:</string>
+							<string>moduleUnlockTextEntered:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1779,6 +1799,7 @@
 							<string>moduleAboutTextView</string>
 							<string>moduleAboutWindow</string>
 							<string>moduleMenu</string>
+							<string>moduleUnlockOKButton</string>
 							<string>moduleUnlockTextField</string>
 							<string>moduleUnlockWindow</string>
 							<string>treeController</string>
@@ -1791,6 +1812,7 @@
 							<string>NSTextView</string>
 							<string>NSWindow</string>
 							<string>NSMenu</string>
+							<string>NSButton</string>
 							<string>NSTextField</string>
 							<string>NSWindow</string>
 							<string>NSTreeController</string>

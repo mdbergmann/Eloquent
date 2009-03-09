@@ -26,6 +26,7 @@
     // unlock window
     IBOutlet NSWindow *moduleUnlockWindow;
     IBOutlet NSTextField *moduleUnlockTextField;
+    IBOutlet NSButton *moduleUnlockOKButton;
     
     // tree controller
     IBOutlet NSTreeController *treeController;

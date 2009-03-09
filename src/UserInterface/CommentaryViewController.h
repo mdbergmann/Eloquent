@@ -33,5 +33,7 @@
 
 // actions
 - (IBAction)toggleEdit:(id)sender;
+/** we are overriding this method so user can just press <Command>S to save */
+- (IBAction)saveDocument:(id)sender;
 
 @end

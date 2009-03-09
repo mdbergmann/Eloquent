@@ -26,7 +26,7 @@ if [ $TARGET = "" ]; then
 fi
 
 # write build number (svn commit) to Info.plist
-#./writeBuildToInfoPlist.pl
+./writeBuildToInfoPlist.pl
 
 # build Deployment version
 xcodebuild -target "$TARGET" -configuration "$CONFIG" clean build
@@ -45,10 +45,8 @@ mkdir "$DESTPATH";
 # copy app and userguide
 cp -r "$BUILD_DIR/$CONFIG/$TARGET.app" "$DESTPATH/";
 cp -r "$SRCROOT/Readmes" "$DESTPATH/";
-# create new update_ikam.plist
 DMGARCHIVE="$TARGET-${BUNDLEVERSION}.dmg";
 ZIPARCHIVE="$DMGARCHIVE.zip";
-#$SRCROOT/genUpdateDict.pl -version="$BUNDLEVERSION" -build="$BUILDSTR" -url="http://www.software-by-mabe.com/download/$ZIPARCHIVE" -o="$SRCROOT/../ikam_update.plist";
 # create disk image
 echo "Destpath: $DESTPATH";
 hdiutil create -srcfolder "$DESTPATH" "$SRCROOT/../../$DMGARCHIVE";
@@ -58,4 +56,3 @@ cd "$SRCROOT/../..";
 zip "$ZIPARCHIVE" "$DMGARCHIVE";
 
 exit 0
-

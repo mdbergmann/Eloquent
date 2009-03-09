@@ -15,8 +15,8 @@
 #import <SwordBible.h>
 
 #ifdef __cplusplus
-#include <rawcom.h>
-class sword::RawCom;
+#include <rawfiles.h>
+class sword::RawFiles;
 class sword::SWConfig;
 #endif
 

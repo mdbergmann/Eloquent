@@ -107,6 +107,10 @@
 /** change the module type that is currently displaying */
 - (void)adaptUIToCurrentlyDisplayingModuleType;
 
+/** are we in full screen mode */
+- (BOOL)isFullScreenMode;
+- (void)setFullScreenMode:(BOOL)flag;
+
 // WindowHosting
 - (ModuleType)moduleType;
 

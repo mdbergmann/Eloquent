@@ -35,7 +35,7 @@
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
 	[controlView lockFocus];
     
-    NSRect drawRect = NSMakeRect(0.0, cellFrame.origin.y - 1, cellFrame.size.width + cellFrame.origin.x + 3, cellFrame.size.height);
+    NSRect drawRect = NSMakeRect(0.0, cellFrame.origin.y - 0.5, cellFrame.size.width + cellFrame.origin.x + 3, cellFrame.size.height);
 
 	if ([self isHighlighted]) {
 		if ([[controlView window] isMainWindow] &&
@@ -71,7 +71,7 @@
         imageFrame.size.width = 0;    
     } else {
         imageCell = [[NSImageCell alloc] initImageCell:[self image]];
-        [imageCell setImageAlignment:NSImageAlignTop];
+        [imageCell setImageAlignment:NSImageAlignCenter];
         // leave some pixels between the arrow and the image
         imageFrame.origin.x += 3;
     }
@@ -97,7 +97,7 @@
         [(NSSegmentedCell *)rightCell setFont:[self font]];
     } else if(rightImage != nil) {
         rightCell = [[NSImageCell alloc] initImageCell:rightImage];
-        [(NSImageCell *)rightCell setImageAlignment:NSImageAlignTop];
+        [(NSImageCell *)rightCell setImageAlignment:NSImageAlignCenter];
     }
 
     // text frame

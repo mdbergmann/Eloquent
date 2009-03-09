@@ -76,6 +76,10 @@
     [self reportLoadingComplete];
 }
 
+/** pass though to delegate */
+- (IBAction)saveDocument:(id)sender {
+    [delegate saveDocument:sender];
+}
 
 #pragma mark - getter/setter
 

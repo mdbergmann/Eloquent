@@ -22,6 +22,8 @@
 @interface CommentaryViewController ()
 /** generates HTML for display */
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
+/** stores the edited comment */
+- (void)saveCommentaryText;
 @end
 
 @implementation CommentaryViewController
@@ -228,6 +230,49 @@
     return ret;
 }
 
+- (void)saveCommentaryText {
+    // go through the text and store it
+    NSAttributedString *attrString = [[textViewController textView] attributedString];
+    NSString *text = [[textViewController textView] string];
+    NSArray *lines = [text componentsSeparatedByString:@"\n"];
+    long lineStartIndex = 0;
+    NSString *currentVerse = nil;
+    NSMutableString *currentText = [NSMutableString string];
+    for(int i = 0;i < [lines count];i++) {
+        NSMutableString *line = [NSMutableString stringWithString:[lines objectAtIndex:i]];
+        // add new line for all lines except the last
+        if(i < [lines count]-1) {
+            [line appendString:@"\n"];
+        }
+        // linestart still in range?
+        if(lineStartIndex < [text length]) {
+            NSDictionary *attrs = [attrString attributesAtIndex:lineStartIndex effectiveRange:nil];
+            if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER]) {
+                
+                // if we had a text before, store it under the current verse
+                if(currentVerse != nil && [currentText length] > 0) {
+                    // remove last '\n' if there
+                    if([currentText hasSuffix:@"\n"]) {
+                        [currentText replaceCharactersInRange:NSMakeRange([currentText length]-1, 1) withString:@""];
+                    }
+                    // replace all '\n' characters with <br/>
+                    [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
+                    [module writeEntry:currentText forRef:currentVerse];
+                    // reset currentText
+                    currentText = [NSMutableString string];
+                }
+                
+                // this is a verse marker
+                currentVerse = [attrs objectForKey:TEXT_VERSE_MARKER];
+            } else {
+                [currentText appendString:line];
+            }
+            
+            lineStartIndex += [line length];                
+        }
+    }    
+}
+
 - (NSString *)label {
     if(module != nil) {
         return [module name];
@@ -288,46 +333,9 @@
         // set the delegate back to where it belongs
         [[textViewController textView] setDelegate:textViewController];
 
-        // go through the text and store it
-        NSAttributedString *attrString = [[textViewController textView] attributedString];
-        NSString *text = [[textViewController textView] string];
-        NSArray *lines = [text componentsSeparatedByString:@"\n"];
-        long lineStartIndex = 0;
-        NSString *currentVerse = nil;
-        NSMutableString *currentText = [NSMutableString string];
-        for(int i = 0;i < [lines count];i++) {
-            NSMutableString *line = [NSMutableString stringWithString:[lines objectAtIndex:i]];
-            // add new line for all lines except the last
-            if(i < [lines count]-1) {
-                [line appendString:@"\n"];
-            }
-            // linestart still in range?
-            if(lineStartIndex < [text length]) {
-                NSDictionary *attrs = [attrString attributesAtIndex:lineStartIndex effectiveRange:nil];
-                if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER]) {
-                    
-                    // if we had a text before, store it under the current verse
-                    if(currentVerse != nil && [currentText length] > 0) {
-                        // remove last '\n' if there
-                        if([currentText hasSuffix:@"\n"]) {
-                            [currentText replaceCharactersInRange:NSMakeRange([currentText length]-1, 1) withString:@""];
-                        }
-                        // replace all '\n' characters with <br/>
-                        [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
-                        [module writeEntry:currentText forRef:currentVerse];
-                        // reset currentText
-                        currentText = [NSMutableString string];
-                    }
-                    
-                    // this is a verse marker
-                    currentVerse = [attrs objectForKey:TEXT_VERSE_MARKER];
-                } else {
-                    [currentText appendString:line];
-                }
-                
-                lineStartIndex += [line length];                
-            }
-        }
+        // store text
+        [self saveCommentaryText];
+        [editButton setTitle:NSLocalizedString(@"Edit", @"")];
         
         // force redisplay
         forceRedisplay = YES;
@@ -335,6 +343,15 @@
     }
     
     editEnabled = !editEnabled;
+}
+
+- (IBAction)saveDocument:(id)sender {
+    // store text
+    [self saveCommentaryText];
+
+    // text has changed, change the label of the Edit button to indicate that hacnges have been made
+    [editButton setTitle:NSLocalizedString(@"Edit", @"")];
+    [editButton setTextColor:[NSColor redColor]];
 }
 
 #pragma mark - NSTextView delegate methods
@@ -349,6 +366,10 @@
         }
     }
 
+    // text has changed, change the label of the Edit button to indicate that hacnges have been made
+    [editButton setTitle:[NSString stringWithFormat:@"*%@", NSLocalizedString(@"Edit", @"")]];
+    [editButton setTextColor:[NSColor redColor]];
+    
     return YES;
 }
 
