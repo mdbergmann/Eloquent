@@ -12,9 +12,22 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "SwordBible.h"
+#import <SwordBible.h>
+
+#ifdef __cplusplus
+#include <rawcom.h>
+class sword::RawCom;
+class sword::SWConfig;
+#endif
 
 @interface SwordCommentary : SwordBible {
 }
+
+/** 
+ creates a new empty editable commentary module 
+ caller has to make sure the module doesn't exist yet
+ @return path of the created module
+ */
++ (NSString *)createCommentaryWithName:(NSString *)aName;
 
 @end
