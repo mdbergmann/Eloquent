@@ -20,12 +20,13 @@
 
 @class ScopeBarView;
 @class SearchTextObject;
+@class FullScreenSplitView;
 @class LeftSideBarViewController;
 @class RightSideBarViewController;
 
-@interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
+@interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting, FullScreenCapability> {
     // splitView to add and remove modules view. splitview hosts placeHolderView
-    IBOutlet NSSplitView *mainSplitView;
+    IBOutlet FullScreenSplitView *mainSplitView;
     // the contentview of the window
     IBOutlet NSView *view;
     // splitView for placeholderview
@@ -107,10 +108,6 @@
 /** change the module type that is currently displaying */
 - (void)adaptUIToCurrentlyDisplayingModuleType;
 
-/** are we in full screen mode */
-- (BOOL)isFullScreenMode;
-- (void)setFullScreenMode:(BOOL)flag;
-
 // WindowHosting
 - (ModuleType)moduleType;
 
@@ -130,9 +127,9 @@
 - (IBAction)navigationAction:(id)sender;
 
 // menu first responder actions
+- (IBAction)fullScreenModeOnOff:(id)sender;
 - (IBAction)leftSideBarHideShow:(id)sender;
 - (IBAction)rightSideBarHideShow:(id)sender;
-- (IBAction)fullScreenModeOnOff:(id)sender;
 - (IBAction)switchToRefLookup:(id)sender;
 - (IBAction)switchToIndexLookup:(id)sender;
 - (IBAction)navigationBack:(id)sender;

@@ -28,6 +28,13 @@
 - (void)mouseExited:(NSView *)theView;
 @end
 
+/** protocol for full screen views */
+@protocol FullScreenCapability
+- (BOOL)isFullScreenMode;
+- (void)setFullScreenMode:(BOOL)flag;
+- (IBAction)fullScreenModeOnOff:(id)sender;
+@end
+
 @protocol TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 - (NSView *)referenceOptionsView;

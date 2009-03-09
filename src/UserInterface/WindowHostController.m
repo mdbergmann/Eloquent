@@ -16,6 +16,7 @@
 #import "SwordManager.h"
 #import "ScopeBarView.h"
 #import "NSImage+Additions.h"
+#import "FullScreenSplitView.h"
 
 @implementation WindowHostController
 
@@ -445,7 +446,7 @@ typedef enum _NavigationDirectionType {
 #pragma mark - Actions
 
 - (IBAction)fullScreenModeOnOff:(id)sender {
-    [self setFullScreenMode:![self isFullScreenMode]];
+    [mainSplitView setFullScreenMode:![mainSplitView isFullScreenMode]];
 }
 
 - (IBAction)leftSideBarHideShow:(id)sender {
@@ -538,8 +539,8 @@ typedef enum _NavigationDirectionType {
     // Escape key?
     if([theEvent keyCode] == '\033') {
         // are we in full screen mode?
-        if([self isFullScreenMode]) {
-            [self setFullScreenMode:NO];
+        if([mainSplitView isFullScreenMode]) {
+            [mainSplitView setFullScreenMode:NO];
         }        
     }
 }
@@ -757,18 +758,6 @@ typedef enum _NavigationDirectionType {
         [[navigationSegControl cell] setEnabled:NO forSegment:0];
         [[navigationSegControl cell] setEnabled:NO forSegment:1];        
     }    
-}
-
-- (BOOL)isFullScreenMode {
-    return [mainSplitView isInFullScreenMode];
-}
-
-- (void)setFullScreenMode:(BOOL)flag {
-    if(flag) {
-        [mainSplitView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-    } else {
-        [mainSplitView exitFullScreenModeWithOptions:nil];
-    }
 }
 
 #pragma mark - NSSplitView delegate methods

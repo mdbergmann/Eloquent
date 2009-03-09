@@ -334,6 +334,7 @@ enum ModuleMenu_Items{
                     [(BibleCombiViewController *)[hostingDelegate contentViewController] addNewCommentViewWithModule:(SwordCommentary *)mod];                    
                 }
             }
+            break;
         }
         case ModuleMenuShowAbout:
         {
@@ -349,6 +350,7 @@ enum ModuleMenu_Items{
                    didEndSelector:nil 
                       contextInfo:nil];
             }
+            break;
         }
         case ModuleMenuUnlock:
         {
@@ -361,6 +363,7 @@ enum ModuleMenu_Items{
                    didEndSelector:nil 
                       contextInfo:nil];                
             }
+            break;
         }
     }
 }
