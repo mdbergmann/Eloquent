@@ -392,26 +392,31 @@
     
     if(hostLoaded) {
         // we are only interessted in view controllers that show information
-        if([aViewController isKindOfClass:[ModuleViewController class]] ||
-           [aViewController isKindOfClass:[BibleCombiViewController class]]) { // this also handles commentary view
+        if([aViewController isKindOfClass:[ModuleViewController class]] || // this also handles commentary view
+           [aViewController isKindOfClass:[BibleCombiViewController class]]) {
             
             // add view controller
             [viewControllers addObject:aViewController];
             // make the last added the active one
             activeViewController = aViewController;
             
+            SearchType stype = ReferenceSearchType;
+            if([aViewController isKindOfClass:[GenBookViewController class]]) {
+                stype = IndexSearchType;
+            }
+            
             // extend searchTexts
             SearchTextObject *sto = [[SearchTextObject alloc] init];
-            [sto setSearchText:@"" forSearchType:self.searchType];
-            [sto setRecentSearches:[NSMutableArray array] forSearchType:self.searchType];
-            [sto setSearchType:self.searchType];
+            [sto setSearchText:@"" forSearchType:stype];
+            [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
+            [sto setSearchType:stype];
             [searchTextObjs addObject:sto];
             // also set current search Text
             [self setCurrentSearchText:sto];
             // set text according search type
-            [searchTextField setStringValue:[currentSearchText searchTextForType:self.searchType]];
+            [searchTextField setStringValue:[currentSearchText searchTextForType:stype]];
             // switch recentSearches
-            [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];    
+            [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:stype]];    
 
             // all booktypes have something to show in the right side bar
             [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
