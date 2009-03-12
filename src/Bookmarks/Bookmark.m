@@ -13,6 +13,7 @@
 
 @synthesize name;
 @synthesize reference;
+@synthesize comment;
 @synthesize colour;
 @synthesize subGroups;
 
@@ -29,6 +30,7 @@
     if(self) {
         [self setName:aName];
         [self setReference:aReference];
+        [self setComment:@""];
         [self setSubGroups:[NSMutableArray array]];
     }
     
@@ -83,6 +85,7 @@
     Bookmark *bm = [[Bookmark alloc] init];
     [bm setName:[decoder decodeObjectForKey:@"BookmarkName"]];
     [bm setReference:[decoder decodeObjectForKey:@"BookmarkRef"]];
+    [bm setComment:[decoder decodeObjectForKey:@"BookmarkComment"]];
     [bm setColour:[decoder decodeObjectForKey:@"BookmarkColor"]];
     [bm setSubGroups:[decoder decodeObjectForKey:@"BookmarkSubgroup"]];
     
@@ -92,6 +95,7 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:name forKey:@"BookmarkName"];
     [encoder encodeObject:reference forKey:@"BookmarkRef"];
+    [encoder encodeObject:comment forKey:@"BookmarkComment"];
     [encoder encodeObject:colour forKey:@"BookmarkColor"];
     [encoder encodeObject:subGroups forKey:@"BookmarkSubgroup"];
 }

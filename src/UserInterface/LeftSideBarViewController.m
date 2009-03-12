@@ -440,28 +440,35 @@ enum ModuleMenu_Items{
         }
         case BookmarkMenuRemoveBM:
         {
-            NSArray *indexes = [treeController selectionIndexPaths];
-            for(NSIndexPath *path in indexes) {
-                if([path length] == 2) {
-                    // we have to remove from root
-                    int index = [path indexAtPosition:1];
-                    [[bookmarkManager bookmarks] removeObjectAtIndex:index];
-                } else if([path length] > 2) {
-                    Bookmark *bm = [[bookmarkManager bookmarks] objectAtIndex:[path indexAtPosition:1]];
-                    for(int i = 2;i < [path length]-1;i++) {
-                        bm = [[bm subGroups] objectAtIndex:[path indexAtPosition:i]];
+            // confirm by user
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ConfirmBookmarkDelete", @"")
+                                             defaultButton:NSLocalizedString(@"Yes", @"") 
+                                           alternateButton:NSLocalizedString(@"No", @"") otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"ConfirmBookmarkDeleteText", @"")];
+            if([alert runModal] == NSAlertDefaultReturn) {
+                NSArray *indexes = [treeController selectionIndexPaths];
+                for(NSIndexPath *path in indexes) {
+                    if([path length] == 2) {
+                        // we have to remove from root
+                        int index = [path indexAtPosition:1];
+                        [[bookmarkManager bookmarks] removeObjectAtIndex:index];
+                    } else if([path length] > 2) {
+                        Bookmark *bm = [[bookmarkManager bookmarks] objectAtIndex:[path indexAtPosition:1]];
+                        for(int i = 2;i < [path length]-1;i++) {
+                            bm = [[bm subGroups] objectAtIndex:[path indexAtPosition:i]];
+                        }
+                        // if we have a bookmark, remove it
+                        if(bm) {
+                            [[bm subGroups] removeObjectAtIndex:[path indexAtPosition:[path length]-1]];
+                        }
                     }
-                    // if we have a bookmark, remove it
-                    if(bm) {
-                        [[bm subGroups] removeObjectAtIndex:[path indexAtPosition:[path length]-1]];
-                    }
+                    
                 }
-                
+                //[treeController removeObjectsAtArrangedObjectIndexPaths:indexes];
+                [bookmarkManager saveBookmarks];
+                // trigger reloading
+                [treeController rearrangeObjects];                
             }
-            //[treeController removeObjectsAtArrangedObjectIndexPaths:indexes];
-            [bookmarkManager saveBookmarks];
-            // trigger reloading
-            [treeController rearrangeObjects];
             break;
         }
         case BookmarkMenuOpenBMInNew:
@@ -486,7 +493,7 @@ enum ModuleMenu_Items{
     [NSApp endSheet:bookmarkPanel];
     
     // get bookmark
-    Bookmark *bm = [bmObjectController content];
+    Bookmark *bm = [bmObjectController content];    
     if([[bm name] length] > 0) {
         if(bookmarkAction == BookmarkMenuAddNewBM) {
             if([[treeController selectedObjects] count] > 0) {

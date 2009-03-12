@@ -13,11 +13,13 @@
 	NSString *name;
 	NSString *reference;
 	NSNumber *colour;
+    NSString *comment;
 	NSMutableArray *subGroups;
 }
 
 @property (retain, readwrite) NSString *name;
 @property (retain, readwrite) NSString *reference;
+@property (retain, readwrite) NSString *comment;
 @property (retain, readwrite) NSNumber *colour;
 @property (retain, readwrite) NSMutableArray *subGroups;
 
