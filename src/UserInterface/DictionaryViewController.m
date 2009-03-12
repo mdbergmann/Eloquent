@@ -159,7 +159,7 @@
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
     NSRange searchRange = NSMakeRange(0, 0);
-    long maxResults = [module entryCount];
+    long maxResults = 10000;
     
     // get new search results
     Indexer *indexer = [Indexer indexerWithModuleName:[module name] moduleType:[module type]];
@@ -286,6 +286,9 @@
             } else if(searchType == IndexSearchType) {
                 // search in index
                 if(![module hasIndex]) {
+                    // show progress indicator
+                    [self beginIndicateProgress];
+
                     // create index first if not exists
                     [module createIndex];
                 }
@@ -300,6 +303,9 @@
             
             // set status
             [self setStatusText:statusText];
+
+            // stop indicating progress
+            [self endIndicateProgress];
         } else {
             MBLOG(MBLOG_WARN, @"[DictionaryViewController -displayTextForReference:] no module set!");
         }

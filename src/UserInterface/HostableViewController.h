@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <ProtocolHelper.h>
 
-@interface HostableViewController : NSViewController {
+@interface HostableViewController : NSViewController <ProgressIndicating> {
     // the delegate
     IBOutlet id delegate;
     
@@ -20,7 +21,7 @@
     BOOL viewLoaded;
     
     // has been reported loading complete already?
-    BOOL isLoadingCopleteReported;
+    BOOL isLoadingComleteReported;
 }
 
 // properties
@@ -34,6 +35,8 @@
 - (void)adaptUIToHost;
 - (NSString *)label;
 
-- (IBAction)fullScreenMode:(id)sender;
+// ProgressIndicating
+- (void)beginIndicateProgress;
+- (void)endIndicateProgress;
 
 @end

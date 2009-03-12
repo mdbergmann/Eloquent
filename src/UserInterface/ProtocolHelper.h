@@ -39,3 +39,8 @@
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 - (NSView *)referenceOptionsView;
 @end
+
+@protocol ProgressIndicating
+- (void)beginIndicateProgress;
+- (void)endIndicateProgress;
+@end

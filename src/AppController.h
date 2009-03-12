@@ -38,7 +38,7 @@ typedef enum AppErrorCodes {
     
     // About window
     MBAboutWindowController *aboutWindowController;
-    
+        
     // Create module
     IBOutlet NSWindow *createModuleWindow;
     IBOutlet NSTextField *createModuleNameTextField;

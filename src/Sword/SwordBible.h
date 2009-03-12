@@ -36,6 +36,7 @@ typedef enum {
 - (id)initWithName:(NSString *)name swordManager:(SwordManager *)aManager;
 
 - (BOOL)hasReference:(NSString *)ref;
+- (int)numberOfVerseKeysForReference:(NSString *)aReference;
 
 // book lists
 - (NSArray *)bookList;

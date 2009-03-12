@@ -134,7 +134,8 @@
 #pragma mark - SwordModuleAccess
 
 - (long)entryCount {
-    return [contents count];
+    // TODO: set value according to maximum entries here
+    return 1000;
 }
 
 - (NSArray *)stripedTextForRef:(NSString *)reference {

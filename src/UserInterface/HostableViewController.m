@@ -7,7 +7,8 @@
 //
 
 #import "HostableViewController.h"
-
+#import "ProgressOverlayViewController.h"
+#import "BibleCombiViewController.h"
 
 @implementation HostableViewController
 
@@ -20,7 +21,7 @@
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[HostableViewController -init]");
         viewLoaded = NO;
-        isLoadingCopleteReported = NO;
+        isLoadingComleteReported = NO;
     }
     
     return self;
@@ -39,6 +40,14 @@
     }
 }
 
+- (void)adaptUIToHost {
+    // does nothing here
+}
+
+- (NSString *)label {
+    return @"";
+}
+
 - (id)hostingDelegate {
     return hostingDelegate;
 }
@@ -48,10 +57,10 @@
 }
 
 - (void)reportLoadingComplete {
-    if(delegate && isLoadingCopleteReported == NO) {
+    if(delegate && isLoadingComleteReported == NO) {
         if([delegate respondsToSelector:@selector(contentViewInitFinished:)]) {
             [delegate performSelector:@selector(contentViewInitFinished:) withObject:self];
-            isLoadingCopleteReported = YES;
+            isLoadingComleteReported = YES;
         } else {
             MBLOG(MBLOG_WARN, @"[HostableViewController -reportLoadingComplete] delegate does not respond to selector!");
         }
@@ -72,16 +81,41 @@
     }    
 }
 
-- (void)adaptUIToHost {
-    // does nothing here
+#pragma mark - ProgressIndicating
+
+- (void)beginIndicateProgress {
+    // delegate to host if needed
+    // delegates can be:
+    // - BibleCombiViewController
+    // - SingleViewHostController
+    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+        [(BibleCombiViewController *)delegate beginIndicateProgress];
+    } else {
+        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+        if(![[[self view] subviews] containsObject:[pc view]]) {
+            // we need the same size
+            [[pc view] setFrame:[[self view] frame]];        
+            [pc startProgressAnimation];
+            [[self view] addSubview:[pc view]];
+            [[[self view] superview] setNeedsDisplay:YES];
+        }        
+    }
 }
 
-- (NSString *)label {
-    return @"";
-}
-
-- (IBAction)fullScreenMode:(id)sender {
-    [[self view] enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+- (void)endIndicateProgress {
+    // delegate to host if needed
+    // delegates can be:
+    // - BibleCombiViewController
+    // - SingleViewHostController
+    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+        [(BibleCombiViewController *)delegate endIndicateProgress];
+    } else {
+        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+        [pc stopProgressAnimation];
+        if([[[self view] subviews] containsObject:[pc view]]) {
+            [[pc view] removeFromSuperview];    
+        }
+    }
 }
 
 @end

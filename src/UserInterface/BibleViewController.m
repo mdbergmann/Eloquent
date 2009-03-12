@@ -236,7 +236,7 @@
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
     NSRange searchRange = NSMakeRange(0, 0);
-    long maxResults = [module entryCount];
+    long maxResults = 10000;
     
     // get new search results
     Indexer *indexer = [Indexer indexerWithModuleName:[module name] moduleType:[module type]];
@@ -438,13 +438,13 @@
     searchType = aType;
     
     // in case the this method is called with nil reference, try taking the old one first
-    // this is esspecially needed for view search
     if(aReference == nil) {
         aReference = self.reference;
     }
     
     if(aReference != nil && [aReference length] > 0) {
         self.reference = aReference;
+        MBLOGV(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searching reference: %@, for module: %@", aReference, [module name]);
         
         if(self.module != nil) {
             NSString *statusText = @"";
@@ -463,18 +463,31 @@
                 statusText = [NSString stringWithFormat:@"Found %i verses", o.numberOfFinds];
             } else {
                 if(searchType == ReferenceSearchType) {
+                    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Reference");
+
+                    if(performProgressCalculation) {
+                        // in order to show a progress indicator for if the searching takes too long
+                        // we need to find out how long it will approximately take
+                        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] numberOfVerseKeys...");
+                        int len = [(SwordBible *)module numberOfVerseKeysForReference:aReference];
+                        // let's say that for more then 30 verses we show a progress indicator
+                        if(len >= 30) {
+                            [self beginIndicateProgress];
+                        }                        
+                        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] numberOfVerseKeys...done");
+                    }
+                    performProgressCalculation = YES;   // next time we do
+                    
                     NSArray *verseData = [module renderedTextForRef:reference];
                     if(verseData == nil) {
                         MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference:] got nil verseData, cannot proceed!");
                         statusText = @"Error on getting verse data!";
                     } else {
-                        verses = [verseData count];                        
+                        verses = [verseData count];
                         statusText = [NSString stringWithFormat:@"Found %i verses", verses];
-                        
+
                         // we need html
                         NSAttributedString *attrString = [self displayableHTMLFromVerseData:verseData];
-                        // for debugging purpose, write html string to somewhere
-                        //[text writeToFile:@"/Users/mbergmann/Desktop/module.html" atomically:NO];
                         
                         // display
                         [textViewController setAttributedString:attrString];
@@ -491,8 +504,13 @@
                         }
                     }
                 } else if(searchType == IndexSearchType) {
+                    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Index");
+
                     // search in index
                     if(![module hasIndex]) {
+                        // show progress indicator
+                        [self beginIndicateProgress];
+                        
                         // create index first if not exists
                         [module createIndex];
                     }
@@ -537,6 +555,9 @@
 
             // set status
             [self setStatusText:statusText];
+
+            // stop indicating progress
+            [self endIndicateProgress];
         } else {
             MBLOG(MBLOG_WARN, @"[BibleViewController -displayTextForReference:] no module set!");
         }
@@ -651,11 +672,9 @@
     if(sel != nil) {
         // if the host is a single view, switch to index and search for the given word
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-            [(SingleViewHostController *)hostingDelegate setSearchTypeUI:IndexSearchType];
-            [(SingleViewHostController *)hostingDelegate setSearchText:sel];
+            [(SingleViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate setSearchTypeUI:IndexSearchType];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+            [(WorkspaceViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
         }
     }
 }
@@ -672,12 +691,10 @@
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             // create new single host
             SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-            [host setSearchTypeUI:IndexSearchType];
-            [host setSearchText:sel];
+            [host setSearchUIType:IndexSearchType searchString:sel];
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchTypeUI:IndexSearchType];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+            [(WorkspaceViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
         }
     }
 }
@@ -804,12 +821,9 @@
             } 
             
             // send the reference to delegate
-            if([self.delegate isKindOfClass:[BibleCombiViewController class]]) {
-                [self.delegate performSelector:@selector(displayTextForReference:) withObject:selRef];            
-            } else {
-                [self displayTextForReference:selRef searchType:searchType];
+            if(hostingDelegate) {
+                [(WindowHostController *)hostingDelegate setSearchUIType:ReferenceSearchType searchString:selRef];
             }
-            
 		} else {
 			MBLOG(MBLOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
@@ -887,14 +901,14 @@
 #pragma mark - mouse tracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController - mouseEntered]");
+    //MBLOG(MBLOG_DEBUG, @"[BibleViewController - mouseEntered]");
     if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
         [delegate performSelector:@selector(mouseEntered:) withObject:[self view]];
     }
 }
 
 - (void)mouseExited:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController - mouseExited]");
+    //MBLOG(MBLOG_DEBUG, @"[BibleViewController - mouseExited]");
     if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
         [delegate performSelector:@selector(mouseExited:) withObject:[self view]];
     }

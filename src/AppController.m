@@ -9,6 +9,7 @@
 #import "SwordInstallSourceController.h"
 #import "SwordInstallSource.h"
 #import "MBThreadedProgressSheetController.h"
+#import "ProgressOverlayViewController.h"
 #import "IndexingManager.h"
 #import "globals.h"
 #import "BookmarkManager.h"
@@ -263,6 +264,9 @@ static AppController *singleton;
             
             // test BookmarkManager
             [[BookmarkManager defaultManager] bookmarks];
+            
+            // init default progressoverlay controller
+            [ProgressOverlayViewController defaultController];
         }
 	}
 	
@@ -472,35 +476,6 @@ static AppController *singleton;
                              informativeTextWithFormat:NSLocalizedString(@"ModuleNameExistsText", @"")];
         [alert runModal];
     } else {
-        /*
-        // get file manager
-        NSFileManager *fm = [NSFileManager defaultManager];
-
-        // get bundle source module
-        NSString *resModPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/Personal"];
-        
-        // create new module folder
-        NSString *newModFolder = [DEFAULT_MODULE_PATH stringByAppendingFormat:@"/%@.swd", modName];
-        //[fm createDirectoryAtPath:newModFolder attributes:nil];
-        // copy to module folder
-        [fm copyPath:resModPath toPath:newModFolder handler:nil];
-        
-        // rename module folder according to module name
-        NSString *moduleFolder = [newModFolder stringByAppendingString:@"/modules/comments/rawfiles/personal"];
-        NSString *moduleFolderNew = [newModFolder stringByAppendingFormat:@"/modules/comments/rawfiles/%@", modName];
-        [fm movePath:moduleFolder toPath:moduleFolderNew handler:nil];
-
-        //create the conf file
-        NSString *confStr = [NSString stringWithContentsOfFile:[newModFolder stringByAppendingPathComponent:@"mods.d/personal.conf"]];
-        NSString *confStrNew = [newModFolder stringByAppendingFormat:@"/mods.d/%@.conf", [modName lowercaseString]];
-        // substitute module name
-        confStr = [NSString stringWithFormat:confStr, modName, modName];
-        // write conf file
-        [confStr writeToFile:confStrNew atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        // remove old conf file
-        [fm removeFileAtPath:[newModFolder stringByAppendingPathComponent:@"mods.d/personal.conf"] handler:nil];
-         */
-        
         NSString *modPath = [SwordCommentary createCommentaryWithName:modName];
         if(modPath != nil) {
             [[SwordManager defaultManager] addPath:modPath];        

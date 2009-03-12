@@ -58,6 +58,9 @@
             self.searchType = IndexSearchType;        
         }
         
+        // set hosting delegate
+        [(HostableViewController *)contentViewController setHostingDelegate:self];
+
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
@@ -85,6 +88,9 @@
             contentViewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
             self.searchType = IndexSearchType;
         }
+        
+        // set hosting delegate
+        [(HostableViewController *)contentViewController setHostingDelegate:self];
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];

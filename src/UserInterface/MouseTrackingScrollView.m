@@ -26,7 +26,7 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-    MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView - mouseEntered]");
+    //MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView - mouseEntered]");
     if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
         [delegate performSelector:@selector(mouseEntered:) withObject:self];
     }
@@ -35,7 +35,7 @@
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-    MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView - mouseExited]");
+    //MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView - mouseExited]");
     if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
         [delegate performSelector:@selector(mouseExited:) withObject:self];
     }
@@ -44,11 +44,11 @@
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-    MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView - mouseDown]");
+    //MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView - mouseDown]");
 }
 
 - (void)updateMouseTracking {
-    MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView -updateTrackingArea]");
+    //MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView -updateTrackingArea]");
     while(self.trackingAreas.count > 0) {
 		[self removeTrackingArea:[self.trackingAreas lastObject]];
 	}

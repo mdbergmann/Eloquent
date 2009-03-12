@@ -58,6 +58,9 @@
 		A9206EED0EFBA91300B94E41 /* scopebar-notactive.png in Resources */ = {isa = PBXBuildFile; fileRef = A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */; };
 		A92480C10F4D99630048A603 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
 		A92819980E100F240007B767 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
+		A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */; };
+		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
+		A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
@@ -257,6 +260,11 @@
 		A92480C00F4D99630048A603 /* SwordBibleChapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordBibleChapter.m; sourceTree = "<group>"; };
 		A92819960E100F240007B767 /* Highlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Highlighter.h; sourceTree = "<group>"; };
 		A92819970E100F240007B767 /* Highlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Highlighter.m; sourceTree = "<group>"; };
+		A9333ADF0F6699110001BD38 /* ProgressOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayViewController.h; path = src/ProgressOverlayView/ProgressOverlayViewController.h; sourceTree = "<group>"; };
+		A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayViewController.m; path = src/ProgressOverlayView/ProgressOverlayViewController.m; sourceTree = "<group>"; };
+		A9333AE40F6699A70001BD38 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProgressOverlayView.xib; sourceTree = "<group>"; };
+		A9333B5B0F66CEC90001BD38 /* ProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayView.h; path = src/ProgressOverlayView/ProgressOverlayView.h; sourceTree = "<group>"; };
+		A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayView.m; path = src/ProgressOverlayView/ProgressOverlayView.m; sourceTree = "<group>"; };
 		A939B7E00E9DCED000A0A8F9 /* GenBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenBookViewController.h; path = src/UserInterface/GenBookViewController.h; sourceTree = "<group>"; };
 		A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenBookViewController.m; path = src/UserInterface/GenBookViewController.m; sourceTree = "<group>"; };
 		A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTextObject.h; path = src/UserInterface/SearchTextObject.h; sourceTree = "<group>"; };
@@ -497,6 +505,7 @@
 				A9D849620EFA2D34000457EC /* LeftSideBarView.xib */,
 				A9D849640EFA2D34000457EC /* RightSideBarView.xib */,
 				A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */,
+				A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -645,6 +654,17 @@
 			path = src/ThreadedProgressSheet;
 			sourceTree = "<group>";
 		};
+		A9333AE20F6699280001BD38 /* ProgressOverlayView */ = {
+			isa = PBXGroup;
+			children = (
+				A9333ADF0F6699110001BD38 /* ProgressOverlayViewController.h */,
+				A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */,
+				A9333B5B0F66CEC90001BD38 /* ProgressOverlayView.h */,
+				A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */,
+			);
+			name = ProgressOverlayView;
+			sourceTree = "<group>";
+		};
 		A96516290E06D0940058AA91 /* Hosts */ = {
 			isa = PBXGroup;
 			children = (
@@ -662,6 +682,7 @@
 		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				A9333AE20F6699280001BD38 /* ProgressOverlayView */,
 				A9000E1F0F6114D300F07F3E /* CTGradient */,
 				A9C0F4200EFD67F700CFDF06 /* ConfirmationDialog */,
 				A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */,
@@ -920,6 +941,7 @@
 				A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */,
 				A9B744200F646346001960B0 /* About.xib in Resources */,
 				A9E9E29C0F650544007C4AB2 /* Credits.rtf in Resources */,
+				A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,6 +1039,8 @@
 				A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */,
 				A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */,
 				A9E9E3CD0F65401C007C4AB2 /* FullScreenSplitView.m in Sources */,
+				A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */,
+				A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1064,6 +1088,14 @@
 				A9202A2C0E59A2650094F629 /* English */,
 			);
 			name = CommentaryView.xib;
+			sourceTree = "<group>";
+		};
+		A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9333AE40F6699A70001BD38 /* English */,
+			);
+			name = ProgressOverlayView.xib;
 			sourceTree = "<group>";
 		};
 		A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */ = {

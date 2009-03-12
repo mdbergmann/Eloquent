@@ -368,18 +368,18 @@ void resolveHSV(float *color1, float *color2);
     id newInstance = [[[self class] alloc] init];
     
     CTGradientElement color1;
-    color1.red   = 0.48;
-    color1.green = 0.55;
-    color1.blue  = 0.62;
+    color1.red   = 0.504;
+    color1.green = 0.57;
+    color1.blue  = 0.645;
     color1.alpha = 1.00;
-    color1.position = 0;
+    color1.position = 1;
 
     CTGradientElement color2;
-    color2.red   = 0.66;
-    color2.green = 0.71;
-    color2.blue  = 0.76;
+    color2.red   = 0.262;
+    color2.green = 0.352;
+    color2.blue  = 0.449;
     color2.alpha = 1.00;
-    color2.position = 1;
+    color2.position = 0;
         
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];

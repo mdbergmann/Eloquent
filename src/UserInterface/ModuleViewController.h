@@ -35,12 +35,16 @@
     
     // force redisplay
     BOOL forceRedisplay;
+    
+    // perform progress calculation
+    BOOL performProgressCalculation;
 }
 
 // --------- properties ---------
 @property (retain, readwrite) SwordModule *module;
 @property (retain, readwrite) NSString *reference;
 @property (readwrite) BOOL forceRedisplay;
+@property (readwrite) BOOL performProgressCalculation;
 @property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
 @property (retain, readwrite) NSMutableDictionary *displayOptions;
 

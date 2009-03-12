@@ -52,6 +52,8 @@
     // call delegate method when this view has loaded
     viewLoaded = YES;
     
+    //[[self view] setWantsLayer:YES];
+    
     // delete any content in textview
     [textView setString:@""];
     
@@ -361,21 +363,21 @@
 #pragma mark - mouse tracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - mouseEntered]");
+    //MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - mouseEntered]");
     if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
         [delegate performSelector:@selector(mouseEntered:) withObject:[self view]];
     }
 }
 
 - (void)mouseExited:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView - mouseExited]");
+    //MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - mouseExited]");
     if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
         [delegate performSelector:@selector(mouseExited:) withObject:[self view]];
     }
 }
 
 - (void)scrollViewFrameDidChange:(NSNotification *)n {
-    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - scrollViewFrameDidChange]");
+    //MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - scrollViewFrameDidChange]");
     
     // update tracking rect
     [scrollView updateMouseTracking];

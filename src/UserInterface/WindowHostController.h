@@ -100,7 +100,7 @@
 - (void)setSearchText:(NSString *)aString;
 
 /** sets the type of search to UI */
-- (void)setSearchTypeUI:(SearchType)aType;
+- (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString;
 
 /** action of any input to the search text field */
 - (void)searchInput:(id)sender;
@@ -119,6 +119,11 @@
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
+// FullScreenCapability
+- (BOOL)isFullScreenMode;
+- (void)setFullScreenMode:(BOOL)flag;
+- (IBAction)fullScreenModeOnOff:(id)sender;
+
 // actions
 
 // direct connections
@@ -127,7 +132,6 @@
 - (IBAction)navigationAction:(id)sender;
 
 // menu first responder actions
-- (IBAction)fullScreenModeOnOff:(id)sender;
 - (IBAction)leftSideBarHideShow:(id)sender;
 - (IBAction)rightSideBarHideShow:(id)sender;
 - (IBAction)switchToRefLookup:(id)sender;

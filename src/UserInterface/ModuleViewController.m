@@ -24,6 +24,7 @@
 
 @synthesize module;
 @synthesize forceRedisplay;
+@synthesize performProgressCalculation;
 @synthesize modDisplayOptions;
 @synthesize displayOptions;
 @dynamic reference;
@@ -45,6 +46,7 @@
     if(self) {
         [self setReference:@""];
         forceRedisplay = NO;
+        performProgressCalculation = YES;
         
         // init display options
         [self initDefaultModDisplayOptions];
@@ -124,11 +126,11 @@
 #pragma mark - mouse tracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseEntered]");
+    //MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseEntered]");
 }
 
 - (void)mouseExited:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseExited]");
+    //MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseExited]");
 }
 
 #pragma mark - NSCoding protocol

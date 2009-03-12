@@ -200,7 +200,27 @@ NSLock *bibleLock = nil;
 	return ret;
 }
 
-- (NSString *)fullRefName:(NSString *)ref { 	
+/**
+ returns the number of verse keys for the given reference
+ we need this in order to meassure how long a text pull might take
+ */
+- (int)numberOfVerseKeysForReference:(NSString *)aReference {
+    int ret = 0;
+    
+    if(aReference && [aReference length] > 0) {
+        [moduleLock lock];
+        
+        sword::VerseKey vk;
+        sword::ListKey lk = vk.ParseVerseList([aReference UTF8String], "Gen1", true);        
+        for(lk = sword::TOP; !lk.Error(); lk++) ret++;
+        
+        [moduleLock unlock];
+    }
+    
+    return ret;
+}
+
+- (NSString *)fullRefName:(NSString *)ref {
 	[moduleLock lock];
     
 	sword::ListKey		listkey;
@@ -224,7 +244,7 @@ NSLock *bibleLock = nil;
 			vk.Headings();
 		} else {
 			// set it up
-			swModule->Key(*listkey.GetElement(i));
+			swModule->Key(*listkey.getElement(i));
 		}
 		
 		unichar mdashchars[1] = {0x2013};
@@ -353,104 +373,39 @@ NSLock *bibleLock = nil;
         
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
-    sword::ListKey listkey = vk.ParseVerseList(cref, vk, true);
-    listkey.Persist(true);
-    swModule->setKey(listkey);
+    sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
+    //listkey.Persist(true);
+    swModule->setKey(lk);
     // iterate through keys
-    for ((*swModule) = sword::TOP; !swModule->Error(); (*swModule)++) {
+    for(lk = sword::TOP; !lk.Error(); lk++) {
+        swModule->setKey(lk);
         const char *keyCStr = swModule->getKeyText();
         const char *txtCStr = swModule->StripText();
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
-        NSString *key = [NSString stringWithUTF8String:keyCStr];
+        NSString *key = @"";
         NSString *txt = @"";
         txt = [NSString stringWithUTF8String:txtCStr];
+        key = [NSString stringWithUTF8String:keyCStr];
+
         // add to dict
-        [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
-        [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-        // add to array
-        [ret addObject:dict];
+        if(key) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+            if(txt) {
+                [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+            } else {
+                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
+            }
+            // add to array
+            [ret addObject:dict];            
+        } else {
+            MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
+        }
     }
     // remove persitent key
-    swModule->setKey("gen.1.1");
+    //swModule->setKey("gen.1.1");
     
     return ret;
 }
-
-/*
- - (NSArray *)renderedTextForRef:(NSString *)reference {
- NSMutableArray *ret = nil;
- 
- const char *cref = [reference UTF8String];
- sword::VerseKey	vk;
- sword::ListKey listkey = vk.ParseVerseList(cref, "Gen1", true);
- int lastIndex;
- int listKeyLen = listkey.Count();
- ret = [NSMutableArray arrayWithCapacity:listKeyLen];
- // this is what get s stored in return array
- MSStringMgr *strMgr = new MSStringMgr();
- for(int i = 0; i < listKeyLen; i++) {
- sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
- 
- // is it a chapter or book - not atomic
- if(element) {
- // start at lower bound
- element->Headings(1);
- swModule->Key(element->LowerBound());
- // find the upper bound
- vk = element->UpperBound();
- vk.Headings(true);
- } else {
- // set it up
- swModule->setKey(*listkey.GetElement(i));
- }
- 
- // while not past the upper bound
- do {
- const char *keyCStr = swModule->Key().getText();
- const char *txtCStr = swModule->RenderText();
- NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
- NSString *key = [NSString stringWithUTF8String:keyCStr];
- NSString *txt = @"";
- if(strMgr->isUtf8(txtCStr)) {
- txt = [NSString stringWithUTF8String:txtCStr];
- } else {
- txt = [NSString stringWithCString:txtCStr encoding:NSISOLatin1StringEncoding];
- }
- // add to dict
- [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
- [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
- // add to array
- [ret addObject:dict];
-
- // check for any entry attributes
- AttributeTypeList::iterator i1;
- AttributeList::iterator i2;
- AttributeValue::iterator i3;
- for (i1 = swModule->getEntryAttributes().begin(); i1 != swModule->getEntryAttributes().end(); i1++) {
- MBLOGV(MBLOG_DEBUG, @"%@\n", [NSString stringWithUTF8String:i1->first]);
- for (i2 = i1->second.begin(); i2 != i1->second.end(); i2++) {
- MBLOGV(MBLOG_DEBUG, @"\t%@\n", [NSString stringWithUTF8String:i2->first]);
- for (i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
- MBLOGV(MBLOG_DEBUG, @"\t\t%@ = %@\n", [NSString stringWithUTF8String:i3->first], [NSString stringWithUTF8String:i3->second]);
- }
- }                    
- }
-
-// get current index
-lastIndex = (swModule->Key()).Index();
-// increment index
-(*swModule)++;
-// check for index has not changed afer increment
-if(lastIndex == (swModule->Key()).Index()) {
-    break;
-}
-//}while(swModule->Key() <= vk);
-}while(element && swModule->Key() <= vk);
-}
-
-return ret;
-}
-*/
 
 - (NSArray *)renderedTextForRef:(NSString *)reference {
     NSMutableArray *ret = [NSMutableArray array];
@@ -460,19 +415,16 @@ return ret;
     // needed to check for UTF8 string
     //sword::StringMgr *strMgr = sword::StringMgr::getSystemStringMgr();    
 
-    /*
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
-    sword::ListKey listkey = vk.ParseVerseList(cref, vk, true);
+    sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
     // for the duration of this query be want the key to persist
-    listkey.Persist(true);
-    swModule->setKey(listkey);
-     */
-    /*
-    sword::VerseKey key = "par.1.1";
-    swModule->setKey(key);
-    const char *txt = swModule->RenderText();
-     */
+    //lk.Persist(true);
+    //swModule->setKey(lk);
+
+    //sword::VerseKey key = "par.1.1";
+    //swModule->setKey(key);
+    //const char *txt = swModule->RenderText();
 
     /*
     // iterate through keys
@@ -491,10 +443,37 @@ return ret;
         // add to array
         [ret addObject:dict];
     }
+     */
+    
+    // iterate through keys
+    for (lk = sword::TOP; !lk.Error(); lk++) {
+        swModule->setKey(lk);
+        const char *keyCStr = swModule->getKeyText();
+        const char *txtCStr = swModule->RenderText();
+        NSString *key = @"";
+        NSString *txt = @"";
+        txt = [NSString stringWithUTF8String:txtCStr];
+        key = [NSString stringWithUTF8String:keyCStr];
+        
+        // add to dict
+        if(key) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+            if(txt) {
+                [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+            } else {
+                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
+            }
+            // add to array
+            [ret addObject:dict];            
+        } else {
+            MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
+        }
+    }
     // remove persitent key
-    swModule->setKey("gen.1.1");
-    */
+    //swModule->setKey("gen.1.1");
 
+    /*
 	sword::VerseKey vk;
     int lastIndex;
 	((sword::VerseKey*)(swModule->getKey()))->Headings(1);
@@ -536,6 +515,7 @@ return ret;
 				break;
 		}while (element && swModule->Key() <= vk);
 	}
+     */
 
 	[moduleLock unlock];
 

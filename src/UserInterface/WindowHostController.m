@@ -440,14 +440,10 @@ typedef enum _NavigationDirectionType {
     } else {
         type = IndexSearchType;
     }
-    [self setSearchTypeUI:type];
+    [self setSearchUIType:type searchString:nil];
 }
 
 #pragma mark - Actions
-
-- (IBAction)fullScreenModeOnOff:(id)sender {
-    [mainSplitView setFullScreenMode:![mainSplitView isFullScreenMode]];
-}
 
 - (IBAction)leftSideBarHideShow:(id)sender {
     [self toggleLSB];
@@ -474,11 +470,11 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)switchToRefLookup:(id)sender {
-    [self setSearchTypeUI:ReferenceSearchType];
+    [self setSearchUIType:ReferenceSearchType searchString:nil];
 }
 
 - (IBAction)switchToIndexLookup:(id)sender {
-    [self setSearchTypeUI:IndexSearchType];
+    [self setSearchUIType:IndexSearchType searchString:nil];
 }
 
 - (IBAction)navigationAction:(id)sender {
@@ -675,14 +671,23 @@ typedef enum _NavigationDirectionType {
 }
 
 /** sets the type of search to UI */
-- (void)setSearchTypeUI:(SearchType)aType {
+- (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString {
+    
+    SearchType oldType = [currentSearchText searchType];
     [currentSearchText setSearchType:aType];
     
     // set UI
     [searchTypeSegControl selectSegmentWithTag:aType];
     
-    // set text according search type
-    NSString *text = [currentSearchText searchTextForType:aType];
+    NSString *text = @"";
+    // if the new search type is the same, we don't need to set anything
+    if(aType != oldType) {
+        text = [currentSearchText searchTextForType:aType];    
+    }
+    // if aString is not nil, the search text can be overriden here
+    if(aString != nil) {
+        text = aString;
+    }
     // display last search result
     [self setSearchText:text];
     
@@ -702,7 +707,7 @@ typedef enum _NavigationDirectionType {
             [[searchTextField cell] setSendsSearchStringImmediately:NO];
             [[searchTextField cell] setSendsWholeSearchString:YES];            
         }
-    }    
+    }            
 }
 
 - (void)adaptUIToCurrentlyDisplayingModuleType {
@@ -728,6 +733,7 @@ typedef enum _NavigationDirectionType {
     [searchTextField setRecentSearches:bufAr];
 
     if(type == genbook) {
+        [currentSearchText setSearchType:IndexSearchType];
         [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
         [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
         [[searchTypeSegControl cell] setSelected:NO forSegment:0];
@@ -830,6 +836,20 @@ typedef enum _NavigationDirectionType {
 /** abstract method */
 - (ModuleType)moduleType {
     return bible;   // default is bible
+}
+
+#pragma mark - FullScreenCapability protocol
+
+- (BOOL)isFullScreenMode {
+    return [mainSplitView isInFullScreenMode];
+}
+
+- (void)setFullScreenMode:(BOOL)flag {
+    [mainSplitView setFullScreenMode:flag];
+}
+
+- (IBAction)fullScreenModeOnOff:(id)sender {
+    [mainSplitView fullScreenModeOnOff:sender];
 }
 
 #pragma mark - SubviewHosting protocol

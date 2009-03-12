@@ -16,6 +16,7 @@
 #import "ReferenceCacheManager.h"
 #import "NSButton+Color.h"
 #import "globals.h"
+#import "ProgressOverlayViewController.h"
 
 @interface BibleCombiViewController (/* Private, class continuation */)
 /** private property */
@@ -259,11 +260,17 @@
 
 - (void)distributeReference:(NSString *)aRef {
     // loop over all BibleViewControllers and set this reference
+    int i = 0;
     for(BibleViewController *bvc in parBibleViewControllers) {
-        // set reference
+        if(i > 0) {
+            // the first did it which applies to all the others
+            [bvc setPerformProgressCalculation:NO];
+        }
         [bvc setForceRedisplay:forceRedisplay];
         [bvc setDisplayOptions:displayOptions];
         [bvc displayTextForReference:aRef searchType:searchType];
+        
+        i++;
     }
     
     // loop over all misc ViewControllers and set this reference
@@ -678,7 +685,28 @@
     return [self verseMarkerInTextLine:attrString];    
 }
 
-#pragma mark - SubviewHosting protocol
+#pragma mark - ProgressIndicating
+
+- (void)beginIndicateProgress {
+    ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+    if(![[[self view] subviews] containsObject:[pc view]]) {
+        // we need the same size
+        [[pc view] setFrame:[[self view] frame]];        
+        [pc startProgressAnimation];
+        [[self view] addSubview:[pc view]];
+        [[[self view] superview] setNeedsDisplay:YES];
+    }
+}
+
+- (void)endIndicateProgress {
+    ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+    [pc stopProgressAnimation];
+    if([[[self view] subviews] containsObject:[pc view]]) {
+        [[pc view] removeFromSuperview];    
+    }
+}
+
+#pragma mark - SubviewHosting
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
     MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -contentViewInitFinished:]");
@@ -749,6 +777,8 @@
     }    
 }
 
+#pragma mark - TextDisplayable
+
 - (void)displayTextForReference:(NSString *)aReference {
     [self displayTextForReference:aReference searchType:searchType];
 }
@@ -761,6 +791,7 @@
         // for search type index, check before hand that all modules that are open
         // have a valid index
         BOOL validIndex = YES;
+
         // bibles
         for(BibleViewController *bvc in parBibleViewControllers) {
             SwordModule *mod = [bvc module];
@@ -787,7 +818,7 @@
                 NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
                                                  defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
                                      informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOn", @"")];
-                [alert runModal];                
+                [alert runModal];
             } else {
                 // let the user know that creaing the index on the fly might take a while
                 // show Alert
@@ -795,27 +826,27 @@
                                                  defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
                                      informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
                 [alert runModal];                
-                [self distributeReference:aReference];    
             }
-        } else {
-            [self distributeReference:aReference];    
         }
     } else {
-        
         // set global display options
         for(NSString *key in modDisplayOptions) {
             NSString *val = [modDisplayOptions objectForKey:key];
             [[SwordManager defaultManager] setGlobalOption:key value:val];
         }
-        
-        [self distributeReference:aReference];    
     }
+
+    // let subcontrollers display their things
+    [self distributeReference:aReference];
+    
+    // end progress indication
+    [self endIndicateProgress];
 }
 
-#pragma mark - mouse tracking protocol
+#pragma mark - MouseTracking
 
 - (void)mouseEntered:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController - mouseEntered]");
+    //MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController - mouseEntered]");
     
     // theView should be a ScrollSynchronizableView
     currentSyncView = (ScrollSynchronizableView *)theView;
@@ -823,13 +854,13 @@
 }
 
 - (void)mouseExited:(NSView *)theView {
-    MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController - mouseExited]");
+    //MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController - mouseExited]");
 
     // stop synchronization
     [self stopScrollSynchronizationForView:[(ScrollSynchronizableView *)theView syncScrollView]];
 }
 
-#pragma mark - NSCoding protocol
+#pragma mark - NSCoding
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
@@ -895,7 +926,5 @@
     // encode parallel commentary view controllers
     [encoder encodeObject:parMiscViewControllers forKey:@"ParallelMiscViewControllerEncoded"];
 }
-
-#pragma mark - actions
 
 @end

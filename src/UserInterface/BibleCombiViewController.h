@@ -18,7 +18,7 @@
 
 @class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
-@interface BibleCombiViewController : HostableViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking> {
+@interface BibleCombiViewController : HostableViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking, ProgressIndicating> {
     // the lookup field
     IBOutlet NSTextField *lookupTF;
     IBOutlet NSButton *okBtn;
@@ -71,6 +71,7 @@
 - (NSView *)referenceOptionsView;
 - (NSArray *)openBibleModules;
 - (NSArray *)openMiscModules;
+- (NSNumber *)bibleViewCount;
 
 // actions
 - (IBAction)displayOptionShowStrongs:(id)sender;
@@ -80,16 +81,19 @@
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
-// method called by subview
+// ProgressIndicating
+- (void)beginIndicateProgress;
+- (void)endIndicateProgress;
+
+// SubviewHosting
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
-- (NSNumber *)bibleViewCount;
 
-// protocol
+// TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
-// Mouse tracking protocol implementation
+// MouseTracking
 - (void)mouseEntered:(NSView *)theView;
 - (void)mouseExited:(NSView *)theView;
 

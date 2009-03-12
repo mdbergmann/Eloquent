@@ -154,9 +154,6 @@
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
-    // make window first responder    
-    [[self window] makeFirstResponder:nil];
-    
     hostLoaded = YES;
 }
 
@@ -205,7 +202,8 @@
             vc = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
         }
         
-        // the view controller will be added in contentViewDidFinisLoading:
+        // set hosting delegate
+        [(HostableViewController *)vc setHostingDelegate:self];
     }
 
     return vc;
@@ -222,10 +220,10 @@
     } else if(aType == genbook) {
         vc = [[GenBookViewController alloc] initWithDelegate:self];
     }
-
-    // make window first responder    
-    [[self window] makeFirstResponder:nil];
-
+    
+    // set hosting delegate
+    [(HostableViewController *)vc setHostingDelegate:self];
+    
     // search text objects are added when this view reports it has loaded
     return vc;
 }
@@ -252,7 +250,7 @@
         [activeViewController isKindOfClass:[CommentaryViewController class]] ||
         [activeViewController isKindOfClass:[DictionaryViewController class]] ||
         [activeViewController isKindOfClass:[GenBookViewController class]]) {
-        [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:self.searchType];
+        [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:[currentSearchText searchType]];
     }
 }
 
