@@ -484,7 +484,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{196, 319}, {515, 391}}</string>
+					<string>{{285, 615}, {515, 391}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{426, 507}, {515, 391}}</string>
@@ -534,7 +534,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>MouseTrackingScrollView</string>
-							<string>NSTextView</string>
+							<string>MBTextView</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -566,6 +566,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MBTextView</string>
 					<string key="superclassName">NSTextView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">contextMenu</string>
+						<string key="NS.object.0">NSMenu</string>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">src/UserInterface/MBTextView.h</string>

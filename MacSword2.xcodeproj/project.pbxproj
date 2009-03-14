@@ -92,7 +92,7 @@
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
-		A9C0F4230EFD67F700CFDF06 /* MBConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */; };
+		A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */; };
 		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
 		A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D102580EC1ED0A0023FF23 /* WindowHostController.m */; };
@@ -308,8 +308,8 @@
 		A9B7441C0F646223001960B0 /* MBAboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAboutWindowController.m; sourceTree = "<group>"; };
 		A9B7441F0F646346001960B0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
 		A9C0F4060EFD67DA00CFDF06 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
-		A9C0F4210EFD67F700CFDF06 /* MBConfirmationSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBConfirmationSheetController.h; sourceTree = "<group>"; };
-		A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBConfirmationSheetController.m; sourceTree = "<group>"; };
+		A9C0F4210EFD67F700CFDF06 /* ConfirmationSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationSheetController.h; sourceTree = "<group>"; };
+		A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmationSheetController.m; sourceTree = "<group>"; };
 		A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
 		A9CC33500EB0699900810821 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
@@ -751,8 +751,8 @@
 		A9C0F4200EFD67F700CFDF06 /* ConfirmationDialog */ = {
 			isa = PBXGroup;
 			children = (
-				A9C0F4210EFD67F700CFDF06 /* MBConfirmationSheetController.h */,
-				A9C0F4220EFD67F700CFDF06 /* MBConfirmationSheetController.m */,
+				A9C0F4210EFD67F700CFDF06 /* ConfirmationSheetController.h */,
+				A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */,
 			);
 			name = ConfirmationDialog;
 			path = src/ConfirmationDialog;
@@ -1027,7 +1027,7 @@
 				A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */,
 				A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */,
 				A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */,
-				A9C0F4230EFD67F700CFDF06 /* MBConfirmationSheetController.m in Sources */,
+				A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */,
 				A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */,
 				A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */,
 				A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */,

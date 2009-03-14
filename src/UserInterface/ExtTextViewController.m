@@ -21,6 +21,8 @@
 
 @implementation ExtTextViewController
 
+@synthesize contextMenu;
+
 - (id)init {
     self = [self initWithDelegate:nil];
     
@@ -97,8 +99,12 @@
     [[textView textStorage] setAttributedString:aString];    
 }
 
-- (void)setContextMenu:(NSMenu *)aMenu {
-    [textView setContextMenu:aMenu];
+#pragma mark - MBTextView delegates
+
+- (NSMenu *)menuForEvent:(NSEvent *)event {
+    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -menuForEvent:] %@\n", [event description]);
+    
+    return contextMenu;
 }
 
 #pragma mark - methods

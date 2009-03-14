@@ -44,6 +44,9 @@
 #define DefaultsShowRSB         @"DefaultsShowRSB"
 #define DefaultsShowHUDPreview  @"DefaultsShowHUDPreview"
 
+// confirmations
+#define DefaultsShowFullScreenConfirm   @"DefaultsShowFullScreenConfirm"
+
 @class SwordManager;
 
 @interface MBPreferenceController : NSWindowController {

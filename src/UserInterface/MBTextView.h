@@ -11,9 +11,6 @@
 
 
 @interface MBTextView : NSTextView {
-    IBOutlet NSMenu *contextMenu;
 }
-
-@property (retain, readwrite) NSMenu *contextMenu;
 
 @end

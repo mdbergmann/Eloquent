@@ -309,6 +309,9 @@
         [contentViewController setHostingDelegate:self];
         [contentViewController adaptUIToHost];
         
+        // decode searchQuery
+        self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
+
         if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
             moduleType = bible;
         } else {

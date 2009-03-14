@@ -276,6 +276,7 @@
 
                 // add attributes
                 [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
+                [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
                 [keyAttributes setObject:[entry keyString] forKey:TEXT_VERSE_MARKER];
                 
                 // prepare output
@@ -301,7 +302,7 @@
     BOOL vool = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     
     // generate html string for verses
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...\n");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...");
     NSMutableString *htmlString = [NSMutableString string];
     int lastChapter = -1;
     for(NSDictionary *dict in verseData) {
@@ -333,9 +334,9 @@
         }
         lastChapter = chapter;
     }
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...done\n");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...\n");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...");
     // create attributed string
     // setup options
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
@@ -354,9 +355,25 @@
     ret = [[NSMutableAttributedString alloc] initWithHTML:data 
                                                   options:options
                                        documentAttributes:nil];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...done\n");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...\n");
+    // add pointing hand cursor to all links
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+    NSRange effectiveRange;
+	int	i = 0;
+	while (i < [ret length]) {
+        NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
+		if([attrs objectForKey:NSLinkAttributeName] != nil) {
+            // add pointing hand cursor
+            attrs = [attrs mutableCopy];
+            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+            [ret setAttributes:attrs range:effectiveRange];
+		}
+		i += effectiveRange.length;
+	}
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
+    
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...");
     // go through the attributed string and set attributes
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
@@ -418,7 +435,7 @@
             found = NO;
         }
     }
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...done\n");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...done");
     
     return ret;
 }

@@ -879,9 +879,6 @@ typedef enum _NavigationDirectionType {
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
-
-    // decode searchQuery
-    self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
     
     // load lsb view
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];

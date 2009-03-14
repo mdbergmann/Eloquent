@@ -198,7 +198,7 @@
 }
 
 - (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray {
-    NSAttributedString *ret = nil;
+    NSMutableAttributedString *ret = nil;
     
     // generate html string for verses
     NSMutableString *htmlString = [NSMutableString string];
@@ -226,9 +226,25 @@
     [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    ret = [[NSAttributedString alloc] initWithHTML:data 
-                                           options:options
-                                documentAttributes:nil];
+    ret = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                  options:options
+                                       documentAttributes:nil];
+
+    // add pointing hand cursor to all links
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+    NSRange effectiveRange;
+	int	i = 0;
+	while (i < [ret length]) {
+        NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
+		if([attrs objectForKey:NSLinkAttributeName] != nil) {
+            // add pointing hand cursor
+            attrs = [attrs mutableCopy];
+            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+            [ret setAttributes:attrs range:effectiveRange];
+		}
+		i += effectiveRange.length;
+	}
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
     
     return ret;
 }

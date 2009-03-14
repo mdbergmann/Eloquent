@@ -9,8 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import <ProtocolHelper.h>
 
-@interface FullScreenSplitView : NSSplitView <FullScreenCapability> {
+@class ConfirmationSheetController;
 
+@interface FullScreenSplitView : NSSplitView <FullScreenCapability> {
+    ConfirmationSheetController *conf;
 }
 
 - (BOOL)isFullScreenMode;

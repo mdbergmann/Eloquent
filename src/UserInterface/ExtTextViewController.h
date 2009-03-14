@@ -26,7 +26,10 @@
 @interface ExtTextViewController : HostableViewController <MouseTracking> {
     IBOutlet MBTextView *textView;
     IBOutlet MouseTrackingScrollView *scrollView;
+    IBOutlet NSMenu *contextMenu;
 }
+
+@property (retain, readwrite) NSMenu *contextMenu;
 
 - (id)initWithDelegate:(id)aDelegate;
 
@@ -34,8 +37,8 @@
 - (MBTextView *)textView;
 - (MouseTrackingScrollView *)scrollView;
 
-// textview methods
-- (void)setContextMenu:(NSMenu *)aMenu;
+// delegate methods called from MBTextView
+- (NSMenu *)menuForEvent:(NSEvent *)event;
 
 // methods
 - (NSRange)rangeOfFirstLineWithLineRect:(NSRect *)lineRect;
