@@ -400,8 +400,15 @@
         }
     } else if([attrType isEqualToString:@"Greek"] || [attrType isEqualToString:@"Hebrew"]) {
         NSString *key = [data objectForKey:ATTRTYPE_VALUE];        
+
         swModule->setKey([key UTF8String]);
-        ret = [NSString stringWithUTF8String:swModule->StripText()];
+        NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
+        [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+        
+        ret = dict;
     }
     
     [moduleLock unlock];

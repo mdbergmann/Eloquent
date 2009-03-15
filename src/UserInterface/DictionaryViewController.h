@@ -26,9 +26,6 @@
     // the table view for the dictionary items
     IBOutlet NSTableView *entriesTableView;
     
-    // we need a webview for text display
-    ExtTextViewController *textViewController;
-    
     NSMutableArray *selection;
     NSArray *dictKeys;
     

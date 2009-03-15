@@ -15,6 +15,7 @@
 @dynamic hostingDelegate;
 @dynamic delegate;
 @synthesize viewLoaded;
+@synthesize performProgressCalculation;
 
 - (id)init {
     self = [super init];
@@ -22,6 +23,7 @@
         MBLOG(MBLOG_DEBUG, @"[HostableViewController -init]");
         viewLoaded = NO;
         isLoadingComleteReported = NO;
+        performProgressCalculation = YES;
     }
     
     return self;
@@ -94,7 +96,7 @@
         ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
         if(![[[self view] subviews] containsObject:[pc view]]) {
             // we need the same size
-            [[pc view] setFrame:[[self view] frame]];        
+            [[pc view] setFrame:[[self view] frame]];
             [pc startProgressAnimation];
             [[self view] addSubview:[pc view]];
             [[[self view] superview] setNeedsDisplay:YES];

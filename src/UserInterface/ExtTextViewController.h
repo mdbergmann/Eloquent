@@ -26,10 +26,7 @@
 @interface ExtTextViewController : HostableViewController <MouseTracking> {
     IBOutlet MBTextView *textView;
     IBOutlet MouseTrackingScrollView *scrollView;
-    IBOutlet NSMenu *contextMenu;
 }
-
-@property (retain, readwrite) NSMenu *contextMenu;
 
 - (id)initWithDelegate:(id)aDelegate;
 
@@ -50,6 +47,7 @@
 - (NSRect)rectForTextRange:(NSRange)range;
 - (NSRect)rectForAttributeName:(NSString *)attrName attributeValue:(id)attrValue;
 - (NSString *)selectedString;
+- (NSDictionary *)dataForLink:(NSURL *)aURL;
 
 - (void)setAttributedString:(NSAttributedString *)aString;
 

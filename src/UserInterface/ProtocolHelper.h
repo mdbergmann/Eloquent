@@ -44,3 +44,9 @@
 - (void)beginIndicateProgress;
 - (void)endIndicateProgress;
 @end
+
+@protocol ContextMenuProviding
+- (NSMenu *)textContextMenu;
+- (NSMenu *)linkContextMenu;
+- (NSMenu *)imageContextMenu;
+@end

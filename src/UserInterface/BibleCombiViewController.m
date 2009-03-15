@@ -80,6 +80,7 @@
         searchType = ReferenceSearchType;
         
         forceRedisplay = NO;
+        progressControl = NO;
         
         // set default display options
         [self initDefaultModDisplayOptions];
@@ -699,10 +700,13 @@
 }
 
 - (void)endIndicateProgress {
-    ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-    [pc stopProgressAnimation];
-    if([[[self view] subviews] containsObject:[pc view]]) {
-        [[pc view] removeFromSuperview];    
+    // subviews create the progress indicator view but shouldn't be able to remove it if we distribute a new reference ourselfs
+    if(progressControl == NO) {
+        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+        [pc stopProgressAnimation];
+        if([[[self view] subviews] containsObject:[pc view]]) {
+            [[pc view] removeFromSuperview];
+        }        
     }
 }
 
@@ -836,8 +840,12 @@
         }
     }
 
+    // we take control over the progress action
+    progressControl = YES;
     // let subcontrollers display their things
     [self distributeReference:aReference];
+    // give back control to subview controller
+    progressControl = NO;
     
     // end progress indication
     [self endIndicateProgress];
@@ -868,6 +876,7 @@
         MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -initWithCoder] loading nib");
         
         forceRedisplay = NO;
+        progressControl = NO;
         searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
         self.reference = [decoder decodeObjectForKey:@"SearchReference"];
         self.modDisplayOptions = [decoder decodeObjectForKey:@"ReferenceModDisplayOptions"];

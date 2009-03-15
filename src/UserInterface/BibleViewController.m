@@ -26,7 +26,7 @@
 #import "SwordBibleChapter.h"
 #import "GradientCell.h"
 
-@interface BibleViewController (/* class continuation */)
+@interface BibleViewController ()
 
 /** selector called by menuitems */
 - (void)moduleSelectionChanged:(id)sender;
@@ -86,10 +86,7 @@
         }
         self.module = (SwordModule *)aModule;
         self.delegate = aDelegate;
-
-        // create textview controller
-        textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
-        
+                
         self.nibName = BIBLEVIEW_NIBNAME;
         
         // load nib
@@ -113,36 +110,33 @@
     gradientCell = [[GradientCell alloc] init];
     NSTableColumn *tableColumn = [entriesOutlineView tableColumnWithIdentifier:@"common"];
     [tableColumn setDataCell:gradientCell];    
-
+    
     // set menu states of display options
     [[displayOptionsMenu itemWithTag:1] setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] intValue]];
-
+    
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
     if(textViewController.viewLoaded == YES) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[textViewController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[textViewController textView]];
-
+        
         // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[textViewController view]];
         [self reportLoadingComplete];
     }
     
-    // set the context menu
-    [textViewController setContextMenu:contextMenu];
-    
     // create popup button menu
     [self populateModulesMenu];
-        
+    
     // populate menu items with modules
     NSMenu *bibleModules = [[NSMenu alloc] init];
     [[SwordManager defaultManager] generateModuleMenu:&bibleModules forModuletype:bible withMenuTarget:self withMenuAction:@selector(lookUpInIndexOfBible:)];
-    NSMenuItem *item = [contextMenu itemWithTag:2];
+    NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
     [item setSubmenu:bibleModules];
     NSMenu *dictModules = [[NSMenu alloc] init];
     [[SwordManager defaultManager] generateModuleMenu:&dictModules forModuletype:dictionary withMenuTarget:self withMenuAction:@selector(lookUpInDictionaryOfModule:)];
-    item = [contextMenu itemWithTag:4];
+    item = [textContextMenu itemWithTag:LookUpInDictionaryList];
     [item setSubmenu:dictModules];
     
     [self adaptUIToHost];
@@ -178,7 +172,7 @@
                                        withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
-
+    
     // select module
     if(self.module != nil) {
         // on change, still exists?
@@ -191,7 +185,7 @@
                 [self displayTextForReference:[self reference] searchType:searchType];
             }
         }
-
+        
         [modulePopBtn selectItemWithTitle:[module name]];
     }
 }
@@ -273,7 +267,7 @@
                 // prepare verse URL link
                 NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], [entry keyString]];
                 NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-
+                
                 // add attributes
                 [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
                 [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
@@ -294,7 +288,7 @@
 
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {
     NSMutableAttributedString *ret = nil;
-
+    
     // some defaults
     // get user defaults
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
@@ -308,7 +302,7 @@
     for(NSDictionary *dict in verseData) {
         NSString *verseText = [dict objectForKey:SW_OUTPUT_TEXT_KEY];
         NSString *key = [dict objectForKey:SW_OUTPUT_REF_KEY];
-                
+        
         NSString *bookName = @"";
         int book = -1;
         int chapter = -1;
@@ -318,7 +312,7 @@
         
         // the verse link, later we have to add percent escapes
         NSString *verseInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
-
+        
         // generate text according to userdefaults
         if(!vool) {
             // not verses on one line
@@ -395,7 +389,7 @@
                 // prepare verse URL link
                 //NSString *verseLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], verseMarker];
                 //NSURL *verseURL = [NSURL URLWithString:[verseLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-
+                
                 // prepare various link usages
                 NSString *visible = @"";
                 NSRange linkRange;
@@ -448,7 +442,7 @@
     return @"BibleView";
 }
 
-#pragma mark - protocol implementations
+#pragma mark - TextDisplayable
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     
@@ -481,7 +475,7 @@
             } else {
                 if(searchType == ReferenceSearchType) {
                     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Reference");
-
+                    
                     if(performProgressCalculation) {
                         // in order to show a progress indicator for if the searching takes too long
                         // we need to find out how long it will approximately take
@@ -490,10 +484,10 @@
                         // let's say that for more then 30 verses we show a progress indicator
                         if(len >= 30) {
                             [self beginIndicateProgress];
-                        }                        
+                        }
+                        performProgressCalculation = YES;   // next time we do
                         MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] numberOfVerseKeys...done");
                     }
-                    performProgressCalculation = YES;   // next time we do
                     
                     NSArray *verseData = [module renderedTextForRef:reference];
                     if(verseData == nil) {
@@ -502,7 +496,7 @@
                     } else {
                         verses = [verseData count];
                         statusText = [NSString stringWithFormat:@"Found %i verses", verses];
-
+                        
                         // we need html
                         NSAttributedString *attrString = [self displayableHTMLFromVerseData:verseData];
                         
@@ -522,7 +516,7 @@
                     }
                 } else if(searchType == IndexSearchType) {
                     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Index");
-
+                    
                     // search in index
                     if(![module hasIndex]) {
                         // show progress indicator
@@ -549,32 +543,32 @@
                     // store found range
                     //NSRange temp = [textViewController rangeOfTextToken:aReference lastFound:viewSearchLastFound directionRight:viewSearchDirectionRight];
                     //if(temp.location != NSNotFound) {
-                        // if not visible, scroll to visible
-                        /*
-                        NSRect rect;
-                        if(viewSearchDirectionRight) {
-                            rect = [textViewController rectOfLastLine];
-                        } else {
-                            rect = [textViewController rectOfFirstLine];                        
-                        }
-                        NSScrollView *scrollView = (NSScrollView *)[textViewController scrollView];
-                        [[scrollView contentView] scrollToPoint:rect.origin];
-                        // we have to tell the NSScrollView to update its
-                        // scrollers
-                        [scrollView reflectScrolledClipView:[scrollView contentView]];
-                         */
-                        // show find indicator
-                        //[[textViewController textView] showFindIndicatorForRange:temp];
+                    // if not visible, scroll to visible
+                    /*
+                     NSRect rect;
+                     if(viewSearchDirectionRight) {
+                     rect = [textViewController rectOfLastLine];
+                     } else {
+                     rect = [textViewController rectOfFirstLine];                        
+                     }
+                     NSScrollView *scrollView = (NSScrollView *)[textViewController scrollView];
+                     [[scrollView contentView] scrollToPoint:rect.origin];
+                     // we have to tell the NSScrollView to update its
+                     // scrollers
+                     [scrollView reflectScrolledClipView:[scrollView contentView]];
+                     */
+                    // show find indicator
+                    //[[textViewController textView] showFindIndicatorForRange:temp];
                     //}
                     //viewSearchLastFound = temp;
                 }
             }
-
+            
             // set status
             [self setStatusText:statusText];
-
+            
             // stop indicating progress
-            [self endIndicateProgress];
+            [self endIndicateProgress];            
         } else {
             MBLOG(MBLOG_WARN, @"[BibleViewController -displayTextForReference:] no module set!");
         }
@@ -681,98 +675,6 @@
     [self displayTextForReference:reference searchType:searchType];
 }
 
-- (IBAction)lookUpInIndex:(id)sender {
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -loopUpInIndex:]");
-    
-    // get selection
-    NSString *sel = [textViewController selectedString];
-    if(sel != nil) {
-        // if the host is a single view, switch to index and search for the given word
-        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-            [(SingleViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
-        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
-        }
-    }
-}
-
-- (IBAction)lookUpInIndexOfBible:(id)sender {
-    // sender is the menuitem
-    NSMenuItem *item = (NSMenuItem *)sender;
-    NSString *modName = [item title];
-    SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
-    
-    // get selection
-    NSString *sel = [textViewController selectedString];
-    if(sel != nil) {
-        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-            // create new single host
-            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-            [host setSearchUIType:IndexSearchType searchString:sel];
-        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
-        }
-    }
-}
-
-- (IBAction)lookUpInDictionary:(id)sender {
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -loopUpInDictionary:]");
-
-    NSString *sel = [textViewController selectedString];
-    if(sel != nil) {
-        // get default dictionary module
-        NSString *defDictName = [userDefaults stringForKey:DefaultsDictionaryModule];
-        if(defDictName == nil) {
-            // requester to set default dictionary module
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
-                                             defaultButton:NSLocalizedString(@"OK" , @"")
-                                           alternateButton:nil 
-                                               otherButton:nil
-                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultDictionarySelected", @"")];
-            [alert runModal];
-        } else {
-            SwordModule *dict = [[SwordManager defaultManager] moduleWithName:defDictName];
-            if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-                SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:dict];
-                [host setSearchText:sel];
-            } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-                [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:dict];
-                [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
-            }            
-        }        
-    }
-}
-
-- (IBAction)lookUpInDictionaryOfModule:(id)sender {
-    // sender is the menuitem
-    NSMenuItem *item = (NSMenuItem *)sender;
-    NSString *modName = [item title];
-    SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
-    
-    // get selection
-    NSString *sel = [textViewController selectedString];
-    if(sel != nil) {
-        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-            [host setSearchText:sel];
-        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
-        }            
-    }    
-}
-
-#pragma mark - Context Menu validation
-
-/*
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-    if([menuItem menu] == contextMenu) {
-        
-    } 
-}
- */
-
 #pragma mark - SubviewHosting
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
@@ -783,7 +685,7 @@
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[textViewController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[textViewController textView]];
-
+        
         // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];
@@ -915,7 +817,7 @@
     return NO;
 }
 
-#pragma mark - mouse tracking protocol
+#pragma mark - MouseTracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
     //MBLOG(MBLOG_DEBUG, @"[BibleViewController - mouseEntered]");
@@ -935,10 +837,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
-    if(self) {
-        // create textview controller
-        textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
-        
+    if(self) {        
         self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];
         
         // load nib

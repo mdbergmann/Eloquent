@@ -59,9 +59,6 @@
         self.module = (SwordBook *)aModule;
         self.delegate = aDelegate;
                 
-        // create textview controller
-        textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
-        
         // load nib
         BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
         if(!stat) {
@@ -508,9 +505,6 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        // create textview controller
-        textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
-        
         self.selection = [NSMutableArray array];
 
         // load nib

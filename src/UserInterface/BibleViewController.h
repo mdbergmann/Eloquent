@@ -12,7 +12,7 @@
 #import <ModuleViewController.h>
 #import <ProtocolHelper.h>
 
-@class SwordBible, ExtTextViewController;
+@class SwordBible;
 @class GradientCell;
 
 #define BIBLEVIEW_NIBNAME   @"BibleView"
@@ -27,14 +27,9 @@
     IBOutlet NSPopUpButton *modulePopBtn;
     // status line
     IBOutlet NSTextField *statusLine;
-    // the context menu for textview
-    IBOutlet NSMenu *contextMenu;
     // the outlineview view for the bible books and chapters items
     IBOutlet NSOutlineView *entriesOutlineView;
-    
-    // we need a webview for text display
-    ExtTextViewController *textViewController;
-    
+        
     // gradient cell for outline view
     GradientCell *gradientCell;
     
@@ -76,7 +71,7 @@
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
 
-// Mouse tracking protocol implementation
+// MouseTracking
 - (void)mouseEntered:(NSView *)theView;
 - (void)mouseExited:(NSView *)theView;
 
@@ -93,12 +88,5 @@
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
-
-// context menu actions
-- (IBAction)lookUpInIndex:(id)sender;
-- (IBAction)lookUpInIndexOfBible:(id)sender;
-- (IBAction)lookUpInDictionary:(id)sender;
-- (IBAction)lookUpInDictionaryOfModule:(id)sender;
-
 
 @end

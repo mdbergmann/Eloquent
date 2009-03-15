@@ -53,6 +53,9 @@
     
     // force redisplay
     BOOL forceRedisplay;
+    
+    // progressAction
+    BOOL progressControl;
 }
 
 @property (retain, readwrite) NSString *reference;

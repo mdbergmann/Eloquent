@@ -12,16 +12,13 @@
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "globals.h"
+#import "ProtocolHelper.h"
 
 @interface ExtTextViewController ()
-
-- (NSDictionary *)dataForLink:(NSURL *)aURL;
 
 @end
 
 @implementation ExtTextViewController
-
-@synthesize contextMenu;
 
 - (id)init {
     self = [self initWithDelegate:nil];
@@ -102,9 +99,11 @@
 #pragma mark - MBTextView delegates
 
 - (NSMenu *)menuForEvent:(NSEvent *)event {
-    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -menuForEvent:] %@\n", [event description]);
+    if(delegate) {
+        return [delegate performSelector:@selector(menuForEvent:) withObject:event];
+    }
     
-    return contextMenu;
+    return nil;
 }
 
 #pragma mark - methods
@@ -364,6 +363,21 @@
     SendNotifyShowPreviewData(linkResult);
     
     return YES;
+}
+
+- (void)textView:(NSTextView *)aTextView doubleClickedOnCell:(id < NSTextAttachmentCell >)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex {
+    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:doubleClickedOnCell:inRect:atIndex:]");
+    
+    /*
+    NSDictionary *attrs = [[aTextView textStorage] attributesAtIndex:charIndex effectiveRange:nil];
+    NSURL *link = [attrs objectForKey:NSLinkAttributeName];
+    if(link != nil) {
+        // set link in delegate
+        [delegate performSelector:@selector(setContextMenuClickedLink:) withObject:link];
+        // call openLink
+        [delegate performSelector:@selector(openLink:) withObject:nil];
+    }
+     */
 }
 
 #pragma mark - mouse tracking protocol

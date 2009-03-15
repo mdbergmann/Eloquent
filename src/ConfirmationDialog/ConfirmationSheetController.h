@@ -11,7 +11,7 @@ enum SheetReturnCode {
 };
 
 // name of the nib
-#define CONFIRMATION_SHEET_NIB_NAME @"ConfirmationDialog"
+#define CONFIRMATION_SHEET_NIB_NAME     @"ConfirmationDialog"
 
 @interface ConfirmationSheetController : NSWindowController {
     IBOutlet NSTextField *titleTextField;

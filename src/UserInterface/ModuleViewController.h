@@ -14,9 +14,21 @@
 
 #define TEXT_VERSE_MARKER @"VerseMarkerAttributeName"
 
-@class SwordModule;
+enum BibleViewTextContextMenuItems {
+    LookUpInIndexDefault = 100,
+    LookUpInIndexList,
+    LookUpInDictionaryDefault = 300,
+    LookUpInDictionaryList
+};
 
-@interface ModuleViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking> {
+enum BibleViewLinkContextMenuItems {
+    OpenLink = 10,
+};
+
+@class SwordModule;
+@class ExtTextViewController;
+
+@interface ModuleViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking, ContextMenuProviding> {
 
     // placeholder for webview or other views depending on nodule tyoe
     IBOutlet NSBox *placeHolderView;
@@ -26,6 +38,9 @@
     // current reference
     NSString *reference;
     
+    // we need a webview for text display
+    ExtTextViewController *textViewController;
+
     /** options */
     IBOutlet NSMenu *displayOptionsMenu;
     IBOutlet NSMenu *modDisplayOptionsMenu;
@@ -33,20 +48,25 @@
     NSMutableDictionary *modDisplayOptions;
     NSMutableDictionary *displayOptions;
     
-    // force redisplay
-    BOOL forceRedisplay;
+    // context menus
+    IBOutlet NSMenu *textContextMenu;
+    IBOutlet NSMenu *linkContextMenu;
+    IBOutlet NSMenu *imageContextMenu;    
     
-    // perform progress calculation
-    BOOL performProgressCalculation;
+    // context menu clicked link
+    NSURL *contextMenuClickedLink;
+    
+    // force redisplay
+    BOOL forceRedisplay;    
 }
 
 // --------- properties ---------
 @property (retain, readwrite) SwordModule *module;
 @property (retain, readwrite) NSString *reference;
 @property (readwrite) BOOL forceRedisplay;
-@property (readwrite) BOOL performProgressCalculation;
 @property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
 @property (retain, readwrite) NSMutableDictionary *displayOptions;
+@property (retain, readwrite) NSURL *contextMenuClickedLink;
 
 // ---------- methods ---------
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results;
@@ -74,16 +94,31 @@
 - (NSString *)reference;
 - (void)setReference:(NSString *)aReference;
 
-// TextDisplayable protocol
+// delegate method of ExtTextViewController
+- (NSMenu *)menuForEvent:(NSEvent *)event;
+
+// TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 - (NSView *)referenceOptionsView;
 
-// Mouse tracking protocol implementation
+// MouseTracking
 - (void)mouseEntered:(NSView *)theView;
 - (void)mouseExited:(NSView *)theView;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
+
+// ContextMenuProviding
+- (NSMenu *)textContextMenu;
+- (NSMenu *)linkContextMenu;
+- (NSMenu *)imageContextMenu;
+
+// context menu actions
+- (IBAction)lookUpInIndex:(id)sender;
+- (IBAction)lookUpInIndexOfBible:(id)sender;
+- (IBAction)lookUpInDictionary:(id)sender;
+- (IBAction)lookUpInDictionaryOfModule:(id)sender;
+- (IBAction)openLink:(id)sender;
 
 @end

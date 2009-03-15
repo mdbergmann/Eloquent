@@ -22,12 +22,16 @@
     
     // has been reported loading complete already?
     BOOL isLoadingComleteReported;
+
+    // perform progress calculation
+    BOOL performProgressCalculation;
 }
 
 // properties
 @property (assign, readwrite) id delegate;
 @property (assign, readwrite) id hostingDelegate;
 @property (readwrite) BOOL viewLoaded;
+@property (readwrite) BOOL performProgressCalculation;
 
 /** report the loading of the view is completed */
 - (void)reportLoadingComplete;

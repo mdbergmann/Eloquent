@@ -26,9 +26,6 @@
     // the outlineview view for the dictionary items
     IBOutlet NSOutlineView *entriesOutlineView;
     
-    // we need a webview for text display
-    ExtTextViewController *textViewController;
-    
     NSMutableArray *selection;
     
     // search type

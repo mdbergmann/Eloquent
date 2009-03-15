@@ -88,7 +88,7 @@
             } else if([[data objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showStrongs"]) {
                 displayType = SW_OPTION_STRONGS;            
             } else if([[data objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showRef"]) {
-                displayType = SW_OPTION_REF;                
+                displayType = SW_OPTION_REF;
             }
             [previewType setStringValue:displayType];
             
@@ -104,6 +104,11 @@
                     }                    
                 } else if([result isKindOfClass:[NSString class]]) {
                     displayText = result;
+                } else if([result isKindOfClass:[NSDictionary class]]) {
+                    NSString *verseText = [(NSDictionary *)result objectForKey:SW_OUTPUT_TEXT_KEY];
+                    NSString *key = [(NSDictionary *)result objectForKey:SW_OUTPUT_REF_KEY];
+                    
+                    [displayText appendFormat:@"%@:\n%@\n", key, verseText];                    
                 }
             }
             // show
