@@ -28,34 +28,16 @@
 #pragma mark - getter/setter
 
 @synthesize module;
-@synthesize forceRedisplay;
-@synthesize modDisplayOptions;
-@synthesize displayOptions;
 @synthesize contextMenuClickedLink;
-@dynamic reference;
+@synthesize performProgressCalculation;
 
-- (NSString *)reference {
-    return reference;
-}
-
-- (void)setReference:(NSString *)aReference {
-    [aReference retain];
-    [reference release];
-    reference = aReference;
-}
-
-#pragma mark - initializers
+#pragma mark - Initializers
 
 - (id)init {
     self = [super init];
     if(self) {
-        [self setReference:@""];
-        forceRedisplay = NO;
+        performProgressCalculation = YES;
         
-        // init display options
-        [self initDefaultModDisplayOptions];
-        [self initDefaultDisplayOptions];
-
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
 
@@ -68,7 +50,11 @@
     return self;
 }
 
-#pragma mark - methods
+- (void)awakeFromNib {
+    [super awakeFromNib];
+}
+
+#pragma mark - Methods
 
 /** notification, called when modules have changed */
 - (void)modulesListChanged:(NSNotification *)aNotification {
@@ -91,22 +77,6 @@
     return nil;
 }
 
-- (void)initDefaultModDisplayOptions {
-    NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_STRONGS];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_MORPHS];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
-    self.modDisplayOptions = dOpts;
-}
-
-- (void)initDefaultDisplayOptions {
-    NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
-    [dOpts setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
-    self.displayOptions = dOpts;        
-}
-
 #pragma mark - Hostable delegate methods
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
@@ -118,26 +88,6 @@
     }
     
     return @"ModuleView";
-}
-
-#pragma mark - TextDisplayable protocol
-
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
-    // do nothing here, subclass will handle
-}
-
-- (NSView *)referenceOptionsView {
-    return referenceOptionsView;
-}
-
-#pragma mark - MouseTracking protocol
-
-- (void)mouseEntered:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseEntered]");
-}
-
-- (void)mouseExited:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseExited]");
 }
 
 #pragma mark - Text Context Menu actions
@@ -380,25 +330,13 @@
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    self = [super init];
+    self = [super initWithCoder:decoder];
     if(self) {
+        performProgressCalculation = YES;
         // decode module name
         NSString *moduleName = [decoder decodeObjectForKey:@"ModuleNameEncoded"];
         // set module
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
-        // decode reference
-        self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
-        // display options
-        self.modDisplayOptions = [decoder decodeObjectForKey:@"ReferenceModDisplayOptions"];
-        if(!modDisplayOptions) {
-            // set defaults
-            [self initDefaultModDisplayOptions];
-        }
-        self.displayOptions = [decoder decodeObjectForKey:@"ReferenceDisplayOptions"];
-        if(!displayOptions) {
-            // set defaults
-            [self initDefaultDisplayOptions];
-        }
         
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
@@ -415,14 +353,10 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode reference
-    [encoder encodeObject:reference forKey:@"ReferenceEncoded"];
+    // encode common things first
+    [super encodeWithCoder:encoder];
     // encode module name
     [encoder encodeObject:[module name] forKey:@"ModuleNameEncoded"];
-    // display options
-    [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
-    // display options
-    [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
 }
 
 @end

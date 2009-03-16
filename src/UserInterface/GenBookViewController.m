@@ -73,6 +73,9 @@
 
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[GenBookViewController -awakeFromNib]");
+
+    [super awakeFromNib];
+    
     // loading finished
     viewLoaded = YES;
     
@@ -169,12 +172,12 @@
             // strip searchQuery
             NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
             // key attributes
-            NSFont *keyFont = [NSFont fontWithName:[NSString stringWithFormat:@"%@ Bold", [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]] 
-                                              size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+            NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                              size:(int)customFontSize];
             NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
             // content font
             NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                                  size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];            
+                                                  size:(int)customFontSize];            
             NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
             // strip binary search tokens
             searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
@@ -197,6 +200,12 @@
 - (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray {
     NSMutableAttributedString *ret = nil;
     
+    // set global display options
+    for(NSString *key in modDisplayOptions) {
+        NSString *val = [modDisplayOptions objectForKey:key];
+        [[SwordManager defaultManager] setGlobalOption:key value:val];
+    }
+    
     // generate html string for verses
     NSMutableString *htmlString = [NSMutableString string];
     for(NSString *key in keyArray) {
@@ -216,10 +225,13 @@
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
                 forKey:NSCharacterEncodingDocumentOption];
     // set web preferences
-    [options setObject:[[MBPreferenceController defaultPrefsController] webPreferences] forKey:NSWebPreferencesDocumentOption];
+    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+    // set custom font size
+    [webPrefs setDefaultFontSize:(int)customFontSize];
+    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     // set scroll to line height
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+                                   size:(int)customFontSize];
     [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
@@ -246,6 +258,13 @@
     return ret;
 }
 
+- (void)displayTextForReference:(NSString *)aReference {
+    // there is actually only one search type for GenBooks but we use Reference Search Type
+    // to (re-)display the selection
+    [self displayTextForReference:aReference searchType:ReferenceSearchType];
+    searchType = IndexSearchType;
+}
+
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     
     searchType = aType;
@@ -264,13 +283,9 @@
             
             if(searchType == ReferenceSearchType) {
 
-                if([aReference length] > 0) {
-                    /*
-                    NSMutableArray *sel = [NSMutableArray array];
-                    // init Reg ex
-                    MBRegex *regex = [MBRegex regexWithPattern:aReference];
-                     */
-                }
+                // re-display
+                NSAttributedString *string = [self displayableHTMLForKeys:self.selection];
+                [textViewController setAttributedString:string];
 
                 // refresh outlineview
                 [entriesOutlineView reloadData];
@@ -417,10 +432,7 @@
             }
             
             self.selection = sel;
-            
-            // re-display
-            NSAttributedString *string = [self displayableHTMLForKeys:sel];
-            [textViewController setAttributedString:string];
+            [self displayTextForReference:reference];
 		} else {
 			MBLOG(MBLOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}

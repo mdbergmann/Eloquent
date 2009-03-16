@@ -49,6 +49,7 @@
 - (void)setStatusText:(NSString *)aText;
 
 // protocol definitions
+- (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
 // selector called by menuitems

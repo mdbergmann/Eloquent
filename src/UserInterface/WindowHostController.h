@@ -35,8 +35,6 @@
     IBOutlet NSBox *placeHolderView;
     // placeholder for the search options
     IBOutlet NSBox *placeHolderSearchOptionsView;
-    // scopebar for tabs
-    IBOutlet ScopeBarView *scopeBarView;
     // options bar
     IBOutlet NSView *optionsView;
     // progress indicator
@@ -45,7 +43,7 @@
     IBOutlet NSSegmentedControl *leftSideBottomSegControl;
     /** the segmentedcontrol for right sides */
     IBOutlet NSSegmentedControl *rightSideBottomSegControl;
-
+    
     // our delegate
     id delegate;
     

@@ -805,6 +805,14 @@ typedef enum _NavigationDirectionType {
     }
 }
 
+- (NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
+    if(splitView == mainSplitView) {
+        return [[lsbViewController resizeControl] convertRect:[(NSView *)[lsbViewController resizeControl] bounds] toView:splitView];
+    }
+    
+    return NSZeroRect;
+}
+
 #pragma mark - NSWindow delegate methods
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {

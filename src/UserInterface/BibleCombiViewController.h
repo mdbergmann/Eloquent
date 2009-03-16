@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <CocoPCRE/CocoPCRE.h>
-#import <HostableViewController.h>
+#import <ModuleCommonsViewController.h>
 #import <ModuleViewController.h>
 #import <ProtocolHelper.h>
 #import <Indexer.h>
@@ -18,7 +18,7 @@
 
 @class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
-@interface BibleCombiViewController : HostableViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking, ProgressIndicating> {
+@interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking, ProgressIndicating> {
     // the lookup field
     IBOutlet NSTextField *lookupTF;
     IBOutlet NSButton *okBtn;
@@ -26,13 +26,6 @@
     IBOutlet NSSplitView *horiSplitView;
     IBOutlet NSSplitView *parBibleSplitView;
     IBOutlet NSSplitView *parMiscSplitView;
-    
-    /** options */
-    IBOutlet NSMenu *displayOptionsMenu;
-    IBOutlet NSMenu *modDisplayOptionsMenu;
-    IBOutlet NSView *referenceOptionsView;
-    NSMutableDictionary *modDisplayOptions;
-    NSMutableDictionary *displayOptions;
     
     NSMutableArray *parBibleViewControllers;
     NSMutableArray *parMiscViewControllers;
@@ -48,18 +41,10 @@
     
     // search type
     SearchType searchType;
-    // search text
-    NSString *reference;
-    
-    // force redisplay
-    BOOL forceRedisplay;
     
     // progressAction
     BOOL progressControl;
 }
-
-@property (retain, readwrite) NSString *reference;
-@property (readwrite) BOOL forceRedisplay;
 
 // initializers
 - (id)initWithDelegate:(id)aDelegate;
@@ -77,11 +62,13 @@
 - (NSNumber *)bibleViewCount;
 
 // actions
+- (IBAction)fontSizeChange:(id)sender;
 - (IBAction)displayOptionShowStrongs:(id)sender;
 - (IBAction)displayOptionShowMorphs:(id)sender;
 - (IBAction)displayOptionShowFootnotes:(id)sender;
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
+- (IBAction)displayOptionShowHeadings:(id)sender;
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 // ProgressIndicating

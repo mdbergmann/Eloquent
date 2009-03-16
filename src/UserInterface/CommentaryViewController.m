@@ -163,10 +163,13 @@
     // set string encoding
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
     // set web preferences
-    [options setObject:[[MBPreferenceController defaultPrefsController] webPreferences] forKey:NSWebPreferencesDocumentOption];
+    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+    // set custom font size
+    [webPrefs setDefaultFontSize:(int)customFontSize];
+    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     // set scroll to line height
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+                                   size:(int)customFontSize];
     [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];

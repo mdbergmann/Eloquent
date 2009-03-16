@@ -15,7 +15,6 @@
 @dynamic hostingDelegate;
 @dynamic delegate;
 @synthesize viewLoaded;
-@synthesize performProgressCalculation;
 
 - (id)init {
     self = [super init];
@@ -23,7 +22,6 @@
         MBLOG(MBLOG_DEBUG, @"[HostableViewController -init]");
         viewLoaded = NO;
         isLoadingComleteReported = NO;
-        performProgressCalculation = YES;
     }
     
     return self;
@@ -100,7 +98,7 @@
             [pc startProgressAnimation];
             [[self view] addSubview:[pc view]];
             [[[self view] superview] setNeedsDisplay:YES];
-        }        
+        }
     }
 }
 

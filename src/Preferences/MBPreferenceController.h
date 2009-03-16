@@ -64,9 +64,6 @@
 	IBOutlet NSView *bibleDisplayView;
     NSRect bibleDisplayViewRect;
 	
-    // WebPreferences for display
-    WebPreferences *webPreferences;
-    
 	// the window the sheet shall come up
 	NSWindow *sheetWindow;
     
@@ -85,12 +82,14 @@
 
 @property (readwrite) id delegate;
 @property (readwrite) NSWindow *sheetWindow;
-@property (readwrite) WebPreferences *webPreferences;
 
 // the default prefs controller
 + (MBPreferenceController *)defaultPrefsController;
 
 - (id)initWithDelegate:(id)aDelegate;
+
+/** returns a copy of the default web preferences */
+- (WebPreferences *)defaultWebPreferences;
 
 - (NSArray *)moduleNamesOfTypeBible;
 - (NSArray *)moduleNamesOfTypeDictionary;
@@ -113,5 +112,6 @@
 // actions
 - (IBAction)okButton:(id)sender;
 - (IBAction)toggleBackgroundIndexer:(id)sender;
+- (IBAction)openFontsPanel:(id)sender;
 
 @end

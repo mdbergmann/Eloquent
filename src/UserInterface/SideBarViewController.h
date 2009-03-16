@@ -12,10 +12,14 @@
 
 @interface SideBarViewController : HostableViewController <SubviewHosting> {
     IBOutlet NSOutlineView *outlineView;
+    IBOutlet NSView *sidebarResizeControl;
 }
 
 // initialitazion
 - (id)initWithDelegate:(id)aDelegate;
+
+/** view of control rect */
+- (NSView *)resizeControl;
 
 // subviewhosting
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;

@@ -18,23 +18,15 @@
 #import "globals.h"
 #import "ProgressOverlayViewController.h"
 
-@interface BibleCombiViewController (/* Private, class continuation */)
+@interface BibleCombiViewController ()
 /** private property */
 @property(readwrite, retain) NSMutableArray *parBibleViewControllers;
 @property(readwrite, retain) NSMutableArray *parMiscViewControllers;
-@property(retain, readwrite) NSMutableDictionary *modDisplayOptions;
-@property(retain, readwrite) NSMutableDictionary *displayOptions;
 
 /** distribute the reference */
 - (void)distributeReference:(NSString *)aRef;
 /** when a subview is added we have to recalculate the subview sizes */
 - (void)tileSubViews;
-
-/** default module display options dictionary */
-- (void)initDefaultModDisplayOptions;
-
-/** default display options dictionary */
-- (void)initDefaultDisplayOptions;
 
 // for synchronization of scrollview we need the following methods
 - (void)stopScrollSynchronizationForView:(NSScrollView *)aView;
@@ -55,10 +47,6 @@
 
 @synthesize parBibleViewControllers;
 @synthesize parMiscViewControllers;
-@synthesize reference;
-@synthesize modDisplayOptions;
-@synthesize displayOptions;
-@synthesize forceRedisplay;
 
 #pragma mark - initialization
 
@@ -78,8 +66,6 @@
         // delegate
         self.delegate = aDelegate;
         searchType = ReferenceSearchType;
-        
-        forceRedisplay = NO;
         progressControl = NO;
         
         // set default display options
@@ -114,6 +100,8 @@
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -awakeFromNib]");
     
+    [super awakeFromNib];
+
     defaultMiscViewHeight = 60;
     [horiSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     
@@ -267,8 +255,12 @@
             // the first did it which applies to all the others
             [bvc setPerformProgressCalculation:NO];
         }
+        if(customFontSize > 0) {
+            [bvc setCustomFontSize:customFontSize];
+        }
         [bvc setForceRedisplay:forceRedisplay];
         [bvc setDisplayOptions:displayOptions];
+        [bvc setModDisplayOptions:modDisplayOptions];
         [bvc displayTextForReference:aRef searchType:searchType];
         
         i++;
@@ -277,8 +269,12 @@
     // loop over all misc ViewControllers and set this reference
     for(CommentaryViewController *cvc in parMiscViewControllers) {
         // set reference
+        if(customFontSize > 0) {
+            [cvc setCustomFontSize:customFontSize];
+        }
         [cvc setForceRedisplay:forceRedisplay];
         [cvc setDisplayOptions:displayOptions];
+        [cvc setModDisplayOptions:modDisplayOptions];
         [cvc displayTextForReference:aRef searchType:searchType];
     }
 }
@@ -334,6 +330,7 @@
     [dOpts setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
     [dOpts setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
     [dOpts setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
     self.modDisplayOptions = dOpts;        
 }
 
@@ -364,6 +361,26 @@
 }
 
 #pragma mark - actions
+
+- (IBAction)fontSizeChange:(id)sender {    
+    // loop over all 
+    // get selected font size
+    int tag = [(NSPopUpButton *)sender selectedTag];
+    
+    // loop over all menuitem and set disabled state
+    for(NSMenuItem *mi in [[(NSPopUpButton *)sender menu] itemArray]) {
+        [mi setState:NSOffState];
+    }
+    // set the selected one
+    [[(NSPopUpButton *)sender selectedItem] setState:NSOnState];
+
+    // set new value
+    customFontSize = tag;
+    
+    // force redisplay
+    forceRedisplay = YES;
+    [self distributeReference:reference];
+}
 
 - (IBAction)displayOptionShowStrongs:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
@@ -427,6 +444,20 @@
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
         [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowHeadings:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEADINGS];
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -832,12 +863,6 @@
                 [alert runModal];                
             }
         }
-    } else {
-        // set global display options
-        for(NSString *key in modDisplayOptions) {
-            NSString *val = [modDisplayOptions objectForKey:key];
-            [[SwordManager defaultManager] setGlobalOption:key value:val];
-        }
     }
 
     // we take control over the progress action
@@ -875,20 +900,8 @@
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -initWithCoder] loading nib");
         
-        forceRedisplay = NO;
         progressControl = NO;
         searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
-        self.reference = [decoder decodeObjectForKey:@"SearchReference"];
-        self.modDisplayOptions = [decoder decodeObjectForKey:@"ReferenceModDisplayOptions"];
-        if(!modDisplayOptions) {
-            // set defaults
-            [self initDefaultModDisplayOptions];
-        }
-        self.displayOptions = [decoder decodeObjectForKey:@"ReferenceDisplayOptions"];
-        if(!displayOptions) {
-            // set defaults
-            [self initDefaultDisplayOptions];
-        }
         
         // init bible views array
         self.parBibleViewControllers = [decoder decodeObjectForKey:@"ParallelBibleViewControllerEncoded"];
@@ -924,12 +937,6 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     // encode searchType
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
-    // encode reference
-    [encoder encodeObject:reference forKey:@"SearchReference"];
-    // display options
-    [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
-    // display options
-    [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
     // encode parallel bible view controllers
     [encoder encodeObject:parBibleViewControllers forKey:@"ParallelBibleViewControllerEncoded"];
     // encode parallel commentary view controllers

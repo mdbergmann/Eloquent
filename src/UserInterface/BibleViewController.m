@@ -43,12 +43,6 @@
 @synthesize nibName;
 @synthesize bookSelection;
 
-- (void)setReference:(NSString *)aReference {
-    [super setReference:aReference];
-    
-    // do additional stuff here
-}
-
 #pragma mark - initializers
 
 - (id)init {
@@ -103,6 +97,9 @@
 
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -awakeFromNib]");
+    
+    [super awakeFromNib];
+    
     // loading finished
     viewLoaded = YES;
     
@@ -253,12 +250,12 @@
             // strip searchQuery
             NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
             // key attributes
-            NSFont *keyFont = [NSFont fontWithName:[NSString stringWithFormat:@"%@ Bold", [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]] 
-                                              size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+            NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                              size:(int)customFontSize];
             NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
             // content font
             NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                                  size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];            
+                                                  size:(int)customFontSize];            
             NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
             // strip binary search tokens
             searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
@@ -337,12 +334,15 @@
     // set string encoding
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
     // set web preferences
-    [options setObject:[[MBPreferenceController defaultPrefsController] webPreferences] forKey:NSWebPreferencesDocumentOption];
+    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+    // set custom font size
+    [webPrefs setDefaultFontSize:(int)customFontSize];
+    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     // set scroll to line height
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+                                   size:(int)customFontSize];
     NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
-                                       size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+                                       size:(int)customFontSize];
     [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
@@ -444,6 +444,10 @@
 
 #pragma mark - TextDisplayable
 
+- (void)displayTextForReference:(NSString *)aReference {
+    [self displayTextForReference:aReference searchType:searchType];
+}
+
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     
     searchType = aType;
@@ -489,6 +493,12 @@
                         MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] numberOfVerseKeys...done");
                     }
                     
+                    // set global display options
+                    for(NSString *key in modDisplayOptions) {
+                        NSString *val = [modDisplayOptions objectForKey:key];
+                        [[SwordManager defaultManager] setGlobalOption:key value:val];
+                    }
+
                     NSArray *verseData = [module renderedTextForRef:reference];
                     if(verseData == nil) {
                         MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference:] got nil verseData, cannot proceed!");
@@ -653,6 +663,20 @@
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
         [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionShowHeadings:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEADINGS];
         [(NSMenuItem *)sender setState:NSOnState];
     }
     

@@ -32,6 +32,10 @@
     [self reportLoadingComplete];
 }
 
+- (NSView *)resizeControl {
+    return sidebarResizeControl;
+}
+
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {

@@ -79,8 +79,8 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
 
-    [defaultsDict setObject:@"Lucida Grande Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
-    [defaultsDict setObject:@"Lucida Grande" forKey:DefaultsBibleTextDisplayFontFamilyKey];
+    [defaultsDict setObject:@"Helvetica Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+    [defaultsDict setObject:@"Helvetica" forKey:DefaultsBibleTextDisplayFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsBibleTextDisplayFontSizeKey];
 
 	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
@@ -395,10 +395,7 @@ static AppController *singleton;
 
 - (IBAction)showPreferenceSheet:(id)sender {
 	// show panel
-    // create it
-    if(!preferenceController) {
-        preferenceController = [[MBPreferenceController alloc] initWithDelegate:self];
-    }
+    preferenceController = [[MBPreferenceController alloc] initWithDelegate:self];
     
     // show window
     if(!isPreferencesShowing) {

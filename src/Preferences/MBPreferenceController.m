@@ -7,7 +7,6 @@
 
 @synthesize delegate;
 @synthesize sheetWindow;
-@synthesize webPreferences;
 
 static MBPreferenceController *instance;
 
@@ -32,17 +31,6 @@ static MBPreferenceController *instance;
 	} else {        
         instance = self;
         delegate = aDelegate;
-        
-		// init web preferences
-        webPreferences = [[WebPreferences alloc] init];
-        [webPreferences setAutosaves:NO];
-        // set defaults
-        [webPreferences setJavaEnabled:NO];
-        [webPreferences setJavaScriptEnabled:NO];
-        [webPreferences setPlugInsEnabled:NO];
-        // set default font
-        [webPreferences setStandardFontFamily:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
-        [webPreferences setDefaultFontSize:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];        
 	}
 	
 	return self;
@@ -80,6 +68,21 @@ static MBPreferenceController *instance;
 
 - (NSArray *)moduleNamesOfTypeStrongsHebrew {
     return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_HEBREWDEF];
+}
+
+- (WebPreferences *)defaultWebPreferences {
+    // init web preferences
+    WebPreferences *webPreferences = [[WebPreferences alloc] init];
+    [webPreferences setAutosaves:NO];
+    // set defaults
+    [webPreferences setJavaEnabled:NO];
+    [webPreferences setJavaScriptEnabled:NO];
+    [webPreferences setPlugInsEnabled:NO];
+    // set default font
+    [webPreferences setStandardFontFamily:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
+    [webPreferences setDefaultFontSize:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];        
+    
+    return webPreferences;
 }
 
 //--------------------------------------------------------------------
@@ -120,16 +123,18 @@ static MBPreferenceController *instance;
     
     NSFont *newFont = [sender convertFont:bibleDisplayFont];
     // get font data
+    //NSString *displayName = [newFont displayName];
     NSString *fontFamily = [newFont familyName];
     float fontSize = [newFont pointSize];
+    NSString *fontBoldName = [NSString stringWithString:fontFamily];
+    if(![fontBoldName hasSuffix:@"Bold"]) {
+        fontBoldName  = [NSString stringWithFormat:@"%@ Bold", fontFamily];
+    }
     
     // update user defaults
     [userDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
-    [userDefaults setObject:[NSString stringWithFormat:@"%@ Bold"] forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+    [userDefaults setObject:fontBoldName forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
     [userDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
-    // update webPreferences
-    [webPreferences setStandardFontFamily:fontFamily];
-    [webPreferences setDefaultFontSize:(int)fontSize];        
     
     NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, (int)fontSize];
     [bibleFontTextField setStringValue:fontText];
@@ -237,6 +242,19 @@ static MBPreferenceController *instance;
     } else {
         [[IndexingManager sharedManager] invalidateBackgroundIndexer];
     }
+}
+
+/**
+ \brief opens the system fonts panel
+ */
+- (IBAction)openFontsPanel:(id)sender {
+	NSFontPanel *fp = [NSFontPanel sharedFontPanel];
+	[fp setIsVisible:YES];
+    
+    // set current font to FontManager
+    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+    [fontManager setSelectedFont:font isMultiple:NO];
 }
 
 @end

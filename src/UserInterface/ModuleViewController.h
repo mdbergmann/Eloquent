@@ -8,78 +8,45 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <HostableViewController.h>
+#import <ModuleCommonsViewController.h>
 #import <ProtocolHelper.h>
 #import <Indexer.h>
 
 #define TEXT_VERSE_MARKER @"VerseMarkerAttributeName"
 
-enum BibleViewTextContextMenuItems {
-    LookUpInIndexDefault = 100,
-    LookUpInIndexList,
-    LookUpInDictionaryDefault = 300,
-    LookUpInDictionaryList
-};
-
-enum BibleViewLinkContextMenuItems {
-    OpenLink = 10,
-};
-
 @class SwordModule;
 @class ExtTextViewController;
 
-@interface ModuleViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking, ContextMenuProviding> {
+@interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextDisplayable, ContextMenuProviding> {
 
     // placeholder for webview or other views depending on nodule tyoe
     IBOutlet NSBox *placeHolderView;
-    
-    // the module
-    SwordModule *module;
-    // current reference
-    NSString *reference;
-    
-    // we need a webview for text display
-    ExtTextViewController *textViewController;
-
-    /** options */
-    IBOutlet NSMenu *displayOptionsMenu;
-    IBOutlet NSMenu *modDisplayOptionsMenu;
-    IBOutlet NSView *referenceOptionsView;
-    NSMutableDictionary *modDisplayOptions;
-    NSMutableDictionary *displayOptions;
     
     // context menus
     IBOutlet NSMenu *textContextMenu;
     IBOutlet NSMenu *linkContextMenu;
     IBOutlet NSMenu *imageContextMenu;    
+
+    // the module
+    SwordModule *module;
+    
+    // we need a webview for text display
+    ExtTextViewController *textViewController;
     
     // context menu clicked link
     NSURL *contextMenuClickedLink;
     
-    // force redisplay
-    BOOL forceRedisplay;    
+    // perform progress calculation
+    BOOL performProgressCalculation;    
 }
 
 // --------- properties ---------
 @property (retain, readwrite) SwordModule *module;
-@property (retain, readwrite) NSString *reference;
-@property (readwrite) BOOL forceRedisplay;
-@property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
-@property (retain, readwrite) NSMutableDictionary *displayOptions;
+@property (readwrite) BOOL performProgressCalculation;
 @property (retain, readwrite) NSURL *contextMenuClickedLink;
 
 // ---------- methods ---------
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results;
-/** 
- default module display options dictionary 
- can be overriden by subclasses
- */
-- (void)initDefaultModDisplayOptions;
-/** 
- default display options dictionary 
- can be overriden by subclasses
- */
-- (void)initDefaultDisplayOptions;
 
 /**
  populates the modules menu
@@ -90,20 +57,8 @@ enum BibleViewLinkContextMenuItems {
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;
 
-// --------- getter / setter ----------
-- (NSString *)reference;
-- (void)setReference:(NSString *)aReference;
-
 // delegate method of ExtTextViewController
 - (NSMenu *)menuForEvent:(NSEvent *)event;
-
-// TextDisplayable
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
-- (NSView *)referenceOptionsView;
-
-// MouseTracking
-- (void)mouseEntered:(NSView *)theView;
-- (void)mouseExited:(NSView *)theView;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

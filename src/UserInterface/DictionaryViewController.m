@@ -81,6 +81,9 @@
 
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[DictionaryViewController -awakeFromNib]");
+    
+    [super awakeFromNib];
+
     // loading finished
     viewLoaded = YES;
     
@@ -179,12 +182,12 @@
             // strip searchQuery
             NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
             // key attributes
-            NSFont *keyFont = [NSFont fontWithName:[NSString stringWithFormat:@"%@ Bold", [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]] 
-                                              size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+            NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                              size:(int)customFontSize];
             NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
             // content font
             NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                                  size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];            
+                                                  size:(int)customFontSize];            
             NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
             // strip binary search tokens
             searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
@@ -207,53 +210,70 @@
 - (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray {
     NSMutableAttributedString *ret = nil;
     
-    // generate html string for verses
-    NSMutableString *htmlString = [NSMutableString string];
-    for(NSString *key in keyArray) {
-        NSArray *result = [self.module renderedTextForRef:key];
-        NSString *text = @"";
-        if([result count] > 0) {
-            text = [[result objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+    if([keyArray count] > 0) {
+        // set global display options
+        for(NSString *key in modDisplayOptions) {
+            NSString *val = [modDisplayOptions objectForKey:key];
+            [[SwordManager defaultManager] setGlobalOption:key value:val];
         }
-        [htmlString appendFormat:@"<b>%@:</b><br />", key];
-        [htmlString appendFormat:@"%@<br /><br />\n", text];
+        
+        // generate html string for verses
+        NSMutableString *htmlString = [NSMutableString string];
+        for(NSString *key in keyArray) {
+            NSArray *result = [self.module renderedTextForRef:key];
+            NSString *text = @"";
+            if([result count] > 0) {
+                text = [[result objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+            }
+            [htmlString appendFormat:@"<b>%@:</b><br />", key];
+            [htmlString appendFormat:@"%@<br /><br />\n", text];
+        }
+        
+        // create attributed string
+        // setup options
+        NSMutableDictionary *options = [NSMutableDictionary dictionary];
+        // set string encoding
+        [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
+                    forKey:NSCharacterEncodingDocumentOption];
+        // set web preferences
+        WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+        // set custom font size
+        [webPrefs setDefaultFontSize:(int)customFontSize];
+        [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
+        // set scroll to line height
+        NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+                                       size:(int)customFontSize];
+        [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
+        // set text
+        NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
+        ret = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                      options:options
+                                           documentAttributes:nil];
+        
+        // add pointing hand cursor to all links
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+        NSRange effectiveRange;
+        int	i = 0;
+        while (i < [ret length]) {
+            NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
+            if([attrs objectForKey:NSLinkAttributeName] != nil) {
+                // add pointing hand cursor
+                attrs = [attrs mutableCopy];
+                [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+                [ret setAttributes:attrs range:effectiveRange];
+            }
+            i += effectiveRange.length;
+        }
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");        
+    } else {
+        ret = [[NSMutableAttributedString alloc] init];
     }
     
-    // create attributed string
-    // setup options
-    NSMutableDictionary *options = [NSMutableDictionary dictionary];
-    // set string encoding
-    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
-                forKey:NSCharacterEncodingDocumentOption];
-    // set web preferences
-    [options setObject:[[MBPreferenceController defaultPrefsController] webPreferences] forKey:NSWebPreferencesDocumentOption];
-    // set scroll to line height
-    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
-    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
-    // set text
-    NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    ret = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                  options:options
-                                       documentAttributes:nil];
-
-    // add pointing hand cursor to all links
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
-    NSRange effectiveRange;
-	int	i = 0;
-	while (i < [ret length]) {
-        NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
-		if([attrs objectForKey:NSLinkAttributeName] != nil) {
-            // add pointing hand cursor
-            attrs = [attrs mutableCopy];
-            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-            [ret setAttributes:attrs range:effectiveRange];
-		}
-		i += effectiveRange.length;
-	}
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
-    
     return ret;
+}
+
+- (void)displayTextForReference:(NSString *)aReference {
+    [self displayTextForReference:aReference searchType:searchType];
 }
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
@@ -274,6 +294,10 @@
             
             if(searchType == ReferenceSearchType) {
 
+                // re-display
+                NSAttributedString *string = [self displayableHTMLForKeys:self.selection];
+                [textViewController setAttributedString:string];                
+                
                 if([aReference length] > 0) {
                     NSMutableArray *sel = [NSMutableArray array];
                     // init Reg ex
@@ -434,10 +458,7 @@
             
             // sert selection
             self.selection = sel;
-            
-            // re-display
-            NSAttributedString *string = [self displayableHTMLForKeys:sel];
-            [textViewController setAttributedString:string];
+            [self displayTextForReference:reference];
 		} else {
 			MBLOG(MBLOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}

@@ -67,6 +67,7 @@
 - (void)setStatusText:(NSString *)aText;
 
 // protocol definitions
+- (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
@@ -87,6 +88,7 @@
 - (IBAction)displayOptionShowFootnotes:(id)sender;
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
+- (IBAction)displayOptionShowHeadings:(id)sender;
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 @end
