@@ -148,7 +148,6 @@
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
-    NSRange searchRange = NSMakeRange(0, 0);
     long maxResults = 10000;
     
     // get new search results
@@ -156,7 +155,7 @@
     if(indexer == nil) {
         MBLOG(MBLOG_ERR, @"[GenBookViewController -searchFor:] Could not get indexer for searching!");
     } else {
-        NSArray *tempResults = [indexer performSearchOperation:searchQuery range:searchRange maxResults:maxResults];        
+        NSArray *tempResults = [indexer performSearchOperation:searchQuery constrains:nil maxResults:maxResults];        
         // close indexer
         [indexer close];
         

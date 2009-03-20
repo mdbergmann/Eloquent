@@ -16,17 +16,18 @@
 #import <Cocoa/Cocoa.h>
 #import <CoreFoundation/CoreFoundation.h>
 
-#define BUNDLEVERSION			CFBundleGetVersionNumber(CFBundleGetMainBundle())
-#define BUNDLEVERSIONSTRING		CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey)
-#define APPNAME					@"MacSword"
-#define DEFAULT_APPSUPPORT_PATH	[@"~/Library/Application Support/MacSword" stringByExpandingTildeInPath]
-#define OLD_BOOKMARK_PATH       [@"~/Library/Application Support/MacSword/Bookmarks.plist" stringByExpandingTildeInPath]
-#define DEFAULT_BOOKMARK_PATH   [@"~/Library/Application Support/MacSword/Bookmarklist.plist" stringByExpandingTildeInPath]
-#define DEFAULT_MODULE_PATH     [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
-#define DEFAULT_SESSION_PATH    [@"~/Library/Application Support/MacSword/DefaultSession.plist" stringByExpandingTildeInPath]
-#define SWINSTALLMGR_NAME       @"InstallMgr"
-#define LOGFILE					[@"~/Library/Logs/MacSword2.log" stringByExpandingTildeInPath]
-#define TMPFOLDER				[@"~/Library/Caches/MacSword" stringByExpandingTildeInPath]
+#define BUNDLEVERSION               CFBundleGetVersionNumber(CFBundleGetMainBundle())
+#define BUNDLEVERSIONSTRING         CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey)
+#define APPNAME                     @"MacSword"
+#define DEFAULT_APPSUPPORT_PATH     [@"~/Library/Application Support/MacSword" stringByExpandingTildeInPath]
+#define OLD_BOOKMARK_PATH           [@"~/Library/Application Support/MacSword/Bookmarks.plist" stringByExpandingTildeInPath]
+#define DEFAULT_BOOKMARK_PATH       [@"~/Library/Application Support/MacSword/Bookmarklist.plist" stringByExpandingTildeInPath]
+#define DEFAULT_MODULE_PATH         [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
+#define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/MacSword/DefaultSession.plist" stringByExpandingTildeInPath]
+#define DEFAULT_SEARCHBOOKSET_PATH  [@"~/Library/Application Support/MacSword/DefaultSearchBookSets.plist" stringByExpandingTildeInPath]
+#define SWINSTALLMGR_NAME           @"InstallMgr"
+#define LOGFILE                     [@"~/Library/Logs/MacSword2.log" stringByExpandingTildeInPath]
+#define TMPFOLDER                   [@"~/Library/Caches/MacSword" stringByExpandingTildeInPath]
 
 // OS version
 #define OSVERSION [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"]

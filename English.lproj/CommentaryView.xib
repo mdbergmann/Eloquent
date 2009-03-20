@@ -8,7 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="77"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -388,7 +387,7 @@
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 			<object class="NSCustomView" id="654573848">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -498,7 +497,7 @@
 					<object class="NSPopUpButton" id="456755686">
 						<reference key="NSNextResponder" ref="654573848"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{140, -1}, {124, 26}}</string>
+						<string key="NSFrame">{{129, 0}, {124, 26}}</string>
 						<reference key="NSSuperview" ref="654573848"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="558922230">
@@ -555,7 +554,7 @@
 					<object class="NSPopUpButton" id="106971237">
 						<reference key="NSNextResponder" ref="654573848"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{263, -1}, {87, 26}}</string>
+						<string key="NSFrame">{{252, -1}, {87, 26}}</string>
 						<reference key="NSSuperview" ref="654573848"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="435439478">
@@ -674,7 +673,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{500, 24}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSScrollView" id="914141240">
@@ -2162,7 +2160,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{39, 253}, {500, 24}}</string>
+					<string>{{130, 297}, {500, 24}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2199,7 +2197,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">198</int>
+			<int key="maxID">210</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2220,10 +2218,12 @@
 							<string>displayOptionShowRedLetterWords:</string>
 							<string>displayOptionShowStrongs:</string>
 							<string>displayOptionVersesOnOneLine:</string>
+							<string>editBookSets:</string>
 							<string>moduleSelectionChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

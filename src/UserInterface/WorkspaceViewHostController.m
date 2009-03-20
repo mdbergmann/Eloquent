@@ -159,6 +159,14 @@
 
 #pragma mark - Methods
 
+/** sets the type of search to UI */
+- (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString {
+    [super setSearchUIType:aType searchString:aString];
+    
+    // accessorie view may change
+    [rsbViewController setContentView:[(GenBookViewController *)activeViewController listContentView]];
+}
+
 - (ModuleType)moduleType {
     ModuleType moduleType = bible;
     

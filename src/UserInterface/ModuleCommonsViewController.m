@@ -58,6 +58,8 @@
     [dOpts setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
     [dOpts setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
     [dOpts setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
     self.modDisplayOptions = dOpts;
 }
 
@@ -65,6 +67,15 @@
     NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
     [dOpts setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
     self.displayOptions = dOpts;        
+}
+
+/** 
+ abstract method, subclasses should override
+ this is for validating the module display options
+ */
+- (void)validateModDisplayOptions {
+    // nothing done here
+    // we need a module to validate options
 }
 
 #pragma mark - Actions

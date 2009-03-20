@@ -17,7 +17,7 @@
 @class SwordManager, SwordBibleBook;
 
 typedef enum {
-	OldTestament,
+	OldTestament = 1,
 	NewTestament
 }Testament;
 
@@ -31,6 +31,9 @@ typedef enum {
 + (void)decodeRef:(NSString *)ref intoBook:(NSString **)bookName book:(int *)book chapter:(int *)chapter verse:(int *)verse;
 + (NSString *)firstRefName:(NSString *)abbr;
 + (NSString *)context:(NSString *)abbr;
+#ifdef __cplusplus
++ (int)bookIndexForSWKey:(sword::VerseKey *)key;
+#endif
 
 // ----------- instance methods ------------
 - (id)initWithName:(NSString *)name swordManager:(SwordManager *)aManager;

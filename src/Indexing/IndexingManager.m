@@ -12,6 +12,8 @@
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SwordSearching.h"
+#import "SearchBookSet.h"
+#import "SwordVerseKey.h"
 
 #define INDEXTYPE kSKIndexInverted
 
@@ -94,6 +96,7 @@
 @synthesize interval;
 @synthesize stalled;
 @synthesize timer;
+@synthesize searchBookSets;
 
 /**
 \brief this is a singleton
@@ -124,6 +127,105 @@
         [self setInterval:30];
         [self setStalled:NO];
         indexCheckLock = [[NSLock alloc] init];
+        
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if([fm fileExistsAtPath:DEFAULT_SEARCHBOOKSET_PATH]) {
+            // load
+            [self setSearchBookSets:[NSMutableArray arrayWithArray:[NSKeyedUnarchiver unarchiveObjectWithFile:DEFAULT_SEARCHBOOKSET_PATH]]];
+        } else {
+            // build default search booksets
+            NSMutableArray *bookSets = [NSMutableArray array];
+            // All
+            [bookSets addObject:[SearchBookSet searchBookSetWithName:@"All"]]; // empty for all
+            // Torah
+            SearchBookSet *set = [SearchBookSet searchBookSetWithName:@"Law"];
+            [set setIsPredefined:YES];
+            [bookSets addObject:set];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Gen"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Exod"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Lev"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Num"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Deut"] osisBookName]];
+            // Prophets
+            set = [SearchBookSet searchBookSetWithName:@"Prophets"];
+            [set setIsPredefined:YES];            
+            [bookSets addObject:set];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Josh"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Judg"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Sam"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Sam"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Kgs"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Kgs"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Isa"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Jer"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Ezek"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Hos"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Joel"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Amos"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Obad"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Jonah"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Mic"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Nah"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Hab"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Zeph"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Hag"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Zech"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Mal"] osisBookName]];
+            // Scriptures
+            set = [SearchBookSet searchBookSetWithName:@"Scriptures"];
+            [set setIsPredefined:YES];
+            [bookSets addObject:set];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Ruth"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Chr"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Chr"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Ezra"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Neh"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Esth"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Job"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Ps"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Prov"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Eccl"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Song"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Lam"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Dan"] osisBookName]];
+            // Evangelien
+            set = [SearchBookSet searchBookSetWithName:@"Gospels"];
+            [set setIsPredefined:YES];
+            [bookSets addObject:set];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Matt"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Mark"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Luke"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"John"] osisBookName]];
+            // Briefe
+            set = [SearchBookSet searchBookSetWithName:@"Letters"];
+            [set setIsPredefined:YES];
+            [bookSets addObject:set];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Rom"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Cor"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Cor"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Gal"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Eph"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Phil"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Thess"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Thess"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Tim"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Tim"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Titus"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Phlm"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Heb"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Jas"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Pet"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Pet"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"1John"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"2John"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"3John"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Jude"] osisBookName]];
+            
+            // store
+            [NSKeyedArchiver archiveRootObject:bookSets toFile:DEFAULT_SEARCHBOOKSET_PATH];
+            // take it
+            [self setSearchBookSets:bookSets];
+        }
 	}
 	
 	return self;
@@ -136,6 +238,11 @@
     MBLOG(MBLOG_DEBUG, @"[IndexingManager -finalize]");
     
     [super finalize];
+}
+
+- (void)storeSearchBookSets {
+    // store
+    [NSKeyedArchiver archiveRootObject:searchBookSets toFile:DEFAULT_SEARCHBOOKSET_PATH];
 }
 
 /**

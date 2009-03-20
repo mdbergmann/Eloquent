@@ -17,7 +17,7 @@
 #import "SwordDictionary.h"
 #import "SwordBook.h"
 
-NSString *MacSwordIndexVersion = @"2.4";
+NSString *MacSwordIndexVersion = @"2.5";
 
 @implementation SwordModule(Searching)
 
@@ -25,38 +25,15 @@ NSString *MacSwordIndexVersion = @"2.4";
  generates a path index for the given VerseKey
  */
 + (NSString *)indexOfVerseKey:(sword::VerseKey *)vk {
-    int testament = vk->Testament();
-    int book = vk->Book();
     
-    // testament 2 begins with book 1
-    if(testament == 2) {
-        book = book + 39;   // 39 is the last book in AT
-    }
-    
-    NSString *index = [NSString stringWithFormat:@"%003i/%003i/%003i/%003i", 
+    int testament = vk->Testament();    
+    NSString *index = [NSString stringWithFormat:@"%003i/%s/%003i/%003i", 
                        testament,
-                       book,
+                       vk->getOSISBookName(),
                        vk->Chapter(),
                        vk->Verse()];
     
     return index;
-}
-
-- (NSString *)textForKey:(NSString *)key {
-    
-    NSString *ret = @"";
-    
-	sword::SWKey textkey = toUTF8(key);
-	swModule->setKey(textkey);
-	
-	char *ctxt = (char *)swModule->StripText();
-	int clen = strlen(ctxt);
-	if(clen > 3 && ctxt[clen-3] == -96) {
-		ctxt[clen-3] = 0;
-	}
-    ret = [NSString stringWithUTF8String:ctxt];
-
-	return ret;
 }
 
 - (BOOL)hasIndex {

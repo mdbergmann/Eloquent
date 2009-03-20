@@ -14,7 +14,7 @@
 @synthesize book;
 @synthesize number;
 
-- (id)initWithBook:(SwordBibleBook *)aBook andChapter:(NSNumber *)aNumber {
+- (id)initWithBook:(SwordBibleBook *)aBook andChapter:(int)aNumber {
     self = [super init];
     if(self) {
         self.book = aBook;

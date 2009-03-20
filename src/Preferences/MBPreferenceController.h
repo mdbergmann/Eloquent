@@ -22,30 +22,31 @@
 #define DefaultsHeaderViewFontSizeBigKey            @"DefaultsHeaderViewFontSizeBigKey"
 
 // cipher keys
-#define DefaultsModuleCipherKeysKey     @"DefaultsModuleCipherKeysKey"
+#define DefaultsModuleCipherKeysKey                 @"DefaultsModuleCipherKeysKey"
 
 // define some userdefaults keys
-#define DEFAULTS_SWMODULE_PATH_KEY      @"SwordModulePath"
-#define DEFAULTS_SWINSTALLMGR_PATH_KEY  @"SwordInstallMgrPath"
-#define DEFAULTS_SWINDEX_PATH_KEY       @"SwordIndexPath"
+#define DEFAULTS_SWMODULE_PATH_KEY                  @"SwordModulePath"
+#define DEFAULTS_SWINSTALLMGR_PATH_KEY              @"SwordInstallMgrPath"
+#define DEFAULTS_SWINDEX_PATH_KEY                   @"SwordIndexPath"
 
 // default bible
-#define DefaultsBibleModule             @"DefaultsBibleModule"
-#define DefaultsDictionaryModule        @"DefaultsDictionaryModule"
-#define DefaultsStrongsHebrewModule     @"DefaultsStrongsHebrewModule"
-#define DefaultsStrongsGreekModule      @"DefaultsStrongsGreekModule"
+#define DefaultsBibleModule                         @"DefaultsBibleModule"
+#define DefaultsDictionaryModule                    @"DefaultsDictionaryModule"
+#define DefaultsStrongsHebrewModule                 @"DefaultsStrongsHebrewModule"
+#define DefaultsStrongsGreekModule                  @"DefaultsStrongsGreekModule"
 
 // indexing defaults
-#define DefaultsBackgroundIndexerEnabled    @"DefaultsBackgroundIndexerEnabled"
-#define DefaultsRemoveIndexOnModuleRemoval  @"DefaultsRemoveIndexOnModuleRemoval"
+#define DefaultsBackgroundIndexerEnabled            @"DefaultsBackgroundIndexerEnabled"
+#define DefaultsRemoveIndexOnModuleRemoval          @"DefaultsRemoveIndexOnModuleRemoval"
+#define DefaultsIndexedSearchBookSets               @"DefaultsIndexedSearchBookSets"
 
 // UI defaults
-#define DefaultsShowLSB         @"DefaultsShowLSB"
-#define DefaultsShowRSB         @"DefaultsShowRSB"
-#define DefaultsShowHUDPreview  @"DefaultsShowHUDPreview"
+#define DefaultsShowLSB                             @"DefaultsShowLSB"
+#define DefaultsShowRSB                             @"DefaultsShowRSB"
+#define DefaultsShowHUDPreview                      @"DefaultsShowHUDPreview"
 
 // confirmations
-#define DefaultsShowFullScreenConfirm   @"DefaultsShowFullScreenConfirm"
+#define DefaultsShowFullScreenConfirm               @"DefaultsShowFullScreenConfirm"
 
 @class SwordManager;
 

@@ -679,10 +679,8 @@
         [ps beginSheet];
         [ps startProgressAnimation];
         
-        NSEnumerator *iter = [selectedInstallSources objectEnumerator];
-        InstallSourceListObject *source = nil;
         int stat = 0;
-        while((source = [iter nextObject])) {
+        for(InstallSourceListObject *source in selectedInstallSources) {
             stat = [sis refreshInstallSource:[source installSource]];
             if(stat != 0) {
                 MBLOG(MBLOG_ERR, @"[ModuleManageViewController -refreshInstallSource:] error on refreshing install source!");

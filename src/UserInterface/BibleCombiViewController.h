@@ -69,6 +69,8 @@
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
 - (IBAction)displayOptionShowHeadings:(id)sender;
+- (IBAction)displayOptionHebrewPoints:(id)sender;
+- (IBAction)displayOptionHebrewCantillation:(id)sender;
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 // ProgressIndicating

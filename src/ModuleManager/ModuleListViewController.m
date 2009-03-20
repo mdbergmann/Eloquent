@@ -127,20 +127,15 @@
     [moduleData removeAllObjects];
     
     // we have the install sources here and the modules have the state information
-    NSEnumerator *iter = [installSources objectEnumerator];
-    InstallSourceListObject *listObject = nil;
-    while((listObject = [iter nextObject])) {
+    for(InstallSourceListObject *listObject in installSources) {
         
         // get install Source
         SwordInstallSource *is = [listObject installSource];
         
         // compare install source modules with sword manager modules to get state info
-        NSArray *modList = [sis moduleStatusInInstallSource:is baseManager:sw];
-        
+        NSArray *modList = [sis moduleStatusInInstallSource:is baseManager:sw];        
         // loop over module list
-        NSEnumerator *iter2 = [modList objectEnumerator];
-        SwordModule *mod = nil;
-        while((mod = [iter2 nextObject])) {
+        for(SwordModule *mod in modList) {
             // check for module type
             if(([listObject objectType] == TypeInstallSource) || 
                (([listObject objectType] == TypeModuleType) && [[listObject moduleType] isEqualToString:[mod typeString]])) {
@@ -211,10 +206,12 @@
 - (IBAction)noneTask:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -noneTask:]");
     
-    if([moduleSelection count] == 0) {
+    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
         // get current selected module of clicked row
         ModuleListObject *clicked = [self moduleObjectForClickedRow];
         if(clicked) {
+            // replace any old selected with the clicked one
+            [moduleSelection removeAllObjects];
             [moduleSelection addObject:clicked];
         }
     }
@@ -231,7 +228,8 @@
                     [delegate performSelector:@selector(unregister:) withObject:modObj];
                 }
             }
-        }        
+        }                
+        [moduleOutlineView reloadData];
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
     }    
@@ -240,10 +238,12 @@
 - (IBAction)installModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -installModule:]");
     
-    if([moduleSelection count] == 0) {
+    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
         // get current selected module of clicked row
         ModuleListObject *clicked = [self moduleObjectForClickedRow];
         if(clicked) {
+            // replace any old selected with the clicked one
+            [moduleSelection removeAllObjects];
             [moduleSelection addObject:clicked];
         }
     }
@@ -268,6 +268,7 @@
                 MBLOG(MBLOG_WARN, @"[ModuleListViewController -installModule:] module is already installed!");
             }
         }
+        [moduleOutlineView reloadData];
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
     }    
@@ -276,10 +277,12 @@
 - (IBAction)removeModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -removeModule:]");
     
-    if([moduleSelection count] == 0) {
+    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
         // get current selected module of clicked row
         ModuleListObject *clicked = [self moduleObjectForClickedRow];
         if(clicked) {
+            // replace any old selected with the clicked one
+            [moduleSelection removeAllObjects];
             [moduleSelection addObject:clicked];
         }
     }
@@ -304,6 +307,7 @@
                 MBLOG(MBLOG_WARN, @"[ModuleListViewController -removeModule:] module is not installed!");
             }
         }
+        [moduleOutlineView reloadData];
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -removeModule:] no module selected!");
     }
@@ -312,10 +316,12 @@
 - (IBAction)updateModule:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -updateModule:]");
 
-    if([moduleSelection count] == 0) {
+    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
         // get current selected module of clicked row
         ModuleListObject *clicked = [self moduleObjectForClickedRow];
         if(clicked) {
+            // replace any old selected with the clicked one
+            [moduleSelection removeAllObjects];
             [moduleSelection addObject:clicked];
         }
     }
@@ -339,7 +345,8 @@
             } else {
                 MBLOG(MBLOG_INFO, @"[ModuleListViewController -updateModule:] current version of module installed!");
             }
-        }
+        }        
+        [moduleOutlineView reloadData];
     } else {
         MBLOG(MBLOG_ERR, @"[ModuleListViewController -updateModule:] no module selected!");
     }
@@ -364,9 +371,7 @@
             // init Reg ex
             MBRegex *regex = [MBRegex regexWithPattern:searchStr];
 
-            NSEnumerator *iter = [moduleData objectEnumerator];
-            ModuleListObject *mod = nil;
-            while((mod = [iter nextObject])) {
+            for(ModuleListObject *mod in moduleData) {
                 // try to match against name of module
                 if([regex matchIn:[[mod module] name] matchResult:nil] == MBRegexMatch) {
                     // add
@@ -398,9 +403,11 @@
 		NSOutlineView *oview = [notification object];
 		if(oview != nil) {
             
+            // remove any old selection
+            [moduleSelection removeAllObjects];
+            
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
 			int len = [selectedRows count];
-			NSMutableArray *selection = [NSMutableArray arrayWithCapacity:len];
             ModuleListObject *mlo = nil;
 			if(len > 0) {
 				unsigned int indexes[len];
@@ -410,11 +417,8 @@
 					mlo = [oview itemAtRow:indexes[i]];
                     
                     // add to array
-                    [selection addObject:mlo];
-				}
-				
-                // copy selection
-                [self setModuleSelection:[NSArray arrayWithArray:selection]];
+                    [moduleSelection addObject:mlo];
+				}				
             }
 		} else {
 			MBLOG(MBLOG_WARN,@"[ModuleListViewController outlineViewSelectionDidChange:] have a nil notification object!");

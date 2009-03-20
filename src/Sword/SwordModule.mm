@@ -285,6 +285,25 @@
     return ret;
 }
 
+- (BOOL)isRTL {
+    BOOL ret = NO;
+    NSString *direction = [configEntries objectForKey:SWMOD_CONFENTRY_DIRECTION];
+    if(direction == nil) {
+        direction = [self configEntryForKey:SWMOD_CONFENTRY_DIRECTION];
+        if(direction != nil) {
+            [configEntries setObject:direction forKey:SWMOD_CONFENTRY_DIRECTION];
+        }
+    }
+    
+    if(direction) {
+        if([direction isEqualToString:SW_DIRECTION_RTL]) {
+            ret = YES;
+        }
+    }
+    
+    return ret;    
+}
+
 /** read config entry for encoding */
 - (BOOL)isUnicode {    
     return swModule->isUnicode();

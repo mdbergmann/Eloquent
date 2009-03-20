@@ -25,8 +25,7 @@ using sword::AttributeValue;
 @interface SwordBible ()
 
 - (void)getBookData;
-- (NSNumber *)bookNumberForSWKey:(sword::VerseKey *)key;
-- (BOOL)containsBookNumber:(NSNumber *)aBookNum;
+- (BOOL)containsBookNumber:(int)aBookNum;
 
 @end
 
@@ -88,6 +87,14 @@ NSLock *bibleLock = nil;
 	return abbr;
 }
 
+/**
+ get book index for versekey
+ that is: book number + testament * 100
+ */
++ (int)bookIndexForSWKey:(sword::VerseKey *)key {
+    return key->Book() + key->Testament() * 100;
+}
+
 #pragma mark - instance methods
 
 - (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {
@@ -114,7 +121,7 @@ NSLock *bibleLock = nil;
     
     sword::VerseMgr *vmgr = sword::VerseMgr::getSystemVerseMgr();
     const sword::VerseMgr::System *system = vmgr->getVersificationSystem("KJV");
-        
+
     // number of books in this module
     NSMutableDictionary *buf = [NSMutableDictionary dictionary];
     int bookCount = system->getBookCount();
@@ -122,29 +129,21 @@ NSLock *bibleLock = nil;
         sword::VerseMgr::Book *book = (sword::VerseMgr::Book *)system->getBook(i);
         
         SwordBibleBook *bb = [[SwordBibleBook alloc] initWithBook:book];
-        [bb setNumber:[NSNumber numberWithInt:i+1]];
+        [bb setNumber:i+1]; // VerseKey-Book() starts at index 1
         
         [buf setObject:bb forKey:[bb name]];
     }
     self.books = buf;
     
-	[moduleLock unlock];    
-}
-
-/**
- get book number for versekey
- TODO: create new version which uses SwordBibleBook
- */
-- (NSNumber *)bookNumberForSWKey:(sword::VerseKey *)key {
-    return [NSNumber numberWithInt:key->Book() + key->Testament() * 100];
+	[moduleLock unlock];
 }
 
 /**
  checks whether the given book number is part of this module
  */
-- (BOOL)containsBookNumber:(NSNumber *)aBookNum {
+- (BOOL)containsBookNumber:(int)aBookNum {
     for(SwordBibleBook *bb in [self books]) {
-        if([[bb number] intValue] == [aBookNum intValue]) {
+        if([bb number] == aBookNum) {
             return YES;
         }
     }
@@ -188,8 +187,8 @@ NSLock *bibleLock = nil;
     // get the correct book
     SwordBibleBook *bb = [[self books] objectForKey:bookName];
     if(bb) {
-        if(chapter > 0 && chapter < [[bb numberOfChapters] intValue]) {
-            if(verse > 0 && verse < [[bb numberOfVersesForChapter:chapter] intValue]) {
+        if(chapter > 0 && chapter < [bb numberOfChapters]) {
+            if(verse > 0 && verse < [bb numberOfVersesForChapter:chapter]) {
                 ret = YES;
             }
         }
@@ -322,7 +321,7 @@ NSLock *bibleLock = nil;
 	
     SwordBibleBook *bb = [[self books] objectForKey:bookName];
     if(bb) {
-        ret = [[bb numberOfVersesForChapter:chapter] intValue];
+        ret = [bb numberOfVersesForChapter:chapter];
     }
     
 	[moduleLock unlock];
@@ -339,11 +338,11 @@ NSLock *bibleLock = nil;
 
     for(SwordBibleBook *bb in [self books]) {
         // get chapters for book
-        int chapters = [[bb numberOfChapters] intValue];
+        int chapters = [bb numberOfChapters];
         // calculate all verses for this book
         int verses = 0;
         for(int j = 1;j <= chapters;j++) {
-            verses += [[bb numberOfVersesForChapter:j] intValue];
+            verses += [bb numberOfVersesForChapter:j];
         }
         ret += verses;
     }

@@ -10,6 +10,7 @@
 
 #ifdef __cplusplus
 #include <versemgr.h>
+#include <versekey.h>
 #include <localemgr.h>
 class sword::VerseMgr::Book;
 #endif
@@ -20,11 +21,13 @@ class sword::VerseMgr::Book;
 #endif
     
     NSString *localizedName;
-    NSNumber *number;
+    int number;
+    int testament;
     NSMutableArray *chapters;
 }
 
-@property (retain, readwrite) NSNumber *number;
+@property (readwrite) int number;
+@property (readwrite) int testament;
 @property (retain, readwrite) NSString *localizedName;
 @property (retain, readwrite) NSMutableArray *chapters;
 
@@ -34,7 +37,13 @@ class sword::VerseMgr::Book;
 #endif
 
 - (NSString *)name;
-- (NSNumber *)numberOfChapters;
-- (NSNumber *)numberOfVersesForChapter:(int) chapter;
+- (NSString *)osisName;
+- (int)numberOfChapters;
+- (int)numberOfVersesForChapter:(int)chapter;
+/**
+ get book index for versekey
+ that is: book number + testament * 100
+ */
+- (int)generatedIndex;
 
 @end

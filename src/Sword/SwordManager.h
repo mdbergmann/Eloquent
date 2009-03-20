@@ -54,7 +54,9 @@ class sword::SWModule;
 #define SWMOD_CONFENTRY_DISTRLICENSE        @"DistributionLicense"
 #define SWMOD_CONFENTRY_DISTRNOTES          @"DistributionNotes"
 #define SWMOD_CONFENTRY_TEXTSOURCE          @"TextSource"
+#define SWMOD_CONFENTRY_DIRECTION           @"Direction"
 #define SWMOD_CONFENTRY_EDITABLE            @"Editable"
+
 
 /** module features */
 #define SWMOD_FEATURE_STRONGS           @"Strongs"
@@ -70,18 +72,20 @@ class sword::SWModule;
 #define SWMOD_FEATURE_REDLETTERWORDS    @"RedLetterWords"
 
 /** global options */
-#define SW_OPTION_STRONGS           @"Strong's Numbers"
-#define SW_OPTION_HEADINGS          @"Headings"
-#define SW_OPTION_FOOTNOTES         @"Footnotes"
-#define SW_OPTION_MORPHS            @"Morphological Tags"
-#define SW_OPTION_GREEKACCENTS      @"Greek Accents"
-#define SW_OPTION_LEMMAS            @"Lemmas"
-#define SW_OPTION_SCRIPTREFS        @"Cross-references"
-#define SW_OPTION_VARIANTS          @"Variants"
-#define SW_OPTION_REDLETTERWORDS    @"Words of Christ in Red"
+#define SW_OPTION_STRONGS               @"Strong's Numbers"
+#define SW_OPTION_HEADINGS              @"Headings"
+#define SW_OPTION_FOOTNOTES             @"Footnotes"
+#define SW_OPTION_MORPHS                @"Morphological Tags"
+#define SW_OPTION_HEBREWCANTILLATION    @"Hebrew Cantillation"
+#define SW_OPTION_HEBREWPOINTS          @"Hebrew Vowel Points"
+#define SW_OPTION_GREEKACCENTS          @"Greek Accents"
+#define SW_OPTION_LEMMAS                @"Lemmas"
+#define SW_OPTION_SCRIPTREFS            @"Cross-references"
+#define SW_OPTION_VARIANTS              @"Variants"
+#define SW_OPTION_REDLETTERWORDS        @"Words of Christ in Red"
 // this is not part of Sword
-#define SW_OPTION_REF               @"Reference"
-#define SW_OPTION_MODULENAME        @"ModuleName"
+#define SW_OPTION_REF                   @"Reference"
+#define SW_OPTION_MODULENAME            @"ModuleName"
 
 /** config features definitions */
 #define SWMOD_CONF_FEATURE_STRONGS       @"StrongsNumbers"
@@ -96,6 +100,9 @@ class sword::SWModule;
 /** On / Off */
 #define SW_ON    @"On"
 #define SW_OFF   @"Off"
+
+// direction
+#define SW_DIRECTION_RTL    @"RtoL"
 
 @interface SwordManager : NSObject {
     

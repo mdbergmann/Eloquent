@@ -29,12 +29,16 @@
     
     /** don't start two threads */
     NSLock *indexCheckLock;
+    
+    /** book sets for indexed search */
+    NSMutableArray *searchBookSets;
 }
 
 @property (retain, readwrite) NSString *baseIndexPath;
 @property (retain, readwrite) SwordManager *swordManager;
 @property (readwrite) int interval;
 @property (readwrite) BOOL stalled;
+@property (retain, readwrite) NSMutableArray *searchBookSets;
 
 /**
  \brief singleton convenient allocator and getter of instance
@@ -43,6 +47,9 @@
 
 // init
 - (id)init;
+
+/** stores to disk */
+- (void)storeSearchBookSets;
 
 /**
  calling this method will trigger checking for modules that do not have a valid index

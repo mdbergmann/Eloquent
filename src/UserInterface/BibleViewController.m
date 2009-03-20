@@ -25,6 +25,8 @@
 #import "SwordBibleBook.h"
 #import "SwordBibleChapter.h"
 #import "GradientCell.h"
+#import "SearchBookSetEditorController.h"
+#import "SearchBookSet.h"
 
 @interface BibleViewController ()
 
@@ -53,6 +55,9 @@
         self.module = nil;
         self.delegate = nil;
         self.bookSelection = [NSMutableArray array];
+        
+        // init SearchBookSetController
+        searchBookSetsController = [[SearchBookSetEditorController alloc] init];
     }
     
     return self;
@@ -135,14 +140,18 @@
     [[SwordManager defaultManager] generateModuleMenu:&dictModules forModuletype:dictionary withMenuTarget:self withMenuAction:@selector(lookUpInDictionaryOfModule:)];
     item = [textContextMenu itemWithTag:LookUpInDictionaryList];
     [item setSubmenu:dictModules];
-    
+        
     [self adaptUIToHost];
 }
 
 #pragma mark - methods
 
 - (NSView *)listContentView {
-    return [entriesOutlineView enclosingScrollView];
+    if(searchType == ReferenceSearchType) {
+        return [entriesOutlineView enclosingScrollView];    
+    } else {
+        return [searchBookSetsController view];
+    }
 }
 
 - (void)adaptUIToHost {
@@ -202,6 +211,9 @@
     
     // reload book entries
     [entriesOutlineView reloadData];
+    
+    // do validation of module options
+    [self validateModDisplayOptions];
 }
 
 - (NSTextView *)textView {
@@ -226,7 +238,7 @@
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
-    NSRange searchRange = NSMakeRange(0, 0);
+    SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
     long maxResults = 10000;
     
     // get new search results
@@ -234,7 +246,7 @@
     if(indexer == nil) {
         MBLOG(MBLOG_ERR, @"[SwordSearching -searchFor:] Could not get indexer for searching!");
     } else {
-        NSArray *tempResults = [indexer performSearchOperation:searchQuery range:searchRange maxResults:maxResults];        
+        NSArray *tempResults = [indexer performSearchOperation:searchQuery constrains:bookSet maxResults:maxResults];        
         // close indexer
         [indexer close];
         
@@ -278,6 +290,13 @@
                 [ret appendAttributedString:newLine];
             }
         }
+        
+        // set write direction
+        if([module isRTL]) {
+            [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
+        } else {
+            [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
+        }        
     }
     
     return ret;
@@ -431,6 +450,13 @@
     }
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...done");
     
+    // set write direction
+    if([module isRTL]) {
+        [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
+    } else {
+        [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
+    }    
+    
     return ret;
 }
 
@@ -440,6 +466,12 @@
     }
     
     return @"BibleView";
+}
+
+- (void)validateModDisplayOptions {
+    if([delegate respondsToSelector:@selector(validateModDisplayOptions)]) {
+        [delegate performSelector:@selector(validateModDisplayOptions)];
+    }
 }
 
 #pragma mark - TextDisplayable
@@ -508,8 +540,7 @@
                         statusText = [NSString stringWithFormat:@"Found %i verses", verses];
                         
                         // we need html
-                        NSAttributedString *attrString = [self displayableHTMLFromVerseData:verseData];
-                        
+                        NSAttributedString *attrString = [self displayableHTMLFromVerseData:verseData];                        
                         // display
                         [textViewController setAttributedString:attrString];
                         
@@ -685,6 +716,34 @@
     [self displayTextForReference:reference searchType:searchType];
 }
 
+- (IBAction)displayOptionHebrewPoints:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWPOINTS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionHebrewCantillation:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWCANTILLATION];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
 - (IBAction)displayOptionVersesOnOneLine:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
         [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextVersesOnOneLineKey];
@@ -756,9 +815,9 @@
                     [selRef appendFormat:@"%@ ;", [(SwordBibleBook *)item localizedName]];
                 } else if([item isKindOfClass:[SwordBibleChapter class]]) {
                     if(haveBook) {
-                        [selRef appendFormat:@"%i; ", [[(SwordBibleChapter *)item number] intValue]];
+                        [selRef appendFormat:@"%i; ", [(SwordBibleChapter *)item number]];
                     } else {
-                        [selRef appendFormat:@"%@ %i; ", [[(SwordBibleChapter *)item book] localizedName], [[(SwordBibleChapter *)item number] intValue]];
+                        [selRef appendFormat:@"%@ %i; ", [[(SwordBibleChapter *)item book] localizedName], [(SwordBibleChapter *)item number]];
                     }
                 }
             } 
@@ -792,7 +851,7 @@
     } else {
         if([item isKindOfClass:[SwordBibleBook class]]) {
             SwordBibleBook *bb = item;
-            ret = [[bb numberOfChapters] intValue];
+            ret = [bb numberOfChapters];
         }
     }
     
@@ -817,7 +876,7 @@
     if([item isKindOfClass:[SwordBibleBook class]]) {
         ret = [(SwordBibleBook *)item localizedName];
     } else if([item isKindOfClass:[SwordBibleChapter class]]) {
-        ret = [[(SwordBibleChapter*)item number] stringValue];
+        ret = [[NSNumber numberWithInt:[(SwordBibleChapter*)item number]] stringValue];
     }
     
     return ret;
@@ -827,7 +886,7 @@
     
     if([item isKindOfClass:[SwordBibleBook class]]) {
         SwordBibleBook *bb = item;
-        if([[bb numberOfChapters] intValue] > 0) {
+        if([bb numberOfChapters] > 0) {
             return YES;
         } else {
             return NO;
@@ -864,6 +923,9 @@
     if(self) {        
         self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];
         
+        // init SearchBookSetController
+        searchBookSetsController = [[SearchBookSetEditorController alloc] init];
+
         // load nib
         BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
         if(!stat) {

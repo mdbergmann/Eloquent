@@ -153,6 +153,9 @@
         [self displayTextForReference:reference searchType:searchType];
     }
     
+    // validate module display options
+    [self validateModDisplayOptions];
+    
     if(loaded) {
         [self reportLoadingComplete];
     }
@@ -323,23 +326,6 @@
     return [NSNumber numberWithInt:[parBibleViewControllers count]];
 }
 
-- (void)initDefaultModDisplayOptions {
-    NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_STRONGS];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_MORPHS];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
-    [dOpts setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
-    self.modDisplayOptions = dOpts;        
-}
-
-- (void)initDefaultDisplayOptions {
-    NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
-    [dOpts setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
-    self.displayOptions = dOpts;        
-}
-
 - (NSArray *)openBibleModules {
     NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[parBibleViewControllers count]];
     
@@ -358,6 +344,55 @@
     }
     
     return ret;    
+}
+
+- (void)validateModDisplayOptions {
+    // validate all module display options
+    
+    // enable all menu items
+    for(NSMenuItem *mi in [modDisplayOptionsMenu itemArray]) {
+        [mi setEnabled:YES];
+    }
+    
+    // we enable an option if one of the modules has this feature
+    NSMutableArray *modCs = [NSMutableArray arrayWithArray:parBibleViewControllers];
+    [modCs addObjectsFromArray:parMiscViewControllers];
+    for(ModuleViewController *modC in modCs) {
+        SwordModule *mod = [modC module];
+        NSMenuItem *mi = nil;
+        if(![mod hasFeature:SWMOD_FEATURE_STRONGS]) {
+            mi = [modDisplayOptionsMenu itemWithTag:1];
+            [mi setEnabled:NO];
+        }
+        if(![mod hasFeature:SWMOD_FEATURE_MORPH]) {
+            mi = [modDisplayOptionsMenu itemWithTag:2];
+            [mi setEnabled:NO];
+        }
+        if(![mod hasFeature:SWMOD_FEATURE_FOOTNOTES]) {
+            mi = [modDisplayOptionsMenu itemWithTag:3];
+            [mi setEnabled:NO];
+        }
+        if(![mod hasFeature:SWMOD_FEATURE_SCRIPTREF]) {
+            mi = [modDisplayOptionsMenu itemWithTag:4];
+            [mi setEnabled:NO];
+        }
+        if(![mod hasFeature:SWMOD_FEATURE_REDLETTERWORDS]) {
+            mi = [modDisplayOptionsMenu itemWithTag:5];
+            [mi setEnabled:NO];
+        }
+        if(![mod hasFeature:SWMOD_FEATURE_HEADINGS]) {
+            mi = [modDisplayOptionsMenu itemWithTag:6];
+            [mi setEnabled:NO];
+        }
+        if(![mod hasFeature:SWMOD_FEATURE_HEBREWPOINTS]) {
+            mi = [modDisplayOptionsMenu itemWithTag:7];
+            [mi setEnabled:NO];
+        }
+        if(![mod hasFeature:SWMOD_FEATURE_CANTILLATION]) {
+            mi = [modDisplayOptionsMenu itemWithTag:8];
+            [mi setEnabled:NO];
+        }
+    }
 }
 
 #pragma mark - actions
@@ -458,6 +493,34 @@
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
         [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEADINGS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionHebrewPoints:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWPOINTS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference searchType:searchType];
+}
+
+- (IBAction)displayOptionHebrewCantillation:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWCANTILLATION];
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -777,6 +840,9 @@
             
             // set search text and let the controller handle it
             [(BibleViewController *)aView displayTextForReference:reference searchType:searchType];
+            
+            // validate module display options
+            [self validateModDisplayOptions];            
         }
                 
         if(loaded) {
@@ -809,7 +875,10 @@
     }
     for(HostableViewController *hc in parMiscViewControllers) {
         [hc adaptUIToHost];
-    }    
+    }
+    
+    // validate module display options
+    [self validateModDisplayOptions];
 }
 
 #pragma mark - TextDisplayable

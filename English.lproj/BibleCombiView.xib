@@ -178,6 +178,28 @@
 										<int key="NSTag">6</int>
 										<reference key="NSTarget" ref="483240999"/>
 									</object>
+									<object class="NSMenuItem" id="986306141">
+										<reference key="NSMenu" ref="260178136"/>
+										<string key="NSTitle">Show Hebrew Vovel Points</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<reference key="NSOnImage" ref="939504943"/>
+										<reference key="NSMixedImage" ref="833883188"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">7</int>
+										<reference key="NSTarget" ref="483240999"/>
+									</object>
+									<object class="NSMenuItem" id="68173144">
+										<reference key="NSMenu" ref="260178136"/>
+										<string key="NSTitle">Show Hebrew Cantillation</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<reference key="NSOnImage" ref="939504943"/>
+										<reference key="NSMixedImage" ref="833883188"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">8</int>
+										<reference key="NSTarget" ref="483240999"/>
+									</object>
 								</object>
 							</object>
 							<bool key="NSPullDown">YES</bool>
@@ -356,7 +378,6 @@
 									</object>
 								</object>
 							</object>
-							<int key="NSSelectedIndex">2</int>
 							<bool key="NSPullDown">YES</bool>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
@@ -525,6 +546,22 @@
 					</object>
 					<int key="connectionID">106</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">displayOptionHebrewPoints:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="986306141"/>
+					</object>
+					<int key="connectionID">109</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">displayOptionHebrewCantillation:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="68173144"/>
+					</object>
+					<int key="connectionID">110</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -624,6 +661,8 @@
 							<reference ref="1056055918"/>
 							<reference ref="421580450"/>
 							<reference ref="743271301"/>
+							<reference ref="986306141"/>
+							<reference ref="68173144"/>
 						</object>
 						<reference key="parent" ref="483240999"/>
 					</object>
@@ -774,6 +813,16 @@
 						<reference key="object" ref="583198674"/>
 						<reference key="parent" ref="549485802"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">107</int>
+						<reference key="object" ref="986306141"/>
+						<reference key="parent" ref="260178136"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">108</int>
+						<reference key="object" ref="68173144"/>
+						<reference key="parent" ref="260178136"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -788,6 +837,8 @@
 					<string>1.WindowOrigin</string>
 					<string>1.editorWindowContentRectSynchronizationRect</string>
 					<string>102.IBPluginDependency</string>
+					<string>107.IBPluginDependency</string>
+					<string>108.IBPluginDependency</string>
 					<string>35.IBPluginDependency</string>
 					<string>37.IBPluginDependency</string>
 					<string>37.editorWindowContentRectSynchronizationRect</string>
@@ -834,9 +885,11 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{295, 606}, {576, 361}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{34, 339}, {500, 24}}</string>
+					<string>{{514, 807}, {500, 24}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -887,7 +940,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">106</int>
+			<int key="maxID">110</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -899,6 +952,8 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>displayOptionHebrewCantillation:</string>
+							<string>displayOptionHebrewPoints:</string>
 							<string>displayOptionShowCrossRefs:</string>
 							<string>displayOptionShowFootnotes:</string>
 							<string>displayOptionShowHeadings:</string>
@@ -910,6 +965,8 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

@@ -71,12 +71,13 @@ typedef enum {
 /**
  \brief search in an this index for the given query and in the given range
  @param[in] query this query to search in
- @param[in] range pointer, maybe nil for no range
- @param[in] maxResults the maximum number of results. -1 tell the indexer the check hisself for the maximum number of results
- @return array of NSDictionaries with search results
+ @param[in] constrains, search constrains
+ @param[in] maxResults the maximum number of results
+ @return array of NSDictionaries with search results. 
+ the array is autoreleased, the caller has to make sure to retain it if needed.
  */
-- (NSArray *)performSearchOperation:(NSString *)query range:(NSRange)range maxResults:(int)maxResults;
-
+- (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults;
+    
 /**
  \brief flush the data to file
  */

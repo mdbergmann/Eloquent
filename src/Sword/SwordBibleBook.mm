@@ -13,13 +13,15 @@
 @implementation SwordBibleBook
 
 @synthesize number;
+@synthesize testament;
 @synthesize localizedName;
 @synthesize chapters;
 
 - (id)init {
     self = [super init];
     if(self) {
-        self.number = [NSNumber numberWithInt:0];
+        self.number = 0;
+        self.testament = 0;        
         self.localizedName = @"";
         self.chapters = [NSMutableArray array];
     }
@@ -32,6 +34,9 @@
     if(self) {
         swBook = aBook;
         
+        sword::VerseKey vk = sword::VerseKey(aBook->getOSISName());
+        [self setTestament:vk.Testament()];
+
         // get system localemgr to be able to translate the english bookname
         sword::LocaleMgr *lmgr = sword::LocaleMgr::getSystemLocaleMgr();
 
@@ -40,7 +45,7 @@
         
         // create chapters
         for(int i = 0;i < swBook->getChapterMax();i++) {
-            [chapters addObject:[[SwordBibleChapter alloc] initWithBook:self andChapter:[NSNumber numberWithInt:i+1]]];
+            [chapters addObject:[[SwordBibleChapter alloc] initWithBook:self andChapter:i+1]];
         }
     }
     
@@ -51,12 +56,24 @@
     return [NSString stringWithUTF8String:swBook->getLongName()];
 }
 
-- (NSNumber *)numberOfChapters {
-    return [NSNumber numberWithInt:swBook->getChapterMax()];
+- (NSString *)osisName {
+    return [NSString stringWithUTF8String:swBook->getOSISName()];
 }
 
-- (NSNumber *)numberOfVersesForChapter:(int)chapter {
-    return [NSNumber numberWithInt:swBook->getVerseMax(chapter)];
+- (int)numberOfChapters {
+    return swBook->getChapterMax();
+}
+
+- (int)numberOfVersesForChapter:(int)chapter {
+    return swBook->getVerseMax(chapter);
+}
+
+/**
+ get book index for versekey
+ that is: book number + testament * 100
+ */
+- (int)generatedIndex {
+    return number + testament * 100;
 }
 
 - (sword::VerseMgr::Book *)book {
@@ -65,7 +82,7 @@
 
 /** we implement this for sorting */
 - (NSComparisonResult)compare:(SwordBibleBook *)b {
-    return [number compare:[b number]];
+    return [[NSNumber numberWithInt:number] compare:[NSNumber numberWithInt:[b number]]];
 }
 
 @end

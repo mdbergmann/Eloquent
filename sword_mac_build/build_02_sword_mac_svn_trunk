@@ -39,7 +39,7 @@ do
 done
 
 # using seperate build dirs and building in them doesn't work with sword
-SWORDBUILD=$BDIR/build
+SWORDBUILD=$BDIR/build_lib
 PPCPREFIX=$SWORDBUILD/ppc_inst
 INTELPREFIX=$SWORDBUILD/intel_inst
 #PPCBUILDDIR=$BDIR/ppc_build

@@ -78,11 +78,11 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowBookNameKey];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
-
+    
     [defaultsDict setObject:@"Helvetica Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
     [defaultsDict setObject:@"Helvetica" forKey:DefaultsBibleTextDisplayFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsBibleTextDisplayFontSizeKey];
-
+    
 	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
@@ -109,13 +109,13 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 }
 
 /**
-sets up all needed folders so the application can work
+ sets up all needed folders so the application can work
  */
 - (BOOL)setupFolders {
     BOOL ret = YES;
-
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
+    
     // get app support path
 	NSString *path = pathForFolderType(kApplicationSupportFolderType, kUserDomain, true);
 	if(path == nil) {
@@ -144,13 +144,13 @@ sets up all needed folders so the application can work
                 MBLOG(MBLOG_INFO, @"path to IndexFolder does not exist, creating it!");
                 if([manager createDirectoryAtPath:indexPath attributes:nil] == NO) {
                     MBLOG(MBLOG_ERR,@"Cannot create installmgr folder in Application Support!");
-                }                
+                }
             }
             // put to defaults
             [defaults setObject:indexPath forKey:DEFAULTS_SWINDEX_PATH_KEY];
             [defaults synchronize];
         }
-
+        
         // create default modules folder which is Sword
         path = DEFAULT_MODULE_PATH;
         if([manager fileExistsAtPath:path] == NO) {
@@ -223,62 +223,56 @@ static AppController *singleton;
 			[[NSApplication sharedApplication] terminate:nil];            
         }
         
+        // set singleton
+        singleton = self;
+
+        isModuleManagerShowing = NO;
+        isContentShowing = NO;
+
         // init window Hosts array
         windowHosts = [[NSMutableArray alloc] init];
+        
+        // init default SwordManager
+        SwordManager *sm = [SwordManager defaultManager];
         
 		// register user defaults
 		[self registerDefaults];
         
         // init AppSupportFolder
-        BOOL success = [self setupFolders];
-        if(!success) {
-            MBLOG(MBLOG_ERR, @"[AppController -init] could not initialize AppSupport!");
-        } else {
-            
-            isModuleManagerShowing = NO;
-            isContentShowing = NO;
-            
-            // set singleton
-            singleton = self;
-            
-            // initialize ThreadedProgressSheet
-            [MBThreadedProgressSheetController standardProgressSheetController];
-            
-            // init install manager
-            SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
-            [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
+        [self setupFolders];
                         
-            // init default SwordManager
-            SwordManager *sm = [SwordManager defaultManager];
-            // make available all cipher keys to SwordManager
-            NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
-            for(NSString *modName in cipherKeys) {
-                NSString *key = [cipherKeys objectForKey:modName];
-                [sm setCipherKey:key forModuleNamed:modName];
-            }
-
-            // init indexingmanager, set base index path
-            IndexingManager *im = [IndexingManager sharedManager];
-            [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
-            [im setSwordManager:sm];
-            
-            // test BookmarkManager
-            [[BookmarkManager defaultManager] bookmarks];
-            
-            // init default progressoverlay controller
-            [ProgressOverlayViewController defaultController];
+        // initialize ThreadedProgressSheet
+        [MBThreadedProgressSheetController standardProgressSheetController];
+        
+        // init install manager
+        SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
+        [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
+        
+        // make available all cipher keys to SwordManager
+        NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
+        for(NSString *modName in cipherKeys) {
+            NSString *key = [cipherKeys objectForKey:modName];
+            [sm setCipherKey:key forModuleNamed:modName];
         }
-	}
-	
-	return self;
+        
+        // init indexingmanager, set base index path
+        IndexingManager *im = [IndexingManager sharedManager];
+        [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
+        [im setSwordManager:sm];
+        
+        // init default progressoverlay controller
+        [ProgressOverlayViewController defaultController];
+    }
+    
+    return self;
 }
 
 /**
-\brief dealloc of this class is called on closing this document
+ \brief dealloc of this class is called on closing this document
  */
 - (void)finalize {
-	// dealloc object
-	[super finalize];
+    // dealloc object
+    [super finalize];
 }
 
 /** opens a new single host window for the given module */
@@ -433,7 +427,7 @@ static AppController *singleton;
     } else {
         [moduleManager close];    
         isModuleManagerShowing = NO;
-
+        
         // it may run again
         [[IndexingManager sharedManager] setStalled:NO];
     }
@@ -477,7 +471,7 @@ static AppController *singleton;
         if(modPath != nil) {
             [[SwordManager defaultManager] addPath:modPath];        
         }        
-
+        
         [createModuleWindow close];
         [NSApp stopModal];
     }
@@ -523,7 +517,7 @@ static AppController *singleton;
 
 /**
  \brief gets called if the nib file has been loaded. all gfx objacts are available now.
-*/
+ */
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[AppController -awakeFromNib]");
     
@@ -547,12 +541,12 @@ static AppController *singleton;
 
 /**
  \brief is called when application loading is nearly finished
-*/
+ */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 }
 
 /**
-\brief is called when application loading is finished
+ \brief is called when application loading is finished
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     MBLOG(MBLOG_DEBUG, @"[AppController -applicationDidFinishLaunching:]");
@@ -564,7 +558,7 @@ static AppController *singleton;
             }
         }
 	}
-
+    
     // test some stuff
     //SwordBook *book = (SwordBook *)[[SwordManager defaultManager] moduleWithName:@"Josephus"];
     //[book testLoop];
@@ -581,7 +575,7 @@ static AppController *singleton;
 }
 
 /**
-\brief is called when application is terminated
+ \brief is called when application is terminated
  */
 - (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
     

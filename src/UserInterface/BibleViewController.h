@@ -14,6 +14,7 @@
 
 @class SwordBible;
 @class GradientCell;
+@class SearchBookSetEditorController;
 
 #define BIBLEVIEW_NIBNAME   @"BibleView"
 
@@ -29,7 +30,10 @@
     IBOutlet NSTextField *statusLine;
     // the outlineview view for the bible books and chapters items
     IBOutlet NSOutlineView *entriesOutlineView;
-        
+
+    // booksets controller
+    SearchBookSetEditorController *searchBookSetsController;
+    
     // gradient cell for outline view
     GradientCell *gradientCell;
     
@@ -53,7 +57,7 @@
 
 // ----------- methods -------------
 
-// the index view of bible
+// accessory view
 - (NSView *)listContentView;
 
 // pass further the scroll and textview
@@ -89,6 +93,8 @@
 - (IBAction)displayOptionShowCrossRefs:(id)sender;
 - (IBAction)displayOptionShowRedLetterWords:(id)sender;
 - (IBAction)displayOptionShowHeadings:(id)sender;
+- (IBAction)displayOptionHebrewPoints:(id)sender;
+- (IBAction)displayOptionHebrewCantillation:(id)sender;
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 @end

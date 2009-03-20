@@ -58,6 +58,12 @@ enum BibleViewLinkContextMenuItems {
  */
 - (void)initDefaultDisplayOptions;
 
+/** 
+ abstract method, subclasses should override
+ this is for validating the module display options
+ */
+- (void)validateModDisplayOptions;
+
 // TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;

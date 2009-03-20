@@ -247,6 +247,13 @@
     }
     MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLFromVerseData:] start replacing markers...done");    
     
+    // set write direction
+    if([module isRTL]) {
+        [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
+    } else {
+        [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
+    }    
+    
     return ret;
 }
 

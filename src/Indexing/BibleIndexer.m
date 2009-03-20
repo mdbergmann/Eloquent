@@ -8,10 +8,11 @@
 
 #import "BibleIndexer.h"
 #import "SearchResultEntry.h"
+#import "SearchBookSet.h"
 #import <AppKit/NSApplication.h>
 
 /** the range for searching */
-NSRange searchRange;
+SearchBookSet *searchBookSet;
 
 @interface BibleIndexer : Indexer {
 }
@@ -44,7 +45,7 @@ NSRange searchRange;
 		[self setModType:bible];
 		[self setModTypeStr:@"Bible"];
         
-        searchRange = NSMakeRange(0, 0);
+        searchBookSet = [[SearchBookSet alloc] init];
         
         contentIndexRef = NULL;
         
@@ -116,19 +117,17 @@ NSRange searchRange;
 /**
 \brief search in an this index for the given query and in the given range
  @param[in] query this query to search in
- @param[in] range, pass 0,0 for no range
+ @param[in] constrains, search constrains
  @param[in] maxResults the maximum number of results
  @return array of NSDictionaries with search results. 
  the array is autoreleased, the caller has to make sure to retain it if needed.
  */
-- (NSArray *)performSearchOperation:(NSString *)query range:(NSRange)range maxResults:(int)maxResults {
+- (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults {
     NSMutableArray *array = nil;
     
     [searchLock lock];
     if(contentIndexRef != NULL) {
-        // copy range
-        searchRange.location = range.location;
-        searchRange.length = range.length;
+        searchBookSet = constrains;
         
         // use 10.4 searching on Tiger and above
         SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (CFStringRef)query, 0);
@@ -184,11 +183,7 @@ NSRange searchRange;
                 NSString *docName = (NSString *)SKDocumentGetName(hit);
                 // check for an existing range
                 BOOL addDoc = YES;
-                if(range.location > 0) {
-                    // calculate begin index and endindex
-                    int indexA = range.location;
-                    int indexB = indexA + range.length;
-                    
+                if([constrains count] > 0) {
                     // get document name
                     NSString *docName = (NSString *)SKDocumentGetName(hit);
                     
@@ -196,11 +191,10 @@ NSRange searchRange;
                     addDoc = NO;
                     NSArray *verseKeyInfo = [docName componentsSeparatedByString:@"/"];
                     if([verseKeyInfo count] == 4) {
-                        // get book number
-                        int bookNum = [(NSString *)[verseKeyInfo objectAtIndex:1] intValue];
-                        if(bookNum > 0) {
-                            // alright
-                            if((bookNum < indexB) && (bookNum >= indexA)) {
+                        // get book osis name
+                        NSString *osisName = (NSString *)[verseKeyInfo objectAtIndex:1];
+                        if([osisName length] > 0) {
+                            if([constrains containsBook:osisName]) {
                                 addDoc = YES;
                             }
                         }
