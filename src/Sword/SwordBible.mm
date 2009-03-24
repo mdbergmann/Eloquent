@@ -369,12 +369,12 @@ NSLock *bibleLock = nil;
 
 - (NSArray *)stripedTextForRef:(NSString *)reference {
     NSMutableArray *ret = [NSMutableArray array];
-        
+
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
     //listkey.Persist(true);
-    swModule->setKey(lk);
+    //swModule->setKey(lk);
     // iterate through keys
     for(lk = sword::TOP; !lk.Error(); lk++) {
         swModule->setKey(lk);

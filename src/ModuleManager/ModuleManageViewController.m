@@ -222,11 +222,12 @@
 // ---------------------------------------------------------------------
 // Notifications
 // ---------------------------------------------------------------------
+/*
 - (void)threadWillExit:(NSNotification *)notify {
 	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -threadWillExit:]");
 
     // send a notification that modules were added or removed
-    SendNotifyModulesChanged(nil);
+    //SendNotifyModulesChanged(nil);
 
 	// do some cleanup here
     // reload module data
@@ -235,6 +236,7 @@
     // refresh the outline view
     //[modListViewController refreshModulesList];
 }
+*/
 
 @end
 

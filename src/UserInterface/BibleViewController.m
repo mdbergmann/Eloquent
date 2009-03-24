@@ -211,9 +211,6 @@
     
     // reload book entries
     [entriesOutlineView reloadData];
-    
-    // do validation of module options
-    [self validateModDisplayOptions];
 }
 
 - (NSTextView *)textView {
@@ -466,12 +463,6 @@
     }
     
     return @"BibleView";
-}
-
-- (void)validateModDisplayOptions {
-    if([delegate respondsToSelector:@selector(validateModDisplayOptions)]) {
-        [delegate performSelector:@selector(validateModDisplayOptions)];
-    }
 }
 
 #pragma mark - TextDisplayable

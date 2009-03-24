@@ -190,9 +190,9 @@ SearchBookSet *searchBookSet;
                     // extract versekey information
                     addDoc = NO;
                     NSArray *verseKeyInfo = [docName componentsSeparatedByString:@"/"];
-                    if([verseKeyInfo count] == 4) {
+                    if([verseKeyInfo count] == 5) {
                         // get book osis name
-                        NSString *osisName = (NSString *)[verseKeyInfo objectAtIndex:1];
+                        NSString *osisName = (NSString *)[verseKeyInfo objectAtIndex:4];
                         if([osisName length] > 0) {
                             if([constrains containsBook:osisName]) {
                                 addDoc = YES;

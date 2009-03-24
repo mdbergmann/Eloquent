@@ -25,9 +25,12 @@ enum BibleViewLinkContextMenuItems {
 @interface ModuleCommonsViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking> {
     /** options */
     IBOutlet NSMenu *displayOptionsMenu;
+    IBOutlet NSPopUpButton *displayOptionsPopUpButton;
     IBOutlet NSMenu *modDisplayOptionsMenu;
+    IBOutlet NSPopUpButton *modDisplayOptionsPopUpButton;
     IBOutlet NSView *referenceOptionsView;
     IBOutlet NSPopUpButton *fontSizePopUpButton;
+    
     NSMutableDictionary *modDisplayOptions;
     NSMutableDictionary *displayOptions;
         
@@ -52,17 +55,25 @@ enum BibleViewLinkContextMenuItems {
  can be overriden by subclasses
  */
 - (void)initDefaultModDisplayOptions;
+
 /** 
  default display options dictionary 
  can be overriden by subclasses
  */
 - (void)initDefaultDisplayOptions;
 
-/** 
- abstract method, subclasses should override
- this is for validating the module display options
- */
-- (void)validateModDisplayOptions;
+// Actions to be overriden by subclasses
+- (IBAction)fontSizeChange:(id)sender;
+- (IBAction)displayOptionShowStrongs:(id)sender;
+- (IBAction)displayOptionShowMorphs:(id)sender;
+- (IBAction)displayOptionShowFootnotes:(id)sender;
+- (IBAction)displayOptionShowCrossRefs:(id)sender;
+- (IBAction)displayOptionShowRedLetterWords:(id)sender;
+- (IBAction)displayOptionShowHeadings:(id)sender;
+- (IBAction)displayOptionShowHebrewPoints:(id)sender;
+- (IBAction)displayOptionShowHebrewCantillation:(id)sender;
+- (IBAction)displayOptionShowGreekAccents:(id)sender;
+- (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 // TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference;
@@ -76,8 +87,5 @@ enum BibleViewLinkContextMenuItems {
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
-
-// custom font size change
-- (IBAction)fontSizeChange:(id)sender;
 
 @end

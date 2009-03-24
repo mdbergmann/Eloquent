@@ -1017,6 +1017,14 @@
 					</object>
 					<int key="connectionID">161</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">modDisplayOptionsPopUpButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="655838372"/>
+					</object>
+					<int key="connectionID">162</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1575,7 +1583,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{111, 243}, {500, 24}}</string>
+					<string>{{162, 824}, {500, 24}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
@@ -1600,7 +1608,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">161</int>
+			<int key="maxID">162</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1676,23 +1684,54 @@
 					<string key="className">ModuleCommonsViewController</string>
 					<string key="superclassName">HostableViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">fontSizeChange:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>displayOptionShowCrossRefs:</string>
+							<string>displayOptionShowFootnotes:</string>
+							<string>displayOptionShowGreekAccents:</string>
+							<string>displayOptionShowHeadings:</string>
+							<string>displayOptionShowHebrewCantillation:</string>
+							<string>displayOptionShowHebrewPoints:</string>
+							<string>displayOptionShowMorphs:</string>
+							<string>displayOptionShowRedLetterWords:</string>
+							<string>displayOptionShowStrongs:</string>
+							<string>displayOptionVersesOnOneLine:</string>
+							<string>fontSizeChange:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>displayOptionsMenu</string>
+							<string>displayOptionsPopUpButton</string>
 							<string>fontSizePopUpButton</string>
 							<string>modDisplayOptionsMenu</string>
+							<string>modDisplayOptionsPopUpButton</string>
 							<string>referenceOptionsView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSMenu</string>
 							<string>NSPopUpButton</string>
+							<string>NSPopUpButton</string>
 							<string>NSMenu</string>
+							<string>NSPopUpButton</string>
 							<string>NSView</string>
 						</object>
 					</object>

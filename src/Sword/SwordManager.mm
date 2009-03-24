@@ -241,64 +241,13 @@ using std::list;
         
         self.modulesPath = path;
 
-        NSFileManager *fm = [NSFileManager defaultManager];
-		NSArray *subDirs = [fm directoryContentsAtPath:path];
-		NSEnumerator *enumerator = [subDirs objectEnumerator];
-	
-		// create a swManager if there is a module here
-		if([subDirs containsObject:@"mods.d"]) {
-			swManager = new sword::SWMgr(toUTF8(path) , true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
-        } else {
-			swManager = NULL;
-        }
-		
-		// for all sub directories add module
-        BOOL directory;
-        NSString *fullSubDir = nil;
-        NSString *subDir = nil;
-		while((subDir = [enumerator nextObject])) {
-			// as long as it's not hidden
-			if(![subDir hasPrefix:@"."]) {
-				fullSubDir = [path stringByAppendingPathComponent:subDir];
-				fullSubDir = [fullSubDir stringByStandardizingPath];
-				
-				//if its a directory
-				if([fm fileExistsAtPath:fullSubDir isDirectory:&directory])
-				if(directory) {
-					// if swManager has not been created yet then do so - otherwise add path to swManager
-					if(!swManager) {
-						swManager = new sword::SWMgr([fullSubDir UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
-                    } else {
-						swManager->augmentModules([fullSubDir UTF8String]);
-                    }
-				}
-			}
-		}
-		
-		// if swManager has not been created yet then do so - otherwise add path to swManager
-		if(!swManager) {
-			swManager = new sword::SWMgr(toUTF8(path), true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
-        }
-        
-        // also add the executing path to the path of modules
-        NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-        if(bundlePath && swManager) {
-            // remove last path component
-            NSString *appPath = [bundlePath stringByDeletingLastPathComponent];
-            swManager->augmentModules([appPath UTF8String]);
-        }
-
-        //string swManager
-        //[SwordManager initStringManager];
-        
-        // setting locale
-        [SwordManager initLocale];
-        
 		self.modules = [NSDictionary dictionary];
 		self.managerLock = [[NSRecursiveLock alloc] init];
 
-		[self refreshModules];
-		[self addRenderFilters];
+        // setting locale
+        [SwordManager initLocale];
+        
+        [self reInit];
 	}
 	
     sword::StringList options = swManager->getGlobalOptions();
@@ -340,13 +289,54 @@ using std::list;
     
 	[managerLock lock];
     if(modulesPath && [modulesPath length] > 0) {
-        swManager = (sword::SWMgr *)new sword::SWMgr([modulesPath UTF8String], true, NULL, false, true);    
         
+        NSFileManager *fm = [NSFileManager defaultManager];
+		NSArray *subDirs = [fm directoryContentsAtPath:modulesPath];        
+		// create a swManager if there is a module here
+		if([subDirs containsObject:@"mods.d"]) {
+			swManager = new sword::SWMgr([modulesPath UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
+        } else {
+			swManager = nil;
+        }
+		
+		// for all sub directories add module
+        BOOL directory;
+        NSString *fullSubDir = nil;
+        NSString *subDir = nil;
+		for(subDir in subDirs) {
+			// as long as it's not hidden
+			if(![subDir hasPrefix:@"."]) {
+				fullSubDir = [modulesPath stringByAppendingPathComponent:subDir];
+				fullSubDir = [fullSubDir stringByStandardizingPath];
+				
+				//if its a directory
+				if([fm fileExistsAtPath:fullSubDir isDirectory:&directory])
+                    if(directory) {
+                        // if swManager has not been created yet then do so - otherwise add path to swManager
+                        if(!swManager) {
+                            swManager = new sword::SWMgr([fullSubDir UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
+                        } else {
+                            swManager->augmentModules([fullSubDir UTF8String]);
+                        }
+                    }
+			}
+		}
+        
+        // also add the executing path to the path of modules
+        NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+        if(bundlePath && swManager) {
+            // remove last path component
+            NSString *appPath = [bundlePath stringByDeletingLastPathComponent];
+            swManager->augmentModules([appPath UTF8String]);
+        }
+
         // clear some data
         [self refreshModules];
         [self addRenderFilters];
     }
 	[managerLock unlock];
+    
+    SendNotifyModulesChanged(nil);    
 }
 
 /**

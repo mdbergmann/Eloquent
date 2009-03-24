@@ -72,7 +72,7 @@
     [editButton setEnabled:editable];
 }
 
-#pragma mark - methods
+#pragma mark - Methods
 
 - (void)adaptUIToHost {
     if(delegate) {

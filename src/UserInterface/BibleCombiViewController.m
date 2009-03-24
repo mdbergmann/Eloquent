@@ -153,9 +153,6 @@
         [self displayTextForReference:reference searchType:searchType];
     }
     
-    // validate module display options
-    [self validateModDisplayOptions];
-    
     if(loaded) {
         [self reportLoadingComplete];
     }
@@ -343,207 +340,131 @@
         [ret addObject:[vc module]];
     }
     
-    return ret;    
+    return ret;
 }
 
-- (void)validateModDisplayOptions {
-    // validate all module display options
+#pragma mark - Menu validation
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    BOOL ret = NO;
     
-    // enable all menu items
-    for(NSMenuItem *mi in [modDisplayOptionsMenu itemArray]) {
-        [mi setEnabled:YES];
-    }
-    
-    // we enable an option if one of the modules has this feature
-    NSMutableArray *modCs = [NSMutableArray arrayWithArray:parBibleViewControllers];
-    [modCs addObjectsFromArray:parMiscViewControllers];
-    for(ModuleViewController *modC in modCs) {
-        SwordModule *mod = [modC module];
-        NSMenuItem *mi = nil;
-        if(![mod hasFeature:SWMOD_FEATURE_STRONGS]) {
-            mi = [modDisplayOptionsMenu itemWithTag:1];
-            [mi setEnabled:NO];
+    if([menuItem menu] == modDisplayOptionsMenu) {
+        // we enable an option if one of the modules has this feature
+        NSMutableArray *modCs = [NSMutableArray arrayWithArray:parBibleViewControllers];
+        [modCs addObjectsFromArray:parMiscViewControllers];
+
+        switch([menuItem tag]) {
+            case 1:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_STRONGS]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 2:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_MORPH]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 3:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_FOOTNOTES]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 4:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_SCRIPTREF]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 5:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_REDLETTERWORDS]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 6:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_HEADINGS]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 7:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_HEBREWPOINTS]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 8:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_CANTILLATION]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
+            case 9:
+            {
+                for(ModuleViewController *modC in modCs) {
+                    SwordModule *mod = [modC module];
+                    if([mod hasFeature:SWMOD_FEATURE_GREEKACCENTS]) {
+                        ret = YES;
+                        break;
+                    }
+                }
+                break;
+            }
         }
-        if(![mod hasFeature:SWMOD_FEATURE_MORPH]) {
-            mi = [modDisplayOptionsMenu itemWithTag:2];
-            [mi setEnabled:NO];
-        }
-        if(![mod hasFeature:SWMOD_FEATURE_FOOTNOTES]) {
-            mi = [modDisplayOptionsMenu itemWithTag:3];
-            [mi setEnabled:NO];
-        }
-        if(![mod hasFeature:SWMOD_FEATURE_SCRIPTREF]) {
-            mi = [modDisplayOptionsMenu itemWithTag:4];
-            [mi setEnabled:NO];
-        }
-        if(![mod hasFeature:SWMOD_FEATURE_REDLETTERWORDS]) {
-            mi = [modDisplayOptionsMenu itemWithTag:5];
-            [mi setEnabled:NO];
-        }
-        if(![mod hasFeature:SWMOD_FEATURE_HEADINGS]) {
-            mi = [modDisplayOptionsMenu itemWithTag:6];
-            [mi setEnabled:NO];
-        }
-        if(![mod hasFeature:SWMOD_FEATURE_HEBREWPOINTS]) {
-            mi = [modDisplayOptionsMenu itemWithTag:7];
-            [mi setEnabled:NO];
-        }
-        if(![mod hasFeature:SWMOD_FEATURE_CANTILLATION]) {
-            mi = [modDisplayOptionsMenu itemWithTag:8];
-            [mi setEnabled:NO];
-        }
-    }
-}
-
-#pragma mark - actions
-
-- (IBAction)fontSizeChange:(id)sender {    
-    // loop over all 
-    // get selected font size
-    int tag = [(NSPopUpButton *)sender selectedTag];
-    
-    // loop over all menuitem and set disabled state
-    for(NSMenuItem *mi in [[(NSPopUpButton *)sender menu] itemArray]) {
-        [mi setState:NSOffState];
-    }
-    // set the selected one
-    [[(NSPopUpButton *)sender selectedItem] setState:NSOnState];
-
-    // set new value
-    customFontSize = tag;
-    
-    // force redisplay
-    forceRedisplay = YES;
-    [self distributeReference:reference];
-}
-
-- (IBAction)displayOptionShowStrongs:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_STRONGS];
-        [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_STRONGS];
-        [(NSMenuItem *)sender setState:NSOnState];
+        return YES;
     }
     
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
+    return ret;
 }
 
-- (IBAction)displayOptionShowMorphs:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_MORPHS];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_MORPHS];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
+#pragma mark - Actions
 
-- (IBAction)displayOptionShowFootnotes:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_FOOTNOTES];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
 
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-- (IBAction)displayOptionShowCrossRefs:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_SCRIPTREFS];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-- (IBAction)displayOptionShowRedLetterWords:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-- (IBAction)displayOptionShowHeadings:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEADINGS];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-- (IBAction)displayOptionHebrewPoints:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWPOINTS];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-- (IBAction)displayOptionHebrewCantillation:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWCANTILLATION];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-- (IBAction)displayOptionVersesOnOneLine:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextVersesOnOneLineKey];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-#pragma mark - scrollview synchronization
+#pragma mark - Scrollview Synchronization
 
 - (void)stopScrollSynchronizationForView:(NSScrollView *)aScrollView {
     // get contentview of this view and remove listener
@@ -839,10 +760,7 @@
             }
             
             // set search text and let the controller handle it
-            [(BibleViewController *)aView displayTextForReference:reference searchType:searchType];
-            
-            // validate module display options
-            [self validateModDisplayOptions];            
+            [(BibleViewController *)aView displayTextForReference:reference searchType:searchType];            
         }
                 
         if(loaded) {
@@ -876,9 +794,6 @@
     for(HostableViewController *hc in parMiscViewControllers) {
         [hc adaptUIToHost];
     }
-    
-    // validate module display options
-    [self validateModDisplayOptions];
 }
 
 #pragma mark - TextDisplayable

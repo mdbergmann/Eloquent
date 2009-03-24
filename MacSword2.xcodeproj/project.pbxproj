@@ -113,7 +113,6 @@
 		A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */; };
 		A9D72F1F0F6D362400333554 /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D72F1D0F6D362400333554 /* ResizeControl.png */; };
 		A9D72F200F6D362400333554 /* SidebarBottomGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D72F1E0F6D362400333554 /* SidebarBottomGradient.png */; };
-		A9D72FA20F6D4A7C00333554 /* SidebarBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D72FA10F6D4A7C00333554 /* SidebarBottomView.m */; };
 		A9D760F30EF715BB00A78AA8 /* agt_add-to-autorun.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */; };
 		A9D760F40EF715BB00A78AA8 /* bookmarks_list_add.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */; };
 		A9D849660EFA2D34000457EC /* LeftSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D849620EFA2D34000457EC /* LeftSideBarView.xib */; };
@@ -350,8 +349,6 @@
 		A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FakeModel.m; path = src/UserInterface/FakeModel.m; sourceTree = "<group>"; };
 		A9D72F1D0F6D362400333554 /* ResizeControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResizeControl.png; sourceTree = "<group>"; };
 		A9D72F1E0F6D362400333554 /* SidebarBottomGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SidebarBottomGradient.png; sourceTree = "<group>"; };
-		A9D72FA00F6D4A7C00333554 /* SidebarBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SidebarBottomView.h; path = src/UserInterface/SidebarBottomView.h; sourceTree = "<group>"; };
-		A9D72FA10F6D4A7C00333554 /* SidebarBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SidebarBottomView.m; path = src/UserInterface/SidebarBottomView.m; sourceTree = "<group>"; };
 		A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agt_add-to-autorun.png"; sourceTree = "<group>"; };
 		A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmarks_list_add.png; sourceTree = "<group>"; };
 		A9D849630EFA2D34000457EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/LeftSideBarView.xib; sourceTree = "<group>"; };
@@ -847,8 +844,6 @@
 				A9E9E3CC0F65401C007C4AB2 /* FullScreenSplitView.m */,
 				A987A34A0F6D59EC007E5EE1 /* ThickDividerSplitView.h */,
 				A987A34B0F6D59EC007E5EE1 /* ThickDividerSplitView.m */,
-				A9D72FA00F6D4A7C00333554 /* SidebarBottomView.h */,
-				A9D72FA10F6D4A7C00333554 /* SidebarBottomView.m */,
 				A99DB3240EF96C310065482A /* ScopeBarView.h */,
 				A99DB3250EF96C310065482A /* ScopeBarView.m */,
 				A91A23000E61926800382F44 /* HeaderImageView.h */,
@@ -1104,7 +1099,6 @@
 				A9E9E3CD0F65401C007C4AB2 /* FullScreenSplitView.m in Sources */,
 				A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */,
 				A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */,
-				A9D72FA20F6D4A7C00333554 /* SidebarBottomView.m in Sources */,
 				A987A34C0F6D59EC007E5EE1 /* ThickDividerSplitView.m in Sources */,
 				A902D8D20F6E952600F994D2 /* ModuleCommonsViewController.m in Sources */,
 				A9582A800F701D4C0094FAF4 /* SwordVerseKey.mm in Sources */,

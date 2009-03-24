@@ -18,6 +18,7 @@
 @interface SearchBookSetEditorController ()
 
 - (NSArray *)books;
+- (SearchBookSet *)temporaryBookSet;
 
 @end
 
@@ -33,7 +34,7 @@
 		if(success) {
             
             // by default we use temporary bookset
-            self.selectedBookSet = [SearchBookSet searchBookSetWithName:@""];
+            self.selectedBookSet = [self temporaryBookSet];
             
 		} else {
 			MBLOG(MBLOG_ERR,@"[SearchBookSetEditorController -init]: cannot load Nib!");
@@ -58,6 +59,15 @@
 }
 
 #pragma mark - Methods
+
+- (SearchBookSet *)temporaryBookSet {
+    SearchBookSet *ret = [SearchBookSet searchBookSetWithName:@""];
+    for(SwordBibleBook *bb in [self books]) {
+        [ret addBook:[bb osisName]];
+    }
+    
+    return ret;
+}
 
 - (NSArray *)books {
     // returning the default KJV based books
@@ -150,7 +160,7 @@
 - (IBAction)bookEnabled:(id)sender {
     
     if(![selectedBookSet isPredefined]) {
-        // get clocked row
+        // get clicked row
         int clickedRow = [booksTableView clickedRow];
         NSString *bookName = [[[self books] objectAtIndex:clickedRow] osisName];
         
@@ -211,7 +221,7 @@
     [searchBookSetsPopUpButton setMenu:[self bookSetsMenu]];
     [searchBookSetsPopUpButton selectItemWithTag:0];
 
-    [self setSelectedBookSet:[SearchBookSet searchBookSetWithName:@""]];
+    [self setSelectedBookSet:[self temporaryBookSet]];
     [booksTableView reloadData];
     [removeButton setEnabled:NO];
 }

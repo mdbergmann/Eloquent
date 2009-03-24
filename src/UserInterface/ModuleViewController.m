@@ -274,6 +274,58 @@
         }
         
         return ret;
+    } else if([menuItem menu] == modDisplayOptionsMenu) {
+        BOOL ret = NO;
+
+        switch([menuItem tag]) {
+            case 1:
+                if([module hasFeature:SWMOD_FEATURE_STRONGS]) {
+                    ret = YES;
+                }
+                break;
+            case 2:
+                if([module hasFeature:SWMOD_FEATURE_MORPH]) {
+                    ret = YES;
+                }
+                break;
+            case 3:
+                if([module hasFeature:SWMOD_FEATURE_FOOTNOTES]) {
+                    ret = YES;
+                }
+                break;
+            case 4:
+                if([module hasFeature:SWMOD_FEATURE_SCRIPTREF]) {
+                    ret = YES;
+                }
+                break;
+            case 5:
+                if([module hasFeature:SWMOD_FEATURE_REDLETTERWORDS]) {
+                    ret = YES;
+                }
+                break;
+            case 6:
+                if([module hasFeature:SWMOD_FEATURE_HEADINGS]) {
+                    ret = YES;
+                }
+                break;
+            case 7:
+                if([module hasFeature:SWMOD_FEATURE_HEBREWPOINTS]) {
+                    ret = YES;
+                }
+                break;
+            case 8:
+                if([module hasFeature:SWMOD_FEATURE_CANTILLATION]) {
+                    ret = YES;
+                }
+                break;
+            case 9:
+                if([module hasFeature:SWMOD_FEATURE_GREEKACCENTS]) {
+                    ret = YES;
+                }
+                break;
+        }
+        
+        return ret;
     }
     
     return YES;

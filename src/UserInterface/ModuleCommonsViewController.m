@@ -34,10 +34,6 @@
         forceRedisplay = NO;
 
         customFontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
-        
-        // init display options
-        [self initDefaultModDisplayOptions];
-        [self initDefaultDisplayOptions];        
     }
     
     return self;
@@ -46,6 +42,10 @@
 - (void)awakeFromNib {
     // set state of menuitem representing font size
     [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
+
+    // init display options
+    [self initDefaultModDisplayOptions];
+    [self initDefaultDisplayOptions];
 }
 
 #pragma mark - Display things
@@ -60,22 +60,61 @@
     [dOpts setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
     [dOpts setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
     [dOpts setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
+    [dOpts setObject:SW_OFF forKey:SW_OPTION_GREEKACCENTS];
     self.modDisplayOptions = dOpts;
+    
+    // init menu and popup button
+    NSMenu *menu = [[NSMenu alloc] init];
+    modDisplayOptionsMenu = menu;
+    NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"ModOptions", @"") action:nil keyEquivalent:@""];
+    [item setHidden:YES];
+    // strongs
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowStrongsNumbers", @"") action:@selector(displayOptionShowStrongs:) keyEquivalent:@""];
+    [item setTag:1];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowMorphNumbers", @"") action:@selector(displayOptionShowMorphs:) keyEquivalent:@""];
+    [item setTag:2];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowFootnotes", @"") action:@selector(displayOptionShowFootnotes:) keyEquivalent:@""];
+    [item setTag:3];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowCrossRefs", @"") action:@selector(displayOptionShowCrossRefs:) keyEquivalent:@""];
+    [item setTag:4];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowRedLetterWords", @"") action:@selector(displayOptionShowRedLetterWords:) keyEquivalent:@""];
+    [item setTag:5];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowHeadings", @"") action:@selector(displayOptionShowHeadings:) keyEquivalent:@""];
+    [item setTag:6];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowHebrewPoints", @"") action:@selector(displayOptionShowHebrewPoints:) keyEquivalent:@""];
+    [item setTag:7];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowHebrewCantillation", @"") action:@selector(displayOptionShowHebrewCantillation:) keyEquivalent:@""];
+    [item setTag:8];
+    [item setTarget:self];
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowGreekAccents", @"") action:@selector(displayOptionShowGreekAccents:) keyEquivalent:@""];
+    [item setTag:9];
+    [item setTarget:self];
+    // set menu to poup
+    [modDisplayOptionsPopUpButton setMenu:menu];
 }
 
 - (void)initDefaultDisplayOptions {
     NSMutableDictionary *dOpts = [NSMutableDictionary dictionaryWithCapacity:3];
     [dOpts setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
     self.displayOptions = dOpts;        
-}
 
-/** 
- abstract method, subclasses should override
- this is for validating the module display options
- */
-- (void)validateModDisplayOptions {
-    // nothing done here
-    // we need a module to validate options
+    // init menu and popup button
+    NSMenu *menu = [[NSMenu alloc] init];
+    displayOptionsMenu = menu;
+    NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptions", @"") action:nil keyEquivalent:@""];
+    [item setHidden:YES];
+    // strongs
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowVOOL", @"") action:@selector(displayOptionVersesOnOneLine:) keyEquivalent:@""];
+    [item setTarget:self];
+    // set menu to poup
+    [displayOptionsPopUpButton setMenu:menu];
 }
 
 #pragma mark - Actions
@@ -95,6 +134,146 @@
     self.customFontSize = tag;
     
     // force redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowStrongs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_STRONGS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_STRONGS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowMorphs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_MORPHS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_MORPHS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowFootnotes:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_FOOTNOTES];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowCrossRefs:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_SCRIPTREFS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowRedLetterWords:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowHeadings:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEADINGS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowHebrewPoints:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWPOINTS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowHebrewCantillation:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWCANTILLATION];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
+- (IBAction)displayOptionShowGreekAccents:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_GREEKACCENTS];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_GREEKACCENTS];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];    
+}
+
+- (IBAction)displayOptionVersesOnOneLine:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextVersesOnOneLineKey];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
     forceRedisplay = YES;
     [self displayTextForReference:reference];
 }
