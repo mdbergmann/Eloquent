@@ -76,31 +76,8 @@ NSString *MacSwordIndexVersion = @"2.5";
 
 	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndex]");
 
-	sword::SWKey *savekey = NULL;
-	sword::SWKey *searchkey = NULL;
-	sword::SWKey textkey;
-	
 	[moduleLock lock];
 	
-	// save key information so as not to disrupt original
-	// module position
-	if (!swModule->getKey()->Persist()) {
-        // key does not persist
-		savekey = swModule->CreateKey();
-		*savekey = *swModule->getKey();
-	} else {
-		savekey = swModule->getKey();
-    }
-
-	searchkey = (swModule->getKey()->Persist()) ? swModule->getKey()->clone() : 0;
-	if (searchkey) {
-		searchkey->Persist(1);
-		swModule->setKey(*searchkey);
-	}
-
-	// position module at the beginning
-	*swModule = sword::TOP;
-    
 	// get Indexer
     Indexer *indexer = [Indexer indexerWithModuleName:[self name] 
                                            moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
@@ -113,17 +90,6 @@ NSString *MacSwordIndexVersion = @"2.5";
         [indexer close];
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
 
-        // reposition module back to where it was before we were called
-        swModule->setKey(*savekey);
-        if (!savekey->Persist()) {
-            delete savekey;
-        }
-        if (searchkey) {
-            delete searchkey;
-        }
-
-        MBLOG(MBLOG_DEBUG, @"end index");
-                
         //save version info
         NSString *path = [(IndexingManager *)[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];        
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -214,7 +180,7 @@ NSString *MacSwordIndexVersion = @"2.5";
                 [propDict setObject:strongStr forKey:IndexPropSwordStrongString];
             }
                 
-            if([txt length] > 0 && [strongStr length] > 0) {
+            if([txt length] > 0 || [strongStr length] > 0) {
                 // index combined with strongs
                 NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", txt, strongStr];
                 

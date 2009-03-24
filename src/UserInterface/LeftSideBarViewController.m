@@ -217,7 +217,7 @@ enum ModuleMenu_Items{
        modalForWindow:window
         modalDelegate:self
        didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
-          contextInfo:nil];    
+          contextInfo:nil];
 }
 
 #pragma mark - SubviewHosting protocol

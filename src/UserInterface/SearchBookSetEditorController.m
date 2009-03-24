@@ -180,7 +180,7 @@
 
     SearchBookSet *bookSet = nil;
     if(tag == 0) {
-        bookSet = [SearchBookSet searchBookSetWithName:@""];
+        bookSet = [self temporaryBookSet];
         [removeButton setEnabled:NO];
     } else {
         bookSet = [[[IndexingManager sharedManager] searchBookSets] objectAtIndex:tag-1];    

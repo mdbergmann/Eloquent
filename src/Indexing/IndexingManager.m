@@ -136,9 +136,11 @@
             // build default search booksets
             NSMutableArray *bookSets = [NSMutableArray array];
             // All
-            [bookSets addObject:[SearchBookSet searchBookSetWithName:@"All"]]; // empty for all
+            SearchBookSet *set = [SearchBookSet searchBookSetWithName:@"All"];
+            [set setIsPredefined:YES];
+            [bookSets addObject:set]; // empty for all
             // Torah
-            SearchBookSet *set = [SearchBookSet searchBookSetWithName:@"Law"];
+            set = [SearchBookSet searchBookSetWithName:@"Law"];
             [set setIsPredefined:YES];
             [bookSets addObject:set];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Gen"] osisBookName]];
