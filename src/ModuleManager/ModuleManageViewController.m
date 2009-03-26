@@ -316,9 +316,11 @@
         // set parent window
         parentWindow = aParent;
         
+        /*
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(threadWillExit:)
                                                      name:NSThreadWillExitNotification object:nil];            
+         */
 		
         BOOL success = [NSBundle loadNibNamed:@"ModuleManageView" owner:self];
 		if(success == YES) {
