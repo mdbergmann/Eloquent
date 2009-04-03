@@ -16,6 +16,7 @@
 #define TB_SEARCH_TYPE_ITEM         @"IdSearchType"
 #define TB_SEARCH_TEXT_ITEM         @"IdSearchText"
 #define TB_ADDBOOKMARK_TYPE_ITEM    @"IdAddBookmark"
+#define TB_FORCERELOAD_TYPE_ITEM    @"IdForceReload"
 #define TB_NAVIGATION_TYPE_ITEM     @"IdNavigation"
 
 @class ScopeBarView;
@@ -43,6 +44,8 @@
     IBOutlet NSSegmentedControl *leftSideBottomSegControl;
     /** the segmentedcontrol for right sides */
     IBOutlet NSSegmentedControl *rightSideBottomSegControl;
+    IBOutlet NSButton *addBookmarkBtn;
+    IBOutlet NSButton *forceReloadBtn;
     
     // our delegate
     id delegate;
@@ -128,6 +131,7 @@
 - (IBAction)leftSideBottomSegChange:(id)sender;
 - (IBAction)rightSideBottomSegChange:(id)sender;
 - (IBAction)navigationAction:(id)sender;
+- (IBAction)forceReload:(id)sender;
 
 // menu first responder actions
 - (IBAction)leftSideBarHideShow:(id)sender;

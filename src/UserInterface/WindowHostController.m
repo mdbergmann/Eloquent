@@ -241,34 +241,50 @@ typedef enum _NavigationDirectionType {
     
     // add button
     segmentControlHeight = 32.0;
-    segmentControlWidth = 64.0;
-    NSSegmentedControl *addBookmarkSegControl = [[NSSegmentedControl alloc] init];
-    [addBookmarkSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
-    [addBookmarkSegControl setSegmentCount:1];
+    segmentControlWidth = 32.0;
+    addBookmarkBtn = [[NSButton alloc] init];
+    [addBookmarkBtn setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
     // style
-    [[addBookmarkSegControl cell] setSegmentStyle:NSSegmentStyleTexturedRounded];
-    // set tracking style
-    [[addBookmarkSegControl cell] setTrackingMode:NSSegmentSwitchTrackingMomentary];
+    [addBookmarkBtn setBezelStyle:NSTexturedRoundedBezelStyle];
     // insert text only segments
-    [addBookmarkSegControl setFont:FontStdBold];
-    [addBookmarkSegControl setImage:[NSImage imageNamed:NSImageNameAddTemplate] forSegment:0];		
-    [addBookmarkSegControl sizeToFit];
+    [addBookmarkBtn setImage:[NSImage imageNamed:NSImageNameAddTemplate]];		
+    [addBookmarkBtn sizeToFit];
+    [addBookmarkBtn setFrameSize:NSMakeSize(32.0, [addBookmarkBtn frame].size.height)];
     // resize the height to what we have defined
-    [addBookmarkSegControl setFrameSize:NSMakeSize([addBookmarkSegControl frame].size.width, segmentControlHeight)];
-    [addBookmarkSegControl setTarget:lsbViewController];
-    [addBookmarkSegControl setAction:@selector(bookmarkDialog:)];    
+    [addBookmarkBtn setTarget:lsbViewController];
+    [addBookmarkBtn setAction:@selector(bookmarkDialog:)];    
     // add bookmark item
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADDBOOKMARK_TYPE_ITEM];
     [item setLabel:NSLocalizedString(@"AddBookmarkLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"AddBookmarkPalette", @"")];
     [item setToolTip:NSLocalizedString(@"AddBookmarkTooltip", @"")];
-    [item setMinSize:[addBookmarkSegControl frame].size];
-    [item setMaxSize:[addBookmarkSegControl frame].size];
-    // set the segmented control as the view of the toolbar item
-    [item setView:addBookmarkSegControl];
-    [addBookmarkSegControl release];
+    [item setMinSize:[addBookmarkBtn frame].size];
+    [item setMaxSize:[addBookmarkBtn frame].size];
+    [item setView:addBookmarkBtn];
     [tbIdentifiers setObject:item forKey:TB_ADDBOOKMARK_TYPE_ITEM];
     
+    // force reload button
+    forceReloadBtn = [[NSButton alloc] init];
+    [forceReloadBtn setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
+    // style
+    [forceReloadBtn setBezelStyle:NSTexturedRoundedBezelStyle];
+    // insert text only segments
+    [forceReloadBtn setImage:[NSImage imageNamed:NSImageNameRefreshTemplate]];		
+    [forceReloadBtn sizeToFit];
+    [forceReloadBtn setFrameSize:NSMakeSize(32.0, [addBookmarkBtn frame].size.height)];
+    // resize the height to what we have defined
+    [forceReloadBtn setTarget:self];
+    [forceReloadBtn setAction:@selector(forceReload:)];    
+    // add bookmark item
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_FORCERELOAD_TYPE_ITEM];
+    [item setLabel:NSLocalizedString(@"ForceReloadLabel", @"")];
+    [item setPaletteLabel:NSLocalizedString(@"ForceReloadPalette", @"")];
+    [item setToolTip:NSLocalizedString(@"ForceReloadTooltip", @"")];
+    [item setMinSize:[forceReloadBtn frame].size];
+    [item setMaxSize:[forceReloadBtn frame].size];
+    [item setView:forceReloadBtn];
+    [tbIdentifiers setObject:item forKey:TB_FORCERELOAD_TYPE_ITEM];
+
     // module installer item
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_MODULEINSTALLER_ITEM];
     [item setLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
@@ -380,6 +396,8 @@ typedef enum _NavigationDirectionType {
                                  NSToolbarFlexibleSpaceItemIdentifier,
                                  TB_SEARCH_TYPE_ITEM,
                                  TB_SEARCH_TEXT_ITEM,
+                                 TB_ADDBOOKMARK_TYPE_ITEM,
+                                 TB_FORCERELOAD_TYPE_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
                                  TB_MODULEINSTALLER_ITEM,
                                  nil];
@@ -528,6 +546,9 @@ typedef enum _NavigationDirectionType {
         navigationAction = YES;
         [self setSearchText:sstr];
     }    
+}
+
+- (IBAction)forceReload:(id)sender {
 }
 
 #pragma mark - Events
@@ -764,7 +785,16 @@ typedef enum _NavigationDirectionType {
     } else {
         [[navigationSegControl cell] setEnabled:NO forSegment:0];
         [[navigationSegControl cell] setEnabled:NO forSegment:1];        
-    }    
+    }
+    
+    // add bookmark button
+    if([self moduleType] == bible || [self moduleType] == commentary) {
+        [addBookmarkBtn setEnabled:YES];
+        [forceReloadBtn setEnabled:YES];
+    } else {
+        [addBookmarkBtn setEnabled:NO];
+        [forceReloadBtn setEnabled:NO];    
+    }
 }
 
 #pragma mark - NSSplitView delegate methods
