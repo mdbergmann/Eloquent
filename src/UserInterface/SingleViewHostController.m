@@ -219,12 +219,7 @@
     [super searchInput:sender];
     
     NSString *searchText = [sender stringValue];
-    if([contentViewController isKindOfClass:[BibleCombiViewController class]] ||
-       [contentViewController isKindOfClass:[CommentaryViewController class]] ||
-       [contentViewController isKindOfClass:[DictionaryViewController class]] ||
-       [contentViewController isKindOfClass:[GenBookViewController class]]) {
-        [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:self.searchType];
-    }
+    [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:self.searchType];
 }
 
 /*
@@ -277,6 +272,11 @@
 */
 
 #pragma mark - Actions
+
+- (IBAction)forceReload:(id)sender {
+    [(ModuleCommonsViewController *)contentViewController setForceRedisplay:YES];
+    [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+}
 
 #pragma mark - SubviewHosting protocol
 

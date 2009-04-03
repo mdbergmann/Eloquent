@@ -548,6 +548,7 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
+/** to be overriden by subclasses */
 - (IBAction)forceReload:(id)sender {
 }
 

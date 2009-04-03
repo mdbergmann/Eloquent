@@ -254,12 +254,12 @@
     [super searchInput:sender];
     
     NSString *searchText = [sender stringValue];
-    if([activeViewController isKindOfClass:[BibleCombiViewController class]] ||
-        [activeViewController isKindOfClass:[CommentaryViewController class]] ||
-        [activeViewController isKindOfClass:[DictionaryViewController class]] ||
-        [activeViewController isKindOfClass:[GenBookViewController class]]) {
-        [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:[currentSearchText searchType]];
-    }
+    [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:[currentSearchText searchType]];
+}
+
+- (IBAction)forceReload:(id)sender {
+    [(ModuleCommonsViewController *)activeViewController setForceRedisplay:YES];
+    [(ModuleCommonsViewController *)activeViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
 }
 
 #pragma mark - Actions
