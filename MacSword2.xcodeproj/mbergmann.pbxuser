@@ -165,6 +165,11 @@
 			A90B9ABE0F86E096008D3F22 /* PBXTextBookmark */ = A90B9ABE0F86E096008D3F22 /* PBXTextBookmark */;
 			A90B9ABF0F86E096008D3F22 /* PBXTextBookmark */ = A90B9ABF0F86E096008D3F22 /* PBXTextBookmark */;
 			A90B9AC10F86E0E1008D3F22 /* PBXTextBookmark */ = A90B9AC10F86E0E1008D3F22 /* PBXTextBookmark */;
+			A90B9ACD0F86E39D008D3F22 /* PBXTextBookmark */ = A90B9ACD0F86E39D008D3F22 /* PBXTextBookmark */;
+			A90B9ACE0F86E39D008D3F22 /* PBXTextBookmark */ = A90B9ACE0F86E39D008D3F22 /* PBXTextBookmark */;
+			A90B9ACF0F86E39D008D3F22 /* PBXTextBookmark */ = A90B9ACF0F86E39D008D3F22 /* PBXTextBookmark */;
+			A90B9AD00F86E39D008D3F22 /* PBXTextBookmark */ = A90B9AD00F86E39D008D3F22 /* PBXTextBookmark */;
+			A90B9AD30F86E3BC008D3F22 /* PBXTextBookmark */ = A90B9AD30F86E3BC008D3F22 /* PBXTextBookmark */;
 			A98430280F857AE9004241A5 = A98430280F857AE9004241A5 /* PBXTextBookmark */;
 			A98430320F857B22004241A5 = A98430320F857B22004241A5 /* PBXTextBookmark */;
 			A984303E0F857BFD004241A5 = A984303E0F857BFD004241A5 /* PBXTextBookmark */;
@@ -420,6 +425,56 @@
 		vrLen = 2225;
 		vrLoc = 8734;
 	};
+	A90B9ACD0F86E39D008D3F22 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A91C94150DF9B149006B7361 /* SwordManager.mm */;
+		name = "SwordManager.mm: 307";
+		rLen = 0;
+		rLoc = 9470;
+		rType = 0;
+		vrLen = 2265;
+		vrLoc = 8734;
+	};
+	A90B9ACE0F86E39D008D3F22 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A91C93DC0DF9B0E9006B7361 /* AppController.m */;
+		name = "AppController.m: 142";
+		rLen = 0;
+		rLoc = 5012;
+		rType = 0;
+		vrLen = 2554;
+		vrLoc = 3639;
+	};
+	A90B9ACF0F86E39D008D3F22 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A91C94150DF9B149006B7361 /* SwordManager.mm */;
+		name = "SwordManager.mm: 307";
+		rLen = 0;
+		rLoc = 9470;
+		rType = 0;
+		vrLen = 2265;
+		vrLoc = 8734;
+	};
+	A90B9AD00F86E39D008D3F22 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A91C93DC0DF9B0E9006B7361 /* AppController.m */;
+		name = "AppController.m: 239";
+		rLen = 0;
+		rLoc = 8717;
+		rType = 0;
+		vrLen = 2369;
+		vrLoc = 7610;
+	};
+	A90B9AD30F86E3BC008D3F22 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A91C93DC0DF9B0E9006B7361 /* AppController.m */;
+		name = "AppController.m: 239";
+		rLen = 0;
+		rLoc = 8717;
+		rType = 0;
+		vrLen = 2369;
+		vrLoc = 7610;
+	};
 	A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {965, 586}}";
@@ -550,9 +605,9 @@
 	A91C93DC0DF9B0E9006B7361 /* AppController.m */ = {
 		uiCtxt = {
 			sepNavFolds = "{\n    c =     (\n                {\n            r = \"{1125, 546}\";\n            s = 0;\n        }\n    );\n    r = \"{0, 21129}\";\n    s = 0;\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {1021, 8218}}";
-			sepNavSelRange = "{2500, 0}";
-			sepNavVisRange = "{0, 1767}";
+			sepNavIntBoundsRect = "{{0, 0}, {1021, 8050}}";
+			sepNavSelRange = "{8172, 0}";
+			sepNavVisRange = "{7065, 2369}";
 			sepNavWindowFrame = "{{214, 93}, {995, 930}}";
 		};
 	};
@@ -861,9 +916,9 @@
 	};
 	A91C94150DF9B149006B7361 /* SwordManager.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1021, 8526}}";
-			sepNavSelRange = "{9470, 0}";
-			sepNavVisRange = "{8734, 2225}";
+			sepNavIntBoundsRect = "{{0, 0}, {741, 8890}}";
+			sepNavSelRange = "{7268, 0}";
+			sepNavVisRange = "{4360, 1892}";
 			sepNavWindowFrame = "{{187, 246}, {800, 739}}";
 		};
 	};
@@ -1391,7 +1446,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 20;
-		modificationTime = 260497628.33732;
+		modificationTime = 260498361.849968;
 		state = 0;
 	};
 	A9B979D40F338DAB0090FF8D /* msstringmgr.cpp:60 */ = {
@@ -1407,7 +1462,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 60;
-		modificationTime = 260497628.339543;
+		modificationTime = 260498361.853068;
 		state = 0;
 	};
 	A9C0F4210EFD67F700CFDF06 /* ConfirmationSheetController.h */ = {
@@ -2073,7 +2128,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 27;
-		modificationTime = 260497628.347246;
+		modificationTime = 260498361.863583;
 		state = 0;
 	};
 	A9D849690EFA361F000457EC /* RightSideBarViewController.h */ = {

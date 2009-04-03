@@ -233,15 +233,15 @@ static AppController *singleton;
         // init window Hosts array
         windowHosts = [[NSMutableArray alloc] init];
         
-        // init default SwordManager
-        SwordManager *sm = [SwordManager defaultManager];
-        
 		// register user defaults
 		[self registerDefaults];
-        
+
         // init AppSupportFolder
         [self setupFolders];
-                        
+
+        // init default SwordManager
+        SwordManager *sm = [SwordManager defaultManager];
+                                        
         // initialize ThreadedProgressSheet
         [MBThreadedProgressSheetController standardProgressSheetController];
         
