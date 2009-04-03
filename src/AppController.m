@@ -100,6 +100,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSB];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSB];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowPreviewToolTip];
     
     // cipher keys
     [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleCipherKeysKey];

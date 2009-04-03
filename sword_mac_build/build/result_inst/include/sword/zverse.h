@@ -49,10 +49,10 @@ public:
 	zVerse(const char *ipath, int fileMode = -1, int blockType = CHAPTERBLOCKS, SWCompress * icomp = 0);
 	virtual ~zVerse();
 
-	void findOffset(char testmt, long idxoff, long *start, unsigned short *end);
-	void zReadText(char testmt, long start, unsigned short size, SWBuf &buf);
+	void findOffset(char testmt, long idxoff, long *start, unsigned short *size, unsigned long *buffnum) const;
+	void zReadText(char testmt, long start, unsigned short size, unsigned long buffnum, SWBuf &buf);
 	virtual void rawZFilter(SWBuf &buf, char direction = 0) {}
-	static char createModule(const char *path, int blockBound);
+	static char createModule(const char *path, int blockBound, const char *v11n = "KJV");
 };
 
 SWORD_NAMESPACE_END

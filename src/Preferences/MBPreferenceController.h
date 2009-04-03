@@ -44,6 +44,7 @@
 #define DefaultsShowLSB                             @"DefaultsShowLSB"
 #define DefaultsShowRSB                             @"DefaultsShowRSB"
 #define DefaultsShowHUDPreview                      @"DefaultsShowHUDPreview"
+#define DefaultsShowPreviewToolTip                  @"DefaultsShowPreviewToolTip"
 
 // confirmations
 #define DefaultsShowFullScreenConfirm               @"DefaultsShowFullScreenConfirm"

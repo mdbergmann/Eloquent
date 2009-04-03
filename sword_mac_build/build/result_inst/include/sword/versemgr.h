@@ -82,7 +82,7 @@ protected:
 	static VerseMgr *systemVerseMgr;
 
 public:
-	class Book {
+	class SWDLLEXPORT Book {
 		friend class System;
 		friend struct BookOffsetLess;
 		class Private;
@@ -121,7 +121,7 @@ public:
 		int getVerseMax(int chapter) const;
 	};
 
-	class System {
+	class SWDLLEXPORT System {
 		class Private;
 		Private *p;
 		SWBuf name;
@@ -154,7 +154,7 @@ public:
 	void registerVersificationSystem(const char *name, const TreeKey *);
 };
 
-extern const struct abbrev builtin_abbrevs[];
+SWDLLEXPORT extern const struct abbrev builtin_abbrevs[];
 
 SWORD_NAMESPACE_END
 #endif

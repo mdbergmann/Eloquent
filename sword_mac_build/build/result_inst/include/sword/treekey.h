@@ -1,7 +1,7 @@
 /******************************************************************************
  *  versekey.h - code for class 'versekey'- a standard Biblical verse key
  *
- * $Id: treekey.h 2206 2008-09-23 23:20:51Z scribe $
+ * $Id: treekey.h 2280 2009-03-07 15:34:36Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -74,7 +74,7 @@ public:
 
 	virtual int getLevel() { long bm = getOffset(); int level = 0; do { level++; } while (parent()); setOffset(bm); return level; }
 
-	virtual const char *getUserData(int *size = 0) = 0;
+	virtual const char *getUserData(int *size = 0) const = 0;
 	virtual void setUserData(const char *userData, int size = 0) = 0;
 
 	/** Go to the root node

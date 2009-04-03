@@ -1,9 +1,9 @@
 /******************************************************************************
  * canon.h - Canonical text information to be included by VerseKey.cpp
  *
- * $Id: canon.h 2185 2008-07-21 10:57:54Z scribe $
+ * $Id: canon.h 2285 2009-03-18 09:10:17Z chrislit $
  *
- * Copyright 1998-2005 CrossWire Bible Society (http://www.crosswire.org)
+ * Copyright 1998-2009 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
  *	P. O. Box 2528
  *	Tempe, AZ  85280-2528
@@ -21,6 +21,8 @@
 
 #ifndef CANON_H
 #define CANON_H
+
+#include <canon_abbrevs.h>
 
 SWORD_NAMESPACE_START
 
@@ -101,213 +103,6 @@ struct sbook ntbooks[] = {
   {"Revelation of John", "Rev", "Rev", 22},
   {"", "", "", 0}
 };
-
-/* other OSIS abbrevs
-		"Bar","PrAzar",
-		"Bel","Sus","1Esd","2Esd","AddEsth","EpJer","Jdt","1Macc","2Macc","3Macc",
-		"4Macc","PrMan","Ps151","Sir","Tob","Wis"};
-*/
-
-/******************************************************************************
- *	Abbreviations - MUST be in alphabetical order & by PRIORITY
- *		RULE: first match of entire key
- *			(e.g. key: "1CH"; match: "1CHRONICLES")
- */
-
-const struct abbrev builtin_abbrevs[] = {
-  {"1 C", "1Cor"},			//   1 Corinthians
-  {"1 CHRONICLES", "1Chr"},		//   1 Chronicles
-  {"1 CORINTHIANS", "1Cor"},	//   1 Corinthians
-  {"1 JN", "1John"},			//    1 John
-  {"1 JOHN", "1John"},		//    1 John
-  {"1 KGS", "1Kgs"},		//    1 Kings
-  {"1 KINGS", "1Kgs"},		//    1 Kings
-  {"1 PETER", "1Pet"},		//    1 Peter
-  {"1 PTR", "1Pet"},		//    1 Peter
-  {"1 SAMUEL", "1Sam"},		//    1 Samuel
-  {"1 THESSALONIANS", "1Thess"},	//   1 Thessalonians
-  {"1 TIMOTHY", "1Tim"},		//   1 Timothy
-  {"1C", "1Cor"},			//   1 Corinthians
-  {"1CHRONICLES", "1Chr"},		//   1 Chronicles
-  {"1CORINTHIANS", "1Cor"},		//   1 Corinthians
-  {"1JN", "1John"},			//    1 John
-  {"1JOHN", "1John"},		//    1 John
-  {"1KGS", "1Kgs"},			// 1 Kings
-  {"1KINGS", "1Kgs"},		//    1 Kings
-  {"1PETER", "1Pet"},		//    1 Peter
-  {"1PTR", "1Pet"},			//    1 Peter
-  {"1SAMUEL", "1Sam"},		//    1 Samuel
-  {"1THESSALONIANS", "1Thess"},	//   1 Thessalonians
-  {"1TIMOTHY", "1Tim"},		//   1 Timothy
-  {"2 C", "2Cor"},			//   2 Corinthians
-  {"2 CHRONICLES", "2Chr"},		//   2 Chronicles
-  {"2 CORINTHIANS", "2Cor"},	//   2 Corinthians
-  {"2 JN", "2John"},			//    2 John
-  {"2 JOHN", "2John"},		//    2 John
-  {"2 KGS", "2Kgs"},		//    2 Kings
-  {"2 KINGS", "2Kgs"},		//    2 Kings
-  {"2 PETER", "2Pet"},		//    2 Peter
-  {"2 PTR", "2Pet"},		//    2 Peter
-  {"2 SAMUEL", "2Sam"},		//    2 Samuel
-  {"2 THESSALONIANS", "2Thess"},	//   2 Thessalonians
-  {"2 TIMOTHY", "2Tim"},		//   2 Timothy
-  {"2C", "2Cor"},			//   2 Corinthians
-  {"2CHRONICLES", "2Chr"},		//   2 Chronicles
-  {"2CORINTHIANS", "2Cor"},		//   2 Corinthians
-  {"2JN", "2John"},			//    2 John
-  {"2JOHN", "2John"},		//    2 John
-  {"2KGS", "2Kgs"},			// 2 Kings
-  {"2KINGS", "2Kgs"},		//    2 Kings
-  {"2PETER", "2Pet"},		//    2 Peter
-  {"2PTR", "2Pet"},			//    2 Peter
-  {"2SAMUEL", "2Sam"},		//    2 Samuel
-  {"2THESSALONIANS", "2Thess"},	//   2 Thessalonians
-  {"2TIMOTHY", "2Tim"},		//   2 Timothy
-  {"3 JN", "3John"},			//    3 John
-  {"3 JOHN", "3John"},		//    3 John
-  {"3JN", "3John"},			//    3 John
-  {"3JOHN", "3John"},		//    3 John
-  {"ACTS", "Acts"},			//     Acts
-  {"AMOS", "Amos"},			//    Amos
-  {"APOCALYPSE OF ST. JOHN", "Rev"},	//    Apocalypse of St. John (Rev.)
-  {"C", "Col"},			//    Colossians
-  {"CANTICLE OF CANTICLES", "Song"},	//    Canticle of Canticles (Song of S.)
-  {"COLOSSIANS", "Col"},		//    Colossians
-  {"D", "Deut"},			//     Deuteronomy
-  {"DANIEL", "Dan"},		//    Daniel
-  {"DEUTERONOMY", "Deut"},		//    Deuteronomy
-  {"E", "Eph"},			//     Ephesians
-  {"ECCLESIASTES", "Eccl"},		//    Ecclesiastes
-  {"EPHESIANS", "Eph"},		//    Ephesians
-  {"ESTER", "Esth"},		//    Esther
-  {"ESTHER", "Esth"},		//    Esther
-  {"EXODUS", "Exod"},		//    Exodus
-  {"EZEKIEL", "Ezek"},		//   Ezekiel
-  {"EZK", "Ezek"},		//   Ezekiel
-  {"EZRA", "Ezra"},			//   Ezra
-  {"G", "Gen"},			//     Genesis
-  {"GALATIANS", "Gal"},		//    Galatians
-  {"GENESIS", "Gen"},		//    Genesis
-  {"H", "Heb"},			//     Hebrews
-  {"HABAKKUK", "Hab"},		//    Habakkuk
-  {"HAGGAI", "Hag"},		//   Haggai
-  {"HEBREWS", "Heb"},		//    Hebrews
-  {"HOSEA", "Hos"},		//    Hosea
-  {"I C", "1Cor"},			//   1 Corinthians
-  {"I CHRONICLES", "1Chr"},		//   1 Chronicles
-  {"I CORINTHIANS", "1Cor"},	//   1 Corinthians
-  {"I JN", "1John"},			//    1 John
-  {"I JOHN", "1John"},		//    1 John
-  {"I KGS", "1Kgs"},		// 1 Kings
-  {"I KINGS", "1Kgs"},		//    1 Kings
-  {"I PETER", "1Pet"},		//    1 Peter
-  {"I PTR", "1Pet"},		//    1 Peter
-  {"I SAMUEL", "1Sam"},		//    1 Samuel
-  {"I THESSALONIANS", "1Thess"},	//   1 Thessalonians
-  {"I TIMOTHY", "1Tim"},		//   1 Timothy
-  {"IC", "1Cor"},			//   1 Corinthians
-  {"ICHRONICLES", "1Chr"},		//   1 Chronicles
-  {"ICORINTHIANS", "1Cor"},		//   1 Corinthians
-  {"II C", "2Cor"},			//   2 Corinthians
-  {"II CHRONICLES", "2Chr"},	//   2 Chronicles
-  {"II CORINTHIANS", "2Cor"},	//   2 Corinthians
-  {"II JN", "2John"},		//    2 John
-  {"II JOHN", "2John"},		//    2 John
-  {"II KGS", "2Kgs"},		// 2 Kings
-  {"II KINGS", "2Kgs"},		//    2 Kings
-  {"II PETER", "2Pet"},		//    2 Peter
-  {"II PTR", "2Pet"},		//    2 Peter
-  {"II SAMUEL", "2Sam"},		//    2 Samuel
-  {"II THESSALONIANS", "2Thess"},	//   2 Thessalonians
-  {"II TIMOTHY", "2Tim"},		//   2 Timothy
-  {"IIC", "2Cor"},			//   2 Corinthians
-  {"IICHRONICLES", "2Chr"},		//   2 Chronicles
-  {"IICORINTHIANS", "2Cor"},	//   2 Corinthians
-  {"III JN", "3John"},		//    3 John
-  {"III JOHN", "3John"},		//    3 John
-  {"IIIJN", "3John"},		//    3 John
-  {"IIIJOHN", "3John"},		//    3 John
-  {"IIJN", "2John"},			//    2 John
-  {"IIJOHN", "2John"},		//    2 John
-  {"IIKGS", "2Kgs"},		// 2 Kings
-  {"IIKINGS", "2Kgs"},		//    2 Kings
-  {"IIPETER", "2Pet"},		//    2 Peter
-  {"IIPTR", "2Pet"},		//    2 Peter
-  {"IISAMUEL", "2Sam"},		//    2 Samuel
-  {"IITHESSALONIANS", "2Thess"},	//   2 Thessalonians
-  {"IITIMOTHY", "2Tim"},		//   2 Timothy
-  {"IJN", "1John"},			//    1 John
-  {"IJOHN", "1John"},		//    1 John
-  {"IKGS", "1Kgs"},			// 1 Kings
-  {"IKINGS", "1Kgs"},		//    1 Kings
-  {"IPETER", "1Pet"},		//    1 Peter
-  {"IPTR", "1Pet"},			//    1 Peter
-  {"ISA", "Isa"},			//     Isaiah
-  {"ISAIAH", "Isa"},		//     Isaiah
-  {"ISAMUEL", "1Sam"},		//    1 Samuel
-  {"ITHESSALONIANS", "1Thess"},	//   1 Thessalonians
-  {"ITIMOTHY", "1Tim"},		//   1 Timothy
-  {"J", "John"},			//     John
-  {"JAMES", "Jas"},		//    James
-  {"JAS", "Jas"},			//    James
-  {"JDGS", "Judg"},		//  Judges
-  {"JEREMIAH", "Jer"},		//    Jeremiah
-  {"JHN", "John"},			//    John
-  {"JN", "John"},			//    John
-  {"JO", "John"},			//    John
-  {"JOB", "Job"},			//   Job
-  {"JOEL", "Joel"},			//   Joel
-  {"JOHN", "John"},			//   John
-  {"JOL", "Joel"},			//   Joel
-  {"JONAH", "Jonah"},		//   Jonah
-  {"JOSHUA", "Josh"},		//   Joshua
-  {"JUDE", "Jude"},			//  Jude
-  {"JUDGES", "Judg"},		//  Judges
-  {"L", "Luke"},			//     Luke
-  {"LAMENTATIONS", "Lam"},		//    Lamentations
-  {"LEVITICUS", "Lev"},		//    Leviticus
-  {"LK", "Luke"},			//    Luke
-  {"LUKE", "Luke"},			//    Luke
-  {"MA", "Matt"},			//    Matthew
-  {"MALACHI", "Mal"},		//   Malachi
-  {"MARK", "Mark"},			//   Mark
-  {"MATTHEW", "Matt"},		//   Matthew
-  {"MICAH", "Mic"},		//    Micah
-  {"MK", "Mark"},			//    Mark
-  {"MRK", "Mark"},			//    Mark
-  {"MT", "Matt"},			//    Matthew
-  {"N", "Num"},			//     Numbers
-  {"NAHUM", "Nah"},		//    Nahum
-  {"NAM", "Nah"},		//    Nahum
-  {"NEHEMIAH", "Neh"},		//    Nehemiah
-  {"NUMBERS", "Num"},		//    Numbers
-  {"OBADIAH", "Obad"},		//     Obadiah
-  {"P", "Ps"},			//     Psalms
-  {"PHIL", "Phil"},			//    Philippians
-  {"PHILEMON", "Phlm"},		// Philemon
-  {"PHILIPPIANS", "Phil"},		// Philippians
-  {"PHLM", "Phlm"},		// Philemon
-  {"PHM", "Phlm"},			//   Philemon
-  {"PHP", "Phil"},			//   Philippians
-  {"PROVERBS", "Prov"},		//    Proverbs
-  {"PSALMS", "Ps"},		//    Psalms
-  {"PSM", "Ps"},			// Psalms
-  {"PSS", "Ps"},			// Psalms
-  {"QOHELETH", "Eccl"},              // Qohelet (Ecclesiastes)
-  {"REVELATION OF JOHN", "Rev"},	//     Revelation
-  {"ROMANS", "Rom"},		//    Romans
-  {"RUTH", "Ruth"},			//    Ruth
-  {"SNG", "Song"},	//     Song of Solomon
-  {"SOLOMON", "Song"},	//     Song of Solomon
-  {"SONG OF SOLOMON", "Song"},	//     Song of Solomon
-  {"SONG OF SONGS", "Song"},	//     Song of Solomon
-  {"SOS", "Song"},			//     Song of Solomon
-  {"TITUS", "Titus"},		//     Titus
-  {"ZECHARIAH", "Zech"},		//   Zechariah
-  {"ZEPHANIAH", "Zeph"},		//   Zephaniah
-  {"", ""}
-};
-
 
 /******************************************************************************
  *	Maximum verses per chapter

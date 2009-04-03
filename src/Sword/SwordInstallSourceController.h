@@ -87,6 +87,7 @@ base path of the module installation
 - (void)updateInstallSource:(SwordInstallSource *)is;
 
 // disclaimer
+- (BOOL)userDisclaimerConfirmed;
 - (void)setUserDisclainerConfirmed:(BOOL)flag;
 
 // list modules in sources

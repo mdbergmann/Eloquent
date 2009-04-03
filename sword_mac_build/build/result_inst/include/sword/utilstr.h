@@ -1,7 +1,7 @@
 /******************************************************************************
  *  utilstr.h	- prototypes for string utility functions
  *
- * $Id: utilstr.h 2062 2007-07-19 17:27:31Z scribe $
+ * $Id: utilstr.h 2295 2009-03-29 17:11:27Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -23,12 +23,13 @@
 #define UTILSTR_H
 
 #include <defs.h>
+#include <sysdata.h>
 
 SWORD_NAMESPACE_START
 
 /** stdstr - clone a string
 */
-char *stdstr (char **iistr, const char *istr, unsigned int memPadFactor = 1);
+SWDLLEXPORT char *stdstr (char **iistr, const char *istr, unsigned int memPadFactor = 1);
 char *strstrip (char *istr);
 const char *stristr (const char *s1, const char *s2);
 int strnicmp(const char *s1, const char *s2, int len);
@@ -41,6 +42,19 @@ int stricmp(const char *s1, const char *s2);
  */
 extern const unsigned char SW_toupper_array[256];
 #define SW_toupper(c) SW_toupper_array[(unsigned char)c]
+
+/******************************************************************************
+ * getUniCharFromUTF8 - retrieves the next Unicode codepoint from a UTF8 string
+ * 					and increments buf to start of next codepoint
+ *
+ * ENT:	buf - address of a utf8 buffer
+ *
+ * RET:	buf - incremented past last byte used in computing the current codepoint
+ * 		unicode codepoint value (0 with buf incremented is invalid UTF8 byte
+ */
+
+__u32 getUniCharFromUTF8(const unsigned char **buf);
+
 
 SWORD_NAMESPACE_END
 #endif

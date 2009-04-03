@@ -416,6 +416,7 @@ enum ModuleMenu_Items{
             // set as content
             [bmObjectController setContent:new];
             // bring up bookmark panel
+            [bookmarkPanel makeFirstResponder:bookmarkNameTextField];
             NSWindow *window = [(NSWindowController *)hostingDelegate window];
             [NSApp beginSheet:bookmarkPanel
                modalForWindow:window
@@ -430,6 +431,7 @@ enum ModuleMenu_Items{
             // set as content
             [bmObjectController setContent:clickedObj];
             // bring up bookmark panel
+            [bookmarkPanel makeFirstResponder:bookmarkNameTextField];
             NSWindow *window = [(NSWindowController *)hostingDelegate window];
             [NSApp beginSheet:bookmarkPanel 
                modalForWindow:window 
@@ -505,15 +507,10 @@ enum ModuleMenu_Items{
                 } else {
                     // add to selected
                     [[selected subGroups] addObject:bm];
-                    /*
-                     NSIndexPath *ip = [treeController selectionIndexPath];
-                     [treeController insertObject:bm atArrangedObjectIndexPath:[ip indexPathByAddingIndex:0]];
-                     */
                 }
             } else {
                 // we add to root
                 [[bookmarkManager bookmarks] addObject:bm];
-                //[treeController addObject:bm];
             }
         }
         

@@ -79,10 +79,10 @@
         if([delegate isKindOfClass:[SingleViewHostController class]] || 
             [delegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [closeBtn setEnabled:NO];
-            [addBtn setEnabled:NO];
+            [addPopBtn setEnabled:NO];
         } else if([delegate isKindOfClass:[BibleCombiViewController class]]) {
             [closeBtn setEnabled:YES];
-            [addBtn setEnabled:YES];
+            [addPopBtn setEnabled:YES];
         }
     }
 }
@@ -127,6 +127,25 @@
         }
     }
     [editButton setEnabled:editable];
+}
+
+- (void)populateAddPopupMenu {
+    
+    // generate commentary menu
+    commentariesMenu = [[NSMenu alloc] init];    
+    [[SwordManager defaultManager] generateModuleMenu:&commentariesMenu 
+                                        forModuletype:commentary 
+                                       withMenuTarget:self 
+                                       withMenuAction:@selector(addModule:)];    
+    
+    // overall menu
+    NSMenu *allMenu = [[NSMenu alloc] init];
+    [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
+    NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Commentary", @"") action:nil keyEquivalent:@""];
+    [mi setSubmenu:commentariesMenu];
+    
+    // add menu
+    [addPopBtn setMenu:allMenu];
 }
 
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {

@@ -17,6 +17,68 @@
 
 @synthesize delegate;
 
++ (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData {
+    NSMutableDictionary *ret = nil;
+    
+    if(previewData) {
+        NSString *module = [previewData objectForKey:ATTRTYPE_MODULE];
+        if(!module || [module length] == 0) {
+            // get default bible module
+            module = [userDefaults stringForKey:DefaultsBibleModule];
+            NSString *attrType = [previewData objectForKey:ATTRTYPE_TYPE];
+            if([attrType isEqualToString:@"Hebrew"]) {
+                module = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
+            } else if([attrType isEqualToString:@"Greek"]) {
+                module = [userDefaults stringForKey:DefaultsStrongsGreekModule];
+            }
+        }
+        
+        if(module) {
+            
+            ret = [NSMutableDictionary dictionary];
+            
+            SwordModule *mod = [[SwordManager defaultManager] moduleWithName:module];
+            NSMutableString *displayText = [NSMutableString string];
+            NSString *displayType = @"";
+            if([[previewData objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showNote"]) {
+                if([[previewData objectForKey:ATTRTYPE_TYPE] isEqualToString:@"n"]) {
+                    displayType = SW_OPTION_FOOTNOTES;
+                } else if([[previewData objectForKey:ATTRTYPE_TYPE] isEqualToString:@"x"]) {
+                    displayType = SW_OPTION_SCRIPTREFS;                    
+                }
+            } else if([[previewData objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showStrongs"]) {
+                displayType = SW_OPTION_STRONGS;            
+            } else if([[previewData objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showRef"]) {
+                displayType = SW_OPTION_REF;
+            }
+            [ret setObject:displayType forKey:@"PreviewDisplayTypeKey"];
+            
+            id result = [mod attributeValueForEntryData:previewData];
+            if(result != nil) {
+                if([result isKindOfClass:[NSArray class]]) {
+                    // prepare for view
+                    for(NSDictionary *dict in (NSArray *)result) {
+                        NSString *verseText = [dict objectForKey:SW_OUTPUT_TEXT_KEY];
+                        NSString *key = [dict objectForKey:SW_OUTPUT_REF_KEY];
+                        
+                        [displayText appendFormat:@"%@:\n%@\n", key, verseText];
+                    }                    
+                } else if([result isKindOfClass:[NSString class]]) {
+                    displayText = result;
+                } else if([result isKindOfClass:[NSDictionary class]]) {
+                    NSString *verseText = [(NSDictionary *)result objectForKey:SW_OUTPUT_TEXT_KEY];
+                    NSString *key = [(NSDictionary *)result objectForKey:SW_OUTPUT_REF_KEY];
+                    
+                    [displayText appendFormat:@"%@:\n%@\n", key, verseText];                    
+                }
+            }
+            [ret setObject:displayText forKey:@"PreviewDisplayTextKey"];            
+        }      
+    }
+
+    return ret;
+}
+
 - (id)init {
     return [self initWithDelegate:nil];
 }
@@ -62,58 +124,10 @@
 - (void)showPreviewData:(NSNotification *)aNotification {
     // get object
     NSDictionary *data = [aNotification object];
-    if(data) {
-        NSString *module = [data objectForKey:ATTRTYPE_MODULE];
-        if(!module || [module length] == 0) {
-            // get default bible module
-            module = [userDefaults stringForKey:DefaultsBibleModule];
-            NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
-            if([attrType isEqualToString:@"Hebrew"]) {
-                module = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
-            } else if([attrType isEqualToString:@"Greek"]) {
-                module = [userDefaults stringForKey:DefaultsStrongsGreekModule];
-            }
-        }
-        
-        if(module) {
-            SwordModule *mod = [[SwordManager defaultManager] moduleWithName:module];
-            NSMutableString *displayText = [NSMutableString string];
-            NSString *displayType = @"";
-            if([[data objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showNote"]) {
-                if([[data objectForKey:ATTRTYPE_TYPE] isEqualToString:@"n"]) {
-                    displayType = SW_OPTION_FOOTNOTES;
-                } else if([[data objectForKey:ATTRTYPE_TYPE] isEqualToString:@"x"]) {
-                    displayType = SW_OPTION_SCRIPTREFS;                    
-                }
-            } else if([[data objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showStrongs"]) {
-                displayType = SW_OPTION_STRONGS;            
-            } else if([[data objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showRef"]) {
-                displayType = SW_OPTION_REF;
-            }
-            [previewType setStringValue:displayType];
-            
-            id result = [mod attributeValueForEntryData:data];
-            if(result != nil) {
-                if([result isKindOfClass:[NSArray class]]) {
-                    // prepare for view
-                    for(NSDictionary *dict in (NSArray *)result) {
-                        NSString *verseText = [dict objectForKey:SW_OUTPUT_TEXT_KEY];
-                        NSString *key = [dict objectForKey:SW_OUTPUT_REF_KEY];
-                        
-                        [displayText appendFormat:@"%@:\n%@\n", key, verseText];
-                    }                    
-                } else if([result isKindOfClass:[NSString class]]) {
-                    displayText = result;
-                } else if([result isKindOfClass:[NSDictionary class]]) {
-                    NSString *verseText = [(NSDictionary *)result objectForKey:SW_OUTPUT_TEXT_KEY];
-                    NSString *key = [(NSDictionary *)result objectForKey:SW_OUTPUT_REF_KEY];
-                    
-                    [displayText appendFormat:@"%@:\n%@\n", key, verseText];                    
-                }
-            }
-            // show
-            [previewText setString:displayText];            
-        }
+    NSDictionary *previewDict = [HUDPreviewController previewDataFromDict:data];
+    if(previewDict) {
+        [previewType setStringValue:[previewDict objectForKey:PreviewDisplayTypeKey]];
+        [previewText setString:[previewDict objectForKey:PreviewDisplayTextKey]];            
     }
 }
 

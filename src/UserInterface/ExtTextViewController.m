@@ -9,6 +9,7 @@
 #import "ExtTextViewController.h"
 #import "MouseTrackingScrollView.h"
 #import "MBPreferenceController.h"
+#import "HUDPreviewController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "globals.h"
@@ -336,17 +337,20 @@
 
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:willDisplayToolTip:]");
-        
-    NSString *ret = @"";
+
+    NSString *ret = nil;
     
     // create URL
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
         MBLOGV(MBLOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
-        ret = tooltip;
     } else {
         NSDictionary *linkResult = [self dataForLink:url];
         SendNotifyShowPreviewData(linkResult);
+        
+        if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
+            ret = [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
+        }
     }
     
     return ret;

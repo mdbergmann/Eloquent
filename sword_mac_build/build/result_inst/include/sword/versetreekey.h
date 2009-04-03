@@ -117,6 +117,7 @@ public:
 	SWKEY_OPERATORS
 
 	virtual SWKey & operator = (const VerseKey & ikey) { copyFrom(ikey); return *this; }
+//	virtual void copyFrom(const VerseTreeKey &ikey);
 };
 
 SWORD_NAMESPACE_END

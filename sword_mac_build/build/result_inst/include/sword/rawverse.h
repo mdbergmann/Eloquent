@@ -32,9 +32,9 @@ public:
 	static const char *nl;
 	RawVerse(const char *ipath, int fileMode = -1);
 	virtual ~RawVerse();
-	void findOffset(char testmt, long idxoff, long *start,	unsigned short *end);
+	void findOffset(char testmt, long idxoff, long *start,	unsigned short *end) const;
 	void readText(char testmt, long start, unsigned short size, SWBuf &buf);
-	static char createModule(const char *path);
+	static char createModule(const char *path, const char *v11n = "KJV");
 };
 
 SWORD_NAMESPACE_END

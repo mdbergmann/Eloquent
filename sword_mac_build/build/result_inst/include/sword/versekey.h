@@ -1,7 +1,7 @@
 /******************************************************************************
  *	versekey.h - code for class 'versekey'- a standard Biblical verse key
  *
- * $Id: versekey.h 2253 2009-02-15 00:40:48Z scribe $
+ * $Id: versekey.h 2275 2009-03-05 23:17:56Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -42,50 +42,20 @@ SWORD_NAMESPACE_START
 
 
 
-class SWLocale;
-
-
 /**
  * Class VerseKey
  * The SWKey implementation used for verse based modules like Bibles or commentaries.
  */
 class SWDLLEXPORT VerseKey : public SWKey {
 
-	class LocaleCache {
-	public:
-		char *name;
-		SWLocale *locale;
-			LocaleCache() {
-			name = 0;
-			locale = 0;
-		}
-		 virtual ~LocaleCache() {
-			if (name)
-			delete[]name;
-		}
-	};
-
 	static SWClass classdef;
 
-	static long *offsets[2][2];
-	static int offsize[2][2];
 	/** number of instantiated VerseKey objects or derivitives
 	*/
 	static int instance;
-	static LocaleCache localeCache;
 	ListKey internalListKey;
 
 	const VerseMgr::System *refSys;
-
-	char *locale;
-
-	/** The Testament: 0 - Module Heading; 1 - Old; 2 - New
-	*/
-	signed char testament;
-	mutable signed char book;
-	mutable signed int chapter;
-	mutable signed int verse;
-	mutable char suffix;
 
 	/** flag for auto normalization
 	*/
@@ -119,11 +89,20 @@ class SWDLLEXPORT VerseKey : public SWKey {
 	*/
 	int findindex(long *array, int size, long value);
 
+	void validateCurrentLocale() const;
+
 	mutable long lowerBound, upperBound;
 	mutable VerseKey *tmpClone;
 
-
 protected:
+
+	/** The Testament: 0 - Module Heading; 1 - Old; 2 - New
+	*/
+	signed char testament;
+	signed char book;
+	signed int chapter;
+	signed int verse;
+	signed char suffix;
 
 	/************************************************************************
 	 * VerseKey::getBookAbbrev - Attempts to find a book no from a name or
@@ -132,7 +111,7 @@ protected:
 	 * ENT:	@param abbr - key for which to search;
 	 * RET:	@return book number or < 0 = not valid
 	 */
-	virtual int getBookAbbrev(const char *abbr);
+	virtual int getBookAbbrev(const char *abbr) const;
 
 	/** Refresh keytext based on testament|book|chapter|verse
 	* default auto normalization to true
@@ -435,9 +414,6 @@ public:
 
 	virtual void setVersificationSystem(const char *name);
 	virtual const char *getVersificationSystem() const;
-	virtual void setLocale(const char *name);
-	virtual const char *getLocale() const { return locale; }
-
 
 
 	// OPERATORS --------------------------------------------------------------------

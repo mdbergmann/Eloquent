@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 
+#define PreviewDisplayTypeKey   @"PreviewDisplayTypeKey"
+#define PreviewDisplayTextKey   @"PreviewDisplayTextKey"
+
 @interface HUDPreviewController : NSWindowController {
     
     IBOutlet NSBox *placeholderView;
@@ -20,6 +23,8 @@
 }
 
 @property (readwrite) id delegate;
+
++ (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData;
 
 - (id)initWithDelegate:(id)aDelegate;
 

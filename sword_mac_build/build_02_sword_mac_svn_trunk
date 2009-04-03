@@ -81,7 +81,7 @@ fi
 if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
     echo "building ppc version of library..."
 	cd sword-trunk
-	#make distclean
+#	make distclean
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++

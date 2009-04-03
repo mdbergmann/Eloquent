@@ -3,7 +3,7 @@
  *		  types of modules (e.g. texts, commentaries, maps, lexicons,
  *		  etc.)
  *
- * $Id: swmodule.h 2256 2009-02-16 07:08:03Z chrislit $
+ * $Id: swmodule.h 2289 2009-03-20 17:40:19Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -78,7 +78,7 @@ typedef std::map < SWBuf, AttributeList, std::less < SWBuf > > AttributeTypeList
 // cache data.  But if we don't do this, then we need another mechanism to
 // check if we are an SWCacher.  Maybe make SWModule extend SWObject (which
 // it probably should anyway.  But then we need to add all the cheezy
-// heirarchy info to all he decendent classes for our SWDYNAMIC_CAST and
+// heirarchy info to all the decendent classes for our SWDYNAMIC_CAST and
 // then we can see if we implement SWCacher so we know whether or not to add
 // to the yet to be developed cachemgr.
 // Just leave for now.  This lets us always able to call module->flush()
@@ -381,7 +381,7 @@ public:
 	 * @see VerseKey, ListKey, SWText, SWLD, SWCom
 	 * @return pointer to allocated key
 	 */
-	virtual SWKey *CreateKey();
+	virtual SWKey *CreateKey() const;
 
 	/** This function is reimplemented by the different kinds
 	 * of module objects
@@ -438,14 +438,14 @@ public:
 	 * @param buf the buffer to filter
 	 * @param key key location from where this buffer was extracted
 	 */
-	virtual void filterBuffer(OptionFilterList *filters, SWBuf &buf, SWKey *key);
+	virtual void filterBuffer(OptionFilterList *filters, SWBuf &buf, const SWKey *key);
 
 	/** FilterBuffer a text buffer
 	 * @param filters the FilterList of filters to iterate
 	 * @param buf the buffer to filter
 	 * @param key key location from where this buffer was extracted
 	 */
-	virtual void filterBuffer(FilterList *filters, SWBuf &buf, SWKey *key);
+	virtual void filterBuffer(FilterList *filters, SWBuf &buf, const SWKey *key);
 
 	/** Adds a RenderFilter to this module's renderFilters queue.
 	 *	Render Filters are called when the module is asked to produce
@@ -493,7 +493,7 @@ public:
 	 * @param buf the buffer to filter
 	 * @param key key location from where this buffer was extracted
 	 */
-	virtual void renderFilter(SWBuf &buf, SWKey *key) {
+	virtual void renderFilter(SWBuf &buf, const SWKey *key) {
 		filterBuffer(renderFilters, buf, key);
 	}
 
@@ -536,7 +536,7 @@ public:
 	 * @param buf the buffer to filter
 	 * @param key key location from where this buffer was extracted
 	 */
-	virtual void encodingFilter(SWBuf &buf, SWKey *key) {
+	virtual void encodingFilter(SWBuf &buf, const SWKey *key) {
 		filterBuffer(encodingFilters, buf, key);
 	}
 
@@ -564,7 +564,7 @@ public:
 	 * @param buf the buffer to filter
 	 * @param key key location from where this buffer was extracted
 	 */
-	virtual void stripFilter(SWBuf &buf, SWKey *key) {
+	virtual void stripFilter(SWBuf &buf, const SWKey *key) {
 		filterBuffer(stripFilters, buf, key);
 	}
 
@@ -573,7 +573,7 @@ public:
 	 * @param buf the buffer to filter
 	 * @param key key location from where this buffer was extracted
 	 */
-	virtual void rawFilter(SWBuf &buf, SWKey *key) {
+	virtual void rawFilter(SWBuf &buf, const SWKey *key) {
 		filterBuffer(rawFilters, buf, key);
 	}
 
@@ -593,7 +593,7 @@ public:
 	 * @param buf the buffer to filter
 	 * @param key key location from where this buffer was extracted
 	 */
-	virtual void optionFilter(SWBuf &buf, SWKey *key) {
+	virtual void optionFilter(SWBuf &buf, const SWKey *key) {
 		filterBuffer(optionFilters, buf, key);
 	}
 
@@ -621,13 +621,13 @@ public:
 	 * @param tmpKey desired module entry
 	 * @return result buffer
 	 */
-	virtual const char *StripText(SWKey *tmpKey);
+	virtual const char *StripText(const SWKey *tmpKey);
 
 	/** Produces renderable text of the module entry at the supplied key
 	 * @param tmpKey key to use to grab text
 	 * @return this module's text at specified key location massaged by Render filters
 	 */
-	virtual const char *RenderText(SWKey *tmpKey);
+	virtual const char *RenderText(const SWKey *tmpKey);
 
 	/** Whether or not to only hit one entry when iterating encounters
 	 *	consecutive links when iterating
@@ -639,6 +639,8 @@ public:
 	 *	consecutive links when iterating
 	 */
 	virtual bool getSkipConsecutiveLinks() { return skipConsecutiveLinks; }
+	
+	virtual bool isLinked(const SWKey *k1, const SWKey *k2) const { return false; }
 
 	/** Entry Attributes are special data pertaining to the current entry.
 	 *	To see what Entry Attributes exists for a specific entry of a module,

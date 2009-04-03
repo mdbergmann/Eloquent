@@ -219,6 +219,7 @@ typedef enum _NavigationDirectionType {
     [searchTextField sizeToFit];
     [searchTextField setTarget:self];
     [searchTextField setAction:@selector(searchInput:)];
+    [[searchTextField cell] setScrollable:YES];
     if([self moduleType] == dictionary) {
         [searchTextField setContinuous:YES];
         [[searchTextField cell] setSendsSearchStringImmediately:YES];

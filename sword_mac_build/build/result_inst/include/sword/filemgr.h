@@ -1,7 +1,7 @@
 /******************************************************************************
 *  filemgr.h   - definition of class FileMgr used for pooling file handles
 *
-* $Id: filemgr.h 2108 2007-10-13 20:35:02Z scribe $
+* $Id: filemgr.h 2295 2009-03-29 17:11:27Z scribe $
 *
 * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
 *	CrossWire Bible Society
@@ -143,7 +143,7 @@ public:
 	* Will only close the file if it was created by this FileMgr object.
 	* @param file The file to close.
 	*/
-	void close(FileDesc * file);
+	void close(FileDesc *file);
 
 	/** Cacher methods overridden
 	 */

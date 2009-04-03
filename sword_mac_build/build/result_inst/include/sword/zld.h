@@ -2,7 +2,7 @@
  *  zld.cpp - code for class 'zLD'- a module that reads compressed lexicon and
  *				dictionary files.
  *
- * $Id: zld.h 1864 2005-11-20 06:06:40Z scribe $
+ * $Id: zld.h 2294 2009-03-29 14:48:47Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -31,8 +31,6 @@
 SWORD_NAMESPACE_START
 
 class SWDLLEXPORT zLD : public zStr, public SWLD {
-
-	void strongsPad(char *buf);
 	char getEntry(long away = 0);
 
 public:
@@ -62,6 +60,10 @@ public:
 	// swcacher interface ----------------------
 	virtual void flush() { flushCache(); }
 	// end swcacher interface ----------------------
+
+	virtual long getEntryCount();
+	virtual long getEntryForKey(const char *key);
+	virtual char *getKeyForEntry(long entry);
 
 
 	// OPERATORS -----------------------------------------------------------------

@@ -3,7 +3,7 @@
  *				types of keys for indexing into modules (e.g. verse, word,
  *				place, etc.)
  *
- * $Id: swkey.h 2195 2008-09-11 00:20:58Z scribe $
+ * $Id: swkey.h 2269 2009-02-24 06:48:40Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -27,6 +27,7 @@
 #include <swobject.h>
 
 #include <defs.h>
+#include <utilstr.h>
 
 SWORD_NAMESPACE_START
 
@@ -66,14 +67,36 @@ public:
 #define TOP SW_POSITION(POS_TOP)
 #define BOTTOM SW_POSITION(POS_BOTTOM)
 
+class SWLocale;
+
 /** SWKey is used for positioning an SWModule to a specific entry.
  *	It always represents a possible location into a module and can additionally represent
  *	a domain of entries (e.g. "John 3:16" in the domain "John 1:1 - Mark 5:25")
  */
 class SWDLLEXPORT SWKey : public SWObject {
+
+	class LocaleCache {
+	public:
+		char *name;
+		SWLocale *locale;
+			LocaleCache() {
+			name = 0;
+			locale = 0;
+		}
+		 virtual ~LocaleCache() {
+			if (name)
+			delete[]name;
+		}
+	};
+	static LocaleCache localeCache;
+	// for caching; don't use directly, call getPrivateLocale()
+	mutable SWLocale *locale;
+
+
 	long index;
 	static SWClass classdef;
 	void init();
+
 
 protected:
 	char *keytext;
@@ -81,6 +104,10 @@ protected:
 	mutable bool boundSet;
 	char persist;
 	char error;
+
+	char *localeName;
+	SWLocale *getPrivateLocale() const;
+
 
 public:
 
@@ -182,6 +209,9 @@ public:
 	/** Whether or not this key can be ++ -- incremented
 	 */
 	virtual bool isTraversable() const { return false; }
+
+	char *getLocale() const { return localeName; }
+	void setLocale(const char *name) { stdstr(&localeName, name); locale = 0;	} // this will force an on demand lookup of our locale
 
 	/** Use this function to get an index position within a module.
 	 * Here's a small example how to use this function and @ref Index(long).

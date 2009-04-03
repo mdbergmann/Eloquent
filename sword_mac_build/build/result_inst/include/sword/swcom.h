@@ -2,7 +2,7 @@
  *  swcom.h   - code for base class 'SWCom'.  SWCom is the basis for all
  *		 types of commentary modules
  *
- * $Id: swcom.h 2245 2009-02-10 23:22:28Z scribe $
+ * $Id: swcom.h 2289 2009-03-20 17:40:19Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -40,7 +40,7 @@ class SWDLLEXPORT SWCom : public SWModule {
 	char *versification;
 
 protected:
-	VerseKey &getVerseKey() const;
+	VerseKey &getVerseKey(const SWKey *key = 0) const;
 
 
 public:
@@ -54,7 +54,7 @@ public:
 			const char *versification = "KJV");
 
 	virtual ~SWCom();
-	virtual SWKey *CreateKey();
+	virtual SWKey *CreateKey() const;
 
 	virtual long Index() const;
 	virtual long Index(long iindex);

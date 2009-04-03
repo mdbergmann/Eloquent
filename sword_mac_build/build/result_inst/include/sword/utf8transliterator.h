@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * $Id: utf8transliterator.h 2244 2009-02-10 00:12:46Z chrislit $
+ * $Id: utf8transliterator.h 2278 2009-03-06 23:29:48Z scribe $
  *
  * Copyright 2001 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -84,6 +84,7 @@ private:
 
 public:
 	UTF8Transliterator();
+	~UTF8Transliterator();
 	virtual char processText(SWBuf &text, const SWKey *key = 0, const SWModule *module = 0);
 	virtual const char *getOptionName() { return optName; }
 	virtual const char *getOptionTip() { return optTip; }

@@ -67,7 +67,7 @@ class sword::SWModule;
 #define SWMOD_FEATURE_HEBREWPOINTS      @"HebrewPoints"
 #define SWMOD_FEATURE_GREEKACCENTS      @"GreekAccents"
 #define SWMOD_FEATURE_LEMMA             @"Lemma"
-#define SWMOD_FEATURE_SCRIPTREF         @"Scriptref"
+#define SWMOD_FEATURE_SCRIPTREF         @"Scripref"     // not Scriptref
 #define SWMOD_FEATURE_VARIANTS          @"Variants"
 #define SWMOD_FEATURE_REDLETTERWORDS    @"RedLetterWords"
 

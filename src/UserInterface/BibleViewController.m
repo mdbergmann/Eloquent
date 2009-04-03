@@ -130,6 +130,7 @@
     
     // create popup button menu
     [self populateModulesMenu];
+    [self populateAddPopupMenu];
     
     // populate menu items with modules
     NSMenu *bibleModules = [[NSMenu alloc] init];
@@ -194,6 +195,42 @@
         
         [modulePopBtn selectItemWithTitle:[module name]];
     }
+}
+
+/**
+ overriding from super class
+ */
+- (void)modulesListChanged:(NSNotification *)aNotification {
+    [self populateModulesMenu];
+    [self populateAddPopupMenu];
+}
+
+- (void)populateAddPopupMenu {
+    
+    // generate bibles menu
+    biblesMenu = [[NSMenu alloc] init];    
+    [[SwordManager defaultManager] generateModuleMenu:&biblesMenu 
+                                        forModuletype:bible 
+                                       withMenuTarget:self 
+                                       withMenuAction:@selector(addModule:)];
+    
+    // generate commentary menu
+    commentariesMenu = [[NSMenu alloc] init];    
+    [[SwordManager defaultManager] generateModuleMenu:&commentariesMenu 
+                                        forModuletype:commentary 
+                                       withMenuTarget:self 
+                                       withMenuAction:@selector(addModule:)];    
+    
+    // overall menu
+    NSMenu *allMenu = [[NSMenu alloc] init];
+    [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
+    NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Bible", @"") action:nil keyEquivalent:@""];
+    [mi setSubmenu:biblesMenu];
+    mi = [allMenu addItemWithTitle:NSLocalizedString(@"Commentary", @"") action:nil keyEquivalent:@""];
+    [mi setSubmenu:commentariesMenu];
+    
+    // add menu
+    [addPopBtn setMenu:allMenu];
 }
 
 - (void)moduleSelectionChanged:(id)sender {
@@ -608,6 +645,25 @@
 }
 
 #pragma mark - actions
+
+- (IBAction)addModule:(id)sender {
+    NSMenuItem *item = sender;
+    
+    SwordManager *sm = [SwordManager defaultManager];
+    SwordModule *mod = [sm moduleWithName:[item title]];
+    if(mod) {
+        SEL selector = @selector(addNewCommentViewWithModule:);
+        if([item menu] == biblesMenu) {
+            selector = @selector(addNewBibleViewWithModule:);
+        }
+
+        if(delegate) {
+            if([delegate respondsToSelector:selector]) {
+                [delegate performSelector:selector withObject:mod];
+            }
+        }        
+    }
+}
 
 - (IBAction)closeButton:(id)sender {
     // send close view to super view

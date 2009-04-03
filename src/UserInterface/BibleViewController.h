@@ -23,7 +23,7 @@
     // close button
     IBOutlet NSButton *closeBtn;
     // add button
-    IBOutlet NSButton *addBtn;
+    IBOutlet NSPopUpButton *addPopBtn;
     // module popup button
     IBOutlet NSPopUpButton *modulePopBtn;
     // status line
@@ -31,6 +31,9 @@
     // the outlineview view for the bible books and chapters items
     IBOutlet NSOutlineView *entriesOutlineView;
 
+    NSMenu *biblesMenu;
+    NSMenu *commentariesMenu;
+    
     // booksets controller
     SearchBookSetEditorController *searchBookSetsController;
     
@@ -69,6 +72,7 @@
 - (void)removeSubview:(HostableViewController *)aViewController;
 - (void)adaptUIToHost;
 - (void)setStatusText:(NSString *)aText;
+- (void)populateAddPopupMenu;
 
 // protocol definitions
 - (void)displayTextForReference:(NSString *)aReference;
@@ -85,8 +89,8 @@
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 // actions
+- (IBAction)addModule:(id)sender;
 - (IBAction)closeButton:(id)sender;
-- (IBAction)addButton:(id)sender;
 - (IBAction)displayOptionShowStrongs:(id)sender;
 - (IBAction)displayOptionShowMorphs:(id)sender;
 - (IBAction)displayOptionShowFootnotes:(id)sender;

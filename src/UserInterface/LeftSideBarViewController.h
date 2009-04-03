@@ -22,6 +22,7 @@
     // module about
     IBOutlet NSWindow *moduleAboutWindow;
     IBOutlet NSTextView *moduleAboutTextView;
+    IBOutlet NSTextField *bookmarkNameTextField;
     
     // unlock window
     IBOutlet NSWindow *moduleUnlockWindow;

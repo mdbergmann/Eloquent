@@ -2,7 +2,7 @@
  *  rawtext.h   - code for class 'RawText'- a module that reads raw text files:
  *		  ot and nt using indexs ??.bks ??.cps ??.vss
  *
- * $Id: rawtext.h 2245 2009-02-10 23:22:28Z scribe $
+ * $Id: rawtext.h 2289 2009-03-20 17:40:19Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -43,11 +43,14 @@ public:
 	virtual void decrement(int steps = 1) { increment(-steps); }
 	// write interface ----------------------------
 	virtual bool isWritable();
-	static char createModule(const char *path) { return RawVerse::createModule(path); }
+	static char createModule(const char *path, const char *v11n = "KJV") { return RawVerse::createModule(path, v11n); }
 	virtual void setEntry(const char *inbuf, long len = -1);	// Modify current module entry
 	virtual void linkEntry(const SWKey *linkKey);	// Link current module entry to other module entry
 	virtual void deleteEntry();	// Delete current module entry
 	// end write interface ------------------------
+
+	virtual bool isLinked(const SWKey *k1, const SWKey *k2) const;
+	
 
 	SWMODULE_OPERATORS
 

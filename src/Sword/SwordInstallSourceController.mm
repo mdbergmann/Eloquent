@@ -152,21 +152,20 @@ base path of the module installation
 /** re-init after adding or removing new modules */
 - (void)reinitialize {
 
-    // delete first
-    if(swInstallMgr != nil) {
-        //MBLOG(MBLOG_ERR, @"[SwordInstallManager -reinitialize] deleting lowlevel InstallMgr instance!");
-        //delete swInstallMgr;
-    }
-    
     MBLOG(MBLOG_INFO, @"[SwordInstallManager -reinitialize] loading config!");
     sword::SWConfig config([configFilePath UTF8String]);
     config.Load();
 
     // init installMgr
+    BOOL disclaimerConfirmed = NO;
+    if(swInstallMgr != nil) {
+        disclaimerConfirmed = [self userDisclaimerConfirmed];
+    }
     swInstallMgr = new sword::InstallMgr([configPath UTF8String]);
     if(swInstallMgr == nil) {
         MBLOG(MBLOG_ERR, @"[SwordInstallManager -reinitialize] could not initialize InstallMgr!");
     } else {
+        [self setUserDisclainerConfirmed:disclaimerConfirmed];
         
         // empty all lists
         [installSources removeAllObjects];
@@ -311,6 +310,10 @@ base path of the module installation
     }
     
     return ret;
+}
+
+- (BOOL)userDisclaimerConfirmed {
+    return swInstallMgr->isUserDisclaimerConfirmed();
 }
 
 - (void)setUserDisclainerConfirmed:(BOOL)flag {

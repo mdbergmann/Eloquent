@@ -1,7 +1,7 @@
 /******************************************************************************
 *  swgenbook.h
 *
-* $Id: swgenbook.h 1864 2005-11-20 06:06:40Z scribe $
+* $Id: swgenbook.h 2280 2009-03-07 15:34:36Z scribe $
 *
 * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
 *	CrossWire Bible Society
@@ -22,9 +22,11 @@
 #ifndef SWGENBOOK_H
 #define SWGENBOOK_H
 
-#include <swmodule.h>
-
 #include <defs.h>
+
+#include <swmodule.h>
+#include <treekey.h>
+
 
 SWORD_NAMESPACE_START
 
@@ -34,6 +36,8 @@ class SWDLLEXPORT SWGenBook : public SWModule {
 
 protected:
 	char *entkeytxt;
+	mutable TreeKey *tmpTreeKey;
+	TreeKey &getTreeKey() const;
 
 public:
 	/** Initializes data for instance of SWGenBook
@@ -44,7 +48,7 @@ public:
 			SWTextMarkup markup = FMT_UNKNOWN, const char* ilang = 0);
 
 	virtual ~SWGenBook();
-	virtual SWKey *CreateKey() = 0;
+	virtual SWKey *CreateKey() const = 0;
 
 
 	// OPERATORS -----------------------------------------------------------------
