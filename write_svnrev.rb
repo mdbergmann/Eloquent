@@ -2,7 +2,7 @@
 
 require 'HotCocoa'
 
-svnrev = `./getLastSVNCommit.pl`
+svnrev = `./get_svn_revision.rb`
 infoDict = NSMutableDictionary.dictionaryWithContentsOfFile("./Info.plist")
 infoDict["CFBundleVersion"] = svnrev
 svs = infoDict["CFBundleShortVersionString"]

@@ -290,53 +290,49 @@ using std::list;
 	[managerLock lock];
     if(modulesPath && [modulesPath length] > 0) {
         
-        NSFileManager *fm = [NSFileManager defaultManager];
-		NSArray *subDirs = [fm directoryContentsAtPath:modulesPath];        
-		// create a swManager if there is a module here
-		if([subDirs containsObject:@"mods.d"]) {
-			swManager = new sword::SWMgr([modulesPath UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
+        // modulePath is the main sw manager
+        swManager = new sword::SWMgr([modulesPath UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
+
+        if(!swManager) {
+            MBLOG(MBLOG_ERR, @"[SwordManager -reInit] cannot create SWMgr instance for default module path!");
         } else {
-			swManager = nil;
-        }
-		
-		// for all sub directories add module
-        BOOL directory;
-        NSString *fullSubDir = nil;
-        NSString *subDir = nil;
-		for(subDir in subDirs) {
-			// as long as it's not hidden
-			if(![subDir hasPrefix:@"."]) {
-				fullSubDir = [modulesPath stringByAppendingPathComponent:subDir];
-				fullSubDir = [fullSubDir stringByStandardizingPath];
-				
-				//if its a directory
-				if([fm fileExistsAtPath:fullSubDir isDirectory:&directory])
-                    if(directory) {
-                        // if swManager has not been created yet then do so - otherwise add path to swManager
-                        if(!swManager) {
-                            swManager = new sword::SWMgr([fullSubDir UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
-                        } else {
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSArray *subDirs = [fm directoryContentsAtPath:modulesPath];
+            // for all sub directories add module
+            BOOL directory;
+            NSString *fullSubDir = nil;
+            NSString *subDir = nil;
+            for(subDir in subDirs) {
+                // as long as it's not hidden
+                if(![subDir hasPrefix:@"."]) {
+                    fullSubDir = [modulesPath stringByAppendingPathComponent:subDir];
+                    fullSubDir = [fullSubDir stringByStandardizingPath];
+                    
+                    //if its a directory
+                    if([fm fileExistsAtPath:fullSubDir isDirectory:&directory]) {
+                        if(directory) {
                             swManager->augmentModules([fullSubDir UTF8String]);
                         }
                     }
-			}
-		}
-        
-        // also add the executing path to the path of modules
-        NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-        if(bundlePath && swManager) {
-            // remove last path component
-            NSString *appPath = [bundlePath stringByDeletingLastPathComponent];
-            swManager->augmentModules([appPath UTF8String]);
+                }
+            }
+            
+            // also add the executing path to the path of modules
+            NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+            if(bundlePath) {
+                // remove last path component
+                NSString *appPath = [bundlePath stringByDeletingLastPathComponent];
+                swManager->augmentModules([appPath UTF8String]);
+            }
+            
+            // clear some data
+            [self refreshModules];
+            [self addRenderFilters];
+            
+            SendNotifyModulesChanged(nil);            
         }
-
-        // clear some data
-        [self refreshModules];
-        [self addRenderFilters];
     }
-	[managerLock unlock];
-    
-    SendNotifyModulesChanged(nil);    
+	[managerLock unlock];    
 }
 
 /**
@@ -345,7 +341,7 @@ using std::list;
 - (void)addPath:(NSString *)path {
     
 	[managerLock lock];
-	if([modules count] == 0) {
+	if(swManager == nil) {
 		swManager = new sword::SWMgr([path UTF8String], true, new sword::EncodingFilterMgr(sword::ENC_UTF8));
     } else {
 		swManager->augmentModules([path UTF8String]);
