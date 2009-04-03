@@ -8,7 +8,7 @@
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = A91403090DF9AABC001791BB /* MacSword */;
 		activeTarget = 8D1107260486CEB800E47090 /* MacSword */;
 		addToTargets = (
@@ -277,6 +277,7 @@
 			A9C5C1F80F86298B00263E29 /* PBXTextBookmark */ = A9C5C1F80F86298B00263E29 /* PBXTextBookmark */;
 			A9C5C1F90F8629CE00263E29 /* PBXTextBookmark */ = A9C5C1F90F8629CE00263E29 /* PBXTextBookmark */;
 			A9C5C1FA0F8629D000263E29 /* PBXTextBookmark */ = A9C5C1FA0F8629D000263E29 /* PBXTextBookmark */;
+			A9C5C1FC0F8633E500263E29 /* PBXTextBookmark */ = A9C5C1FC0F8633E500263E29 /* PBXTextBookmark */;
 			A9CDDE180F73A7F100C907B9 = A9CDDE180F73A7F100C907B9 /* PBXTextBookmark */;
 		};
 		sourceControlManager = A914031B0DF9AAD2001791BB /* Source Control */;
@@ -1025,9 +1026,9 @@
 	};
 	A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1021, 7294}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1021, 7210}}";
 			sepNavSelRange = "{9094, 0}";
-			sepNavVisRange = "{7113, 2063}";
+			sepNavVisRange = "{7113, 2274}";
 			sepNavWindowFrame = "{{453, 88}, {995, 930}}";
 		};
 	};
@@ -2482,6 +2483,16 @@
 		rLoc = 9094;
 		rType = 0;
 		vrLen = 2063;
+		vrLoc = 7113;
+	};
+	A9C5C1FC0F8633E500263E29 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */;
+		name = "WorkspaceViewHostController.m: 260";
+		rLen = 0;
+		rLoc = 9094;
+		rType = 0;
+		vrLen = 2274;
 		vrLoc = 7113;
 	};
 	A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {
