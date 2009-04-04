@@ -344,6 +344,7 @@
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL vool = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
+    BOOL vno = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
     
     // generate html string for verses
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...");
@@ -368,11 +369,16 @@
             // not verses on one line
             // then mark new chapters
             if(chapter != lastChapter) {
-                [htmlString appendFormat:@"<br /><b>%@ - %i:</b><br />\n", bookName, chapter];
+                [htmlString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
             }
             // normal text with verse and text
             [htmlString appendFormat:@";;;%@;;; %@\n", verseInfo, verseText];
         } else {
+            if(vno) {
+                if(chapter != lastChapter) {
+                    [htmlString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
+                }                
+            }
             [htmlString appendFormat:@";;;%@;;;", verseInfo];
             [htmlString appendFormat:@"%@<br />\n", verseText];
         }
@@ -449,10 +455,10 @@
                 linkRange.length = 0;
                 linkRange.location = NSNotFound;
                 if(showBookNames) {
-                    if(vool) {
+                    if(vool && !vno) {
                         visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
                         linkRange.location = replaceRange.location;
-                        linkRange.length = [visible length] - 2;                        
+                        linkRange.length = [visible length] - 2;                            
                     } else {
                         visible = [NSString stringWithFormat:@"%@ ", [comps objectAtIndex:2]];
                         linkRange.location = replaceRange.location;
