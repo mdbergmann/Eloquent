@@ -454,8 +454,18 @@
                 break;
             }
         }
+    } else if([menuItem menu] == displayOptionsMenu) {
+        if([menuItem action] == @selector(displayOptionShowVerseNumberOnly:)) {
+            // this option is only available with vool
+            if([[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue]) {
+                ret = YES;
+            }
+        } else {
+            ret = YES;        
+        }
     } else {
-        return YES;
+        // font menu
+        ret = YES;
     }
     
     return ret;
@@ -880,7 +890,7 @@
 #pragma mark - NSCoding
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    self = [super init];
+    self = [super initWithCoder:decoder];
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -initWithCoder] loading nib");
         
@@ -919,6 +929,9 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
+    
+    [super encodeWithCoder:encoder];
+
     // encode searchType
     [encoder encodeInt:searchType forKey:@"SearchTypeEncoded"];
     // encode parallel bible view controllers

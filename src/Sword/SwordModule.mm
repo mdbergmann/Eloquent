@@ -84,9 +84,8 @@
 
 // initalises the module from a manager
 - (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {
-
-	if((self = [super init])) {
-        
+    self = [super init];
+	if(self) {
         // get the sword module
 		swModule = [aManager getSWModuleWithName:aName];
         // set manager
@@ -99,16 +98,18 @@
 	return self;
 }
 
-/** init with given SWModule */
 - (id)initWithSWModule:(sword::SWModule *)aModule {
-    
+    return [self initWithSWModule:aModule swordManager:nil];
+}
+
+/** init with given SWModule */
+- (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager {    
     self = [super init];
     if(self) {
-		
         // copy the module instance
         swModule = aModule;
-        // set default manager
-        self.swManager = nil;
+        // init with nil and whenever it is used within here, use the default manager
+        self.swManager = aManager;
         
         // main init
         [self mainInit];

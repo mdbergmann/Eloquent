@@ -91,14 +91,5 @@
 // actions
 - (IBAction)addModule:(id)sender;
 - (IBAction)closeButton:(id)sender;
-- (IBAction)displayOptionShowStrongs:(id)sender;
-- (IBAction)displayOptionShowMorphs:(id)sender;
-- (IBAction)displayOptionShowFootnotes:(id)sender;
-- (IBAction)displayOptionShowCrossRefs:(id)sender;
-- (IBAction)displayOptionShowRedLetterWords:(id)sender;
-- (IBAction)displayOptionShowHeadings:(id)sender;
-- (IBAction)displayOptionHebrewPoints:(id)sender;
-- (IBAction)displayOptionHebrewCantillation:(id)sender;
-- (IBAction)displayOptionVersesOnOneLine:(id)sender;
 
 @end

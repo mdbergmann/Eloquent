@@ -62,7 +62,5 @@
 
 // actions
 - (IBAction)moduleSelectionChanged:(id)sender;
-- (IBAction)displayOptionShowFootnotes:(id)sender;
-- (IBAction)displayOptionShowCrossRefs:(id)sender;
 
 @end

@@ -108,6 +108,17 @@ NSLock *bibleLock = nil;
 	return self;
 }
 
+/** init with given SWModule */
+- (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager {
+    self = [super initWithSWModule:aModule swordManager:aManager];
+    if(self) {
+        // init bookData
+        [self setBooks:nil];    
+    }
+    
+    return self;
+}
+
 - (void)finalize {
 	[super finalize];
 }

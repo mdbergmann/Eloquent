@@ -402,34 +402,6 @@
     }
 }
 
-- (IBAction)displayOptionShowFootnotes:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_FOOTNOTES];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
-- (IBAction)displayOptionShowCrossRefs:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_SCRIPTREFS];
-        [(NSMenuItem *)sender setState:NSOnState];
-    }
-    
-    // redisplay
-    forceRedisplay = YES;
-    [self displayTextForReference:reference searchType:searchType];
-}
-
 #pragma mark - NSTableView delegate methods
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {

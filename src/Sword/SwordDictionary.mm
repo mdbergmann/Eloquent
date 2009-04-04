@@ -88,14 +88,23 @@
 
 @synthesize keys;
 
-- (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {
-    
+- (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {    
 	self = [super initWithName:aName swordManager:aManager];
     if(self) {
         self.keys = nil;
     }
     	
 	return self;
+}
+
+/** init with given SWModule */
+- (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager {
+    self = [super initWithSWModule:aModule swordManager:aManager];
+    if(self) {
+        self.keys = nil;
+    }
+    
+    return self;
 }
 
 - (void)finalize {

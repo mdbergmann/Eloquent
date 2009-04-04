@@ -93,7 +93,7 @@ if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$PPCPREFIX/bin
-	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities
+	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities --with-clucene="$PWD/../clucene_build/ppc_inst"
 	make all install
 	cd $BDIR
 	# copy to result dir
@@ -106,7 +106,7 @@ if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	cd $APP-$VERS
 	#cd trunk
 	if [ $FAT -eq 1 ] || [ $PPC -eq 1 ]; then
-		make clean		
+		make clean
 	fi
 	./autogen.sh
 	export CC=gcc
@@ -120,7 +120,7 @@ if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$INTELPREFIX/bin
-	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities
+	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities--with-clucene="$PWD/../clucene_build/intel_inst"
 	make all install
 	cd $BDIR
 	# copy to result dir

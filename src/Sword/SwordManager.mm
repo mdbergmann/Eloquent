@@ -26,7 +26,7 @@
 #import "SwordBook.h"
 #import "SwordModule.h"
 #import "SwordBible.h"
-//#import "SwordCommentary.h"
+#import "SwordCommentary.h"
 #import "SwordDictionary.h"
 
 using std::string;
@@ -35,7 +35,6 @@ using std::list;
 @interface SwordManager (PrivateAPI)
 
 - (void)refreshModules;
-- (void)addRenderFilters;
 
 @end
 
@@ -43,10 +42,14 @@ using std::list;
 
 - (void)refreshModules {
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    // loop over modules
     sword::SWModule *mod;
-	for (ModMap::iterator it = swManager->Modules.begin(); it != swManager->Modules.end(); it++) {
+	for(ModMap::iterator it = swManager->Modules.begin(); it != swManager->Modules.end(); it++) {
 		mod = it->second;
+        
+        // create module instances
         NSString *type;
         NSString *name;
         if(mod->isUnicode()) {
@@ -59,33 +62,22 @@ using std::list;
         
         SwordModule *sm = nil;
         if([type isEqualToString:SWMOD_CATEGORY_BIBLES]) {
-            sm = [[[SwordBible alloc] initWithName:name swordManager:self] autorelease];
+            sm = [[SwordBible alloc] initWithSWModule:mod swordManager:self];
         } else if([type isEqualToString:SWMOD_CATEGORY_COMMENTARIES]) {
-            sm = [[[SwordBible alloc] initWithName:name swordManager:self] autorelease];
-            //sm = [[[SwordCommentary alloc] initWithName:name swordManager:self] autorelease];
+            //sm = [[SwordBible alloc] initWithName:name swordManager:self];
+            sm = [[SwordCommentary alloc] initWithSWModule:mod swordManager:self];
         } else if([type isEqualToString:SWMOD_CATEGORY_DICTIONARIES]) {
-            sm = [[[SwordDictionary alloc] initWithName:name swordManager:self] autorelease];
+            sm = [[SwordDictionary alloc] initWithSWModule:mod swordManager:self];
         } else if([type isEqualToString:SWMOD_CATEGORY_GENBOOKS]) {
-            sm = [[[SwordBook alloc] initWithName:name swordManager:self] autorelease];
+            sm = [[SwordBook alloc] initWithSWModule:mod swordManager:self];
         } else {
-            sm = [[[SwordModule alloc] initWithName:name swordManager:self] autorelease];
+            sm = [[SwordModule alloc] initWithSWModule:mod swordManager:self];
         }
         [dict setObject:sm forKey:[sm name]];
-	}
-    
-    // set modules
-    self.modules = dict;
-}
-
-- (void)addRenderFilters {
-    
-	[managerLock lock];
-    
-	sword::ModMap::iterator	it;    
-	for (it = swManager->Modules.begin(); it != swManager->Modules.end(); it++) {
-		sword::SWModule	*module = it->second;
-		
-		switch (module->Markup()) {
+        
+        
+        // prepare display filters
+		switch(mod->Markup()) {
 			case sword::FMT_GBF:
 				if(!gbfFilter) {
 					gbfFilter = new sword::GBFHTMLHREF();
@@ -93,40 +85,41 @@ using std::list;
 				if(!gbfStripFilter) {
 					gbfStripFilter = new sword::GBFPlain();
                 }
-				module->AddRenderFilter(gbfFilter);
-				module->AddStripFilter(gbfStripFilter);
+				mod->AddRenderFilter(gbfFilter);
+				mod->AddStripFilter(gbfStripFilter);
 				break;
-                case sword::FMT_THML:
+            case sword::FMT_THML:
 				if(!thmlFilter) {
 					thmlFilter = new sword::ThMLHTMLHREF();
                 }
 				if(!thmlStripFilter) {
 					thmlStripFilter = new sword::ThMLPlain();
                 }
-				module->AddRenderFilter(thmlFilter);
-				module->AddStripFilter(thmlStripFilter);
+				mod->AddRenderFilter(thmlFilter);
+				mod->AddStripFilter(thmlStripFilter);
 				break;
-                case sword::FMT_OSIS:
+            case sword::FMT_OSIS:
 				if(!osisFilter) {
 					osisFilter = new sword::OSISHTMLHREF();
                 }
 				if(!osisStripFilter) {
 					osisStripFilter = new sword::OSISPlain();
                 }
-				module->AddRenderFilter(osisFilter);
-				module->AddStripFilter(osisStripFilter);
+				mod->AddRenderFilter(osisFilter);
+				mod->AddStripFilter(osisStripFilter);
 				break;
-                case sword::FMT_PLAIN:
-                default:
+            case sword::FMT_PLAIN:
+            default:
 				if(!plainFilter) {
 					plainFilter = new sword::PLAINHTML();
                 }
-				module->AddRenderFilter(plainFilter);
+				mod->AddRenderFilter(plainFilter);
 				break;
-		}
+		}        
 	}
-	
-	[managerLock unlock];
+    
+    // set modules
+    self.modules = dict;
 }
 
 @end
@@ -139,13 +132,6 @@ using std::list;
 @synthesize temporaryManager;
 
 # pragma mark - class methods
-
-/*
-+ (void)initStringManager {
-    //string swManager
-    StringMgr::setSystemStringMgr(new MSStringMgr());
-}
-*/
 
 + (void)initLocale {
     // set locale swManager
@@ -253,7 +239,7 @@ using std::list;
     sword::StringList options = swManager->getGlobalOptions();
     sword::StringList::iterator	it;
     for(it = options.begin(); it != options.end(); it++) {
-        [self setGlobalOption:[NSString stringWithCString:it->c_str()] value:@"Off"];
+        [self setGlobalOption:[NSString stringWithCString:it->c_str()] value:SW_OFF];
     }
 	
 	return self;
@@ -275,7 +261,6 @@ using std::list;
         self.managerLock = [[NSRecursiveLock alloc] init];
         
 		[self refreshModules];
-		[self addRenderFilters];
     }
     
     return self;
@@ -327,7 +312,6 @@ using std::list;
             
             // clear some data
             [self refreshModules];
-            [self addRenderFilters];
             
             SendNotifyModulesChanged(nil);            
         }
@@ -348,7 +332,6 @@ using std::list;
     }
 	
 	[self refreshModules];
-	[self addRenderFilters];	
 	[managerLock unlock];
     
     SendNotifyModulesChanged(nil);

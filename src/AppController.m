@@ -78,6 +78,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowBookNameKey];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
     
     [defaultsDict setObject:@"Helvetica Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
     [defaultsDict setObject:@"Helvetica" forKey:DefaultsBibleTextDisplayFontFamilyKey];

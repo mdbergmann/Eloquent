@@ -37,6 +37,9 @@ typedef enum {
 
 // ----------- instance methods ------------
 - (id)initWithName:(NSString *)name swordManager:(SwordManager *)aManager;
+#ifdef __cplusplus
+- (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager;
+#endif
 
 - (BOOL)hasReference:(NSString *)ref;
 - (int)numberOfVerseKeysForReference:(NSString *)aReference;

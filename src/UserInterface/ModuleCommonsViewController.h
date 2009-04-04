@@ -73,7 +73,9 @@ enum BibleViewLinkContextMenuItems {
 - (IBAction)displayOptionShowHebrewPoints:(id)sender;
 - (IBAction)displayOptionShowHebrewCantillation:(id)sender;
 - (IBAction)displayOptionShowGreekAccents:(id)sender;
+
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
+- (IBAction)displayOptionShowVerseNumberOnly:(id)sender;
 
 // TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference;

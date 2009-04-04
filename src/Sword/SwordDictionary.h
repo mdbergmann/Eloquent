@@ -22,6 +22,9 @@
 }
 
 - (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager;
+#ifdef __cplusplus
+- (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager;
+#endif
 
 - (NSArray *)allKeys;
 - (NSString *)entryForKey:(NSString *)aKey;
