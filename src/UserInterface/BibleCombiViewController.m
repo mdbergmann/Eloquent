@@ -17,6 +17,8 @@
 #import "NSButton+Color.h"
 #import "globals.h"
 #import "ProgressOverlayViewController.h"
+#import "SearchBookSet.h"
+#import "SearchBookSetEditorController.h"
 
 @interface BibleCombiViewController ()
 /** private property */
@@ -473,6 +475,21 @@
 
 #pragma mark - Actions
 
+#pragma mark - SearchBookSetEditorController delegate methods
+
+- (void)indexBookSetChanged:(id)sender {
+    // if one of the subviews sends this message, set the selected book set for all view bible and commentary controllers
+    SearchBookSetEditorController *bsc = [(BibleViewController *)sender searchBookSetsController];
+    SearchBookSet *bookSet = [bsc selectedBookSet];
+    for(BibleViewController *bc in parBibleViewControllers) {
+        [[bc searchBookSetsController] setSelectedBookSet:bookSet];
+    }
+    for(HostableViewController *vc in parMiscViewControllers) {
+        if([vc isKindOfClass:[BibleViewController class]]) {
+            [[(BibleViewController *)vc searchBookSetsController] setSelectedBookSet:bookSet];        
+        }
+    }
+}
 
 #pragma mark - Scrollview Synchronization
 

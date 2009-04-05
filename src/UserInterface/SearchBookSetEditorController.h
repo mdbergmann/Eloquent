@@ -20,9 +20,12 @@
     IBOutlet NSButton *removeButton;
     
     SearchBookSet *selectedBookSet;
+    
+    id delegate;
 }
 
 @property (retain, readwrite) SearchBookSet *selectedBookSet;
+@property (readwrite) id delegate;
 
 - (NSMenu *)bookSetsMenu;
 

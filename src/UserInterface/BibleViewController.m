@@ -58,6 +58,7 @@
         
         // init SearchBookSetController
         searchBookSetsController = [[SearchBookSetEditorController alloc] init];
+        [searchBookSetsController setDelegate:self];
     }
     
     return self;
@@ -153,6 +154,10 @@
     } else {
         return [searchBookSetsController view];
     }
+}
+
+- (SearchBookSetEditorController *)searchBookSetsController {
+    return searchBookSetsController;
 }
 
 - (void)adaptUIToHost {
@@ -528,6 +533,7 @@
         MBLOGV(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searching reference: %@, for module: %@", aReference, [module name]);
         
         if(self.module != nil) {
+            NSAttributedString *text = [[NSAttributedString alloc] init];
             NSString *statusText = @"";
             int verses = 0;
             
@@ -540,8 +546,8 @@
             
             if(o != nil) {
                 // use cache object
-                [textViewController setAttributedString:o.displayText];
-                statusText = [NSString stringWithFormat:@"Found %i verses", o.numberOfFinds];
+                text = o.displayText;
+                verses = o.numberOfFinds;
             } else {
                 if(searchType == ReferenceSearchType) {
                     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Reference");
@@ -571,24 +577,11 @@
                         statusText = @"Error on getting verse data!";
                     } else {
                         verses = [verseData count];
-                        statusText = [NSString stringWithFormat:@"Found %i verses", verses];
-                        
-                        // we need html
-                        NSAttributedString *attrString = [self displayableHTMLFromVerseData:verseData];                        
-                        // display
-                        [textViewController setAttributedString:attrString];
-                        
-                        // add to cache
-                        ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
-                                                                                          withDisplayText:attrString
-                                                                                            numberOfFinds:verses
-                                                                                             andReference:aReference];
-                        [rm addCacheObject:o];
-                        
-                        if(forceRedisplay) {
-                            forceRedisplay = NO;
-                        }
                     }
+
+                    // we need html
+                    text = [self displayableHTMLFromVerseData:verseData];                        
+
                 } else if(searchType == IndexSearchType) {
                     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Index");
                     
@@ -602,18 +595,8 @@
                     }
                     
                     // now search
-                    int results = 0;
-                    NSAttributedString *text = [self searchResultStringForQuery:aReference numberOfResults:&results];
-                    statusText = [NSString stringWithFormat:@"Found %i verses", results];
-                    // display
-                    [textViewController setAttributedString:text];
+                    text = [self searchResultStringForQuery:aReference numberOfResults:&verses];
                     
-                    // add to cache
-                    ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
-                                                                                      withDisplayText:text
-                                                                                        numberOfFinds:results
-                                                                                         andReference:aReference];
-                    [rm addCacheObject:o];
                 } else if(searchType == ViewSearchType) {
                     // store found range
                     //NSRange temp = [textViewController rangeOfTextToken:aReference lastFound:viewSearchLastFound directionRight:viewSearchDirectionRight];
@@ -639,8 +622,23 @@
                 }
             }
             
+            if(forceRedisplay) {
+                forceRedisplay = NO;
+            } else {
+                // add to cache
+                ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
+                                                                                  withDisplayText:text
+                                                                                    numberOfFinds:verses
+                                                                                     andReference:aReference];
+                [rm addCacheObject:o];                
+            }
+
             // set status
+            statusText = [NSString stringWithFormat:@"Found %i verses", verses];                        
             [self setStatusText:statusText];
+
+            // display
+            [textViewController setAttributedString:text];                        
             
             // stop indicating progress
             [self endIndicateProgress];            
@@ -704,6 +702,15 @@
 
 - (void)removeSubview:(HostableViewController *)aViewController {
     // does nothing
+}
+
+#pragma mark - SearchBookSetEditorController delegate methods
+
+- (void)indexBookSetChanged:(id)sender {
+    // if delegate is BibleCombiView, notify about the bookSet change
+    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+        [delegate performSelector:@selector(indexBookSetChanged:) withObject:self];
+    }
 }
 
 #pragma mark - NSOutlineView delegate methods
@@ -852,6 +859,7 @@
         
         // init SearchBookSetController
         searchBookSetsController = [[SearchBookSetEditorController alloc] init];
+        [searchBookSetsController setDelegate:self];
 
         // load nib
         BOOL stat = [NSBundle loadNibNamed:nibName owner:self];

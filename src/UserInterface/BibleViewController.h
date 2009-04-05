@@ -63,6 +63,9 @@
 // accessory view
 - (NSView *)listContentView;
 
+// searchBookSetsController
+- (SearchBookSetEditorController *)searchBookSetsController;
+
 // pass further the scroll and textview
 - (NSTextView *)textView;
 - (NSScrollView *)scrollView;

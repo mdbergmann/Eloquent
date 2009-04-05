@@ -25,6 +25,7 @@
 @implementation SearchBookSetEditorController
 
 @synthesize selectedBookSet;
+@synthesize delegate;
 
 - (id)init {
 	self = [super init];
@@ -203,6 +204,11 @@
     
     [nameTextField setStringValue:[selectedBookSet name]];
     [booksTableView reloadData];
+    
+    // notify delegate about this change
+    if(delegate) {
+        [delegate performSelector:@selector(indexBookSetChanged:) withObject:self]; 
+    }
 }
 
 - (IBAction)addBookSet:(id)sender {
