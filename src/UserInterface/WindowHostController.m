@@ -464,14 +464,6 @@ typedef enum _NavigationDirectionType {
 
 #pragma mark - Actions
 
-- (IBAction)leftSideBarHideShow:(id)sender {
-    [self toggleLSB];
-}
-
-- (IBAction)rightSideBarHideShow:(id)sender {
-    [self toggleRSB];
-}
-
 - (IBAction)leftSideBottomSegChange:(id)sender {
     int clickedSegment = [sender selectedSegment];
     int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
@@ -488,14 +480,6 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
-- (IBAction)switchToRefLookup:(id)sender {
-    [self setSearchUIType:ReferenceSearchType searchString:nil];
-}
-
-- (IBAction)switchToIndexLookup:(id)sender {
-    [self setSearchUIType:IndexSearchType searchString:nil];
-}
-
 - (IBAction)navigationAction:(id)sender {
     int clickedSegment = [sender selectedSegment];
     int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
@@ -507,6 +491,25 @@ typedef enum _NavigationDirectionType {
     }
 }
 
+/** to be overriden by subclasses */
+- (IBAction)forceReload:(id)sender {
+}
+
+- (IBAction)leftSideBarHideShow:(id)sender {
+    [self toggleLSB];
+}
+
+- (IBAction)rightSideBarHideShow:(id)sender {
+    [self toggleRSB];
+}
+
+- (IBAction)switchToRefLookup:(id)sender {
+    [self setSearchUIType:ReferenceSearchType searchString:nil];
+}
+
+- (IBAction)switchToIndexLookup:(id)sender {
+    [self setSearchUIType:IndexSearchType searchString:nil];
+}
 
 - (IBAction)navigationBack:(id)sender {
     // get recent searches
@@ -548,8 +551,8 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
-/** to be overriden by subclasses */
-- (IBAction)forceReload:(id)sender {
+- (IBAction)fullScreenModeOnOff:(id)sender {
+    [mainSplitView fullScreenModeOnOff:sender];
 }
 
 #pragma mark - Events
@@ -876,20 +879,6 @@ typedef enum _NavigationDirectionType {
 /** abstract method */
 - (ModuleType)moduleType {
     return bible;   // default is bible
-}
-
-#pragma mark - FullScreenCapability protocol
-
-- (BOOL)isFullScreenMode {
-    return [mainSplitView isInFullScreenMode];
-}
-
-- (void)setFullScreenMode:(BOOL)flag {
-    [mainSplitView setFullScreenMode:flag];
-}
-
-- (IBAction)fullScreenModeOnOff:(id)sender {
-    [mainSplitView fullScreenModeOnOff:sender];
 }
 
 #pragma mark - SubviewHosting protocol

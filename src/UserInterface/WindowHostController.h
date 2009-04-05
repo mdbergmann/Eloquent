@@ -25,7 +25,7 @@
 @class LeftSideBarViewController;
 @class RightSideBarViewController;
 
-@interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting, FullScreenCapability> {
+@interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
     // splitView to add and remove modules view. splitview hosts placeHolderView
     IBOutlet FullScreenSplitView *mainSplitView;
     // the contentview of the window
@@ -120,11 +120,6 @@
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
-// FullScreenCapability
-- (BOOL)isFullScreenMode;
-- (void)setFullScreenMode:(BOOL)flag;
-- (IBAction)fullScreenModeOnOff:(id)sender;
-
 // actions
 
 // direct connections
@@ -140,5 +135,6 @@
 - (IBAction)switchToIndexLookup:(id)sender;
 - (IBAction)navigationBack:(id)sender;
 - (IBAction)navigationForward:(id)sender;
+- (IBAction)fullScreenModeOnOff:(id)sender;
 
 @end

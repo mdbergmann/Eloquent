@@ -155,6 +155,8 @@
     }
     
     hostLoaded = YES;
+    
+    [[self window] makeFirstResponder:self];
 }
 
 #pragma mark - Methods

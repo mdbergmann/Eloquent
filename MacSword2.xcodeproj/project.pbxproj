@@ -60,6 +60,7 @@
 		A9206EEC0EFBA91300B94E41 /* scopebar-active.png in Resources */ = {isa = PBXBuildFile; fileRef = A9206EEA0EFBA91300B94E41 /* scopebar-active.png */; };
 		A9206EED0EFBA91300B94E41 /* scopebar-notactive.png in Resources */ = {isa = PBXBuildFile; fileRef = A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */; };
 		A92480C10F4D99630048A603 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
+		A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A9266CFC0F882BC800BA1731 /* HostWindow.m */; };
 		A92819980E100F240007B767 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
 		A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */; };
 		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
@@ -275,6 +276,8 @@
 		A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scopebar-notactive.png"; sourceTree = "<group>"; };
 		A92480BF0F4D99630048A603 /* SwordBibleChapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBibleChapter.h; sourceTree = "<group>"; };
 		A92480C00F4D99630048A603 /* SwordBibleChapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordBibleChapter.m; sourceTree = "<group>"; };
+		A9266CFB0F882BC800BA1731 /* HostWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostWindow.h; path = src/UserInterface/HostWindow.h; sourceTree = "<group>"; };
+		A9266CFC0F882BC800BA1731 /* HostWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostWindow.m; path = src/UserInterface/HostWindow.m; sourceTree = "<group>"; };
 		A92819960E100F240007B767 /* Highlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Highlighter.h; sourceTree = "<group>"; };
 		A92819970E100F240007B767 /* Highlighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Highlighter.m; sourceTree = "<group>"; };
 		A9333ADF0F6699110001BD38 /* ProgressOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayViewController.h; path = src/ProgressOverlayView/ProgressOverlayViewController.h; sourceTree = "<group>"; };
@@ -716,6 +719,8 @@
 		A96516290E06D0940058AA91 /* Hosts */ = {
 			isa = PBXGroup;
 			children = (
+				A9266CFB0F882BC800BA1731 /* HostWindow.h */,
+				A9266CFC0F882BC800BA1731 /* HostWindow.m */,
 				A9D102570EC1ED0A0023FF23 /* WindowHostController.h */,
 				A9D102580EC1ED0A0023FF23 /* WindowHostController.m */,
 				A965162A0E06D0BD0058AA91 /* SingleViewHostController.h */,
@@ -1105,6 +1110,7 @@
 				A9061E0F0F70EA5C00F6DA1F /* SearchBookSetEditorController.m in Sources */,
 				A9061E510F71364A00F6DA1F /* SearchBookSet.m in Sources */,
 				A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */,
+				A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
