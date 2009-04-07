@@ -67,7 +67,7 @@ NSLock *bibleLock = nil;
 }
 
 + (NSString *)context:(NSString *)abbr {
-    
+
 	//get parsed simple ref
 	NSString *first = [SwordBible firstRefName:abbr];
 	NSArray *firstbits = [first componentsSeparatedByString:@":"];

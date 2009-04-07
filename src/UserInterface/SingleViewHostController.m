@@ -276,6 +276,7 @@
 - (IBAction)forceReload:(id)sender {
     [(ModuleCommonsViewController *)contentViewController setForceRedisplay:YES];
     [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+    [(ModuleCommonsViewController *)contentViewController setForceRedisplay:NO];
 }
 
 #pragma mark - SubviewHosting protocol

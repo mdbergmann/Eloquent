@@ -262,6 +262,7 @@
 - (IBAction)forceReload:(id)sender {
     [(ModuleCommonsViewController *)activeViewController setForceRedisplay:YES];
     [(ModuleCommonsViewController *)activeViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+    [(ModuleCommonsViewController *)activeViewController setForceRedisplay:NO];
 }
 
 #pragma mark - Actions

@@ -19,7 +19,6 @@
 @implementation ReferenceCacheManager
 
 @synthesize cache;
-
 @synthesize keepSize;
 
 + (ReferenceCacheManager *)defaultCacheManager {
@@ -46,13 +45,16 @@
 }
 
 - (void)addCacheObject:(ReferenceCacheObject *)cacheObject {
-    [cache addObject:cacheObject];
     
-    // check current size and see if we need to delete some entries
-    int diff = [cache count] - keepSize;
-    if(diff > 0) {
-        // we need to delete some entries
-        [cache removeObjectsInRange:NSMakeRange(0, diff - 1)];
+    if(![self contains:cacheObject]) {
+        [cache addObject:cacheObject];
+        
+        // check current size and see if we need to delete some entries
+        int diff = [cache count] - keepSize;
+        if(diff > 0) {
+            // we need to delete some entries
+            [cache removeObjectsInRange:NSMakeRange(0, diff - 1)];
+        }        
     }
 }
 
@@ -73,4 +75,17 @@
     [cache removeAllObjects];
 }
 
+- (BOOL)contains:(ReferenceCacheObject *)anObject {
+    BOOL ret = NO;
+    
+    for(ReferenceCacheObject *obj in cache) {
+        if([[obj reference] isEqualToString:[anObject reference]]) {
+            ret = YES;
+            break;
+        }
+    }
+    
+    return ret;
+}
+       
 @end

@@ -38,4 +38,13 @@
     return self;
 }
 
+- (void)finalize {
+    [super finalize];
+}
+
+/** for comparison */
+- (NSComparisonResult)compare:(ReferenceCacheObject *)anObject {
+    return [[self reference] compare:[anObject reference]];
+}
+
 @end

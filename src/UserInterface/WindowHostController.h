@@ -121,6 +121,7 @@
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
 // actions
+- (void)clearRecents:(id)sender;
 
 // direct connections
 - (IBAction)leftSideBottomSegChange:(id)sender;

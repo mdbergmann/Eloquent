@@ -24,7 +24,7 @@
 - (NSString *)searchTextForType:(SearchType)aType;
 - (void)setSearchText:(NSString *)aText forSearchType:(SearchType)aType;
 - (NSMutableArray *)recentSearchsForType:(SearchType)aType;
-- (void)setRecentSearches:(NSArray *)searches forSearchType:(SearchType)aType;
+- (void)setRecentSearches:(NSMutableArray *)searches forSearchType:(SearchType)aType;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

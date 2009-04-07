@@ -57,6 +57,7 @@
 
 - (NSMutableArray *)recentSearchsForType:(SearchType)aType {
     NSMutableArray *recentSearches = [recentSearchesForTypes objectForKey:[NSNumber numberWithInt:aType]];
+    
     if(recentSearches == nil) {
         recentSearches = [NSMutableArray array];
         [self setRecentSearches:recentSearches forSearchType:aType];
@@ -65,7 +66,7 @@
     return recentSearches;
 }
 
-- (void)setRecentSearches:(NSArray *)searches forSearchType:(SearchType)aType {
+- (void)setRecentSearches:(NSMutableArray *)searches forSearchType:(SearchType)aType {
     [recentSearchesForTypes setObject:searches forKey:[NSNumber numberWithInt:aType]];
 }        
 

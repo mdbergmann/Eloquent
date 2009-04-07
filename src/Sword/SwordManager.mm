@@ -64,7 +64,6 @@ using std::list;
         if([type isEqualToString:SWMOD_CATEGORY_BIBLES]) {
             sm = [[SwordBible alloc] initWithSWModule:mod swordManager:self];
         } else if([type isEqualToString:SWMOD_CATEGORY_COMMENTARIES]) {
-            //sm = [[SwordBible alloc] initWithName:name swordManager:self];
             sm = [[SwordCommentary alloc] initWithSWModule:mod swordManager:self];
         } else if([type isEqualToString:SWMOD_CATEGORY_DICTIONARIES]) {
             sm = [[SwordDictionary alloc] initWithSWModule:mod swordManager:self];
@@ -185,7 +184,7 @@ using std::list;
     }
     
     // set the locale
-    lManager->setDefaultLocaleName([lang cStringUsingEncoding:NSUTF8StringEncoding]);    
+    lManager->setDefaultLocaleName([lang UTF8String]);    
 }
 
 + (NSArray *)moduleTypes {

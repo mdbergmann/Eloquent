@@ -18,6 +18,12 @@
 #import "NSImage+Additions.h"
 #import "FullScreenSplitView.h"
 
+@interface WindowHostController ()
+
+- (void)setupToolbar;
+
+@end
+
 @implementation WindowHostController
 
 @synthesize delegate;
@@ -68,6 +74,78 @@ typedef enum _NavigationDirectionType {
     [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     [contentSplitView setDelegate:self];
     
+    // toolbar
+    [self setupToolbar];
+    
+    // activate mouse movement in subviews
+    [[self window] setAcceptsMouseMovedEvents:YES];
+    // set window status bar
+	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
+	[self.window setContentBorderThickness:35.0f forEdge:NSMinYEdge];
+    
+    // set up left and right side bar
+    if([lsbViewController viewLoaded]) {
+        [mainSplitView addSubview:[lsbViewController view] positioned:NSWindowBelow relativeTo:nil];
+        NSSize s = [[lsbViewController view] frame].size;
+        s.width = lsbWidth;
+        [[lsbViewController view] setFrameSize:s];
+    }
+    /*
+    if([rsbViewController viewLoaded]) {
+        [contentSplitView addSubview:[rsbViewController view] positioned:NSWindowAbove relativeTo:nil];
+        NSSize s = [[rsbViewController view] frame].size;
+        s.width = rsbWidth;
+        [[rsbViewController view] setFrameSize:s];
+    }
+     */
+    
+    
+    // lets show the images in sidebar seg control
+    [self showingLSB];
+    [self showingRSB];
+    [leftSideBottomSegControl sizeToFit];
+    [rightSideBottomSegControl sizeToFit];
+    
+    // prepare search text fields recents menu
+    NSMenu *recentsMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")];
+    [recentsMenu setAutoenablesItems:YES];
+    //NSMenuItem *item = [recentsMenu addItemWithTitle:NSLocalizedString(@"ClearRecentItems", @"") action:@selector(clearRecents:) keyEquivalent:@""];
+    //[item setTarget:self];
+    //[item setAction:@selector(clearRecents:)];
+    // separator
+    //item = [NSMenuItem separatorItem];
+    //[recentsMenu addItem:item];
+    //[item setTag:NSSearchFieldRecentsTitleMenuItemTag];
+    // recent searches
+    NSMenuItem *item = [recentsMenu addItemWithTitle:NSLocalizedString(@"RecentSearches", @"") action:nil keyEquivalent:@""];
+    [item setTag:NSSearchFieldRecentsTitleMenuItemTag];
+    // recents
+    item = [recentsMenu addItemWithTitle:NSLocalizedString(@"Recents", @"") action:nil keyEquivalent:@""];
+    [item setTag:NSSearchFieldRecentsMenuItemTag];    
+    // install menu
+    [[searchTextField cell] setSearchMenuTemplate:recentsMenu];
+}
+
+- (void)setSearchType:(SearchType)aType {
+    [currentSearchText setSearchType:aType];
+}
+
+- (SearchType)searchType; {
+    return [currentSearchText searchType];
+}
+
+#pragma mark - toolbar stuff
+
+// ============================================================
+// NSToolbar Related Methods
+// ============================================================
+/**
+ \brief create a toolbar and add it to the window. Set the delegate to this object.
+ */
+- (void)setupToolbar {
+    
+    MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -setupToolbar]");
+    
     // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     
@@ -77,30 +155,30 @@ typedef enum _NavigationDirectionType {
     // ----------------------------------------------------------------------------------------
     // toggle module list view
     /*
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TOGGLE_MODULES_ITEM];
-    [item setLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
-    [item setToolTip:NSLocalizedString(@"ToggleModulesToolTip", @"")];
-    image = [NSImage imageNamed:@"agt_add-to-autorun.png"];
-    [item setImage:image];
-    [item setTarget:self];
-    [item setAction:@selector(toggleModulesTB:)];
-    [tbIdentifiers setObject:item forKey:TB_TOGGLE_MODULES_ITEM];
+     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TOGGLE_MODULES_ITEM];
+     [item setLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
+     [item setPaletteLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
+     [item setToolTip:NSLocalizedString(@"ToggleModulesToolTip", @"")];
+     image = [NSImage imageNamed:@"agt_add-to-autorun.png"];
+     [item setImage:image];
+     [item setTarget:self];
+     [item setAction:@selector(toggleModulesTB:)];
+     [tbIdentifiers setObject:item forKey:TB_TOGGLE_MODULES_ITEM];
      */
     
     /*
-    if([self moduleType] == bible) {
-        // add bibleview
-        item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADD_BIBLE_ITEM];
-        [item setLabel:NSLocalizedString(@"AddBibleLabel", @"")];
-        [item setPaletteLabel:NSLocalizedString(@"AddBibleLabel", @"")];
-        [item setToolTip:NSLocalizedString(@"AddBibleToolTip", @"")];
-        image = [NSImage imageNamed:@"add.png"];
-        [item setImage:image];
-        [item setTarget:self];
-        [item setAction:@selector(addBibleTB:)];
-        [tbIdentifiers setObject:item forKey:TB_ADD_BIBLE_ITEM];
-    }
+     if([self moduleType] == bible) {
+     // add bibleview
+     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADD_BIBLE_ITEM];
+     [item setLabel:NSLocalizedString(@"AddBibleLabel", @"")];
+     [item setPaletteLabel:NSLocalizedString(@"AddBibleLabel", @"")];
+     [item setToolTip:NSLocalizedString(@"AddBibleToolTip", @"")];
+     image = [NSImage imageNamed:@"add.png"];
+     [item setImage:image];
+     [item setTarget:self];
+     [item setAction:@selector(addBibleTB:)];
+     [tbIdentifiers setObject:item forKey:TB_ADD_BIBLE_ITEM];
+     }
      */
     
     /*
@@ -284,7 +362,7 @@ typedef enum _NavigationDirectionType {
     [item setMaxSize:[forceReloadBtn frame].size];
     [item setView:forceReloadBtn];
     [tbIdentifiers setObject:item forKey:TB_FORCERELOAD_TYPE_ITEM];
-
+    
     // module installer item
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_MODULEINSTALLER_ITEM];
     [item setLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
@@ -301,58 +379,9 @@ typedef enum _NavigationDirectionType {
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSpaceItemIdentifier];
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSeparatorItemIdentifier];
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarPrintItemIdentifier];
-    
-    [self setupToolbar];
-    
-    // activate mouse movement in subviews
-    [[self window] setAcceptsMouseMovedEvents:YES];
-    // set window status bar
-	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
-	[self.window setContentBorderThickness:35.0f forEdge:NSMinYEdge];
-    
-    // set up left and right side bar
-    if([lsbViewController viewLoaded]) {
-        [mainSplitView addSubview:[lsbViewController view] positioned:NSWindowBelow relativeTo:nil];
-        NSSize s = [[lsbViewController view] frame].size;
-        s.width = lsbWidth;
-        [[lsbViewController view] setFrameSize:s];
-    }
-    /*
-    if([rsbViewController viewLoaded]) {
-        [contentSplitView addSubview:[rsbViewController view] positioned:NSWindowAbove relativeTo:nil];
-        NSSize s = [[rsbViewController view] frame].size;
-        s.width = rsbWidth;
-        [[rsbViewController view] setFrameSize:s];
-    }
-     */
-    
-    
-    // lets show the images in sidebar seg control
-    [self showingLSB];
-    [self showingRSB];
-    [leftSideBottomSegControl sizeToFit];
-    [rightSideBottomSegControl sizeToFit];
-}
 
-- (void)setSearchType:(SearchType)aType {
-    [currentSearchText setSearchType:aType];
-}
-
-- (SearchType)searchType; {
-    return [currentSearchText searchType];
-}
-
-#pragma mark - toolbar stuff
-
-// ============================================================
-// NSToolbar Related Methods
-// ============================================================
-/**
- \brief create a toolbar and add it to the window. Set the delegate to this object.
- */
-- (void)setupToolbar {
     
-    MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -setupToolbar]");
+    
     
     // Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier: @"SingleViewHostToolbar"];
@@ -417,6 +446,12 @@ typedef enum _NavigationDirectionType {
 
 #pragma mark - toolbar actions
 
+- (void)clearRecents:(id)sender {
+    NSMutableArray *recents = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
+    [recents removeAllObjects];
+    [searchTextField setRecentSearches:recents];
+}
+
 - (void)addBibleTB:(id)sender {
 }
 
@@ -439,12 +474,14 @@ typedef enum _NavigationDirectionType {
     if(!navigationAction) {
         // add to recent searches
         NSMutableArray *recentSearches = [currentSearchText recentSearchsForType:type];
-        [recentSearches addObject:searchText];
-        // remove everything above 10 searches
-        int len = [recentSearches count];
-        if(len > 10) {
-            [recentSearches removeObjectAtIndex:0];
-        }        
+        if(![recentSearches containsObject:searchText]) {
+            [recentSearches addObject:searchText];
+            // remove everything above 10 searches
+            int len = [recentSearches count];
+            if(len > 10) {
+                [recentSearches removeObjectAtIndex:0];
+            }            
+        }
     }
     
     // unset
@@ -733,7 +770,7 @@ typedef enum _NavigationDirectionType {
             [[searchTextField cell] setSendsSearchStringImmediately:NO];
             [[searchTextField cell] setSendsWholeSearchString:YES];            
         }
-    }            
+    }
 }
 
 - (void)adaptUIToCurrentlyDisplayingModuleType {

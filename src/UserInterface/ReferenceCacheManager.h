@@ -22,5 +22,6 @@
 - (void)addCacheObject:(ReferenceCacheObject *)cacheObject;
 - (ReferenceCacheObject *)cacheObjectForReference:(NSString *)ref andModuleName:(NSString *)aName;
 - (void)cleanCache;
+- (BOOL)contains:(ReferenceCacheObject *)anObject;
 
 @end
