@@ -19,4 +19,6 @@
 + (BookmarkManager *)defaultManager;
 - (void)saveBookmarks;
 
+- (Bookmark *)bookmarkForReference:(NSString *)aReference;
+
 @end

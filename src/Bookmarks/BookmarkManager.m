@@ -10,7 +10,6 @@
 #import "globals.h"
 #import "Bookmark.h"
 
-
 @interface BookmarkManager ()
 
 - (NSMutableArray *)loadBookmarks;
@@ -135,6 +134,17 @@
     [archiver finishEncoding];
     // write data object
     [data writeToFile:DEFAULT_BOOKMARK_PATH atomically:NO];    
+}
+
+/**
+ delivers a bookmark that references the given verse key
+ */
+- (Bookmark *)bookmarkForReference:(NSString *)aReference {
+    Bookmark *ret = nil;
+    
+    
+    
+    return ret;
 }
 
 @end
