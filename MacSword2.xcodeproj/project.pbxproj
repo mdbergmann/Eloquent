@@ -95,7 +95,7 @@
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
-		A9B45CF00EF5B64E00B63848 /* libsword-1.5.11.svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a */; };
+		A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
@@ -143,9 +143,9 @@
 		A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */; };
 		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
-		A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a */; };
+		A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */; };
 		A9F61C640E01028700C3A0EF /* locales.d in Resources */ = {isa = PBXBuildFile; fileRef = A9F61C210E01028700C3A0EF /* locales.d */; };
-		A9F61C800E0102BB00C3A0EF /* libsword-1.5.11.svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a */; };
+		A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */; };
 		A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
 		A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */; };
@@ -163,7 +163,7 @@
 				A9E18B4D0F5AED2400AF13F2 /* BGHUDAppKit.framework in CopyFiles */,
 				A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
-				A9F61C800E0102BB00C3A0EF /* libsword-1.5.11.svn-fat.a in CopyFiles */,
+				A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-svn-fat.a in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
 				A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */,
 			);
@@ -389,7 +389,7 @@
 		A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheObject.m; path = src/UserInterface/ReferenceCacheObject.m; sourceTree = "<group>"; };
 		A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoLogger.framework; path = Resources/CocoLogger.framework; sourceTree = "<group>"; };
 		A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoPCRE.framework; path = Resources/CocoPCRE.framework; sourceTree = "<group>"; };
-		A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.5.11.svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.5.11.svn-fat.a"; sourceTree = "<group>"; };
+		A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.5.11-svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.5.11-svn-fat.a"; sourceTree = "<group>"; };
 		A9F61C210E01028700C3A0EF /* locales.d */ = {isa = PBXFileReference; lastKnownFileType = folder; name = locales.d; path = sword_mac_build/build/result_inst/locales.d; sourceTree = "<group>"; };
 		A9F74DD30F1BA9A3000D3F3E /* NSButton+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSButton+Color.h"; path = "src/UserInterface/NSButton+Color.h"; sourceTree = "<group>"; };
 		A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSButton+Color.m"; path = "src/UserInterface/NSButton+Color.m"; sourceTree = "<group>"; };
@@ -407,7 +407,7 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */,
 				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
-				A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a in Frameworks */,
+				A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a in Frameworks */,
 				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
 				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
 				A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */,
@@ -419,7 +419,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9B45CF00EF5B64E00B63848 /* libsword-1.5.11.svn-fat.a in Frameworks */,
+				A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-svn-fat.a in Frameworks */,
 				A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */,
 				A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */,
 			);
@@ -446,7 +446,7 @@
 				A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */,
 				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
 				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,
-				A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11.svn-fat.a */,
+				A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */,
 				A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */,
 				A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,

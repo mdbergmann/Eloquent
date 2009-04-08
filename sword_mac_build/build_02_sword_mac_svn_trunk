@@ -77,6 +77,10 @@ fi
 #gzip -dc $APP-$VERS.tar.gz | tar xvf -
 # ==> we use svn trunk here
 
+# add icu tools to path
+export PATH="$PATH:/opt/icu-3.6/bin"
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/opt/icu-3.6/lib"
+
 # build stuff
 if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
     echo "building ppc version of library..."
@@ -150,4 +154,3 @@ fi
 cp -r $TARGETPREFIX/include $RESULTPREFIX/
 # copy locale.d and mods.d directory from ppc to result_inst
 cp -r $TARGETPREFIX/share/sword/locales.d $RESULTPREFIX/
-cp -r $TARGETPREFIX/share/sword/mods.d $RESULTPREFIX/
