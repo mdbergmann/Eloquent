@@ -4,7 +4,7 @@
  *			and provides lookup and parsing functions based on
  *			class StrKey
  *
- * $Id: zstr.h 2187 2008-07-22 11:00:16Z scribe $
+ * $Id: zstr.h 2303 2009-04-06 13:38:34Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -42,7 +42,7 @@ private:
 	long cacheBlockIndex;
 	bool cacheDirty;
 	char *path;
-	long lastoff;
+	mutable long lastoff;		// for caching and optimization
 	long blockCount;
 	SWCompress *compressor;
 
@@ -56,14 +56,14 @@ protected:
 
 	void getCompressedText(long block, long entry, char **buf);
 	void flushCache();
-	void getKeyFromDatOffset(long ioffset, char **buf);
-	void getKeyFromIdxOffset(long ioffset, char **buf);
+	void getKeyFromDatOffset(long ioffset, char **buf) const;
+	void getKeyFromIdxOffset(long ioffset, char **buf) const;
 
 public:
 	char nl;
 	zStr(const char *ipath, int fileMode = -1, long blockCount = 100, SWCompress *icomp = 0);
 	virtual ~zStr();
-	signed char findKeyIndex(const char *ikey, long *idxoff, long away = 0);
+	signed char findKeyIndex(const char *ikey, long *idxoff, long away = 0) const;
 	void getText(long index, char **idxbuf, char **buf);
 	void setText(const char *ikey, const char *buf, long len = -1);
 	void linkEntry(const char *destkey, const char *srckey);

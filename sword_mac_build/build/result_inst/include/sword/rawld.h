@@ -2,7 +2,7 @@
  *  rawld.cpp - code for class 'RawLD'- a module that reads raw lexicon and
  *				dictionary files: *.dat *.idx
  *
- * $Id: rawld.h 2294 2009-03-29 14:48:47Z scribe $
+ * $Id: rawld.h 2303 2009-04-06 13:38:34Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -54,9 +54,9 @@ public:
 	virtual void linkEntry(const SWKey *linkKey);	// Link current module entry to other module entry
 	virtual void deleteEntry();	// Delete current module entry
 	// end write interface ------------------------
-	virtual long getEntryCount();
-	virtual long getEntryForKey(const char *key);
-	virtual char *getKeyForEntry(long entry);
+	virtual long getEntryCount() const;
+	virtual long getEntryForKey(const char *key) const;
+	virtual char *getKeyForEntry(long entry) const;
 
 
 	// OPERATORS -----------------------------------------------------------------

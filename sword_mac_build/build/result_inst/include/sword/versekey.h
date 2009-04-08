@@ -1,7 +1,7 @@
 /******************************************************************************
  *	versekey.h - code for class 'versekey'- a standard Biblical verse key
  *
- * $Id: versekey.h 2275 2009-03-05 23:17:56Z scribe $
+ * $Id: versekey.h 2302 2009-04-06 11:35:05Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -88,8 +88,6 @@ class SWDLLEXPORT VerseKey : public SWKey {
 	* @return the index into the array that is less than but closest to value
 	*/
 	int findindex(long *array, int size, long value);
-
-	void validateCurrentLocale() const;
 
 	mutable long lowerBound, upperBound;
 	mutable VerseKey *tmpClone;
@@ -391,7 +389,7 @@ public:
 	 */
 	static const char *convertToOSIS(const char *inRef, const SWKey *defaultKey);
 
-	virtual ListKey ParseVerseList(const char *buf, const char *defaultKey = 0, bool expandRange = false);
+	virtual ListKey ParseVerseList(const char *buf, const char *defaultKey = 0, bool expandRange = false, bool useChapterAsVerse = true);
 	virtual const char *getRangeText() const;
 	virtual const char *getOSISRefRangeText() const;
 	/** Compares another	SWKey object
@@ -414,6 +412,9 @@ public:
 
 	virtual void setVersificationSystem(const char *name);
 	virtual const char *getVersificationSystem() const;
+
+	// DEBUG
+	void validateCurrentLocale() const;
 
 
 	// OPERATORS --------------------------------------------------------------------

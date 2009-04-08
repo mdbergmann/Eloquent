@@ -2,7 +2,7 @@
  *  swld.h   - code for base class 'SWLD'.  SWLD is the basis for all
  *				types of Lexicon and Dictionary modules (hence the 'LD').
  *
- * $Id: swld.h 2294 2009-03-29 14:48:47Z scribe $
+ * $Id: swld.h 2303 2009-04-06 13:38:34Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -57,10 +57,11 @@ public:
 	virtual void setPosition(SW_POSITION pos);
 
 
-	virtual long getEntryCount() = 0;
-	virtual long getEntryForKey(const char *key) = 0;
-	virtual char *getKeyForEntry(long entry) = 0;
+	virtual long getEntryCount() const = 0;
+	virtual long getEntryForKey(const char *key) const = 0;
+	virtual char *getKeyForEntry(long entry) const = 0;
 	
+	virtual bool hasEntry(const SWKey *k) const;
 
 	// OPERATORS -----------------------------------------------------------------
 	

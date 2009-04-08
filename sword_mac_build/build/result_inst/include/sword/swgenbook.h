@@ -1,7 +1,7 @@
 /******************************************************************************
 *  swgenbook.h
 *
-* $Id: swgenbook.h 2280 2009-03-07 15:34:36Z scribe $
+* $Id: swgenbook.h 2303 2009-04-06 13:38:34Z scribe $
 *
 * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
 *	CrossWire Bible Society
@@ -37,7 +37,7 @@ class SWDLLEXPORT SWGenBook : public SWModule {
 protected:
 	char *entkeytxt;
 	mutable TreeKey *tmpTreeKey;
-	TreeKey &getTreeKey() const;
+	TreeKey &getTreeKey(const SWKey *k = 0) const;
 
 public:
 	/** Initializes data for instance of SWGenBook

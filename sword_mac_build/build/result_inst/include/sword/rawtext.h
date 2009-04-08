@@ -2,7 +2,7 @@
  *  rawtext.h   - code for class 'RawText'- a module that reads raw text files:
  *		  ot and nt using indexs ??.bks ??.cps ??.vss
  *
- * $Id: rawtext.h 2289 2009-03-20 17:40:19Z scribe $
+ * $Id: rawtext.h 2303 2009-04-06 13:38:34Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -50,6 +50,7 @@ public:
 	// end write interface ------------------------
 
 	virtual bool isLinked(const SWKey *k1, const SWKey *k2) const;
+	virtual bool hasEntry(const SWKey *k) const;
 	
 
 	SWMODULE_OPERATORS
