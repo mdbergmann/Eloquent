@@ -13,6 +13,7 @@
 #define DefaultsBibleTextShowBookAbbrKey            @"DefaultsBibleTextShowBookAbbrKey"
 #define DefaultsBibleTextVersesOnOneLineKey         @"DefaultsBibleTextVersesOnOneLineKey"
 #define DefaultsBibleTextShowVerseNumberOnlyKey     @"DefaultsBibleTextShowVerseNumberOnlyKey"
+#define DefaultsBibleTextHighlightBookmarksKey      @"DefaultsBibleTextHighlightBookmarksKey"
 
 #define DefaultsBibleTextDisplayFontFamilyKey       @"DefaultsBibleTextDisplayFontFamilyKey"
 #define DefaultsBibleTextDisplayBoldFontFamilyKey   @"DefaultsBibleTextDisplayBoldFontFamilyKey"

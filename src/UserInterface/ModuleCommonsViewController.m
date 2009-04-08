@@ -50,7 +50,8 @@
         // init displayOptions dictionary        
         self.displayOptions = [NSMutableDictionary dictionary];
         [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
-        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];    
+        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
+        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextHighlightBookmarksKey] forKey:DefaultsBibleTextHighlightBookmarksKey];
     }
     
     return self;

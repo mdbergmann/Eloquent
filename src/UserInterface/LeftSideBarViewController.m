@@ -27,6 +27,7 @@
 
 enum BookmarkMenu_Items{
     BookmarkMenuAddNewBM = 1,
+    BookmarkMenuAddNewBMFolder,
     BookmarkMenuEditBM,
     BookmarkMenuRemoveBM,
     BookmarkMenuOpenBMInNew,
@@ -44,11 +45,11 @@ enum ModuleMenu_Items{
 @interface LeftSideBarViewController ()
 
 - (void)doubleClick;
-- (void)prepareTreeContent;
 - (BOOL)deleteBookmarkForPath:(NSIndexPath *)path;
 - (NSIndexPath *)indexPathForBookmark:(Bookmark *)bm;
 - (int)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list;
 - (void)modulesListChanged:(NSNotification *)notification;
+- (id)objectForClickedRow;
 
 @end
 
@@ -56,7 +57,6 @@ enum ModuleMenu_Items{
 
 @synthesize swordManager;
 @synthesize bookmarkManager;
-@synthesize treeContent;
 
 - (id)initWithDelegate:(id)aDelegate {
     self = [super initWithDelegate:aDelegate];
@@ -65,9 +65,6 @@ enum ModuleMenu_Items{
         // default view is modules
         // init selection
         bookmarkSelection = [[NSMutableArray alloc] init];    
-        
-        self.treeContent = [NSMutableArray array];
-        [self prepareTreeContent];
         
         // swordManager
         swordManager = [SwordManager defaultManager];
@@ -107,7 +104,7 @@ enum ModuleMenu_Items{
     NSTableColumn *tableColumn = [outlineView tableColumnWithIdentifier:@"common"];
     [tableColumn setDataCell:threeCellsCell];    
     
-    // this text field shuld send continiuously
+    // this text field should send continiuously
     [moduleUnlockTextField setContinuous:YES];
     
     // set drag & drop types
@@ -121,33 +118,25 @@ enum ModuleMenu_Items{
     [super awakeFromNib];
 }
 
+- (id)objectForClickedRow {
+    id ret = nil;
+    
+    int clickedRow = [outlineView clickedRow];
+    if(clickedRow >= 0) {
+        // get row
+        ret = [outlineView itemAtRow:clickedRow];
+    }
+    
+    return ret;
+}
+
 /**
  update module list
  */
 - (void)modulesListChanged:(NSNotification *)notification {
-    [treeContent removeAllObjects];
-    // prepare again
-    [self prepareTreeContent];
-    // reload
-    [treeController rearrangeObjects];
-    //[outlineView reloadData];
+    [outlineView reloadData];
     [outlineView expandItem:[outlineView itemAtRow:1]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
-}
-
-/**
- Here we prepare the content array to be displayed by the tree controller
- */
-- (void)prepareTreeContent {
-    // first build up the modules section
-    OutlineListObject *o = [[OutlineListObject alloc] initWithObject:nil];
-    [o setType:OutlineItemModuleRoot];
-    [treeContent addObject:o];
-    
-    // build up Bookmarks section
-    o = [[OutlineListObject alloc] initWithObject:nil];
-    [o setType:OutlineItemBookmarkRoot];
-    [treeContent addObject:o];
 }
 
 - (BOOL)deleteBookmarkForPath:(NSIndexPath *)path {
@@ -182,20 +171,22 @@ enum ModuleMenu_Items{
 
 - (int)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list {
     
-    for(int i = 0;i < [list count];i++) {
-        Bookmark *b = [list objectAtIndex:i];
-        if(bm != b) {
-            int index = [self getIndexPath:reverseIndex forBookmark:bm inList:[b subGroups]];
-            if(index > -1) {
+    if(list && [list count] > 0) {
+        for(int i = 0;i < [list count];i++) {
+            Bookmark *b = [list objectAtIndex:i];
+            if(bm != b) {
+                int index = [self getIndexPath:reverseIndex forBookmark:bm inList:[b subGroups]];
+                if(index > -1) {
+                    // record
+                    [reverseIndex addObject:[NSNumber numberWithInt:i]];
+                    return i;
+                }
+            } else {
                 // record
                 [reverseIndex addObject:[NSNumber numberWithInt:i]];
                 return i;
             }
-        } else {
-            // record
-            [reverseIndex addObject:[NSNumber numberWithInt:i]];
-            return i;
-        }
+        }        
     }
     
     return -1;
@@ -239,18 +230,18 @@ enum ModuleMenu_Items{
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 	MBLOGV(MBLOG_DEBUG, @"[LeftSideBarViewController -validateMenuItem:] %@", [menuItem description]);
     
-    BOOL ret = YES; // by default validate this item
+    BOOL ret = YES;
     
     // get module
-    OutlineListObject *clicked = [[outlineView itemAtRow:[outlineView clickedRow]] representedObject];
+    id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
 
     // get menuitem tag
     int tag = [menuItem tag];
     
     // ------------ modules ---------------
     if(tag == ModuleMenuOpenCurrent) {
-        if([clicked objectType] == OutlineItemModule) {
-            SwordModule *mod = [clicked listObject];
+        if([clicked isKindOfClass:[SwordModule class]]) {
+            SwordModule *mod = clicked;
             
             if([[hostingDelegate contentViewController] isKindOfClass:[BibleCombiViewController class]]) {
                 // only commentary and bible views are able to show within bible the current
@@ -270,24 +261,46 @@ enum ModuleMenu_Items{
             ret = NO;
         }
     } else if(tag == ModuleMenuShowAbout) {
-        if([clicked objectType] != OutlineItemModule) {
+        if(![clicked isKindOfClass:[SwordModule class]]) {
             ret = NO;
         }
     } else if(tag == ModuleMenuUnlock) {
-        SwordModule *mod = [clicked listObject];
-        if([clicked objectType] != OutlineItemModule || ![mod isEncrypted]) {            
-            ret = NO;
-        }        
+        if([clicked isKindOfClass:[SwordModule class]]) {
+            SwordModule *mod = clicked;
+            if(![mod isEncrypted]) {
+                ret = NO;
+            }
+        }
     }
     // ----------------------- bookmarks -----------------------
     else if(tag == BookmarkMenuAddNewBM) {
         ret = YES;
+    } else if(tag == BookmarkMenuAddNewBMFolder) {
+        ret = YES;
     } else if(tag == BookmarkMenuRemoveBM) {
-        if([[treeController selectedObjects] count] > 0) {
+        if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {
+            // get current selected module of clicked row
+            id clicked = [self objectForClickedRow];
+            if(clicked && [clicked isKindOfClass:[Bookmark class]]) {
+                // replace any old selected with the clicked one
+                [bookmarkSelection removeAllObjects];
+                [bookmarkSelection addObject:clicked];
+            }
+        }
+        if([bookmarkSelection count] > 0) {
             ret = YES;
         }
     } else if(tag == BookmarkMenuEditBM) {
-        if([[treeController selectedObjects] count] > 0) {
+        if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {
+            // get current selected module of clicked row
+            id clicked = [self objectForClickedRow];
+            if(clicked && [clicked isKindOfClass:[Bookmark class]]) {
+                // replace any old selected with the clicked one
+                [bookmarkSelection removeAllObjects];
+                [bookmarkSelection addObject:clicked];
+            }
+        }
+        if([bookmarkSelection count] > 0) {
             ret = YES;
         }
     } else if(tag == BookmarkMenuOpenBMInNew) {
@@ -313,9 +326,9 @@ enum ModuleMenu_Items{
     
     // get module
     SwordModule *mod = nil;
-    OutlineListObject *clicked = [[outlineView itemAtRow:[outlineView clickedRow]] representedObject];
-    if([clicked objectType] == OutlineItemModule) {
-        mod = [clicked listObject];
+    id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
+    if([clicked isKindOfClass:[SwordModule class]]) {
+        mod = clicked;
     }
     
     switch(tag) {
@@ -425,9 +438,21 @@ enum ModuleMenu_Items{
                   contextInfo:nil];
             break;
         }
+        case BookmarkMenuAddNewBMFolder:
+        {
+            // bring up bookmark panel
+            [bookmarkFolderWindow makeFirstResponder:bookmarkFolderNameTextField];
+            NSWindow *window = [(NSWindowController *)hostingDelegate window];
+            [NSApp beginSheet:bookmarkFolderWindow
+               modalForWindow:window
+                modalDelegate:self
+               didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
+                  contextInfo:nil];
+            break;
+        }
         case BookmarkMenuEditBM:
         {
-            Bookmark *clickedObj = [[[outlineView itemAtRow:[outlineView clickedRow]] representedObject] listObject];
+            Bookmark *clickedObj = [outlineView itemAtRow:[outlineView clickedRow]];
             // set as content
             [bmObjectController setContent:clickedObj];
             // bring up bookmark panel
@@ -448,34 +473,43 @@ enum ModuleMenu_Items{
                                            alternateButton:NSLocalizedString(@"No", @"") otherButton:nil 
                                  informativeTextWithFormat:NSLocalizedString(@"ConfirmBookmarkDeleteText", @"")];
             if([alert runModal] == NSAlertDefaultReturn) {
-                NSArray *indexes = [treeController selectionIndexPaths];
-                for(NSIndexPath *path in indexes) {
-                    if([path length] == 2) {
+                
+                if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {
+                    // get current selected module of clicked row
+                    id clicked = [self objectForClickedRow];
+                    if(clicked && [clicked isKindOfClass:[Bookmark class]]) {
+                        // replace any old selected with the clicked one
+                        [bookmarkSelection removeAllObjects];
+                        [bookmarkSelection addObject:clicked];
+                    }
+                }
+                for(Bookmark *b in bookmarkSelection) {
+                    NSIndexPath *ip = [self indexPathForBookmark:b];
+                    if([ip length] == 1) {
                         // we have to remove from root
-                        int index = [path indexAtPosition:1];
+                        int index = [ip indexAtPosition:0];
                         [[bookmarkManager bookmarks] removeObjectAtIndex:index];
-                    } else if([path length] > 2) {
-                        Bookmark *bm = [[bookmarkManager bookmarks] objectAtIndex:[path indexAtPosition:1]];
-                        for(int i = 2;i < [path length]-1;i++) {
-                            bm = [[bm subGroups] objectAtIndex:[path indexAtPosition:i]];
+                    } else if([ip length] > 1) {
+                        Bookmark *bm = [[bookmarkManager bookmarks] objectAtIndex:[ip indexAtPosition:0]];
+                        for(int i = 1;i < [ip length]-1;i++) {
+                            bm = [[bm subGroups] objectAtIndex:[ip indexAtPosition:i]];
                         }
                         // if we have a bookmark, remove it
                         if(bm) {
-                            [[bm subGroups] removeObjectAtIndex:[path indexAtPosition:[path length]-1]];
+                            [[bm subGroups] removeObjectAtIndex:[ip indexAtPosition:[ip length]-1]];
                         }
                     }
                     
                 }
-                //[treeController removeObjectsAtArrangedObjectIndexPaths:indexes];
                 [bookmarkManager saveBookmarks];
                 // trigger reloading
-                [treeController rearrangeObjects];                
+                [outlineView reloadData];
             }
             break;
         }
         case BookmarkMenuOpenBMInNew:
         {
-            Bookmark *clickedObj = [[[outlineView itemAtRow:[outlineView clickedRow]] representedObject] listObject];
+            Bookmark *clickedObj = [outlineView itemAtRow:[outlineView clickedRow]];
             // open new window
             SingleViewHostController *newC = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
             [newC setSearchText:[clickedObj reference]];
@@ -498,15 +532,30 @@ enum ModuleMenu_Items{
     Bookmark *bm = [bmObjectController content];    
     if([[bm name] length] > 0) {
         if(bookmarkAction == BookmarkMenuAddNewBM) {
-            if([[treeController selectedObjects] count] > 0) {
-                // OutlineListObject will be generated on the fly, so we don't need to update them
-                Bookmark *selected = [[[treeController selectedObjects] objectAtIndex:0] listObject];
+            
+            if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {
+                // get current selected module of clicked row
+                id clicked = [self objectForClickedRow];
+                if(clicked && [clicked isKindOfClass:[Bookmark class]]) {
+                    // replace any old selected with the clicked one
+                    [bookmarkSelection removeAllObjects];
+                    [bookmarkSelection addObject:clicked];
+                }
+            }
+            
+            if([bookmarkSelection count] > 0) {
+                Bookmark *selected = [bookmarkSelection objectAtIndex:0];
                 if(selected == nil) {
                     // we add to root
                     [[bookmarkManager bookmarks] addObject:bm];
                 } else {
-                    // add to selected
-                    [[selected subGroups] addObject:bm];
+                    if(![selected isLeaf]) {
+                        // add to selected
+                        [[selected subGroups] addObject:bm];            
+                    } else {
+                        // we add to root
+                        [[bookmarkManager bookmarks] addObject:bm];            
+                    }
                 }
             } else {
                 // we add to root
@@ -516,12 +565,58 @@ enum ModuleMenu_Items{
         
         // save
         [bookmarkManager saveBookmarks];
-        // trigger reloading of tree elements
-        [treeController rearrangeObjects];        
+        [outlineView reloadData];
     }
     
     // reload outline view
     [outlineView reloadData];
+}
+
+- (IBAction)bmFolderWindowCancel:(id)sender {
+    [NSApp endSheet:bookmarkFolderWindow];
+}
+
+- (IBAction)bmFolderWindowOk:(id)sender {
+    [NSApp endSheet:bookmarkFolderWindow];
+    
+    // create new bookmark folder
+    Bookmark *bm = [[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]];
+    [bm setSubGroups:[NSMutableArray array]];   // this will get a folder
+
+    if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {
+        // get current selected module of clicked row
+        id clicked = [self objectForClickedRow];
+        if(clicked && [clicked isKindOfClass:[Bookmark class]]) {
+            // replace any old selected with the clicked one
+            [bookmarkSelection removeAllObjects];
+            [bookmarkSelection addObject:clicked];
+        }
+    }
+
+    if([bookmarkSelection count] > 0) {
+        // OutlineListObject will be generated on the fly, so we don't need to update them
+        Bookmark *selected = [bookmarkSelection objectAtIndex:0];
+        if(selected == nil) {
+            // we add to root
+            [[bookmarkManager bookmarks] addObject:bm];
+        } else {
+            if(![selected isLeaf]) {
+                // add to selected
+                [[selected subGroups] addObject:bm];            
+            } else {
+                // we add to root
+                [[bookmarkManager bookmarks] addObject:bm];            
+            }
+        }
+    } else {
+        // we add to root
+        [[bookmarkManager bookmarks] addObject:bm];
+    }
+    
+    // save
+    [bookmarkManager saveBookmarks];
+    // reload outline view
+    [outlineView reloadData];    
 }
 
 // end sheet callback
@@ -539,41 +634,137 @@ enum ModuleMenu_Items{
         } else {
             [moduleUnlockOKButton setEnabled:YES];        
         }        
+    } else if([aNotification object] == bookmarkFolderNameTextField) {
+        if([[bookmarkFolderNameTextField stringValue] length] == 0) {
+            [bookmarkFolderOkButton setEnabled:NO];
+        } else {
+            [bookmarkFolderOkButton setEnabled:YES];        
+        }
     }
 }
 
 #pragma mark - outline datasource methods
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    return nil;
+    id ret = nil;
+    
+    if(item == nil) {
+        // we have two root items (modules, bookmarks)
+        if(index == 0) {
+            ret = NSLocalizedString(@"LSBModules", @"");
+        } else if(index == 1) {
+            ret = NSLocalizedString(@"LSBBookmarks", @"");        
+        }
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")]) {
+        // modules root
+        
+        // get categories
+        ret = [[SwordModCategory moduleCategories] objectAtIndex:index];
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
+        // bookmarks root
+        
+        // get bookmarks
+        ret = [[[BookmarkManager defaultManager] bookmarks] objectAtIndex:index];
+    } else if([item isKindOfClass:[SwordModCategory class]]) {
+        // module category
+        
+        // get number of modules in category
+        ret = [[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] objectAtIndex:index];
+    } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
+        // bookmark folder
+        
+        ret = [[(Bookmark *)item subGroups] objectAtIndex:index];
+    }
+    
+    return ret;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    return NO;
+    BOOL ret = NO;
+    
+    if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")]) {
+        // modules root
+        ret = YES;
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
+        // bookmarks root
+        ret = YES;
+    } else if([item isKindOfClass:[SwordModCategory class]]) {
+        // module category
+        ret = ([[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count] > 0);
+    } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
+        // bookmark folder
+        ret = ([[(Bookmark *)item subGroups] count] > 0);
+    }
+
+    return ret;
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    return 0;
+    NSInteger ret = 0;
+    
+    if(item == nil) {
+        // we have two root items (modules, bookmarks)
+        ret = 2;
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")]) {
+        // modules root
+        
+        // get categories
+        ret = [[SwordModCategory moduleCategories] count];
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
+        // bookmarks root
+        
+        // get bookmarks
+        ret = [[[BookmarkManager defaultManager] bookmarks] count];
+    } else if([item isKindOfClass:[SwordModCategory class]]) {
+        // module category
+        
+        // get number of modules in category
+        ret = [[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count];
+    } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
+        // bookmark folder
+        
+        ret = [[(Bookmark *)item subGroups] count];
+    }
+    
+    return ret;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    return nil;
+    NSString *ret = nil;
+    
+    if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")]) {
+        // modules root
+        ret = item;
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
+        // bookmarks root
+        ret = item;
+    } else if([item isKindOfClass:[SwordModCategory class]]) {
+        // module category
+        ret = [(SwordModCategory *)item description];
+    } else if([item isKindOfClass:[SwordModule class]]) {
+        // module
+        ret = [(SwordModule *)item name];
+    } else if([item isKindOfClass:[Bookmark class]]) {
+        // bookmark
+        ret = [(Bookmark *)item name];
+    }    
+    
+    return ret;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
     // make sure this is no module that we are dragging here
     NSMutableArray *dragItems = [NSMutableArray arrayWithCapacity:[items count]];
     for(int i = 0;i < [items count];i++) {
-        OutlineListObject *l = [[items objectAtIndex:i] representedObject];
-        int t = [l objectType];
-        if(t == OutlineItemBookmark || t == OutlineItemBookmarkDir) {
+        id item = [items objectAtIndex:i];
+        if([item isKindOfClass:[Bookmark class]]) {
             // go ahead
             // get the bookmarks instances and encode them
             BookmarkDragItem *di = [[BookmarkDragItem alloc] init];
-            di.bookmark = [l listObject];
+            di.bookmark = item;
             NSIndexPath *path = [self indexPathForBookmark:di.bookmark];
             di.path = path;
-            [dragItems addObject:di];
+            [dragItems addObject:di];            
         }
     }
     
@@ -590,9 +781,7 @@ enum ModuleMenu_Items{
 
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
     // make sure we drop only with in bookmarks
-    OutlineListObject *l = [item representedObject];
-    int t = [l objectType];
-    if(t == OutlineItemBookmarkRoot || t == OutlineItemBookmarkDir || t == OutlineItemBookmark) {
+    if([item isKindOfClass:[Bookmark class]]) {
         
         int mask = [info draggingSourceOperationMask];
         if(mask == NSDragOperationAll_Obsolete) {
@@ -611,7 +800,7 @@ enum ModuleMenu_Items{
     }
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index {
+- (BOOL)outlineView:(NSOutlineView *)anOutlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index {
     
     // get our data from the paste board
     NSPasteboard* pboard = [info draggingPasteboard];
@@ -619,7 +808,7 @@ enum ModuleMenu_Items{
     NSArray *bms = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     // we should have now some bookmark instances
-    Bookmark *bitem = [[item representedObject] listObject];
+    Bookmark *bitem = item;
     // is first level object?
     NSMutableArray *dropPoint = nil;
     if(bitem == nil) {        
@@ -630,7 +819,7 @@ enum ModuleMenu_Items{
     
     // was it a move operation?
     // delete first, otherwise the path may not be correct anymore
-    if([info draggingSourceOperationMask] != NSDragOperationCopy) { 
+    if(([info draggingSourceOperationMask] & NSDragOperationCopy) == 0) { 
         // delete the source objects
         for(BookmarkDragItem *bd in bms) {
             [self deleteBookmarkForPath:[bd path]];
@@ -638,13 +827,17 @@ enum ModuleMenu_Items{
     }
 
     // copy to drop point
+    if(index == -1) {
+        index = 0;
+    }
+        
     for(BookmarkDragItem *bd in bms) {
         [dropPoint insertObject:[bd bookmark] atIndex:index];
     }
         
-    // let tree controller rearrange
     [bookmarkManager saveBookmarks];
-    [treeController rearrangeObjects];
+    // update view
+    [outlineView reloadItem:bitem reloadChildren:YES];
     
     return YES;
 }
@@ -654,10 +847,10 @@ enum ModuleMenu_Items{
 - (void)doubleClick {
     // get clicked row
     int clickedRow = [outlineView clickedRow];
-    OutlineListObject *clickedObj = [[outlineView itemAtRow:clickedRow] representedObject];
+    id clickedObj = [outlineView itemAtRow:clickedRow];
     
-    if([clickedObj objectType] == OutlineItemModule) {
-        SwordModule *mod  = [clickedObj listObject];
+    if([clickedObj isKindOfClass:[SwordModule class]]) {
+        SwordModule *mod  = clickedObj;
         // depending on the hosting window we open a new tab or window
         if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];        
@@ -665,8 +858,8 @@ enum ModuleMenu_Items{
             // default action on this is open another single view host with this module
             [[AppController defaultAppController] openSingleHostWindowForModule:mod];        
         }
-    } else if([clickedObj objectType] == OutlineItemBookmark) {
-        Bookmark *b = [clickedObj listObject];
+    } else if([clickedObj isKindOfClass:[Bookmark class]]) {
+        Bookmark *b = clickedObj;
         // check for type of host
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             [(SingleViewHostController *)hostingDelegate setSearchText:[b reference]];
@@ -687,11 +880,11 @@ enum ModuleMenu_Items{
 			int len = [selectedRows count];
             
             if(len == 1) {
-                OutlineListObject *item = [[oview itemAtRow:[oview selectedRow]] representedObject];
-                int t = [item objectType];
-                if(t == OutlineItemBookmarkDir || t == OutlineItemBookmark || t == OutlineItemBookmarkRoot) {
+                id item = [oview itemAtRow:[oview selectedRow]];
+                if([item isKindOfClass:[Bookmark class]] || 
+                   ([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")])) {
                     [oview setMenu:bookmarkMenu];
-                } else if(t == OutlineItemModule) {
+                } else if([item isKindOfClass:[SwordModule class]]) {
                     [oview setMenu:moduleMenu];
                 } else {
                     [oview setMenu:nil];
@@ -729,9 +922,7 @@ enum ModuleMenu_Items{
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 
     if(item != nil) {        
-        OutlineListObject *o = [item representedObject];
-        int t = [o objectType];
-        if(t == OutlineItemModuleRoot || t == OutlineItemBookmarkRoot) {
+        if([item isKindOfClass:[NSString class]]) {
             NSFont *font = FontLargeBold;
             //float pointSize = [font pointSize];
             //[aOutlineView setRowHeight:pointSize + 6];
@@ -752,13 +943,13 @@ enum ModuleMenu_Items{
             [(ThreeCellsCell *)cell setRightImage:nil];
             [(ThreeCellsCell *)cell setImage:nil];
             
-            if(t == OutlineItemBookmark) {
+            if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
                 [(ThreeCellsCell *)cell setImage:bookmarkImage];
-            } else if(t == OutlineItemBookmarkDir) {
+            } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
                 [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];            
-            } else if(t == OutlineItemModule) {
+            } else if([item isKindOfClass:[SwordModule class]]) {
                 [(ThreeCellsCell *)cell setImage:nil];
-                SwordModule *mod = [o listObject];
+                SwordModule *mod = item;
                 NSImage *img = nil;
                 if([mod isEncrypted]) {
                     if([mod isLocked]) {
@@ -775,10 +966,8 @@ enum ModuleMenu_Items{
 
 - (NSString *)outlineView:(NSOutlineView *)ov toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
     if(item != nil) {
-        OutlineListObject *o = [item representedObject];
-        int t = [o objectType];
-        if(t == OutlineItemBookmark) {
-            Bookmark *b = [o listObject];
+        if([item isKindOfClass:[Bookmark class]]) {
+            Bookmark *b = item;
             return [b reference];
         }
     }

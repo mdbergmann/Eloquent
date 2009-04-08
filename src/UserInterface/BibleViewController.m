@@ -350,6 +350,7 @@
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL vool = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL vno = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
+    BOOL hb = [[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue];
     
     // generate html string for verses
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...");

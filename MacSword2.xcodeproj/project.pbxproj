@@ -91,7 +91,6 @@
 		A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52E0DF9AD6E00207967 /* ModuleManager.xib */; };
 		A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5300DF9AD6E00207967 /* ModuleManageView.xib */; };
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
-		A996239D0E4F0D5A0082F18F /* OutlineListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A996239C0E4F0D5A0082F18F /* OutlineListObject.m */; };
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
@@ -323,8 +322,6 @@
 		A992B52F0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManager.xib; sourceTree = "<group>"; };
 		A992B5310DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManageView.xib; sourceTree = "<group>"; };
 		A992B5330DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
-		A996239B0E4F0D5A0082F18F /* OutlineListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineListObject.h; path = src/UserInterface/OutlineListObject.h; sourceTree = "<group>"; };
-		A996239C0E4F0D5A0082F18F /* OutlineListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineListObject.m; path = src/UserInterface/OutlineListObject.m; sourceTree = "<group>"; };
 		A99DB3220EF96ABF0065482A /* scopebar_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_gradient.png; sourceTree = "<group>"; };
 		A99DB3240EF96C310065482A /* ScopeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopeBarView.h; path = src/UserInterface/ScopeBarView.h; sourceTree = "<group>"; };
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
@@ -782,8 +779,6 @@
 				A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */,
 				A9D84D740EFB00F3000457EC /* BookmarkDragItem.h */,
 				A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */,
-				A996239B0E4F0D5A0082F18F /* OutlineListObject.h */,
-				A996239C0E4F0D5A0082F18F /* OutlineListObject.m */,
 				A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */,
 				A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */,
 				A9F74DD30F1BA9A3000D3F3E /* NSButton+Color.h */,
@@ -1070,7 +1065,6 @@
 				A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */,
 				A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */,
 				A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */,
-				A996239D0E4F0D5A0082F18F /* OutlineListObject.m in Sources */,
 				A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */,
 				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
 				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,

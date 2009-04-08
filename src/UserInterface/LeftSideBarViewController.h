@@ -22,23 +22,24 @@
     // module about
     IBOutlet NSWindow *moduleAboutWindow;
     IBOutlet NSTextView *moduleAboutTextView;
-    IBOutlet NSTextField *bookmarkNameTextField;
     
     // unlock window
     IBOutlet NSWindow *moduleUnlockWindow;
     IBOutlet NSTextField *moduleUnlockTextField;
     IBOutlet NSButton *moduleUnlockOKButton;
     
-    // tree controller
-    IBOutlet NSTreeController *treeController;
-    NSMutableArray *treeContent;
-    
     // modules
     IBOutlet NSMenu *moduleMenu;
     
+    // bookmark folder window    
+    IBOutlet NSWindow *bookmarkFolderWindow;
+    IBOutlet NSTextField *bookmarkFolderNameTextField;
+    IBOutlet NSButton *bookmarkFolderOkButton;
+
     // bookmarks
     IBOutlet NSMenu *bookmarkMenu;
-    IBOutlet NSPanel *bookmarkPanel;
+    IBOutlet NSWindow *bookmarkPanel;
+    IBOutlet NSTextField *bookmarkNameTextField;    
     /** the bookmark binding interface controller */
     IBOutlet NSObjectController *bmObjectController;
     /** the action in sheet */
@@ -66,7 +67,6 @@
 
 @property (readwrite) SwordManager *swordManager;
 @property (readwrite) BookmarkManager *bookmarkManager;
-@property (retain, readwrite) NSMutableArray *treeContent;
 
 // initialitazion
 - (id)initWithDelegate:(id)aDelegate;
@@ -87,6 +87,9 @@
 
 - (IBAction)bmWindowCancel:(id)sender;
 - (IBAction)bmWindowOk:(id)sender;
+
+- (IBAction)bmFolderWindowCancel:(id)sender;
+- (IBAction)bmFolderWindowOk:(id)sender;
 
 - (IBAction)moduleAboutClose:(id)sender;
 - (IBAction)moduleUnlockOk:(id)sender;

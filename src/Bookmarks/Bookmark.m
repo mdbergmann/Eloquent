@@ -14,7 +14,8 @@
 @synthesize name;
 @synthesize reference;
 @synthesize comment;
-@synthesize colour;
+@synthesize foregroundColor;
+@synthesize backgroundColor;
 @synthesize subGroups;
 
 - (id)init {
@@ -31,7 +32,9 @@
         [self setName:aName];
         [self setReference:aReference];
         [self setComment:@""];
-        [self setSubGroups:[NSMutableArray array]];
+        [self setSubGroups:nil];
+        [self setForegroundColor:[NSColor blackColor]];
+        [self setBackgroundColor:[NSColor whiteColor]];
     }
     
     return self;
@@ -42,40 +45,19 @@
 }
 
 - (int)childCount {
-    return [subGroups count];
+    int ret = 0;
+    if(subGroups) {
+        ret = [subGroups count];
+    }
+    return ret;
 }
+
 - (BOOL)isLeaf {
-    return [self childCount] == 0 ? YES : NO;
+    return subGroups == nil ? YES : NO;
 }
 
 - (NSString *)description {
     return name;
-}
-
-- (int)hash {
-    // let's build a hash that is unique
-    int ret = 0;
-    
-    // count all characters that we have here
-    int len = [name length];
-    for(int i = 0;i < len;i++) {
-        unichar c = [name characterAtIndex:i];
-        ret += c;
-    }
-    len = [reference length];
-    for(int i = 0;i < len;i++) {
-        unichar c = [reference characterAtIndex:i];
-        ret += c;
-    }
-    // instance
-    char pointer[256];
-    bzero(pointer, 256);
-    sprintf(pointer, "%x", (unsigned int)self);
-    for(int i = 0;i < 256;i++) {
-        ret += pointer[i];
-    }
-    
-    return ret;
 }
 
 // --------- NSCoding implementation ----------------
@@ -86,8 +68,17 @@
     [bm setName:[decoder decodeObjectForKey:@"BookmarkName"]];
     [bm setReference:[decoder decodeObjectForKey:@"BookmarkRef"]];
     [bm setComment:[decoder decodeObjectForKey:@"BookmarkComment"]];
-    [bm setColour:[decoder decodeObjectForKey:@"BookmarkColor"]];
-    [bm setSubGroups:[decoder decodeObjectForKey:@"BookmarkSubgroup"]];
+    NSColor *col = [decoder decodeObjectForKey:@"BookmarkForegroundColor"];
+    [bm setForegroundColor:col == nil ? [NSColor blackColor] : col];
+    col = [decoder decodeObjectForKey:@"BookmarkBackgroundColor"];
+    [bm setBackgroundColor:col == nil ? [NSColor whiteColor] : col];
+
+    // change: in former version subGroups was never nil. Now it is nil if it is a leaf
+    NSMutableArray *subgroups = [decoder decodeObjectForKey:@"BookmarkSubgroup"];
+    if(subgroups && [subgroups count] == 0) {
+        subgroups = nil;
+    } 
+    [bm setSubGroups:subgroups];
     
     return bm;
 }
@@ -96,7 +87,8 @@
     [encoder encodeObject:name forKey:@"BookmarkName"];
     [encoder encodeObject:reference forKey:@"BookmarkRef"];
     [encoder encodeObject:comment forKey:@"BookmarkComment"];
-    [encoder encodeObject:colour forKey:@"BookmarkColor"];
+    [encoder encodeObject:foregroundColor forKey:@"BookmarkForegroundColor"];
+    [encoder encodeObject:backgroundColor forKey:@"BookmarkBackgroundColor"];
     [encoder encodeObject:subGroups forKey:@"BookmarkSubgroup"];
 }
 
