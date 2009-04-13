@@ -65,6 +65,9 @@
 		A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */; };
 		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
 		A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
+		A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
+		A937B33F0F8FADE100948406 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
+		A937B3400F8FADE100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
@@ -95,7 +98,6 @@
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
-		A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
@@ -115,6 +117,8 @@
 		A9D72F200F6D362400333554 /* SidebarBottomGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D72F1E0F6D362400333554 /* SidebarBottomGradient.png */; };
 		A9D760F30EF715BB00A78AA8 /* agt_add-to-autorun.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */; };
 		A9D760F40EF715BB00A78AA8 /* bookmarks_list_add.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */; };
+		A9D7ACDB0F8F87B700BDC538 /* libsword-1.6.0-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D7ACDA0F8F87B700BDC538 /* libsword-1.6.0-svn-fat.a */; };
+		A9D7ACDC0F8F87BD00BDC538 /* libsword-1.6.0-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9D7ACDA0F8F87B700BDC538 /* libsword-1.6.0-svn-fat.a */; };
 		A9D849660EFA2D34000457EC /* LeftSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D849620EFA2D34000457EC /* LeftSideBarView.xib */; };
 		A9D849670EFA2D34000457EC /* RightSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9D849640EFA2D34000457EC /* RightSideBarView.xib */; };
 		A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */; };
@@ -143,9 +147,7 @@
 		A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */; };
 		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
-		A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */; };
 		A9F61C640E01028700C3A0EF /* locales.d in Resources */ = {isa = PBXBuildFile; fileRef = A9F61C210E01028700C3A0EF /* locales.d */; };
-		A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */; };
 		A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
 		A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */; };
@@ -160,10 +162,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A9D7ACDC0F8F87BD00BDC538 /* libsword-1.6.0-svn-fat.a in CopyFiles */,
 				A9E18B4D0F5AED2400AF13F2 /* BGHUDAppKit.framework in CopyFiles */,
 				A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
-				A9F61C800E0102BB00C3A0EF /* libsword-1.5.11-svn-fat.a in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
 				A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */,
 			);
@@ -284,6 +286,10 @@
 		A9333AE40F6699A70001BD38 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProgressOverlayView.xib; sourceTree = "<group>"; };
 		A9333B5B0F66CEC90001BD38 /* ProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayView.h; path = src/ProgressOverlayView/ProgressOverlayView.h; sourceTree = "<group>"; };
 		A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayView.m; path = src/ProgressOverlayView/ProgressOverlayView.m; sourceTree = "<group>"; };
+		A937B0B40F8F9B2100948406 /* SwordListKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordListKey.h; sourceTree = "<group>"; };
+		A937B0B50F8F9B2100948406 /* SwordListKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordListKey.mm; sourceTree = "<group>"; };
+		A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordListKeyTest.h; path = test/SwordListKeyTest.h; sourceTree = "<group>"; };
+		A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordListKeyTest.m; path = test/SwordListKeyTest.m; sourceTree = "<group>"; };
 		A939B7E00E9DCED000A0A8F9 /* GenBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenBookViewController.h; path = src/UserInterface/GenBookViewController.h; sourceTree = "<group>"; };
 		A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenBookViewController.m; path = src/UserInterface/GenBookViewController.m; sourceTree = "<group>"; };
 		A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTextObject.h; path = src/UserInterface/SearchTextObject.h; sourceTree = "<group>"; };
@@ -351,6 +357,7 @@
 		A9D72F1E0F6D362400333554 /* SidebarBottomGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SidebarBottomGradient.png; sourceTree = "<group>"; };
 		A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "agt_add-to-autorun.png"; sourceTree = "<group>"; };
 		A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmarks_list_add.png; sourceTree = "<group>"; };
+		A9D7ACDA0F8F87B700BDC538 /* libsword-1.6.0-svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.6.0-svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.6.0-svn-fat.a"; sourceTree = "<group>"; };
 		A9D849630EFA2D34000457EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/LeftSideBarView.xib; sourceTree = "<group>"; };
 		A9D849650EFA2D34000457EC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/RightSideBarView.xib; sourceTree = "<group>"; };
 		A9D849690EFA361F000457EC /* RightSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RightSideBarViewController.h; path = src/UserInterface/RightSideBarViewController.h; sourceTree = "<group>"; };
@@ -389,7 +396,6 @@
 		A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheObject.m; path = src/UserInterface/ReferenceCacheObject.m; sourceTree = "<group>"; };
 		A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoLogger.framework; path = Resources/CocoLogger.framework; sourceTree = "<group>"; };
 		A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoPCRE.framework; path = Resources/CocoPCRE.framework; sourceTree = "<group>"; };
-		A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.5.11-svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.5.11-svn-fat.a"; sourceTree = "<group>"; };
 		A9F61C210E01028700C3A0EF /* locales.d */ = {isa = PBXFileReference; lastKnownFileType = folder; name = locales.d; path = sword_mac_build/build/result_inst/locales.d; sourceTree = "<group>"; };
 		A9F74DD30F1BA9A3000D3F3E /* NSButton+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSButton+Color.h"; path = "src/UserInterface/NSButton+Color.h"; sourceTree = "<group>"; };
 		A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSButton+Color.m"; path = "src/UserInterface/NSButton+Color.m"; sourceTree = "<group>"; };
@@ -407,11 +413,11 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */,
 				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
-				A9F61B9D0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a in Frameworks */,
 				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
 				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
 				A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */,
 				A9E18B470F5AED1600AF13F2 /* BGHUDAppKit.framework in Frameworks */,
+				A9D7ACDB0F8F87B700BDC538 /* libsword-1.6.0-svn-fat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +425,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9B45CF00EF5B64E00B63848 /* libsword-1.5.11-svn-fat.a in Frameworks */,
 				A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */,
 				A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */,
 			);
@@ -442,11 +447,11 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9D7ACDA0F8F87B700BDC538 /* libsword-1.6.0-svn-fat.a */,
 				A9E18B460F5AED1600AF13F2 /* BGHUDAppKit.framework */,
 				A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */,
 				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
 				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,
-				A9F61B9C0E01023F00C3A0EF /* libsword-1.5.11-svn-fat.a */,
 				A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */,
 				A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
@@ -683,6 +688,8 @@
 				A9CC33500EB0699900810821 /* SwordModCategory.m */,
 				A9582A7E0F701D4C0094FAF4 /* SwordVerseKey.h */,
 				A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */,
+				A937B0B40F8F9B2100948406 /* SwordListKey.h */,
+				A937B0B50F8F9B2100948406 /* SwordListKey.mm */,
 				A98EDE430F4C77D000A3387D /* SwordBibleBook.h */,
 				A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */,
 				A92480BF0F4D99630048A603 /* SwordBibleChapter.h */,
@@ -827,6 +834,8 @@
 				A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */,
 				A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */,
 				A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */,
+				A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */,
+				A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -1105,6 +1114,7 @@
 				A9061E510F71364A00F6DA1F /* SearchBookSet.m in Sources */,
 				A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */,
 				A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */,
+				A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1112,6 +1122,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A937B33F0F8FADE100948406 /* SwordVerseKey.mm in Sources */,
+				A937B3400F8FADE100948406 /* SwordListKey.mm in Sources */,
 				A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */,
 				A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */,
 				A9D9F5320EAF17CF0035222E /* BookmarkManager.m in Sources */,
@@ -1398,7 +1410,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include/sword\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_OPENMP_FLAGS = "-fopenmp";
@@ -1432,7 +1444,7 @@
 				GCC_PREFIX_HEADER = MacSword_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include/sword\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (

@@ -28,6 +28,8 @@
 #import "SwordBible.h"
 #import "SwordCommentary.h"
 #import "SwordDictionary.h"
+#import "SwordListKey.h"
+#import "SwordVerseKey.h"
 
 using std::string;
 using std::list;
@@ -233,13 +235,17 @@ using std::list;
         [SwordManager initLocale];
         
         [self reInit];
-	}
-	
-    sword::StringList options = swManager->getGlobalOptions();
-    sword::StringList::iterator	it;
-    for(it = options.begin(); it != options.end(); it++) {
-        [self setGlobalOption:[NSString stringWithCString:it->c_str()] value:SW_OFF];
-    }
+        
+        SwordListKey *lk = [SwordListKey listKeyWithRef:@"Gen 1:1-5"];
+        SwordVerseKey *vk = [SwordVerseKey verseKeyWithRef:@"Gen 1:3"];
+        BOOL result = [lk containsKey:vk];
+        
+        sword::StringList options = swManager->getGlobalOptions();
+        sword::StringList::iterator	it;
+        for(it = options.begin(); it != options.end(); it++) {
+            [self setGlobalOption:[NSString stringWithCString:it->c_str()] value:SW_OFF];
+        }
+	}	
 	
 	return self;
 }

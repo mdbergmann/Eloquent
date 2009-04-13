@@ -125,6 +125,14 @@
 	[super finalize];
 }
 
+- (void)aquireModuleLock {
+    [moduleLock lock];
+}
+
+- (void)releaseModuleLock {
+    [moduleLock unlock];
+}
+
 #pragma mark - convenience methods
 
 - (NSAttributedString *)fullAboutText {

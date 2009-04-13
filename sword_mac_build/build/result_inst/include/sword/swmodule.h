@@ -3,7 +3,7 @@
  *		  types of modules (e.g. texts, commentaries, maps, lexicons,
  *		  etc.)
  *
- * $Id: swmodule.h 2303 2009-04-06 13:38:34Z scribe $
+ * $Id: swmodule.h 2318 2009-04-10 21:22:16Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -641,7 +641,7 @@ public:
 	virtual bool getSkipConsecutiveLinks() { return skipConsecutiveLinks; }
 	
 	virtual bool isLinked(const SWKey *k1, const SWKey *k2) const { return false; }
-	virtual bool hasEntry(const SWKey *k) const { return getEntrySize(); }
+	virtual bool hasEntry(const SWKey *k) const { return false; }
 
 	/** Entry Attributes are special data pertaining to the current entry.
 	 *	To see what Entry Attributes exists for a specific entry of a module,

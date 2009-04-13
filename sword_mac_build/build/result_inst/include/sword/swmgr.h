@@ -2,7 +2,7 @@
  *  swmgr.h   - definition of class SWMgr used to interact with an install
  *				base of sword modules.
  *
- * $Id: swmgr.h 2240 2009-02-08 00:47:44Z scribe $
+ * $Id: swmgr.h 2321 2009-04-13 01:17:00Z scribe $
  *
  * Copyright 1998-2008 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -82,7 +82,7 @@ class SWOptionFilter;
  * SWMgr exposes an installed module set and can be asked to configure the desired
  *	markup and options which modules will produce.
  *
- * @version $Id: swmgr.h 2240 2009-02-08 00:47:44Z scribe $
+ * @version $Id: swmgr.h 2321 2009-04-13 01:17:00Z scribe $
  */
 class SWDLLEXPORT SWMgr {
 
@@ -162,10 +162,10 @@ public:
 	/**
 	 *
 	 */
-	static void findConfig(char *configType, char **prefixPath, char **configPath, StringList *augPaths = 0, SWConfig *providedSysConf = 0);
+	static void findConfig(char *configType, char **prefixPath, char **configPath, StringList *augPaths = 0, SWConfig **providedSysConf = 0);
 
 	SWConfig *config;
-	SWConfig *sysconfig;
+	SWConfig *sysConfig;
 
 	/** The path to main module set and locales
 	 */

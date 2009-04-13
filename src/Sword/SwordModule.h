@@ -132,6 +132,9 @@ typedef enum {
 - (BOOL)isRTL;
 - (BOOL)unlock:(NSString *)unlockKey;
 
+- (void)aquireModuleLock;
+- (void)releaseModuleLock;
+
 - (BOOL)hasFeature:(NSString *)feature;
 - (NSString *)configEntryForKey:(NSString *)entryKey;
 

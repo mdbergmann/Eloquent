@@ -16,6 +16,7 @@
     NSColor *backgroundColor;
     NSString *comment;
 	NSMutableArray *subGroups;
+    BOOL highlight;
 }
 
 @property (retain, readwrite) NSString *name;
@@ -24,6 +25,7 @@
 @property (retain, readwrite) NSColor *foregroundColor;
 @property (retain, readwrite) NSColor *backgroundColor;
 @property (retain, readwrite) NSMutableArray *subGroups;
+@property (readwrite) BOOL highlight;
 
 - (id)initWithName:(NSString *)aName;
 - (id)initWithName:(NSString *)aName ref:(NSString *)aReference;

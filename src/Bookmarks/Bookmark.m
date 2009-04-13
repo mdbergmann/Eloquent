@@ -17,6 +17,7 @@
 @synthesize foregroundColor;
 @synthesize backgroundColor;
 @synthesize subGroups;
+@synthesize highlight;
 
 - (id)init {
     return [self initWithName:@""];
@@ -35,6 +36,7 @@
         [self setSubGroups:nil];
         [self setForegroundColor:[NSColor blackColor]];
         [self setBackgroundColor:[NSColor whiteColor]];
+        [self setHighlight:NO];
     }
     
     return self;
@@ -65,6 +67,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     Bookmark *bm = [[Bookmark alloc] init];
+    
     [bm setName:[decoder decodeObjectForKey:@"BookmarkName"]];
     [bm setReference:[decoder decodeObjectForKey:@"BookmarkRef"]];
     [bm setComment:[decoder decodeObjectForKey:@"BookmarkComment"]];
@@ -80,6 +83,10 @@
     } 
     [bm setSubGroups:subgroups];
     
+    if([decoder decodeObjectForKey:@"BookmarkHighlight"]) {
+        [bm setHighlight:[decoder decodeBoolForKey:@"BookmarkHighlight"]];    
+    }
+    
     return bm;
 }
 
@@ -90,6 +97,7 @@
     [encoder encodeObject:foregroundColor forKey:@"BookmarkForegroundColor"];
     [encoder encodeObject:backgroundColor forKey:@"BookmarkBackgroundColor"];
     [encoder encodeObject:subGroups forKey:@"BookmarkSubgroup"];
+    [encoder encodeBool:highlight forKey:@"BookmarkHighlight"];
 }
 
 @end

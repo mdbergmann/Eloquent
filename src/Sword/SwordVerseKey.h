@@ -34,5 +34,6 @@
 - (int)verse;
 - (NSString *)bookName;
 - (NSString *)osisBookName;
+- (NSString *)osisRef;
 
 @end

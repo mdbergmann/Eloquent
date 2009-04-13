@@ -16,6 +16,7 @@
 #import "globals.h"
 #import "utils.h"
 #import "SwordBibleBook.h"
+#import "SwordListKey.h"
 
 using sword::AttributeTypeList;
 using sword::AttributeList;
@@ -218,96 +219,11 @@ NSLock *bibleLock = nil;
     int ret = 0;
     
     if(aReference && [aReference length] > 0) {
-        [moduleLock lock];
-        
-        sword::VerseKey vk;
-        sword::ListKey lk = vk.ParseVerseList([aReference UTF8String], "Gen1", true);        
-        for(lk = sword::TOP; !lk.Error(); lk++) ret++;
-        
-        [moduleLock unlock];
+        SwordListKey *lk = [SwordListKey listKeyWithRef:aReference];
+        ret = [lk numberOfVerses];
     }
     
     return ret;
-}
-
-- (NSString *)fullRefName:(NSString *)ref {
-	[moduleLock lock];
-    
-	sword::ListKey		listkey;
-	sword::VerseKey		vk;
-	int					lastIndex;
-	int					chapter=-1, book=-1, verse=-1, startChapter, startVerse;
-	NSMutableString		*reference = [NSMutableString string];
-	
-	listkey = vk.ParseVerseList(toUTF8(ref), "Gen1", true);
-	
-	int len = listkey.Count();
-	for(int i = 0; i < len; i++) {
-		sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
-		
-		// is it a chapter or book - not atomic
-		if(element) {
-			// start at lower bound
-			swModule->Key(element->LowerBound());
-			// find the upper bound
-			vk = element->UpperBound();
-			vk.Headings();
-		} else {
-			// set it up
-			swModule->Key(*listkey.getElement(i));
-		}
-		
-		unichar mdashchars[1] = {0x2013};
-		NSString *mdash = [NSString stringWithCharacters:mdashchars length:1];
-        
-		// while not past the upper bound
-		do {
-			int newBook = ((sword::VerseKey)(swModule->Key())).Book();
-			int newChapter = ((sword::VerseKey)(swModule->Key())).Chapter();
-			int newVerse = ((sword::VerseKey)(swModule->Key())).Verse();
-			
-			if(book != newBook) {
-				if(book != -1) {
-					if(startChapter != chapter) [reference appendString:[NSString stringWithFormat:@"%@%d:%d; ", mdash, chapter, verse]];
-					else if(startVerse != verse) [reference appendString:[NSString stringWithFormat:@"%@%d; ", mdash, verse]];
-					else [reference appendString:@"; "];
-				}
-				[reference appendString:[NSString stringWithFormat:@"%@",fromUTF8(swModule->Key().getText())]];
-				startChapter = newChapter; startVerse = newVerse;
-			} else if(chapter != newChapter && lastIndex != (swModule->Key()).Index()-2) {
-				if(book != -1) {
-					if(startChapter != chapter) [reference appendString:[NSString stringWithFormat:@"%@%d:%d; ", mdash, chapter, verse]];
-					else if(startVerse != verse) [reference appendString:[NSString stringWithFormat:@"%@%d; ", mdash, verse]];
-					else [reference appendString:@"; "];
-				}
-				[reference appendString:[NSString stringWithFormat:@"%d:%d", newChapter, newVerse]];
-				startChapter = newChapter; startVerse = newVerse;
-			} else if(verse != newVerse-1 && chapter == newChapter) {
-				[reference appendString:[NSString stringWithFormat:@",%d",newVerse]];
-				startVerse = newVerse;
-			}
-			
-			NSLog(@"reference::%@",reference);
-			
-			book = newBook;
-			chapter = newChapter;
-			verse = newVerse;
-            
-			lastIndex = (swModule->Key()).Index();
-			(*swModule)++;
-			if(lastIndex == (swModule->Key()).Index())
-				break;
-		}while (element && swModule->Key() <= vk);
-		
-		if(startChapter != chapter)
-			[reference appendString:[NSString stringWithFormat:@"%@%d:%d", mdash, chapter, verse]];
-		else if(startVerse != verse)
-			[reference appendString:[NSString stringWithFormat:@"%@%d", mdash, verse]];
-	}
-	
-	[moduleLock unlock];
-	
-	return reference;
 }
 
 - (int)chaptersForBookName:(NSString *)bookName {
@@ -384,8 +300,6 @@ NSLock *bibleLock = nil;
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-    //listkey.Persist(true);
-    //swModule->setKey(lk);
     // iterate through keys
     for(lk = sword::TOP; !lk.Error(); lk++) {
         swModule->setKey(lk);
@@ -411,8 +325,6 @@ NSLock *bibleLock = nil;
             MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
         }
     }
-    // remove persitent key
-    //swModule->setKey("gen.1.1");
     
     return ret;
 }
@@ -422,39 +334,9 @@ NSLock *bibleLock = nil;
     
 	[moduleLock lock];
 
-    // needed to check for UTF8 string
-    //sword::StringMgr *strMgr = sword::StringMgr::getSystemStringMgr();    
-
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-    // for the duration of this query be want the key to persist
-    //lk.Persist(true);
-    //swModule->setKey(lk);
-
-    //sword::VerseKey key = "par.1.1";
-    //swModule->setKey(key);
-    //const char *txt = swModule->RenderText();
-
-    /*
-    // iterate through keys
-    for ((*swModule) = sword::TOP; !swModule->Error(); (*swModule)++) {
-        const char *keyCStr = swModule->getKeyText();
-        const char *txtCStr = swModule->RenderText();
-        NSString *key = @"";
-        NSString *txt = @"";
-        txt = [NSString stringWithUTF8String:txtCStr];
-        key = [NSString stringWithUTF8String:keyCStr];
-        
-        // add to dict
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
-        [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
-        [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-        // add to array
-        [ret addObject:dict];
-    }
-     */
-    
     // iterate through keys
     for (lk = sword::TOP; !lk.Error(); lk++) {
         swModule->setKey(lk);
@@ -480,53 +362,7 @@ NSLock *bibleLock = nil;
             MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
         }
     }
-    // remove persitent key
-    //swModule->setKey("gen.1.1");
-
-    /*
-	sword::VerseKey vk;
-    int lastIndex;
-	((sword::VerseKey*)(swModule->getKey()))->Headings(1);
-	sword::ListKey listkey = vk.ParseVerseList(toUTF8(reference), "Gen1", true);	
-	for (int i = 0; i < listkey.Count(); i++) {
-		sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
-		
-		// is it a chapter or book - not atomic
-		if(element) {
-			swModule->Key(element->LowerBound());            
-			// find the upper bound
-			vk = element->UpperBound();
-			vk.Headings(true);
-		} else {
-			// set it up
-			swModule->Key(*listkey.GetElement(i));
-		}
-        
-		// while not past the upper bound
-		do {
-			//add verse index to dictionary
-            NSString *verse = @"";
-            NSString *text = @"";
-            const char *keyCStr = swModule->Key().getText();
-            const char *txtCStr = swModule->RenderText();
-            text = fromUTF8(txtCStr);
-            verse = fromUTF8(keyCStr);
-
-            // add to dict
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];            
-            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
-            [dict setObject:verse forKey:SW_OUTPUT_REF_KEY];
-            // add to array
-            [ret addObject:dict];
-
-			lastIndex = (swModule->Key()).Index();
-			(*swModule)++;
-			if(lastIndex == (swModule->Key()).Index())
-				break;
-		}while (element && swModule->Key() <= vk);
-	}
-     */
-
+    
 	[moduleLock unlock];
 
     return ret;
@@ -575,7 +411,7 @@ NSLock *bibleLock = nil;
 				break;
 		}while (element && swModule->Key() <= vk);
 	}
-	
+    
 	[moduleLock unlock];
 }
 

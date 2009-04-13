@@ -77,6 +77,10 @@ fi
 #gzip -dc $APP-$VERS.tar.gz | tar xvf -
 # ==> we use svn trunk here
 
+# add icu tools to path
+export PATH="$PATH:/opt/icu-3.6/bin"
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/opt/icu-3.6/lib"
+
 # build stuff
 if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
     echo "building ppc version of library..."
@@ -85,21 +89,21 @@ if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++
-	export SDK=/Developer/SDKs/MacOSX10.5.sdk
+	export SDK=/Developer/SDKs/MacOSX10.4u.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch ppc -I/sw/include -isysroot $SDK"
+		export CFLAGS="-O0 -g -arch ppc -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK"
 	else
-	    export CFLAGS="-O2 -g0 -arch ppc -I/sw/include -isysroot $SDK" 
+	    export CFLAGS="-O2 -g0 -arch ppc -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK" 
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
-	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-curl
+	./configure --prefix=$PPCPREFIX --with-zlib --with-icu --with-conf --with-curl
 	make all install
 	make clean		
 	cd $BDIR
 fi
 
-# then build intel version to SDK 10.5
+# then build intel version to SDK 10.4u
 if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	#cd $APP-$VERS
 	cd sword-trunk
@@ -107,15 +111,15 @@ if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++
-	export SDK=/Developer/SDKs/MacOSX10.5.sdk
+	export SDK=/Developer/SDKs/MacOSX10.4u.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch i686 -I/sw/include -isysroot $SDK"
+		export CFLAGS="-O0 -g -arch i686 -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK"
 	else
-	    export CFLAGS="-O2 -g0 -arch i686 -I/sw/include -isysroot $SDK" 
+	    export CFLAGS="-O2 -g0 -arch i686 -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK" 
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
-	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-curl
+	./configure --prefix=$INTELPREFIX --with-zlib --with-icu --with-conf --with-curl
 	make all install
 	make clean		
 	cd $BDIR

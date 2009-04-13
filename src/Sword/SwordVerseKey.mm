@@ -72,6 +72,10 @@
     return [NSString stringWithUTF8String:vk->getOSISBookName()];
 }
 
+- (NSString *)osisRef {
+    return [NSString stringWithUTF8String:vk->getOSISRef()];    
+}
+
 - (sword::VerseKey *)verseKey {
     return vk;
 }
