@@ -118,6 +118,7 @@ typedef enum {
 #endif
 - (void)finalize;
 
+- (NSInteger)error;
 - (NSString *)descr;
 - (NSString *)lang;
 - (NSString *)typeString;

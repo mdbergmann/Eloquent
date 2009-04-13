@@ -209,6 +209,10 @@
     return ret;
 }
 
+- (NSInteger)error {
+    return swModule->Error();
+}
+
 - (NSString *)descr {
     return [NSString stringWithCString:swModule->Description() encoding:NSUTF8StringEncoding];
 }
@@ -463,24 +467,26 @@
     } else {
         swModule->setKey([reference cStringUsingEncoding:NSISOLatin1StringEncoding]);
     }
-    char *bytes = (char *)swModule->StripText();
-    [moduleLock unlock];
     
-    if(bytes != NULL) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-        NSString *entry = [NSString stringWithUTF8String:bytes];
-        if(!entry) {
-            entry = [NSString stringWithCString:bytes encoding:NSISOLatin1StringEncoding];
+    if(![self error]) {
+        char *bytes = (char *)swModule->StripText();
+        if(bytes != NULL) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+            NSString *entry = [NSString stringWithUTF8String:bytes];
             if(!entry) {
-                MBLOG(MBLOG_ERR, @"[SwordModule -stripedTextForRef:] cannot convert string!");
-                // make valid String
-                entry = @"";
+                entry = [NSString stringWithCString:bytes encoding:NSISOLatin1StringEncoding];
+                if(!entry) {
+                    MBLOG(MBLOG_ERR, @"[SwordModule -stripedTextForRef:] cannot convert string!");
+                    // make valid String
+                    entry = @"";
+                }
             }
-        }
-        [dict setObject:entry forKey:SW_OUTPUT_TEXT_KEY];        
-        [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
-        ret = [NSArray arrayWithObject:dict];
+            [dict setObject:entry forKey:SW_OUTPUT_TEXT_KEY];        
+            [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
+            ret = [NSArray arrayWithObject:dict];
+        }        
     }
+    [moduleLock unlock];    
     
     return ret;    
 }
@@ -494,24 +500,27 @@
     } else {
         swModule->setKey([reference cStringUsingEncoding:NSISOLatin1StringEncoding]);
     }
-    char *bytes = (char *)swModule->RenderText();
-    [moduleLock unlock];
+
+    if(![self error]) {
+        char *bytes = (char *)swModule->RenderText();
     
-    if(bytes != NULL) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-        NSString *entry = [NSString stringWithUTF8String:bytes];
-        if(!entry) {
-            entry = [NSString stringWithCString:bytes encoding:NSISOLatin1StringEncoding];
+        if(bytes != NULL) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+            NSString *entry = [NSString stringWithUTF8String:bytes];
             if(!entry) {
-                MBLOG(MBLOG_ERR, @"[SwordModule -stripedTextForRef:] cannot convert string!");
-                // make valid String
-                entry = @"";
+                entry = [NSString stringWithCString:bytes encoding:NSISOLatin1StringEncoding];
+                if(!entry) {
+                    MBLOG(MBLOG_ERR, @"[SwordModule -stripedTextForRef:] cannot convert string!");
+                    // make valid String
+                    entry = @"";
+                }
             }
+            [dict setObject:entry forKey:SW_OUTPUT_TEXT_KEY];        
+            [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
+            ret = [NSArray arrayWithObject:dict];
         }
-        [dict setObject:entry forKey:SW_OUTPUT_TEXT_KEY];        
-        [dict setObject:reference forKey:SW_OUTPUT_REF_KEY];
-        ret = [NSArray arrayWithObject:dict];
     }
+    [moduleLock unlock];
     
     return ret;
 }

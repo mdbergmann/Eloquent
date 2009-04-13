@@ -303,26 +303,28 @@ NSLock *bibleLock = nil;
     // iterate through keys
     for(lk = sword::TOP; !lk.Error(); lk++) {
         swModule->setKey(lk);
-        const char *keyCStr = swModule->getKeyText();
-        const char *txtCStr = swModule->StripText();
-        NSString *key = @"";
-        NSString *txt = @"";
-        txt = [NSString stringWithUTF8String:txtCStr];
-        key = [NSString stringWithUTF8String:keyCStr];
-
-        // add to dict
-        if(key) {
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-            if(txt) {
-                [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+        if(![self error]) {
+            const char *keyCStr = swModule->getKeyText();
+            const char *txtCStr = swModule->StripText();
+            NSString *key = @"";
+            NSString *txt = @"";
+            txt = [NSString stringWithUTF8String:txtCStr];
+            key = [NSString stringWithUTF8String:keyCStr];
+            
+            // add to dict
+            if(key) {
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+                if(txt) {
+                    [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+                } else {
+                    MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
+                }
+                // add to array
+                [ret addObject:dict];            
             } else {
-                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
-            }
-            // add to array
-            [ret addObject:dict];            
-        } else {
-            MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
+                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
+            }            
         }
     }
     
@@ -340,26 +342,28 @@ NSLock *bibleLock = nil;
     // iterate through keys
     for (lk = sword::TOP; !lk.Error(); lk++) {
         swModule->setKey(lk);
-        const char *keyCStr = swModule->getKeyText();
-        const char *txtCStr = swModule->RenderText();
-        NSString *key = @"";
-        NSString *txt = @"";
-        txt = [NSString stringWithUTF8String:txtCStr];
-        key = [NSString stringWithUTF8String:keyCStr];
-        
-        // add to dict
-        if(key) {
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-            if(txt) {
-                [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+        if(![self error]) {
+            const char *keyCStr = swModule->getKeyText();
+            const char *txtCStr = swModule->RenderText();
+            NSString *key = @"";
+            NSString *txt = @"";
+            txt = [NSString stringWithUTF8String:txtCStr];
+            key = [NSString stringWithUTF8String:keyCStr];
+            
+            // add to dict
+            if(key) {
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+                if(txt) {
+                    [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
+                } else {
+                    MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
+                }
+                // add to array
+                [ret addObject:dict];            
             } else {
-                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
-            }
-            // add to array
-            [ret addObject:dict];            
-        } else {
-            MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
+                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
+            }            
         }
     }
     
