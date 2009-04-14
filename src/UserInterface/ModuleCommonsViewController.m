@@ -129,7 +129,11 @@
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowVerseNumberOnly", @"") action:@selector(displayOptionShowVerseNumberOnly:) keyEquivalent:@""];
     [item setTarget:self];
     [item setState:[[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue] == YES ? 1 : 0];
-
+    // Highlight bookmarks
+    item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionHighlightBookmarks", @"") action:@selector(displayOptionHighlightBookmarks:) keyEquivalent:@""];
+    [item setTarget:self];
+    [item setState:[[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue] == YES ? 1 : 0];
+    
     // set menu to poup
     [displayOptionsPopUpButton setMenu:menu];
 }
@@ -301,6 +305,20 @@
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
         [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
+        [(NSMenuItem *)sender setState:NSOnState];
+    }
+    
+    // redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];    
+}
+
+- (IBAction)displayOptionHighlightBookmarks:(id)sender {
+    if([(NSMenuItem *)sender state] == NSOnState) {
+        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextHighlightBookmarksKey];
+        [(NSMenuItem *)sender setState:NSOffState];
+    } else {
+        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextHighlightBookmarksKey];
         [(NSMenuItem *)sender setState:NSOnState];
     }
     

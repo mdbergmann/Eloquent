@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class Bookmark;
+@class SwordVerseKey;
 
 @interface BookmarkManager : NSObject {
     NSMutableArray *bookmarks;
@@ -19,6 +20,6 @@
 + (BookmarkManager *)defaultManager;
 - (void)saveBookmarks;
 
-- (Bookmark *)bookmarkForReference:(NSString *)aReference;
+- (Bookmark *)bookmarkForReference:(SwordVerseKey *)aVerseKey;
 
 @end

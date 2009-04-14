@@ -15,6 +15,10 @@
     return [[SwordVerseKey alloc] initWithRef:aRef];
 }
 
++ (id)verseKeyWithRef:(NSString *)aRef versification:(NSString *)scheme {
+    return [[SwordVerseKey alloc] initWithRef:aRef versification:scheme];    
+}
+
 - (id)init {
     return [super init];
 }
@@ -31,13 +35,21 @@
 }
 
 - (id)initWithRef:(NSString *)aRef {
+    return [self initWithRef:aRef versification:nil];
+}
+
+- (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme {
     self = [self init];
     if(self) {
         vk = new sword::VerseKey([aRef UTF8String]);
         created = YES;
+        
+        if(scheme) {
+            [self setVersification:scheme];
+        }
     }
     
-    return self;
+    return self;    
 }
 
 - (void)finalize {
@@ -74,6 +86,14 @@
 
 - (NSString *)osisRef {
     return [NSString stringWithUTF8String:vk->getOSISRef()];    
+}
+
+- (void)setVersification:(NSString *)versification {
+    vk->setVersificationSystem([versification UTF8String]);
+}
+
+- (NSString *)versification {
+    return [NSString stringWithUTF8String:vk->getVersificationSystem()];
 }
 
 - (sword::VerseKey *)verseKey {

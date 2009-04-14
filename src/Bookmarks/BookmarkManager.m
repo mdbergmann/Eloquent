@@ -9,11 +9,14 @@
 #import "BookmarkManager.h"
 #import "globals.h"
 #import "Bookmark.h"
+#import "SwordListKey.h"
 
 @interface BookmarkManager ()
 
 - (NSMutableArray *)loadBookmarks;
 - (NSMutableArray *)_loadBookmarks:(NSArray *)group;
+
+- (Bookmark *)_bookmarkForReference:(SwordVerseKey *)aVerseKey inList:(NSArray *)bookmarkList;
 
 - (void)saveBookmarks;
 
@@ -139,12 +142,35 @@
 /**
  delivers a bookmark that references the given verse key
  */
-- (Bookmark *)bookmarkForReference:(NSString *)aReference {
+- (Bookmark *)bookmarkForReference:(SwordVerseKey *)aVerseKey {
+    return [self _bookmarkForReference:aVerseKey inList:[self bookmarks]];
+}
+
+/**
+ private method for recursively retrieves the first found bookmark that contains the given reference
+ */
+- (Bookmark *)_bookmarkForReference:(SwordVerseKey *)aVerseKey inList:(NSArray *)bookmarkList {    
     Bookmark *ret = nil;
     
-    
+    // loop over bookmarks in list
+    for(Bookmark *bm in bookmarkList) {
+        if([bm isLeaf]) {
+            if([[bm reference] length] > 0) {
+                SwordListKey *lk = [SwordListKey listKeyWithRef:[bm reference] versification:[aVerseKey versification]];
+                if([lk containsKey:aVerseKey]) {
+                    return bm;
+                }                
+            }
+        } else {
+            ret = [self _bookmarkForReference:aVerseKey inList:[bm subGroups]];
+            if(ret) {
+                break;
+            }
+        }
+    }
     
     return ret;
 }
+
 
 @end

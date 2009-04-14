@@ -474,7 +474,7 @@ typedef enum _NavigationDirectionType {
     if(!navigationAction) {
         // add to recent searches
         NSMutableArray *recentSearches = [currentSearchText recentSearchsForType:type];
-        if(![recentSearches containsObject:searchText]) {
+        if(![recentSearches containsObject:searchText] && [searchText length] > 0) {
             [recentSearches addObject:searchText];
             // remove everything above 10 searches
             int len = [recentSearches count];

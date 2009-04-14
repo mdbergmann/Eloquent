@@ -20,6 +20,7 @@
 }
 
 + (id)verseKeyWithRef:(NSString *)aRef;
++ (id)verseKeyWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
 #ifdef __cplusplus
 - (id)initWithSWVerseKey:(sword::VerseKey *)aVk;
@@ -27,6 +28,7 @@
 #endif
 
 - (id)initWithRef:(NSString *)aRef;
+- (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
 - (int)testament;
 - (int)book;
@@ -35,5 +37,7 @@
 - (NSString *)bookName;
 - (NSString *)osisBookName;
 - (NSString *)osisRef;
+- (void)setVersification:(NSString *)versification;
+- (NSString *)versification;
 
 @end

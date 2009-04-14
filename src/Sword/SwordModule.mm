@@ -279,6 +279,24 @@
     return aboutText;    
 }
 
+/** versification scheme in config */
+- (NSString *)versification {
+    NSString *versification = [configEntries objectForKey:SWMOD_CONFENTRY_VERSIFICATION];
+    if(versification == nil) {
+        versification = [self configEntryForKey:SWMOD_CONFENTRY_VERSIFICATION];
+        if(versification != nil) {
+            [configEntries setObject:versification forKey:SWMOD_CONFENTRY_VERSIFICATION];
+        }
+    }
+    
+    // if still nil, use KJV versification
+    if(versification == nil) {
+        versification = @"KJV";
+    }
+    
+    return versification;
+}
+
 - (BOOL)isEditable {
     BOOL ret = NO;
     NSString *editable = [configEntries objectForKey:SWMOD_CONFENTRY_EDITABLE];
@@ -396,51 +414,56 @@
         
         sword::SWBuf refList = swModule->getEntryAttributes()["Footnote"][[[data objectForKey:ATTRTYPE_VALUE] UTF8String]]["refList"];
         sword::VerseKey parser([passage UTF8String]);
+        parser.setVersificationSystem([[self versification] UTF8String]);
         sword::ListKey refs = parser.ParseVerseList(refList, parser, true);
         
         ret = [NSMutableArray array];
         // collect references
         for(refs = sword::TOP; !refs.Error(); refs++) {
             swModule->setKey(refs);
-            
-            NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
-            NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
-            
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
-            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-            [ret addObject:dict];            
+            if(![self error]) {
+                NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
+                NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
+                
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
+                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+                [ret addObject:dict];                
+            }
         }
     } else if([attrType isEqualToString:@"scriptRef"] || [attrType isEqualToString:@"scripRef"]) {
         NSString *key = [[[data objectForKey:ATTRTYPE_VALUE] stringByReplacingOccurrencesOfString:@"+" 
                                                                                        withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         sword::VerseKey parser("gen.1.1");
+        parser.setVersificationSystem([[self versification] UTF8String]);
         sword::ListKey refs = parser.ParseVerseList([key UTF8String], parser, true);
         
         ret = [NSMutableArray array];
         // collect references
         for(refs = sword::TOP; !refs.Error(); refs++) {
             swModule->setKey(refs);
-            
-            NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
-            NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
-            
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
-            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-            [ret addObject:dict];            
+            if(![self error]) {
+                NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
+                NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
+                
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
+                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
+                [ret addObject:dict];                
+            }
         }
     } else if([attrType isEqualToString:@"Greek"] || [attrType isEqualToString:@"Hebrew"]) {
         NSString *key = [data objectForKey:ATTRTYPE_VALUE];        
 
         swModule->setKey([key UTF8String]);
-        NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
-        
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-        [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
-        [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-        
         ret = dict;
+        if(![self error]) {
+            NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
+            
+            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
+            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];            
+        }        
     }
     
     [moduleLock unlock];

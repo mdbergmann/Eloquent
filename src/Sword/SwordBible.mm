@@ -132,7 +132,7 @@ NSLock *bibleLock = nil;
 	[moduleLock lock];
     
     sword::VerseMgr *vmgr = sword::VerseMgr::getSystemVerseMgr();
-    const sword::VerseMgr::System *system = vmgr->getVersificationSystem("KJV");
+    const sword::VerseMgr::System *system = vmgr->getVersificationSystem([[self versification] UTF8String]);
 
     // number of books in this module
     NSMutableDictionary *buf = [NSMutableDictionary dictionary];
@@ -219,8 +219,15 @@ NSLock *bibleLock = nil;
     int ret = 0;
     
     if(aReference && [aReference length] > 0) {
+        
+        sword::VerseKey vk;
+        sword::ListKey listKey = vk.ParseVerseList([aReference UTF8String], "Gen1", true);
+        for(listKey = sword::TOP; !listKey.Error(); listKey++) ret++;    
+        
+        /*
         SwordListKey *lk = [SwordListKey listKeyWithRef:aReference];
         ret = [lk numberOfVerses];
+         */
     }
     
     return ret;
@@ -299,6 +306,7 @@ NSLock *bibleLock = nil;
 
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
+    vk.setVersificationSystem([[self versification] UTF8String]);
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
     // iterate through keys
     for(lk = sword::TOP; !lk.Error(); lk++) {
@@ -338,6 +346,7 @@ NSLock *bibleLock = nil;
 
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
+    vk.setVersificationSystem([[self versification] UTF8String]);
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
     // iterate through keys
     for (lk = sword::TOP; !lk.Error(); lk++) {
@@ -360,7 +369,7 @@ NSLock *bibleLock = nil;
                     MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
                 }
                 // add to array
-                [ret addObject:dict];            
+                [ret addObject:dict];
             } else {
                 MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
             }            
@@ -376,6 +385,7 @@ NSLock *bibleLock = nil;
 	[moduleLock lock];
 	
 	sword::VerseKey vk;	
+    vk.setVersificationSystem([[self versification] UTF8String]);
 	sword::ListKey listkey = vk.ParseVerseList([reference UTF8String], "Gen1:1", true);
 	int lastIndex;
 	for(int i = 0; i < listkey.Count(); i++) {

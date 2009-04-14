@@ -76,6 +76,7 @@ enum BibleViewLinkContextMenuItems {
 
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 - (IBAction)displayOptionShowVerseNumberOnly:(id)sender;
+- (IBAction)displayOptionHighlightBookmarks:(id)sender;
 
 // TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference;

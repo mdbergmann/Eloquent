@@ -236,10 +236,6 @@ using std::list;
         
         [self reInit];
         
-        SwordListKey *lk = [SwordListKey listKeyWithRef:@"Gen 1:1-5"];
-        SwordVerseKey *vk = [SwordVerseKey verseKeyWithRef:@"Gen 1:3"];
-        BOOL result = [lk containsKey:vk];
-        
         sword::StringList options = swManager->getGlobalOptions();
         sword::StringList::iterator	it;
         for(it = options.begin(); it != options.end(); it++) {

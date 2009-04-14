@@ -13,16 +13,16 @@
 
 @interface SwordListKey ()
 
-@property (retain, readwrite) NSArray *verseKeyList;
-
 @end
 
 @implementation SwordListKey
 
-@synthesize verseKeyList;
-
 + (id)listKeyWithRef:(NSString *)aRef {
     return [[SwordListKey alloc] initWithRef:aRef];
+}
+
++ (id)listKeyWithRef:(NSString *)aRef versification:(NSString *)scheme {
+    return [[SwordListKey alloc] initWithRef:aRef versification:scheme];
 }
 
 - (id)init {
@@ -41,15 +41,22 @@
 }
 
 - (id)initWithRef:(NSString *)aRef {
+    return [self initWithRef:aRef versification:nil];
+}
+
+- (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme {
     self = [self init];
     if(self) {
         sword::VerseKey vk;
+        if(scheme) {
+            vk.setVersificationSystem([scheme UTF8String]);
+        }
         sword::ListKey listKey = vk.ParseVerseList([aRef UTF8String], "Gen1", true);
         lk = new sword::ListKey(listKey);
         created = YES;
     }
     
-    return self;
+    return self;    
 }
 
 - (void)finalize {
@@ -76,29 +83,6 @@
     if(lk) {
         *lk = [[aVerseKey osisRef] UTF8String];
         ret = !lk->Error();
-    }
-    
-    return ret;
-}
-
-- (NSArray *)verseKeysForModule:(SwordBible *)aModule {
-    NSMutableArray *ret = [NSMutableArray array];
-    
-    if(aModule && lk) {
-        [aModule aquireModuleLock];
-        for(*lk = sword::TOP; !lk->Error(); *lk++) {
-            [aModule swModule]->setKey(*lk);
-            if(![aModule error]) {
-                const char *keyCStr = [aModule swModule]->getKeyText();
-                NSString *key = @"";
-                key = [NSString stringWithUTF8String:keyCStr];
-                
-                // create versekey
-                SwordVerseKey *vk = [SwordVerseKey verseKeyWithRef:key];
-                [ret addObject:vk];                
-            }
-        }        
-        [aModule releaseModuleLock];
     }
     
     return ret;

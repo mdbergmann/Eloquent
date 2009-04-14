@@ -27,6 +27,9 @@
 #import "GradientCell.h"
 #import "SearchBookSetEditorController.h"
 #import "SearchBookSet.h"
+#import "Bookmark.h"
+#import "BookmarkManager.h"
+#import "SwordVerseKey.h"
 
 @interface BibleViewController ()
 
@@ -360,6 +363,26 @@
         NSString *verseText = [dict objectForKey:SW_OUTPUT_TEXT_KEY];
         NSString *key = [dict objectForKey:SW_OUTPUT_REF_KEY];
         
+        // do we have to highlight?
+        if(hb) {
+            // get bookmark for key
+            Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:key versification:[module versification]]];
+            if(bm && [bm highlight]) {
+                float br = 1.0, bg = 1.0, bb = 1.0;
+                float fr, fg, fb = 0.0;
+                NSColor *bCol = [[bm backgroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+                NSColor *fCol = [[bm foregroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+                [bCol getRed:&br green:&bg blue:&bb alpha:NULL];
+                [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
+                
+                // apply colors
+                verseText = [NSString stringWithFormat:@"<span style=\"color:rgb(%i%%, %i%%, %i%%); background-color:rgb(%i%%, %i%%, %i%%);\">%@</span>",
+                             (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0),
+                             (int)(br * 100.0), (int)(bg * 100.0), (int)(bb * 100.0),
+                             verseText];
+            }
+        }
+        
         NSString *bookName = @"";
         int book = -1;
         int chapter = -1;
@@ -627,11 +650,13 @@
                 forceRedisplay = NO;
             } else {
                 // add to cache
-                ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
-                                                                                  withDisplayText:text
-                                                                                    numberOfFinds:verses
-                                                                                     andReference:aReference];
-                [rm addCacheObject:o];                
+                if([text length] > 0) {
+                    ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
+                                                                                      withDisplayText:text
+                                                                                        numberOfFinds:verses
+                                                                                         andReference:aReference];
+                    [rm addCacheObject:o];                    
+                }
             }
 
             // set status

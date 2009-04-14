@@ -21,11 +21,10 @@
     sword::ListKey *lk;
 #endif
     BOOL created;
-    
-    NSArray *verseKeyList;    
 }
 
 + (id)listKeyWithRef:(NSString *)aRef;
++ (id)listKeyWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
 #ifdef __cplusplus
 - (id)initWithSWListKey:(sword::ListKey *)aLk;
@@ -33,9 +32,9 @@
 #endif
 
 - (id)initWithRef:(NSString *)aRef;
+- (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
 - (NSInteger)numberOfVerses;
 - (BOOL)containsKey:(SwordVerseKey *)aVerseKey;
-- (NSArray *)verseKeysForModule:(SwordBible *)aModule;
 
 @end

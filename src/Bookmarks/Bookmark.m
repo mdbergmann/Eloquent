@@ -83,9 +83,9 @@
     } 
     [bm setSubGroups:subgroups];
     
-    if([decoder decodeObjectForKey:@"BookmarkHighlight"]) {
+    //if([decoder decodeObjectForKey:@"BookmarkHighlight"]) {
         [bm setHighlight:[decoder decodeBoolForKey:@"BookmarkHighlight"]];    
-    }
+    //}
     
     return bm;
 }
