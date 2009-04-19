@@ -183,7 +183,17 @@
             // build search string
             for(SearchResultEntry *entry in sortedSearchResults) {
                 NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
-                NSAttributedString *contentString = [Highlighter highlightText:[entry keyContent] forTokens:searchQuery attributes:contentAttributes];
+                
+                NSString *contentStr = @"";
+                if([entry keyString] != nil) {
+                    NSArray *stripedAr = [(SwordBook *)self stripedTextForRef:[entry keyString]];
+                    if([stripedAr count] > 0) {
+                        // get content
+                        contentStr = [[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];                    
+                    }
+                }
+                
+                NSAttributedString *contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];
                 [ret appendAttributedString:keyString];
                 [ret appendAttributedString:newLine];
                 [ret appendAttributedString:contentString];

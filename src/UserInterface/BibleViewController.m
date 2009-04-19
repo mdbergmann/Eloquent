@@ -290,8 +290,7 @@
     } else {
         NSArray *tempResults = [indexer performSearchOperation:searchQuery constrains:bookSet maxResults:maxResults];        
         // close indexer
-        [indexer close];
-        
+        [indexer close];        
         // create out own SortDescriptors according to whome we sort
         NSArray *sortDescriptors = [NSArray arrayWithObject:
                                     [[NSSortDescriptor alloc] initWithKey:@"documentName" 
@@ -324,9 +323,18 @@
                 [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
                 [keyAttributes setObject:[entry keyString] forKey:TEXT_VERSE_MARKER];
                 
+                // get key content
+                NSString *contentStr = @"";
+                if([entry keyString] != nil) {
+                    NSArray *content = [module stripedTextForRef:[entry keyString]];
+                    if([content count] > 0) {
+                        contentStr = [[content objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+                    }
+                }
+                
                 // prepare output
                 NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
-                NSAttributedString *contentString = [Highlighter highlightText:[entry keyContent] forTokens:searchQuery attributes:contentAttributes];
+                NSAttributedString *contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];
                 [ret appendAttributedString:keyString];
                 [ret appendAttributedString:contentString];
                 [ret appendAttributedString:newLine];

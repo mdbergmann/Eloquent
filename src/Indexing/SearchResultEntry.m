@@ -85,10 +85,6 @@
     return (NSNumber *)[self objectForKey:IndexPropDocScore];
 }
 
-- (NSString *)keyContent {
-    return (NSString *)[self objectForKey:IndexPropSwordKeyContent];
-}
-
 - (NSString *)keyString {
     return (NSString *)[self objectForKey:IndexPropSwordKeyString];
 }

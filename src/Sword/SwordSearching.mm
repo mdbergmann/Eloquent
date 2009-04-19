@@ -18,7 +18,7 @@
 #import "SwordBook.h"
 #import "SwordBibleBook.h"
 
-NSString *MacSwordIndexVersion = @"2.5";
+NSString *MacSwordIndexVersion = @"2.6";
 
 @implementation SwordModule(Searching)
 
@@ -123,6 +123,7 @@ NSString *MacSwordIndexVersion = @"2.5";
         
         const char *cref = [[bb osisName] UTF8String];
         sword::VerseKey	vk;
+        vk.setVersificationSystem([[self versification] UTF8String]);
         sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
         // iterate through keys
         for(lk = sword::TOP; !lk.Error(); lk++) {
@@ -146,7 +147,7 @@ NSString *MacSwordIndexVersion = @"2.5";
             }
             
             // additionally save content and key string
-            [propDict setObject:txt forKey:IndexPropSwordKeyContent];
+            //[propDict setObject:txt forKey:IndexPropSwordKeyContent];
             [propDict setObject:key forKey:IndexPropSwordKeyString];                
             
             // build "strong" field
@@ -208,7 +209,7 @@ NSString *MacSwordIndexVersion = @"2.5";
         if(entry != nil) {
             NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
             // additionally save content
-            [propDict setObject:entry forKey:IndexPropSwordKeyContent];
+            //[propDict setObject:entry forKey:IndexPropSwordKeyContent];
             [propDict setObject:key forKey:IndexPropSwordKeyString];
             
             if([entry length] > 0) {
@@ -243,7 +244,7 @@ NSString *MacSwordIndexVersion = @"2.5";
             // define properties
             NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
             // additionally save content
-            [propDict setObject:stripped forKey:IndexPropSwordKeyContent];
+            //[propDict setObject:stripped forKey:IndexPropSwordKeyContent];
             [propDict setObject:key forKey:IndexPropSwordKeyString];
             
             if([stripped length] > 0) {

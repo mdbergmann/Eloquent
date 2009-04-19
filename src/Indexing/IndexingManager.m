@@ -248,6 +248,46 @@
 }
 
 /**
+ \brief open or create index for the given parameters
+ @return SKIndexRef or NULL on error
+ */
+- (SKIndexRef)openOrCreateIndexforModName:(NSString *)aModName textType:(NSString *)aModType {
+	// we do not accept nil values
+	if(aModName == nil) {
+		aModName = @"";
+	}
+	
+	NSFileManager *fm = [NSFileManager defaultManager];    
+    NSString *indexFolder = [self indexFolderPathForModuleName:aModName];
+    if([fm fileExistsAtPath:indexFolder] == NO) {
+        // create index folder
+        [fm createDirectoryAtPath:indexFolder attributes:nil];
+    }
+    
+	// construct index for content
+    NSString *indexName = [NSString stringWithFormat:@"%@-%@", aModName, aModType];
+	SKIndexRef indexRef = NULL;
+	NSString *indexPath = [self indexPathForModuleName:aModName textType:aModType];
+	NSURL *indexURL = [NSURL fileURLWithPath:indexPath];
+	if([fm fileExistsAtPath:indexPath] == YES) {
+		// open index
+		indexRef = SKIndexOpenWithURL((CFURLRef)indexURL, (CFStringRef)indexName, NO);
+	} else {
+        // create properties for indexing
+        NSMutableDictionary *props = [NSMutableDictionary dictionary];
+        [props setObject:(NSNumber *)kCFBooleanTrue forKey:(NSString *)kSKProximityIndexing];
+        
+		// create index
+		indexRef = SKIndexCreateWithURL((CFURLRef)indexURL, 
+										(CFStringRef)indexName, 
+										kSKIndexInvertedVector, 
+										(CFDictionaryRef)props);
+	}
+	
+	return indexRef;
+}
+
+/**
  calling this method will trigger checking for modules that do not have a valid index
  in a separate thread.
  */

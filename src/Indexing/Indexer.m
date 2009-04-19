@@ -27,50 +27,7 @@
 @synthesize modType;
 @synthesize modTypeStr;
 @synthesize modName;
-@synthesize searchLock;
-
-/**
-\brief open or create index for the given parameters
- @return SKIndexRef or NULL on error
- */
-+ (SKIndexRef)openOrCreateIndexforModName:(NSString *)aModName textType:(NSString *)aModType {
-	// we do not accept nil values
-	if(aModName == nil) {
-		aModName = @"";
-	}
-	
-	NSFileManager *fm = [NSFileManager defaultManager];	
-	// get IndexingManager for basepath
-	IndexingManager *im = [IndexingManager sharedManager];
-    
-    NSString *indexFolder = [im indexFolderPathForModuleName:aModName];
-    if([fm fileExistsAtPath:indexFolder] == NO) {
-        // create index folder
-        [fm createDirectoryAtPath:indexFolder attributes:nil];
-    }
-    
-	// construct index for content
-    NSString *indexName = [NSString stringWithFormat:@"%@-%@", aModName, aModType];
-	SKIndexRef indexRef = NULL;
-	NSString *indexPath = [im indexPathForModuleName:aModName textType:aModType];
-	NSURL *indexURL = [NSURL fileURLWithPath:indexPath];
-	if([fm fileExistsAtPath:indexPath] == YES) {
-		// open index
-		indexRef = SKIndexOpenWithURL((CFURLRef)indexURL, (CFStringRef)indexName, NO);
-	} else {
-        // create properties for indexing
-        NSMutableDictionary *props = [NSMutableDictionary dictionary];
-        [props setObject:(NSNumber *)kCFBooleanTrue forKey:(NSString *)kSKProximityIndexing];
-        
-		// create index
-		indexRef = SKIndexCreateWithURL((CFURLRef)indexURL, 
-										(CFStringRef)indexName, 
-										kSKIndexInvertedVector, 
-										(CFDictionaryRef)props);
-	}
-	
-	return indexRef;
-}
+@synthesize accessLock;
 
 /**
 \brief convenient allocator for this class cluster
@@ -87,7 +44,7 @@
 		MBLOG(MBLOG_ERR,@"cannot alloc Indexer!");
 	} else {
         [self setModName:@""];
-        [self setSearchLock:[[NSLock alloc] init]];
+        [self setAccessLock:[[NSLock alloc] init]];
     }
 	
 	return self;
@@ -106,13 +63,12 @@
         case commentary:
             indexer = [[BibleIndexer alloc] initWithModuleName:aModName];
             break;
-        case dictionary:
-            indexer = [[DictIndexer alloc] initWithModuleName:aModName];
-            break;
         case genbook:
             indexer = [[BookIndexer alloc] initWithModuleName:aModName];
             break;
+        case dictionary:
         case devotional:
+            indexer = [[DictIndexer alloc] initWithModuleName:aModName];
             MBLOG(MBLOG_WARN, @"No indexing available for these type of modules!");
             break;
     }
@@ -154,9 +110,9 @@
  */
 - (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults {
     
-    [searchLock lock];
+    [accessLock lock];
     NSArray *array = nil;
-    [searchLock unlock];
+    [accessLock unlock];
     
     return array;
 }
@@ -165,11 +121,17 @@
 \brief flush the data to file
  */
 - (BOOL)flushIndex {
+    
+    [accessLock lock];
 	// flush all indexes
-    BOOL content = SKIndexFlush(contentIndexRef);
-    if(!content) {
-        MBLOG(MBLOG_ERR, @"could not flush content index!");
+    BOOL content = YES;
+    if(contentIndexRef) {
+        content = SKIndexFlush(contentIndexRef);
+        if(!content) {
+            MBLOG(MBLOG_ERR, @"could not flush content index!");
+        }        
     }
+    [accessLock unlock];
 	
 	return content;
 }
@@ -178,8 +140,13 @@
 \brief closes all indexes
  */
 - (void)close {
-	CFRelease(contentIndexRef);
+
+    [accessLock lock];
+    if(contentIndexRef) {
+        CFRelease(contentIndexRef);
+    }
     // or SKIndexClose(contentIndexRef);
+    [accessLock unlock];
     
     contentIndexRef = NULL;
 }

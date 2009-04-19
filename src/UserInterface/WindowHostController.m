@@ -216,7 +216,7 @@ typedef enum _NavigationDirectionType {
     float segmentControlHeight = 32.0;
     float segmentControlWidth = (2*64.0);
     
-    // Vavigation Control
+    // Navigation Control
     navigationSegControl = [[NSSegmentedControl alloc] init];
     [navigationSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
     [navigationSegControl setSegmentCount:2];
@@ -295,6 +295,7 @@ typedef enum _NavigationDirectionType {
     // search text
     searchTextField = [[NSSearchField alloc] initWithFrame:NSMakeRect(0,0,350,32)];
     [searchTextField sizeToFit];
+    [searchTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
     [searchTextField setTarget:self];
     [searchTextField setAction:@selector(searchInput:)];
     [[searchTextField cell] setScrollable:YES];
@@ -314,7 +315,7 @@ typedef enum _NavigationDirectionType {
     [item setToolTip:NSLocalizedString(@"TextSearchTooltip", @"")];
     [item setView:searchTextField];
     [item setMinSize:NSMakeSize(100, NSHeight([searchTextField frame]))];
-    [item setMaxSize:NSMakeSize(350, NSHeight([searchTextField frame]))];
+    [item setMaxSize:NSMakeSize(700, NSHeight([searchTextField frame]))];
     [tbIdentifiers setObject:item forKey:TB_SEARCH_TEXT_ITEM];
     
     // add button

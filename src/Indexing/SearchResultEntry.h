@@ -31,7 +31,6 @@
 // convenient methods
 - (NSString *)documentName;
 - (NSNumber *)documentScore;
-- (NSString *)keyContent;
 - (NSString *)keyString;
 
 /**

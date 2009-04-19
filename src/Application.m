@@ -29,7 +29,7 @@
 #ifdef DEBUG
 	// init the logging facility in first place
 	[MBLogger initLogger:logPath 
-			   logPrefix:@"[Eloquent]" 
+			   logPrefix:@"[MacSword]" 
 		  logFilterLevel:MBLOG_DEBUG 
 			appendToFile:YES 
 			logToConsole:YES];
@@ -37,9 +37,9 @@
 #ifdef RELEASE
 	// init the logging facility in first place
 	[MBLogger initLogger:logPath 
-			   logPrefix:@"[Eloquent]" 
+			   logPrefix:@"[MacSword]" 
 		  logFilterLevel:MBLOG_WARN 
-			appendToFile:NO 
+			appendToFile:YES 
 			logToConsole:NO];	
 #endif
 	MBLOG(MBLOG_DEBUG,@"initLogging: logging initialized");
@@ -50,7 +50,7 @@
 */
 - (void)deinitLogging {
 	// release logger pool in the end
-	[gpPool release];
+	[gpPool drain];
 }
 
 @end

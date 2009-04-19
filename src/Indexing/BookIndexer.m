@@ -44,7 +44,7 @@
         [self setModTypeStr:@"GenBook"];
 		
         // open or create content index
-        contentIndexRef = [Indexer openOrCreateIndexforModName:aModName textType:[self modTypeStr]];
+        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
             MBLOG(MBLOG_ERR, @"[BookIndexer -initWithModuleName] Error on creating content index!");
@@ -75,6 +75,7 @@
 - (BOOL)addDocument:(NSString *)aKey text:(NSString *)aText textType:(IndexTextType)type storeDict:(NSDictionary *)aDict {
 	BOOL ret = NO;
 
+    [accessLock lock];
 	// get right index ref
     SKIndexRef indexRef = NULL;
     if(type == ContentTextType) {
@@ -106,6 +107,7 @@
 			CFRelease(docRef);
 		}		
 	}
+    [accessLock unlock];
 	
 	return ret;
 }
@@ -121,7 +123,7 @@
 - (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults {
     NSMutableArray *array = nil;
     
-    [searchLock lock];
+    [accessLock lock];
     if(contentIndexRef != NULL) {
         SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (CFStringRef)query, 0);
         if(searchRef != NULL) {
@@ -201,7 +203,7 @@
             MBLOG(MBLOG_ERR, @"[BookIndexer -performSearchOperation] Could not create SearchRef!");
         }
     }
-    [searchLock unlock];
+    [accessLock unlock];
     
     return array;
 }

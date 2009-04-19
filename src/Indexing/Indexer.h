@@ -33,19 +33,13 @@ typedef enum {
     NSString *modTypeStr;
 	NSString *modName;
     
-    NSLock *searchLock;
+    NSLock *accessLock;
 }
 
 @property (readwrite) ModuleType modType;
 @property (retain, readwrite) NSString *modTypeStr;
 @property (retain, readwrite) NSString *modName;
-@property (retain, readwrite) NSLock *searchLock;
-
-/**
-\brief open or create index for the given parameters
- @return SKIndexRef or NULL on error
- */
-+ (SKIndexRef)openOrCreateIndexforModName:(NSString *)aModName textType:(NSString *)aModType;
+@property (retain, readwrite) NSLock *accessLock;
 
 /**
  \brief convenient allocator for this class cluster

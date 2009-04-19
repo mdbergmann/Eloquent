@@ -213,19 +213,7 @@ static AppController *singleton;
 	if(self == nil) {
 		MBLOG(MBLOG_ERR,@"cannot alloc AppController!");		
     } else {
-        
-        // first thing we do is check for system version
-        if([OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
-            // we can't run here
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
-                                             defaultButton:NSLocalizedString(@"OK", @"") 
-                                           alternateButton:nil 
-                                               otherButton:nil 
-                                 informativeTextWithFormat:NSLocalizedString(@"MacSwordNeedsLeopard", @"")];
-            [alert runModal];
-			[[NSApplication sharedApplication] terminate:nil];            
-        }
-        
+                
         // set singleton
         singleton = self;
 
@@ -239,32 +227,7 @@ static AppController *singleton;
 		[self registerDefaults];
 
         // init AppSupportFolder
-        [self setupFolders];
-
-        // init default SwordManager
-        SwordManager *sm = [SwordManager defaultManager];
-                                        
-        // initialize ThreadedProgressSheet
-        [MBThreadedProgressSheetController standardProgressSheetController];
-        
-        // init install manager
-        SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
-        [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
-        
-        // make available all cipher keys to SwordManager
-        NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
-        for(NSString *modName in cipherKeys) {
-            NSString *key = [cipherKeys objectForKey:modName];
-            [sm setCipherKey:key forModuleNamed:modName];
-        }
-        
-        // init indexingmanager, set base index path
-        IndexingManager *im = [IndexingManager sharedManager];
-        [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
-        [im setSwordManager:sm];
-        
-        // init default progressoverlay controller
-        [ProgressOverlayViewController defaultController];
+        [self setupFolders];                                        
     }
     
     return self;
@@ -524,6 +487,62 @@ static AppController *singleton;
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[AppController -awakeFromNib]");
     
+    // first thing we do is check for system version
+    if([OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
+        NSLog(@"[MacSword] can't run here, you need Mac OSX Leopard to run!");
+        // we can't run here
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil 
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"MacSwordNeedsLeopard", @"")];
+        [alert runModal];
+        [[NSApplication sharedApplication] terminate:nil];            
+    }
+}
+
+/**
+ \brief is called when application loading is nearly finished
+ */
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+    MBLOG(MBLOG_DEBUG, @"[AppController -applicationWillFinishLaunching:]");
+    
+    // initialize ThreadedProgressSheet
+    [MBThreadedProgressSheetController standardProgressSheetController];
+    
+    // init default progressoverlay controller
+    [ProgressOverlayViewController defaultController];
+    
+    // init default SwordManager
+    SwordManager *sm = [SwordManager defaultManager];
+    
+    // init install manager
+    SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
+    [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
+    
+    // make available all cipher keys to SwordManager
+    NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
+    for(NSString *modName in cipherKeys) {
+        NSString *key = [cipherKeys objectForKey:modName];
+        [sm setCipherKey:key forModuleNamed:modName];
+    }
+    
+    // init indexingmanager, set base index path
+    IndexingManager *im = [IndexingManager sharedManager];
+    [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
+    [im setSwordManager:sm];        
+
+    // start background indexer if enabled
+    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+        [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
+    }    
+}
+
+/**
+ \brief is called when application loading is finished
+ */
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+
     // load saved windows
     NSData *data = [NSData dataWithContentsOfFile:DEFAULT_SESSION_PATH];
     if(data != nil) {
@@ -540,35 +559,12 @@ static AppController *singleton;
         svh.delegate = self;
         [windowHosts addObject:svh];
     }
-}
 
-/**
- \brief is called when application loading is nearly finished
- */
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-}
-
-/**
- \brief is called when application loading is finished
- */
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    MBLOG(MBLOG_DEBUG, @"[AppController -applicationDidFinishLaunching:]");
-	if(self != nil) {
-        // show svh
-        for(id entry in windowHosts) {
-            if([entry isKindOfClass:[WindowHostController class]]) {
-                [(WindowHostController *)entry showWindow:self];
-            }
+    // show svh
+    for(id entry in windowHosts) {
+        if([entry isKindOfClass:[WindowHostController class]]) {
+            [(WindowHostController *)entry showWindow:self];
         }
-	}
-    
-    // test some stuff
-    //SwordBook *book = (SwordBook *)[[SwordManager defaultManager] moduleWithName:@"Josephus"];
-    //[book testLoop];
-    
-    // start background indexer if enabled
-    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
-        [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
     }
     
     // show HUD preview if set
@@ -578,13 +574,13 @@ static AppController *singleton;
 }
 
 /**
- \brief is called when application is terminated
- */
+\brief is called when application is terminated
+*/
 - (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
-    
-    // encode all windows
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+
+// encode all windows
+NSMutableData *data = [NSMutableData data];
+NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
     [archiver encodeObject:windowHosts forKey:@"WindowsEncoded"];
     [archiver finishEncoding];

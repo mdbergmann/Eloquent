@@ -32,10 +32,6 @@ SearchBookSet *searchBookSet;
 	return self;
 }
 
-/**
-\brief init Indexer with the given parameters
- if there is no existing index available a new one is created
- */
 - (id)initWithModuleName:(NSString *)aModName {	
 	self = [self init];
 	if(self == nil) {
@@ -50,7 +46,7 @@ SearchBookSet *searchBookSet;
         contentIndexRef = NULL;
         
         // open or create content index
-        contentIndexRef = [Indexer openOrCreateIndexforModName:aModName textType:[self modTypeStr]];				
+        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];				
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
             MBLOG(MBLOG_ERR, @"Error on creating or opening content index!");
@@ -60,12 +56,8 @@ SearchBookSet *searchBookSet;
 	return self;
 }
 
-/**
-\brief dealloc of this class is called on closing this document
- */
-- (void)dealloc {
-	// dealloc object
-	[super dealloc];
+- (void)finalize {
+	[super finalize];
 }
 
 /**
@@ -79,6 +71,7 @@ SearchBookSet *searchBookSet;
 - (BOOL)addDocument:(NSString *)aKey text:(NSString *)aText textType:(IndexTextType)type storeDict:(NSDictionary *)aDict {
 	BOOL ret = NO;
 
+    [accessLock lock];
 	// get right index ref
     SKIndexRef indexRef = NULL;
     if(type == ContentTextType) {
@@ -110,6 +103,7 @@ SearchBookSet *searchBookSet;
 			CFRelease(docRef);
 		}		
 	}
+    [accessLock unlock];
 	
 	return ret;
 }
@@ -125,7 +119,7 @@ SearchBookSet *searchBookSet;
 - (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults {
     NSMutableArray *array = nil;
     
-    [searchLock lock];
+    [accessLock lock];
     if(contentIndexRef != NULL) {
         searchBookSet = constrains;
         
@@ -230,7 +224,7 @@ SearchBookSet *searchBookSet;
             MBLOG(MBLOG_ERR, @"Could not create SearchRef!");
         }
     }
-    [searchLock unlock];
+    [accessLock unlock];
     
     return array;
 }
