@@ -96,7 +96,7 @@
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
-		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */; };
+		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
@@ -332,7 +332,7 @@
 		A99DB3240EF96C310065482A /* ScopeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopeBarView.h; path = src/UserInterface/ScopeBarView.h; sourceTree = "<group>"; };
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
 		A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordModuleTest.h; path = test/SwordModuleTest.h; sourceTree = "<group>"; };
-		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordModuleTest.m; path = test/SwordModuleTest.m; sourceTree = "<group>"; };
+		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SwordModuleTest.mm; path = test/SwordModuleTest.mm; sourceTree = "<group>"; };
 		A9B7441B0F646223001960B0 /* MBAboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAboutWindowController.h; sourceTree = "<group>"; };
 		A9B7441C0F646223001960B0 /* MBAboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAboutWindowController.m; sourceTree = "<group>"; };
 		A9B7441F0F646346001960B0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
@@ -833,7 +833,7 @@
 				A9D9F5270EAF156D0035222E /* BookmarkManagerTest.h */,
 				A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */,
 				A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */,
-				A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.m */,
+				A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */,
 				A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */,
 				A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */,
 			);
@@ -1127,7 +1127,7 @@
 				A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */,
 				A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */,
 				A9D9F5320EAF17CF0035222E /* BookmarkManager.m in Sources */,
-				A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.m in Sources */,
+				A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,7 +54,9 @@ typedef enum {
 
 // ------- SwordModuleAccess ---------
 - (NSArray *)stripedTextForRef:(NSString *)reference;
+- (NSArray *)stripedTextForRef:(NSString *)reference context:(int)context;
 - (NSArray *)renderedTextForRef:(NSString *)reference;
+- (NSArray *)renderedTextForRef:(NSString *)reference context:(int)context;
 - (long)entryCount;
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
 

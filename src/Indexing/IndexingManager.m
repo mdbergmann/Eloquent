@@ -207,6 +207,7 @@
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Cor"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Gal"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Eph"] osisBookName]];
+            [set addBook:[[SwordVerseKey verseKeyWithRef:@"Col"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Phil"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"1Thess"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"2Thess"] osisBookName]];

@@ -37,6 +37,11 @@ class sword::SWModule;
 @class SwordManager;
 
 typedef enum {
+    TextTypeStripped = 1,
+    TextTypeRendered
+}TextPullType;
+
+typedef enum {
 	bible       = 0x0001, 
     commentary  = 0x0002, 
     dictionary  = 0x0004,
@@ -146,6 +151,12 @@ typedef enum {
  @return NSString for text data
  */
 - (id)attributeValueForEntryData:(NSDictionary *)data;
+
+/**
+ return a dictionary with key and text
+ type can be: "rendered" or "stripped"
+ */
+- (NSDictionary *)textForSingleKey:(NSString *)aKey textType:(TextPullType)aType;
 
 // ------- SwordModuleAccess ---------
 - (NSArray *)stripedTextForRef:(NSString *)reference;

@@ -64,6 +64,7 @@
     // init display options
     [self initDefaultModDisplayOptions];
     [self initDefaultDisplayOptions];
+    [self initTextContextOptions];
 }
 
 #pragma mark - Display things
@@ -138,6 +139,60 @@
     [displayOptionsPopUpButton setMenu:menu];
 }
 
+- (void)initTextContextOptions {
+    // init menu and popup button
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"TextContext", @"") action:nil keyEquivalent:@""];
+    [item setHidden:YES];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"0"];
+    [item setTag:0];
+    [item setState:1];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"1"];
+    [item setTag:1];
+    [item setState:0];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"2"];
+    [item setTag:2];
+    [item setState:0];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"3"];
+    [item setTag:3];
+    [item setState:0];
+    
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"5"];
+    [item setTag:5];
+    [item setState:0];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"7"];
+    [item setTag:7];
+    [item setState:0];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"10"];
+    [item setTag:10];
+    [item setState:0];
+
+    // set menu to poup
+    [textContextPopUpButton setMenu:menu];
+    [textContextPopUpButton setTarget:self];
+    [textContextPopUpButton setAction:@selector(textContextChange:)];
+}
+
 #pragma mark - Actions
 
 - (IBAction)fontSizeChange:(id)sender {
@@ -157,6 +212,19 @@
     // force redisplay
     forceRedisplay = YES;
     [self displayTextForReference:reference];
+}
+
+/**
+ only generic things here.
+ BibleViews should override for redisplay
+ */
+- (IBAction)textContextChange:(id)sender {
+    // loop over all menuitem and set disabled state
+    for(NSMenuItem *mi in [[(NSPopUpButton *)sender menu] itemArray]) {
+        [mi setState:NSOffState];
+    }
+    // set the selected one
+    [[(NSPopUpButton *)sender selectedItem] setState:NSOnState];
 }
 
 - (IBAction)displayOptionShowStrongs:(id)sender {

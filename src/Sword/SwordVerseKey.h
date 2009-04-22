@@ -34,6 +34,12 @@
 - (int)book;
 - (int)chapter;
 - (int)verse;
+- (void)setTestament:(int)val;
+- (void)setBook:(int)val;
+- (void)setChapter:(int)val;
+- (void)setVerse:(int)val;
+- (void)decrement;
+- (void)increment;
 - (NSString *)bookName;
 - (NSString *)osisBookName;
 - (NSString *)osisRef;

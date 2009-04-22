@@ -24,12 +24,15 @@ enum BibleViewLinkContextMenuItems {
 
 @interface ModuleCommonsViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking> {
     /** options */
+    IBOutlet NSView *referenceOptionsView;
+
+    IBOutlet NSPopUpButton *fontSizePopUpButton;
+    IBOutlet NSPopUpButton *textContextPopUpButton;
+    
     IBOutlet NSMenu *displayOptionsMenu;
     IBOutlet NSPopUpButton *displayOptionsPopUpButton;
     IBOutlet NSMenu *modDisplayOptionsMenu;
     IBOutlet NSPopUpButton *modDisplayOptionsPopUpButton;
-    IBOutlet NSView *referenceOptionsView;
-    IBOutlet NSPopUpButton *fontSizePopUpButton;
     
     NSMutableDictionary *modDisplayOptions;
     NSMutableDictionary *displayOptions;
@@ -62,6 +65,11 @@ enum BibleViewLinkContextMenuItems {
  */
 - (void)initDefaultDisplayOptions;
 
+/**
+ default text context options
+ */
+- (void)initTextContextOptions;
+
 // Actions to be overriden by subclasses
 - (IBAction)fontSizeChange:(id)sender;
 - (IBAction)displayOptionShowStrongs:(id)sender;
@@ -77,6 +85,8 @@ enum BibleViewLinkContextMenuItems {
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 - (IBAction)displayOptionShowVerseNumberOnly:(id)sender;
 - (IBAction)displayOptionHighlightBookmarks:(id)sender;
+
+- (IBAction)textContextChange:(id)sender;
 
 // TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference;

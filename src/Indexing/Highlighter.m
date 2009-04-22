@@ -79,7 +79,7 @@
         NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
         NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
                                            size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
-        [attr setObject:fontBold forKey:NSFontAttributeName];        
+        [attr setObject:fontBold forKey:NSFontAttributeName];
         
         // create NSMutableAttributedString
         ret = [[[NSMutableAttributedString alloc] initWithString:text attributes:attributes] autorelease];
@@ -115,15 +115,59 @@
     return ret;
 }
 
++ (NSAttributedString *)highlightText:(NSMutableAttributedString *)text forTokens:(NSString *)tokenStr attributes:(NSDictionary *)attributes font:(NSFont *)font boldFont:(NSFont *)boldFont {
+    NSMutableAttributedString *ret = text;
+    
+    NSColor *blue = [NSColor redColor];
+    NSRange found, area;
+    unsigned int length = [text length];
+    if(length > 0) {
+        // create attributes Dictinary
+        NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
+        [attr setObject:boldFont forKey:NSFontAttributeName];
+        
+        // get stripped text
+        NSString *strText = [text string];
+        
+        // loop over all tokens
+        NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
+        int tLen = [tokens count];
+        for(int i = 0;i < tLen;i++) {
+            NSString *token = [tokens objectAtIndex:i];
+            
+            if(([token length] > 0) && ([token isEqualToString:@" "] == NO)) {
+                // now attribute the string
+                area.location = 0;
+                area.length = length;
+                
+                // add new colors
+                while(area.length > 0) {
+                    found = [strText rangeOfString:token 
+                                           options:NSCaseInsensitiveSearch 
+                                             range:area];
+                    if (found.location == NSNotFound) break;
+                    
+                    // set attribute
+                    [ret setAttributes:attr range:found];
+                    
+                    area.location = NSMaxRange(found);
+                    area.length = length - area.location;
+                }
+            }
+        }
+    }
+    
+    return ret;    
+}
+
 + (NSString *)htmlHighlightText:(NSString *)text forTokens:(NSString *)tokenStr {
     NSMutableString *ret = nil;
     
-    NSString *blueHighlightTempl = @"<font color=\"#ff0000\">%@</font>";
+    NSString *blueHighlightTempl = @"<span style=\"color:#ff0000;font-weight: bold;\">%@</span>";
     NSRange found, area;
     unsigned int length = [text length];
     
     if(length > 0) {
-        // create NSMutableAttributedString
         ret = [text mutableCopy];
         
         // loop over all tokens

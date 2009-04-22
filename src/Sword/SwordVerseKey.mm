@@ -61,19 +61,43 @@
 }
 
 - (int)testament {
-    return vk->Testament();
+    return vk->getTestament();
 }
 
 - (int)book {
-    return vk->Book();
+    return vk->getBook();
 }
 
 - (int)chapter {
-    return vk->Chapter();
+    return vk->getChapter();
 }
 
 - (int)verse {
-    return vk->Verse();
+    return vk->getVerse();
+}
+
+- (void)setTestament:(int)val {
+    vk->setTestament(val);
+}
+
+- (void)setBook:(int)val {
+    vk->setBook(val);
+}
+
+- (void)setChapter:(int)val {
+    vk->setChapter(val);
+}
+
+- (void)setVerse:(int)val {
+    vk->setVerse(val);
+}
+
+- (void)decrement {
+    vk->decrement();
+}
+
+- (void)increment {
+    vk->increment();
 }
 
 - (NSString *)bookName {

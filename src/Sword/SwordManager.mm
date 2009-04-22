@@ -240,8 +240,8 @@ using std::list;
         sword::StringList::iterator	it;
         for(it = options.begin(); it != options.end(); it++) {
             [self setGlobalOption:[NSString stringWithCString:it->c_str()] value:SW_OFF];
-        }
-	}	
+        }        
+    }	
 	
 	return self;
 }
@@ -314,7 +314,7 @@ using std::list;
             // clear some data
             [self refreshModules];
             
-            SendNotifyModulesChanged(nil);            
+            SendNotifyModulesChanged(nil);
         }
     }
 	[managerLock unlock];    

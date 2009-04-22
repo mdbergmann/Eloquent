@@ -310,31 +310,43 @@ NSLock *bibleLock = nil;
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
     // iterate through keys
     for(lk = sword::TOP; !lk.Error(); lk++) {
-        swModule->setKey(lk);
-        if(![self error]) {
-            const char *keyCStr = swModule->getKeyText();
-            const char *txtCStr = swModule->StripText();
-            NSString *key = @"";
-            NSString *txt = @"";
-            txt = [NSString stringWithUTF8String:txtCStr];
-            key = [NSString stringWithUTF8String:keyCStr];
-            
-            // add to dict
-            if(key) {
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-                if(txt) {
-                    [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
-                } else {
-                    MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
-                }
-                // add to array
-                [ret addObject:dict];            
-            } else {
-                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
-            }            
+        NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:lk.getText()] textType:TextTypeStripped];
+        if(dict) {
+            [ret addObject:dict];        
         }
     }
+    
+    return ret;
+}
+
+- (NSArray *)stripedTextForRef:(NSString *)reference context:(int)context {
+    NSMutableArray *ret = [NSMutableArray array];
+    
+    if(context == 0) {
+        return [self stripedTextForRef:reference];
+    } else {
+        [moduleLock lock];
+        
+        const char *cref = [reference UTF8String];
+        sword::VerseKey	vk;
+        vk.setVersificationSystem([[self versification] UTF8String]);
+        sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
+        // iterate through keys
+        for (lk = sword::TOP; !lk.Error(); lk++) {
+            // set current key to vk
+            vk.setText(lk.getText());
+            vk.setVerse(vk.getVerse() - context);
+            for(int i = 0;i <= context*2+1;i++) {
+                NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:vk.getText()] textType:TextTypeStripped];
+                if(dict) {
+                    [ret addObject:dict];        
+                }
+                vk.increment();
+            }
+        }
+        
+        [moduleLock unlock];        
+    }    
     
     return ret;
 }
@@ -350,34 +362,46 @@ NSLock *bibleLock = nil;
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
     // iterate through keys
     for (lk = sword::TOP; !lk.Error(); lk++) {
-        swModule->setKey(lk);
-        if(![self error]) {
-            const char *keyCStr = swModule->getKeyText();
-            const char *txtCStr = swModule->RenderText();
-            NSString *key = @"";
-            NSString *txt = @"";
-            txt = [NSString stringWithUTF8String:txtCStr];
-            key = [NSString stringWithUTF8String:keyCStr];
-            
-            // add to dict
-            if(key) {
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-                if(txt) {
-                    [dict setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
-                } else {
-                    MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil txt");                
-                }
-                // add to array
-                [ret addObject:dict];
-            } else {
-                MBLOG(MBLOG_ERR, @"[SwordBible -renderedTextForRef:] nil key");
-            }            
+        NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:lk.getText()] textType:TextTypeRendered];
+        if(dict) {
+            [ret addObject:dict];
         }
     }
     
 	[moduleLock unlock];
 
+    return ret;
+}
+
+- (NSArray *)renderedTextForRef:(NSString *)reference context:(int)context {
+    NSMutableArray *ret = [NSMutableArray array];
+    
+    if(context == 0) {
+        return [self renderedTextForRef:reference];
+    } else {
+        [moduleLock lock];
+        
+        const char *cref = [reference UTF8String];
+        sword::VerseKey	vk;
+        vk.setVersificationSystem([[self versification] UTF8String]);
+        sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
+        // iterate through keys
+        for (lk = sword::TOP; !lk.Error(); lk++) {
+            // set current key to vk
+            vk.setText(lk.getText());
+            vk.setVerse(vk.getVerse() - context);
+            for(int i = 0;i <= context*2+1;i++) {
+                NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:vk.getText()] textType:TextTypeRendered];
+                if(dict) {
+                    [ret addObject:dict];        
+                }
+                vk.increment();
+            }
+        }
+        
+        [moduleLock unlock];        
+    }    
+    
     return ret;
 }
 

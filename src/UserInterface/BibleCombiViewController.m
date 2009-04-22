@@ -475,6 +475,22 @@
 
 #pragma mark - Actions
 
+- (IBAction)textContextChange:(id)sender {
+    [super textContextChange:sender];
+
+    // get selected context
+    int tag = [(NSPopUpButton *)sender selectedTag];
+    
+    // distribute new context
+    for(BibleViewController *bv in parBibleViewControllers) {
+        [bv setTextContext:tag];
+    }
+    
+    // force redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
 #pragma mark - SearchBookSetEditorController delegate methods
 
 - (void)indexBookSetChanged:(id)sender {

@@ -47,6 +47,7 @@
 
 @synthesize nibName;
 @synthesize bookSelection;
+@synthesize textContext;
 
 #pragma mark - initializers
 
@@ -58,6 +59,7 @@
         self.module = nil;
         self.delegate = nil;
         self.bookSelection = [NSMutableArray array];
+        self.textContext = 0;
         
         // init SearchBookSetController
         searchBookSetsController = [[SearchBookSetEditorController alloc] init];
@@ -278,7 +280,7 @@
  @return attributed string
  */
 - (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
-    NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
     SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
     long maxResults = 10000;
@@ -291,12 +293,15 @@
         NSArray *tempResults = [indexer performSearchOperation:searchQuery constrains:bookSet maxResults:maxResults];        
         // close indexer
         [indexer close];        
+
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...");
         // create out own SortDescriptors according to whome we sort
         NSArray *sortDescriptors = [NSArray arrayWithObject:
                                     [[NSSortDescriptor alloc] initWithKey:@"documentName" 
                                                                 ascending:YES 
                                                                  selector:@selector(caseInsensitiveCompare:)]];
         NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
+        NSDictionary *contentAttributes = [NSDictionary dictionary];
         // set number of search results for output
         *results = [sortedSearchResults count];
         if(sortedSearchResults) {
@@ -306,41 +311,46 @@
             NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
                                               size:(int)customFontSize];
             NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-            // content font
-            NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                                  size:(int)customFontSize];            
-            NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
+
             // strip binary search tokens
             searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
             // build search string
-            for(SearchResultEntry *entry in sortedSearchResults) {                
-                // prepare verse URL link
-                NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], [entry keyString]];
-                NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            for(SearchResultEntry *entry in sortedSearchResults) {
                 
-                // add attributes
-                [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
-                [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
-                [keyAttributes setObject:[entry keyString] forKey:TEXT_VERSE_MARKER];
-                
-                // get key content
-                NSString *contentStr = @"";
                 if([entry keyString] != nil) {
-                    NSArray *content = [module stripedTextForRef:[entry keyString]];
-                    if([content count] > 0) {
-                        contentStr = [[content objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+                    NSArray *content = [(SwordBible *)module stripedTextForRef:[entry keyString] context:textContext];
+                    for(NSDictionary *dict in content) {
+                        
+                        // get data
+                        NSString *keyStr = [dict objectForKey:SW_OUTPUT_REF_KEY];
+                        NSString *contentStr = [dict objectForKey:SW_OUTPUT_TEXT_KEY];                    
+
+                        // prepare verse URL link
+                        NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], keyStr];
+                        NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                        
+                        // add attributes
+                        [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
+                        [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
+                        [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
+                        
+                        // prepare output
+                        NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] attributes:keyAttributes];
+                        NSAttributedString *contentString = nil;
+                        if([keyStr isEqualToString:[entry keyString]]) {
+                            contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];                        
+                        } else {
+                            contentString = [[NSAttributedString alloc] initWithString:contentStr];
+                        }
+                        [ret appendAttributedString:keyString];
+                        [ret appendAttributedString:contentString];
+                        [ret appendAttributedString:newLine];
                     }
-                }
-                
-                // prepare output
-                NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
-                NSAttributedString *contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];
-                [ret appendAttributedString:keyString];
-                [ret appendAttributedString:contentString];
-                [ret appendAttributedString:newLine];
+                }                
             }
         }
-        
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...done");
+                
         // set write direction
         if([module isRTL]) {
             [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
@@ -684,6 +694,19 @@
 
 #pragma mark - actions
 
+- (IBAction)textContextChange:(id)sender {
+    [super textContextChange:sender];
+    
+    // get selected context
+    int tag = [(NSPopUpButton *)sender selectedTag];
+        
+    self.textContext = tag;
+    
+    // force redisplay
+    forceRedisplay = YES;
+    [self displayTextForReference:reference];
+}
+
 - (IBAction)addModule:(id)sender {
     NSMenuItem *item = sender;
     
@@ -889,7 +912,8 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {        
-        self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];
+        self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];        
+        self.textContext = [decoder decodeIntegerForKey:@"TextContextKey"];
         
         // init SearchBookSetController
         searchBookSetsController = [[SearchBookSetEditorController alloc] init];
@@ -908,6 +932,9 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     // encode common things first
     [super encodeWithCoder:encoder];
+    
+    // text display context
+    [encoder encodeInteger:textContext forKey:@"TextContextKey"];
     
     // encode nib name
     [encoder encodeObject:nibName forKey:@"NibNameKey"];

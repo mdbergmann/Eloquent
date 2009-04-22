@@ -48,10 +48,14 @@
     
     // bible book selection in right sidebar
     NSMutableArray *bookSelection;
+    
+    // text display context
+    NSInteger textContext;
 }
 
 @property (retain, readwrite) NSString *nibName;
 @property (retain, readwrite) NSMutableArray *bookSelection;
+@property (readwrite) NSInteger textContext;
 
 // ---------- initializers ---------
 - (id)initWithModule:(SwordBible *)aModule;
