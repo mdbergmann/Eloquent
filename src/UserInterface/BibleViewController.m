@@ -606,50 +606,37 @@
                     text = [self displayableHTMLFromVerseData:verseData];                        
 
                 } else if(searchType == IndexSearchType) {
-                    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Index");
-                    
-                    // show progress indicator
-                    [self beginIndicateProgress];
-
                     // search in index
                     if(![module hasIndex]) {                        
+                        // let the user know that we're creating the index now
+                        NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
+                        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                         defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                             informativeTextWithFormat:info];
+                        [alert runModal];                
+                        
+                        // show progress indicator
+                        // progress indicator is stopped in the delegate methods of either indexing or searching
+                        [self beginIndicateProgress];
+
                         // create index first if not exists
-                        [module createIndex];
-                    }
-                    
-                    // now search
-                    SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
-                    long maxResults = 10000;
-                    // get new search results
-                    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
-                    if(indexer == nil) {
-                        MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference::] Could not get indexer for searching!");
+                        [module createIndexThreadedWithDelegate:self];
                     } else {
-                        [indexer performThreadedSearchOperation:aReference constrains:bookSet maxResults:maxResults delegate:self];
+                        // show progress indicator
+                        // progress indicator is stopped in the delegate methods of either indexing or searching
+                        [self beginIndicateProgress];
+
+                        // now search
+                        SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
+                        long maxResults = 10000;
+                        // get new search results
+                        indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+                        if(indexer == nil) {
+                            MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference::] Could not get indexer for searching!");
+                        } else {
+                            [indexer performThreadedSearchOperation:aReference constrains:bookSet maxResults:maxResults delegate:self];
+                        }                        
                     }
-                    
-                } else if(searchType == ViewSearchType) {
-                    // store found range
-                    //NSRange temp = [textViewController rangeOfTextToken:aReference lastFound:viewSearchLastFound directionRight:viewSearchDirectionRight];
-                    //if(temp.location != NSNotFound) {
-                    // if not visible, scroll to visible
-                    /*
-                     NSRect rect;
-                     if(viewSearchDirectionRight) {
-                     rect = [textViewController rectOfLastLine];
-                     } else {
-                     rect = [textViewController rectOfFirstLine];                        
-                     }
-                     NSScrollView *scrollView = (NSScrollView *)[textViewController scrollView];
-                     [[scrollView contentView] scrollToPoint:rect.origin];
-                     // we have to tell the NSScrollView to update its
-                     // scrollers
-                     [scrollView reflectScrolledClipView:[scrollView contentView]];
-                     */
-                    // show find indicator
-                    //[[textViewController textView] showFindIndicatorForRange:temp];
-                    //}
-                    //viewSearchLastFound = temp;
                 }
             }
             

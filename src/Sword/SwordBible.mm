@@ -336,7 +336,7 @@ NSLock *bibleLock = nil;
             // set current key to vk
             vk.setText(lk.getText());
             vk.setVerse(vk.getVerse() - context);
-            for(int i = 0;i <= context*2+1;i++) {
+            for(int i = 0;i <= context*2;i++) {
                 NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:vk.getText()] textType:TextTypeStripped];
                 if(dict) {
                     [ret addObject:dict];        

@@ -109,6 +109,15 @@
     [self endIndicateProgress];    
 }
 
+- (void)indexCreationFinished:(SwordModule *)mod {
+    // stop progress indicator
+    [self endIndicateProgress];
+    
+    // I guess the user actually wanted to search for something
+    // let's do this now
+    [self displayTextForReference:reference];
+}
+
 #pragma mark - Hostable delegate methods
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {

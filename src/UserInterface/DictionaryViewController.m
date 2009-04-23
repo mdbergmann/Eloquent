@@ -308,22 +308,34 @@
                 
                 statusText = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
             } else if(searchType == IndexSearchType) {
-                // show progress indicator
-                [self beginIndicateProgress];
-
                 // search in index
                 if(![module hasIndex]) {
+                    // let the user know that we're creating the index now
+                    NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
+                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                     defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                         informativeTextWithFormat:info];
+                    [alert runModal];                
+                    
+                    // show progress indicator
+                    // progress indicator is stopped in the delegate methods of either indexing or searching
+                    [self beginIndicateProgress];
+
                     // create index first if not exists
-                    [module createIndex];
-                }
-                
-                // now search
-                indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
-                if(indexer == nil) {
-                    MBLOG(MBLOG_ERR, @"[DictionaryViewController -displayTextForReference::] Could not get indexer for searching!");
+                    [module createIndexThreadedWithDelegate:self];
                 } else {
-                    [indexer performThreadedSearchOperation:aReference constrains:nil maxResults:10000 delegate:self];
-                }
+                    // show progress indicator
+                    // progress indicator is stopped in the delegate methods of either indexing or searching
+                    [self beginIndicateProgress];
+
+                    // now search
+                    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+                    if(indexer == nil) {
+                        MBLOG(MBLOG_ERR, @"[DictionaryViewController -displayTextForReference::] Could not get indexer for searching!");
+                    } else {
+                        [indexer performThreadedSearchOperation:aReference constrains:nil maxResults:10000 delegate:self];
+                    }                    
+                }                
             }
             
             // set status

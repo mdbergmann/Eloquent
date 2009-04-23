@@ -62,6 +62,8 @@
 
 // Indexer delegate method
 - (void)searchOperationFinished:(NSArray *)results;
+// Index creation delegate
+- (void)indexCreationFinished:(SwordModule *)mod;
 
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;

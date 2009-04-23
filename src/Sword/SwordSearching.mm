@@ -75,8 +75,6 @@ NSString *MacSwordIndexVersion = @"2.6";
 - (void)createIndex {
 
 	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndex]");
-
-	[moduleLock lock];
 	
 	// get Indexer
     Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
@@ -84,7 +82,11 @@ NSString *MacSwordIndexVersion = @"2.6";
         MBLOG(MBLOG_ERR, @"Could not create Indexer for this module!");
     } else {
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] start indexing...");
+
+        [moduleLock lock];
         [self indexContentsIntoIndex:indexer];
+        [moduleLock unlock];
+        
         [indexer flushIndex];
         [[IndexingManager sharedManager] closeIndexer:indexer];
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
@@ -99,7 +101,23 @@ NSString *MacSwordIndexVersion = @"2.6";
         [d writeToFile:[path stringByAppendingPathComponent:@"version.plist"] atomically:NO];
     }
     
-    [moduleLock unlock];
+    // notify delegate
+    if(delegate) {
+        if([delegate respondsToSelector:@selector(indexCreationFinished:)]) {
+            [delegate performSelectorOnMainThread:@selector(indexCreationFinished:) withObject:self waitUntilDone:YES];
+        }
+        
+        // remove delegate
+        delegate = nil;
+    }    
+}
+
+- (void)createIndexThreadedWithDelegate:(id)aDelegate {
+	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexThreadedWithDelegate:]");
+    
+    // start indexing threaded
+    delegate = aDelegate;
+    [NSThread detachNewThreadSelector:@selector(createIndex) toTarget:self withObject:nil];
 }
 
 /** abstract method */

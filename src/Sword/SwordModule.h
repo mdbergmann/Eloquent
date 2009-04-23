@@ -91,6 +91,9 @@ typedef enum {
     
     /** we store the name separately */
     NSString *name;
+    
+    /** yes, we have a delegate to report any action to */
+    id delegate;
 
 #ifdef __cplusplus
 	sword::SWModule	*swModule;

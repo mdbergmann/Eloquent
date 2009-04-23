@@ -900,7 +900,10 @@
     progressControl = NO;
     
     // end progress indication
-    [self endIndicateProgress];
+    // index search type is handled by virew controllers themselves
+    if(aType == ReferenceSearchType) {
+        [self endIndicateProgress];    
+    }
 }
 
 #pragma mark - MouseTracking
