@@ -2,7 +2,7 @@
  *	swordapi.h	- This file contains an api usable by non-C++
  *					environments
  *
- * $Id: flatapi.h 2152 2008-05-04 03:52:06Z scribe $
+ * $Id: flatapi.h 2324 2009-04-20 18:40:15Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -97,7 +97,7 @@ const char * SWDLLEXPORT SWModule_getFootnoteType(SWHANDLE hmodule, const char *
 const char * SWDLLEXPORT SWModule_getFootnoteBody(SWHANDLE hmodule, const char *key, const char *note);
 const char * SWDLLEXPORT SWModule_getFootnoteRefList(SWHANDLE hmodule, const char *key, const char *note);
 
-SWHANDLE SWDLLEXPORT listkey_getVerselistIterator(const char * list, const char * key);
+SWHANDLE SWDLLEXPORT listkey_getVerselistIterator(const char *list, const char *key, const char *v11n = "KJV");
 
 }
 #ifdef __cplusplus

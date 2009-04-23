@@ -660,30 +660,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">fontSizePopUpButton</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="51781005"/>
-					</object>
-					<int key="connectionID">106</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">displayOptionHebrewPoints:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="986306141"/>
-					</object>
-					<int key="connectionID">109</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">displayOptionHebrewCantillation:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="68173144"/>
-					</object>
-					<int key="connectionID">110</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">modDisplayOptionsPopUpButton</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="1057979576"/>
@@ -700,11 +676,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">fontSizePopUpButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="51781005"/>
+					</object>
+					<int key="connectionID">168</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">textContextPopUpButton</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="687381646"/>
 					</object>
-					<int key="connectionID">124</int>
+					<int key="connectionID">169</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1132,7 +1116,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{295, 606}, {576, 361}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{223, 809}, {500, 24}}</string>
+					<string>{{195, 801}, {500, 24}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1183,7 +1167,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">124</int>
+			<int key="maxID">169</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1283,6 +1267,7 @@
 							<string>displayOptionsMenu</string>
 							<string>displayOptionsPopUpButton</string>
 							<string>fontSizePopUpButton</string>
+							<string>indexOptionsView</string>
 							<string>modDisplayOptionsMenu</string>
 							<string>modDisplayOptionsPopUpButton</string>
 							<string>referenceOptionsView</string>
@@ -1293,6 +1278,7 @@
 							<string>NSMenu</string>
 							<string>NSPopUpButton</string>
 							<string>NSPopUpButton</string>
+							<string>NSView</string>
 							<string>NSMenu</string>
 							<string>NSPopUpButton</string>
 							<string>NSView</string>

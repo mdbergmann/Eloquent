@@ -47,6 +47,9 @@
     IBOutlet NSButton *addBookmarkBtn;
     IBOutlet NSButton *forceReloadBtn;
     
+    // the main view for placeHolderView
+    HostableViewController *contentViewController;
+
     // our delegate
     id delegate;
     

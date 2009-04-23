@@ -31,9 +31,6 @@
 
     /** one view controller for each tab */
     NSMutableArray *viewControllers;
-        
-    /** the current selected view contoller */
-    HostableViewController *activeViewController;
     
     /** array of search text objects */
     NSMutableArray *searchTextObjs;

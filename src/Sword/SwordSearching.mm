@@ -79,15 +79,14 @@ NSString *MacSwordIndexVersion = @"2.6";
 	[moduleLock lock];
 	
 	// get Indexer
-    Indexer *indexer = [Indexer indexerWithModuleName:[self name] 
-                                           moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
+    Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
     if(indexer == nil) {
         MBLOG(MBLOG_ERR, @"Could not create Indexer for this module!");
     } else {
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] start indexing...");
         [self indexContentsIntoIndex:indexer];
         [indexer flushIndex];
-        [indexer close];
+        [[IndexingManager sharedManager] closeIndexer:indexer];
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
 
         //save version info

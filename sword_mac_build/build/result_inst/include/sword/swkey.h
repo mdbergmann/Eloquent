@@ -3,7 +3,7 @@
  *				types of keys for indexing into modules (e.g. verse, word,
  *				place, etc.)
  *
- * $Id: swkey.h 2269 2009-02-24 06:48:40Z scribe $
+ * $Id: swkey.h 2324 2009-04-20 18:40:15Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -35,7 +35,7 @@ SWORD_NAMESPACE_START
 
 #define SWKEY_OPERATORS \
   SWKey &operator =(const char *ikey) { setText(ikey); return *this; } \
-  SWKey &operator =(const SWKey &ikey) { copyFrom(ikey); return *this; } \
+  SWKey &operator =(const SWKey &ikey) { positionFrom(ikey); return *this; } \
   SWKey &operator =(SW_POSITION pos) { setPosition(pos); return *this; } \
   operator const char *() const { return getText(); } \
   bool operator ==(const SWKey &ikey) { return equals(ikey); } \
@@ -164,8 +164,9 @@ public:
 	 * @param ikey other SWKey object from which to copy
 	 */
 	virtual void copyFrom(const SWKey &ikey);
+	virtual void positionFrom(const SWKey &ikey) { copyFrom(ikey); }
 
-	/** returns string representation of this key 
+	/** returns string representation of this key
 	 */
 	virtual const char *getText() const;
 	virtual const char *getShortText() const { return getText(); }
@@ -214,25 +215,6 @@ public:
 	void setLocale(const char *name) { stdstr(&localeName, name); locale = 0;	} // this will force an on demand lookup of our locale
 
 	/** Use this function to get an index position within a module.
-	 * Here's a small example how to use this function and @ref Index(long).
-	 * This function uses the GerLut module and chooses a random verse from the
-	 * Bible and returns it.
-	 * @code
-	 * const char* randomVerse() {
-	 *   VerseKey vk;
-	 *   SWMgr mgr;
-	 *   LocaleMgr::getSystemLocaleMgr()->setDefaultLocaleName("de");
-	 *
-	 *   SWModule* module = mgr->Modules("GerLut");
-	 *   srand( time(0) );
-	 *   const double newIndex = (double(rand())/RAND_MAX)*(24108+8224);
-	 *   vk.Index(newIndex);
-	 *   module->setKey(vk);
-	 *
-	 *   char* text;
-	 *   sprintf(text, "%s: %s",(const char*)vk ,module->StripText(&vk));
-	 *   return text;
-	 * @endcode
 	 */
 	virtual long Index() const { return index; }
 

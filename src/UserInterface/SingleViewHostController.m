@@ -147,6 +147,18 @@
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
         }
         
+        if([currentSearchText searchType] == ReferenceSearchType) {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
+        } else {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
+        }
+
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
@@ -287,7 +299,7 @@
     // first let super class handle it's things
     [super contentViewInitFinished:aView];
     
-    if([aView isKindOfClass:[ModuleViewController class]] || [aView isKindOfClass:[BibleCombiViewController class]]) {
+    if([aView isKindOfClass:[ModuleCommonsViewController class]]) {
         // all booktypes have something to show in the right side bar
         [rsbViewController setContentView:[(GenBookViewController *)aView listContentView]];
         if([aView isKindOfClass:[DictionaryViewController class]] ||
@@ -299,6 +311,18 @@
         // add the webview as contentvew to the placeholder
         [placeHolderView setContentView:[aView view]];
         [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)aView referenceOptionsView]];
+
+        if([currentSearchText searchType] == ReferenceSearchType) {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
+        } else {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
+        }
     }
 }
 

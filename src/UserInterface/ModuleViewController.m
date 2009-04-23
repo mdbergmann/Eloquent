@@ -15,6 +15,7 @@
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
+#import "IndexingManager.h"
 
 @interface ModuleViewController () 
 
@@ -65,16 +66,47 @@
     // subclass will handle
 }
 
+- (void)setStatusText:(NSString *)aText {
+    // subclass will handle    
+}
+
 /**
- Searches in index for the given searchQuery.
- Generates NSAttributedString to be displayed in NSTextView
+ Generates NSAttributedString from search results
+ this is an abstract method, should be overriden by subclasses
+ @param[in] results array of SearchResults instances
  @param[in] searchQuery
  @param[out] number of verses found
  @return attributed string
  */
-- (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
-    // abstract method, sub classes should override
+- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     return nil;
+}
+
+#pragma mark - Indexer delegate method
+
+- (void)searchOperationFinished:(NSArray *)results {
+    // close indexer
+    if(indexer) {
+        [[IndexingManager sharedManager] closeIndexer:indexer];
+    }
+    
+    NSAttributedString *text = nil;    
+    if(results) {
+        int verses = 0;
+        text = [self displayableHTMLFromSearchResults:results searchQuery:reference numberOfResults:&verses];
+        
+        // set status
+        NSString *statusText = [NSString stringWithFormat:@"Found %i verses", verses];                        
+        [self setStatusText:statusText];
+    }
+    
+    // display
+    if(text) {
+        [textViewController setAttributedString:text];     
+    }
+    
+    // stop indicating progress
+    [self endIndicateProgress];    
 }
 
 #pragma mark - Hostable delegate methods

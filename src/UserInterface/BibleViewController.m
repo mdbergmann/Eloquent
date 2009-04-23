@@ -30,6 +30,7 @@
 #import "Bookmark.h"
 #import "BookmarkManager.h"
 #import "SwordVerseKey.h"
+#import "IndexingManager.h"
 
 @interface BibleViewController ()
 
@@ -272,91 +273,71 @@
     [statusLine setStringValue:aText];
 }
 
-/**
- Searches in index for the given searchQuery.
- Generates NSAttributedString to be displayed in NSTextView
- @param[in] searchQuery
- @param[out] number of verses found
- @return attributed string
- */
-- (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
+- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
-    SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
-    long maxResults = 10000;
-    
-    // get new search results
-    Indexer *indexer = [Indexer indexerWithModuleName:[module name] moduleType:[module type]];
-    if(indexer == nil) {
-        MBLOG(MBLOG_ERR, @"[SwordSearching -searchFor:] Could not get indexer for searching!");
-    } else {
-        NSArray *tempResults = [indexer performSearchOperation:searchQuery constrains:bookSet maxResults:maxResults];        
-        // close indexer
-        [indexer close];        
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...");
+    // create out own SortDescriptors according to whome we sort
+    NSArray *sortDescriptors = [NSArray arrayWithObject:
+                                [[NSSortDescriptor alloc] initWithKey:@"documentName" 
+                                                            ascending:YES 
+                                                             selector:@selector(caseInsensitiveCompare:)]];
+    NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
+    NSDictionary *contentAttributes = [NSDictionary dictionary];
+    // set number of search results for output
+    *results = [sortedSearchResults count];
+    if(sortedSearchResults) {
+        // strip searchQuery
+        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+        // key attributes
+        NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                          size:(int)customFontSize];
+        NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
 
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...");
-        // create out own SortDescriptors according to whome we sort
-        NSArray *sortDescriptors = [NSArray arrayWithObject:
-                                    [[NSSortDescriptor alloc] initWithKey:@"documentName" 
-                                                                ascending:YES 
-                                                                 selector:@selector(caseInsensitiveCompare:)]];
-        NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
-        NSDictionary *contentAttributes = [NSDictionary dictionary];
-        // set number of search results for output
-        *results = [sortedSearchResults count];
-        if(sortedSearchResults) {
-            // strip searchQuery
-            NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
-            // key attributes
-            NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
-                                              size:(int)customFontSize];
-            NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
+        // strip binary search tokens
+        searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
+        // build search string
+        for(SearchResultEntry *entry in sortedSearchResults) {
+            
+            if([entry keyString] != nil) {
+                NSArray *content = [(SwordBible *)module stripedTextForRef:[entry keyString] context:textContext];
+                for(NSDictionary *dict in content) {
+                    
+                    // get data
+                    NSString *keyStr = [dict objectForKey:SW_OUTPUT_REF_KEY];
+                    NSString *contentStr = [dict objectForKey:SW_OUTPUT_TEXT_KEY];                    
 
-            // strip binary search tokens
-            searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
-            // build search string
-            for(SearchResultEntry *entry in sortedSearchResults) {
-                
-                if([entry keyString] != nil) {
-                    NSArray *content = [(SwordBible *)module stripedTextForRef:[entry keyString] context:textContext];
-                    for(NSDictionary *dict in content) {
-                        
-                        // get data
-                        NSString *keyStr = [dict objectForKey:SW_OUTPUT_REF_KEY];
-                        NSString *contentStr = [dict objectForKey:SW_OUTPUT_TEXT_KEY];                    
-
-                        // prepare verse URL link
-                        NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], keyStr];
-                        NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                        
-                        // add attributes
-                        [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
-                        [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
-                        [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
-                        
-                        // prepare output
-                        NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] attributes:keyAttributes];
-                        NSAttributedString *contentString = nil;
-                        if([keyStr isEqualToString:[entry keyString]]) {
-                            contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];                        
-                        } else {
-                            contentString = [[NSAttributedString alloc] initWithString:contentStr];
-                        }
-                        [ret appendAttributedString:keyString];
-                        [ret appendAttributedString:contentString];
-                        [ret appendAttributedString:newLine];
+                    // prepare verse URL link
+                    NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], keyStr];
+                    NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                    
+                    // add attributes
+                    [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
+                    [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
+                    [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
+                    
+                    // prepare output
+                    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] attributes:keyAttributes];
+                    NSAttributedString *contentString = nil;
+                    if([keyStr isEqualToString:[entry keyString]]) {
+                        contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];                        
+                    } else {
+                        contentString = [[NSAttributedString alloc] initWithString:contentStr];
                     }
-                }                
-            }
+                    [ret appendAttributedString:keyString];
+                    [ret appendAttributedString:contentString];
+                    [ret appendAttributedString:newLine];
+                }
+            }                
         }
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...done");
-                
-        // set write direction
-        if([module isRTL]) {
-            [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
-        } else {
-            [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
-        }        
+    }
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...done");
+            
+    // set write direction
+    if([module isRTL]) {
+        [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
+    } else {
+        [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
     }
     
     return ret;
@@ -627,17 +608,25 @@
                 } else if(searchType == IndexSearchType) {
                     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Index");
                     
+                    // show progress indicator
+                    [self beginIndicateProgress];
+
                     // search in index
-                    if(![module hasIndex]) {
-                        // show progress indicator
-                        [self beginIndicateProgress];
-                        
+                    if(![module hasIndex]) {                        
                         // create index first if not exists
                         [module createIndex];
                     }
                     
                     // now search
-                    text = [self searchResultStringForQuery:aReference numberOfResults:&verses];
+                    SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
+                    long maxResults = 10000;
+                    // get new search results
+                    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+                    if(indexer == nil) {
+                        MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference::] Could not get indexer for searching!");
+                    } else {
+                        [indexer performThreadedSearchOperation:aReference constrains:bookSet maxResults:maxResults delegate:self];
+                    }
                     
                 } else if(searchType == ViewSearchType) {
                     // store found range
@@ -684,8 +673,11 @@
             // display
             [textViewController setAttributedString:text];                        
             
-            // stop indicating progress
-            [self endIndicateProgress];            
+            if(aType == ReferenceSearchType) {
+                // stop indicating progress
+                // Indexing is ended in searchOperationFinished:
+                [self endIndicateProgress];            
+            }
         } else {
             MBLOG(MBLOG_WARN, @"[BibleViewController -displayTextForReference:] no module set!");
         }

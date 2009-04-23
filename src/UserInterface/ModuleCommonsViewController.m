@@ -23,6 +23,10 @@
 @synthesize displayOptions;
 @synthesize forceRedisplay;
 @synthesize reference;
+@synthesize modDisplayOptionsPopUpButton;
+@synthesize displayOptionsPopUpButton;
+@synthesize fontSizePopUpButton;
+@synthesize textContextPopUpButton;
 
 #pragma mark - Initializers
 

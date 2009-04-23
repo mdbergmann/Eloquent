@@ -17,6 +17,7 @@
 #import "ScopeBarView.h"
 #import "NSImage+Additions.h"
 #import "FullScreenSplitView.h"
+#import "ModuleCommonsViewController.h"
 
 @interface WindowHostController ()
 
@@ -124,6 +125,21 @@ typedef enum _NavigationDirectionType {
     [item setTag:NSSearchFieldRecentsMenuItemTag];    
     // install menu
     [[searchTextField cell] setSearchMenuTemplate:recentsMenu];
+    
+    if(contentViewController != nil) {
+        if([currentSearchText searchType] == ReferenceSearchType) {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
+        } else {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
+        }
+    }
+    
 }
 
 - (void)setSearchType:(SearchType)aType {
@@ -772,6 +788,20 @@ typedef enum _NavigationDirectionType {
             [[searchTextField cell] setSendsWholeSearchString:YES];            
         }
     }
+    
+    if(contentViewController != nil) {
+        if(aType == ReferenceSearchType) {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
+        } else {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
+        }
+    }            
 }
 
 - (void)adaptUIToCurrentlyDisplayingModuleType {

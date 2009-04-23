@@ -317,7 +317,7 @@ base path of the module installation
 }
 
 - (void)setUserDisclainerConfirmed:(BOOL)flag {
-    swInstallMgr->setUserDisclaimerConfirmed(flag);
+    //swInstallMgr->setUserDisclaimerConfirmed(flag);
 }
 
 /** low level access */

@@ -18,6 +18,7 @@
 #import "SwordSearching.h"
 #import "SwordModule.h"
 #import "SwordBook.h"
+#import "IndexingManager.h"
 
 @interface GenBookViewController (/* class continuation */)
 
@@ -138,68 +139,49 @@
     [statusLine setStringValue:aText];
 }
 
-/**
- Searches in index for the given searchQuery.
- Generates NSAttributedString to be displayed in NSTextView
- @param[in] searchQuery
- @param[out] number of verses found
- @return attributed string
- */
-- (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results {
+- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
-    long maxResults = 10000;
-    
-    // get new search results
-    Indexer *indexer = [Indexer indexerWithModuleName:[module name] moduleType:[module type]];
-    if(indexer == nil) {
-        MBLOG(MBLOG_ERR, @"[GenBookViewController -searchFor:] Could not get indexer for searching!");
-    } else {
-        NSArray *tempResults = [indexer performSearchOperation:searchQuery constrains:nil maxResults:maxResults];        
-        // close indexer
-        [indexer close];
-        
-        // create out own SortDescriptors according to whome we sort
-        NSArray *sortDescriptors = [NSArray arrayWithObject:
-                                    [[NSSortDescriptor alloc] initWithKey:@"documentName" 
-                                                                ascending:YES 
-                                                                 selector:@selector(caseInsensitiveCompare:)]];
-        NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
-        // set number of search results for output
-        *results = [sortedSearchResults count];
-        if(sortedSearchResults) {
-            // strip searchQuery
-            NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
-            // key attributes
-            NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
-                                              size:(int)customFontSize];
-            NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-            // content font
-            NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                                  size:(int)customFontSize];            
-            NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
-            // strip binary search tokens
-            searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
-            // build search string
-            for(SearchResultEntry *entry in sortedSearchResults) {
-                NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
-                
-                NSString *contentStr = @"";
-                if([entry keyString] != nil) {
-                    NSArray *stripedAr = [(SwordBook *)self stripedTextForRef:[entry keyString]];
-                    if([stripedAr count] > 0) {
-                        // get content
-                        contentStr = [[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];                    
-                    }
+    // create out own SortDescriptors according to whome we sort
+    NSArray *sortDescriptors = [NSArray arrayWithObject:
+                                [[NSSortDescriptor alloc] initWithKey:@"documentName" 
+                                                            ascending:YES 
+                                                             selector:@selector(caseInsensitiveCompare:)]];
+    NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
+    // set number of search results for output
+    *results = [sortedSearchResults count];
+    if(sortedSearchResults) {
+        // strip searchQuery
+        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+        // key attributes
+        NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                          size:(int)customFontSize];
+        NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
+        // content font
+        NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+                                              size:(int)customFontSize];            
+        NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
+        // strip binary search tokens
+        searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
+        // build search string
+        for(SearchResultEntry *entry in sortedSearchResults) {
+            NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
+            
+            NSString *contentStr = @"";
+            if([entry keyString] != nil) {
+                NSArray *stripedAr = [(SwordBook *)module stripedTextForRef:[entry keyString]];
+                if([stripedAr count] > 0) {
+                    // get content
+                    contentStr = [[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];                    
                 }
-                
-                NSAttributedString *contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];
-                [ret appendAttributedString:keyString];
-                [ret appendAttributedString:newLine];
-                [ret appendAttributedString:contentString];
-                [ret appendAttributedString:newLine];
-                [ret appendAttributedString:newLine];
             }
+            
+            NSAttributedString *contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];
+            [ret appendAttributedString:keyString];
+            [ret appendAttributedString:newLine];
+            [ret appendAttributedString:contentString];
+            [ret appendAttributedString:newLine];
+            [ret appendAttributedString:newLine];
         }
     }
     
@@ -301,28 +283,31 @@
                 
                 //statusText = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordBook *)module allKeys] count]];
             } else if(searchType == IndexSearchType) {
-                // search in index                
-                if(![module hasIndex]) {
-                    // show progress indicator
-                    [self beginIndicateProgress];
+                // show progress indicator
+                [self beginIndicateProgress];
 
+                // search in index
+                if(![module hasIndex]) {
                     // create index first if not exists
                     [module createIndex];
                 }
                 
                 // now search
-                int results = 0;
-                NSAttributedString *text = [self searchResultStringForQuery:aReference numberOfResults:&results];
-                statusText = [NSString stringWithFormat:@"Found %i entries", results];
-                // display
-                [textViewController setAttributedString:text];
+                indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+                if(indexer == nil) {
+                    MBLOG(MBLOG_ERR, @"[GenBookViewController -displayTextForReference::] Could not get indexer for searching!");
+                } else {
+                    [indexer performThreadedSearchOperation:aReference constrains:nil maxResults:10000 delegate:self];
+                }
             }
             
             // set status
             [self setStatusText:statusText];
             
-            // stop indicating progress
-            [self endIndicateProgress];
+            if(aType == ReferenceSearchType) {
+                // stop indicating progress
+                [self endIndicateProgress];            
+            }
         } else {
             MBLOG(MBLOG_WARN, @"[GenBookViewController -displayTextForReference:] no module set!");
         }

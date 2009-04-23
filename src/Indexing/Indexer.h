@@ -34,12 +34,14 @@ typedef enum {
 	NSString *modName;
     
     NSLock *accessLock;
+    NSInteger accessCounter;
 }
 
 @property (readwrite) ModuleType modType;
 @property (retain, readwrite) NSString *modTypeStr;
 @property (retain, readwrite) NSString *modName;
 @property (retain, readwrite) NSLock *accessLock;
+@property (readwrite) NSInteger accessCounter;
 
 /**
  \brief convenient allocator for this class cluster
@@ -71,7 +73,16 @@ typedef enum {
  the array is autoreleased, the caller has to make sure to retain it if needed.
  */
 - (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults;
-    
+
+/**
+ creates a new thread for searching and returnes immediately.
+ @param[in] query this query to search in
+ @param[in] constrains, search constrains
+ @param[in] maxResults the maximum number of results
+ @param[in] delegate report to delegate. @selector(searchOperationFinished:) is called with a NSArray of search results
+*/
+- (void)performThreadedSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults delegate:(id)delegate;
+
 /**
  \brief flush the data to file
  */

@@ -37,7 +37,10 @@
     NSURL *contextMenuClickedLink;
     
     // perform progress calculation
-    BOOL performProgressCalculation;    
+    BOOL performProgressCalculation;
+    
+    // a indexer
+    Indexer *indexer;
 }
 
 // --------- properties ---------
@@ -46,13 +49,19 @@
 @property (retain, readwrite) NSURL *contextMenuClickedLink;
 
 // ---------- methods ---------
-- (NSAttributedString *)searchResultStringForQuery:(NSString *)searchQuery numberOfResults:(int *)results;
+- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results;
 
 /**
  populates the modules menu
  to be overriden by subclasses
  */
 - (void)populateModulesMenu;
+
+/** abstract method to be overriden by subclasses */
+- (void)setStatusText:(NSString *)aText;
+
+// Indexer delegate method
+- (void)searchOperationFinished:(NSArray *)results;
 
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;

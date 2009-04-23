@@ -1,3 +1,26 @@
+/******************************************************************************
+*  ftptrans.h  - code for FTP Transport
+*
+* $Id: swbuf.h 2218 2008-12-23 09:33:38Z scribe $
+*
+* Copyright 2009 CrossWire Bible Society (http://www.crosswire.org)
+*	CrossWire Bible Society
+*	P. O. Box 2528
+*	Tempe, AZ  85280-2528
+*
+* This program is free software; you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the
+* Free Software Foundation version 2.
+*
+* This program is distributed in the hope that it will be useful, but
+* WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* General Public License for more details.
+*
+*/
+
+// TODO: Rename this to RemoteTransport in 1.7.x
+
 #ifndef FTPTRANS_H
 #define FTPTRANS_H
 
@@ -5,13 +28,6 @@
 #include <defs.h>
 #include <swbuf.h>
 
-//SWORD_NAMESPACE_START
-
-
-// move this include to cpp once struct ftpparse isn't exposed anymore
-extern "C" {
-#include <ftpparse.h>
-}
 
 SWORD_NAMESPACE_START
 
@@ -22,7 +38,7 @@ public:
 	virtual ~StatusReporter() {};
 	/** Messages before stages of a batch download */
 	virtual void preStatus(long totalBytes, long completedBytes, const char *message);
-	
+
 	/** frequently called throughout a download, to report status */
 	virtual void statusUpdate(double dtTotal, double dlNow);
 };
@@ -31,7 +47,7 @@ public:
 /** TODO: document
 * A base class to be used for reimplementation of network services.
 */
-class SWDLLEXPORT FTPTransport {
+class SWDLLEXPORT FTPTransport {	// TODO: rename to more generic RemoteTransport
 
 protected:
 	StatusReporter *statusReporter;
@@ -40,14 +56,14 @@ protected:
 	SWBuf host;
 	SWBuf u;
 	SWBuf p;
-	
+
 public:
 	FTPTransport(const char *host, StatusReporter *statusReporter = 0);
 	virtual ~FTPTransport();
 
 	/***********
 	 * override this method in your real impl
-	 * 
+	 *
 	 * if destBuf then write to buffer instead of file
 	 */
 	virtual char getURL(const char *destPath, const char *sourceURL, SWBuf *destBuf = 0);

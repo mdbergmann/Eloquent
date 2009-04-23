@@ -20,9 +20,6 @@
 @class SearchTextObject;
 
 @interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
-    // the main view for placeHolderView
-    HostableViewController *contentViewController;
-    
     // the type of view
     ModuleType moduleType;
 }

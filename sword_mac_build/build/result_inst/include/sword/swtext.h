@@ -2,7 +2,7 @@
  *  swtext.h   - code for base class 'SWText'.  SWText is the basis for all
  *		 types of text modules
  *
- * $Id: swtext.h 2289 2009-03-20 17:40:19Z scribe $
+ * $Id: swtext.h 2324 2009-04-20 18:40:15Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -36,7 +36,9 @@ class VerseKey;
 class SWDLLEXPORT SWText : public SWModule {
 
 	// for conversion if we have been set with a different internal key type
-	mutable VerseKey *tmpVK;
+	mutable VerseKey *tmpVK1;
+	mutable VerseKey *tmpVK2;
+        mutable bool tmpSecond;
 	char *versification;
 
 protected:

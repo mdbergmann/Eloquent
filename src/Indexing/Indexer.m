@@ -14,13 +14,12 @@
 #import "BookIndexer.m"
 #import "DictIndexer.m"
 
-@interface Indexer (PrivateAPI)
+@interface Indexer ()
+
+- (void)performThreadedSearchOperation:(NSDictionary *)options;
 
 @end
 
-@implementation Indexer (PrivateAPI)
-
-@end
 
 @implementation Indexer
 
@@ -28,6 +27,7 @@
 @synthesize modTypeStr;
 @synthesize modName;
 @synthesize accessLock;
+@synthesize accessCounter;
 
 /**
 \brief convenient allocator for this class cluster
@@ -45,6 +45,7 @@
 	} else {
         [self setModName:@""];
         [self setAccessLock:[[NSLock alloc] init]];
+        accessCounter = 0;
     }
 	
 	return self;
@@ -69,7 +70,6 @@
         case dictionary:
         case devotional:
             indexer = [[DictIndexer alloc] initWithModuleName:aModName];
-            MBLOG(MBLOG_WARN, @"No indexing available for these type of modules!");
             break;
     }
 
@@ -115,6 +115,53 @@
     [accessLock unlock];
     
     return array;
+}
+
+/**
+ creates a new thread for searching. returnes immediately.
+ @param[in] query this query to search in
+ @param[in] constrains, search constrains
+ @param[in] maxResults the maximum number of results
+ @param[in] delegate report to delegate. @selector(searchOperationFinished:) is called with a NSArray of search results
+ */
+- (void)performThreadedSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults delegate:(id)delegate {
+    
+    // create options
+    NSMutableDictionary *options = [NSMutableDictionary dictionaryWithCapacity:4];
+    if(query) {
+        [options setObject:query forKey:@"Query"];    
+    }
+    if(constrains) {
+        [options setObject:constrains forKey:@"Constrains"];
+    }
+    [options setObject:[NSNumber numberWithInt:maxResults] forKey:@"MaxResults"];
+    if(delegate) {
+        [options setObject:delegate forKey:@"Delegate"];
+    }
+    
+    [NSThread detachNewThreadSelector:@selector(performThreadedSearchOperation:) toTarget:self withObject:options];
+}
+
+/**
+ private method
+ */
+- (void)performThreadedSearchOperation:(NSDictionary *)options {
+    
+    // get options
+    NSString *query = [options objectForKey:@"Query"];
+    id constrains = [options objectForKey:@"Constrains"];
+    int maxResults = [[options objectForKey:@"MaxResults"] intValue];
+    id delegate = [options objectForKey:@"Delegate"];
+    
+    // perform search
+    NSArray *result = [self performSearchOperation:query constrains:constrains maxResults:maxResults];
+    
+    // notifi delegate
+    if(delegate) {
+        if([delegate respondsToSelector:@selector(searchOperationFinished:)]) {
+            [delegate performSelectorOnMainThread:@selector(searchOperationFinished:) withObject:result waitUntilDone:YES];
+        }
+    }
 }
 
 /**

@@ -20,11 +20,7 @@
 @interface IndexingManager ()
 
 @property (retain, readwrite) NSTimer *timer;
-
-@end
-
-
-@interface IndexingManager (PrivateAPI)
+@property (retain, readwrite) NSMutableDictionary *indexerRegistrat;
 
 /**
 \brief creates a nonexisting empty index for the given parameters
@@ -42,7 +38,15 @@
 
 @end
 
-@implementation IndexingManager (PrivateAPI)
+@implementation IndexingManager
+
+@synthesize baseIndexPath;
+@synthesize swordManager;
+@synthesize interval;
+@synthesize stalled;
+@synthesize timer;
+@synthesize searchBookSets;
+@synthesize indexerRegistrat;
 
 /**
 \brief creates a nonexisting empty index for the given parameters
@@ -86,18 +90,6 @@
     }    
 }
 
-@end
-
-
-@implementation IndexingManager
-
-@synthesize baseIndexPath;
-@synthesize swordManager;
-@synthesize interval;
-@synthesize stalled;
-@synthesize timer;
-@synthesize searchBookSets;
-
 /**
 \brief this is a singleton
  */
@@ -126,6 +118,7 @@
 		[self setBaseIndexPath:@""];
         [self setInterval:30];
         [self setStalled:NO];
+        [self setIndexerRegistrat:[NSMutableDictionary dictionary]];
         indexCheckLock = [[NSLock alloc] init];
         
         NSFileManager *fm = [NSFileManager defaultManager];
@@ -286,6 +279,37 @@
 	}
 	
 	return indexRef;
+}
+
+/**
+ the manager should be used to aquire indexers. the manager will keep track of already opened indexers and not open new ones if not necessary.
+ */
+- (Indexer *)indexerForModuleName:(NSString *)aName moduleType:(ModuleType)aType {
+    Indexer *ret = [indexerRegistrat objectForKey:aName];
+    if(!ret) {
+        ret = [Indexer indexerWithModuleName:aName moduleType:aType];
+        [indexerRegistrat setObject:ret forKey:aName];
+    }
+    
+    if(ret) {
+        [ret setAccessCounter:[ret accessCounter]+1];
+    }
+    
+    return ret;
+}
+
+/**
+ the manager should also be used to close the index.
+ it only closes an index if no other instance is using it any longer.
+ */
+- (void)closeIndexer:(Indexer *)aIndexer {
+    // only close if no other instance is holding a reference
+    [aIndexer setAccessCounter:[aIndexer accessCounter]-1];
+    if([aIndexer accessCounter] == 0) {
+        [aIndexer close];
+        // and remove from registrat
+        [indexerRegistrat removeObjectForKey:[aIndexer modName]];
+    }
 }
 
 /**

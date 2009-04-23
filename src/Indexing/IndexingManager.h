@@ -32,6 +32,9 @@
     
     /** book sets for indexed search */
     NSMutableArray *searchBookSets;
+    
+    /** registers open indexers */
+    NSMutableDictionary *indexerRegistrat;
 }
 
 @property (retain, readwrite) NSString *baseIndexPath;
@@ -67,6 +70,16 @@
  stops the background indexer and removes the timer
  */
 - (void)invalidateBackgroundIndexer;
+
+/**
+ the manager should be used to aquire indexers. the manager will keep track of already opened indexers and not open new ones if not necessary.
+ */
+- (Indexer *)indexerForModuleName:(NSString *)aName moduleType:(ModuleType)aType;
+/**
+ the manager should also be used to close the index.
+ it only closes an index if no other instance is using it any longer.
+ */
+- (void)closeIndexer:(Indexer *)aIndexer;
 
 /**
 \brief returns the path of the index folder for the given module name

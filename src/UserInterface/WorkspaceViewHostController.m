@@ -67,6 +67,7 @@
     // super class has some things to set
     [super awakeFromNib];
     
+    // tab control stuff
     [tabControl setHideForSingleTab:NO];
     //[tabControl setFont:FontStdBold];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];
@@ -75,7 +76,6 @@
     [[tabControl addTabButton] setAction:@selector(addTab:)];
     [tabControl setShowAddTabButton:YES];
     [tabControl setCanCloseOnlyTab:YES];
-
     // remove all tabs
     for(NSTabViewItem *item in [tabView tabViewItems]) {
         [tabView removeTabViewItem:item];    
@@ -92,11 +92,10 @@
             
             // select first
             if(i == 0) {
-                activeViewController = vc;
+                contentViewController = vc;
                 [tabView selectTabViewItem:item];
             }
         }
-        
         i++;
     }
     
@@ -136,27 +135,37 @@
     
     // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
-    if(activeViewController != nil) {
+    if(contentViewController != nil) {
         // add content view
-        [placeHolderView setContentView:[activeViewController view]];
+        [placeHolderView setContentView:[contentViewController view]];
         // add display options view
-        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];        
+        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];        
         
         // all booktypes have something to show in the right side bar
-        [rsbViewController setContentView:[(GenBookViewController *)activeViewController listContentView]];
-        if([activeViewController isKindOfClass:[DictionaryViewController class]] ||
-           [activeViewController isKindOfClass:[GenBookViewController class]]) {
+        [rsbViewController setContentView:[(GenBookViewController *)contentViewController listContentView]];
+        if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
+           [contentViewController isKindOfClass:[GenBookViewController class]]) {
             [self showRightSideBar:YES];
         } else {
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
         }
         
+        if([currentSearchText searchType] == ReferenceSearchType) {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
+        } else {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
+        }
+
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
     hostLoaded = YES;
-    
-    [[self window] makeFirstResponder:self];
 }
 
 #pragma mark - Methods
@@ -166,19 +175,19 @@
     [super setSearchUIType:aType searchString:aString];
     
     // accessorie view may change
-    [rsbViewController setContentView:[(GenBookViewController *)activeViewController listContentView]];
+    [rsbViewController setContentView:[(GenBookViewController *)contentViewController listContentView]];
 }
 
 - (ModuleType)moduleType {
     ModuleType moduleType = bible;
     
-    if([activeViewController isKindOfClass:[CommentaryViewController class]]) {
+    if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
         moduleType = commentary;
-    } else if([activeViewController isKindOfClass:[BibleCombiViewController class]]) {
+    } else if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
         moduleType = bible;
-    } else if([activeViewController isKindOfClass:[DictionaryViewController class]]) {
+    } else if([contentViewController isKindOfClass:[DictionaryViewController class]]) {
         moduleType = dictionary;
-    } else if([activeViewController isKindOfClass:[GenBookViewController class]]) {
+    } else if([contentViewController isKindOfClass:[GenBookViewController class]]) {
         moduleType = genbook;
     }
     
@@ -186,7 +195,7 @@
 }
 
 - (HostableViewController *)contentViewController {
-    return activeViewController;
+    return contentViewController;
 }
 
 - (NSView *)view {
@@ -245,8 +254,8 @@
 #pragma mark - Toolbar Actions
 
 - (void)addBibleTB:(id)sender {
-    if([activeViewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)activeViewController addNewBibleViewWithModule:nil];
+    if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
+        [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:nil];
     }
 }
 
@@ -256,13 +265,13 @@
     [super searchInput:sender];
     
     NSString *searchText = [sender stringValue];
-    [(<TextDisplayable>)activeViewController displayTextForReference:searchText searchType:[currentSearchText searchType]];
+    [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:[currentSearchText searchType]];
 }
 
 - (IBAction)forceReload:(id)sender {
-    [(ModuleCommonsViewController *)activeViewController setForceRedisplay:YES];
-    [(ModuleCommonsViewController *)activeViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
-    [(ModuleCommonsViewController *)activeViewController setForceRedisplay:NO];
+    [(ModuleCommonsViewController *)contentViewController setForceRedisplay:YES];
+    [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+    [(ModuleCommonsViewController *)contentViewController setForceRedisplay:NO];
 }
 
 #pragma mark - Actions
@@ -369,10 +378,10 @@
             int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
             HostableViewController *vc = [viewControllers objectAtIndex:index];
             // set active view controller
-            activeViewController = vc;
-            if(activeViewController != nil) {
+            contentViewController = vc;
+            if(contentViewController != nil) {
                 // add display options view
-                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
+                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];    
             }
             
             // all booktypes have something to show in the right side bar
@@ -397,10 +406,10 @@
 
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {    
     MBLOG(MBLOG_DEBUG, @"[WorkspaceViewHostController -contentViewInitFinished:]");
-    
-    // let super class first handle it's things
+
+    // let super class handle it's things
     [super contentViewInitFinished:aViewController];
-    
+
     if(hostLoaded) {
         // we are only interessted in view controllers that show information
         if([aViewController isKindOfClass:[ModuleViewController class]] || // this also handles commentary view
@@ -409,7 +418,7 @@
             // add view controller
             [viewControllers addObject:aViewController];
             // make the last added the active one
-            activeViewController = aViewController;
+            contentViewController = aViewController;
             
             SearchType stype = ReferenceSearchType;
             if([aViewController isKindOfClass:[GenBookViewController class]]) {
@@ -444,12 +453,24 @@
             [tabView addTabViewItem:newItem];
             [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
             
-            if(activeViewController != nil) {
+            if(contentViewController != nil) {
                 // add display options view
-                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)activeViewController referenceOptionsView]];    
-            }            
+                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];                    
+
+                if(stype == ReferenceSearchType) {
+                    [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+                    [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+                    [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+                    [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
+                } else {
+                    [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+                    [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+                    [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+                    [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
+                }
+            }
         }
-    }    
+    }
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {

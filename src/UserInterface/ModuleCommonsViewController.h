@@ -52,6 +52,10 @@ enum BibleViewLinkContextMenuItems {
 @property (readwrite) int customFontSize;
 @property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
 @property (retain, readwrite) NSMutableDictionary *displayOptions;
+@property (readonly) NSPopUpButton *fontSizePopUpButton;
+@property (readonly) NSPopUpButton *textContextPopUpButton;
+@property (readonly) NSPopUpButton *displayOptionsPopUpButton;
+@property (readonly) NSPopUpButton *modDisplayOptionsPopUpButton;
 
 /** 
  default module display options dictionary 

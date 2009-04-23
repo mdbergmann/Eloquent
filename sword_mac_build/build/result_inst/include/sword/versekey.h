@@ -1,7 +1,7 @@
 /******************************************************************************
  *	versekey.h - code for class 'versekey'- a standard Biblical verse key
  *
- * $Id: versekey.h 2315 2009-04-10 14:58:36Z scribe $
+ * $Id: versekey.h 2324 2009-04-20 18:40:15Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -223,7 +223,7 @@ public:
 
 	/** Only repositions this VerseKey to another VerseKey
 	*/
-	virtual void positionFrom(const VerseKey &ikey);
+	virtual void positionFrom(const SWKey &ikey);
 
 	/** Positions this key
 	*
@@ -405,7 +405,7 @@ public:
 	* <0 if this	VerseKey is smaller than compare	SWKey,
 	* 0 if the keys are the same
 	*/
-	virtual int compare(const SWKey & ikey);
+	virtual int compare(const SWKey &ikey);
 
 	/** Compares another	VerseKey object
 	*
@@ -414,7 +414,7 @@ public:
 	* <0 if this	VerseKey is smaller than compare	VerseKey,
 	* 0 if the keys are the same
 	*/
-	virtual int _compare(const VerseKey & ikey);
+	virtual int _compare(const VerseKey &ikey);
 
 	virtual void setVersificationSystem(const char *name);
 	virtual const char *getVersificationSystem() const;
@@ -428,7 +428,7 @@ public:
 
 	SWKEY_OPERATORS
 
-	virtual SWKey & operator =(const VerseKey & ikey) { copyFrom(ikey); return *this; }
+	virtual SWKey &operator =(const VerseKey &ikey) { positionFrom(ikey); return *this; }
 };
 
 SWORD_NAMESPACE_END
