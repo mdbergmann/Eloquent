@@ -13,11 +13,25 @@
 #import "globals.h"
 
 #include "installmgr.h"
+//#include "MyInstallMgr.h"
 
 #ifdef __cplusplus
 typedef std::map<sword::SWBuf, sword::InstallSource *> InstallSourceMap;
 typedef sword::multimapwithdefault<sword::SWBuf, sword::SWBuf, std::less <sword::SWBuf> > ConfigEntMap;
 #endif
+
+class MyInstallMgr : public sword::InstallMgr {
+public:
+	MyInstallMgr(const char *privatePath = "./") : InstallMgr(privatePath) {}
+    bool isConfirmed;
+    virtual void setUserDisclaimerConfirmed(bool flag) {
+        isConfirmed = flag;
+    }
+    
+    virtual bool isUserDisclaimerConfirmed() const {
+        return isConfirmed;
+    }
+};
 
 #define INSTALLSOURCE_SECTION_TYPE_FTP  "FTPSource"
 
@@ -161,7 +175,7 @@ base path of the module installation
     if(swInstallMgr != nil) {
         disclaimerConfirmed = [self userDisclaimerConfirmed];
     }
-    swInstallMgr = new sword::InstallMgr([configPath UTF8String]);
+    swInstallMgr = new MyInstallMgr([configPath UTF8String]);
     if(swInstallMgr == nil) {
         MBLOG(MBLOG_ERR, @"[SwordInstallManager -reinitialize] could not initialize InstallMgr!");
     } else {
@@ -317,7 +331,7 @@ base path of the module installation
 }
 
 - (void)setUserDisclainerConfirmed:(BOOL)flag {
-    //swInstallMgr->setUserDisclaimerConfirmed(flag);
+    swInstallMgr->setUserDisclaimerConfirmed(flag);
 }
 
 /** low level access */

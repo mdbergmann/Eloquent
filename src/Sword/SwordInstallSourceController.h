@@ -16,6 +16,7 @@
 #include <multimapwdef.h>
 class sword::SWModule;
 class sword::InstallMgr;
+class MyInstallMgr;
 using sword::SWModule;
 using sword::InstallMgr;
 #endif
@@ -37,7 +38,7 @@ typedef enum _ModuleStatusConst {
 {
 @private
 #ifdef __cplusplus
-	sword::InstallMgr *swInstallMgr;
+	MyInstallMgr *swInstallMgr;
 #endif
     
     BOOL createPath;
