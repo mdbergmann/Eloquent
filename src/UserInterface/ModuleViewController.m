@@ -39,6 +39,9 @@
     if(self) {
         performProgressCalculation = YES;
         
+        // pre-set search type to Reference
+        searchType = ReferenceSearchType;
+        
         // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
 
@@ -426,6 +429,8 @@
     self = [super initWithCoder:decoder];
     if(self) {
         performProgressCalculation = YES;
+        // pre-set search type to Reference
+        searchType = ReferenceSearchType;
         // decode module name
         NSString *moduleName = [decoder decodeObjectForKey:@"ModuleNameEncoded"];
         // set module

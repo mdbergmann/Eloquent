@@ -38,7 +38,6 @@
     self = [super init];
     if(self) {
         // some common init
-        searchType = ReferenceSearchType;
         self.module = nil;
         self.delegate = nil;
         self.selection = [NSMutableArray array];
@@ -84,9 +83,6 @@
     MBLOG(MBLOG_DEBUG, @"[DictionaryViewController -awakeFromNib]");
     
     [super awakeFromNib];
-
-    // loading finished
-    viewLoaded = YES;
     
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
@@ -106,7 +102,8 @@
     // check which delegate we have and en/disable the close button
     [self adaptUIToHost];
     
-    [self displayTextForReference:reference searchType:searchType];
+    // loading finished
+    viewLoaded = YES;
 }
 
 #pragma mark - methods

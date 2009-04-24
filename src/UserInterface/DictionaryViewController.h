@@ -28,9 +28,6 @@
     
     NSMutableArray *selection;
     NSArray *dictKeys;
-    
-    // search type
-    SearchType searchType;    
 }
 
 // ---------- initializers ---------

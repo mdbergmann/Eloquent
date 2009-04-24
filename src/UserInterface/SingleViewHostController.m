@@ -106,7 +106,8 @@
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -awakeFromNib]");
     
     [super awakeFromNib];
-        
+
+    /*
     // if a reference is stored, we should load it
     NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
     if([referenceText length] > 0) {
@@ -127,6 +128,7 @@
             [(CommentaryViewController *)contentViewController displayTextForReference:searchText searchType:self.searchType];
         }
     }
+     */
     
     // set recent searche array
     [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];

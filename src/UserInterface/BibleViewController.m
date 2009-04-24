@@ -56,7 +56,6 @@
     self = [super init];
     if(self) {
         // some common init
-        searchType = ReferenceSearchType;
         self.module = nil;
         self.delegate = nil;
         self.bookSelection = [NSMutableArray array];
@@ -111,10 +110,7 @@
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -awakeFromNib]");
     
     [super awakeFromNib];
-    
-    // loading finished
-    viewLoaded = YES;
-    
+        
     // prepare for our custom cell
     gradientCell = [[GradientCell alloc] init];
     NSTableColumn *tableColumn = [entriesOutlineView tableColumnWithIdentifier:@"common"];
@@ -148,8 +144,16 @@
     [[SwordManager defaultManager] generateModuleMenu:&dictModules forModuletype:dictionary withMenuTarget:self withMenuAction:@selector(lookUpInDictionaryOfModule:)];
     item = [textContextMenu itemWithTag:LookUpInDictionaryList];
     [item setSubmenu:dictModules];
-        
+
     [self adaptUIToHost];
+    
+    // if we have areference, display it
+    if(reference && [reference length] > 0) {
+        [self displayTextForReference:reference searchType:searchType];    
+    }
+
+    // loading finished
+    viewLoaded = YES;
 }
 
 #pragma mark - methods

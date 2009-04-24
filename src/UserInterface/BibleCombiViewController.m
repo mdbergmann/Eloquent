@@ -124,9 +124,7 @@
     //NSSize s = [parMiscSplitView frame].size;
     if([parMiscViewControllers count] > 0) {
         [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
-    }    
-    // loading finished
-    viewLoaded = YES;
+    }
     
     // if our hosted subviews also have loaded, report that
     // else, wait until the subviews have loaded and report then
@@ -150,14 +148,12 @@
         }
     }
     
-    // if we have a reference, process it
-    if(reference) {
-        [self displayTextForReference:reference searchType:searchType];
-    }
-    
     if(loaded) {
         [self reportLoadingComplete];
     }
+
+    // loading finished
+    viewLoaded = YES;
 }
 
 #pragma mark - methods
@@ -776,7 +772,7 @@
     NSView *view = nil;
     
     // check if this view has completed loading annd also all of the subviews    
-    if(viewLoaded == YES) {
+    if(viewLoaded) {
         BOOL loaded = YES;
         if([aView isKindOfClass:[BibleViewController class]]) {
 
@@ -801,9 +797,6 @@
                     }
                 }
             }
-            
-            // set search text and let the controller handle it
-            [(BibleViewController *)aView displayTextForReference:reference searchType:searchType];            
         }
                 
         if(loaded) {
@@ -847,62 +840,66 @@
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     searchType = aType;
+    
     self.reference = aReference;
-    
-    if(searchType == IndexSearchType) {
-        // for search type index, check before hand that all modules that are open
-        // have a valid index
-        BOOL validIndex = YES;
 
-        // bibles
-        for(BibleViewController *bvc in parBibleViewControllers) {
-            SwordModule *mod = [bvc module];
-            if(mod != nil) {
-                if(![mod hasIndex]) {
-                    validIndex = NO;
-                    break;
+    if(aReference && [aReference length] > 0) {
+        
+        if(searchType == IndexSearchType) {
+            // for search type index, check before hand that all modules that are open
+            // have a valid index
+            BOOL validIndex = YES;
+            
+            // bibles
+            for(BibleViewController *bvc in parBibleViewControllers) {
+                SwordModule *mod = [bvc module];
+                if(mod != nil) {
+                    if(![mod hasIndex]) {
+                        validIndex = NO;
+                        break;
+                    }
+                }
+            }
+            // commentaries
+            for(CommentaryViewController *cvc in parMiscViewControllers) {
+                SwordModule *mod = [cvc module];
+                if(mod != nil) {
+                    if(![mod hasIndex]) {
+                        validIndex = NO;
+                        break;
+                    }
+                }
+            }
+            if(!validIndex) {
+                if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+                    // show Alert
+                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                     defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                         informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOn", @"")];
+                    [alert runModal];
+                } else {
+                    // let the user know that creaing the index on the fly might take a while
+                    // show Alert
+                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                     defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                         informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
+                    [alert runModal];                
                 }
             }
         }
-        // commentaries
-        for(CommentaryViewController *cvc in parMiscViewControllers) {
-            SwordModule *mod = [cvc module];
-            if(mod != nil) {
-                if(![mod hasIndex]) {
-                    validIndex = NO;
-                    break;
-                }
-            }
-        }
-        if(!validIndex) {
-            if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
-                // show Alert
-                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                                 defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
-                                     informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOn", @"")];
-                [alert runModal];
-            } else {
-                // let the user know that creaing the index on the fly might take a while
-                // show Alert
-                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                                 defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
-                                     informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
-                [alert runModal];                
-            }
-        }
-    }
-
-    // we take control over the progress action
-    progressControl = YES;
-    // let subcontrollers display their things
-    [self distributeReference:aReference];
-    // give back control to subview controller
-    progressControl = NO;
-    
-    // end progress indication
-    // index search type is handled by virew controllers themselves
-    if(aType == ReferenceSearchType) {
-        [self endIndicateProgress];    
+        
+        // we take control over the progress action
+        progressControl = YES;
+        // let subcontrollers display their things
+        [self distributeReference:aReference];
+        // give back control to subview controller
+        progressControl = NO;
+        
+        // end progress indication
+        // index search type is handled by virew controllers themselves
+        if(aType == ReferenceSearchType) {
+            [self endIndicateProgress];    
+        }        
     }
 }
 

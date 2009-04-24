@@ -27,9 +27,6 @@
     IBOutlet NSOutlineView *entriesOutlineView;
     
     NSMutableArray *selection;
-    
-    // search type
-    SearchType searchType;
 }
 
 // ---------- initializers ---------

@@ -108,6 +108,7 @@
         currentSearchText = [searchTextObjs objectAtIndex:0];
     }
     
+    /*
     // if a reference is stored, we should load it
     NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
     if([referenceText length] > 0) {
@@ -132,6 +133,7 @@
             }
         }
     }
+     */
     
     // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];

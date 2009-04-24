@@ -36,7 +36,7 @@
     self = [super init];
     if(self) {
         // some common init
-        searchType = ReferenceSearchType;
+        searchType = ReferenceSearchType;   // genbook does not have this search type but let's pre-set this
         self.module = nil;
         self.delegate = nil;
         self.selection = [NSMutableArray array];
@@ -76,10 +76,7 @@
     MBLOG(MBLOG_DEBUG, @"[GenBookViewController -awakeFromNib]");
 
     [super awakeFromNib];
-    
-    // loading finished
-    viewLoaded = YES;
-    
+        
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
     if(textViewController.viewLoaded == YES) {
@@ -97,6 +94,14 @@
     
     // check which delegate we have and en/disable the close button
     [self adaptUIToHost];
+
+    // if we have areference, display it
+    if(reference && [reference length] > 0) {
+        [self displayTextForReference:reference searchType:searchType];    
+    }
+
+    // loading finished
+    viewLoaded = YES;
 }
 
 #pragma mark - methods

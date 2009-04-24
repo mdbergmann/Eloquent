@@ -30,6 +30,9 @@
     // the module
     SwordModule *module;
     
+    // search type
+    SearchType searchType;
+
     // we need a webview for text display
     ExtTextViewController *textViewController;
     

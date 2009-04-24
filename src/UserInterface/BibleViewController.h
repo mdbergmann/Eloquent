@@ -42,10 +42,7 @@
     
     // nib name
     NSString *nibName;
-    
-    // search type
-    SearchType searchType;
-    
+        
     // bible book selection in right sidebar
     NSMutableArray *bookSelection;
     

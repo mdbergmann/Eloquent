@@ -405,51 +405,25 @@ NSLock *bibleLock = nil;
     return ret;
 }
 
+/**
+ must be single verse
+ */
 - (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
 	[moduleLock lock];
 	
-	sword::VerseKey vk;	
+	sword::VerseKey vk = sword::VerseKey([reference UTF8String]);
     vk.setVersificationSystem([[self versification] UTF8String]);
-	sword::ListKey listkey = vk.ParseVerseList([reference UTF8String], "Gen1:1", true);
-	int lastIndex;
-	for(int i = 0; i < listkey.Count(); i++) {
-		sword::VerseKey *element = My_SWDYNAMIC_CAST(VerseKey, listkey.GetElement(i));
-		
-		// is it a chapter or book - not atomic
-		if(element) {
-			// start at lower bound
-			swModule->Key(element->LowerBound());
-			// find the upper bound
-			vk = element->UpperBound();
-			vk.Headings();
-		} else {
-			// set it up
-			swModule->Key(*listkey.GetElement(i));
-		}
-			
-		// while not past the upper bound
-        BOOL havefirst = NO;
-        sword::VerseKey firstverse;
-		do {
-			if (!havefirst) {
-				havefirst = YES;
-				firstverse = swModule->Key();
-				
-				const char *data = [value UTF8String];
-				int dLen = strlen(data);
 
-				swModule->setEntry(data, dLen);	// save text to module at current position
-			} else {
-				*(sword::SWModule *)swModule << &firstverse;
-			}
-			
-			lastIndex = (swModule->Key()).Index();
-			(*swModule)++;
-			if(lastIndex == (swModule->Key()).Index())
-				break;
-		}while (element && swModule->Key() <= vk);
-	}
-    
+    const char *data = [value UTF8String];
+    int dLen = strlen(data);
+
+    swModule->setKey(vk);
+    if(![self error]) {
+        swModule->setEntry(data, dLen);	// save text to module at current position    
+    } else {
+        MBLOG(MBLOG_ERR, @"[SwordBible -writeEntry::] error at positioning module!");
+    }
+
 	[moduleLock unlock];
 }
 
