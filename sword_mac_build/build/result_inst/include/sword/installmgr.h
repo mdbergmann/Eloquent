@@ -126,13 +126,19 @@ public:
          */
 	virtual int refreshRemoteSourceConfiguration();
 
-	/** override this and provide an input mechanism to allow your users
+	/** Override this and provide an input mechanism to allow your users
 	 *  to confirm that they understand this important disclaimer.
-	 *  return true your user confirms.
+	 *  This method will be called immediately before attempting to perform
+	 *  any network function.
+	 *  If you would like your confirmation to always show at a predefined
+	 *  time before attempting network operations, then you can call this
+	 *  method yourself at the desired time.
+	 *
+	 *  Return true if your user confirms.
          *
-	 *  user disclaimer should ask user for confirmation of 2 critical items:
+	 *  User disclaimer should ask user for confirmation of 2 critical items:
 	 *  and the default answer should be NO
-	 *  (possible wrong language of disclaimer)
+	 *  (possibly the wrong language for the disclaimer)
 	 *
 
 A sample impl:
@@ -164,7 +170,13 @@ A sample impl:
         return confirmed;
 
          */
-	virtual bool isUserDisclaimerConfirmed() const { return false; }
+	virtual bool isUserDisclaimerConfirmed() const { return userDisclaimerConfirmed; }
+
+	/** Preferred method of reporting user disclaimer confirmation is to override the above method
+	 * instead of using the setter below. This is provided for clients who don't wish to inherit
+	 * InstallMgr and override method.
+	 */
+	void setUserDisclaimerConfirmed(bool val) { userDisclaimerConfirmed = val; }
 
 
 	/** override this and provide an input mechanism to allow your users

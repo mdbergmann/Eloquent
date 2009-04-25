@@ -20,22 +20,14 @@ typedef std::map<sword::SWBuf, sword::InstallSource *> InstallSourceMap;
 typedef sword::multimapwithdefault<sword::SWBuf, sword::SWBuf, std::less <sword::SWBuf> > ConfigEntMap;
 #endif
 
-class MyInstallMgr : public sword::InstallMgr {
-public:
-	MyInstallMgr(const char *privatePath = "./") : InstallMgr(privatePath) {}
-    bool isConfirmed;
-    virtual void setUserDisclaimerConfirmed(bool flag) {
-        isConfirmed = flag;
-    }
-    
-    virtual bool isUserDisclaimerConfirmed() const {
-        return isConfirmed;
-    }
-};
-
 #define INSTALLSOURCE_SECTION_TYPE_FTP  "FTPSource"
 
 @implementation SwordInstallSourceController
+
+@dynamic configPath;
+@synthesize configFilePath;
+@synthesize installSources;
+@synthesize installSourceList;
 
 // ------------------- getter / setter -------------------
 - (NSString *)configPath {
@@ -87,34 +79,6 @@ public:
             }
         }
     }
-}
-
-- (NSString *)configFilePath {
-    return configFilePath;
-}
-
-- (void)setConfigFilePath:(NSString *)value {
-    [value retain];
-    [configFilePath release];
-    configFilePath = value;
-}
-
-- (NSDictionary *)installSources {
-    return [NSDictionary dictionaryWithDictionary:installSources];
-}
-
-- (void)setInstallSources:(NSDictionary *)value {
-    [installSources release];
-    installSources = [[NSMutableDictionary dictionaryWithDictionary:value] retain];
-}
-
-- (NSArray *)installSourceList {
-    return [NSArray arrayWithArray:installSourceList];
-}
-
-- (void)setInstallSourceList:(NSArray *)value {
-    [installSourceList release];
-    installSourceList = [[NSMutableArray arrayWithArray:value] retain];
 }
 
 // -------------------- methods --------------------
@@ -175,7 +139,7 @@ base path of the module installation
     if(swInstallMgr != nil) {
         disclaimerConfirmed = [self userDisclaimerConfirmed];
     }
-    swInstallMgr = new MyInstallMgr([configPath UTF8String]);
+    swInstallMgr = new sword::InstallMgr([configPath UTF8String]);
     if(swInstallMgr == nil) {
         MBLOG(MBLOG_ERR, @"[SwordInstallManager -reinitialize] could not initialize InstallMgr!");
     } else {

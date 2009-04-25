@@ -24,7 +24,7 @@ SWORD_NAMESPACE_START
 
 /** Checks if a string is a roman numeral.
 */
-char isroman(const char *);
+char isroman(const char *, int maxchars = 0);
 /* char* to_rom(int num, char *p); */
 
 /** Converts a roman numeral to a string.

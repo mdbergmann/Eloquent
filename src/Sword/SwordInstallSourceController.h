@@ -16,7 +16,6 @@
 #include <multimapwdef.h>
 class sword::SWModule;
 class sword::InstallMgr;
-class MyInstallMgr;
 using sword::SWModule;
 using sword::InstallMgr;
 #endif
@@ -38,7 +37,7 @@ typedef enum _ModuleStatusConst {
 {
 @private
 #ifdef __cplusplus
-	MyInstallMgr *swInstallMgr;
+    sword::InstallMgr *swInstallMgr;
 #endif
     
     BOOL createPath;
@@ -52,17 +51,10 @@ typedef enum _ModuleStatusConst {
 }
 
 // ------------------- getter / setter -------------------
-- (NSString *)configPath;
-- (void)setConfigPath:(NSString *)value;
-
-- (NSString *)configFilePath;
-- (void)setConfigFilePath:(NSString *)value;
-
-- (NSDictionary *)installSources;
-- (void)setInstallSources:(NSDictionary *)value;
-
-- (NSArray *)installSourceList;
-- (void)setInstallSourceList:(NSArray *)value;
+@property (retain, readwrite) NSString *configPath;
+@property (retain, readwrite) NSString *configFilePath;
+@property (retain, readwrite) NSMutableDictionary *installSources;
+@property (retain, readwrite) NSMutableArray *installSourceList;
 
 // -------------------- methods --------------------
 
