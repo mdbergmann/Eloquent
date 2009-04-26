@@ -10,6 +10,7 @@
 #import "globals.h"
 #import "Bookmark.h"
 #import "SwordListKey.h"
+#import "SwordVerseKey.h"
 
 @interface BookmarkManager ()
 
