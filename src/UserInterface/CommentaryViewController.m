@@ -293,8 +293,8 @@
         // linestart still in range?
         if(lineStartIndex < [text length]) {
             NSDictionary *attrs = [attrString attributesAtIndex:lineStartIndex effectiveRange:nil];
-            if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER]) {
-                
+            // we need to write if either we encounter another verse marker or it is the last line
+            if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER] || i == [lines count]-1) {
                 // if we had a text before, store it under the current verse
                 if(currentVerse != nil && [currentText length] > 0) {
                     // remove last '\n' if there
@@ -315,6 +315,17 @@
             }
             
             lineStartIndex += [line length];                
+        } else if(lineStartIndex <= [text length] && [line length] == 0) {
+            // last line/verse
+            if(currentVerse != nil && [currentText length] > 0) {
+                // remove last '\n' if there
+                if([currentText hasSuffix:@"\n"]) {
+                    [currentText replaceCharactersInRange:NSMakeRange([currentText length]-1, 1) withString:@""];
+                }
+                // replace all '\n' characters with <br/>
+                [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
+                [module writeEntry:currentText forRef:currentVerse];
+            }
         }
     }    
 }
