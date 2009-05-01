@@ -609,6 +609,18 @@ typedef enum _NavigationDirectionType {
     [mainSplitView fullScreenModeOnOff:sender];
 }
 
+- (IBAction)focusSearchEntry:(id)sender {
+    [[self window] makeFirstResponder:searchTextField];
+}
+
+- (IBAction)nextBook:(id)sender {
+
+}
+
+- (IBAction)previousBook:(id)sender {
+
+}
+
 #pragma mark - Events
 
 - (void)keyDown:(NSEvent *)theEvent {

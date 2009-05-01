@@ -2,7 +2,7 @@
  *  swmgr.h   - definition of class SWMgr used to interact with an install
  *				base of sword modules.
  *
- * $Id: swmgr.h 2321 2009-04-13 01:17:00Z scribe $
+ * $Id: swmgr.h 2340 2009-04-26 13:51:42Z scribe $
  *
  * Copyright 1998-2008 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -43,9 +43,11 @@
  *	if you decide to start a new project.
  *
  * Well known frontends are:\n
+ *	-BibleTime (http://www.bibletime.info)\n
+ *	-BPBible (http://bpbible.com)\n
+ *	-MacSword (http://www.macsword.com)\n
+ *	-Xiphos (http://xiphos.org)\n
  *	-SWORD for Windows (http://crosswire.org/sword/software/biblecs/)\n
- *	-GnomeSword (http://gnomesword.sourceforge.net/)\n
- *	-BibleTime (http://www.bibletime.info/)\n
  */
 
 #ifndef SWMGR_H
@@ -82,7 +84,7 @@ class SWOptionFilter;
  * SWMgr exposes an installed module set and can be asked to configure the desired
  *	markup and options which modules will produce.
  *
- * @version $Id: swmgr.h 2321 2009-04-13 01:17:00Z scribe $
+ * @version $Id: swmgr.h 2340 2009-04-26 13:51:42Z scribe $
  */
 class SWDLLEXPORT SWMgr {
 

@@ -20,6 +20,7 @@
  *
  */
 
+#include <list>
 #include <defs.h>
 #include <swcacher.h>
 #include <swbuf.h>
@@ -31,6 +32,7 @@
 
 SWORD_NAMESPACE_START
 
+typedef std::list <SWBuf>StringList;
 
 struct sbook;
 class TreeKey;
@@ -149,6 +151,7 @@ public:
 	~VerseMgr();
 	static VerseMgr *getSystemVerseMgr();
 	static void setSystemVerseMgr(VerseMgr *newVerseMgr);
+	const StringList getVersificationSystems() const;
 	const System *getVersificationSystem(const char *name) const;
 	void registerVersificationSystem(const char *name, const sbook *ot, const sbook *nt, int *chMax);
 	void registerVersificationSystem(const char *name, const TreeKey *);
