@@ -172,14 +172,6 @@
 
 #pragma mark - Methods
 
-/** sets the type of search to UI */
-- (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString {
-    [super setSearchUIType:aType searchString:aString];
-    
-    // accessorie view may change
-    [rsbViewController setContentView:[(GenBookViewController *)contentViewController listContentView]];
-}
-
 - (ModuleType)moduleType {
     ModuleType moduleType = bible;
     
@@ -259,15 +251,6 @@
     if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
         [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:nil];
     }
-}
-
-- (void)searchInput:(id)sender {
-    MBLOGV(MBLOG_DEBUG, @"search input: %@", [sender stringValue]);
-    
-    [super searchInput:sender];
-    
-    NSString *searchText = [sender stringValue];
-    [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:[currentSearchText searchType]];
 }
 
 - (IBAction)forceReload:(id)sender {
@@ -388,11 +371,24 @@
             
             // all booktypes have something to show in the right side bar
             [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
+            
             if([vc isKindOfClass:[DictionaryViewController class]] ||
                [vc isKindOfClass:[GenBookViewController class]]) {
                 [self showRightSideBar:YES];
             } else {
                 [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+            }
+
+            if([currentSearchText searchType] == ReferenceSearchType) {
+                [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+                [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+                [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+                [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
+            } else {
+                [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+                [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+                [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+                [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
             }
             
             // also set current search Text

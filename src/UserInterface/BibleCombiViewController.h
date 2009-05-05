@@ -38,12 +38,10 @@
     
     // the regex that will find out the versekey
     MBRegex *regex;
-    
-    // search type
-    SearchType searchType;
-    
+        
     // progressAction
     BOOL progressControl;
+    int progressStartedCounter;
 }
 
 // initializers

@@ -1,7 +1,7 @@
 /******************************************************************************
  *	versekey.h - code for class 'versekey'- a standard Biblical verse key
  *
- * $Id: versekey.h 2324 2009-04-20 18:40:15Z scribe $
+ * $Id: versekey.h 2377 2009-05-04 08:04:55Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -71,7 +71,7 @@ class SWDLLEXPORT VerseKey : public SWKey {
 
 	/** initializes this VerseKey()
 	*/
-	void init();
+	void init(const char *v11n = "KJV");
 
 	// bounds caching is mutable, thus const
 	void initBounds() const;
@@ -91,8 +91,11 @@ class SWDLLEXPORT VerseKey : public SWKey {
 
 	// internal upper/lower bounds optimizations
 	mutable long lowerBound, upperBound;	// if autonorms is on
-	mutable struct { int test; int book; int chap; int verse; } lowerBoundComponents, upperBoundComponents;	// if autonorms is off, we can't optimize with index
 	mutable VerseKey *tmpClone;
+
+	typedef struct { int test; int book; int chap; int verse; } VerseComponents;
+
+	mutable VerseComponents lowerBoundComponents, upperBoundComponents;	// if autonorms is off, we can't optimize with index
 
 protected:
 
@@ -153,7 +156,7 @@ public:
 	* @param min the lower boundary of the new	VerseKey
 	* @param max the upper boundary of the new	VerseKey
 	*/
-	VerseKey(const char *min, const char *max);
+	VerseKey(const char *min, const char *max, const char *v11n = "KJV");
 
 	/**	VerseKey Copy Constructor - will create a new VerseKey
 	* based on an existing SWKey

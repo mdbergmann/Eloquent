@@ -1,7 +1,7 @@
 /******************************************************************************
  *  utilxml.h   - definition of class that deal with xml constructs 
  *
- * $Id: utilxml.h 2195 2008-09-11 00:20:58Z scribe $
+ * $Id: utilxml.h 2378 2009-05-04 23:18:51Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -70,7 +70,11 @@ public:
 			endTag = false;
 	}
 
-	inline bool isEndTag() const { return endTag; }
+	/***
+	 * if an eID is provided, then we check to be sure we have an attribute <tag eID="xxx"/> value xxx equiv to what is given us
+	 * otherwise, we return if we're a simple XML end </tag>.
+	 */
+	bool isEndTag(const char *eID = 0) const;
 
 	const StringList getAttributeNames() const;
 	int getAttributePartCount(const char *attribName, char partSplit = '|') const;

@@ -45,11 +45,15 @@ enum BibleViewLinkContextMenuItems {
 
     // force redisplay
     BOOL forceRedisplay;
+
+    // search type
+    SearchType searchType;
 }
 
 @property (retain, readwrite) NSString *reference;
 @property (readwrite) BOOL forceRedisplay;
 @property (readwrite) int customFontSize;
+@property (readwrite) SearchType searchType;
 @property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
 @property (retain, readwrite) NSMutableDictionary *displayOptions;
 @property (readonly) NSPopUpButton *fontSizePopUpButton;

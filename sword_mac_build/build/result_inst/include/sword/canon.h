@@ -1,7 +1,7 @@
 /******************************************************************************
  * canon.h - Canonical text information to be included by VerseKey.cpp
  *
- * $Id: canon.h 2285 2009-03-18 09:10:17Z chrislit $
+ * $Id: canon.h 2365 2009-04-29 19:30:06Z chrislit $
  *
  * Copyright 1998-2009 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -134,7 +134,7 @@ int vm[] = {
     48, 25,
   // Ruth
   22, 23, 18, 22,
-  // I Samual
+  // I Samuel
   28, 36, 21, 22, 12, 21, 17, 22, 27, 27, 15, 25, 23, 52, 35, 23, 58, 30, 24,
     42, 15, 23, 29, 22, 44, 25, 12, 25, 11, 31, 13,
   // II Samuel

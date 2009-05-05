@@ -18,6 +18,9 @@
 #import "NSImage+Additions.h"
 #import "FullScreenSplitView.h"
 #import "ModuleCommonsViewController.h"
+#import "BibleCombiViewController.h"
+#import "CommentaryViewController.h"
+#import "SwordVerseKey.h"
 
 @interface WindowHostController ()
 
@@ -503,6 +506,8 @@ typedef enum _NavigationDirectionType {
     
     // unset
     navigationAction = NO;
+    
+    [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:type];
 }
 
 - (void)searchType:(id)sender {
@@ -614,11 +619,57 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)nextBook:(id)sender {
-
+    // get current search entry, take the first versekey's book and add 1
+    if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
+        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        [verseKey setBook:[verseKey book] + 1];
+        [verseKey setChapter:1];
+                
+        // get verse key text
+        NSString *keyStr = [NSString stringWithFormat:@"%@ %i", [verseKey bookName], [verseKey chapter]];
+        [self setSearchText:keyStr];
+    }
 }
 
 - (IBAction)previousBook:(id)sender {
+    // get current search entry, take the first versekey's book and add 1
+    if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
+       [contentViewController isKindOfClass:[CommentaryViewController class]]) {
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        [verseKey setBook:[verseKey book] - 1];
+        [verseKey setChapter:1];
+        
+        // get verse key text
+        NSString *keyStr = [NSString stringWithFormat:@"%@ %i", [verseKey bookName], [verseKey chapter]];
+        [self setSearchText:keyStr];
+    }    
+}
 
+- (IBAction)nextChapter:(id)sender {
+    // get current search entry, take the first versekey's book and add 1
+    if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
+       [contentViewController isKindOfClass:[CommentaryViewController class]]) {
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        [verseKey setChapter:[verseKey chapter] + 1];
+        
+        // get verse key text
+        NSString *keyStr = [NSString stringWithFormat:@"%@ %i", [verseKey bookName], [verseKey chapter]];
+        [self setSearchText:keyStr];
+    }
+}
+
+- (IBAction)previousChapter:(id)sender {
+    // get current search entry, take the first versekey's book and add 1
+    if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
+       [contentViewController isKindOfClass:[CommentaryViewController class]]) {
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        [verseKey setChapter:[verseKey chapter] - 1];
+        
+        // get verse key text
+        NSString *keyStr = [NSString stringWithFormat:@"%@ %i", [verseKey bookName], [verseKey chapter]];
+        [self setSearchText:keyStr];
+    }    
 }
 
 #pragma mark - Events
@@ -759,7 +810,7 @@ typedef enum _NavigationDirectionType {
 /** used to set text to the search field from outside */
 - (void)setSearchText:(NSString *)aString {
     [searchTextField setStringValue:aString];
-    [self searchInput:searchTextField];
+    [self searchInput:searchTextField];    
 }
 
 /** sets the type of search to UI */
@@ -813,7 +864,10 @@ typedef enum _NavigationDirectionType {
             [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
             [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
         }
-    }            
+
+        // accessorie view may change
+        [rsbViewController setContentView:[(BibleViewController *)contentViewController listContentView]];    
+    }    
 }
 
 - (void)adaptUIToCurrentlyDisplayingModuleType {

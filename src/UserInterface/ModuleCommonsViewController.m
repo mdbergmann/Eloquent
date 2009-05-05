@@ -22,6 +22,7 @@
 @synthesize modDisplayOptions;
 @synthesize displayOptions;
 @synthesize forceRedisplay;
+@synthesize searchType;
 @synthesize reference;
 @synthesize modDisplayOptionsPopUpButton;
 @synthesize displayOptionsPopUpButton;

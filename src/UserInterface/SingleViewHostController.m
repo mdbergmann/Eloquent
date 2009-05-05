@@ -187,14 +187,6 @@
 
 #pragma mark - methods
 
-/** sets the type of search to UI */
-- (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString {
-    [super setSearchUIType:aType searchString:aString];
-    
-    // accessorie view may change
-    [rsbViewController setContentView:[(GenBookViewController *)contentViewController listContentView]];    
-}
-
 - (ModuleType)moduleType {
     ModuleType type = bible;
     
@@ -226,64 +218,6 @@
         [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:nil];
     }
 }
-
-- (void)searchInput:(id)sender {
-    MBLOGV(MBLOG_DEBUG, @"search input: %@", [sender stringValue]);
-    
-    [super searchInput:sender];
-    
-    NSString *searchText = [sender stringValue];
-    [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:self.searchType];
-}
-
-/*
-- (void)showSearchOptionsView:(BOOL)flag {
-    
-    if(showingOptions != flag) {
-        float fullHeight = [[[self window] contentView] frame].size.height;
-        //float fullWidth = [[[self window] contentView] frame].size.width;
-
-        // set frame size of placeholder box according to view
-        searchOptionsView = [searchOptionsViewController optionsViewForSearchType:searchType];
-        [placeHolderSearchOptionsView setContentView:searchOptionsView];
-        NSSize viewSize = [searchOptionsViewController optionsViewSizeForSearchType:searchType];
-        
-        if(searchOptionsView != nil) {
-            float margin = 25;
-            float optionsBoxHeight = viewSize.height + 5;
-            NSSize newSize = NSMakeSize([placeHolderSearchOptionsView frame].size.width, optionsBoxHeight);
-            [placeHolderSearchOptionsView setFrameSize:newSize];
-            //[searchOptionsView setFrameSize:NSMakeSize([placeHolderSearchOptionsView frame].size.width, viewSize.height)];
-            
-            // change sizes of views
-            // calculate new size
-            NSRect newUpperRect = [placeHolderSearchOptionsView frame];
-            NSRect newLowerRect = [placeHolderView frame];
-            // full height
-            if(flag) {
-                // lower
-                newLowerRect.size.height = fullHeight - optionsBoxHeight - margin;
-                // upper
-                newUpperRect.size.height = optionsBoxHeight;
-                newUpperRect.origin.y = fullHeight - optionsBoxHeight;
-            } else {
-                newLowerRect.size.height = fullHeight - margin;
-                // upper
-                newUpperRect.size.height = 0.0;
-                newUpperRect.origin.y = fullHeight;
-            }
-            
-            // set new sizes
-            [placeHolderSearchOptionsView setFrame:newUpperRect];
-            [placeHolderView setFrame:newLowerRect];
-            
-            // redisplay the whole view
-            [placeHolderSearchOptionsView setHidden:!flag];
-            [[[self window] contentView] setNeedsDisplay:YES];
-        }
-    }
-}
-*/
 
 #pragma mark - Actions
 

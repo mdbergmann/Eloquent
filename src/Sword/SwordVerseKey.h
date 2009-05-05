@@ -40,6 +40,7 @@
 - (void)setVerse:(int)val;
 - (void)decrement;
 - (void)increment;
+- (NSString *)keyText;
 - (NSString *)bookName;
 - (NSString *)osisBookName;
 - (NSString *)osisRef;

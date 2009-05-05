@@ -102,6 +102,9 @@
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -awakeFromNib]");
     
+    // reset progress started counter
+    progressStartedCounter = 0;
+    
     [super awakeFromNib];
 
     defaultMiscViewHeight = 60;
@@ -256,6 +259,7 @@
         if(customFontSize > 0) {
             [bvc setCustomFontSize:customFontSize];
         }
+        [bvc setSearchType:searchType];
         [bvc setForceRedisplay:forceRedisplay];
         [bvc setDisplayOptions:displayOptions];
         [bvc setModDisplayOptions:modDisplayOptions];
@@ -270,6 +274,7 @@
         if(customFontSize > 0) {
             [cvc setCustomFontSize:customFontSize];
         }
+        [cvc setSearchType:searchType];
         [cvc setForceRedisplay:forceRedisplay];
         [cvc setDisplayOptions:displayOptions];
         [cvc setModDisplayOptions:modDisplayOptions];
@@ -751,16 +756,25 @@
         [[self view] addSubview:[pc view]];
         [[[self view] superview] setNeedsDisplay:YES];
     }
+    
+    progressStartedCounter++;
 }
 
 - (void)endIndicateProgress {
+    
+    if(progressStartedCounter > 0) {
+        --progressStartedCounter;
+    }
+    
     // subviews create the progress indicator view but shouldn't be able to remove it if we distribute a new reference ourselfs
     if(progressControl == NO) {
-        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-        [pc stopProgressAnimation];
-        if([[[self view] subviews] containsObject:[pc view]]) {
-            [[pc view] removeFromSuperview];
-        }        
+        if(progressStartedCounter == 0) {
+            ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+            [pc stopProgressAnimation];
+            if([[[self view] subviews] containsObject:[pc view]]) {
+                [[pc view] removeFromSuperview];
+            }            
+        }
     }
 }
 
@@ -843,50 +857,51 @@
     
     self.reference = aReference;
 
-    if(aReference && [aReference length] > 0) {
-        
-        if(searchType == IndexSearchType) {
-            // for search type index, check before hand that all modules that are open
-            // have a valid index
-            BOOL validIndex = YES;
-            
-            // bibles
-            for(BibleViewController *bvc in parBibleViewControllers) {
-                SwordModule *mod = [bvc module];
-                if(mod != nil) {
-                    if(![mod hasIndex]) {
-                        validIndex = NO;
-                        break;
+    if(aReference) {
+        if([aReference length] > 0) {
+            if(searchType == IndexSearchType) {
+                // for search type index, check before hand that all modules that are open
+                // have a valid index
+                BOOL validIndex = YES;
+                
+                // bibles
+                for(BibleViewController *bvc in parBibleViewControllers) {
+                    SwordModule *mod = [bvc module];
+                    if(mod != nil) {
+                        if(![mod hasIndex]) {
+                            validIndex = NO;
+                            break;
+                        }
                     }
                 }
-            }
-            // commentaries
-            for(CommentaryViewController *cvc in parMiscViewControllers) {
-                SwordModule *mod = [cvc module];
-                if(mod != nil) {
-                    if(![mod hasIndex]) {
-                        validIndex = NO;
-                        break;
+                // commentaries
+                for(CommentaryViewController *cvc in parMiscViewControllers) {
+                    SwordModule *mod = [cvc module];
+                    if(mod != nil) {
+                        if(![mod hasIndex]) {
+                            validIndex = NO;
+                            break;
+                        }
                     }
                 }
-            }
-            if(!validIndex) {
-                if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
-                    // show Alert
-                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                                     defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
-                                         informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOn", @"")];
-                    [alert runModal];
-                } else {
-                    // let the user know that creaing the index on the fly might take a while
-                    // show Alert
-                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                                     defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
-                                         informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
-                    [alert runModal];                
+                if(!validIndex) {
+                    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+                        // show Alert
+                        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                         defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                             informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOn", @"")];
+                        [alert runModal];
+                    } else {
+                        // let the user know that creaing the index on the fly might take a while
+                        // show Alert
+                        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                                         defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                             informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
+                        [alert runModal];                
+                    }
                 }
-            }
-        }
+            }            
+        }    
         
         // we take control over the progress action
         progressControl = YES;

@@ -143,5 +143,7 @@
 - (IBAction)focusSearchEntry:(id)sender;
 - (IBAction)nextBook:(id)sender;
 - (IBAction)previousBook:(id)sender;
+- (IBAction)nextChapter:(id)sender;
+- (IBAction)previousChapter:(id)sender;
 
 @end

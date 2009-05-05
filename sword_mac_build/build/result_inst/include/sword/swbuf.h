@@ -1,7 +1,7 @@
 /******************************************************************************
 *  swbuf.h  - code for SWBuf used as a transport and utility for data buffers
 *
-* $Id: swbuf.h 2218 2008-12-23 09:33:38Z scribe $
+* $Id: swbuf.h 2378 2009-05-04 23:18:51Z scribe $
 *
 * Copyright 2003 CrossWire Bible Society (http://www.crosswire.org)
 *	CrossWire Bible Society
@@ -420,13 +420,14 @@ public:
 	 */
 	inline bool endsWith(const char *postfix) const { unsigned int psize = strlen(postfix); return (size() >= psize)?!strncmp(end-psize, postfix, psize):false; }
 
-	inline int compare(const char *other) const { return strcmp(c_str(), other); }
+	// be sure we've been given a valid pointer to compare.  If not, we return !=; specifically less-than, for lack of better options
+	inline int compare(const char *other) const { return (other?strcmp(c_str(), other):-1); }
 	inline bool operator ==(const char *other) const { return compare(other) == 0; }
 	inline bool operator !=(const char *other) const { return compare(other) != 0; }
-	inline bool operator > (const char *other) const { return compare(other) > 0; }
-	inline bool operator < (const char *other) const { return compare(other) < 0; }
-	inline bool operator <=(const char *other) const { return compare(other) <= 0; }
-	inline bool operator >=(const char *other) const { return compare(other) >= 0; }
+	inline bool operator > (const char *other) const { return other && compare(other) > 0; }
+	inline bool operator < (const char *other) const { return other && compare(other) < 0; }
+	inline bool operator <=(const char *other) const { return other && compare(other) <= 0; }
+	inline bool operator >=(const char *other) const { return other && compare(other) >= 0; }
 };
 
 

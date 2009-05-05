@@ -100,6 +100,10 @@
     vk->increment();
 }
 
+- (NSString *)keyText {
+    return [NSString stringWithUTF8String:vk->getText()];
+}
+
 - (NSString *)bookName {
     return [NSString stringWithUTF8String:vk->getBookName()];
 }
