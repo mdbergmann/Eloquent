@@ -410,7 +410,7 @@ typedef enum _NavigationDirectionType {
     [toolbar setAllowsUserCustomization:YES];
     [toolbar setAutosavesConfiguration:YES];
 	//[toolbar setSizeMode:NSToolbarSizeModeRegular];
-    [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+    [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
     
     // We are the delegate
     [toolbar setDelegate:self];
