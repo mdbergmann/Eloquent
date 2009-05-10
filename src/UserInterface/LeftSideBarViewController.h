@@ -71,6 +71,9 @@
 // initialitazion
 - (id)initWithDelegate:(id)aDelegate;
 
+/** displays the module about sheet */
+- (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
+
 // subviewhosting
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;

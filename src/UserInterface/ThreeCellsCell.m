@@ -107,6 +107,9 @@
 	textFrame.size.width -= (imageFrame.size.width + rightFrame.size.width);
 	// text cell
 	NSTextFieldCell *textCell = [[NSTextFieldCell alloc] initTextCell:title];
+    [textCell setWraps:[self wraps]];
+    [textCell setTruncatesLastVisibleLine:[self truncatesLastVisibleLine]];
+    [textCell setLineBreakMode:[self lineBreakMode]];
 	[textCell setTextColor:[self textColor]];
     [textCell setFont:[self font]];
         

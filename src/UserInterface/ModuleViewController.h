@@ -86,5 +86,6 @@
 - (IBAction)lookUpInDictionary:(id)sender;
 - (IBAction)lookUpInDictionaryOfModule:(id)sender;
 - (IBAction)openLink:(id)sender;
+- (IBAction)displayModuleAbout:(id)sender;
 
 @end

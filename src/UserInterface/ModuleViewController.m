@@ -56,6 +56,22 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    // add custom menu Additions
+    [textContextMenu addItem:[NSMenuItem separatorItem]];
+    NSMenuItem *mi = [textContextMenu addItemWithTitle:NSLocalizedString(@"ShowModuleAbout", @"") action:@selector(displayModuleAbout:) keyEquivalent:@""];
+    [mi setTarget:self];
+    [mi setTag:ShowModuleAbout];
+
+    [linkContextMenu addItem:[NSMenuItem separatorItem]];
+    mi = [linkContextMenu addItemWithTitle:NSLocalizedString(@"ShowModuleAbout", @"") action:@selector(displayModuleAbout:) keyEquivalent:@""];
+    [mi setTarget:self];
+    [mi setTag:ShowModuleAbout];
+
+    [imageContextMenu addItem:[NSMenuItem separatorItem]];
+    mi = [imageContextMenu addItemWithTitle:NSLocalizedString(@"ShowModuleAbout", @"") action:@selector(displayModuleAbout:) keyEquivalent:@""];
+    [mi setTarget:self];
+    [mi setTag:ShowModuleAbout];
 }
 
 #pragma mark - Methods
@@ -259,6 +275,16 @@
             }            
         }
     }    
+}
+
+#pragma mark - General menu
+
+- (IBAction)displayModuleAbout:(id)sender {
+    if(hostingDelegate) {
+        if([hostingDelegate respondsToSelector:@selector(displayModuleAboutSheetForModule:)]) {
+            [hostingDelegate performSelector:@selector(displayModuleAboutSheetForModule:) withObject:module];
+        }
+    }
 }
 
 #pragma mark - Context Menu validation

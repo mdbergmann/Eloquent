@@ -112,6 +112,9 @@
 /** change the module type that is currently displaying */
 - (void)adaptUIToCurrentlyDisplayingModuleType;
 
+/** tells the lsb to open the module about window */
+- (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
+
 // WindowHosting
 - (ModuleType)moduleType;
 

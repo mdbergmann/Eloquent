@@ -100,6 +100,9 @@ enum ModuleMenu_Items{
     
     // prepare for our custom cell
     threeCellsCell = [[ThreeCellsCell alloc] init];
+    [threeCellsCell setWraps:NO];
+    [threeCellsCell setTruncatesLastVisibleLine:YES];
+    [threeCellsCell setLineBreakMode:NSLineBreakByTruncatingTail];
     NSTableColumn *tableColumn = [outlineView tableColumnWithIdentifier:@"common"];
     [tableColumn setDataCell:threeCellsCell];    
     
@@ -208,6 +211,18 @@ enum ModuleMenu_Items{
         modalDelegate:self
        didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
           contextInfo:nil];
+}
+
+- (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
+    // get about text as NSAttributedString
+    NSAttributedString *aboutText = [aMod fullAboutText];
+    [[moduleAboutTextView textStorage] setAttributedString:aboutText];
+    // open window
+    [NSApp beginSheet:moduleAboutWindow 
+       modalForWindow:[hostingDelegate window] 
+        modalDelegate:self
+       didEndSelector:nil 
+          contextInfo:nil];    
 }
 
 #pragma mark - SubviewHosting protocol
@@ -352,15 +367,7 @@ enum ModuleMenu_Items{
         {
             if(mod != nil) {
                 clickedMod = mod;
-                // get about text as NSAttributedString
-                NSAttributedString *aboutText = [mod fullAboutText];
-                [[moduleAboutTextView textStorage] setAttributedString:aboutText];
-                // open window
-                [NSApp beginSheet:moduleAboutWindow 
-                   modalForWindow:[hostingDelegate window] 
-                    modalDelegate:self 
-                   didEndSelector:nil 
-                      contextInfo:nil];
+                [self displayModuleAboutSheetForModule:mod];
             }
             break;
         }

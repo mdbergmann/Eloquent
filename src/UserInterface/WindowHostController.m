@@ -401,8 +401,6 @@ typedef enum _NavigationDirectionType {
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarPrintItemIdentifier];
 
     
-    
-    
     // Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier: @"SingleViewHostToolbar"];
     
@@ -933,6 +931,10 @@ typedef enum _NavigationDirectionType {
         [addBookmarkBtn setEnabled:NO];
         [forceReloadBtn setEnabled:NO];    
     }
+}
+
+- (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
+    [lsbViewController displayModuleAboutSheetForModule:aMod];
 }
 
 #pragma mark - NSSplitView delegate methods

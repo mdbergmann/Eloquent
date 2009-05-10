@@ -22,6 +22,10 @@ enum BibleViewLinkContextMenuItems {
     OpenLink = 10,
 };
 
+enum GeneralMenuItemAdditions {
+    ShowModuleAbout = 100000
+};
+
 @interface ModuleCommonsViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking> {
     /** options */
     IBOutlet NSView *referenceOptionsView;
@@ -36,7 +40,7 @@ enum BibleViewLinkContextMenuItems {
     
     NSMutableDictionary *modDisplayOptions;
     NSMutableDictionary *displayOptions;
-        
+    
     // current reference
     NSString *reference;
     
