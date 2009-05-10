@@ -88,7 +88,6 @@
 		A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810360EB4A9350066943B /* LeftSideBarViewController.m */; };
 		A98EDE450F4C77D000A3387D /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
 		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
-		A99151F20FA1C23F00DA855C /* MyInstallMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A99151F10FA1C23F00DA855C /* MyInstallMgr.cpp */; };
 		A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = A991F4A20EE2E224009A6D08 /* ModuleManager.png */; };
 		A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A992B52A0DF9AD6E00207967 /* Localizable.strings */; };
 		A992B5350DF9AD6E00207967 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52C0DF9AD6E00207967 /* MainMenu.xib */; };
@@ -323,8 +322,6 @@
 		A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBibleBook.mm; sourceTree = "<group>"; };
 		A99055AA0E04273E00E8D7A2 /* BibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleViewController.h; path = src/UserInterface/BibleViewController.h; sourceTree = "<group>"; };
 		A99055AB0E04273E00E8D7A2 /* BibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleViewController.m; path = src/UserInterface/BibleViewController.m; sourceTree = "<group>"; };
-		A99151F00FA1C23F00DA855C /* MyInstallMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInstallMgr.h; sourceTree = "<group>"; };
-		A99151F10FA1C23F00DA855C /* MyInstallMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyInstallMgr.cpp; sourceTree = "<group>"; };
 		A991F4A20EE2E224009A6D08 /* ModuleManager.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ModuleManager.png; sourceTree = "<group>"; };
 		A992B52B0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A992B52D0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -697,8 +694,6 @@
 				A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */,
 				A92480BF0F4D99630048A603 /* SwordBibleChapter.h */,
 				A92480C00F4D99630048A603 /* SwordBibleChapter.m */,
-				A99151F00FA1C23F00DA855C /* MyInstallMgr.h */,
-				A99151F10FA1C23F00DA855C /* MyInstallMgr.cpp */,
 			);
 			name = Sword;
 			path = src/Sword;
@@ -1120,7 +1115,6 @@
 				A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */,
 				A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */,
 				A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */,
-				A99151F20FA1C23F00DA855C /* MyInstallMgr.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

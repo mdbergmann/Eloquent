@@ -65,6 +65,9 @@
 // Index creation delegate
 - (void)indexCreationFinished:(SwordModule *)mod;
 
+// the text view
+- (NSTextView *)textView;
+
 // ---------- Hostable delegate methods ---------
 - (void)contentViewInitFinished:(HostableViewController *)aView;
 

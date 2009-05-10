@@ -82,6 +82,9 @@ enum GeneralMenuItemAdditions {
  */
 - (void)initTextContextOptions;
 
+// printing
+- (NSView *)printViewForInfo:(NSPrintInfo *)printInfo;
+
 // Actions to be overriden by subclasses
 - (IBAction)fontSizeChange:(id)sender;
 - (IBAction)displayOptionShowStrongs:(id)sender;

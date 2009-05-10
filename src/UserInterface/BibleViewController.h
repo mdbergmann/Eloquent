@@ -67,8 +67,7 @@
 // searchBookSetsController
 - (SearchBookSetEditorController *)searchBookSetsController;
 
-// pass further the scroll and textview
-- (NSTextView *)textView;
+// pass further the scrollview
 - (NSScrollView *)scrollView;
 
 // method called by subview

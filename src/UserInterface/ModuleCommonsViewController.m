@@ -198,6 +198,13 @@
     [textContextPopUpButton setAction:@selector(textContextChange:)];
 }
 
+#pragma mark - Printing
+
+/** to be overriden by subclasses */
+- (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {
+    return nil;
+}
+
 #pragma mark - Actions
 
 - (IBAction)fontSizeChange:(id)sender {

@@ -1010,6 +1010,27 @@ typedef enum _NavigationDirectionType {
     }
 }
 
+#pragma mark - Printing
+
+- (IBAction)myPrint:(id)sender {
+    // get print info
+    NSPrintInfo *printInfo = [NSPrintInfo sharedPrintInfo];
+    
+    // set margins
+    [printInfo setLeftMargin:1.5 * (72.0 / 2.54)];
+    [printInfo setRightMargin:1 * (72.0 / 2.54)];
+    [printInfo setTopMargin:1.5 * (72.0 / 2.54)];
+    [printInfo setBottomMargin:2.0 * (72.0 / 2.54)];
+    
+    // get print view
+    if(contentViewController) {
+        NSView *printView = [(ModuleCommonsViewController *)contentViewController printViewForInfo:printInfo];
+        if(printView) {
+            [printView print:self];
+        }
+    }
+}
+
 #pragma mark - WindowHosting protocol
 
 /** abstract method */

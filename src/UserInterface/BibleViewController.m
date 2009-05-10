@@ -265,10 +265,6 @@
     [entriesOutlineView reloadData];
 }
 
-- (NSTextView *)textView {
-    return [textViewController textView];
-}
-
 - (NSScrollView *)scrollView {
     return (NSScrollView *)[textViewController scrollView];
 }

@@ -115,6 +115,9 @@
 /** tells the lsb to open the module about window */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
 
+// Printing
+- (IBAction)myPrint:(id)sender;
+
 // WindowHosting
 - (ModuleType)moduleType;
 
