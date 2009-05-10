@@ -235,6 +235,7 @@ typedef enum _NavigationDirectionType {
     float segmentControlHeight = 32.0;
     float segmentControlWidth = (2*64.0);
     
+    /*
     // Navigation Control
     navigationSegControl = [[NSSegmentedControl alloc] init];
     [navigationSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
@@ -267,6 +268,7 @@ typedef enum _NavigationDirectionType {
     // set the segmented control as the view of the toolbar item
     [item setView:navigationSegControl];
     [tbIdentifiers setObject:item forKey:TB_NAVIGATION_TYPE_ITEM];
+     */
     
     // Search Control
     searchTypeSegControl = [[NSSegmentedControl alloc] init];
@@ -439,7 +441,7 @@ typedef enum _NavigationDirectionType {
  */
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
-                                 TB_NAVIGATION_TYPE_ITEM,
+                                 //TB_NAVIGATION_TYPE_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
                                  TB_SEARCH_TYPE_ITEM,
                                  TB_SEARCH_TEXT_ITEM,
