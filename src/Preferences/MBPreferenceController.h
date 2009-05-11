@@ -30,6 +30,7 @@
 #define DEFAULTS_SWMODULE_PATH_KEY                  @"SwordModulePath"
 #define DEFAULTS_SWINSTALLMGR_PATH_KEY              @"SwordInstallMgrPath"
 #define DEFAULTS_SWINDEX_PATH_KEY                   @"SwordIndexPath"
+#define DefaultsSessionPath                         @"DefaultsSessionPath"
 
 // default bible
 #define DefaultsBibleModule                         @"DefaultsBibleModule"

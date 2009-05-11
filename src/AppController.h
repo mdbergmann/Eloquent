@@ -46,6 +46,9 @@ typedef enum AppErrorCodes {
     
     // all window hosts
     NSMutableArray *windowHosts;
+    
+    // the session is loaded from
+    NSString *sessionPath;
 }
 
 + (AppController *)defaultAppController;
@@ -53,6 +56,15 @@ typedef enum AppErrorCodes {
 /** opens a new single host window for the given module */
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod;
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod;
+
+/** stores the session to file */
+- (IBAction)saveSessionAs:(id)sender;
+/** stores as default session */
+- (IBAction)saveAsDefaultSession:(id)sender;
+/** loads session from file */
+- (IBAction)openSession:(id)sender;
+/** open the default session */
+- (IBAction)openDefaultSession:(id)sender;
 
 // NSApplication delegate methods
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames;

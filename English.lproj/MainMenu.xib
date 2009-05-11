@@ -279,6 +279,22 @@
 									<reference key="NSOnImage" ref="780798457"/>
 									<reference key="NSMixedImage" ref="1039508180"/>
 								</object>
+								<object class="NSMenuItem" id="875667283">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Open Session...</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="780798457"/>
+									<reference key="NSMixedImage" ref="1039508180"/>
+								</object>
+								<object class="NSMenuItem" id="163138936">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Open Default Session</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="780798457"/>
+									<reference key="NSMixedImage" ref="1039508180"/>
+								</object>
 								<object class="NSMenuItem" id="425164168">
 									<reference key="NSMenu" ref="720053764"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -347,6 +363,22 @@
 									<string type="base64-UTF8" key="NSTitle">U2F2ZSBBc+KApg</string>
 									<string key="NSKeyEquiv">S</string>
 									<int key="NSKeyEquivModMask">1179648</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="780798457"/>
+									<reference key="NSMixedImage" ref="1039508180"/>
+								</object>
+								<object class="NSMenuItem" id="9835743">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Save Session As...</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="780798457"/>
+									<reference key="NSMixedImage" ref="1039508180"/>
+								</object>
+								<object class="NSMenuItem" id="966477021">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Save as default session</string>
+									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="780798457"/>
 									<reference key="NSMixedImage" ref="1039508180"/>
@@ -1901,6 +1933,38 @@
 					</object>
 					<int key="connectionID">530</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openSession:</string>
+						<reference key="source" ref="528392195"/>
+						<reference key="destination" ref="875667283"/>
+					</object>
+					<int key="connectionID">533</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">saveSessionAs:</string>
+						<reference key="source" ref="528392195"/>
+						<reference key="destination" ref="9835743"/>
+					</object>
+					<int key="connectionID">534</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openDefaultSession:</string>
+						<reference key="source" ref="528392195"/>
+						<reference key="destination" ref="163138936"/>
+					</object>
+					<int key="connectionID">536</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">saveAsDefaultSession:</string>
+						<reference key="source" ref="528392195"/>
+						<reference key="destination" ref="966477021"/>
+					</object>
+					<int key="connectionID">538</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2010,6 +2074,10 @@
 							<reference ref="34095557"/>
 							<reference ref="991890309"/>
 							<reference ref="582335433"/>
+							<reference ref="9835743"/>
+							<reference ref="875667283"/>
+							<reference ref="163138936"/>
+							<reference ref="966477021"/>
 						</object>
 						<reference key="parent" ref="379814623"/>
 					</object>
@@ -2821,6 +2889,26 @@
 						<reference key="object" ref="1024400438"/>
 						<reference key="parent" ref="466310130"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">531</int>
+						<reference key="object" ref="9835743"/>
+						<reference key="parent" ref="720053764"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">532</int>
+						<reference key="object" ref="875667283"/>
+						<reference key="parent" ref="720053764"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">535</int>
+						<reference key="object" ref="163138936"/>
+						<reference key="parent" ref="720053764"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">537</int>
+						<reference key="object" ref="966477021"/>
+						<reference key="parent" ref="720053764"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3027,6 +3115,10 @@
 					<string>524.IBPluginDependency</string>
 					<string>525.IBPluginDependency</string>
 					<string>526.IBPluginDependency</string>
+					<string>531.IBPluginDependency</string>
+					<string>532.IBPluginDependency</string>
+					<string>535.IBPluginDependency</string>
+					<string>537.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
 					<string>56.ImportedFromIB2</string>
 					<string>57.IBEditorWindowLastContentRect</string>
@@ -3168,7 +3260,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{352, 905}, {197, 73}}</string>
-					<string>{{178, 674}, {372, 20}}</string>
+					<string>{{23, 626}, {372, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{74, 862}</string>
@@ -3261,6 +3353,10 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{446, 291}, {234, 223}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3282,7 +3378,7 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{282, 441}, {201, 233}}</string>
+					<string>{{127, 313}, {251, 313}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{150, 775}, {199, 203}}</string>
@@ -3312,7 +3408,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">530</int>
+			<int key="maxID">538</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3326,11 +3422,15 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>createCommentaryCancel:</string>
 							<string>createCommentaryOk:</string>
+							<string>openDefaultSession:</string>
 							<string>openNewSingleBibleHostWindow:</string>
 							<string>openNewSingleCommentaryHostWindow:</string>
 							<string>openNewSingleDictionaryHostWindow:</string>
 							<string>openNewSingleGenBookHostWindow:</string>
 							<string>openNewWorkspaceHostWindow:</string>
+							<string>openSession:</string>
+							<string>saveAsDefaultSession:</string>
+							<string>saveSessionAs:</string>
 							<string>showAboutWindow:</string>
 							<string>showCreateModuleWindow:</string>
 							<string>showModuleManager:</string>
@@ -3339,6 +3439,10 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

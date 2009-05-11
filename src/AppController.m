@@ -227,7 +227,13 @@ static AppController *singleton;
 		[self registerDefaults];
 
         // init AppSupportFolder
-        [self setupFolders];                                        
+        [self setupFolders];
+        
+        // load session path from defaults
+        sessionPath = [userDefaults stringForKey:DefaultsSessionPath];
+        if(!sessionPath) {
+            sessionPath = @"";
+        }
     }
     
     return self;
@@ -543,8 +549,13 @@ static AppController *singleton;
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+    // check for session to load
+    if([sessionPath length] == 0) {
+        sessionPath = DEFAULT_SESSION_PATH;
+    }
+    
     // load saved windows
-    NSData *data = [NSData dataWithContentsOfFile:DEFAULT_SESSION_PATH];
+    NSData *data = [NSData dataWithContentsOfFile:sessionPath];
     if(data != nil) {
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
@@ -573,19 +584,146 @@ static AppController *singleton;
     }
 }
 
+- (void)saveSessionToFile:(NSString *)sessionFile {
+    
+    // encode all windows
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
+    [archiver encodeObject:windowHosts forKey:@"WindowsEncoded"];
+    [archiver finishEncoding];
+    // write data object
+    [data writeToFile:sessionFile atomically:NO];    
+}
+
+- (void)loadSessionFromFile:(NSString *)sessionFile {
+    NSData *data = [NSData dataWithContentsOfFile:sessionFile];
+    if(data != nil) {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
+        for(NSWindowController *wc in windowHosts) {
+            if([wc isKindOfClass:[WindowHostController class]]) {
+                [(WindowHostController *)wc setDelegate:self];
+            }
+        }
+        
+        // show svh
+        for(id entry in windowHosts) {
+            if([entry isKindOfClass:[WindowHostController class]]) {
+                [(WindowHostController *)entry showWindow:self];
+            }
+        }        
+    }
+}
+
+/** stores the session to file */
+- (IBAction)saveSessionAs:(id)sender {
+    NSSavePanel *sp = [NSSavePanel savePanel];
+    [sp setTitle:NSLocalizedString(@"SaveMSSession", @"")];
+    [sp setCanCreateDirectories:YES];
+    [sp setRequiredFileType:@"mssess"];
+    if([sp runModal] == NSFileHandlingPanelOKButton) {
+        sessionPath = [sp filename];
+        [self saveSessionToFile:sessionPath];
+        // this session we have loaded
+        [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];
+    }
+}
+
+/** stores as default session */
+- (IBAction)saveAsDefaultSession:(id)sender {
+    [self saveSessionToFile:DEFAULT_SESSION_PATH];
+    // this session we have loaded
+    [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];    
+}
+
+/** loads session from file */
+- (IBAction)openSession:(id)sender {
+
+    // if there are any open windows, a session is currently open
+    // ask the user if we wants to save the open session first
+    if([windowHosts count] > 0) {
+        // show Alert
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionStillOpen", @"")
+                                         defaultButton:NSLocalizedString(@"Yes", @"") 
+                                       alternateButton:NSLocalizedString(@"No", @"") 
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"WantToSaveTheSessionBeforeClosing", @"")];
+        if([alert runModal] == NSAlertDefaultReturn) {
+            if([sessionPath length] == 0) {
+                sessionPath = DEFAULT_SESSION_PATH;
+            }    
+            // save session
+            [self saveSessionToFile:sessionPath];            
+        }
+
+        // close all existing windows
+        for(NSWindowController *wc in windowHosts) {
+            [wc close];
+        }
+    }
+    
+    // open load panel
+    NSOpenPanel *op = [NSOpenPanel openPanel];
+    [op setCanCreateDirectories:NO];
+    [op setRequiredFileType:@"mssess"];
+    [op setTitle:NSLocalizedString(@"LoadMSSession", @"")];
+    [op setAllowsMultipleSelection:NO];
+    [op setCanChooseDirectories:NO];
+    [op setAllowsOtherFileTypes:NO];
+    if([op runModal] == NSFileHandlingPanelOKButton) {
+        // get file
+        sessionPath = [op filename];
+        // this session we have loaded
+        [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];        
+        // load session
+        [self loadSessionFromFile:sessionPath];
+    }    
+}
+
+/** open the default session */
+- (IBAction)openDefaultSession:(id)sender {
+
+    // if there are any open windows, a session is currently open
+    // ask the user if we wants to save the open session first
+    if([windowHosts count] > 0) {
+        // show Alert
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionStillOpen", @"")
+                                         defaultButton:NSLocalizedString(@"Yes", @"") 
+                                       alternateButton:NSLocalizedString(@"No", @"") 
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"WantToSaveTheSessionBeforeClosing", @"")];
+        if([alert runModal] == NSAlertDefaultReturn) {
+            if([sessionPath length] == 0) {
+                sessionPath = DEFAULT_SESSION_PATH;
+            }    
+            // save session
+            [self saveSessionToFile:sessionPath];            
+        }
+        
+        // close all existing windows
+        for(NSWindowController *wc in windowHosts) {
+            [wc close];
+        }
+    }
+
+    // this session we have to load
+    sessionPath = DEFAULT_SESSION_PATH;
+    [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];        
+    // load session
+    [self loadSessionFromFile:sessionPath];
+}
+
 /**
 \brief is called when application is terminated
 */
 - (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
 
-// encode all windows
-NSMutableData *data = [NSMutableData data];
-NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
-    [archiver encodeObject:windowHosts forKey:@"WindowsEncoded"];
-    [archiver finishEncoding];
-    // write data object
-    [data writeToFile:DEFAULT_SESSION_PATH atomically:NO];
+    if([sessionPath length] == 0) {
+        sessionPath = DEFAULT_SESSION_PATH;
+    }    
+    // save session
+    [self saveSessionToFile:sessionPath];    
     
     // close logger
 	[MBLogger closeLogger];
