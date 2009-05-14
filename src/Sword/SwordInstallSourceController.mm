@@ -104,8 +104,8 @@ base path of the module installation
         createPath = NO;
         [self setConfigPath:nil];
         [self setConfigFilePath:nil];
-        [self setInstallSources:[NSDictionary dictionary]];
-        [self setInstallSourceList:[NSArray array]];
+        [self setInstallSources:[NSMutableDictionary dictionary]];
+        [self setInstallSourceList:[NSMutableArray array]];
     }
     
     return self;

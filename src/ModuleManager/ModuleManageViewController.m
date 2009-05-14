@@ -424,6 +424,7 @@
         // set user default object
         [[NSUserDefaults standardUserDefaults] setObject:@"started" forKey:@"FirstStartModInstaller"];
     } else {
+        /*
         // lets show an requester and let the iser decide to check install sources
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                          defaultButton:NSLocalizedString(@"Yes", @"") 
@@ -469,6 +470,7 @@
                 [alert runModal];        
             }        
         }        
+         */
     }
 
     initialized = YES;    
