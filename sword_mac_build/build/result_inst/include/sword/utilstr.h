@@ -1,7 +1,7 @@
 /******************************************************************************
  *  utilstr.h	- prototypes for string utility functions
  *
- * $Id: utilstr.h 2295 2009-03-29 17:11:27Z scribe $
+ * $Id: utilstr.h 2391 2009-05-08 02:02:16Z chrislit $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -30,10 +30,10 @@ SWORD_NAMESPACE_START
 /** stdstr - clone a string
 */
 SWDLLEXPORT char *stdstr (char **iistr, const char *istr, unsigned int memPadFactor = 1);
-char *strstrip (char *istr);
-const char *stristr (const char *s1, const char *s2);
-int strnicmp(const char *s1, const char *s2, int len);
-int stricmp(const char *s1, const char *s2);
+SWDLLEXPORT char *strstrip (char *istr);
+SWDLLEXPORT const char *stristr (const char *s1, const char *s2);
+SWDLLEXPORT int strnicmp(const char *s1, const char *s2, int len);
+SWDLLEXPORT int stricmp(const char *s1, const char *s2);
 
 /******************************************************************************
  * SW_toupper - array of uppercase values for any given Latin-1 value

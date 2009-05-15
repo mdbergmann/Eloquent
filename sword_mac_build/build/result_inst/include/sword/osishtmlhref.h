@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * $Id: osishtmlhref.h 2091 2007-09-28 01:49:45Z scribe $
+ * $Id: osishtmlhref.h 2391 2009-05-08 02:02:16Z chrislit $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -33,7 +33,7 @@ private:
 protected:
 	// used by derived classes so we have it in the header
 	class QuoteStack;
-	class MyUserData : public BasicFilterUserData {
+	class SWDLLEXPORT MyUserData : public BasicFilterUserData {
 	public:
 		bool osisQToTick;
 		bool inBold;

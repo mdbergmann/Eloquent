@@ -7,11 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Indexer.h>
 
 @class ReferenceCacheObject;
 
 @interface ReferenceCacheManager : NSObject {
-    NSMutableArray *cache;
+    NSMutableArray *indexCache;
+    NSMutableArray *refCache;
     int keepSize;
 }
 
@@ -19,9 +21,9 @@
 
 + (ReferenceCacheManager *)defaultCacheManager;
 
-- (void)addCacheObject:(ReferenceCacheObject *)cacheObject;
-- (ReferenceCacheObject *)cacheObjectForReference:(NSString *)ref andModuleName:(NSString *)aName;
+- (void)addCacheObject:(ReferenceCacheObject *)cacheObject searchType:(SearchType)aType;
+- (ReferenceCacheObject *)cacheObjectForReference:(NSString *)ref forModuleName:(NSString *)aName andSearchType:(SearchType)aType;
 - (void)cleanCache;
-- (BOOL)contains:(ReferenceCacheObject *)anObject;
+- (BOOL)contains:(ReferenceCacheObject *)anObject forSearchType:(SearchType)aType;
 
 @end

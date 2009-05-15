@@ -562,7 +562,7 @@
             
             // check cache first
             ReferenceCacheManager *rm = [ReferenceCacheManager defaultCacheManager];
-            ReferenceCacheObject *o = [rm cacheObjectForReference:aReference andModuleName:[module name]];
+            ReferenceCacheObject *o = [rm cacheObjectForReference:aReference forModuleName:[module name] andSearchType:aType];
             if(forceRedisplay) {
                 o = nil;
             }
@@ -649,7 +649,7 @@
                                                                                       withDisplayText:text
                                                                                         numberOfFinds:verses
                                                                                          andReference:aReference];
-                    [rm addCacheObject:o];                    
+                    [rm addCacheObject:o searchType:aType];                    
                 }
             }
 

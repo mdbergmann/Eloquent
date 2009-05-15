@@ -29,7 +29,7 @@ SWORD_NAMESPACE_START
  *  (for morpheme segmented Hebrew in the WLC)
  */
 
-class OSISMorphSegmentation : public SWOptionFilter {
+class SWDLLEXPORT OSISMorphSegmentation : public SWOptionFilter {
 
 public:
 	OSISMorphSegmentation();

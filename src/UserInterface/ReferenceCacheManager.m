@@ -11,14 +11,16 @@
 
 @interface ReferenceCacheManager ( )
 
-@property (retain, readwrite) NSMutableArray *cache;
+@property (retain, readwrite) NSMutableArray *indexCache;
+@property (retain, readwrite) NSMutableArray *refCache;
 
 @end
 
 
 @implementation ReferenceCacheManager
 
-@synthesize cache;
+@synthesize indexCache;
+@synthesize refCache;
 @synthesize keepSize;
 
 + (ReferenceCacheManager *)defaultCacheManager {
@@ -34,7 +36,8 @@
     self = [super init];
     if(self) {
         keepSize = 10;   // default keepSize
-        self.cache = [NSMutableArray arrayWithCapacity:keepSize];
+        self.indexCache = [NSMutableArray arrayWithCapacity:keepSize];
+        self.refCache = [NSMutableArray arrayWithCapacity:keepSize];
     }
     
     return self;
@@ -44,24 +47,34 @@
     [super finalize];
 }
 
-- (void)addCacheObject:(ReferenceCacheObject *)cacheObject {
+- (void)addCacheObject:(ReferenceCacheObject *)cacheObject searchType:(SearchType)aType {
     
-    if(![self contains:cacheObject]) {
-        [cache addObject:cacheObject];
+    NSMutableArray *arr = refCache;
+    if(aType == IndexSearchType) {
+        arr = indexCache;
+    }
+
+    if(![self contains:cacheObject forSearchType:aType]) {
+        [arr addObject:cacheObject];
         
         // check current size and see if we need to delete some entries
-        int diff = [cache count] - keepSize;
+        int diff = [arr count] - keepSize;
         if(diff > 0) {
             // we need to delete some entries
-            [cache removeObjectsInRange:NSMakeRange(0, diff - 1)];
+            [arr removeObjectsInRange:NSMakeRange(0, diff - 1)];
         }        
     }
 }
 
-- (ReferenceCacheObject *)cacheObjectForReference:(NSString *)ref andModuleName:(NSString *)aName {
+- (ReferenceCacheObject *)cacheObjectForReference:(NSString *)ref forModuleName:(NSString *)aName andSearchType:(SearchType)aType {
     ReferenceCacheObject *ret = nil;
     
-    for(ReferenceCacheObject *o in cache) {
+    NSMutableArray *arr = refCache;
+    if(aType == IndexSearchType) {
+        arr = indexCache;
+    }
+    
+    for(ReferenceCacheObject *o in arr) {
         if([o.moduleName isEqualToString:aName] && [o.reference isEqualToString:ref]) {
             ret = o;
             break;
@@ -72,13 +85,19 @@
 }
 
 - (void)cleanCache {
-    [cache removeAllObjects];
+    [indexCache removeAllObjects];
+    [refCache removeAllObjects];
 }
 
-- (BOOL)contains:(ReferenceCacheObject *)anObject {
+- (BOOL)contains:(ReferenceCacheObject *)anObject forSearchType:(SearchType)aType {
     BOOL ret = NO;
     
-    for(ReferenceCacheObject *obj in cache) {
+    NSMutableArray *arr = refCache;
+    if(aType == IndexSearchType) {
+        arr = indexCache;
+    }
+
+    for(ReferenceCacheObject *obj in arr) {
         if([[obj reference] isEqualToString:[anObject reference]]) {
             ret = YES;
             break;

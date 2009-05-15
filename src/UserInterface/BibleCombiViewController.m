@@ -895,16 +895,21 @@
                         }
                     }
                 }
-                // commentaries
-                for(CommentaryViewController *cvc in parMiscViewControllers) {
-                    SwordModule *mod = [cvc module];
-                    if(mod != nil) {
-                        if(![mod hasIndex]) {
-                            validIndex = NO;
-                            break;
+                
+                // search further for no vaid indexes
+                if(validIndex) {
+                    // commentaries
+                    for(CommentaryViewController *cvc in parMiscViewControllers) {
+                        SwordModule *mod = [cvc module];
+                        if(mod != nil) {
+                            if(![mod hasIndex]) {
+                                validIndex = NO;
+                                break;
+                            }
                         }
                     }
                 }
+                
                 if(!validIndex) {
                     if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
                         // show Alert

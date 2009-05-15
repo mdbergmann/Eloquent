@@ -34,6 +34,7 @@ protected:
 	class MyUserData : public BasicFilterUserData {
 	public:
 		bool BiblicalText;
+		bool inOsisRef;
 		SWBuf w;
 		SWBuf version;
 		MyUserData(const SWModule *module, const SWKey *key);
