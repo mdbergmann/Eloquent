@@ -283,7 +283,7 @@
                                                             ascending:YES 
                                                              selector:@selector(caseInsensitiveCompare:)]];
     NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
-    NSDictionary *contentAttributes = [NSDictionary dictionary];
+    NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionary];
     // set number of search results for output
     *results = [sortedSearchResults count];
     if(sortedSearchResults) {
@@ -293,12 +293,16 @@
         NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
                                           size:(int)customFontSize];
         NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
+        // content attributes
+        NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+                                          size:(int)customFontSize];
+        [contentAttributes setObject:contentFont forKey:NSFontAttributeName];
 
         // strip binary search tokens
         searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
         // build search string
-        for(SearchResultEntry *entry in sortedSearchResults) {
-            
+        for(SearchResultEntry *entry in sortedSearchResults) {            
+
             if([entry keyString] != nil) {
                 NSArray *content = [(SwordBible *)module stripedTextForRef:[entry keyString] context:textContext];
                 for(NSDictionary *dict in content) {
@@ -320,7 +324,9 @@
                     NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] attributes:keyAttributes];
                     NSAttributedString *contentString = nil;
                     if([keyStr isEqualToString:[entry keyString]]) {
-                        contentString = [Highlighter highlightText:contentStr forTokens:searchQuery attributes:contentAttributes];                        
+                        contentString = [Highlighter highlightText:contentStr 
+                                                         forTokens:searchQuery 
+                                                        attributes:contentAttributes];                        
                     } else {
                         contentString = [[NSAttributedString alloc] initWithString:contentStr];
                     }

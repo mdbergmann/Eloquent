@@ -75,14 +75,16 @@
     unsigned int length = [text length];
     
     if(length > 0) {
-        // create attributes Dictinary
+        
+        int size = (int)[(NSFont *)[attributes objectForKey:NSFontAttributeName] pointSize];
+
+        // create attributes Dictinary for highlight
         NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
-        NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
-                                           size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+        NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] size:size];
         [attr setObject:fontBold forKey:NSFontAttributeName];
         
         // create NSMutableAttributedString
-        ret = [[[NSMutableAttributedString alloc] initWithString:text attributes:attributes] autorelease];
+        ret = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
                 
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
