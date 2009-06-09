@@ -26,7 +26,7 @@
     IBOutlet NSSplitView *horiSplitView;
     IBOutlet NSSplitView *parBibleSplitView;
     IBOutlet NSSplitView *parMiscSplitView;
-    
+        
     NSMutableArray *parBibleViewControllers;
     NSMutableArray *parMiscViewControllers;
     

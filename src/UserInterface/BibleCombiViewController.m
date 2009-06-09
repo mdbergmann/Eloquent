@@ -11,6 +11,7 @@
 #import "BibleViewController.h"
 #import "CommentaryViewController.h"
 #import "ScrollSynchronizableView.h"
+#import "WindowHostController.h"
 #import "SwordManager.h"
 #import "SwordSearching.h"
 #import "ReferenceCacheManager.h"
@@ -104,7 +105,7 @@
     
     // reset progress started counter
     progressStartedCounter = 0;
-    
+        
     [super awakeFromNib];
 
     defaultMiscViewHeight = 60;

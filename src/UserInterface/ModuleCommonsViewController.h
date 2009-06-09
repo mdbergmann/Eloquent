@@ -38,6 +38,9 @@ enum GeneralMenuItemAdditions {
     IBOutlet NSMenu *modDisplayOptionsMenu;
     IBOutlet NSPopUpButton *modDisplayOptionsPopUpButton;
     
+    IBOutlet NSSegmentedControl *bookPager;
+    IBOutlet NSSegmentedControl *chapterPager;
+
     NSMutableDictionary *modDisplayOptions;
     NSMutableDictionary *displayOptions;
     
@@ -102,6 +105,9 @@ enum GeneralMenuItemAdditions {
 - (IBAction)displayOptionHighlightBookmarks:(id)sender;
 
 - (IBAction)textContextChange:(id)sender;
+
+- (IBAction)bookPagerAction:(id)sender;
+- (IBAction)chapterPagerAction:(id)sender;
 
 // TextDisplayable
 - (void)displayTextForReference:(NSString *)aReference;

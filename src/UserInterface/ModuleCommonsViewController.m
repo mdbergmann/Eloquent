@@ -14,7 +14,7 @@
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
-
+#import "NSImage+Additions.h"
 
 @implementation ModuleCommonsViewController
 
@@ -66,6 +66,10 @@
     // set state of menuitem representing font size
     [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
 
+    // prepare images in bookPager
+    [bookPager setImage:[[bookPager imageForSegment:0] rotateByDegrees:90] forSegment:0];
+    [bookPager setImage:[[bookPager imageForSegment:1] rotateByDegrees:90] forSegment:1];
+    
     // init display options
     [self initDefaultModDisplayOptions];
     [self initDefaultDisplayOptions];
@@ -405,6 +409,30 @@
     // redisplay
     forceRedisplay = YES;
     [self displayTextForReference:reference];    
+}
+
+- (IBAction)bookPagerAction:(id)sender {
+    int clickedSegment = [sender selectedSegment];
+    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    if(clickedSegmentTag == 0) {
+        // up
+        [(WindowHostController *)hostingDelegate nextBook:self];
+    } else {
+        // down
+        [(WindowHostController *)hostingDelegate previousBook:self];    
+    }
+}
+
+- (IBAction)chapterPagerAction:(id)sender {
+    int clickedSegment = [sender selectedSegment];
+    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    if(clickedSegmentTag == 0) {
+        // up
+        [(WindowHostController *)hostingDelegate previousChapter:self];
+    } else {
+        // down
+        [(WindowHostController *)hostingDelegate nextChapter:self];    
+    }    
 }
 
 #pragma mark - TextDisplayable protocol
