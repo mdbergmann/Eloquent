@@ -386,6 +386,7 @@ typedef enum _NavigationDirectionType {
     [tbIdentifiers setObject:item forKey:TB_FORCERELOAD_TYPE_ITEM];
     
     // module installer item
+    /*
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_MODULEINSTALLER_ITEM];
     [item setLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
@@ -395,6 +396,7 @@ typedef enum _NavigationDirectionType {
     [item setTarget:[AppController defaultAppController]];
     [item setAction:@selector(showModuleManager:)];
     [tbIdentifiers setObject:item forKey:TB_MODULEINSTALLER_ITEM];
+     */
     
     // add std items
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarFlexibleSpaceItemIdentifier];
@@ -448,7 +450,7 @@ typedef enum _NavigationDirectionType {
                                  TB_ADDBOOKMARK_TYPE_ITEM,
                                  TB_FORCERELOAD_TYPE_ITEM,
                                  NSToolbarFlexibleSpaceItemIdentifier,
-                                 TB_MODULEINSTALLER_ITEM,
+                                 //TB_MODULEINSTALLER_ITEM,
                                  nil];
 	
 	return defaultItemArray;

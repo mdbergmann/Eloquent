@@ -918,16 +918,16 @@
                                              informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOn", @"")];
                         [alert runModal];
                     } else {
-                        // let the user know that creaing the index on the fly might take a while
+                        // let the user know that creating the index on the fly might take a while
                         // show Alert
                         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
                                                          defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
                                              informativeTextWithFormat:NSLocalizedString(@"IndexNotReadyBGOff", @"")];
-                        [alert runModal];                
+                        [alert runModal];
                     }
                 }
-            }            
-        }    
+            }
+        }
         
         // we take control over the progress action
         progressControl = YES;

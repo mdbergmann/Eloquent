@@ -96,6 +96,7 @@
 - (void)disclaimerSheetEnd;
 
 // actions
+- (IBAction)syncInstallSourcesFromMasterList:(id)sender;
 - (IBAction)addInstallSource:(id)sender;
 - (IBAction)deleteInstallSource:(id)sender;
 - (IBAction)editInstallSource:(id)sender;

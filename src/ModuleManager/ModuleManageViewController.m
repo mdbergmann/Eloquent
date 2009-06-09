@@ -401,7 +401,7 @@
     if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil) {
         [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];        
     } else {
-        [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];    
+        [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];
     }
     
     // check first start
@@ -567,6 +567,35 @@
 //--------------------------------------------------------------------
 //------------------------ IB actions --------------------------------
 //--------------------------------------------------------------------
+
+- (IBAction)syncInstallSourcesFromMasterList:(id)sender {
+	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -syncInstallSourcesFromMasterList:]");
+
+    // get ThreadedProgressSheet
+    MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
+    [ps setSheetWindow:parentWindow];
+    [ps reset];
+    [ps setSheetTitle:NSLocalizedString(@"WindowTitle_Progress", @"")];
+    [ps setActionMessage:NSLocalizedString(@"Action_SynchingInstallSources", @"")];
+    [ps setCurrentStepMessage:NSLocalizedString(@"ActionStep_Refreshing", @"")];
+    [ps setIsThreaded:[NSNumber numberWithBool:YES]];
+    [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
+    
+    // start progress bar
+    [ps beginSheet];
+    [ps startProgressAnimation];
+    
+    // refresh master remote install source list
+    if([[SwordInstallSourceController defaultController] refreshMasterRemoteInstallSourceList] == 0) {
+        [[SwordInstallSourceController defaultController] reinitialize];
+        [self refreshInstallSourceListObjects];
+        [categoryOutlineView reloadData];
+    }    
+
+    [ps stopProgressAnimation];
+    [ps endSheet];        
+}
+
 - (IBAction)addInstallSource:(id)sender {
 	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -addInstallSource:]");
     

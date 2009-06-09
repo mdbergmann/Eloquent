@@ -78,6 +78,7 @@ base path of the module installation
 - (void)addInstallSource:(SwordInstallSource *)is;
 - (void)removeInstallSource:(SwordInstallSource *)is;
 - (void)updateInstallSource:(SwordInstallSource *)is;
+- (int)refreshMasterRemoteInstallSourceList;
 
 // disclaimer
 - (BOOL)userDisclaimerConfirmed;

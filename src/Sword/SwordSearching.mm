@@ -76,6 +76,8 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndex]");
 	
+    [indexLock lock];
+    
 	// get Indexer
     Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
     if(indexer == nil) {
@@ -86,7 +88,7 @@ NSString *MacSwordIndexVersion = @"2.6";
         [moduleLock lock];
         [self indexContentsIntoIndex:indexer];
         [moduleLock unlock];
-        
+
         [indexer flushIndex];
         [[IndexingManager sharedManager] closeIndexer:indexer];
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
@@ -109,7 +111,8 @@ NSString *MacSwordIndexVersion = @"2.6";
         
         // remove delegate
         delegate = nil;
-    }    
+    }
+    [indexLock unlock];
 }
 
 - (void)createIndexThreadedWithDelegate:(id)aDelegate {

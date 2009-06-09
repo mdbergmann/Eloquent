@@ -9,6 +9,7 @@
 #import "ModuleManager.h"
 
 // toolbar identifiers
+#define TB_SYNC_ISLIST_ITEM             @"ISSyncFromMaster"
 #define TB_INSTALLSOURCE_DELETE_ITEM    @"ISDelete"
 #define TB_INSTALLSOURCE_ADD_ITEM       @"ISAdd"
 #define TB_INSTALLSOURCE_EDIT_ITEM      @"ISEdit"
@@ -83,6 +84,17 @@
     NSImage *image = nil;
     
     // ----------------------------------------------------------------------------------------
+    // sync is list
+    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SYNC_ISLIST_ITEM];
+    [item setLabel:NSLocalizedString(@"SyncISFromMasterLabel", @"")];
+    [item setPaletteLabel:NSLocalizedString(@"SyncISFromMasterLabel", @"")];
+    [item setToolTip:NSLocalizedString(@"SyncISFromMasterToolTip", @"")];
+    image = [NSImage imageNamed:@"ModuleManager.png"];
+    [item setImage:image];
+    //[item setTarget:[AppController defaultAppController]];
+    [item setAction:@selector(syncISListFromMasterTB:)];
+    [tbIdentifiers setObject:item forKey:TB_SYNC_ISLIST_ITEM];
+
     // add is
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_ADD_ITEM];
     [item setLabel:NSLocalizedString(@"AddInstallSourceLabel", @"")];
@@ -206,6 +218,7 @@
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar 
 {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
+                                 TB_SYNC_ISLIST_ITEM,
                                  TB_INSTALLSOURCE_ADD_ITEM,
                                  TB_INSTALLSOURCE_DELETE_ITEM,
                                  TB_INSTALLSOURCE_EDIT_ITEM,
@@ -231,6 +244,10 @@
 }
 
 /** toolbar item */
+
+- (void)syncISListFromMasterTB:(id)sender {
+    [moduleViewController syncInstallSourcesFromMasterList:sender];
+}
 
 - (void)addInstallSourceTB:(id)sender {
     [moduleViewController addInstallSource:sender];

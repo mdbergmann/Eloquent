@@ -69,11 +69,16 @@ typedef sword::multimapwithdefault<sword::SWBuf, sword::SWBuf, std::less <sword:
                     
                     // add is
                     // addInstallSource will reinitialize
-                    [self addInstallSource:is];
+                    [self addInstallSource:is];                    
+                    
                 } else {
                     // init installMgr
                     [self reinitialize];                
                 }
+
+                // sync with master install source list
+                //[self refreshMasterRemoteInstallSourceList];
+
             } else {
                 MBLOG(MBLOG_WARN, @"[SwordInstallManager -setConfigPath:] config path does not exist!");
             }
@@ -223,6 +228,15 @@ base path of the module installation
         stat = swInstallMgr->installModule([manager swManager], [[is directory] UTF8String], [[aModule name] UTF8String]);
     } else {
         stat = swInstallMgr->installModule([manager swManager], 0, [[aModule name] UTF8String], [is installSource]);
+    }
+    
+    return stat;
+}
+
+- (int)refreshMasterRemoteInstallSourceList {
+    int stat = swInstallMgr->refreshRemoteSourceConfiguration();
+    if(stat) {
+        MBLOG(MBLOG_WARN, @"[SwordInstallMgr -refreshMasterRemoteInstallSourceList] Unable to refresh with master install source!");
     }
     
     return stat;

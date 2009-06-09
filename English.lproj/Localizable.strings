@@ -45,6 +45,8 @@ then type yes at the prompt!";
 "ModStatUpdated" = "Updateable";
 
 // ModuleManager Toolbar
+"SyncISFromMasterLabel" = "Sync Install Sources";
+"SyncISFromMasterToolTip" = "Sync Install Sources from master list";
 "AddInstallSourceLabel" = "Add Install Source";
 "AddInstallSourceToolTip" = "Add a new install source for installing new modules";
 "EditInstallSourceLabel" = "Edit Install Source";
@@ -64,6 +66,7 @@ then type yes at the prompt!";
 // actions
 "Action_RemovingModules" = "Removing modules";
 "Action_InstallingModules" = "Installing modules";
+"Action_SynchingInstallSources" = "Synchronizing install sources from master list";
 "Action_RefreshingInstallSourceAction" = "Refreshing install source";
 "ActionStep_Refreshing" = "Refreshing...";
 
