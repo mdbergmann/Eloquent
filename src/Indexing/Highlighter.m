@@ -70,7 +70,8 @@
 + (NSAttributedString *)highlightText:(NSString *)text forTokens:(NSString *)tokenStr attributes:(NSDictionary *)attributes {
     NSMutableAttributedString *ret = nil;
     
-    NSColor *blue = [NSColor redColor];
+    //NSColor *blue = [NSColor redColor];
+    NSColor *blue = [NSColor colorWithDeviceRed:0.7 green:0.0 blue:0.0 alpha:1.0];
     NSRange found, area;
     unsigned int length = [text length];
     
@@ -85,7 +86,7 @@
         
         // create NSMutableAttributedString
         ret = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
-                
+
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
         int tLen = [tokens count];

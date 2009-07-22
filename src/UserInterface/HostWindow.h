@@ -22,5 +22,6 @@
 - (IBAction)navigationBack:(id)sender;
 - (IBAction)navigationForward:(id)sender;
 - (IBAction)fullScreenModeOnOff:(id)sender;
+- (IBAction)performClose:(id)sender;
 
 @end

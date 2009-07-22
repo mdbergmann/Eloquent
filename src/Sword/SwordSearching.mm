@@ -41,7 +41,6 @@ NSString *MacSwordIndexVersion = @"2.6";
 - (BOOL)hasIndex {
     BOOL ret = NO;
     
-    [indexLock lock];
     // get IndexingManager
     IndexingManager *im = [IndexingManager sharedManager]; 
     NSString *path = [im indexFolderPathForModuleName:[self name]];
@@ -67,7 +66,6 @@ NSString *MacSwordIndexVersion = @"2.6";
             }
         }		
     }
-    [indexLock unlock];
     
 	return ret;
 }

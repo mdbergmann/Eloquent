@@ -261,6 +261,32 @@
 
 #pragma mark - Actions
 
+- (IBAction)performClose:(id)sender {
+    MBLOG(MBLOG_DEBUG, @"[WorkspaceViewHostController -performClose:]");
+
+    // if there are no tabs, close window
+    if([[tabView tabViewItems] count] == 0) {
+        [self close];
+    } else {
+        // get current selected tab item
+        NSTabViewItem *item = [tabView selectedTabViewItem];
+        if(item != nil) {
+            // find view controller
+            int index = [tabView indexOfTabViewItem:item];
+            HostableViewController *vc = [viewControllers objectAtIndex:index];
+            [tabView removeTabViewItem:item];
+            
+            // found view controller?
+            if(vc != nil) {
+                // also remove search text obj
+                [searchTextObjs removeObjectAtIndex:index];
+                // remove this view controller from our list
+                [viewControllers removeObjectAtIndex:index];
+            }
+        }
+    }
+}
+
 - (IBAction)addTab:(id)sender {
     [self addTabContentForModuleType:[self moduleType]];
 }
@@ -274,15 +300,6 @@
     // found view controller?
     if(vc != nil) {
         switch(tag) {
-            case 0:
-            {
-                // close
-                // also remove search text obj
-                [searchTextObjs removeObjectAtIndex:index];
-                // remove this view controller from our list
-                [viewControllers removeObject:vc];
-                break;
-            }
             case 1:
             {
                 // open in single
@@ -345,6 +362,9 @@
         // remove this view controller from our list
         [viewControllers removeObjectAtIndex:index];
     }
+    
+    // repaint
+    [tabControl setNeedsDisplay:YES];
 
     return YES;
 }

@@ -79,6 +79,8 @@
 		A96515EF0E06C79D0058AA91 /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */; };
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
+		A9698BFE1000CA980024CC6B /* libsword-1.6.0-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D7ACDA0F8F87B700BDC538 /* libsword-1.6.0-svn-fat.a */; };
+		A9698C001000CAB30024CC6B /* osis2mod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9698BFF1000CAB30024CC6B /* osis2mod.cpp */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A987A3480F6D5970007E5EE1 /* SplitViewDividerBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */; };
@@ -309,6 +311,8 @@
 		A965162A0E06D0BD0058AA91 /* SingleViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleViewHostController.h; path = src/UserInterface/SingleViewHostController.h; sourceTree = "<group>"; };
 		A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleViewHostController.m; path = src/UserInterface/SingleViewHostController.m; sourceTree = "<group>"; };
 		A96516620E06D3DA0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
+		A9698BF91000CA790024CC6B /* Osis2Mod */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Osis2Mod; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9698BFF1000CAB30024CC6B /* osis2mod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = osis2mod.cpp; path = "sword_mac_build/sword-trunk/utilities/osis2mod.cpp"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
 		A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerBar.tiff; sourceTree = "<group>"; };
 		A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerDimple.tiff; sourceTree = "<group>"; };
@@ -421,6 +425,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9698BF71000CA790024CC6B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9698BFE1000CA980024CC6B /* libsword-1.6.0-svn-fat.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9D9F5170EAF151E0035222E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -475,6 +487,7 @@
 			children = (
 				8D1107320486CEB800E47090 /* MacSword.app */,
 				A9D9F51A0EAF151E0035222E /* Tests.octest */,
+				A9698BF91000CA790024CC6B /* Osis2Mod */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -491,6 +504,7 @@
 				A9E8BD290EADADD000E58D1E /* Bookmarks */,
 				A99055A90E041C3400E8D7A2 /* UserInterface */,
 				A91C94050DF9B149006B7361 /* Sword */,
+				A9698BF51000CA070024CC6B /* Sword-utils */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -736,6 +750,14 @@
 			name = Hosts;
 			sourceTree = "<group>";
 		};
+		A9698BF51000CA070024CC6B /* Sword-utils */ = {
+			isa = PBXGroup;
+			children = (
+				A9698BFF1000CAB30024CC6B /* osis2mod.cpp */,
+			);
+			name = "Sword-utils";
+			sourceTree = "<group>";
+		};
 		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
@@ -917,6 +939,22 @@
 			productReference = 8D1107320486CEB800E47090 /* MacSword.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A9698BF81000CA790024CC6B /* Osis2Mod */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9698BFD1000CA980024CC6B /* Build configuration list for PBXNativeTarget "Osis2Mod" */;
+			buildPhases = (
+				A9698BF61000CA790024CC6B /* Sources */,
+				A9698BF71000CA790024CC6B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Osis2Mod;
+			productName = Osis2Mod;
+			productReference = A9698BF91000CA790024CC6B /* Osis2Mod */;
+			productType = "com.apple.product-type.tool";
+		};
 		A9D9F5190EAF151E0035222E /* Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9D9F51E0EAF151F0035222E /* Build configuration list for PBXNativeTarget "Tests" */;
@@ -949,6 +987,7 @@
 			targets = (
 				8D1107260486CEB800E47090 /* MacSword */,
 				A9D9F5190EAF151E0035222E /* Tests */,
+				A9698BF81000CA790024CC6B /* Osis2Mod */,
 			);
 		};
 /* End PBXProject section */
@@ -1115,6 +1154,14 @@
 				A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */,
 				A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */,
 				A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9698BF61000CA790024CC6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9698C001000CAB30024CC6B /* osis2mod.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,6 +1368,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A9698BFB1000CA7A0024CC6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
+				);
+				MACH_O_TYPE = mh_execute;
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-licucore",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Osis2Mod;
+			};
+			name = Debug;
+		};
+		A9698BFC1000CA7A0024CC6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Osis2Mod;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		A9D9F51C0EAF151F0035222E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1504,6 +1595,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A9698BFD1000CA980024CC6B /* Build configuration list for PBXNativeTarget "Osis2Mod" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9698BFB1000CA7A0024CC6B /* Debug */,
+				A9698BFC1000CA7A0024CC6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A9D9F51E0EAF151F0035222E /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

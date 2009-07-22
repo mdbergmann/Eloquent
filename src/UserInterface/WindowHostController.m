@@ -674,6 +674,10 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
+- (IBAction)performClose:(id)sender {
+    [self close];
+}
+
 #pragma mark - Events
 
 - (void)keyDown:(NSEvent *)theEvent {

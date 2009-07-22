@@ -468,7 +468,7 @@ static AppController *singleton;
 
 #pragma mark - host window delegate methods
 
-- (void)hostClosing:(NSWindowController *)aHost {
+- (void)hostClosing:(NSWindowController *)aHost {    
     // remove from array
     [windowHosts removeObject:aHost];
 }
@@ -503,7 +503,23 @@ static AppController *singleton;
                                            otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"MacSwordNeedsLeopard", @"")];
         [alert runModal];
-        [[NSApplication sharedApplication] terminate:nil];            
+        [[NSApplication sharedApplication] terminate:nil];
+    }
+    
+    // check for session to load
+    if([sessionPath length] == 0) {
+        sessionPath = DEFAULT_SESSION_PATH;
+    }
+    // load saved windows
+    NSData *data = [NSData dataWithContentsOfFile:sessionPath];
+    if(data != nil) {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
+        for(NSWindowController *wc in windowHosts) {
+            if([wc isKindOfClass:[WindowHostController class]]) {
+                [(WindowHostController *)wc setDelegate:self];
+            }
+        }
     }
 }
 
@@ -549,28 +565,14 @@ static AppController *singleton;
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-    // check for session to load
-    if([sessionPath length] == 0) {
-        sessionPath = DEFAULT_SESSION_PATH;
-    }
-    
-    // load saved windows
-    NSData *data = [NSData dataWithContentsOfFile:sessionPath];
-    if(data != nil) {
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
-        for(NSWindowController *wc in windowHosts) {
-            if([wc isKindOfClass:[WindowHostController class]]) {
-                [(WindowHostController *)wc setDelegate:self];
-            }
-        }
-    } else {
+    // if there is no window in the session open add a new workspace
+    if([windowHosts count] == 0) {
         // open a default view
         WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
         svh.delegate = self;
-        [windowHosts addObject:svh];
+        [windowHosts addObject:svh];        
     }
-
+    
     // show svh
     for(id entry in windowHosts) {
         if([entry isKindOfClass:[WindowHostController class]]) {
@@ -585,7 +587,6 @@ static AppController *singleton;
 }
 
 - (void)saveSessionToFile:(NSString *)sessionFile {
-    
     // encode all windows
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

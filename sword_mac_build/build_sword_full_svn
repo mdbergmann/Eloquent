@@ -3,7 +3,7 @@
 #
 
 APP=sword
-VERS=1.5.11-svn
+VERS=1.6.0-svn
 BDIR=`pwd`
 
 DEBUG=0
@@ -11,65 +11,51 @@ FAT=0
 PPC=0
 INTEL=0
 
+PREFIX=
+
 # check commandline
-for arg in "$@" 
-do
-	if [ "$arg" = "debug" ]; then
+while [ "$1" ]; do
+	if [ "$1" = "debug" ]; then
 		DEBUG=1
 		echo "building debug version"
 	fi
-	if [ "$arg" = "fat" ]; then
+	if [ "$1" = "fat" ]; then
 		FAT=1
 		PPC=1
 		INTEL=1
 		echo "building fat version"
 	fi
-	if [ "$arg" = "ppc" ]; then
+	if [ "$1" = "ppc" ]; then
 		PPC=1
 		echo "building ppc version"
 	else
 		PPC=0
 	fi
-	if [ "$arg" = "intel" ]; then
+	if [ "$1" = "intel" ]; then
 		INTEL=1
 		echo "building intel version"
 	else
 		INTEL=0
 	fi
+	if [ "$1" = "-p" ]; then
+	    shift
+	    PREFIX="$1"
+	    echo "have prefix: $PREFIX"
+	fi
+	shift
 done
 
 # using seperate build dirs and building in them doesn't work with sword
 SWORDBUILD=$BDIR/build_full_svn
-PPCPREFIX=$SWORDBUILD/ppc_inst
-INTELPREFIX=$SWORDBUILD/intel_inst
-#PPCBUILDDIR=$BDIR/ppc_build
-#INTELBUILDDIR=$BDIR/intel_build
-RESULTPREFIX=$SWORDBUILD/result_inst
 
 # Create install dirs if they doesn't exist
 if [ ! -d $SWORDBUILD ]; then
 	mkdir -p $SWORDBUILD
 fi
-if [ ! -d $PPCPREFIX ]; then
-	mkdir -p $PPCPREFIX
-fi
-if [ ! -d $INTELPREFIX ]; then
-	mkdir -p $INTELPREFIX
-fi
-if [ ! -d $RESULTPREFIX ]; then
-	mkdir -p $RESULTPREFIX
-	if [ ! -d $RESULTPREFIX/lib ]; then
-		mkdir -p $RESULTPREFIX/lib
-	fi
-fi
 
-# Create build dirs if they doesn't exist
-#if [ ! -d $PPCBUILDDIR ]; then
-#	mkdir -p $PPCBUILDDIR
-#fi
-#if [ ! -d $INTELBUILDDIR ]; then
-#	mkdir -p $INTELBUILDDIR
-#fi
+if [ "$PREFIX" = "" ]; then
+    PREFIX="$SWORDBUILD/install_dir"
+fi
 
 # delete old source dir
 #/bin/rm -rf $APP-$VERS
@@ -82,44 +68,44 @@ export PATH="$PATH:/opt/icu-3.6/bin"
 export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/opt/icu-3.6/lib"
 
 # build stuff
-if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
+if [ $PPC -eq 1 ]; then
     echo "building ppc version of library..."
 	cd sword-trunk
 	#make distclean
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++
-	export SDK=/Developer/SDKs/MacOSX10.4u.sdk
+	export SDK=/Developer/SDKs/MacOSX10.5.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch ppc -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK"
+		export CFLAGS="-O0 -g -arch ppc -mmacosx-version-min=10.5 -I/sw/include -isysroot $SDK"
 	else
-	    export CFLAGS="-O2 -g0 -arch ppc -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK" 
+	    export CFLAGS="-O2 -g0 -arch ppc -mmacosx-version-min=10.5 -I/sw/include -isysroot $SDK" 
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
-	./configure --prefix=$PPCPREFIX --with-zlib --with-icu --with-conf --with-curl
+	./configure --prefix=$PREFIX --with-zlib --with-icu --with-conf --with-curl
 	make all install
-	make clean		
+	make clean
 	cd $BDIR
-fi
-
-# then build intel version to SDK 10.4u
-if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
+    echo "building ppc version of library...done"
+else
+    # then build intel version
 	#cd $APP-$VERS
 	cd sword-trunk
+	make clean		
 	#make distclean
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++
-	export SDK=/Developer/SDKs/MacOSX10.4u.sdk
+	export SDK=/Developer/SDKs/MacOSX10.5.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch i686 -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK"
+		export CFLAGS="-O0 -g -arch i686 -mmacosx-version-min=10.5 -I/sw/include -isysroot $SDK"
 	else
-	    export CFLAGS="-O2 -g0 -arch i686 -mmacosx-version-min=10.4 -I/sw/include -isysroot $SDK" 
+	    export CFLAGS="-O2 -g0 -arch i686 -mmacosx-version-min=10.5 -I/sw/include -isysroot $SDK" 
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
-	./configure --prefix=$INTELPREFIX --with-zlib --with-icu --with-conf --with-curl
+	./configure --prefix=$PREFIX --with-zlib --with-icu --with-conf --with-curl
 	make all install
 	make clean		
 	cd $BDIR

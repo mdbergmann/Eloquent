@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9G55</string>
+		<string key="IBDocument.SystemVersion">9J61</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.AppKitVersion">949.46</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -260,28 +260,19 @@
 				<string key="NSTitle"/>
 				<object class="NSMutableArray" key="NSMenuItems">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSMenuItem" id="718185470">
-						<reference key="NSMenu" ref="650738127"/>
-						<string key="NSTitle">Close</string>
-						<string key="NSKeyEquiv">w</string>
-						<int key="NSKeyEquivModMask">1048576</int>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<object class="NSCustomResource" key="NSOnImage" id="638729488">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">NSMenuCheckmark</string>
-						</object>
-						<object class="NSCustomResource" key="NSMixedImage" id="549147095">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">NSMenuMixedState</string>
-						</object>
-					</object>
 					<object class="NSMenuItem" id="297635008">
 						<reference key="NSMenu" ref="650738127"/>
 						<string key="NSTitle">Open in single</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="638729488"/>
-						<reference key="NSMixedImage" ref="549147095"/>
+						<object class="NSCustomResource" key="NSOnImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuCheckmark</string>
+						</object>
+						<object class="NSCustomResource" key="NSMixedImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuMixedState</string>
+						</object>
 						<int key="NSTag">1</int>
 					</object>
 				</object>
@@ -290,14 +281,6 @@
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">menuItemSelected:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="718185470"/>
-					</object>
-					<int key="connectionID">45</int>
-				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuItemSelected:</string>
@@ -505,15 +488,9 @@
 						<reference key="object" ref="650738127"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="718185470"/>
 							<reference ref="297635008"/>
 						</object>
 						<reference key="parent" ref="1002"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">42</int>
-						<reference key="object" ref="718185470"/>
-						<reference key="parent" ref="650738127"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">43</int>
@@ -653,7 +630,6 @@
 					<string>154.IBPluginDependency</string>
 					<string>2.IBPluginDependency</string>
 					<string>41.IBPluginDependency</string>
-					<string>42.IBPluginDependency</string>
 					<string>43.IBPluginDependency</string>
 					<string>52.CustomClassName</string>
 					<string>52.IBPluginDependency</string>
@@ -688,7 +664,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1" id="5"/>
 					<reference ref="5"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -758,15 +733,19 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>fullScreenModeOnOff:</string>
 							<string>leftSideBarHideShow:</string>
 							<string>navigationBack:</string>
 							<string>navigationForward:</string>
+							<string>performClose:</string>
 							<string>rightSideBarHideShow:</string>
 							<string>switchToIndexLookup:</string>
 							<string>switchToRefLookup:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -802,13 +781,21 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>clearRecents:</string>
+							<string>focusSearchEntry:</string>
 							<string>forceReload:</string>
 							<string>fullScreenModeOnOff:</string>
 							<string>leftSideBarHideShow:</string>
 							<string>leftSideBottomSegChange:</string>
+							<string>myPrint:</string>
 							<string>navigationAction:</string>
 							<string>navigationBack:</string>
 							<string>navigationForward:</string>
+							<string>nextBook:</string>
+							<string>nextChapter:</string>
+							<string>performClose:</string>
+							<string>previousBook:</string>
+							<string>previousChapter:</string>
 							<string>rightSideBarHideShow:</string>
 							<string>rightSideBottomSegChange:</string>
 							<string>searchInput:</string>
@@ -817,6 +804,14 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

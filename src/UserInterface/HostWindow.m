@@ -51,4 +51,8 @@
     [[self delegate] performSelector:@selector(fullScreenModeOnOff:) withObject:sender];
 }
 
+- (IBAction)performClose:(id)sender {
+    [[self delegate] performSelector:@selector(performClose:) withObject:sender];
+}
+
 @end
