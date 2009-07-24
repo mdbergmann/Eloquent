@@ -505,26 +505,26 @@
 							<int key="NSArrowPosition">2</int>
 						</object>
 					</object>
-					<object class="NSSegmentedControl" id="1008754545">
+					<object class="NSSegmentedControl" id="424843508">
 						<reference key="NSNextResponder" ref="870439869"/>
 						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{577, 3}, {51, 17}}</string>
+						<string key="NSFrame">{{472, 2}, {74, 17}}</string>
 						<reference key="NSSuperview" ref="870439869"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSSegmentedCell" key="NSCell" id="554660435">
-							<int key="NSCellFlags">67239424</int>
+						<object class="NSSegmentedCell" key="NSCell" id="368516053">
+							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">262144</int>
 							<object class="NSFont" key="NSSupport" id="22">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">9.000000e+00</double>
 								<int key="NSfFlags">3614</int>
 							</object>
-							<reference key="NSControlView" ref="1008754545"/>
+							<reference key="NSControlView" ref="424843508"/>
 							<object class="NSMutableArray" key="NSSegmentImages">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSSegmentItem">
-									<double key="NSSegmentItemWidth">2.400000e+01</double>
-									<object class="NSCustomResource" key="NSSegmentItemImage" id="647953111">
+									<double key="NSSegmentItemWidth">1.600000e+01</double>
+									<object class="NSCustomResource" key="NSSegmentItemImage" id="561126801">
 										<string key="NSClassName">NSImage</string>
 										<string key="NSResourceName">NSGoLeftTemplate</string>
 									</object>
@@ -532,45 +532,54 @@
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 								<object class="NSSegmentItem">
-									<double key="NSSegmentItemWidth">2.400000e+01</double>
-									<object class="NSCustomResource" key="NSSegmentItemImage" id="82422579">
-										<string key="NSClassName">NSImage</string>
-										<string key="NSResourceName">NSGoRightTemplate</string>
-									</object>
-									<string key="NSSegmentItemLabel"/>
+									<double key="NSSegmentItemWidth">3.800000e+01</double>
+									<string key="NSSegmentItemLabel">Book</string>
 									<int key="NSSegmentItemTag">1</int>
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
+								<object class="NSSegmentItem">
+									<double key="NSSegmentItemWidth">1.600000e+01</double>
+									<object class="NSCustomResource" key="NSSegmentItemImage" id="96641017">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">NSGoRightTemplate</string>
+									</object>
+									<int key="NSSegmentItemTag">2</int>
+									<int key="NSSegmentItemImageScaling">0</int>
+								</object>
 							</object>
-							<int key="NSSelectedSegment">1</int>
 							<int key="NSTrackingMode">2</int>
 							<int key="NSSegmentStyle">4</int>
 						</object>
 					</object>
-					<object class="NSSegmentedControl" id="424843508">
+					<object class="NSSegmentedControl" id="153907946">
 						<reference key="NSNextResponder" ref="870439869"/>
 						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{520, 3}, {51, 17}}</string>
+						<string key="NSFrame">{{552, 2}, {76, 17}}</string>
 						<reference key="NSSuperview" ref="870439869"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSSegmentedCell" key="NSCell" id="368516053">
+						<object class="NSSegmentedCell" key="NSCell" id="141470870">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">262144</int>
 							<reference key="NSSupport" ref="22"/>
-							<reference key="NSControlView" ref="424843508"/>
+							<reference key="NSControlView" ref="153907946"/>
 							<object class="NSMutableArray" key="NSSegmentImages">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSSegmentItem">
-									<double key="NSSegmentItemWidth">2.400000e+01</double>
-									<reference key="NSSegmentItemImage" ref="647953111"/>
+									<double key="NSSegmentItemWidth">1.600000e+01</double>
+									<reference key="NSSegmentItemImage" ref="561126801"/>
 									<string key="NSSegmentItemLabel"/>
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 								<object class="NSSegmentItem">
-									<double key="NSSegmentItemWidth">2.400000e+01</double>
-									<reference key="NSSegmentItemImage" ref="82422579"/>
-									<string key="NSSegmentItemLabel"/>
+									<double key="NSSegmentItemWidth">4.000000e+01</double>
+									<string key="NSSegmentItemLabel">Chapter</string>
 									<int key="NSSegmentItemTag">1</int>
+									<int key="NSSegmentItemImageScaling">0</int>
+								</object>
+								<object class="NSSegmentItem">
+									<double key="NSSegmentItemWidth">1.600000e+01</double>
+									<reference key="NSSegmentItemImage" ref="96641017"/>
+									<int key="NSSegmentItemTag">2</int>
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 							</object>
@@ -764,36 +773,36 @@
 					<int key="connectionID">169</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">bookPager</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="424843508"/>
-					</object>
-					<int key="connectionID">180</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">chapterPager</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1008754545"/>
-					</object>
-					<int key="connectionID">181</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">bookPagerAction:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="424843508"/>
 					</object>
-					<int key="connectionID">186</int>
+					<int key="connectionID">190</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">chapterPagerAction:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1008754545"/>
+						<reference key="destination" ref="153907946"/>
 					</object>
-					<int key="connectionID">187</int>
+					<int key="connectionID">191</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bookPager</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="424843508"/>
+					</object>
+					<int key="connectionID">192</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">chapterPager</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="153907946"/>
+					</object>
+					<int key="connectionID">193</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -861,7 +870,7 @@
 							<reference ref="423373293"/>
 							<reference ref="51781005"/>
 							<reference ref="687381646"/>
-							<reference ref="1008754545"/>
+							<reference ref="153907946"/>
 							<reference ref="424843508"/>
 						</object>
 						<reference key="parent" ref="1002"/>
@@ -1134,20 +1143,6 @@
 						<reference key="parent" ref="195554501"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">176</int>
-						<reference key="object" ref="1008754545"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="554660435"/>
-						</object>
-						<reference key="parent" ref="870439869"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">177</int>
-						<reference key="object" ref="554660435"/>
-						<reference key="parent" ref="1008754545"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">178</int>
 						<reference key="object" ref="424843508"/>
 						<object class="NSMutableArray" key="children">
@@ -1160,6 +1155,20 @@
 						<int key="objectID">179</int>
 						<reference key="object" ref="368516053"/>
 						<reference key="parent" ref="424843508"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">188</int>
+						<reference key="object" ref="153907946"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="141470870"/>
+						</object>
+						<reference key="parent" ref="870439869"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">189</int>
+						<reference key="object" ref="141470870"/>
+						<reference key="parent" ref="153907946"/>
 					</object>
 				</object>
 			</object>
@@ -1189,10 +1198,14 @@
 					<string>121.IBPluginDependency</string>
 					<string>122.IBPluginDependency</string>
 					<string>123.IBPluginDependency</string>
-					<string>176.IBPluginDependency</string>
-					<string>177.IBPluginDependency</string>
 					<string>178.IBPluginDependency</string>
+					<string>178.IBSegmentedControlTracker.RoundRobinState</string>
+					<string>178.IBSegmentedControlTracker.WasGrowing</string>
 					<string>179.IBPluginDependency</string>
+					<string>188.IBPluginDependency</string>
+					<string>188.IBSegmentedControlTracker.RoundRobinState</string>
+					<string>188.IBSegmentedControlTracker.WasGrowing</string>
+					<string>189.IBPluginDependency</string>
 					<string>35.IBPluginDependency</string>
 					<string>37.IBPluginDependency</string>
 					<string>37.editorWindowContentRectSynchronizationRect</string>
@@ -1252,14 +1265,18 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<integer value="1" id="9"/>
+					<integer value="0" id="8"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<reference ref="9"/>
+					<reference ref="8"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{295, 606}, {576, 361}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{34, 854}, {647, 23}}</string>
+					<string>{{9, 642}, {647, 23}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1310,7 +1327,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">187</int>
+			<int key="maxID">193</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1318,25 +1335,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">BibleCombiViewController</string>
 					<string key="superclassName">ModuleCommonsViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>bookPagerAction:</string>
-							<string>chapterPagerAction:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>bookPager</string>
-							<string>chapterPager</string>
 							<string>horiSplitView</string>
 							<string>lookupTF</string>
 							<string>okBtn</string>
@@ -1345,8 +1347,6 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSSegmentedControl</string>
-							<string>NSSegmentedControl</string>
 							<string>NSSplitView</string>
 							<string>NSTextField</string>
 							<string>NSButton</string>
@@ -1387,6 +1387,8 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>bookPagerAction:</string>
+							<string>chapterPagerAction:</string>
 							<string>displayOptionHighlightBookmarks:</string>
 							<string>displayOptionShowCrossRefs:</string>
 							<string>displayOptionShowFootnotes:</string>
@@ -1418,12 +1420,16 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>bookPager</string>
+							<string>chapterPager</string>
 							<string>displayOptionsMenu</string>
 							<string>displayOptionsPopUpButton</string>
 							<string>fontSizePopUpButton</string>
@@ -1434,6 +1440,8 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSSegmentedControl</string>
+							<string>NSSegmentedControl</string>
 							<string>NSMenu</string>
 							<string>NSPopUpButton</string>
 							<string>NSPopUpButton</string>

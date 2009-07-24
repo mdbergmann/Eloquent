@@ -66,10 +66,6 @@
     // set state of menuitem representing font size
     [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
 
-    // prepare images in bookPager
-    [bookPager setImage:[[bookPager imageForSegment:0] rotateByDegrees:90] forSegment:0];
-    [bookPager setImage:[[bookPager imageForSegment:1] rotateByDegrees:90] forSegment:1];
-    
     // init display options
     [self initDefaultModDisplayOptions];
     [self initDefaultDisplayOptions];
@@ -416,10 +412,10 @@
     int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
     if(clickedSegmentTag == 0) {
         // up
-        [(WindowHostController *)hostingDelegate nextBook:self];
-    } else {
+        [(WindowHostController *)hostingDelegate previousBook:self];
+    } else if(clickedSegmentTag == 2) {
         // down
-        [(WindowHostController *)hostingDelegate previousBook:self];    
+        [(WindowHostController *)hostingDelegate nextBook:self];
     }
 }
 
@@ -429,7 +425,7 @@
     if(clickedSegmentTag == 0) {
         // up
         [(WindowHostController *)hostingDelegate previousChapter:self];
-    } else {
+    } else if(clickedSegmentTag == 2) {
         // down
         [(WindowHostController *)hostingDelegate nextChapter:self];    
     }    
