@@ -213,6 +213,11 @@
     for(HostableViewController *hc in parBibleViewControllers) {
         [hc adaptUIToHost];
     }
+    
+    // set search text
+    if(hostingDelegate) {
+        [bvc displayTextForReference:[(WindowHostController *)hostingDelegate searchText] searchType:searchType];
+    }
 }
 
 /**
@@ -242,6 +247,11 @@
     // tell views to adapt any UI components
     for(HostableViewController *hc in parMiscViewControllers) {
         [hc adaptUIToHost];
+    }
+
+    // set search text
+    if(hostingDelegate) {
+        [cvc displayTextForReference:[(WindowHostController *)hostingDelegate searchText] searchType:searchType];
     }
 }
 

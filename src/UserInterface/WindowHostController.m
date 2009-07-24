@@ -823,6 +823,10 @@ typedef enum _NavigationDirectionType {
     [self searchInput:searchTextField];
 }
 
+- (NSString *)searchText {
+    return [searchTextField stringValue];
+}
+
 /** sets the type of search to UI */
 - (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString {
     

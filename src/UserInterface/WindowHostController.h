@@ -103,6 +103,7 @@
 
 /** sets the text string into the search text field */
 - (void)setSearchText:(NSString *)aString;
+- (NSString *)searchText;
 
 /** sets the type of search to UI */
 - (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString;
