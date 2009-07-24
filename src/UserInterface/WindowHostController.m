@@ -21,6 +21,7 @@
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
 #import "SwordVerseKey.h"
+#import "SingleViewHostController.h"
 
 @interface WindowHostController ()
 
@@ -510,6 +511,9 @@ typedef enum _NavigationDirectionType {
     navigationAction = NO;
     
     [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:type];
+    
+    // change window title
+    [[self window] setTitle:[self computeWindowTitle]];
 }
 
 - (void)searchType:(id)sender {
@@ -816,7 +820,7 @@ typedef enum _NavigationDirectionType {
 /** used to set text to the search field from outside */
 - (void)setSearchText:(NSString *)aString {
     [searchTextField setStringValue:aString];
-    [self searchInput:searchTextField];    
+    [self searchInput:searchTextField];
 }
 
 /** sets the type of search to UI */
@@ -840,64 +844,44 @@ typedef enum _NavigationDirectionType {
     // display last search result
     [self setSearchText:text];
     
-    // switch recentSearches
-    NSArray *recentSearches = [currentSearchText recentSearchsForType:aType];
-    [searchTextField setRecentSearches:recentSearches];
-    
-    // change searchfield behaviour for dictionary
-    if([self moduleType] == dictionary || [self moduleType] == genbook) {
-        if(aType == ReferenceSearchType) {
-            [searchTextField setContinuous:YES];
-            [[searchTextField cell] setSendsSearchStringImmediately:YES];
-            //[[searchTextField cell] setSendsWholeSearchString:NO];            
-        } else {
-            // <CR> required
-            [searchTextField setContinuous:NO];
-            [[searchTextField cell] setSendsSearchStringImmediately:NO];
-            [[searchTextField cell] setSendsWholeSearchString:YES];            
-        }
-    }
-    
-    if(contentViewController != nil) {
-        if(aType == ReferenceSearchType) {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
-        } else {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
-        }
-
-        // accessorie view may change
-        [rsbViewController setContentView:[(BibleViewController *)contentViewController listContentView]];    
-    }    
+    // do more UI setup here
+    [self adaptUIToCurrentlyDisplayingModuleType];
 }
 
 - (void)adaptUIToCurrentlyDisplayingModuleType {
     
     ModuleType type = [self moduleType];
-    if(type == dictionary) {
-        [searchTextField setContinuous:YES];
-        [[searchTextField cell] setSendsSearchStringImmediately:YES];
-        //[[searchTextField cell] setSendsWholeSearchString:NO];        
-    } else {
-        [searchTextField setContinuous:NO];
-        [[searchTextField cell] setSendsSearchStringImmediately:NO];
-        [[searchTextField cell] setSendsWholeSearchString:YES];        
-    }
     
-    // set search type
+    // -------------------------------
+    // search text and recent searches
+    // -------------------------------
     SearchType stype = [currentSearchText searchType];
-    // set text according search type
     NSString *buf = [currentSearchText searchTextForType:stype];
     [searchTextField setStringValue:buf];
-    // switch recentSearches
     NSArray *bufAr = [currentSearchText recentSearchsForType:stype];
     [searchTextField setRecentSearches:bufAr];
+    
+    // -------------------------------
+    // content view controller stuff
+    // -------------------------------
+    if(contentViewController != nil) {
+        if(stype == ReferenceSearchType) {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];            
+        } else {
+            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
+            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
+            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];            
+        }
+        [rsbViewController setContentView:[(BibleViewController *)contentViewController listContentView]];    
+    }
 
+    // -------------------------------
+    // search segment control
+    // -------------------------------    
     if(type == genbook) {
         [currentSearchText setSearchType:IndexSearchType];
         [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
@@ -917,13 +901,33 @@ typedef enum _NavigationDirectionType {
                 [[searchTypeSegControl cell] setSelected:YES forSegment:1];
                 break;
             case ViewSearchType:
-                // not used but make compiler happy
                 break;
         }
     }
     
+    // -----------------
+    // search text field
+    // -----------------
+    if(type == dictionary || type == genbook) {
+        if(stype == ReferenceSearchType) {
+            [searchTextField setContinuous:YES];
+            [[searchTextField cell] setSendsSearchStringImmediately:YES];
+            //[[searchTextField cell] setSendsWholeSearchString:NO];
+        } else {
+            [searchTextField setContinuous:NO];
+            [[searchTextField cell] setSendsSearchStringImmediately:NO];
+            [[searchTextField cell] setSendsWholeSearchString:YES];            
+        }
+    } else {
+        [searchTextField setContinuous:NO];
+        [[searchTextField cell] setSendsSearchStringImmediately:NO];
+        [[searchTextField cell] setSendsWholeSearchString:YES];        
+    }
+
+    // -----------------
     // navigation
-    if([self moduleType] == bible || [self moduleType] == commentary) {
+    // -----------------
+    if(type == bible || type == commentary) {
         [[navigationSegControl cell] setEnabled:YES forSegment:0];
         [[navigationSegControl cell] setEnabled:YES forSegment:1];    
     } else {
@@ -931,18 +935,44 @@ typedef enum _NavigationDirectionType {
         [[navigationSegControl cell] setEnabled:NO forSegment:1];        
     }
     
-    // add bookmark button
-    if([self moduleType] == bible || [self moduleType] == commentary) {
-        [addBookmarkBtn setEnabled:YES];
+    // -----------------
+    // bookmark button
+    // -----------------
+    if(type == bible || type == commentary) {
+        [addBookmarkBtn setEnabled:(stype == ReferenceSearchType)];
         [forceReloadBtn setEnabled:YES];
     } else {
         [addBookmarkBtn setEnabled:NO];
         [forceReloadBtn setEnabled:NO];    
     }
+    
+    // -----------------
+    // window title
+    // -----------------
+    [[self window] setTitle:[self computeWindowTitle]];
 }
 
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
     [lsbViewController displayModuleAboutSheetForModule:aMod];
+}
+
+- (NSString *)computeWindowTitle {
+    NSMutableString *ret = [NSMutableString string];
+    
+    if([self isKindOfClass:[SingleViewHostController class]]) {
+        [ret appendFormat:@"%@ - ", NSLocalizedString(@"Single", @"")];
+    } else {
+        [ret appendFormat:@"%@ - ", NSLocalizedString(@"Workspace", @"")];    
+    }
+    
+    if(contentViewController != nil) {
+        SwordModule *mod = [(ModuleViewController *)contentViewController module];
+        if(mod != nil) {
+            [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
+        }
+    }    
+    
+    return ret;
 }
 
 #pragma mark - NSSplitView delegate methods

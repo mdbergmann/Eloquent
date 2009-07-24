@@ -149,40 +149,12 @@
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
         }
         
-        if([currentSearchText searchType] == ReferenceSearchType) {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
-        } else {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
-        }
-
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
     // set font for bottombar segmented control
     [leftSideBottomSegControl setFont:FontStd];
     [rightSideBottomSegControl setFont:FontStd];
-
-    switch(moduleType) {
-        case bible:
-            [[self window] setTitle:NSLocalizedString(@"Bible Window", @"")];
-            break;
-        case commentary:
-            [[self window] setTitle:NSLocalizedString(@"Commentary Window", @"")];            
-            break;
-        case dictionary:
-        case devotional:
-            [[self window] setTitle:NSLocalizedString(@"Dictionary Window", @"")];
-            break;
-        case genbook:
-            [[self window] setTitle:NSLocalizedString(@"Genbook Window", @"")];
-            break;
-    }    
 }
 
 #pragma mark - methods
@@ -248,17 +220,7 @@
         [placeHolderView setContentView:[aView view]];
         [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)aView referenceOptionsView]];
 
-        if([currentSearchText searchType] == ReferenceSearchType) {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
-        } else {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
-        }
+        [self adaptUIToCurrentlyDisplayingModuleType];
     }
 }
 

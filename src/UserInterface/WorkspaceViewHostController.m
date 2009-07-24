@@ -86,7 +86,7 @@
     for(HostableViewController *vc in viewControllers) {
         if([vc viewLoaded]) {
             NSTabViewItem *item = [[NSTabViewItem alloc] init];
-            [item setLabel:[vc label]];
+            [item setLabel:[self computeTabTitle]];
             [item setView:[vc view]];
             [tabView addTabViewItem:item];
             
@@ -152,18 +152,6 @@
             [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
         }
         
-        if([currentSearchText searchType] == ReferenceSearchType) {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
-        } else {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
-        }
-
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
@@ -245,6 +233,19 @@
     return [NSString stringWithFormat:@"%@ - %i", aText, [[[tabControl tabView] tabViewItems] count]];
 }
 
+- (NSString *)computeTabTitle {
+    NSMutableString *ret = [NSMutableString string];
+    
+    if(contentViewController != nil) {
+        SwordModule *mod = [(ModuleViewController *)contentViewController module];
+        if(mod != nil) {
+            [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
+        }
+    }    
+    
+    return ret;    
+}
+
 #pragma mark - Toolbar Actions
 
 - (void)addBibleTB:(id)sender {
@@ -260,6 +261,14 @@
 }
 
 #pragma mark - Actions
+
+- (void)searchInput:(id)sender {
+    // let super class handle things first
+    [super searchInput:sender];
+    
+    // now set new tab title to the current active one
+    [[tabView selectedTabViewItem] setLabel:[self computeTabTitle]];
+}
 
 - (IBAction)performClose:(id)sender {
     MBLOG(MBLOG_DEBUG, @"[WorkspaceViewHostController -performClose:]");
@@ -399,23 +408,11 @@
                 [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
             }
 
-            if([currentSearchText searchType] == ReferenceSearchType) {
-                [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-                [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-                [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-                [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
-            } else {
-                [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-                [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-                [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-                [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
-            }
-            
             // also set current search Text
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
             
             // tell host to adapt ui
-            [self adaptUIToCurrentlyDisplayingModuleType];                 
+            [self adaptUIToCurrentlyDisplayingModuleType];
         }
     }
 }
@@ -451,10 +448,6 @@
             [searchTextObjs addObject:sto];
             // also set current search Text
             [self setCurrentSearchText:sto];
-            // set text according search type
-            [searchTextField setStringValue:[currentSearchText searchTextForType:stype]];
-            // switch recentSearches
-            [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:stype]];    
 
             // all booktypes have something to show in the right side bar
             [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
@@ -471,22 +464,10 @@
             [tabView addTabViewItem:newItem];
             [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
             
-            if(contentViewController != nil) {
-                // add display options view
-                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];                    
+            // add display options view
+            [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];                    
 
-                if(stype == ReferenceSearchType) {
-                    [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-                    [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-                    [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-                    [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
-                } else {
-                    [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-                    [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-                    [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-                    [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
-                }
-            }
+            [self adaptUIToCurrentlyDisplayingModuleType];
         }
     }
 }
@@ -528,6 +509,11 @@
         
         // load the common things
         [super initWithCoder:decoder];
+        
+        // loop over tab items and set title
+        for(NSTabViewItem *item in [tabView tabViewItems]) {
+            [item setLabel:[self computeTabTitle]];
+        }
     }
     
     return self;

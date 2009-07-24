@@ -24,6 +24,7 @@
 @class FullScreenSplitView;
 @class LeftSideBarViewController;
 @class RightSideBarViewController;
+@class SingleViewHostController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
     // splitView to add and remove modules view. splitview hosts placeHolderView
@@ -120,6 +121,9 @@
 
 // WindowHosting
 - (ModuleType)moduleType;
+
+// computed window title
+- (NSString *)computeWindowTitle;
 
 // SubviewHosting
 - (void)contentViewInitFinished:(HostableViewController *)aView;

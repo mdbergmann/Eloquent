@@ -18,7 +18,7 @@
 
 @class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
-@interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking, ProgressIndicating> {
+@interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, ModuleProviding, TextDisplayable, SubviewHosting, MouseTracking, ProgressIndicating> {
     // the lookup field
     IBOutlet NSTextField *lookupTF;
     IBOutlet NSButton *okBtn;
@@ -58,6 +58,9 @@
 - (NSArray *)openBibleModules;
 - (NSArray *)openMiscModules;
 - (NSNumber *)bibleViewCount;
+
+// ModuleProviding
+- (SwordModule *)module;
 
 // ProgressIndicating
 - (void)beginIndicateProgress;

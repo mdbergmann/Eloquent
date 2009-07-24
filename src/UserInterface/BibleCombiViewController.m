@@ -347,6 +347,17 @@
     return ret;
 }
 
+#pragma mark - ModuleProviding
+
+- (SwordModule *)module {
+    // return module from first controller
+    if([parBibleViewControllers count] > 0) {
+        return [(ModuleViewController *)[parBibleViewControllers objectAtIndex:0] module];
+    }
+    
+    return nil;
+}
+
 #pragma mark - Printing
 
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {

@@ -41,6 +41,10 @@
 - (NSView *)referenceOptionsView;
 @end
 
+@protocol ModuleProviding
+- (SwordModule *)module;
+@end
+
 @protocol ProgressIndicating
 - (void)beginIndicateProgress;
 - (void)endIndicateProgress;

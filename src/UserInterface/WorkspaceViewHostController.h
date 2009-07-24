@@ -42,6 +42,7 @@
 - (HostableViewController *)contentViewController;
 - (HostableViewController *)addTabContentForModule:(SwordModule *)aModule;
 - (HostableViewController *)addTabContentForModuleType:(ModuleType)aType;
+- (NSString *)computeTabTitle;
 
 // actions
 - (IBAction)addTab:(id)sender;
