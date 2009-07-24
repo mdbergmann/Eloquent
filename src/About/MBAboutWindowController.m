@@ -37,6 +37,8 @@
     NSAttributedString *credits = [[[NSAttributedString alloc] initWithRTF:rtfData documentAttributes:nil] autorelease];
     // insert the text into the textview
     [creditsTextView insertText:credits];
+    // make uneditable
+    [creditsTextView setEditable:NO];
 }
 
 @end

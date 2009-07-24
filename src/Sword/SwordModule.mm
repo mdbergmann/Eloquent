@@ -193,15 +193,10 @@
     attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", NSLocalizedString(@"AboutModuleAboutText", @"")]
                                                  attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
     [ret appendAttributedString:attrString];
-    NSString *aboutStr = [self aboutText];
-    //NSData *aboutData = [NSData dataWithBytes:[aboutStr UTF8String] length:[aboutStr length]];
-    //NSData *aboutData = [NSData dataWithBytes:[aboutStr cStringUsingEncoding:NSISOLatin1StringEncoding] length:[aboutStr length]];
-//    if(aboutData) {
-//        attrString = [[NSAttributedString alloc] initWithRTF:aboutData documentAttributes:nil];
-//    } else {
-        attrString = [[NSAttributedString alloc] initWithString:aboutStr 
-                                                     attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];    
-//    }
+    NSMutableString *aboutStr = [NSMutableString stringWithString:[self aboutText]];
+    [aboutStr replaceOccurrencesOfString:@"\\par" withString:@"\n" options:0 range:NSMakeRange(0, [aboutStr length])];
+    attrString = [[NSAttributedString alloc] initWithString:aboutStr 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];    
     if(attrString) {
         [ret appendAttributedString:attrString];    
     }
