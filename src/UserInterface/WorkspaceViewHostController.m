@@ -81,6 +81,16 @@
         [tabView removeTabViewItem:item];    
     }
     
+    // for a clean new workspace we display the initialMainView
+    if([viewControllers count] == 0) {
+        [mainSplitView addSubview:initialMainView];
+        // update label with currently installed modules
+        NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"InitialViewLabelText", @""), [[[SwordManager defaultManager] modules] count]];
+        [installedModulesLabel setStringValue:msg];
+    } else {
+        [mainSplitView addSubview:defaultMainView];
+    }
+    
     // re-set already loaded tabview items
     int i = 0;
     for(HostableViewController *vc in viewControllers) {
@@ -300,6 +310,10 @@
     [self addTabContentForModuleType:[self moduleType]];
 }
 
+- (IBAction)openModuleInstaller:(id)sender {
+    [[AppController defaultAppController] showModuleManager:sender];
+}
+
 - (IBAction)menuItemSelected:(id)sender {
     int tag = [(NSMenuItem *)sender tag];
     
@@ -429,6 +443,13 @@
         // we are only interessted in view controllers that show information
         if([aViewController isKindOfClass:[ModuleViewController class]] || // this also handles commentary view
            [aViewController isKindOfClass:[BibleCombiViewController class]]) {
+            
+            // remove initialMainView if present
+            if([[mainSplitView subviews] containsObject:initialMainView]) {
+                [initialMainView removeFromSuperview];
+                // and set default view
+                [mainSplitView addSubview:defaultMainView];
+            }
             
             // add view controller
             [viewControllers addObject:aViewController];

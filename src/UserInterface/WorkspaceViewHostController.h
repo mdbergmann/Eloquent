@@ -26,6 +26,10 @@
     IBOutlet PSMTabBarControl *tabControl;
     IBOutlet NSTabView *tabView;
     
+    IBOutlet NSView *initialMainView;
+    IBOutlet NSView *defaultMainView;
+    IBOutlet NSTextField *installedModulesLabel;
+    
     /** each tabItem should have this menu */
     IBOutlet NSMenu *tabItemMenu;
 
@@ -47,6 +51,7 @@
 // actions
 - (IBAction)addTab:(id)sender;
 - (IBAction)menuItemSelected:(id)sender;
+- (IBAction)openModuleInstaller:(id)sender;
 
 // WindowHosting
 - (ModuleType)moduleType;
