@@ -17,11 +17,15 @@
 
 - (IBAction)leftSideBarHideShow:(id)sender;
 - (IBAction)rightSideBarHideShow:(id)sender;
-- (IBAction)switchToRefLookup:(id)sender;
-- (IBAction)switchToIndexLookup:(id)sender;
+- (IBAction)switchLookupView:(id)sender;
 - (IBAction)navigationBack:(id)sender;
 - (IBAction)navigationForward:(id)sender;
 - (IBAction)fullScreenModeOnOff:(id)sender;
+- (IBAction)focusSearchEntry:(id)sender;
+- (IBAction)nextBook:(id)sender;
+- (IBAction)previousBook:(id)sender;
+- (IBAction)nextChapter:(id)sender;
+- (IBAction)previousChapter:(id)sender;
 - (IBAction)performClose:(id)sender;
 
 @end

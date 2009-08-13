@@ -284,8 +284,8 @@
 							<bytes key="NSWhite">MCAwLjQzMDAwMDAxAA</bytes>
 						</object>
 						<object class="NSColor" key="NSFillColor2">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC41MDAwMjI4OSAwLjUwMjQ3NTI2IDAuNjE2MzM2NjQAA</bytes>
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MC44NTg5MTA5MgA</bytes>
 						</object>
 					</object>
 				</object>
@@ -900,7 +900,7 @@
 					<integer value="1" id="5"/>
 					<reference ref="5"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{534, 455}, {511, 446}}</string>
+					<string>{{532, 458}, {511, 446}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -977,17 +977,25 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>focusSearchEntry:</string>
 							<string>fullScreenModeOnOff:</string>
 							<string>leftSideBarHideShow:</string>
 							<string>navigationBack:</string>
 							<string>navigationForward:</string>
+							<string>nextBook:</string>
+							<string>nextChapter:</string>
 							<string>performClose:</string>
+							<string>previousBook:</string>
+							<string>previousChapter:</string>
 							<string>rightSideBarHideShow:</string>
-							<string>switchToIndexLookup:</string>
-							<string>switchToRefLookup:</string>
+							<string>switchLookupView:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1043,12 +1051,10 @@
 							<string>rightSideBarHideShow:</string>
 							<string>rightSideBottomSegChange:</string>
 							<string>searchInput:</string>
-							<string>switchToIndexLookup:</string>
-							<string>switchToRefLookup:</string>
+							<string>switchLookupView:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

@@ -568,12 +568,12 @@ typedef enum _NavigationDirectionType {
     [self toggleRSB];
 }
 
-- (IBAction)switchToRefLookup:(id)sender {
-    [self setSearchUIType:ReferenceSearchType searchString:nil];
-}
-
-- (IBAction)switchToIndexLookup:(id)sender {
-    [self setSearchUIType:IndexSearchType searchString:nil];
+- (IBAction)switchLookupView:(id)sender {
+    if([[self currentSearchText] searchType] == IndexSearchType) {
+        [self setSearchUIType:ReferenceSearchType searchString:nil];    
+    } else {
+        [self setSearchUIType:IndexSearchType searchString:nil];    
+    }
 }
 
 - (IBAction)navigationBack:(id)sender {

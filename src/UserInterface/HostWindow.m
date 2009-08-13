@@ -27,12 +27,8 @@
     [[self delegate] performSelector:@selector(rightSideBottomSegChange:) withObject:sender];
 }
 
-- (IBAction)switchToRefLookup:(id)sender {
-    [[self delegate] performSelector:@selector(switchToRefLookup:) withObject:sender];
-}
-
-- (IBAction)switchToIndexLookup:(id)sender {
-    [[self delegate] performSelector:@selector(switchToIndexLookup:) withObject:sender];
+- (IBAction)switchLookupView:(id)sender {
+    [[self delegate] performSelector:@selector(switchLookupView:) withObject:sender];
 }
 
 - (IBAction)navigationAction:(id)sender {
@@ -49,6 +45,26 @@
 
 - (IBAction)fullScreenModeOnOff:(id)sender {
     [[self delegate] performSelector:@selector(fullScreenModeOnOff:) withObject:sender];
+}
+
+- (IBAction)focusSearchEntry:(id)sender {
+    [[self delegate] performSelector:@selector(focusSearchEntry:) withObject:sender];
+}
+
+- (IBAction)nextBook:(id)sender {
+    [[self delegate] performSelector:@selector(nextBook:) withObject:sender];
+}
+
+- (IBAction)previousBook:(id)sender {
+    [[self delegate] performSelector:@selector(previousBook:) withObject:sender];
+}
+
+- (IBAction)nextChapter:(id)sender {
+    [[self delegate] performSelector:@selector(nextChapter:) withObject:sender];
+}
+
+- (IBAction)previousChapter:(id)sender {
+    [[self delegate] performSelector:@selector(previousChapter:) withObject:sender];
 }
 
 - (IBAction)performClose:(id)sender {

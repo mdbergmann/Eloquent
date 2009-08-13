@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9J61</string>
+		<string key="IBDocument.SystemVersion">9L30</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.46</string>
+		<string key="IBDocument.AppKitVersion">949.54</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="81"/>
+			<integer value="296"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -798,17 +798,8 @@
 								</object>
 								<object class="NSMenuItem" id="198604824">
 									<reference key="NSMenu" ref="466310130"/>
-									<string key="NSTitle">Switch to Reference lookup</string>
-									<string key="NSKeyEquiv">R</string>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="780798457"/>
-									<reference key="NSMixedImage" ref="1039508180"/>
-								</object>
-								<object class="NSMenuItem" id="357830537">
-									<reference key="NSMenu" ref="466310130"/>
-									<string key="NSTitle">Switch to Index lookup</string>
-									<string key="NSKeyEquiv">I</string>
+									<string key="NSTitle">Switch lookup type</string>
+									<string key="NSKeyEquiv">r</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="780798457"/>
@@ -1761,22 +1752,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">switchToRefLookup:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="198604824"/>
-					</object>
-					<int key="connectionID">477</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">switchToIndexLookup:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="357830537"/>
-					</object>
-					<int key="connectionID">478</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">navigationBack:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="765932221"/>
@@ -1950,6 +1925,14 @@
 						<reference key="destination" ref="966477021"/>
 					</object>
 					<int key="connectionID">538</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">switchLookupView:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="198604824"/>
+					</object>
+					<int key="connectionID">539</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2415,7 +2398,6 @@
 							<reference ref="172461911"/>
 							<reference ref="482122635"/>
 							<reference ref="198604824"/>
-							<reference ref="357830537"/>
 							<reference ref="768046685"/>
 							<reference ref="765932221"/>
 							<reference ref="210359687"/>
@@ -2716,11 +2698,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">469</int>
 						<reference key="object" ref="198604824"/>
-						<reference key="parent" ref="466310130"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">470</int>
-						<reference key="object" ref="357830537"/>
 						<reference key="parent" ref="466310130"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3066,7 +3043,6 @@
 					<string>467.IBPluginDependency</string>
 					<string>468.IBPluginDependency</string>
 					<string>469.IBPluginDependency</string>
-					<string>470.IBPluginDependency</string>
 					<string>471.IBPluginDependency</string>
 					<string>472.IBPluginDependency</string>
 					<string>473.IBPluginDependency</string>
@@ -3187,7 +3163,7 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{338, 634}, {243, 243}}</string>
+					<string>{{687, 622}, {243, 243}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{192, 735}, {243, 243}}</string>
@@ -3233,17 +3209,17 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{275, 869}, {266, 103}}</string>
+					<string>{{781, 762}, {266, 103}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{352, 905}, {197, 73}}</string>
-					<string>{{541, 865}, {372, 20}}</string>
+					<string>{{522, 866}, {372, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {447, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{371, 357}, {291, 313}}</string>
+					<string>{{712, 573}, {291, 293}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{302, 935}, {234, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3295,7 +3271,6 @@
 					<string>com.binarymethod.BGHUDAppKitPlugin</string>
 					<string>com.binarymethod.BGHUDAppKitPlugin</string>
 					<string>com.binarymethod.BGHUDAppKitPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3383,7 +3358,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">538</int>
+			<int key="maxID">539</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3575,17 +3550,25 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>focusSearchEntry:</string>
 							<string>fullScreenModeOnOff:</string>
 							<string>leftSideBarHideShow:</string>
 							<string>navigationBack:</string>
 							<string>navigationForward:</string>
+							<string>nextBook:</string>
+							<string>nextChapter:</string>
 							<string>performClose:</string>
+							<string>previousBook:</string>
+							<string>previousChapter:</string>
 							<string>rightSideBarHideShow:</string>
-							<string>switchToIndexLookup:</string>
-							<string>switchToRefLookup:</string>
+							<string>switchLookupView:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3828,12 +3811,10 @@
 							<string>rightSideBarHideShow:</string>
 							<string>rightSideBottomSegChange:</string>
 							<string>searchInput:</string>
-							<string>switchToIndexLookup:</string>
-							<string>switchToRefLookup:</string>
+							<string>switchLookupView:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3902,9 +3883,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addTab:</string>
 							<string>menuItemSelected:</string>
+							<string>openModuleInstaller:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -3913,12 +3896,18 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>defaultMainView</string>
+							<string>initialMainView</string>
+							<string>installedModulesLabel</string>
 							<string>tabControl</string>
 							<string>tabItemMenu</string>
 							<string>tabView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSView</string>
+							<string>NSView</string>
+							<string>NSTextField</string>
 							<string>PSMTabBarControl</string>
 							<string>NSMenu</string>
 							<string>NSTabView</string>
