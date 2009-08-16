@@ -8,7 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="170"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -40,7 +39,7 @@
 				<string key="NSWindowRect">{{314, 150}, {800, 600}}</string>
 				<int key="NSWTFlags">805306368</int>
 				<string key="NSWindowTitle">Workspace</string>
-				<string key="NSWindowClass">HostWindow</string>
+				<string key="NSWindowClass">WorkspaceHostWindow</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
@@ -134,7 +133,7 @@
 				</object>
 			</object>
 			<object class="NSCustomView" id="525755249">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">4370</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -290,7 +289,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{511, 446}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="322589580">
@@ -900,7 +898,7 @@
 					<integer value="1" id="5"/>
 					<reference ref="5"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{532, 458}, {511, 446}}</string>
+					<string>{{532, 410}, {511, 446}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1112,6 +1110,18 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">src/UserInterface/WindowHostController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WorkspaceHostWindow</string>
+					<string key="superclassName">HostWindow</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">addTab:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/WorkspaceHostWindow.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

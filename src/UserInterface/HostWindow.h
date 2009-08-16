@@ -12,7 +12,6 @@
  This class is used as first responder for all the main menu actions.
  */
 @interface HostWindow : NSWindow {
-
 }
 
 - (IBAction)leftSideBarHideShow:(id)sender;

@@ -69,6 +69,7 @@
 		A937B33F0F8FADE100948406 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
 		A937B3400F8FADE100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
+		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
 		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
@@ -294,6 +295,8 @@
 		A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordListKeyTest.m; path = test/SwordListKeyTest.m; sourceTree = "<group>"; };
 		A939B7E00E9DCED000A0A8F9 /* GenBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenBookViewController.h; path = src/UserInterface/GenBookViewController.h; sourceTree = "<group>"; };
 		A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenBookViewController.m; path = src/UserInterface/GenBookViewController.m; sourceTree = "<group>"; };
+		A939B89A10382C1F00CF2519 /* WorkspaceHostWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceHostWindow.h; path = src/UserInterface/WorkspaceHostWindow.h; sourceTree = "<group>"; };
+		A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceHostWindow.m; path = src/UserInterface/WorkspaceHostWindow.m; sourceTree = "<group>"; };
 		A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTextObject.h; path = src/UserInterface/SearchTextObject.h; sourceTree = "<group>"; };
 		A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchTextObject.m; path = src/UserInterface/SearchTextObject.m; sourceTree = "<group>"; };
 		A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MouseTrackingScrollView.h; path = src/UserInterface/MouseTrackingScrollView.h; sourceTree = "<group>"; };
@@ -739,6 +742,8 @@
 			children = (
 				A9266CFB0F882BC800BA1731 /* HostWindow.h */,
 				A9266CFC0F882BC800BA1731 /* HostWindow.m */,
+				A939B89A10382C1F00CF2519 /* WorkspaceHostWindow.h */,
+				A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */,
 				A9D102570EC1ED0A0023FF23 /* WindowHostController.h */,
 				A9D102580EC1ED0A0023FF23 /* WindowHostController.m */,
 				A965162A0E06D0BD0058AA91 /* SingleViewHostController.h */,
@@ -1154,6 +1159,7 @@
 				A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */,
 				A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */,
 				A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */,
+				A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
