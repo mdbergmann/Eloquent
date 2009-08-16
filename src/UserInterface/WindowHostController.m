@@ -170,7 +170,7 @@ typedef enum _NavigationDirectionType {
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     
     NSToolbarItem *item = nil;
-    NSImage *image = nil;
+    //NSImage *image = nil;
     
     // ----------------------------------------------------------------------------------------
     // toggle module list view
@@ -981,12 +981,47 @@ typedef enum _NavigationDirectionType {
 
 #pragma mark - NSSplitView delegate methods
 
-/*
 - (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
-    MBLOGV(MBLOG_DEBUG, @"[WindowHostController -splitView:resizeSubviewsWithOldSize:] width:%f, height:%i", oldSize.width, oldSize.height);
+    //detect if it's a window resize
+    if ([sender inLiveResize]) {
+        //info needed
+        NSRect tmpRect = [sender bounds];
+        NSArray *subviews = [sender subviews];
+
+        if(sender == mainSplitView) {
+            NSView *left = [subviews objectAtIndex:0];
+            NSRect leftRect = [left bounds];
+            NSView *mid = [subviews objectAtIndex:1];
+            
+            // left side stays fixed
+            tmpRect.size.width = leftRect.size.width;
+            tmpRect.origin.x = 0;
+            [left setFrame:tmpRect];
+            
+            // mid dynamic
+            tmpRect.size.width = [sender bounds].size.width - (leftRect.size.width + [sender dividerThickness]);
+            tmpRect.origin.x = leftRect.size.width + [sender dividerThickness];
+            [mid setFrame:tmpRect];            
+        } else if(sender == contentSplitView) {
+            NSView *left = [subviews objectAtIndex:0];
+            NSView *right = [subviews objectAtIndex:1];
+            NSRect rightRect = [right bounds];
+            
+            // left side is dynamic
+            tmpRect.size.width = [sender bounds].size.width - (rightRect.size.width + [sender dividerThickness]);
+            tmpRect.origin.x = 0;
+            [left setFrame:tmpRect];
+            
+            // right is fixed
+            tmpRect.size.width = rightRect.size.width;
+            tmpRect.origin.x = [sender bounds].size.width - (rightRect.size.width + [sender dividerThickness]);
+            [right setFrame:tmpRect];
+        }
+    } else {
+        [sender adjustSubviews];
+    }
 }
-*/
- 
+
 - (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview {
     return ((subview == [lsbViewController view]) || (subview == [rsbViewController view]));
 }
