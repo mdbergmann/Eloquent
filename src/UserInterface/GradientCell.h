@@ -10,7 +10,6 @@
 
 
 @interface GradientCell : NSCell {
-
 }
 
 @end
