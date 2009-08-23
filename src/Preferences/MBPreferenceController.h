@@ -4,9 +4,13 @@
 #import <WebKit/WebKit.h>
 #import <CocoLogger/CocoLogger.h>
 
-#define PREFERENCE_CONTROLLER_NIB_NAME          @"Preferences"
+#define PREFERENCE_CONTROLLER_NIB_NAME              @"Preferences"
 
 // UserDefault defines
+
+// text view margins
+#define DefaultsTextContainerVerticalMargins        @"DefaultsTextContainerVerticalMargins"
+#define DefaultsTextContainerHorizontalMargins      @"DefaultsTextContainerHorizontalMargins"
 
 // bible display
 #define DefaultsBibleTextShowBookNameKey            @"DefaultsBibleTextShowBookNameKey"

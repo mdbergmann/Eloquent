@@ -307,7 +307,17 @@
 }
 
 - (IBAction)addTab:(id)sender {
-    [self addTabContentForModuleType:[self moduleType]];
+    // get default bible
+    NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
+    SwordModule *mod = nil;
+    if(sBible != nil) {
+        mod = [[SwordManager defaultManager] moduleWithName:sBible];
+    }
+    if(mod) {
+        [self addTabContentForModule:mod];
+    } else {
+        [self addTabContentForModuleType:[self moduleType]];    
+    }
 }
 
 - (IBAction)openModuleInstaller:(id)sender {

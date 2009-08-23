@@ -198,7 +198,9 @@ enum ModuleMenu_Items{
     
     // create new bookmark instance
     Bookmark *new = [[Bookmark alloc] init];
-    [new setReference:[(SearchTextObject *)[(WindowHostController *)hostingDelegate currentSearchText] searchTextForType:ReferenceSearchType]];
+    NSString *refText = [(SearchTextObject *)[(WindowHostController *)hostingDelegate currentSearchText] searchTextForType:ReferenceSearchType];
+    [new setReference:refText];
+    [new setName:refText];
 
     // set as content
     [bmObjectController setContent:new];
@@ -927,6 +929,11 @@ enum ModuleMenu_Items{
 
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 
+    [(ThreeCellsCell *)cell setImage:nil];
+    [(ThreeCellsCell *)cell setRightImage:nil];
+    [(ThreeCellsCell *)cell setRightCounter:0];
+    [(ThreeCellsCell *)cell setLeftCounter:0];
+
     if(item != nil) {        
         if([item isKindOfClass:[NSString class]]) {
             NSFont *font = FontLargeBold;
@@ -935,9 +942,6 @@ enum ModuleMenu_Items{
             
             [cell setFont:font];
             [cell setTextColor:[NSColor grayColor]];
-            [(ThreeCellsCell *)cell setImage:nil];
-            [(ThreeCellsCell *)cell setRightImage:nil];
-            //[(ThreeCellsCell *)cell setNumberValue:[NSNumber numberWithInt:4]];
             //float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
         } else {
             NSFont *font = FontStd;
@@ -946,13 +950,14 @@ enum ModuleMenu_Items{
             
             [cell setFont:font];
             [cell setTextColor:[NSColor blackColor]];
-            [(ThreeCellsCell *)cell setRightImage:nil];
-            [(ThreeCellsCell *)cell setImage:nil];
             
             if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
                 [(ThreeCellsCell *)cell setImage:bookmarkImage];
             } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
-                [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];            
+                [(ThreeCellsCell *)cell setLeftCounter:[(Bookmark *)item childCount]];
+                [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];
+            } else if([item isKindOfClass:[SwordModCategory class]]) {
+                [(ThreeCellsCell *)cell setRightCounter:[[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count]];                
             } else if([item isKindOfClass:[SwordModule class]]) {
                 [(ThreeCellsCell *)cell setImage:nil];
                 SwordModule *mod = item;

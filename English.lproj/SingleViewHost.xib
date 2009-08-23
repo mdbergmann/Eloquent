@@ -2,12 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9G55</string>
+		<string key="IBDocument.SystemVersion">9L30</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.AppKitVersion">949.54</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="1" id="5"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -36,14 +37,15 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">4111</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{443, 279}, {800, 600}}</string>
+				<string key="NSWindowRect">{{412, 279}, {850, 600}}</string>
 				<int key="NSWTFlags">536870912</int>
 				<string key="NSWindowTitle">Fenster</string>
 				<string key="NSWindowClass">HostWindow</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
+				<string key="NSWindowContentMinSize">{850, 600}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -70,11 +72,11 @@
 														<object class="NSView" id="603217602">
 															<reference key="NSNextResponder" ref="422573426"/>
 															<int key="NSvFlags">256</int>
-															<string key="NSFrameSize">{800, 24}</string>
+															<string key="NSFrameSize">{850, 24}</string>
 															<reference key="NSSuperview" ref="422573426"/>
 														</object>
 													</object>
-													<string key="NSFrameSize">{800, 24}</string>
+													<string key="NSFrameSize">{850, 24}</string>
 													<reference key="NSSuperview" ref="1041309282"/>
 													<string key="NSOffsets">{0, 0}</string>
 													<object class="NSTextFieldCell" key="NSTitleCell">
@@ -108,14 +110,14 @@
 													<real value="0.000000e+00" key="NSBorderWidth2"/>
 												</object>
 											</object>
-											<string key="NSFrame">{{0, 541}, {800, 24}}</string>
+											<string key="NSFrame">{{0, 541}, {850, 24}}</string>
 											<reference key="NSSuperview" ref="788771965"/>
 											<string key="NSClassName">OptionsHeaderView</string>
 										</object>
 										<object class="NSBox" id="864081604">
 											<reference key="NSNextResponder" ref="788771965"/>
 											<int key="NSvFlags">10</int>
-											<string key="NSFrame">{{0, 538}, {800, 5}}</string>
+											<string key="NSFrame">{{0, 538}, {850, 5}}</string>
 											<reference key="NSSuperview" ref="788771965"/>
 											<string key="NSOffsets">{0, 0}</string>
 											<object class="NSTextFieldCell" key="NSTitleCell">
@@ -151,11 +153,11 @@
 														<object class="NSView" id="645634012">
 															<reference key="NSNextResponder" ref="367107486"/>
 															<int key="NSvFlags">256</int>
-															<string key="NSFrameSize">{800, 540}</string>
+															<string key="NSFrameSize">{850, 540}</string>
 															<reference key="NSSuperview" ref="367107486"/>
 														</object>
 													</object>
-													<string key="NSFrameSize">{800, 540}</string>
+													<string key="NSFrameSize">{850, 540}</string>
 													<reference key="NSSuperview" ref="834019976"/>
 													<string key="NSOffsets">{0, 0}</string>
 													<object class="NSTextFieldCell" key="NSTitleCell">
@@ -177,16 +179,16 @@
 													<real value="0.000000e+00" key="NSBorderWidth2"/>
 												</object>
 											</object>
-											<string key="NSFrameSize">{800, 540}</string>
+											<string key="NSFrameSize">{850, 540}</string>
 											<reference key="NSSuperview" ref="788771965"/>
 											<string key="NSClassName">NSSplitView</string>
 										</object>
 									</object>
-									<string key="NSFrameSize">{800, 565}</string>
+									<string key="NSFrameSize">{850, 565}</string>
 									<reference key="NSSuperview" ref="931576908"/>
 								</object>
 							</object>
-							<string key="NSFrame">{{0, 35}, {800, 565}}</string>
+							<string key="NSFrame">{{0, 35}, {850, 565}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 						</object>
 						<object class="NSSegmentedControl" id="787432040">
@@ -220,7 +222,7 @@
 						<object class="NSSegmentedControl" id="189430865">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{742, 4}, {38, 25}}</string>
+							<string key="NSFrame">{{792, 4}, {38, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSegmentedCell" key="NSCell" id="324294872">
@@ -242,9 +244,11 @@
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{800, 600}</string>
+					<string key="NSFrameSize">{850, 600}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSMinSize">{850, 622}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 		</object>
@@ -503,6 +507,8 @@
 					<string>1.NSWindowTemplate.visibleAtLaunch</string>
 					<string>1.WindowOrigin</string>
 					<string>1.editorWindowContentRectSynchronizationRect</string>
+					<string>1.windowTemplate.hasMinSize</string>
+					<string>1.windowTemplate.minSize</string>
 					<string>2.IBPluginDependency</string>
 					<string>53.CustomClassName</string>
 					<string>53.IBPluginDependency</string>
@@ -528,14 +534,16 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{266, 356}, {800, 600}}</string>
+					<string>{{188, 307}, {850, 600}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1" id="5"/>
 					<reference ref="5"/>
-					<string>{{266, 356}, {800, 600}}</string>
+					<reference ref="5"/>
+					<string>{{188, 307}, {850, 600}}</string>
 					<integer value="0" id="8"/>
 					<string>{196, 240}</string>
 					<string>{{143, 384}, {754, 598}}</string>
+					<boolean value="YES"/>
+					<string>{850, 600}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>FullScreenSplitView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -618,16 +626,26 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>focusSearchEntry:</string>
 							<string>fullScreenModeOnOff:</string>
 							<string>leftSideBarHideShow:</string>
 							<string>navigationBack:</string>
 							<string>navigationForward:</string>
+							<string>nextBook:</string>
+							<string>nextChapter:</string>
+							<string>performClose:</string>
+							<string>previousBook:</string>
+							<string>previousChapter:</string>
 							<string>rightSideBarHideShow:</string>
-							<string>switchToIndexLookup:</string>
-							<string>switchToRefLookup:</string>
+							<string>switchLookupView:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -672,21 +690,35 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>clearRecents:</string>
+							<string>focusSearchEntry:</string>
 							<string>forceReload:</string>
 							<string>fullScreenModeOnOff:</string>
 							<string>leftSideBarHideShow:</string>
 							<string>leftSideBottomSegChange:</string>
+							<string>myPrint:</string>
 							<string>navigationAction:</string>
 							<string>navigationBack:</string>
 							<string>navigationForward:</string>
+							<string>nextBook:</string>
+							<string>nextChapter:</string>
+							<string>performClose:</string>
+							<string>previousBook:</string>
+							<string>previousChapter:</string>
 							<string>rightSideBarHideShow:</string>
 							<string>rightSideBottomSegChange:</string>
 							<string>searchInput:</string>
-							<string>switchToIndexLookup:</string>
-							<string>switchToRefLookup:</string>
+							<string>switchLookupView:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

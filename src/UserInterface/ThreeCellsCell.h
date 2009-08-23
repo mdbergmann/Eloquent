@@ -11,14 +11,17 @@
 
 @interface ThreeCellsCell : NSCell {
     NSImage *image;
-    NSNumber *numberValue;
     NSImage *rightImage;
     NSColor *textColor;
+    NSFont *countFont;
+    int rightCounter;
+    int leftCounter;
 }
 
 @property (retain, readwrite) NSImage *image;
 @property (retain, readwrite) NSImage *rightImage;
 @property (retain, readwrite) NSColor *textColor;
-@property (retain, readwrite) NSNumber *numberValue;
+@property (readwrite) int rightCounter;
+@property (readwrite) int leftCounter;
 
 @end

@@ -74,6 +74,10 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	// create a dictionary
 	NSMutableDictionary *defaultsDict = [NSMutableDictionary dictionary];
     
+    // text container margins
+    [defaultsDict setObject:[NSNumber numberWithFloat:5.0] forKey:DefaultsTextContainerVerticalMargins];
+    [defaultsDict setObject:[NSNumber numberWithFloat:5.0] forKey:DefaultsTextContainerHorizontalMargins];
+    
     // defaults for BibleText display
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowBookNameKey];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
@@ -308,21 +312,28 @@ static AppController *singleton;
     return svh;    
 }
 
-//-------------------------------------------------------------------
-// NSApplication delegate method
-//-------------------------------------------------------------------
+#pragma mark - NSApplication delegates
+
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames {
 	[sender replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
 }
 
 
-//-------------------------------------------------------------------
-// show PreferencePanel (this method also is used for delegate methods from interface copntroller to open prefs panel)
-//-------------------------------------------------------------------
+#pragma mark - Actions
 
 - (IBAction)openNewSingleBibleHostWindow:(id)sender {
-    // open a default view
-    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:bible];
+    // get default bible
+    NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
+    SwordModule *mod = nil;
+    if(sBible != nil) {
+        mod = [[SwordManager defaultManager] moduleWithName:sBible];
+    }
+    SingleViewHostController *svh = nil;
+    if(mod) {
+        svh = [[SingleViewHostController alloc] initWithModule:mod];
+    } else {
+        svh = [[SingleViewHostController alloc] initForViewType:bible];    
+    }
     [windowHosts addObject:svh];
     svh.delegate = self;
     [svh showWindow:self];

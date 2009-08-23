@@ -62,7 +62,11 @@
     
     [textView setHorizontallyResizable:YES];
     //[[textView textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
-    //[[textView textContainer] setWidthTracksTextView:NO];
+    [[textView textContainer] setWidthTracksTextView:YES];
+    [[textView textContainer] setHeightTracksTextView:YES];
+    NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
+                                [[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue]);
+    [textView setTextContainerInset:margins];
 
     // register for frame changed notifications of mouse tracking scrollview
     [[NSNotificationCenter defaultCenter] addObserver:self
