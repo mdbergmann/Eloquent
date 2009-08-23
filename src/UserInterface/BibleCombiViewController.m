@@ -597,6 +597,12 @@
     NSMutableArray *subViews = [NSMutableArray arrayWithArray:[parBibleSplitView subviews]];
     [subViews addObjectsFromArray:[parMiscSplitView subviews]];
     
+    // the current horizontal textcontainer inset
+    float inset = 0.0;
+    if([userDefaults objectForKey:DefaultsTextContainerHorizontalMargins]) {
+        inset = [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue];    
+    }
+    
     NSEnumerator *iter = [subViews reverseObjectEnumerator];
     ScrollSynchronizableView *v = nil;
     while((v = [iter nextObject])) {
@@ -641,7 +647,7 @@
                     if(destRect.origin.x != NSNotFound) {
                         // set point
                         destPoint.x = destRect.origin.x;
-                        destPoint.y = destRect.origin.y;                                            
+                        destPoint.y = destRect.origin.y + inset;                                            
                     } else {
                         updateScroll = NO;                        
                     }

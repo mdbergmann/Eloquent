@@ -66,7 +66,7 @@ typedef enum _NavigationDirectionType {
 - (void)awakeFromNib {
     
     // set default widths for sbs
-    defaultLSBWidth = 200;
+    defaultLSBWidth = 250;
     defaultRSBWidth = 200;
     
     // set main split vertical

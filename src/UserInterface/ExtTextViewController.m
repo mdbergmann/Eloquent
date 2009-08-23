@@ -63,16 +63,25 @@
     [textView setHorizontallyResizable:YES];
     //[[textView textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
     [[textView textContainer] setWidthTracksTextView:YES];
-    [[textView textContainer] setHeightTracksTextView:YES];
+    //[[textView textContainer] setHeightTracksTextView:YES];
     NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
-                                [[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue]);
+                                [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
     [textView setTextContainerInset:margins];
-
+    // we also observe changing of this value
+    [[NSUserDefaults standardUserDefaults] addObserver:self 
+                                            forKeyPath:DefaultsTextContainerVerticalMargins
+                                               options:NSKeyValueObservingOptionNew context:nil];
+    [[NSUserDefaults standardUserDefaults] addObserver:self 
+                                            forKeyPath:DefaultsTextContainerHorizontalMargins
+                                               options:NSKeyValueObservingOptionNew context:nil];
+    
     // register for frame changed notifications of mouse tracking scrollview
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollViewFrameDidChange:)
                                                  name:NSViewFrameDidChangeNotification
                                                object:scrollView];
+    
+    
     // tell scrollview to post bounds notifications
     [scrollView setPostsFrameChangedNotifications:YES];    
     // enable mouse tracking
@@ -85,6 +94,21 @@
 /** pass though to delegate */
 - (IBAction)saveDocument:(id)sender {
     [delegate saveDocument:sender];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	// check for keyPath
+	if([keyPath isEqualToString:DefaultsTextContainerVerticalMargins]) {
+        NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
+                                    [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
+        [textView setTextContainerInset:margins];
+	} else if([keyPath isEqualToString:DefaultsTextContainerHorizontalMargins]) {
+        NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
+                                    [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
+        [textView setTextContainerInset:margins];
+	}
 }
 
 #pragma mark - getter/setter

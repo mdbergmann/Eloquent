@@ -231,7 +231,7 @@
         // fill this bezier
         [path fill];
         [path setLineWidth:0.5];
-        [[NSColor blackColor] set];
+        [[NSColor grayColor] set];
         [path stroke];
         
         // draw attributed string centered in left area
@@ -257,7 +257,7 @@
         [path appendBezierPathWithArcWithCenter:NSMakePoint(counterRect.origin.x + RADIUS, counterRect.origin.y + RADIUS) radius:RADIUS startAngle:90.0 endAngle:270.0];
         [path fill];
         [path setLineWidth:0.5];
-        [[NSColor blackColor] set];
+        [[NSColor grayColor] set];
         [path stroke];
         
         // draw attributed string centered in area
@@ -284,7 +284,7 @@
         [path appendBezierPathWithArcWithCenter:NSMakePoint(counterRect.origin.x + RADIUS, counterRect.origin.y + RADIUS) radius:RADIUS startAngle:90.0 endAngle:270.0];
         [path fill];
         [path setLineWidth:0.5];
-        [[NSColor blackColor] set];
+        [[NSColor grayColor] set];
         [path stroke];
         
         // draw attributed string centered in area
