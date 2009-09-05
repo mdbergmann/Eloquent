@@ -1,0 +1,64 @@
+// !$*UTF8*$!
+{
+	0259C573FE90428111CA0C5A /* Project object */ = {
+		activeArchitecturePreference = i386;
+		activeBuildConfigurationName = Release;
+		activeTarget = 53DF6901067E5B8E0090B5B0 /* All */;
+		codeSenseManager = A9D68E5A10530A8500C0BE1B /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					798,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 273878404;
+			PBXWorkspaceStateSaveDate = 273878404;
+		};
+		sourceControlManager = A9D68E5910530A8500C0BE1B /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	53DF68FC067E5B5A0090B5B0 /* BGHUDAppKit */ = {
+		activeExec = 0;
+	};
+	53DF6901067E5B8E0090B5B0 /* All */ = {
+		activeExec = 0;
+	};
+	8D1AC9600486D14A00FE50C9 /* BGHUDAppKitPlugin */ = {
+		activeExec = 0;
+	};
+	A9D68E5910530A8500C0BE1B /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	A9D68E5A10530A8500C0BE1B /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	E7FDEAFB0FC784AC0014A745 /* Static Analysis */ = {
+		activeExec = 0;
+	};
+}
