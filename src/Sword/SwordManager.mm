@@ -142,51 +142,35 @@ using std::list;
     lManager->loadConfigDir([localePath UTF8String]);
     
     //get the language
-    NSEnumerator *langIter = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectEnumerator];
+    NSArray *availLocales = [NSLocale preferredLanguages];
+    //NSLocale *loc = [NSLocale currentLocale];
+    //NSString *lang = [loc objectForKey:NSLocaleIdentifier];
     
     NSString *lang = nil;
     BOOL haveLocale = NO;
-    int i = 0;
-    NSFileManager *fm = [NSFileManager defaultManager];
-    BOOL directory;
     // for every language, check if we know the locales
-    while((lang = [langIter nextObject])) {
-        // if first language is english, then go no further
-        if([[lang substringToIndex:2] isEqualToString:@"en"] && (i == 0)) {
-            haveLocale = YES;
-            break;
-        }
-        
-        // set path for locale
-        NSString *filePath = [NSString stringWithFormat:@"%@/locales.d/%@-utf8.conf", resourcePath, lang];
-        haveLocale = [fm fileExistsAtPath:filePath isDirectory:&directory];
-        // do we have this locale?
-        if(haveLocale == NO) {
-            filePath = [NSString stringWithFormat:@"%@/locales.d/%@.conf", resourcePath, lang];
-            haveLocale = [fm fileExistsAtPath:filePath isDirectory:&directory];
-        } else {
-            // if we have the locale, we can break up at once
-            break;
-        }
-        // now check for locale file for only 2 characters
-        if(haveLocale == NO) {
-            filePath = [NSString stringWithFormat:@"%@/locales.d/%@.conf", resourcePath, [lang substringToIndex:2]];
-            haveLocale = [fm fileExistsAtPath:filePath isDirectory:&directory];
-        } else {
-            break;
-        }
-        
-        i++;
+    StringList localelist = lManager->getAvailableLocales();
+    NSEnumerator *iter = [availLocales objectEnumerator];
+    while((lang = [iter nextObject]) && !haveLocale) {
+        // check if this locale is available in SWORD
+        StringList::iterator it;
+        SWBuf locale;
+        for(it = localelist.begin(); it != localelist.end(); ++it) {
+            locale = *it;
+            NSString *swLoc = [NSString stringWithCString:locale.c_str() encoding:NSUTF8StringEncoding];
+            if([swLoc hasPrefix:lang]) {
+                haveLocale = YES;
+                break;
+            }
+        }        
     }
     
     // if still haveLocale is still NO, we have a problem
     // use english for testing
-    if(haveLocale == NO) {
-        lang = @"en";
-    }
-    
-    // set the locale
-    lManager->setDefaultLocaleName([lang UTF8String]);    
+    if(haveLocale) {
+        // set the locale
+        lManager->setDefaultLocaleName([lang UTF8String]);    
+    }    
 }
 
 + (NSArray *)moduleTypes {

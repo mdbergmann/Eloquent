@@ -35,9 +35,10 @@ enum GeneralMenuItemAdditions {
     
     IBOutlet NSMenu *displayOptionsMenu;
     IBOutlet NSPopUpButton *displayOptionsPopUpButton;
+
     IBOutlet NSMenu *modDisplayOptionsMenu;
     IBOutlet NSPopUpButton *modDisplayOptionsPopUpButton;
-    
+
     IBOutlet NSSegmentedControl *bookPager;
     IBOutlet NSSegmentedControl *chapterPager;
 
@@ -84,6 +85,11 @@ enum GeneralMenuItemAdditions {
  default text context options
  */
 - (void)initTextContextOptions;
+
+/**
+ font size options
+ */
+- (void)initFontSizeOptions;
 
 // printing
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo;
