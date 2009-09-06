@@ -231,11 +231,6 @@ static MBPreferenceController *instance;
 //--------------------------------------------------------------------
 //----------- Actions ---------------------------------------
 //--------------------------------------------------------------------
-- (IBAction)okButton:(id)sender {
-	[self endSheet];
-    [self close];
-}
-
 - (IBAction)toggleBackgroundIndexer:(id)sender {
     if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];

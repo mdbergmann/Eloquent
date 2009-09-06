@@ -119,7 +119,6 @@
 //- (NSRect)frameRectForTabViewItem:(NSTabViewItem *)item;
 
 // actions
-- (IBAction)okButton:(id)sender;
 - (IBAction)toggleBackgroundIndexer:(id)sender;
 - (IBAction)openFontsPanel:(id)sender;
 
