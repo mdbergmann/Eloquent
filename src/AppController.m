@@ -371,8 +371,10 @@ static AppController *singleton;
 }
 
 - (IBAction)showPreferenceSheet:(id)sender {
-	// show panel
-    preferenceController = [[MBPreferenceController alloc] initWithDelegate:self];
+    if(!preferenceController) {
+        // show panel
+        preferenceController = [[MBPreferenceController alloc] initWithDelegate:self];
+    }
     
     // show window
     if(!isPreferencesShowing) {

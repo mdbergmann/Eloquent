@@ -1004,8 +1004,12 @@ typedef enum _NavigationDirectionType {
             [mid setFrame:tmpRect];            
         } else if(sender == contentSplitView) {
             NSView *left = [subviews objectAtIndex:0];
-            NSView *right = [subviews objectAtIndex:1];
-            NSRect rightRect = [right bounds];
+            NSView *right = nil;
+            NSRect rightRect = NSZeroRect;
+            if([subviews count] > 1) {
+                right = [subviews objectAtIndex:1];
+                rightRect = [right bounds];
+            }
             
             // left side is dynamic
             tmpRect.size.width = [sender bounds].size.width - (rightRect.size.width + [sender dividerThickness]);
@@ -1014,7 +1018,7 @@ typedef enum _NavigationDirectionType {
             
             // right is fixed
             tmpRect.size.width = rightRect.size.width;
-            tmpRect.origin.x = [sender bounds].size.width - (rightRect.size.width + [sender dividerThickness]);
+            tmpRect.origin.x = [sender bounds].size.width - (rightRect.size.width + [sender dividerThickness]) + 1;
             [right setFrame:tmpRect];
         }
     } else {
@@ -1022,6 +1026,7 @@ typedef enum _NavigationDirectionType {
     }
 }
 
+/*
 - (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview {
     return ((subview == [lsbViewController view]) || (subview == [rsbViewController view]));
 }
@@ -1033,6 +1038,7 @@ typedef enum _NavigationDirectionType {
 - (CGFloat)splitView:(NSSplitView *)sender constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)offset {
     return proposedMax - 90.0;
 }
+ */
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)aNotification {
     NSSplitView *sv = [aNotification object];

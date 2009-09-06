@@ -147,19 +147,21 @@ using std::list;
     //NSString *lang = [loc objectForKey:NSLocaleIdentifier];
     
     NSString *lang = nil;
+    NSString *loc = nil;
     BOOL haveLocale = NO;
     // for every language, check if we know the locales
     StringList localelist = lManager->getAvailableLocales();
     NSEnumerator *iter = [availLocales objectEnumerator];
-    while((lang = [iter nextObject]) && !haveLocale) {
+    while((loc = [iter nextObject]) && !haveLocale) {
         // check if this locale is available in SWORD
         StringList::iterator it;
         SWBuf locale;
         for(it = localelist.begin(); it != localelist.end(); ++it) {
             locale = *it;
             NSString *swLoc = [NSString stringWithCString:locale.c_str() encoding:NSUTF8StringEncoding];
-            if([swLoc hasPrefix:lang]) {
+            if([swLoc hasPrefix:loc]) {
                 haveLocale = YES;
+                lang = loc;
                 break;
             }
         }        
@@ -223,7 +225,7 @@ using std::list;
         sword::StringList options = swManager->getGlobalOptions();
         sword::StringList::iterator	it;
         for(it = options.begin(); it != options.end(); it++) {
-            [self setGlobalOption:[NSString stringWithCString:it->c_str()] value:SW_OFF];
+            [self setGlobalOption:[NSString stringWithCString:it->c_str() encoding:NSUTF8StringEncoding] value:SW_OFF];
         }        
     }	
 	
