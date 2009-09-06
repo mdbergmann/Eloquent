@@ -50,7 +50,7 @@
     
     // set some view things
     [progressIndicator setUsesThreadedAnimation:YES];
-    [progressIndicator scaleUnitSquareToSize:NSMakeSize(0.5, 0.5)];
+    //[progressIndicator scaleUnitSquareToSize:NSMakeSize(0.5, 0.5)];
     
     // calls delegate to notify when loading is finished
     if(delegate) {

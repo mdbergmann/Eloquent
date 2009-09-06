@@ -463,12 +463,15 @@
         ret = [[mod module] name];
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODSTATUS]) {
         // print module status
-        if(([[mod module] status] & ModStatSameVersion) == ModStatSameVersion) {
+        int stat = [[mod module] status];
+        if((stat & ModStatSameVersion) == ModStatSameVersion) {
             ret = NSLocalizedString(@"ModStatSameVersion", @"");
-        } else if(([[mod module] status] & ModStatNew) == ModStatNew) {
+        } else if((stat & ModStatNew) == ModStatNew) {
             ret = NSLocalizedString(@"ModStatNew", @"");
-        } else if(([[mod module] status] & ModStatUpdated) == ModStatUpdated) {
+        } else if((stat & ModStatUpdated) == ModStatUpdated) {
             ret = NSLocalizedString(@"ModStatUpdated", @"");
+        } else if((stat & ModStatOlder) == ModStatOlder) {
+            ret = NSLocalizedString(@"ModStatOlder", @"");
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODCIPHERED]) {
         if(([[mod module] status] & ModStatCiphered) == ModStatCiphered) {

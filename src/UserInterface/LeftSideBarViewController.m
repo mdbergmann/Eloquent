@@ -957,7 +957,7 @@ enum ModuleMenu_Items{
                 [(ThreeCellsCell *)cell setLeftCounter:[(Bookmark *)item childCount]];
                 [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];
             } else if([item isKindOfClass:[SwordModCategory class]]) {
-                [(ThreeCellsCell *)cell setRightCounter:[[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count]];                
+                //[(ThreeCellsCell *)cell setRightCounter:[[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count]];                
             } else if([item isKindOfClass:[SwordModule class]]) {
                 [(ThreeCellsCell *)cell setImage:nil];
                 SwordModule *mod = item;

@@ -66,7 +66,7 @@
     RightSideBarViewController *rsbViewController;
     float rsbWidth;
     float defaultRSBWidth;
-
+    
     // navigation segment control
     NSSegmentedControl *navigationSegControl;
     BOOL navigationAction;

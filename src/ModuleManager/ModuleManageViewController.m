@@ -696,7 +696,7 @@
                                        alternateButton:nil
                                            otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"PleaseMakeSelection", @"")];
-        [alert runModal];        
+        [alert runModal];
     } else {
         // get ThreadedProgressSheet
         MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
@@ -723,9 +723,6 @@
             }
         }
 
-        [ps stopProgressAnimation];
-        [ps endSheet];        
-
         if(stat != 0) {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
                                              defaultButton:NSLocalizedString(@"OK", @"") 
@@ -751,6 +748,9 @@
         // set selection to none and reload
         [modListViewController setInstallSources:[NSArray array]];
         [modListViewController refreshModulesList];
+        
+        [ps stopProgressAnimation];
+        [ps endSheet];                
     }
 }
 
@@ -992,8 +992,6 @@
         ret = [installSourceListObjects objectAtIndex:index];
     } else if([listObject objectType] == TypeInstallSource) {
         ret = [[listObject subInstallSources] objectAtIndex:index];
-    } else {
-        ret = @"test";
     }
     
     return ret;

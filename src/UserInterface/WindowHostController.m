@@ -89,12 +89,14 @@ typedef enum _NavigationDirectionType {
 	[self.window setContentBorderThickness:35.0f forEdge:NSMinYEdge];
     
     // set up left and right side bar
+    /*
     if([lsbViewController viewLoaded]) {
         [mainSplitView addSubview:[lsbViewController view] positioned:NSWindowBelow relativeTo:nil];
         NSSize s = [[lsbViewController view] frame].size;
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
     }
+     */
     /*
     if([rsbViewController viewLoaded]) {
         [contentSplitView addSubview:[rsbViewController view] positioned:NSWindowAbove relativeTo:nil];
@@ -705,9 +707,9 @@ typedef enum _NavigationDirectionType {
 }
 
 - (BOOL)showingLSB {
-    BOOL ret = YES;
-    if([[lsbViewController view] frame].size.width == 0) {
-        ret = NO;
+    BOOL ret = NO;
+    if([[mainSplitView subviews] containsObject:[lsbViewController view]]) {
+        ret = YES;
         // show image play to right
         [leftSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     } else {
@@ -758,6 +760,9 @@ typedef enum _NavigationDirectionType {
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
         size.width = lsbWidth;
+        // add
+        [mainSplitView addSubview:v positioned:NSWindowBelow relativeTo:nil];
+        // change size
         [[v animator] setFrameSize:size];
         // show image play to left
         [leftSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
@@ -768,14 +773,19 @@ typedef enum _NavigationDirectionType {
         if(size.width > 0) {
             lsbWidth = size.width;
         }
+        /*
         size.width = 0;
         [[v animator] setFrameSize:size];
+         */
+        // remove
+        [[v animator] removeFromSuperview];
         // show image play to right
         [leftSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     }
     
     // we need to redisplay
     [mainSplitView setNeedsDisplay:YES];
+    [mainSplitView adjustSubviews];
 }
 
 - (void)showRightSideBar:(BOOL)flag {
@@ -1043,20 +1053,16 @@ typedef enum _NavigationDirectionType {
 - (void)splitViewDidResizeSubviews:(NSNotification *)aNotification {
     NSSplitView *sv = [aNotification object];
     if(sv == mainSplitView) {
-        /*
         NSSize s = [[lsbViewController view] frame].size;
         if(s.width > 10) {
-            lsbWidth = (int)s.width;
-        }
-         */
+            MBLOGV(MBLOG_DEBUG, @"left width: %f", s.width);
+        }            
     } else if(sv == contentSplitView) {
-        /*
         NSSize s = [[rsbViewController view] frame].size;
         if(s.width > 10) {
-            rsbWidth = (int)s.width;
+            MBLOGV(MBLOG_DEBUG, @"right width: %f", s.width);
         }
-         */
-    }
+    }        
 }
 
 - (NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
@@ -1127,7 +1133,7 @@ typedef enum _NavigationDirectionType {
     MBLOG(MBLOG_DEBUG, @"[WindowHostController -contentViewInitFinished:]");
 
     if([aView isKindOfClass:[LeftSideBarViewController class]]) {
-        [mainSplitView addSubview:[aView view] positioned:NSWindowBelow relativeTo:placeHolderView];
+        //[mainSplitView addSubview:[aView view] positioned:NSWindowBelow relativeTo:placeHolderView];
         NSSize s = [[lsbViewController view] frame].size;
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
