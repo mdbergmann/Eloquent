@@ -145,7 +145,6 @@ typedef enum _NavigationDirectionType {
             [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
         }
     }
-    
 }
 
 - (void)setSearchType:(SearchType)aType {
@@ -1138,9 +1137,7 @@ typedef enum _NavigationDirectionType {
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
     } else if([aView isKindOfClass:[RightSideBarViewController class]]) {
-        /*
-        [contentSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:nil];
-         */
+        //[contentSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:nil];
         NSSize s = [[rsbViewController view] frame].size;
         s.width = rsbWidth;
         [[rsbViewController view] setFrameSize:s];
@@ -1168,14 +1165,6 @@ typedef enum _NavigationDirectionType {
         [rsbViewController setHostingDelegate:self];    
     }
     
-    // set window frame
-    NSRect frame;
-    frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
-    frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
-    if(frame.size.width > 0 && frame.size.height > 0) {
-        [[self window] setFrame:frame display:YES];
-    }
-
     return self;
 }
 

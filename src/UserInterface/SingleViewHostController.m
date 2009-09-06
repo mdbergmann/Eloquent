@@ -249,14 +249,22 @@
             moduleType = [[(ModuleViewController *)contentViewController module] type];        
         }
 
+        // load the common things
+        [super initWithCoder:decoder];
+
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
         }
 
-        // load the common things
-        [super initWithCoder:decoder];
+        // set window frame
+        NSRect frame;
+        frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
+        frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
+        if(frame.size.width > 0 && frame.size.height > 0) {
+            [[self window] setFrame:frame display:YES];
+        }
     }
     
     return self;

@@ -532,15 +532,23 @@
             [vc adaptUIToHost];
         }
 
+        // load the common things
+        [super initWithCoder:decoder];
+
         // load nib
         BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
         }
-        
-        // load the common things
-        [super initWithCoder:decoder];
-        
+                
+        // set window frame
+        NSRect frame;
+        frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
+        frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
+        if(frame.size.width > 0 && frame.size.height > 0) {
+            [[self window] setFrame:frame display:YES];
+        }
+
         // loop over tab items and set title
         for(NSTabViewItem *item in [tabView tabViewItems]) {
             [item setLabel:[self computeTabTitle]];
