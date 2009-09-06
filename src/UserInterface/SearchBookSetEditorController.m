@@ -209,6 +209,16 @@
     if(delegate) {
         [delegate performSelector:@selector(indexBookSetChanged:) withObject:self]; 
     }
+    
+    if([[bookSet name] isEqualToString:NSLocalizedString(@"All", @"")]) {
+        [allButton setEnabled:NO];
+        [noneButton setEnabled:NO];
+        [invertButton setEnabled:NO];
+    } else {
+        [allButton setEnabled:YES];
+        [noneButton setEnabled:YES];
+        [invertButton setEnabled:YES];
+    }
 }
 
 - (IBAction)addBookSet:(id)sender {

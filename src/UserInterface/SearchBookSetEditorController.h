@@ -18,6 +18,9 @@
     IBOutlet NSTextField *nameTextField;
     IBOutlet NSButton *addButton;
     IBOutlet NSButton *removeButton;
+    IBOutlet NSButton *allButton;
+    IBOutlet NSButton *noneButton;
+    IBOutlet NSButton *invertButton;
     
     SearchBookSet *selectedBookSet;
     

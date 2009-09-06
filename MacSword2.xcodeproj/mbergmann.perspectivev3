@@ -233,6 +233,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -271,7 +273,10 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>29B97314FDCFA39411CA2CEA</string>
+								<string>A9FD341C0E0A70F6001287DD</string>
+								<string>A91C93EB0DF9B149006B7361</string>
 								<string>A99055A90E041C3400E8D7A2</string>
+								<string>A9061E0C0F70EA0600F6DA1F</string>
 								<string>A9333AE20F6699280001BD38</string>
 								<string>A96516290E06D0940058AA91</string>
 								<string>080E96DDFE201D6D7F000001</string>
@@ -283,14 +288,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>30</integer>
-									<integer>22</integer>
-									<integer>8</integer>
+									<integer>113</integer>
+									<integer>88</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 258}, {297, 830}}</string>
+							<string>{{0, 1375}, {297, 830}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -320,14 +324,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>A91403150DF9AAD2001791BB</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>SingleViewHostController.m</string>
+								<string>SearchBookSetEditorController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -335,23 +337,13 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>A91403160DF9AAD2001791BB</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>SingleViewHostController.m</string>
+										<string>SearchBookSetEditorController.m</string>
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>A99F8B14105413AD000AD5C6</string>
+										<string>A99F8B4310541AE7000AD5C6</string>
 										<key>history</key>
 										<array>
-											<string>A993E93010531FB900680650</string>
-											<string>A993E93110531FB900680650</string>
-											<string>A993E93210531FB900680650</string>
-											<string>A993E956105329E300680650</string>
-											<string>A993E957105329E300680650</string>
-											<string>A993E958105329E300680650</string>
-											<string>A99F8A5E1053E76F000AD5C6</string>
-											<string>A99F8A601053E76F000AD5C6</string>
-											<string>A99F8A701053E8CC000AD5C6</string>
-											<string>A99F8A751053E91C000AD5C6</string>
 											<string>A99F8A871053EACC000AD5C6</string>
 											<string>A99F8AA71053F192000AD5C6</string>
 											<string>A99F8AA81053F192000AD5C6</string>
@@ -361,7 +353,17 @@
 											<string>A99F8AE8105411CD000AD5C6</string>
 											<string>A99F8B11105413AD000AD5C6</string>
 											<string>A99F8B12105413AD000AD5C6</string>
-											<string>A99F8B13105413AD000AD5C6</string>
+											<string>A99F8B30105418C3000AD5C6</string>
+											<string>A99F8B31105418C3000AD5C6</string>
+											<string>A99F8B32105418C3000AD5C6</string>
+											<string>A99F8B33105418C3000AD5C6</string>
+											<string>A99F8A8C1053EAF9000AD5C6</string>
+											<string>A99F8B3D10541AE7000AD5C6</string>
+											<string>A99F8B3E10541AE7000AD5C6</string>
+											<string>A99F8B3F10541AE7000AD5C6</string>
+											<string>A99F8B4010541AE7000AD5C6</string>
+											<string>A99F8B4110541AE7000AD5C6</string>
+											<string>A99F8B4210541AE7000AD5C6</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -400,9 +402,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1138, -27}}</string>
-										<key>RubberWindowFrame</key>
-										<string>25 126 1457 889 0 0 1680 1028 </string>
+										<string>{{10, 27}, {1138, 226}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -477,7 +477,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1138, 226}}</string>
+										<string>{{10, 27}, {1138, -27}}</string>
+										<key>RubberWindowFrame</key>
+										<string>25 126 1457 889 0 0 1680 1028 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -697,7 +699,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>A99F8B15105413AD000AD5C6</string>
 		<string>A99F89FB1053DC7C000AD5C6</string>
 		<string>A99F89FC1053DC7C000AD5C6</string>
 		<string>/Volumes/User/mbergmann/_inProgress/Sources/macsword/macsword/trunk/MacSword2.xcodeproj</string>

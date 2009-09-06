@@ -129,11 +129,11 @@
             // build default search booksets
             NSMutableArray *bookSets = [NSMutableArray array];
             // All
-            SearchBookSet *set = [SearchBookSet searchBookSetWithName:@"All"];
+            SearchBookSet *set = [SearchBookSet searchBookSetWithName:NSLocalizedString(@"All", @"")];
             [set setIsPredefined:YES];
             [bookSets addObject:set]; // empty for all
             // Torah
-            set = [SearchBookSet searchBookSetWithName:@"Law"];
+            set = [SearchBookSet searchBookSetWithName:NSLocalizedString(@"Law", @"")];
             [set setIsPredefined:YES];
             [bookSets addObject:set];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Gen"] osisBookName]];
@@ -142,7 +142,7 @@
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Num"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Deut"] osisBookName]];
             // Prophets
-            set = [SearchBookSet searchBookSetWithName:@"Prophets"];
+            set = [SearchBookSet searchBookSetWithName:NSLocalizedString(@"Prophets", @"")];
             [set setIsPredefined:YES];            
             [bookSets addObject:set];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Josh"] osisBookName]];
@@ -167,7 +167,7 @@
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Zech"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Mal"] osisBookName]];
             // Scriptures
-            set = [SearchBookSet searchBookSetWithName:@"Scriptures"];
+            set = [SearchBookSet searchBookSetWithName:NSLocalizedString(@"Scriptures", @"")];
             [set setIsPredefined:YES];
             [bookSets addObject:set];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Ruth"] osisBookName]];
@@ -184,7 +184,7 @@
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Lam"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Dan"] osisBookName]];
             // Evangelien
-            set = [SearchBookSet searchBookSetWithName:@"Gospels"];
+            set = [SearchBookSet searchBookSetWithName:NSLocalizedString(@"Gospels", @"")];
             [set setIsPredefined:YES];
             [bookSets addObject:set];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Matt"] osisBookName]];
@@ -192,7 +192,7 @@
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Luke"] osisBookName]];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"John"] osisBookName]];
             // Briefe
-            set = [SearchBookSet searchBookSetWithName:@"Letters"];
+            set = [SearchBookSet searchBookSetWithName:NSLocalizedString(@"Letters", @"")];
             [set setIsPredefined:YES];
             [bookSets addObject:set];
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Rom"] osisBookName]];
