@@ -425,11 +425,16 @@
             // all booktypes have something to show in the right side bar
             [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
             
+            // this should help with the problem that the ride side bar always was reset to default width when switching tabs
             if([vc isKindOfClass:[DictionaryViewController class]] ||
                [vc isKindOfClass:[GenBookViewController class]]) {
-                [self showRightSideBar:YES];
+                if(![self showingRSB]) {
+                    [self showRightSideBar:YES];
+                }
             } else {
-                [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+                if(![self showingRSB] && [userDefaults boolForKey:DefaultsShowRSB]) {
+                    [self showRightSideBar:YES];
+                }
             }
 
             // also set current search Text
