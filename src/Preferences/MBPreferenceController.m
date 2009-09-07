@@ -95,8 +95,8 @@ static MBPreferenceController *instance;
     bibleDisplayViewRect = [bibleDisplayView frame];
     
     // calculate margins
-    northMargin = [[self window] frame].size.height - southMargin - [prefsTabView frame].size.height;
     southMargin = [prefsTabView frame].origin.y;
+    northMargin = [[self window] frame].size.height - [prefsTabView frame].size.height + 50;
     sideMargin = ([[self window] frame].size.width - [prefsTabView frame].size.width) / 2;
     //sideMargin = 0;
     
@@ -168,7 +168,7 @@ static MBPreferenceController *instance;
 	// calculate the difference in size
 	//NSRect contentFrame = [[sheet contentView] frame];
 	NSRect newFrame = [[self window] frame];
-	newFrame.size.height = viewframe.size.height + southMargin + northMargin;
+	newFrame.size.height = viewframe.size.height + northMargin + southMargin;
 	newFrame.size.width = viewframe.size.width + (2 * sideMargin) + 20;
 	
 	// set new origin

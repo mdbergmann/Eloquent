@@ -1054,12 +1054,12 @@ typedef enum _NavigationDirectionType {
     if(sv == mainSplitView) {
         NSSize s = [[lsbViewController view] frame].size;
         if(s.width > 10) {
-            MBLOGV(MBLOG_DEBUG, @"left width: %f", s.width);
+            //MBLOGV(MBLOG_DEBUG, @"left width: %f", s.width);
         }            
     } else if(sv == contentSplitView) {
         NSSize s = [[rsbViewController view] frame].size;
         if(s.width > 10) {
-            MBLOGV(MBLOG_DEBUG, @"right width: %f", s.width);
+            //MBLOGV(MBLOG_DEBUG, @"right width: %f", s.width);
         }
     }        
 }
