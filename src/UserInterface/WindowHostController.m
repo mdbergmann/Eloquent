@@ -998,19 +998,28 @@ typedef enum _NavigationDirectionType {
         NSArray *subviews = [sender subviews];
 
         if(sender == mainSplitView) {
-            NSView *left = [subviews objectAtIndex:0];
-            NSRect leftRect = [left bounds];
-            NSView *mid = [subviews objectAtIndex:1];
+            NSView *left = nil;
+            NSRect leftRect = NSZeroRect;
+            NSView *mid = nil;
+            if([subviews count] > 1) {
+                left = [subviews objectAtIndex:0];
+                leftRect = [left bounds];
+                mid = [subviews objectAtIndex:1];
+            } else {
+                mid = [subviews objectAtIndex:0];                
+            }
             
             // left side stays fixed
-            tmpRect.size.width = leftRect.size.width;
-            tmpRect.origin.x = 0;
-            [left setFrame:tmpRect];
+            if(left) {
+                tmpRect.size.width = leftRect.size.width;
+                tmpRect.origin.x = 0;
+                [left setFrame:tmpRect];                
+            }
             
             // mid dynamic
             tmpRect.size.width = [sender bounds].size.width - (leftRect.size.width + [sender dividerThickness]);
             tmpRect.origin.x = leftRect.size.width + [sender dividerThickness];
-            [mid setFrame:tmpRect];            
+            [mid setFrame:tmpRect];
         } else if(sender == contentSplitView) {
             NSView *left = [subviews objectAtIndex:0];
             NSView *right = nil;
