@@ -85,6 +85,7 @@
     [item setTag:0];
     [menu addItem:item];
     int i = 1;
+    BOOL preset = YES;
     for(SearchBookSet *set in [[IndexingManager sharedManager] searchBookSets]) {
         item = [[NSMenuItem alloc] init];
         [item setTitle:NSLocalizedString([set name], @"")];
@@ -141,13 +142,11 @@
             [addButton setEnabled:NO];
         } else {
             BOOL enable = YES;
-            if([[selectedBookSet name] length] > 0) {
-                // this is not out temp one
-                for(SearchBookSet *set in [[IndexingManager sharedManager] searchBookSets]) {
-                    if([[set name] isEqualToString:[selectedBookSet name]]) {
-                        // we may not add the same again, it is changed instead
-                        enable = NO;
-                    }
+            // this is not a temp one
+            for(SearchBookSet *set in [[IndexingManager sharedManager] searchBookSets]) {
+                if([[set name] isEqualToString:[nameTextField stringValue]]) {
+                    // we may not add the same again, it is changed instead
+                    enable = NO;
                 }
             }
             
@@ -171,7 +170,10 @@
         } else {
             // add to current bookSet
             [selectedBookSet addBook:bookName];    
-        }        
+        }
+        
+        // store
+        [[IndexingManager sharedManager] storeSearchBookSets];        
     }
 }
 
@@ -222,17 +224,19 @@
 }
 
 - (IBAction)addBookSet:(id)sender {
-    [selectedBookSet setName:[nameTextField stringValue]];
-    [[[IndexingManager sharedManager] searchBookSets] addObject:selectedBookSet];
+    SearchBookSet *set = [SearchBookSet searchBookSetWithName:[nameTextField stringValue]];
+    [[[IndexingManager sharedManager] searchBookSets] addObject:set];
+    [[IndexingManager sharedManager] storeSearchBookSets];
     
     [searchBookSetsPopUpButton setMenu:[self bookSetsMenu]];
-    [searchBookSetsPopUpButton selectItemWithTitle:[selectedBookSet name]];
+    [searchBookSetsPopUpButton selectItemWithTitle:[set name]];
     
     [addButton setEnabled:NO];
 }
 
 - (IBAction)removeBookSet:(id)sender {
-    [[[IndexingManager sharedManager] searchBookSets] removeObject:selectedBookSet];    
+    [[[IndexingManager sharedManager] searchBookSets] removeObject:selectedBookSet];
+    [[IndexingManager sharedManager] storeSearchBookSets];
     
     [searchBookSetsPopUpButton setMenu:[self bookSetsMenu]];
     [searchBookSetsPopUpButton selectItemWithTag:0];
@@ -246,6 +250,7 @@
     for(SwordBibleBook *bb in [self books]) {
         [selectedBookSet addBook:[bb osisName]];
     }
+    [[IndexingManager sharedManager] storeSearchBookSets];
     
     [booksTableView reloadData];
 }
@@ -254,6 +259,7 @@
     for(SwordBibleBook *bb in [self books]) {
         [selectedBookSet removeAll];
     }
+    [[IndexingManager sharedManager] storeSearchBookSets];
     
     [booksTableView reloadData];    
 }
@@ -266,6 +272,7 @@
             [selectedBookSet addBook:[bb osisName]];        
         }
     }
+    [[IndexingManager sharedManager] storeSearchBookSets];
     
     [booksTableView reloadData];    
 }
