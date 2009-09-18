@@ -16,7 +16,6 @@
     SwordListKey *lk = [SwordListKey listKeyWithRef:@"Gen 1:1-5"];
     SwordVerseKey *vk = [SwordVerseKey verseKeyWithRef:@"Gen 1:3"];
     BOOL result = [lk containsKey:vk];
-    
     STAssertTrue(result);
 }
 

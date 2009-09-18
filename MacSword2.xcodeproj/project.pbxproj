@@ -66,8 +66,6 @@
 		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
 		A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
 		A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
-		A937B33F0F8FADE100948406 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
-		A937B3400F8FADE100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
@@ -76,6 +74,17 @@
 		A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
 		A9582A800F701D4C0094FAF4 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
+		A95D51A5105D431600FE9A24 /* libsword-1.6.0-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
+		A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */; };
+		A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94150DF9B149006B7361 /* SwordManager.mm */; };
+		A95D5272105D49D400FE9A24 /* SwordModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94170DF9B149006B7361 /* SwordModule.mm */; };
+		A95D5273105D49D400FE9A24 /* SwordBible.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94090DF9B149006B7361 /* SwordBible.mm */; };
+		A95D5274105D49D400FE9A24 /* SwordBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940B0DF9B149006B7361 /* SwordBook.mm */; };
+		A95D5275105D49D400FE9A24 /* SwordCommentary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.mm */; };
+		A95D5276105D49D400FE9A24 /* SwordDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940F0DF9B149006B7361 /* SwordDictionary.mm */; };
+		A95D5279105D49E700FE9A24 /* SwordTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */; };
+		A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
+		A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
 		A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9623E5D0F34E412000E1F53 /* MBTextView.m */; };
 		A96515EF0E06C79D0058AA91 /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */; };
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
@@ -100,11 +109,9 @@
 		A993E8B61053119700680650 /* libsword-1.6.0-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
 		A993E8B7105311A000680650 /* libsword-1.6.0-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
 		A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
-		A993E8D01053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
-		A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
@@ -130,10 +137,7 @@
 		A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */; };
 		A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */; };
 		A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */; };
-		A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */; };
 		A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D9F52C0EAF17890035222E /* SenTestingKit.framework */; };
-		A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
-		A9D9F5320EAF17CF0035222E /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
 		A9DA0B390E67F4600018ADE1 /* SwordTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */; };
 		A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */; };
 		A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DCB0D30E9F252C004169EB /* GenBookView.xib */; };
@@ -434,7 +438,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A993E8B61053119700680650 /* libsword-1.6.0-svn-fat.a in Frameworks */,
-				A993E8D01053137C00680650 /* BGHUDAppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +445,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A95D51A5105D431600FE9A24 /* libsword-1.6.0-svn-fat.a in Frameworks */,
 				A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */,
 				A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */,
 			);
@@ -967,9 +971,9 @@
 			buildConfigurationList = A9D9F51E0EAF151F0035222E /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				A9D9F5150EAF151E0035222E /* Resources */,
-				A9D9F5160EAF151E0035222E /* Sources */,
 				A9D9F5170EAF151E0035222E /* Frameworks */,
 				A9D9F5180EAF151E0035222E /* ShellScript */,
+				A95D5241105D47DC00FE9A24 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1165,24 +1169,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A95D5241105D47DC00FE9A24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */,
+				A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */,
+				A95D5272105D49D400FE9A24 /* SwordModule.mm in Sources */,
+				A95D5273105D49D400FE9A24 /* SwordBible.mm in Sources */,
+				A95D5274105D49D400FE9A24 /* SwordBook.mm in Sources */,
+				A95D5275105D49D400FE9A24 /* SwordCommentary.mm in Sources */,
+				A95D5276105D49D400FE9A24 /* SwordDictionary.mm in Sources */,
+				A95D5279105D49E700FE9A24 /* SwordTreeEntry.m in Sources */,
+				A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */,
+				A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9698BF61000CA790024CC6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A9698C001000CAB30024CC6B /* osis2mod.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A9D9F5160EAF151E0035222E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A937B33F0F8FADE100948406 /* SwordVerseKey.mm in Sources */,
-				A937B3400F8FADE100948406 /* SwordListKey.mm in Sources */,
-				A9D9F5290EAF156D0035222E /* BookmarkManagerTest.m in Sources */,
-				A9D9F5310EAF17CE0035222E /* Bookmark.m in Sources */,
-				A9D9F5320EAF17CF0035222E /* BookmarkManager.m in Sources */,
-				A9B45CE60EF5B4CF00B63848 /* SwordModuleTest.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1387,6 +1395,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
@@ -1399,6 +1408,7 @@
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-licucore",
+					"-lcurl",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Osis2Mod;
@@ -1440,11 +1450,17 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/src/**",
+					"$(inherited)",
+					"\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**",
+				);
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = (
@@ -1457,6 +1473,9 @@
 					Cocoa,
 					"-framework",
 					SenTestingKit,
+					"-lcurl",
+					"-lz",
+					"-licucore",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Tests;

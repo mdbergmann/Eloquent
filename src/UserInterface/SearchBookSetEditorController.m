@@ -85,7 +85,6 @@
     [item setTag:0];
     [menu addItem:item];
     int i = 1;
-    BOOL preset = YES;
     for(SearchBookSet *set in [[IndexingManager sharedManager] searchBookSets]) {
         item = [[NSMenuItem alloc] init];
         [item setTitle:NSLocalizedString([set name], @"")];
@@ -172,8 +171,8 @@
             [selectedBookSet addBook:bookName];    
         }
         
-        // store
-        [[IndexingManager sharedManager] storeSearchBookSets];        
+        // we store on application exit
+        //[[IndexingManager sharedManager] storeSearchBookSets];        
     }
 }
 
@@ -226,17 +225,20 @@
 - (IBAction)addBookSet:(id)sender {
     SearchBookSet *set = [SearchBookSet searchBookSetWithName:[nameTextField stringValue]];
     [[[IndexingManager sharedManager] searchBookSets] addObject:set];
-    [[IndexingManager sharedManager] storeSearchBookSets];
+    // we store on application exit
+    //[[IndexingManager sharedManager] storeSearchBookSets];        
     
     [searchBookSetsPopUpButton setMenu:[self bookSetsMenu]];
     [searchBookSetsPopUpButton selectItemWithTitle:[set name]];
     
+    [booksTableView reloadData];
     [addButton setEnabled:NO];
 }
 
 - (IBAction)removeBookSet:(id)sender {
     [[[IndexingManager sharedManager] searchBookSets] removeObject:selectedBookSet];
-    [[IndexingManager sharedManager] storeSearchBookSets];
+    // we store on application exit
+    //[[IndexingManager sharedManager] storeSearchBookSets];        
     
     [searchBookSetsPopUpButton setMenu:[self bookSetsMenu]];
     [searchBookSetsPopUpButton selectItemWithTag:0];
@@ -250,7 +252,8 @@
     for(SwordBibleBook *bb in [self books]) {
         [selectedBookSet addBook:[bb osisName]];
     }
-    [[IndexingManager sharedManager] storeSearchBookSets];
+    // we store on application exit
+    //[[IndexingManager sharedManager] storeSearchBookSets];        
     
     [booksTableView reloadData];
 }
@@ -259,7 +262,8 @@
     for(SwordBibleBook *bb in [self books]) {
         [selectedBookSet removeAll];
     }
-    [[IndexingManager sharedManager] storeSearchBookSets];
+    // we store on application exit
+    //[[IndexingManager sharedManager] storeSearchBookSets];        
     
     [booksTableView reloadData];    
 }
@@ -272,7 +276,8 @@
             [selectedBookSet addBook:[bb osisName]];        
         }
     }
-    [[IndexingManager sharedManager] storeSearchBookSets];
+    // we store on application exit
+    //[[IndexingManager sharedManager] storeSearchBookSets];        
     
     [booksTableView reloadData];    
 }

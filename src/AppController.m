@@ -507,7 +507,7 @@ static AppController *singleton;
     MBLOG(MBLOG_DEBUG, @"[AppController -awakeFromNib]");
     
     // first thing we do is check for system version
-    if([OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
+    if([(NSString *)OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
         NSLog(@"[MacSword] can't run here, you need Mac OSX Leopard to run!");
         // we can't run here
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
@@ -738,6 +738,9 @@ static AppController *singleton;
     }    
     // save session
     [self saveSessionToFile:sessionPath];    
+    
+    // we store on application exit
+    [[IndexingManager sharedManager] storeSearchBookSets];
     
     // close logger
 	[MBLogger closeLogger];
