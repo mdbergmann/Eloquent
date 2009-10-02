@@ -613,7 +613,7 @@
 
                 } else if(searchType == IndexSearchType) {
                     // search in index
-                    if(![module hasIndex]) {                        
+                    if(![module hasIndex]) {
                         // let the user know that we're creating the index now
                         NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
                         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")

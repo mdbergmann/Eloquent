@@ -1,0 +1,75 @@
+[Meta]
+Name=abbr
+Description=English abbreviations
+Encoding=ISO8859-1
+
+[Text]
+Genesis=Gen
+Exodus=Ex
+Leviticus=Lev
+Numbers=Num
+Deuteronomy=Deut
+Joshua=Josh
+Judges=Judg
+Ruth=Ruth
+I Samuel=1Sam
+II Samuel=2Sam
+I Kings=1Kgs
+II Kings=2Kgs
+I Chronicles=1Chr
+II Chronicles=2Chr
+Ezra=Ezra
+Nehemiah=Neh
+Esther=Esth
+Job=Job
+Psalms=Pss
+Proverbs=Prov
+Ecclesiastes=Eccl
+Song of Solomon=Song
+Isaiah=Isa
+Jeremiah=Jer
+Lamentations=Lam
+Ezekiel=Eze
+Daniel=Dan
+Hosea=Hos
+Joel=Joel
+Amos=Amos
+Obadiah=Ob
+Jonah=Jonah
+Micah=Mic
+Nahum=Nah
+Habakkuk=Hab
+Zephaniah=Zeph
+Haggai=Hag
+Zechariah=Zech
+Malachi=Mal
+Matthew=Mt
+Mark=Mk
+Luke=Lk
+John=Jn
+Acts=Acts
+Romans=Rom
+I Corinthians=1Cor
+II Corinthians=2Cor
+Galatians=Gal
+Ephesians=Eph
+Philippians=Php
+Colossians=Col
+I Thessalonians=1Thes
+II Thessalonians=2Thes
+I Timothy=1Tim
+II Timothy=2Tim
+Titus=Tit
+Philemon=Phm
+Hebrews=Heb
+James=Jas
+I Peter=1Pet
+II Peter=2Pet
+I John=1Jn
+II John=2Jn
+III John=3Jn
+Jude=Jude
+Revelation of John=Rev
+
+[Book Abbrevs]
+
