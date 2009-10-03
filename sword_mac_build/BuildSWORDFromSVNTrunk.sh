@@ -3,7 +3,7 @@
 #
 
 APP=sword
-VERS=1.5.11
+VERS=1.6.0-svn
 BDIR=`pwd`
 
 DEBUG=0
@@ -72,56 +72,61 @@ fi
 #fi
 
 # delete old source dir
-/bin/rm -rf $APP-$VERS
+#/bin/rm -rf $APP-$VERS
 # ungzip src
-gzip -dc $APP-$VERS.tar.gz | tar xvf -
+#gzip -dc $APP-$VERS.tar.gz | tar xvf -
+# ==> we use svn trunk here
+
+# add icu tools to path
+export PATH="$PATH:/opt/icu-3.6/bin"
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/opt/icu-3.6/lib"
 
 # build stuff
 if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
     echo "building ppc version of library..."
-	cd $APP-$VERS
-	#make clean
+	cd sword-trunk
+#	make distclean
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++
-	export SDK="/Developer/SDKs/MacOSX10.5.sdk"
+	export SDK=/Developer/SDKs/MacOSX10.5.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
+		export CFLAGS="-O0 -g -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK -I$SDK/usr/include -I/sw/include"
 	else
-	    export CFLAGS="-O2 -g0 -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
+	    export CFLAGS="-O2 -g0 -arch ppc -mmacosx-version-min=10.5 -isysroot $SDK -I$SDK/usr/include -I/sw/include"
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$PPCPREFIX/bin
-	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities --with-clucene="$PWD/../clucene_build/ppc_inst"
+	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-icu --with-curl --disable-tests --disable-shared --enable-utilities
 	make all install
+	make clean		
 	cd $BDIR
 	# copy to result dir
 	cp $PPCPREFIX/lib/lib$APP.a $RESULTPREFIX/lib/lib$APP-$VERS-ppc.a
     echo "building ppc version of library...done"
 fi
 
-# then build intel version
+# then build intel version to SDK 10.5
 if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
-	cd $APP-$VERS
-	#cd trunk
-	if [ $FAT -eq 1 ] || [ $PPC -eq 1 ]; then
-		make clean
-	fi
+	#cd $APP-$VERS
+	cd sword-trunk
+#	make distclean
 	./autogen.sh
 	export CC=gcc
 	export CXX=g++
-	export SDK="/Developer/SDKs/MacOSX10.5.sdk"
+	export SDK=/Developer/SDKs/MacOSX10.5.sdk
 	if [ $DEBUG -eq 1 ]; then
-		export CFLAGS="-O0 -g -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
+		export CFLAGS="-O0 -g -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK -I$SDK/usr/include -I/sw/include"
 	else
-	    export CFLAGS="-O2 -g0 -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK -I/sw/include"
+	    export CFLAGS="-O2 -g0 -arch i686 -mmacosx-version-min=10.5 -isysroot $SDK -I$SDK/usr/include -I/sw/include"
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$INTELPREFIX/bin
-	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities--with-clucene="$PWD/../clucene_build/intel_inst"
+	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-icu --with-curl --enable-tests --disable-shared --enable-utilities
 	make all install
+	make clean		
 	cd $BDIR
 	# copy to result dir
 	cp $INTELPREFIX/lib/lib$APP.a $RESULTPREFIX/lib/lib$APP-$VERS-intel.a
@@ -149,4 +154,3 @@ fi
 cp -r $TARGETPREFIX/include $RESULTPREFIX/
 # copy locale.d and mods.d directory from ppc to result_inst
 cp -r $TARGETPREFIX/share/sword/locales.d $RESULTPREFIX/
-cp -r $TARGETPREFIX/share/sword/mods.d $RESULTPREFIX/
