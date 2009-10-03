@@ -12,6 +12,7 @@
 */
 
 #import "SwordDictionary.h"
+#import "SwordModuleTextEntry.h"
 #import "utils.h"
 #import "globals.h"
 
@@ -164,9 +165,9 @@
         MBLOG(MBLOG_ERR, @"[SwordDictionary -entryForKey:] error on getting key!");
     } else {
         // get text
-        NSArray *data = [self stripedTextForRef:aKey];
+        NSArray *data = [self strippedTextEntriesForRef:aKey];
         if(data && [data count] > 0) {
-            ret = [[data objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+            ret = [(SwordModuleTextEntry *)[data objectAtIndex:0] text];
         }
     }
 	[moduleLock unlock];
@@ -176,20 +177,9 @@
 
 #pragma mark - SwordModuleAccess
 
-- (NSArray *)stripedTextForRef:(NSString *)reference {
-	return [super stripedTextForRef:[reference uppercaseString]];    
-}
-
-- (NSArray *)renderedTextForRef:(NSString *)reference {
-	return [super renderedTextForRef:[reference uppercaseString]];
-}
 
 - (long)entryCount {
     return [[self allKeys] count];    
-}
-
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
-    [super writeEntry:value forRef:reference];
 }
 
 @end

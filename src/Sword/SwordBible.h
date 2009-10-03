@@ -14,14 +14,14 @@
 #import <Cocoa/Cocoa.h>
 #import "SwordModule.h"
 
-@class SwordManager, SwordBibleBook;
+@class SwordManager, SwordBibleBook, SwordModuleTextEntry;
 
 typedef enum {
 	OldTestament = 1,
 	NewTestament
 }Testament;
 
-@interface SwordBible : SwordModule <SwordModuleAccess> {
+@interface SwordBible : SwordModule {
     NSMutableDictionary *books;
 }
 
@@ -52,12 +52,7 @@ typedef enum {
 - (int)versesForChapter:(int)chapter bookName:(NSString *)bookName;
 - (int)versesForBible;
 
-// ------- SwordModuleAccess ---------
-- (NSArray *)stripedTextForRef:(NSString *)reference;
-- (NSArray *)stripedTextForRef:(NSString *)reference context:(int)context;
-- (NSArray *)renderedTextForRef:(NSString *)reference;
-- (NSArray *)renderedTextForRef:(NSString *)reference context:(int)context;
-- (long)entryCount;
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
+- (NSArray *)strippedTextEntriesForRef:(NSString *)reference context:(int)context;
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference context:(int)context;
 
 @end

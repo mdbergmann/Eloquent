@@ -17,6 +17,7 @@
 #import "SwordDictionary.h"
 #import "SwordBook.h"
 #import "SwordBibleBook.h"
+#import "SwordModuleTextEntry.h"
 
 NSString *MacSwordIndexVersion = @"2.6";
 
@@ -255,10 +256,10 @@ NSString *MacSwordIndexVersion = @"2.6";
     for(NSString *key in [entry content]) {
         
         // get key
-        NSArray *stripedAr = [(SwordBook *)self stripedTextForRef:key];
-        if(stripedAr != nil) {
+        NSArray *strippedArray = [self strippedTextEntriesForRef:key];
+        if(strippedArray != nil) {
             // get content
-            NSString *stripped = [(NSDictionary *)[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+            NSString *stripped = [(SwordModuleTextEntry *)[strippedArray objectAtIndex:0] text];
             // define properties
             NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
             // additionally save content

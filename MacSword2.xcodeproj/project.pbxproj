@@ -161,6 +161,7 @@
 		A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */; };
 		A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9F8428F0F724B8800F64FCA /* SwordVerseManager.mm */; };
 		A9FCB09910777187000A5871 /* bin in Resources */ = {isa = PBXBuildFile; fileRef = A9FCB08910777187000A5871 /* bin */; };
+		A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */; };
 		A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
 /* End PBXBuildFile section */
 
@@ -415,6 +416,8 @@
 		A9F8428E0F724B8800F64FCA /* SwordVerseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordVerseManager.h; sourceTree = "<group>"; };
 		A9F8428F0F724B8800F64FCA /* SwordVerseManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordVerseManager.mm; sourceTree = "<group>"; };
 		A9FCB08910777187000A5871 /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bin; path = sword_mac_build/build/result_inst/bin; sourceTree = "<group>"; };
+		A9FCB0B01078193B000A5871 /* SwordModuleTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModuleTextEntry.h; sourceTree = "<group>"; };
+		A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModuleTextEntry.m; sourceTree = "<group>"; };
 		A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPreferenceController.h; sourceTree = "<group>"; };
 		A9FD34200E0A70F6001287DD /* MBPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBPreferenceController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -710,6 +713,8 @@
 				A91C94190DF9B149006B7361 /* SwordSearching.mm */,
 				A9DA0B370E67F4600018ADE1 /* SwordTreeEntry.h */,
 				A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */,
+				A9FCB0B01078193B000A5871 /* SwordModuleTextEntry.h */,
+				A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */,
 				A9CC334F0EB0699900810821 /* SwordModCategory.h */,
 				A9CC33500EB0699900810821 /* SwordModCategory.m */,
 				A9582A7E0F701D4C0094FAF4 /* SwordVerseKey.h */,
@@ -1170,6 +1175,7 @@
 				A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */,
 				A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */,
 				A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */,
+				A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

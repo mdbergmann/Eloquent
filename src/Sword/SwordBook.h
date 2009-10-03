@@ -23,7 +23,7 @@
 
 @class SwordModule, SwordManager, SwordTreeEntry;
 
-@interface SwordBook : SwordModule <SwordModuleAccess> {
+@interface SwordBook : SwordModule {
 	NSMutableDictionary *contents;
 }
 
@@ -37,11 +37,5 @@
 - (SwordTreeEntry *)treeEntryForKey:(NSString *)treeKey;
 
 - (void)testLoop;
-
-// ------- SwordModuleAccess ---------
-- (NSArray *)stripedTextForRef:(NSString *)reference;
-- (NSArray *)renderedTextForRef:(NSString *)reference;
-- (long)entryCount;
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
 
 @end

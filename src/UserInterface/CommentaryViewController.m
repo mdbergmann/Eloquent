@@ -17,6 +17,7 @@
 #import "SwordModule.h"
 #import "SwordBible.h"
 #import "SwordCommentary.h"
+#import "SwordModuleTextEntry.h"
 #import "NSButton+Color.h"
 
 @interface CommentaryViewController ()
@@ -303,7 +304,7 @@
                     }
                     // replace all '\n' characters with <br/>
                     [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
-                    [module writeEntry:currentText forRef:currentVerse];
+                    [module writeEntry:[SwordModuleTextEntry textEntryForKey:currentVerse andText:currentText]];
                     // reset currentText
                     currentText = [NSMutableString string];
                 }
@@ -324,7 +325,7 @@
                 }
                 // replace all '\n' characters with <br/>
                 [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
-                [module writeEntry:currentText forRef:currentVerse];
+                [module writeEntry:[SwordModuleTextEntry textEntryForKey:currentVerse andText:currentText]];
             }
         }
     }    

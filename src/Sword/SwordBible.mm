@@ -17,6 +17,7 @@
 #import "utils.h"
 #import "SwordBibleBook.h"
 #import "SwordListKey.h"
+#import "SwordModuleTextEntry.h"
 
 using sword::AttributeTypeList;
 using sword::AttributeList;
@@ -25,7 +26,7 @@ using sword::AttributeValue;
 
 @interface SwordBible ()
 
-- (void)getBookData;
+- (void)buildBookList;
 - (BOOL)containsBookNumber:(int)aBookNum;
 
 @end
@@ -35,6 +36,7 @@ using sword::AttributeValue;
 @dynamic books;
 
 #pragma mark - class methods
+
 NSLock *bibleLock = nil;
 
 // changes an abbreviated reference into a full
@@ -55,7 +57,6 @@ NSLock *bibleLock = nil;
 }
 
 + (NSString *)firstRefName:(NSString *)abbr {
-    
 	if(!bibleLock) bibleLock = [[NSLock alloc] init];
 	[bibleLock lock];
 	
@@ -98,22 +99,18 @@ NSLock *bibleLock = nil;
 
 #pragma mark - instance methods
 
-- (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {
-    
+- (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {    
 	self = [super initWithName:aName swordManager:aManager];
     if(self) {
-        // init bookData
         [self setBooks:nil];
 	}
     
 	return self;
 }
 
-/** init with given SWModule */
 - (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager {
     self = [super initWithSWModule:aModule swordManager:aManager];
     if(self) {
-        // init bookData
         [self setBooks:nil];    
     }
     
@@ -124,24 +121,20 @@ NSLock *bibleLock = nil;
 	[super finalize];
 }
 
-/**
- build book list
- */
-- (void)getBookData {
+- (void)buildBookList {
     
 	[moduleLock lock];
     
     sword::VerseMgr *vmgr = sword::VerseMgr::getSystemVerseMgr();
     const sword::VerseMgr::System *system = vmgr->getVersificationSystem([[self versification] UTF8String]);
 
-    // number of books in this module
     NSMutableDictionary *buf = [NSMutableDictionary dictionary];
     int bookCount = system->getBookCount();
     for(int i = 0;i < bookCount;i++) {
         sword::VerseMgr::Book *book = (sword::VerseMgr::Book *)system->getBook(i);
         
         SwordBibleBook *bb = [[SwordBibleBook alloc] initWithBook:book];
-        [bb setNumber:i+1]; // VerseKey-Book() starts at index 1
+        [bb setNumber:i+1];
         
         [buf setObject:bb forKey:[bb name]];
     }
@@ -150,24 +143,19 @@ NSLock *bibleLock = nil;
 	[moduleLock unlock];
 }
 
-/**
- checks whether the given book number is part of this module
- */
 - (BOOL)containsBookNumber:(int)aBookNum {
     for(SwordBibleBook *bb in [self books]) {
         if([bb number] == aBookNum) {
             return YES;
         }
     }
-    
     return NO;
 }
 
 - (NSMutableDictionary *)books {
     if(books == nil) {
-        [self getBookData];
+        [self buildBookList];
     }
-    
     return books;
 }
 
@@ -183,7 +171,6 @@ NSLock *bibleLock = nil;
     return bl;
 }
 
-// just checks whether module contains book atm
 - (BOOL)hasReference:(NSString *)ref {
     BOOL ret = NO;    
     
@@ -191,12 +178,10 @@ NSLock *bibleLock = nil;
 	
 	sword::VerseKey	*key = (sword::VerseKey *)(swModule->CreateKey());
 	(*key) = [ref UTF8String];
-    // get bookname
     NSString *bookName = [NSString stringWithUTF8String:key->getBookName()];
     int chapter = key->Chapter();
     int verse = key->Verse();
     
-    // get the correct book
     SwordBibleBook *bb = [[self books] objectForKey:bookName];
     if(bb) {
         if(chapter > 0 && chapter < [bb numberOfChapters]) {
@@ -211,23 +196,14 @@ NSLock *bibleLock = nil;
 	return ret;
 }
 
-/**
- returns the number of verse keys for the given reference
- we need this in order to meassure how long a text pull might take
- */
 - (int)numberOfVerseKeysForReference:(NSString *)aReference {
     int ret = 0;
     
     if(aReference && [aReference length] > 0) {
-        
         sword::VerseKey vk;
         sword::ListKey listKey = vk.ParseVerseList([aReference UTF8String], "Gen1", true);
+        // unfortunately there is no other way then loop though all verses to know how many
         for(listKey = sword::TOP; !listKey.Error(); listKey++) ret++;    
-        
-        /*
-        SwordListKey *lk = [SwordListKey listKeyWithRef:aReference];
-        ret = [lk numberOfVerses];
-         */
     }
     
     return ret;
@@ -263,17 +239,12 @@ NSLock *bibleLock = nil;
 	return ret;
 }
 
-/**
- calculate all verses for this bible book
- */
 - (int)versesForBible {
 
     int ret = 0;
 
     for(SwordBibleBook *bb in [self books]) {
-        // get chapters for book
         int chapters = [bb numberOfChapters];
-        // calculate all verses for this book
         int verses = 0;
         for(int j = 1;j <= chapters;j++) {
             verses += [bb numberOfVersesForChapter:j];
@@ -286,142 +257,105 @@ NSLock *bibleLock = nil;
 
 #pragma mark - SwordModuleAccess
 
-/** 
- numnber of entries
- */
 - (long)entryCount {
-    
-    //*swModule = sword::TOP;
     swModule->setPosition(sword::TOP);
     unsigned long verseLowIndex = swModule->Index();
-    //*swModule = sword::BOTTOM;
     swModule->setPosition(sword::BOTTOM);
     unsigned long verseHighIndex = swModule->Index();
     
     return verseHighIndex - verseLowIndex;
 }
 
-- (NSArray *)stripedTextForRef:(NSString *)reference {
-    NSMutableArray *ret = [NSMutableArray array];
-
-    const char *cref = [reference UTF8String];
-    sword::VerseKey	vk;
-    vk.setVersificationSystem([[self versification] UTF8String]);
-    sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-    // iterate through keys
-    for(lk = sword::TOP; !lk.Error(); lk++) {
-        NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:lk.getText()] textType:TextTypeStripped];
-        if(dict) {
-            [ret addObject:dict];        
-        }
-    }
-    
-    return ret;
+- (NSArray *)strippedTextEntriesForRef:(NSString *)reference {
+    return [self strippedTextEntriesForRef:reference context:0];
 }
 
-- (NSArray *)stripedTextForRef:(NSString *)reference context:(int)context {
+- (NSArray *)strippedTextEntriesForRef:(NSString *)reference context:(int)context {
     NSMutableArray *ret = [NSMutableArray array];
     
-    if(context == 0) {
-        return [self stripedTextForRef:reference];
-    } else {
-        [moduleLock lock];
-        
-        const char *cref = [reference UTF8String];
-        sword::VerseKey	vk;
-        vk.setVersificationSystem([[self versification] UTF8String]);
-        sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-        // iterate through keys
-        for (lk = sword::TOP; !lk.Error(); lk++) {
-            // set current key to vk
-            vk.setText(lk.getText());
-            vk.setVerse(vk.getVerse() - context);
-            for(int i = 0;i <= context*2;i++) {
-                NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:vk.getText()] textType:TextTypeStripped];
-                if(dict) {
-                    [ret addObject:dict];        
-                }
-                vk.increment();
-            }
-        }
-        
-        [moduleLock unlock];        
-    }    
+    [moduleLock lock];
     
-    return ret;
-}
-
-- (NSArray *)renderedTextForRef:(NSString *)reference {
-    NSMutableArray *ret = [NSMutableArray array];
-    
-	[moduleLock lock];
-
     const char *cref = [reference UTF8String];
     sword::VerseKey	vk;
     vk.setVersificationSystem([[self versification] UTF8String]);
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
     // iterate through keys
     for (lk = sword::TOP; !lk.Error(); lk++) {
-        NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:lk.getText()] textType:TextTypeRendered];
-        if(dict) {
-            [ret addObject:dict];
-        }
-    }
-    
-	[moduleLock unlock];
-
-    return ret;
-}
-
-- (NSArray *)renderedTextForRef:(NSString *)reference context:(int)context {
-    NSMutableArray *ret = [NSMutableArray array];
-    
-    if(context == 0) {
-        return [self renderedTextForRef:reference];
-    } else {
-        [moduleLock lock];
-        
-        const char *cref = [reference UTF8String];
-        sword::VerseKey	vk;
-        vk.setVersificationSystem([[self versification] UTF8String]);
-        sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-        // iterate through keys
-        for (lk = sword::TOP; !lk.Error(); lk++) {
-            // set current key to vk
-            vk.setText(lk.getText());
+        // set current key to vk
+        vk.setText(lk.getText());
+        NSString *keyString = [NSString stringWithUTF8String:vk.getText()];
+        if(context != 0) {
             vk.setVerse(vk.getVerse() - context);
-            for(int i = 0;i <= context*2+1;i++) {
-                NSDictionary *dict = [self textForSingleKey:[NSString stringWithUTF8String:vk.getText()] textType:TextTypeRendered];
-                if(dict) {
-                    [ret addObject:dict];        
+            for(int i = 0;i <= context*2;i++) {
+                SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeStripped];
+                if(entry) {
+                    [ret addObject:entry];        
                 }
                 vk.increment();
             }
+        } else {
+            SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeStripped];
+            if(entry) {
+                [ret addObject:entry];
+            }            
         }
-        
-        [moduleLock unlock];        
-    }    
+    }
+    
+    [moduleLock unlock];        
     
     return ret;
 }
 
-/**
- must be single verse
- */
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference {
+    return [self renderedTextEntriesForRef:reference context:0];
+}
+
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference context:(int)context {
+    NSMutableArray *ret = [NSMutableArray array];
+    
+    const char *cref = [reference UTF8String];
+    sword::VerseKey	vk;
+    vk.setVersificationSystem([[self versification] UTF8String]);
+    sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
+    // iterate through keys
+    for (lk = sword::TOP; !lk.Error(); lk++) {
+        // set current key to vk
+        vk.setText(lk.getText());
+        NSString *keyString = [NSString stringWithUTF8String:vk.getText()];
+        if(context != 0) {
+            vk.setVerse(vk.getVerse() - context);
+            for(int i = 0;i <= context*2;i++) {
+                SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeRendered];
+                if(entry) {
+                    [ret addObject:entry];        
+                }
+                vk.increment();
+            }
+        } else {
+            SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeRendered];
+            if(entry) {
+                [ret addObject:entry];
+            }            
+        }
+    }
+    
+    return ret;
+}
+
+- (void)writeEntry:(SwordModuleTextEntry *)anEntry {
 	[moduleLock lock];
 	
-	sword::VerseKey vk = sword::VerseKey([reference UTF8String]);
+	sword::VerseKey vk = sword::VerseKey([[anEntry key] UTF8String]);
     vk.setVersificationSystem([[self versification] UTF8String]);
 
-    const char *data = [value UTF8String];
+    const char *data = [[anEntry text] UTF8String];
     int dLen = strlen(data);
 
     swModule->setKey(vk);
     if(![self error]) {
         swModule->setEntry(data, dLen);	// save text to module at current position    
     } else {
-        MBLOG(MBLOG_ERR, @"[SwordBible -writeEntry::] error at positioning module!");
+        MBLOG(MBLOG_ERR, @"[SwordBible -writeEntry:] error at positioning module!");
     }
 
 	[moduleLock unlock];

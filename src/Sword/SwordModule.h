@@ -34,7 +34,7 @@ class sword::SWModule;
 #define ATTRTYPE_ACTION     @"action"
 #define ATTRTYPE_VALUE      @"value"
 
-@class SwordManager;
+@class SwordManager, SwordModuleTextEntry;
 
 typedef enum {
     TextTypeStripped = 1,
@@ -61,22 +61,22 @@ typedef enum {
  abstract method, override in subclass
  This method generates stripped text string for a given reference.
  @param[in] reference bible reference
- @return dictionary with key = reference, value = stripped text
+ @return Array of SwordModuleTextEntry instances
  */
-- (NSDictionary *)stripedTextForRef:(NSString *)reference;
+- (NSArray *)strippedTextEntriesForRef:(NSString *)reference;
 
 /** 
  abstract method, override in subclass
  This method generates HTML string for a given reference.
  @param[in] reference bible reference
- @return dictionary with key = reference, value = rendered text
+ @return Array of SwordModuleTextEntry instances
  */
-- (NSDictionary *)renderedTextForRef:(NSString *)reference;
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference;
 
 /** 
- write value to reference 
+ write value to reference
  */
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
+- (void)writeEntry:(SwordModuleTextEntry *)anEntry;
 
 @end
 
@@ -159,12 +159,12 @@ typedef enum {
  return a dictionary with key and text
  type can be: "rendered" or "stripped"
  */
-- (NSDictionary *)textForSingleKey:(NSString *)aKey textType:(TextPullType)aType;
+- (SwordModuleTextEntry *)textEntryForKey:(NSString *)aKey textType:(TextPullType)aType;
 
 // ------- SwordModuleAccess ---------
-- (NSArray *)stripedTextForRef:(NSString *)reference;
-- (NSArray *)renderedTextForRef:(NSString *)reference;
 - (long)entryCount;
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
+- (NSArray *)strippedTextEntriesForRef:(NSString *)reference;
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference;
+- (void)writeEntry:(SwordModuleTextEntry *)anEntry;
 
 @end

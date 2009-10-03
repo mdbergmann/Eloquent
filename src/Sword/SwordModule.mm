@@ -17,6 +17,7 @@
 #import "SwordManager.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
+#import "SwordModuleTextEntry.h"
 
 @interface SwordModule (/* Private, class continuation */)
 /** private property */
@@ -466,45 +467,40 @@
     return ret;
 }
 
-/**
- return a dictionary with key and text
- type can be: "rendered" or "stripped"
- */
-- (NSDictionary *)textForSingleKey:(NSString *)aKey textType:(TextPullType)aType {
-    NSMutableDictionary *ret = nil;
+- (SwordModuleTextEntry *)textEntryForKey:(NSString *)aKey textType:(TextPullType)aType {
+    SwordModuleTextEntry *ret = nil;
     
-    if(aKey) {
+    if(aKey && [aKey length] > 0) {
         swModule->setKey([aKey UTF8String]);
         if(![self error]) {
-            const char *keyCStr = swModule->getKeyText();
+            //const char *keyCStr = swModule->getKeyText();
             const char *txtCStr = NULL;
             if(aType == TextTypeRendered) {
                txtCStr = swModule->RenderText();            
             } else {
                 txtCStr = swModule->StripText();
             }
-            NSString *key = @"";
+            NSString *key = aKey;
             NSString *txt = @"";
             txt = [NSString stringWithUTF8String:txtCStr];
-            key = [NSString stringWithUTF8String:keyCStr];
+            //key = [NSString stringWithUTF8String:keyCStr];
             
             // add to dict
-            if(key) {
-                ret = [NSMutableDictionary dictionaryWithCapacity:2];
-                [ret setObject:key forKey:SW_OUTPUT_REF_KEY];
-                if(txt) {
-                    [ret setObject:txt forKey:SW_OUTPUT_TEXT_KEY];
-                } else {
-                    MBLOG(MBLOG_ERR, @"[SwordModule -textForSingleKey::] nil txt");                
-                }
+            if(key && txt) {
+                ret = [SwordModuleTextEntry textEntryForKey:key andText:txt];
             } else {
-                MBLOG(MBLOG_ERR, @"[SwordModule -textForSingleKey::] nil key");
+                MBLOG(MBLOG_ERR, @"[SwordModule -textEntryForKey::] nil key");
             }            
         }        
     }
     
     return ret;
 }
+
+- (NSString *)description {
+    return [self name];
+}
+
 
 #pragma mark - SwordModuleAccess
 
@@ -516,26 +512,26 @@
     return 0;
 }
 
-- (NSArray *)stripedTextForRef:(NSString *)reference {
+- (NSArray *)strippedTextEntriesForRef:(NSString *)reference {
     NSArray *ret = nil;
     
     [moduleLock lock];
-    NSDictionary *dict = [self textForSingleKey:reference textType:TextTypeStripped];
-    if(dict) {
-        ret = [NSArray arrayWithObject:dict];    
+    SwordModuleTextEntry *entry = [self textEntryForKey:reference textType:TextTypeStripped];
+    if(entry) {
+        ret = [NSArray arrayWithObject:entry];    
     }
     [moduleLock unlock];    
     
     return ret;    
 }
 
-- (NSArray *)renderedTextForRef:(NSString *)reference {
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference {
     NSArray *ret = nil;
     
     [moduleLock lock];
-    NSDictionary *dict = [self textForSingleKey:reference textType:TextTypeRendered];
-    if(dict) {
-        ret = [NSArray arrayWithObject:dict];
+    SwordModuleTextEntry *entry = [self textEntryForKey:reference textType:TextTypeRendered];
+    if(entry) {
+        ret = [NSArray arrayWithObject:entry];
     }
     [moduleLock unlock];
     
@@ -545,11 +541,7 @@
 /**
  subclasses need to implement this
  */
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
-}
-
-- (NSString *)description {
-    return [self name];
+- (void)writeEntry:(SwordModuleTextEntry *)anEntry {
 }
 
 #pragma mark - lowlevel access
@@ -579,7 +571,7 @@
 
 /** wrapper around getConfigEntry() */
 - (NSString *)configEntryForKey:(NSString *)entryKey {
-	NSString *result = nil;	
+	NSString *result = nil;
     
 	[moduleLock lock];
     const char *entryStr = swModule->getConfigEntry([entryKey UTF8String]);

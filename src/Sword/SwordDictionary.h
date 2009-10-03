@@ -16,7 +16,7 @@
 
 @class SwordManager;
 
-@interface SwordDictionary : SwordModule <SwordModuleAccess> {
+@interface SwordDictionary : SwordModule {
     /** only keys are buffered here */
 	NSMutableArray *keys;
 }
@@ -30,10 +30,5 @@
 - (NSString *)entryForKey:(NSString *)aKey;
 - (NSString *)fullRefName:(NSString *)ref;
 
-// ------- SwordModuleAccess ---------
-- (NSArray *)stripedTextForRef:(NSString *)reference;
-- (NSArray *)renderedTextForRef:(NSString *)reference;
-- (long)entryCount;
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference;
 
 @end

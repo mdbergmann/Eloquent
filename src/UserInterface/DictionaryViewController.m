@@ -204,10 +204,10 @@
         // generate html string for verses
         NSMutableString *htmlString = [NSMutableString string];
         for(NSString *key in keyArray) {
-            NSArray *result = [self.module renderedTextForRef:key];
+            NSArray *result = [self.module renderedTextEntriesForRef:key];
             NSString *text = @"";
             if([result count] > 0) {
-                text = [[result objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+                text = [[result objectAtIndex:0] text];
             }
             [htmlString appendFormat:@"<b>%@:</b><br />", key];
             [htmlString appendFormat:@"%@<br /><br />\n", text];

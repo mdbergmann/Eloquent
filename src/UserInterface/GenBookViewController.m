@@ -174,10 +174,10 @@
             
             NSString *contentStr = @"";
             if([entry keyString] != nil) {
-                NSArray *stripedAr = [(SwordBook *)module stripedTextForRef:[entry keyString]];
-                if([stripedAr count] > 0) {
+                NSArray *strippedEntries = [module strippedTextEntriesForRef:[entry keyString]];
+                if([strippedEntries count] > 0) {
                     // get content
-                    contentStr = [[stripedAr objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];                    
+                    contentStr = [[strippedEntries objectAtIndex:0] text];                    
                 }
             }
             
@@ -205,10 +205,10 @@
     // generate html string for verses
     NSMutableString *htmlString = [NSMutableString string];
     for(NSString *key in keyArray) {
-        NSArray *result = [self.module renderedTextForRef:key];
+        NSArray *result = [self.module renderedTextEntriesForRef:key];
         NSString *text = @"";
         if([result count] > 0) {
-            text = [[result objectAtIndex:0] objectForKey:SW_OUTPUT_TEXT_KEY];
+            text = [[result objectAtIndex:0] text];
         }
         [htmlString appendFormat:@"<b>%@:</b><br />", key];
         [htmlString appendFormat:@"%@<br /><br />\n", text];

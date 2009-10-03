@@ -147,16 +147,4 @@
     return 1000;
 }
 
-- (NSArray *)stripedTextForRef:(NSString *)reference {
-	return [super stripedTextForRef:[reference uppercaseString]];    
-}
-
-- (NSArray *)renderedTextForRef:(NSString *)reference {
-    return [super renderedTextForRef:reference];
-}
-
-- (void)writeEntry:(NSString *)value forRef:(NSString *)reference {
-    [super writeEntry:value forRef:reference];
-}
-
 @end
