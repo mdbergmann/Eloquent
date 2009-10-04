@@ -88,7 +88,7 @@
     return ret;
 }
 
-- (sword::ListKey *)listKey {
+- (sword::ListKey *)swListKey {
     return lk;
 }
 

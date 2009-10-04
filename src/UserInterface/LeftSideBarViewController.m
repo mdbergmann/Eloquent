@@ -789,8 +789,7 @@ enum ModuleMenu_Items{
 
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
     // make sure we drop only with in bookmarks
-    if([item isKindOfClass:[Bookmark class]]) {
-        
+    if([self isDropSectionBookmarksForItem:item]) {        
         int mask = [info draggingSourceOperationMask];
         if(mask == NSDragOperationAll_Obsolete) {
             mask = NSDragOperationEvery;
@@ -808,44 +807,50 @@ enum ModuleMenu_Items{
     }
 }
 
+- (BOOL)isDropSectionBookmarksForItem:(id)anItem {
+    return ([anItem isKindOfClass:[Bookmark class]] || ([anItem isKindOfClass:[NSString class]] && [(NSString *)anItem isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]));
+}
+
 - (BOOL)outlineView:(NSOutlineView *)anOutlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index {
     
     // get our data from the paste board
     NSPasteboard* pboard = [info draggingPasteboard];
     NSData *data = [pboard dataForType:DD_BOOKMARK_TYPE];
-    NSArray *bms = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSArray *draggedBookmarks = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
-    // we should have now some bookmark instances
     Bookmark *bitem = item;
     // is first level object?
     NSMutableArray *dropPoint = nil;
-    if(bitem == nil) {        
+    if([bitem isKindOfClass:[NSString class]] && [(NSString *)bitem isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
         dropPoint = [bookmarkManager bookmarks];
     } else {
         dropPoint = [bitem subGroups];
     }
     
-    // was it a move operation?
-    // delete first, otherwise the path may not be correct anymore
-    if(([info draggingSourceOperationMask] & NSDragOperationCopy) == 0) { 
-        // delete the source objects
-        for(BookmarkDragItem *bd in bms) {
-            [self deleteBookmarkForPath:[bd path]];
-        }
-    }
-
-    // copy to drop point
     if(index == -1) {
         index = 0;
     }
+
+    int dropPointLen = [dropPoint count];
+    for(BookmarkDragItem *bd in draggedBookmarks) {
+        // was it a move operation?
+        // delete first, otherwise the path may not be correct anymore
+        NSDragOperation draggingOperation = [info draggingSourceOperationMask];
+        if(draggingOperation != NSDragOperationCopy) {
+            [self deleteBookmarkForPath:[bd path]];
+            
+            // in case the dropPoint is the same level where we removed the bookmark
+            // it might be that we have to decrement the index otherwise we might get an out of bounds exception when adding
+            if(([dropPoint count] < dropPointLen) && (index > 0) && ([[bd path] indexAtPosition:[[bd path] length]-1] < index)) {
+                index--;
+            } 
+        }
         
-    for(BookmarkDragItem *bd in bms) {
         [dropPoint insertObject:[bd bookmark] atIndex:index];
     }
-        
+
     [bookmarkManager saveBookmarks];
-    // update view
-    [outlineView reloadItem:bitem reloadChildren:YES];
+    [outlineView reloadData];
     
     return YES;
 }

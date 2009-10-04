@@ -28,7 +28,7 @@
 
 #ifdef __cplusplus
 - (id)initWithSWListKey:(sword::ListKey *)aLk;
-- (sword::ListKey *)listKey;
+- (sword::ListKey *)swListKey;
 #endif
 
 - (id)initWithRef:(NSString *)aRef;

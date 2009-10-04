@@ -276,13 +276,13 @@
         if(modName) {
             SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
             
-            id result = [mod attributeValueForEntryData:data];
+            id result = [mod attributeValueForParsedLinkData:data];
             NSMutableString *key = [NSMutableString string];
             if([result isKindOfClass:[NSDictionary class]]) {
-                key = [NSMutableString stringWithString:[(NSDictionary *)result objectForKey:SW_OUTPUT_REF_KEY]];
+                key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
             } else if([result isKindOfClass:[NSArray class]]) {
-                for(NSDictionary *dict in (NSArray *)result) {
-                    [key appendFormat:@"%@;", [dict objectForKey:SW_OUTPUT_REF_KEY]];
+                for(SwordModuleTextEntry *entry in (NSArray *)result) {
+                    [key appendFormat:@"%@;", [entry key]];
                 }
             }
             

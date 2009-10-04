@@ -364,7 +364,7 @@
     [self adaptUIToHost];
 }
 
-#pragma mark - actions
+#pragma mark - Actions
 
 - (IBAction)moduleSelectionChanged:(id)sender {
     // get selected modulename
@@ -449,7 +449,6 @@
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
     
     SwordTreeEntry *ret = nil;
-    
     if(item == nil) {
         SwordTreeEntry *treeEntry = [(SwordBook *)module treeEntryForKey:nil];
         NSString *key = [[treeEntry content] objectAtIndex:index];
@@ -463,25 +462,17 @@
     return ret;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    
-    NSString *ret = @"test";
-    
-    // cast object
-    SwordTreeEntry *treeEntry = (SwordTreeEntry *)item;
-    
-    if(item != nil) {
-        ret = [[treeEntry key] lastPathComponent];
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {    
+    SwordTreeEntry *treeEntry = (SwordTreeEntry *)item;    
+    if(treeEntry != nil) {
+        return [[treeEntry key] lastPathComponent];
     }
     
-    return ret;
+    return @"test";
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    
-    // cast object
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {    
     SwordTreeEntry *treeEntry = (SwordTreeEntry *)item;
-    
     return [[treeEntry content] count] > 0;
 }
 
@@ -500,7 +491,6 @@
     if(self) {
         self.selection = [NSMutableArray array];
 
-        // load nib
         BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[GenBookViewController -initWithCoder:] unable to load nib!");

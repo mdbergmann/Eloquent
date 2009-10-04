@@ -37,8 +37,14 @@
 /** selector called by menuitems */
 - (void)moduleSelectionChanged:(id)sender;
 
-/** generates HTML for display */
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
+- (NSString *)createHTMLStringWithMarkersFromVerseData:(NSArray *)verseData;
+- (void)applyBookmarkHighlightingOnTextEntry:(SwordModuleTextEntry *)anEntry;
+- (int)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString forChapter:(int)lastChapter;
+- (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString;
+- (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString;
+- (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)aAttrString;
+- (void)applyWritingDirectionOnText:(NSMutableAttributedString *)anAttrString;
 
 @end
 
@@ -185,7 +191,6 @@
 }
 
 - (void)populateModulesMenu {
-    
     NSMenu *menu = [[NSMenu alloc] init];
     // generate menu
     [[SwordManager defaultManager] generateModuleMenu:&menu 
@@ -221,7 +226,6 @@
 }
 
 - (void)populateAddPopupMenu {
-    
     // generate bibles menu
     biblesMenu = [[NSMenu alloc] init];    
     [[SwordManager defaultManager] generateModuleMenu:&biblesMenu 
@@ -273,6 +277,16 @@
     [statusLine setStringValue:aText];
 }
 
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"BibleView";
+}
+
+#pragma mark - HTML generation from search result
+
 - (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
@@ -305,7 +319,6 @@
             if([entry keyString] != nil) {
                 NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[entry keyString] context:textContext];
                 for(SwordModuleTextEntry *entry in content) {
-                    
                     // get data
                     NSString *keyStr = [entry key];
                     NSString *contentStr = [entry text];                    
@@ -338,126 +351,144 @@
     }
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...done");
             
-    // set write direction
-    if([module isRTL]) {
-        [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
-    } else {
-        [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
-    }
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...");
+    [self applyWritingDirectionOnText:ret];
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...done");
     
     return ret;
 }
 
+#pragma mark - HTML generation from verse data
+
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {
     NSMutableAttributedString *ret = nil;
+        
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...");
+    NSString *htmlString = [self createHTMLStringWithMarkersFromVerseData:verseData];
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...done");
     
-    // some defaults
-    // get user defaults
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...");
+    ret = [self convertToAttributedStringFromString:htmlString];
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...done");
+    
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+    [self applyLinkCursorToLinksInAttributedString:ret];
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
+    
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...");
+    [self replaceVerseMarkersInAttributedString:ret];
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...done");
+    
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...");
+    [self applyWritingDirectionOnText:ret];
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...done");
+    
+    return ret;
+}
+
+- (NSString *)createHTMLStringWithMarkersFromVerseData:(NSArray *)verseData {
+    NSMutableString *htmlString = [NSMutableString string];
+    int lastChapter = -1;
+    for(SwordModuleTextEntry *entry in verseData) {
+        [self applyBookmarkHighlightingOnTextEntry:entry];
+        lastChapter = [self appendHTMLFromTextEntry:entry atHTMLString:htmlString forChapter:lastChapter];
+    }
+    return htmlString;
+}
+
+- (void)applyBookmarkHighlightingOnTextEntry:(SwordModuleTextEntry *)anEntry {
+    BOOL isHighlightBookmarks = [[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue];
+    if(isHighlightBookmarks) {
+        Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:[anEntry key] versification:[module versification]]];
+        if(bm && [bm highlight]) {
+            float br = 1.0, bg = 1.0, bb = 1.0;
+            float fr, fg, fb = 0.0;
+            NSColor *bCol = [[bm backgroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+            NSColor *fCol = [[bm foregroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+            [bCol getRed:&br green:&bg blue:&bb alpha:NULL];
+            [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
+            
+            // apply colors
+            [anEntry setText:
+                [NSString stringWithFormat:@"<span style=\"color:rgb(%i%%, %i%%, %i%%); background-color:rgb(%i%%, %i%%, %i%%);\">%@</span>",
+                 (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0),
+                 (int)(br * 100.0), (int)(bg * 100.0), (int)(bb * 100.0),
+                 [anEntry text]]];
+        }
+    }
+}
+
+- (int)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString forChapter:(int)lastChapter {
+    NSString *bookName = @"";
+    int book = -1;
+    int chapter = -1;
+    int verse = -1;
+    [SwordBible decodeRef:[anEntry key] intoBook:&bookName book:&book chapter:&chapter verse:&verse];
+    
+    NSString *verseMarkerInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
+    
+    BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
+    BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
+    // text get marked with ";;;<verseMarkerInfo>;;;" which is replaced later on with a marker
+    if(!isVersesOnOneLine) {
+        // mark new chapter
+        if(chapter != lastChapter) {
+            [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
+        }
+        [aString appendFormat:@";;;%@;;; %@\n", verseMarkerInfo, [anEntry text]];   // verse marker
+    } else {
+        if(isShowVerseNumbersOnly) {
+            if(chapter != lastChapter) {
+                [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
+            }                
+        }
+        [aString appendFormat:@";;;%@;;;", verseMarkerInfo];    // verse marker
+        [aString appendFormat:@"%@<br />\n", [anEntry text]];
+    }
+    
+    return chapter;
+}
+
+- (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString {
+    NSMutableDictionary *options = [NSMutableDictionary dictionary];
+    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
+    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+    [webPrefs setDefaultFontSize:(int)customFontSize];
+    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
+    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+                                   size:(int)customFontSize];
+    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
+    NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
+
+    return [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                   options:options
+                                        documentAttributes:nil];    
+}
+
+- (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString {
+    NSRange effectiveRange;
+	int	i = 0;
+	while (i < [anString length]) {
+        NSDictionary *attrs = [anString attributesAtIndex:i effectiveRange:&effectiveRange];
+		if([attrs objectForKey:NSLinkAttributeName] != nil) {
+            attrs = [attrs mutableCopy];
+            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+            [anString setAttributes:attrs range:effectiveRange];
+		}
+		i += effectiveRange.length;
+	}    
+}
+
+- (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)anAttrString {
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
-    BOOL isHighlightBookmarks = [[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue];
-    
-    // generate html string for verses
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...");
-    NSMutableString *htmlString = [NSMutableString string];
-    int lastChapter = -1;
-    for(SwordModuleTextEntry *entry in verseData) {
-        NSString *verseText = [entry text];
-        NSString *key = [entry key];
-        
-        if(isHighlightBookmarks) {
-            Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:key versification:[module versification]]];
-            if(bm && [bm highlight]) {
-                float br = 1.0, bg = 1.0, bb = 1.0;
-                float fr, fg, fb = 0.0;
-                NSColor *bCol = [[bm backgroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-                NSColor *fCol = [[bm foregroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-                [bCol getRed:&br green:&bg blue:&bb alpha:NULL];
-                [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
-                
-                // apply colors
-                verseText = [NSString stringWithFormat:@"<span style=\"color:rgb(%i%%, %i%%, %i%%); background-color:rgb(%i%%, %i%%, %i%%);\">%@</span>",
-                             (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0),
-                             (int)(br * 100.0), (int)(bg * 100.0), (int)(bb * 100.0),
-                             verseText];
-            }
-        }
-        
-        NSString *bookName = @"";
-        int book = -1;
-        int chapter = -1;
-        int verse = -1;
-        // decode ref
-        [SwordBible decodeRef:key intoBook:&bookName book:&book chapter:&chapter verse:&verse];
-        
-        // the verse link, later we have to add percent escapes
-        NSString *verseInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
-        
-        // text get marked with ";;;<verseInfo>;;;" which is replaced later on with a marker
-        if(!isVersesOnOneLine) {
-            // mark new chapter
-            if(chapter != lastChapter) {
-                [htmlString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
-            }
-            [htmlString appendFormat:@";;;%@;;; %@\n", verseInfo, verseText];
-        } else {
-            if(isShowVerseNumbersOnly) {
-                if(chapter != lastChapter) {
-                    [htmlString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
-                }                
-            }
-            [htmlString appendFormat:@";;;%@;;;", verseInfo];
-            [htmlString appendFormat:@"%@<br />\n", verseText];
-        }
-        lastChapter = chapter;
-    }
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...done");
-    
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...");
-    // create attributed string
-    // setup options
-    NSMutableDictionary *options = [NSMutableDictionary dictionary];
-    // set string encoding
-    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
-    // set web preferences
-    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
-    // set custom font size
-    [webPrefs setDefaultFontSize:(int)customFontSize];
-    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
-    // set scroll to line height
-    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                   size:(int)customFontSize];
-    NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
-                                       size:(int)customFontSize];
-    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
-    // set text
-    NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    ret = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                  options:options
-                                       documentAttributes:nil];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...done");
-    
-    // add pointing hand cursor to all links
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
-    NSRange effectiveRange;
-	int	i = 0;
-	while (i < [ret length]) {
-        NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
-		if([attrs objectForKey:NSLinkAttributeName] != nil) {
-            attrs = [attrs mutableCopy];
-            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-            [ret setAttributes:attrs range:effectiveRange];
-		}
-		i += effectiveRange.length;
-	}
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
-    
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...");
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
-    NSString *text = [ret string];
+    NSString *text = [anAttrString string];
+    NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+                                       size:(int)customFontSize];
     while(found) {
         int tLen = [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, tLen-replaceRange.location)];
@@ -472,11 +503,6 @@
                 NSArray *comps = [marker componentsSeparatedByString:@"|"];
                 NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
                 
-                // prepare verse URL link
-                //NSString *verseLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], verseMarker];
-                //NSURL *verseURL = [NSURL URLWithString:[verseLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                
-                // prepare various link usages
                 NSString *visible = @"";
                 NSRange linkRange;
                 linkRange.length = 0;
@@ -501,32 +527,23 @@
                     [markerOpts setObject:fontBold forKey:NSFontAttributeName];                
                 }
                 
-                [ret replaceCharactersInRange:replaceRange withString:visible];
-                [ret addAttributes:markerOpts range:linkRange];
+                [anAttrString replaceCharactersInRange:replaceRange withString:visible];
+                [anAttrString addAttributes:markerOpts range:linkRange];
                 
                 replaceRange.location += [visible length];
             }
         } else {
             found = NO;
         }
-    }
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...done");
-    
-    if([module isRTL]) {
-        [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
-    } else {
-        [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
     }    
-    
-    return ret;
 }
 
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
-    }
-    
-    return @"BibleView";
+- (void)applyWritingDirectionOnText:(NSMutableAttributedString *)anAttrString {
+    if([module isRTL]) {
+        [anAttrString setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [anAttrString length])];
+    } else {
+        [anAttrString setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [anAttrString length])];
+    }    
 }
 
 #pragma mark - TextDisplayable

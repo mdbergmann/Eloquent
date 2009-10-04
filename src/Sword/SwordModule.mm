@@ -18,6 +18,7 @@
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "SwordModuleTextEntry.h"
+#import "SwordVerseKey.h"
 
 @interface SwordModule (/* Private, class continuation */)
 /** private property */
@@ -221,7 +222,6 @@
     return [NSString stringWithCString:swModule->Type() encoding:NSUTF8StringEncoding];
 }
 
-/** cipher key in config */
 - (NSString *)cipherKey {
     NSString *cipherKey = [configEntries objectForKey:SWMOD_CONFENTRY_CIPHERKEY];
     if(cipherKey == nil) {
@@ -234,7 +234,6 @@
     return cipherKey;
 }
 
-/** version in config */
 - (NSString *)version {
     NSString *version = [configEntries objectForKey:SWMOD_CONFENTRY_VERSION];
     if(version == nil) {
@@ -247,7 +246,6 @@
     return version;
 }
 
-/** minimum version in config */
 - (NSString *)minVersion {
     NSString *minVersion = [configEntries objectForKey:SWMOD_CONFENTRY_MINVERSION];
     if(minVersion == nil) {
@@ -260,9 +258,7 @@
     return minVersion;
 }
 
-/**
- this might be RTF string
- */
+/** this might be RTF string */
 - (NSString *)aboutText {
     NSString *aboutText = [configEntries objectForKey:SWMOD_CONFENTRY_ABOUT];
     if(aboutText == nil) {
@@ -331,12 +327,10 @@
     return ret;    
 }
 
-/** read config entry for encoding */
 - (BOOL)isUnicode {    
     return swModule->isUnicode();
 }
 
-/** is module encrypted/has a cipher key */
 - (BOOL)isEncrypted {
     BOOL encrypted = YES;
     if([self cipherKey] == nil) {
@@ -361,7 +355,6 @@
     return locked;
 }
 
-/** Sets the unlock key of the modules and writes the key into the pref file */
 - (BOOL)unlock:(NSString *)unlockKey {
     
 	if (![self isEncrypted]) {
@@ -377,11 +370,9 @@
 	return YES;
 }
 
-- (id)attributeValueForEntryData:(NSDictionary *)data {
-
+- (id)attributeValueForParsedLinkData:(NSDictionary *)data {
     id ret = nil;
     
-    // first set module to key
     [moduleLock lock];
     NSString *passage = [data objectForKey:ATTRTYPE_PASSAGE];
     if(passage) {
@@ -389,11 +380,7 @@
     } 
     NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
     if([attrType isEqualToString:@"n"]) {
-        if([self isUnicode]) {
-            swModule->setKey([passage UTF8String]);
-        } else {
-            swModule->setKey([passage cStringUsingEncoding:NSISOLatin1StringEncoding]);
-        }
+        [self setPositionFromKeyString:passage];
         swModule->RenderText(); // force processing of key
         
         sword::SWBuf footnoteText = swModule->getEntryAttributes()["Footnote"][[[data objectForKey:ATTRTYPE_VALUE] UTF8String]]["body"].c_str();
@@ -401,11 +388,7 @@
         char *fText = (char *)swModule->StripText(footnoteText);
         ret = [NSString stringWithUTF8String:fText];
     } else if([attrType isEqualToString:@"x"]) {
-        if([self isUnicode]) {
-            swModule->setKey([passage UTF8String]);
-        } else {
-            swModule->setKey([passage cStringUsingEncoding:NSISOLatin1StringEncoding]);
-        }
+        [self setPositionFromKeyString:passage];
         swModule->RenderText(); // force processing of key
         
         sword::SWBuf refList = swModule->getEntryAttributes()["Footnote"][[[data objectForKey:ATTRTYPE_VALUE] UTF8String]]["refList"];
@@ -421,10 +404,8 @@
                 NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
                 NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
                 
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-                [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
-                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-                [ret addObject:dict];                
+                SwordModuleTextEntry *entry = [SwordModuleTextEntry textEntryForKey:key andText:text];
+                [ret addObject:entry];
             }
         }
     } else if([attrType isEqualToString:@"scriptRef"] || [attrType isEqualToString:@"scripRef"]) {
@@ -442,23 +423,20 @@
                 NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
                 NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
                 
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-                [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
-                [dict setObject:key forKey:SW_OUTPUT_REF_KEY];
-                [ret addObject:dict];                
+                SwordModuleTextEntry *entry = [SwordModuleTextEntry textEntryForKey:key andText:text];
+                [ret addObject:entry];
             }
         }
     } else if([attrType isEqualToString:@"Greek"] || [attrType isEqualToString:@"Hebrew"]) {
         NSString *key = [data objectForKey:ATTRTYPE_VALUE];        
 
         swModule->setKey([key UTF8String]);
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-        ret = dict;
+        SwordModuleTextEntry *entry = [[SwordModuleTextEntry alloc] init];
+        ret = entry;
         if(![self error]) {
             NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
-            
-            [dict setObject:text forKey:SW_OUTPUT_TEXT_KEY];
-            [dict setObject:key forKey:SW_OUTPUT_REF_KEY];            
+            [entry setText:text];
+            [entry setKey:key];
         }        
     }
     
@@ -471,7 +449,7 @@
     SwordModuleTextEntry *ret = nil;
     
     if(aKey && [aKey length] > 0) {
-        swModule->setKey([aKey UTF8String]);
+        [self setPositionFromKeyString:aKey];
         if(![self error]) {
             //const char *keyCStr = swModule->getKeyText();
             const char *txtCStr = NULL;
@@ -583,6 +561,13 @@
 	return result;
 }
 
+- (void)setPositionFromKeyString:(NSString *)aKeyString {
+    swModule->setKey([aKeyString UTF8String]);        
+}
+
+- (void)setPositionFromVerseKey:(SwordVerseKey *)aVerseKey {
+    swModule->setKey([aVerseKey swVerseKey]);
+}
 
 - (sword::SWModule *)swModule {
 	return swModule;

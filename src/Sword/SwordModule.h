@@ -23,9 +23,6 @@ class sword::SWModule;
 
 #define My_SWDYNAMIC_CAST(className, object) (sword::className *)((object)?((object->getClass()->isAssignableFrom(#className))?object:0):0)
 
-#define SW_OUTPUT_TEXT_KEY  @"OutputTextKey"
-#define SW_OUTPUT_REF_KEY   @"OutputRefKey"
-
 // defines for dictionary entries for passagestudy
 #define ATTRTYPE_TYPE       @"type"
 #define ATTRTYPE_PASSAGE    @"passage"
@@ -34,7 +31,7 @@ class sword::SWModule;
 #define ATTRTYPE_ACTION     @"action"
 #define ATTRTYPE_VALUE      @"value"
 
-@class SwordManager, SwordModuleTextEntry;
+@class SwordManager, SwordModuleTextEntry, SwordVerseKey;
 
 typedef enum {
     TextTypeStripped = 1,
@@ -148,12 +145,15 @@ typedef enum {
 - (BOOL)hasFeature:(NSString *)feature;
 - (NSString *)configEntryForKey:(NSString *)entryKey;
 
+- (void)setPositionFromKeyString:(NSString *)aKeyString;
+- (void)setPositionFromVerseKey:(SwordVerseKey *)aVerseKey;
+
 /**
  returns attribute values from the engine for notes, cross-refs and such for the given link type
  @return NSArray for references
  @return NSString for text data
  */
-- (id)attributeValueForEntryData:(NSDictionary *)data;
+- (id)attributeValueForParsedLinkData:(NSDictionary *)data;
 
 /**
  return a dictionary with key and text

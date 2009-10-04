@@ -124,7 +124,7 @@
     return [NSString stringWithUTF8String:vk->getVersificationSystem()];
 }
 
-- (sword::VerseKey *)verseKey {
+- (sword::VerseKey *)swVerseKey {
     return vk;
 }
 

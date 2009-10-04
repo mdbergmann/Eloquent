@@ -24,7 +24,7 @@
 
 #ifdef __cplusplus
 - (id)initWithSWVerseKey:(sword::VerseKey *)aVk;
-- (sword::VerseKey *)verseKey;
+- (sword::VerseKey *)swVerseKey;
 #endif
 
 - (id)initWithRef:(NSString *)aRef;

@@ -10,6 +10,7 @@
 #import "MBPreferenceController.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
+#import "SwordModuleTextEntry.h"
 #import "globals.h"
 
 
@@ -34,7 +35,6 @@
         }
         
         if(module) {
-            
             ret = [NSMutableDictionary dictionary];
             
             SwordModule *mod = [[SwordManager defaultManager] moduleWithName:module];
@@ -53,21 +53,21 @@
             }
             [ret setObject:displayType forKey:@"PreviewDisplayTypeKey"];
             
-            id result = [mod attributeValueForEntryData:previewData];
+            id result = [mod attributeValueForParsedLinkData:previewData];
             if(result != nil) {
                 if([result isKindOfClass:[NSArray class]]) {
                     // prepare for view
-                    for(NSDictionary *dict in (NSArray *)result) {
-                        NSString *verseText = [dict objectForKey:SW_OUTPUT_TEXT_KEY];
-                        NSString *key = [dict objectForKey:SW_OUTPUT_REF_KEY];
+                    for(SwordModuleTextEntry *entry in (NSArray *)result) {
+                        NSString *verseText = [entry text];
+                        NSString *key = [entry key];
                         
                         [displayText appendFormat:@"%@:\n%@\n", key, verseText];
                     }                    
                 } else if([result isKindOfClass:[NSString class]]) {
                     displayText = result;
-                } else if([result isKindOfClass:[NSDictionary class]]) {
-                    NSString *verseText = [(NSDictionary *)result objectForKey:SW_OUTPUT_TEXT_KEY];
-                    NSString *key = [(NSDictionary *)result objectForKey:SW_OUTPUT_REF_KEY];
+                } else if([result isKindOfClass:[SwordModuleTextEntry class]]) {
+                    NSString *verseText = [(SwordModuleTextEntry *)result text];
+                    NSString *key = [(SwordModuleTextEntry *)result key];
                     
                     [displayText appendFormat:@"%@:\n%@\n", key, verseText];                    
                 }

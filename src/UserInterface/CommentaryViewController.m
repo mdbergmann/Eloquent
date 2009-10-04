@@ -158,10 +158,10 @@
 
     // generate html string for verses
     NSMutableString *htmlString = [NSMutableString string];
-    for(NSDictionary *dict in verseData) {
-        NSString *verseText = [dict objectForKey:SW_OUTPUT_TEXT_KEY];
-        NSString *key = [dict objectForKey:SW_OUTPUT_REF_KEY];
-                
+    for(SwordModuleTextEntry *entry in verseData) {
+        NSString *verseText = [entry text];
+        NSString *key = [entry key];
+
         NSString *bookName = @"";
         int book = -1;
         int chapter = -1;
