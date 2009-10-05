@@ -112,6 +112,8 @@
 		A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
+		A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ABF335107A2934005D6156 /* InitialInfoViewController.m */; };
+		A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9ABF338107A2A65005D6156 /* InitialInfoView.xib */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
@@ -347,6 +349,9 @@
 		A99DB3220EF96ABF0065482A /* scopebar_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_gradient.png; sourceTree = "<group>"; };
 		A99DB3240EF96C310065482A /* ScopeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopeBarView.h; path = src/UserInterface/ScopeBarView.h; sourceTree = "<group>"; };
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
+		A9ABF334107A2934005D6156 /* InitialInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialInfoViewController.h; path = src/UserInterface/InitialInfoViewController.h; sourceTree = "<group>"; };
+		A9ABF335107A2934005D6156 /* InitialInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialInfoViewController.m; path = src/UserInterface/InitialInfoViewController.m; sourceTree = "<group>"; };
+		A9ABF339107A2A65005D6156 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/InitialInfoView.xib; sourceTree = "<group>"; };
 		A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordModuleTest.h; path = test/SwordModuleTest.h; sourceTree = "<group>"; };
 		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SwordModuleTest.mm; path = test/SwordModuleTest.mm; sourceTree = "<group>"; };
 		A9B7441B0F646223001960B0 /* MBAboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAboutWindowController.h; sourceTree = "<group>"; };
@@ -568,6 +573,7 @@
 				A9D849640EFA2D34000457EC /* RightSideBarView.xib */,
 				A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */,
 				A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */,
+				A9ABF338107A2A65005D6156 /* InitialInfoView.xib */,
 				A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -790,6 +796,8 @@
 				A9F4E3540E1DF0E000B0148E /* Caching */,
 				A9E820FE0E0B95900020A64E /* Views */,
 				A96516290E06D0940058AA91 /* Hosts */,
+				A9ABF334107A2934005D6156 /* InitialInfoViewController.h */,
+				A9ABF335107A2934005D6156 /* InitialInfoViewController.m */,
 				A916FCE10E0542A2009CAA2F /* ExtTextViewController.h */,
 				A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */,
 				A9F184610E0811C8005F3B35 /* HostableViewController.h */,
@@ -1068,6 +1076,7 @@
 				A987A3480F6D5970007E5EE1 /* SplitViewDividerBar.tiff in Resources */,
 				A987A3490F6D5970007E5EE1 /* SplitViewDividerDimple.tiff in Resources */,
 				A9CDDDD10F738E0500C907B9 /* SearchBookSetEditor.xib in Resources */,
+				A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1176,6 +1185,7 @@
 				A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */,
 				A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */,
 				A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */,
+				A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1309,6 +1319,14 @@
 				A992B5330DF9AD6E00207967 /* English */,
 			);
 			name = ThreadedProgressSheet.xib;
+			sourceTree = "<group>";
+		};
+		A9ABF338107A2A65005D6156 /* InitialInfoView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9ABF339107A2A65005D6156 /* English */,
+			);
+			name = InitialInfoView.xib;
 			sourceTree = "<group>";
 		};
 		A9B7441E0F646346001960B0 /* About.xib */ = {

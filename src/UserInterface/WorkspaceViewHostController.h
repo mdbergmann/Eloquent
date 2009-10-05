@@ -26,9 +26,8 @@
     IBOutlet PSMTabBarControl *tabControl;
     IBOutlet NSTabView *tabView;
     
-    IBOutlet NSView *initialMainView;
+    IBOutlet NSViewController *initialViewController;
     IBOutlet NSView *defaultMainView;
-    IBOutlet NSTextField *installedModulesLabel;
     
     /** each tabItem should have this menu */
     IBOutlet NSMenu *tabItemMenu;

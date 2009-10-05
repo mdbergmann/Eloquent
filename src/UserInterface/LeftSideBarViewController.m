@@ -49,6 +49,7 @@ enum ModuleMenu_Items{
 - (int)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list;
 - (void)modulesListChanged:(NSNotification *)notification;
 - (id)objectForClickedRow;
+- (BOOL)isDropSectionBookmarksForItem:(id)anItem;
 
 @end
 

@@ -83,10 +83,7 @@
     
     // for a clean new workspace we display the initialMainView
     if([viewControllers count] == 0) {
-        [mainSplitView addSubview:initialMainView];
-        // update label with currently installed modules
-        NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"InitialViewLabelText", @""), [[[SwordManager defaultManager] modules] count]];
-        [installedModulesLabel setStringValue:msg];
+        [mainSplitView addSubview:[initialViewController view]];
     } else {
         [mainSplitView addSubview:defaultMainView];
     }
@@ -460,8 +457,8 @@
            [aViewController isKindOfClass:[BibleCombiViewController class]]) {
             
             // remove initialMainView if present
-            if([[mainSplitView subviews] containsObject:initialMainView]) {
-                [initialMainView removeFromSuperview];
+            if([[mainSplitView subviews] containsObject:[initialViewController view]]) {
+                [[initialViewController view] removeFromSuperview];
                 // and set default view
                 [mainSplitView addSubview:defaultMainView];
             }
@@ -509,7 +506,6 @@
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
-    
     [super removeSubview:aViewController];
 
     // get index for if this is a module based controller
