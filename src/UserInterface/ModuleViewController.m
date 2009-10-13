@@ -16,6 +16,7 @@
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
 #import "IndexingManager.h"
+#import "SwordModuleTextEntry.h"
 
 @interface ModuleViewController () 
 
@@ -278,7 +279,7 @@
             
             id result = [mod attributeValueForParsedLinkData:data];
             NSMutableString *key = [NSMutableString string];
-            if([result isKindOfClass:[NSDictionary class]]) {
+            if([result isKindOfClass:[SwordModuleTextEntry class]]) {
                 key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
             } else if([result isKindOfClass:[NSArray class]]) {
                 for(SwordModuleTextEntry *entry in (NSArray *)result) {
