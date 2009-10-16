@@ -290,7 +290,7 @@
 - (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromSearchResults::] prepare search results...");
     // create out own SortDescriptors according to whome we sort
     NSArray *sortDescriptors = [NSArray arrayWithObject:
                                 [[NSSortDescriptor alloc] initWithKey:@"documentName" 
@@ -318,10 +318,10 @@
         for(SearchResultEntry *entry in sortedSearchResults) {            
             if([entry keyString] != nil) {
                 NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[entry keyString] context:textContext];
-                for(SwordModuleTextEntry *entry in content) {
+                for(SwordModuleTextEntry *textEntry in content) {
                     // get data
-                    NSString *keyStr = [entry key];
-                    NSString *contentStr = [entry text];                    
+                    NSString *keyStr = [textEntry key];
+                    NSString *contentStr = [textEntry text];                    
 
                     // prepare verse URL link
                     NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], keyStr];
@@ -335,7 +335,7 @@
                     // prepare output
                     NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] attributes:keyAttributes];
                     NSAttributedString *contentString = nil;
-                    if([keyStr isEqualToString:[entry keyString]]) {
+                    if([keyStr isEqualToString:[textEntry key]]) {
                         contentString = [Highlighter highlightText:contentStr 
                                                          forTokens:searchQuery 
                                                         attributes:contentAttributes];                        
