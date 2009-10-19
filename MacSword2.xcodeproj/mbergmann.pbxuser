@@ -9,7 +9,7 @@
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeArchitecturePreference = i386;
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = A91403090DF9AABC001791BB /* MacSword */;
 		activeTarget = 8D1107260486CEB800E47090 /* MacSword */;
 		addToTargets = (
@@ -193,6 +193,9 @@
 			A92B6B6E108858540004F447 /* PBXTextBookmark */ = A92B6B6E108858540004F447 /* PBXTextBookmark */;
 			A92B6B6F108858630004F447 /* PBXTextBookmark */ = A92B6B6F108858630004F447 /* PBXTextBookmark */;
 			A92B6B721088588E0004F447 /* PBXTextBookmark */ = A92B6B721088588E0004F447 /* PBXTextBookmark */;
+			A92B6B7610885A840004F447 /* PBXTextBookmark */ = A92B6B7610885A840004F447 /* PBXTextBookmark */;
+			A92B6B7710885A840004F447 /* PlistBookmark */ = A92B6B7710885A840004F447 /* PlistBookmark */;
+			A92B6B7810885A840004F447 /* PlistBookmark */ = A92B6B7810885A840004F447 /* PlistBookmark */;
 			A99FF4ED10846A0B00792C2E = A99FF4ED10846A0B00792C2E /* PlistBookmark */;
 			A99FF4EE10846A0B00792C2E = A99FF4EE10846A0B00792C2E /* PBXTextBookmark */;
 			A99FF4EF10846A0B00792C2E = A99FF4EF10846A0B00792C2E /* PBXTextBookmark */;
@@ -1094,6 +1097,38 @@
 		vrLen = 3622;
 		vrLoc = 10656;
 	};
+	A92B6B7610885A840004F447 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */;
+		name = "BibleViewController.m: 325";
+		rLen = 0;
+		rLoc = 12246;
+		rType = 0;
+		vrLen = 3831;
+		vrLoc = 10170;
+	};
+	A92B6B7710885A840004F447 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Volumes/User/mbergmann/_inProgress/Sources/macsword/macsword.git/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	A92B6B7810885A840004F447 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Volumes/User/mbergmann/_inProgress/Sources/macsword/macsword.git/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
 	A9333ADF0F6699110001BD38 /* ProgressOverlayViewController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1077, 811}}";
@@ -1457,9 +1492,9 @@
 	};
 	A99055AB0E04273E00E8D7A2 /* BibleViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1077, 12950}}";
-			sepNavSelRange = "{13222, 0}";
-			sepNavVisRange = "{10656, 3622}";
+			sepNavIntBoundsRect = "{{0, 0}, {1077, 12866}}";
+			sepNavSelRange = "{12246, 0}";
+			sepNavVisRange = "{10170, 3831}";
 			sepNavWindowFrame = "{{224, 43}, {995, 835}}";
 		};
 	};
