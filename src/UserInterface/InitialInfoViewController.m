@@ -13,6 +13,19 @@
 
 @implementation InitialInfoViewController
 
+- (id)init {
+    self = [super init];
+    if(self) {
+        BOOL success = [NSBundle loadNibNamed:@"InitialInfoView" owner:self];
+        if(success) {
+        } else {
+            MBLOG(MBLOG_ERR,@"[InitialInfoViewController]: cannot load ConfirmationSheetControllerNib!");
+        }        
+    }
+    
+    return self;
+}
+
 - (NSString *)installedModulesLabel {
     return [NSString stringWithFormat:NSLocalizedString(@"InitialViewLabelText", @""), [[[SwordManager defaultManager] modules] count]];
 }

@@ -467,6 +467,18 @@ static AppController *singleton;
     [NSApp stopModal];
 }
 
+- (IBAction)openMacSwordWikiPage:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/wiki/Frontends:MacSword"]];    
+}
+
+- (IBAction)openMacSwordHomePage:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.macsword.com"]];    
+}
+
+- (IBAction)openMacSwordForumPage:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/forums/mvnforum/listthreads?forum=4"]];    
+}
+
 #pragma mark - NSControl delegate methods
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {

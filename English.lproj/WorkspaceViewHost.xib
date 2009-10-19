@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10B504</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
 		<string key="IBDocument.AppKitVersion">1038.2</string>
 		<string key="IBDocument.HIToolboxVersion">437.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">732</string>
+			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -48,7 +48,7 @@
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{400, 200}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -57,14 +57,12 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrame">{{0, 35}, {850, 565}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 						</object>
 						<object class="NSSegmentedControl" id="500569271">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 4}, {38, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSegmentedCell" key="NSCell" id="540692928">
 								<int key="NSCellFlags">67239424</int>
@@ -93,7 +91,6 @@
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{792, 4}, {38, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSegmentedCell" key="NSCell" id="20798317">
 								<int key="NSCellFlags">67239424</int>
@@ -115,8 +112,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{850, 600}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{400, 222}</string>
@@ -284,8 +279,8 @@
 				<string key="NSFrameSize">{800, 565}</string>
 				<string key="NSClassName">NSView</string>
 			</object>
-			<object class="NSViewController" id="192894610">
-				<string key="NSNibName">InitialInfoView</string>
+			<object class="NSCustomObject" id="91724264">
+				<string key="NSClassName">InitialInfoViewController</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -455,9 +450,9 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">initialViewController</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="192894610"/>
+						<reference key="destination" ref="91724264"/>
 					</object>
-					<int key="connectionID">186</int>
+					<int key="connectionID">188</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -627,8 +622,8 @@
 						<reference key="parent" ref="281077643"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">185</int>
-						<reference key="object" ref="192894610"/>
+						<int key="objectID">187</int>
+						<reference key="object" ref="91724264"/>
 						<reference key="parent" ref="0"/>
 					</object>
 				</object>
@@ -659,8 +654,7 @@
 					<string>153.IBSegmentedControlTracker.RoundRobinState</string>
 					<string>153.IBSegmentedControlTracker.WasGrowing</string>
 					<string>154.IBPluginDependency</string>
-					<string>185.CustomClassName</string>
-					<string>185.IBPluginDependency</string>
+					<string>187.IBPluginDependency</string>
 					<string>2.IBPluginDependency</string>
 					<string>41.IBPluginDependency</string>
 					<string>43.IBPluginDependency</string>
@@ -701,7 +695,6 @@
 					<integer value="1"/>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>InitialInfoViewController</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -742,7 +735,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">186</int>
+			<int key="maxID">188</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1649,10 +1642,6 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>

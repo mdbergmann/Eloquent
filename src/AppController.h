@@ -79,6 +79,9 @@ typedef enum AppErrorCodes {
 - (IBAction)showModuleManager:(id)sender;
 - (IBAction)showPreviewPanel:(id)sender;
 - (IBAction)showCreateModuleWindow:(id)sender;
+- (IBAction)openMacSwordWikiPage:(id)sender;
+- (IBAction)openMacSwordHomePage:(id)sender;
+- (IBAction)openMacSwordForumPage:(id)sender;
 
 // module creation
 - (IBAction)createCommentaryOk:(id)sender;
