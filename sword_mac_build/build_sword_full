@@ -88,7 +88,7 @@ if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
 	fi
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
-	./configure --prefix=$PPCPREFIX --with-zlib --with-icu --with-conf --with-curl
+	./configure --prefix=$PPCPREFIX --with-zlib --with-icu --with-conf --with-curl --enable-utilities
 	make all install
 	make clean
 	cd $BDIR
@@ -114,7 +114,7 @@ if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$INTELPREFIX/bin
-	./configure --prefix=$INTELPREFIX --with-zlib --with-icu --with-conf --with-curl
+	./configure --prefix=$INTELPREFIX --with-zlib --with-icu --with-conf --with-curl --enable-utilities
 	make all install
 	make clean
 	cd $BDIR

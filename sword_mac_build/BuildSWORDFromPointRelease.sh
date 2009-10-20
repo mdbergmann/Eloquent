@@ -71,6 +71,10 @@ fi
 #	mkdir -p $INTELBUILDDIR
 #fi
 
+# add icu tools to path
+export PATH="$PATH:/opt/icu-3.6/bin"
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/opt/icu-3.6/lib"
+
 # delete old source dir
 /bin/rm -rf $APP-$VERS
 # ungzip src
@@ -93,7 +97,7 @@ if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$PPCPREFIX/bin
-	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities --with-clucene="$PWD/../clucene_build/ppc_inst"
+	./configure --prefix=$PPCPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --enable-utilities
 	make all install
 	cd $BDIR
 	# copy to result dir
@@ -120,7 +124,7 @@ if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	export CXXFLAGS="$CFLAGS"
 	export LDFLAGS="-isysroot $SDK -Wl,-syslibroot,$SDK"
 	#export PATH=$PATH:$INTELPREFIX/bin
-	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --disable-utilities --with-clucene="$PWD/../clucene_build/intel_inst"
+	./configure --prefix=$INTELPREFIX --with-zlib --with-conf --with-curl --with-icu --disable-shared --enable-utilities
 	make all install
 	cd $BDIR
 	# copy to result dir

@@ -315,9 +315,9 @@
         // strip binary search tokens
         searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
         // build search string
-        for(SearchResultEntry *entry in sortedSearchResults) {            
-            if([entry keyString] != nil) {
-                NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[entry keyString] context:textContext];
+        for(SearchResultEntry *searchResultEntry in sortedSearchResults) {            
+            if([searchResultEntry keyString] != nil) {
+                NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[searchResultEntry keyString] context:textContext];
                 for(SwordModuleTextEntry *textEntry in content) {
                     // get data
                     NSString *keyStr = [textEntry key];
@@ -335,7 +335,7 @@
                     // prepare output
                     NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] attributes:keyAttributes];
                     NSAttributedString *contentString = nil;
-                    if([keyStr isEqualToString:[textEntry key]]) {
+                    if([keyStr isEqualToString:[searchResultEntry keyString]]) {
                         contentString = [Highlighter highlightText:contentStr 
                                                          forTokens:searchQuery 
                                                         attributes:contentAttributes];                        
