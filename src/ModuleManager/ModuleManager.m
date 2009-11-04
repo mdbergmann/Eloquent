@@ -32,38 +32,23 @@
 	}
 	else {
         delegate = aDelegate;
-        // init module manage view controller
         moduleViewController = [[ModuleManageViewController alloc] initWithDelegate:self parent:[self window]];
 	}
 	
 	return self;    
 }
 
-/**
- \brief finalize called by the GC
- */
-- (void)dealloc {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManager -finalize]");
-    
-	// dealloc object
-	[super dealloc];
+- (void)finalize {
+	[super finalize];
 }
 
-/** action overriden */
 - (void)showWindow:(id)sender {
     
     [super showWindow:sender];
 
-    // do some additional stuff here
     NSView *view = [moduleViewController contentView];
-    if(view != nil) {
-        MBLOGV(MBLOG_DEBUG, @"[ModuleManager -moduleManageViewInitialized] view width: %f, height: %f", [view bounds].size.width, [view bounds].size.height);
-    } else {
-        MBLOG(MBLOG_ERR, @"[ModuleManager -moduleManageViewInitialized] view is nil");
-    }
     [[self window] setContentView:[moduleViewController contentView]];
     
-    // show disclaimer if needed
     [moduleViewController showDisclaimer];
 }
 
@@ -71,13 +56,8 @@
 //----------- bundle delegates ---------------------------------------
 //--------------------------------------------------------------------
 - (void)awakeFromNib {
-    
-	MBLOG(MBLOG_DEBUG,@"[ModuleManager -awakeFromNib]");
-    
-    // init toolbar identifiers
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     
-    // set parent window
     [moduleViewController setParentWindow:[self window]];
     
     NSToolbarItem *item = nil;

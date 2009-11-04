@@ -563,7 +563,7 @@
     
     if(aReference != nil && [aReference length] > 0) {
         self.reference = aReference;
-        MBLOGV(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searching reference: %@, for module: %@", aReference, [module name]);
+        //MBLOGV(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searching reference: %@, for module: %@", aReference, [module name]);
         
         if(self.module != nil) {
             NSAttributedString *text = [[NSAttributedString alloc] init];

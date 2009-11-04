@@ -17,6 +17,8 @@
 #import "BibleCombiViewController.h"
 #import "IndexingManager.h"
 #import "SwordModuleTextEntry.h"
+#import "ReferenceCacheManager.h"
+#import "ReferenceCacheObject.h"
 
 @interface ModuleViewController () 
 
@@ -111,8 +113,8 @@
     }
     
     NSAttributedString *text = nil;    
+    int verses = 0;
     if(results) {
-        int verses = 0;
         text = [self displayableHTMLFromSearchResults:results searchQuery:reference numberOfResults:&verses];
         
         // set status
@@ -123,6 +125,14 @@
     // display
     if(text) {
         [textViewController setAttributedString:text];     
+        // add to cache
+        if([text length] > 0) {
+            ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
+                                                                              withDisplayText:text
+                                                                                numberOfFinds:verses
+                                                                                 andReference:reference];
+            [[ReferenceCacheManager defaultCacheManager] addCacheObject:o searchType:IndexSearchType];                    
+        }
     }
     
     // stop indicating progress

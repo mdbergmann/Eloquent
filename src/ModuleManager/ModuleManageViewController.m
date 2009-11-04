@@ -291,7 +291,7 @@
     return initialized;
 }
 
-// ------------------- methods ----------------
+#pragma mark - Initialisation
 
 - (id)init {
 	return [self initWithDelegate:nil];
@@ -310,35 +310,20 @@
         
         initialized = NO;
         
-        // first set delegate
-        delegate = aDelegate;
-        
-        // set parent window
+        delegate = aDelegate;        
         parentWindow = aParent;
         
-        /*
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(threadWillExit:)
-                                                     name:NSThreadWillExitNotification object:nil];            
-         */
-		
         BOOL success = [NSBundle loadNibNamed:@"ModuleManageView" owner:self];
 		if(success == YES) {
-            
-            // init selected sources
             selectedInstallSources = [[NSArray array] retain];
             
-            // init registration dicts
             installDict = [[NSMutableDictionary dictionary] retain];
             removeDict = [[NSMutableDictionary dictionary] retain];
             
-            // build installsource list objects
             installSourceListObjects = [[NSMutableArray array] retain];
             [self refreshInstallSourceListObjects];
             
-            // reload data
-            [categoryOutlineView reloadData];
-            
+            [categoryOutlineView reloadData];            
         } else {
 			MBLOG(MBLOG_ERR,@"[ModuleManageViewController]: cannot load ModuleManagerView.nib!");
 		}		
@@ -347,53 +332,14 @@
 	return self;    
 }
 
-/**
- \brief finalize called by the GC
- */
-- (void)dealloc {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -finalize]");
-    
-    [self setInstallDict:nil];
-    [self setRemoveDict:nil];
-    [self setSelectedInstallSources:nil];
-    [self setInstallSourceListObjects:nil];
-    
-	// dealloc object
-	[super dealloc];
+- (void)finalize {    
+	[super finalize];
 }
 
-/** return the content view of this controller */
-- (NSView *)contentView {
-    if(splitView == nil) {
-        MBLOG(MBLOG_WARN, @"[ModuleManageViewController -contentView] splitView is nil!");
-    } else {
-        MBLOG(MBLOG_WARN, @"[ModuleManageViewController -contentView] splitView initialized!");
-    }
-
-    return (NSView *)splitView;
-}
-
-//--------------------------------------------------------------------
-//----------- bundle delegates ---------------------------------------
-//--------------------------------------------------------------------
 - (void)awakeFromNib {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -awakeFromNib]");
-	
-    if(splitView == nil) {
-        MBLOG(MBLOG_WARN, @"[ModuleManageViewController -awakeFromNib] splitView is nil!");
-    } else {
-        MBLOG(MBLOG_DEBUG, @"[ModuleManageViewController -awakeFromNib] splitView initialized!");
-    }
-
-    if(categoryOutlineView == nil) {
-        MBLOG(MBLOG_WARN, @"[ModuleManageViewController -awakeFromNib] categoryOutlineView is nil!");
-    } else {
-        MBLOG(MBLOG_DEBUG, @"[ModuleManageViewController -awakeFromNib] categoryOutlineView initialized!");    
-    }
-    
     // set default menu
     [categoryOutlineView setMenu:installSourceMenu];    
-        
+    
     // reload data
     [categoryOutlineView reloadData];
     
@@ -404,6 +350,7 @@
         [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];
     }
     
+    /*
     // check first start
     NSString *firstStartStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"FirstStartModInstaller"];
     if(firstStartStr == nil) {
@@ -423,64 +370,19 @@
         }
         // set user default object
         [[NSUserDefaults standardUserDefaults] setObject:@"started" forKey:@"FirstStartModInstaller"];
-    } else {
-        /*
-        // lets show an requester and let the iser decide to check install sources
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
-                                         defaultButton:NSLocalizedString(@"Yes", @"") 
-                                       alternateButton:NSLocalizedString(@"No", @"")
-                                           otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"AwakeCheckInstallSources", @"")];
-        int stat = [alert runModal];
-        if(stat == NSAlertDefaultReturn) {
-            // test install sources for availability
-            NSMutableArray *uis = [NSMutableArray array];
-            SwordInstallSourceController *isc = [SwordInstallSourceController defaultController];
-            for(SwordInstallSource *is in [isc installSourceList]) {
-                
-                NSString *host = [is source];
-                if(![host isEqualToString:@"localhost"]) {
-                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, [is directory]]];
-                    
-                    NSURLResponse *response = [[NSURLResponse alloc] init];
-                    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-                    NSData *data = [NSURLConnection sendSynchronousRequest:request 
-                                                         returningResponse:&response error:nil];
-                    if(!data) {
-                        [uis addObject:[is caption]];
-                    }
-                }
-            }
-            
-            // install sources not available?
-            NSMutableString *uisStr = [NSMutableString stringWithString:NSLocalizedString(@"The following install sources could not be contacted:\n", @"")];
-            for(int i = 0;i < [uis count];i++) {
-                if(i == 0) {
-                    [uisStr appendString:[uis objectAtIndex:i]];
-                } else {
-                    [uisStr appendFormat:@", %@", [uis objectAtIndex:i]];
-                }
-            }
-            if([uis count] > 0) {
-                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
-                                                 defaultButton:NSLocalizedString(@"OK", @"") 
-                                               alternateButton:nil
-                                                   otherButton:nil 
-                                     informativeTextWithFormat:uisStr];
-                [alert runModal];        
-            }        
-        }        
-         */
     }
-
+     */
+    
     initialized = YES;    
 }
 
-//--------------------------------------------------------------------
-//--------------- Module registration --------------------------------
-//--------------------------------------------------------------------
-- (void)unregister:(ModuleListObject *)modObj {
-    
+#pragma mark - Methods
+
+- (NSView *)contentView {
+    return (NSView *)splitView;
+}
+
+- (void)unregister:(ModuleListObject *)modObj {    
     if(modObj != nil) {
         [installDict removeObjectForKey:[[modObj module] name]];
         [removeDict removeObjectForKey:[[modObj module] name]];
@@ -488,14 +390,12 @@
 }
 
 - (void)registerForInstall:(ModuleListObject *)modObj {
-    // add module to install dict
     if(modObj != nil) {
         [installDict setObject:modObj forKey:[[modObj module] name]];
     }
 }
 
 - (void)registerForRemove:(ModuleListObject *)modObj {
-    // add module to remove dict
     if(modObj != nil) {
         [removeDict setObject:modObj forKey:[[modObj module] name]];
     }    
@@ -552,26 +452,15 @@
     [[NSApplication sharedApplication] endSheet:disclaimerWindow];
 }
 
-//--------------------------------------------------------------------
-//----------- NSMenu validation --------------------------------
-//--------------------------------------------------------------------
-/**
- \brief validate menu
- */
+#pragma mark - Menu validation
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	MBLOGV(MBLOG_DEBUG, @"[ModuleManageViewController -validateMenuItem:] %@", [menuItem description]);
-    
     return YES;
 }
 
-//--------------------------------------------------------------------
-//------------------------ IB actions --------------------------------
-//--------------------------------------------------------------------
+#pragma mark - Actions
 
 - (IBAction)syncInstallSourcesFromMasterList:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -syncInstallSourcesFromMasterList:]");
-
-    // get ThreadedProgressSheet
     MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
     [ps setSheetWindow:parentWindow];
     [ps reset];
@@ -597,8 +486,6 @@
 }
 
 - (IBAction)addInstallSource:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -addInstallSource:]");
-    
     // empty all edit window fields
     [editISCaptionCell setStringValue:@""];
     [editISSourceCell setStringValue:@""];
@@ -614,8 +501,6 @@
 }
 
 - (IBAction)deleteInstallSource:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -deleteInstallSource:]");
-
     // add values from current elected install source
     if([selectedInstallSources count] > 0) {
         
@@ -652,8 +537,6 @@
 }
 
 - (IBAction)editInstallSource:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -editInstallSource:]");
-    
     // add values from current elected install source
     if([selectedInstallSources count] > 0) {
         
@@ -688,8 +571,6 @@
 }
 
 - (IBAction)refreshInstallSource:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -refreshInstallSource:]");
-    
     if([selectedInstallSources count] == 0) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"") 
@@ -754,24 +635,15 @@
     }
 }
 
-//--------------------------------------------------------------------
-//--------------- Add/Edit IS actions --------------------------------
-//--------------------------------------------------------------------
 - (IBAction)editISOKButton:(id)sender {
-
-    // get controller
     SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
     
-    // error state
     BOOL error = NO;
-    // close window?
     BOOL close = YES;
     
-    // check for valid values in all fields
     if(([[editISCaptionCell stringValue] length] == 0) ||
        ([[editISDirCell stringValue] length] == 0) ||
        ([[editISSourceCell stringValue] length] == 0)) {
-        
         // not valid
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"") 
@@ -807,31 +679,25 @@
 
     if(error == NO) {
         
-        // create install source with values from form
         SwordInstallSource *is = [[SwordInstallSource alloc] initWithType:@"FTP"];
         
         [is setCaption:[editISCaptionCell stringValue]];
         [is setDirectory:[editISDirCell stringValue]];
         [is setSource:[editISSourceCell stringValue]];
-        // add the source
+
         [sis addInstallSource:is];
         
-        // refresh list objects
         [self refreshInstallSourceListObjects];
         
-        // reload outline view
         [categoryOutlineView reloadData];
     }
     
     if(close) {
-        // close window
         [editISWindow close];
     }
 }
 
 - (IBAction)editISCancelButton:(id)sender {
-    
-    // close window
     [editISWindow close];    
 }
 
@@ -903,7 +769,6 @@
     }
 }
 
-// disclaimer window actions
 - (IBAction)confirmNo:(id)sender {
     [userDefaults setBool:NO forKey:DefaultsUserDisplaimerConfirmed];
     [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];
