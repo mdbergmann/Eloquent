@@ -110,6 +110,7 @@
 		A993E8B7105311A000680650 /* libsword-1.6.0-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
 		A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
+		A99D31E110A223B600305A57 /* SwordModuleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */; };
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ABF335107A2934005D6156 /* InitialInfoViewController.m */; };
@@ -1193,6 +1194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A99D31E110A223B600305A57 /* SwordModuleTextEntry.m in Sources */,
 				A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */,
 				A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */,
 				A95D5272105D49D400FE9A24 /* SwordModule.mm in Sources */,

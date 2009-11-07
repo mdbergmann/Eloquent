@@ -45,8 +45,6 @@
 - (void)showWindow:(id)sender {
     
     [super showWindow:sender];
-
-    NSView *view = [moduleViewController contentView];
     [[self window] setContentView:[moduleViewController contentView]];
     
     [moduleViewController showDisclaimer];

@@ -37,13 +37,13 @@ using std::list;
 @interface SwordManager (PrivateAPI)
 
 - (void)refreshModules;
+- (void)addFiltersToModule:(sword::SWModule *)mod;
 
 @end
 
 @implementation SwordManager (PrivateAPI)
 
 - (void)refreshModules {
-    
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
     // loop over modules
@@ -76,51 +76,60 @@ using std::list;
         }
         [dict setObject:sm forKey:[sm name]];
         
-        
-        // prepare display filters
-		switch(mod->Markup()) {
-			case sword::FMT_GBF:
-				if(!gbfFilter) {
-					gbfFilter = new sword::GBFHTMLHREF();
-                }
-				if(!gbfStripFilter) {
-					gbfStripFilter = new sword::GBFPlain();
-                }
-				mod->AddRenderFilter(gbfFilter);
-				mod->AddStripFilter(gbfStripFilter);
-				break;
-            case sword::FMT_THML:
-				if(!thmlFilter) {
-					thmlFilter = new sword::ThMLHTMLHREF();
-                }
-				if(!thmlStripFilter) {
-					thmlStripFilter = new sword::ThMLPlain();
-                }
-				mod->AddRenderFilter(thmlFilter);
-				mod->AddStripFilter(thmlStripFilter);
-				break;
-            case sword::FMT_OSIS:
-				if(!osisFilter) {
-					osisFilter = new sword::OSISHTMLHREF();
-                }
-				if(!osisStripFilter) {
-					osisStripFilter = new sword::OSISPlain();
-                }
-				mod->AddRenderFilter(osisFilter);
-				mod->AddStripFilter(osisStripFilter);
-				break;
-            case sword::FMT_PLAIN:
-            default:
-				if(!plainFilter) {
-					plainFilter = new sword::PLAINHTML();
-                }
-				mod->AddRenderFilter(plainFilter);
-				break;
-		}        
+        [self addFiltersToModule:mod];
 	}
     
     // set modules
     self.modules = dict;
+}
+
+- (void)addFiltersToModule:(sword::SWModule *)mod {
+    // prepare display filters
+    switch(mod->Markup()) {
+        case sword::FMT_GBF:
+            if(!gbfFilter) {
+                gbfFilter = new sword::GBFHTMLHREF();
+            }
+            if(!gbfStripFilter) {
+                gbfStripFilter = new sword::GBFPlain();
+            }
+            mod->AddRenderFilter(gbfFilter);
+            mod->AddStripFilter(gbfStripFilter);
+            break;
+        case sword::FMT_THML:
+            if(!thmlFilter) {
+                thmlFilter = new sword::ThMLHTMLHREF();
+            }
+            if(!thmlStripFilter) {
+                thmlStripFilter = new sword::ThMLPlain();
+            }
+            mod->AddRenderFilter(thmlFilter);
+            mod->AddStripFilter(thmlStripFilter);
+            break;
+        case sword::FMT_OSIS:
+            if(!osisFilter) {
+                osisFilter = new sword::OSISHTMLHREF();
+            }
+            if(!osisStripFilter) {
+                osisStripFilter = new sword::OSISPlain();
+            }
+            mod->AddRenderFilter(osisFilter);
+            mod->AddStripFilter(osisStripFilter);
+            break;
+        case sword::FMT_TEI:
+            if(!teiFilter) {
+                teiFilter = new sword::TEIHTMLHREF();
+            }
+            mod->AddRenderFilter(teiFilter);
+            break;
+        case sword::FMT_PLAIN:
+        default:
+            if(!plainFilter) {
+                plainFilter = new sword::PLAINHTML();
+            }
+            mod->AddRenderFilter(plainFilter);
+            break;
+    }    
 }
 
 @end
@@ -167,10 +176,7 @@ using std::list;
         }        
     }
     
-    // if still haveLocale is still NO, we have a problem
-    // use english for testing
     if(haveLocale) {
-        // set the locale
         lManager->setDefaultLocaleName([lang UTF8String]);    
     }    
 }
@@ -191,7 +197,6 @@ using std::list;
     return manager;
 }
 
-/** the singleton instance */
 + (SwordManager *)defaultManager {
     static SwordManager *instance;
     if(instance == nil) {
@@ -276,25 +281,22 @@ using std::list;
             NSString *subDir = nil;
             for(subDir in subDirs) {
                 // as long as it's not hidden
-                if(![subDir hasPrefix:@"."]) {
+                if(![subDir hasPrefix:@"."] && 
+                   ![subDir isEqualToString:@"InstallMgr"] && 
+                   ![subDir isEqualToString:@"mods.d"] &&
+                   ![subDir isEqualToString:@"modules"]) {
                     fullSubDir = [modulesPath stringByAppendingPathComponent:subDir];
                     fullSubDir = [fullSubDir stringByStandardizingPath];
                     
                     //if its a directory
                     if([fm fileExistsAtPath:fullSubDir isDirectory:&directory]) {
                         if(directory) {
+                            MBLOGV(MBLOG_DEBUG, @"[SwordManager -reInit] augmenting folder: %@", fullSubDir);
                             swManager->augmentModules([fullSubDir UTF8String]);
+                            MBLOG(MBLOG_DEBUG, @"[SwordManager -reInit] augmenting folder done");
                         }
                     }
                 }
-            }
-            
-            // also add the executing path to the path of modules
-            NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-            if(bundlePath) {
-                // remove last path component
-                NSString *appPath = [bundlePath stringByDeletingLastPathComponent];
-                swManager->augmentModules([appPath UTF8String]);
             }
             
             // clear some data

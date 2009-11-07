@@ -22,6 +22,7 @@
 #include <osishtmlhref.h>
 #include <thmlhtmlhref.h>
 #include <gbfhtmlhref.h>
+#include <teihtmlhref.h>
 #include <plainhtml.h>
 #include <versekey.h>
 class sword::SWModule;
@@ -108,8 +109,8 @@ class sword::SWModule;
 @interface SwordManager : NSObject {
     
 #ifdef __cplusplus
-	sword::SWMgr *swManager;		// was sword::SWMgr
-	sword::SWFilter *plainFilter, *thmlFilter, *gbfFilter, *osisFilter;
+	sword::SWMgr *swManager;
+	sword::SWFilter *plainFilter, *thmlFilter, *gbfFilter, *osisFilter, *teiFilter;
 	sword::SWFilter *thmlStripFilter, *gbfStripFilter, *osisStripFilter;
 #endif
 
