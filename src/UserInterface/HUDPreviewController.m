@@ -62,7 +62,7 @@
                         NSString *key = [entry key];
                         
                         [displayText appendFormat:@"%@:\n%@\n", key, verseText];
-                    }                    
+                    }
                 } else if([result isKindOfClass:[NSString class]]) {
                     displayText = result;
                 } else if([result isKindOfClass:[SwordModuleTextEntry class]]) {

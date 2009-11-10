@@ -20,15 +20,12 @@
 
 /** the view of this view controller is a ScrollSynchronizableView */
 @interface BibleViewController : ModuleViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking> {
-    // close button
     IBOutlet NSButton *closeBtn;
-    // add button
     IBOutlet NSPopUpButton *addPopBtn;
-    // module popup button
     IBOutlet NSPopUpButton *modulePopBtn;
-    // status line
     IBOutlet NSTextField *statusLine;
-    // the outlineview view for the bible books and chapters items
+    
+    IBOutlet NSView *sideBarView;
     IBOutlet NSOutlineView *entriesOutlineView;
 
     NSMenu *biblesMenu;

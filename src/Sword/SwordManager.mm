@@ -152,8 +152,6 @@ using std::list;
     
     //get the language
     NSArray *availLocales = [NSLocale preferredLanguages];
-    //NSLocale *loc = [NSLocale currentLocale];
-    //NSString *lang = [loc objectForKey:NSLocaleIdentifier];
     
     NSString *lang = nil;
     NSString *loc = nil;

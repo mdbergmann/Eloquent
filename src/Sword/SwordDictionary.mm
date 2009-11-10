@@ -175,6 +175,23 @@
 	return ret;
 }
 
+- (id)attributeValueForParsedLinkData:(NSDictionary *)data {
+    id ret = nil;
+
+    [moduleLock lock];
+    NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+    if([attrType isEqualToString:@"scriptRef"] || [attrType isEqualToString:@"scripRef"]) {
+        NSString *key = [data objectForKey:ATTRTYPE_VALUE];        
+        ret = [self strippedTextEntriesForRef:key];
+    } else if([attrType isEqualToString:@"Greek"] || [attrType isEqualToString:@"Hebrew"]) {
+        NSString *key = [data objectForKey:ATTRTYPE_VALUE];        
+        ret = [self strippedTextEntriesForRef:key];
+    }
+    [moduleLock unlock];
+    
+    return ret;
+}
+
 #pragma mark - SwordModuleAccess
 
 

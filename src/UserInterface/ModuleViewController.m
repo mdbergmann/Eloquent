@@ -271,42 +271,44 @@
 - (IBAction)openLink:(id)sender {
     // get data for the link
     NSDictionary *data = [textViewController dataForLink:contextMenuClickedLink];
-    if(data) {
-        NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
-        if(!modName || [modName length] == 0) {
-            // get default bible module
-            modName = [userDefaults stringForKey:DefaultsBibleModule];
-            NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
-            if([attrType isEqualToString:@"Hebrew"]) {
-                modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
-            } else if([attrType isEqualToString:@"Greek"]) {
-                modName = [userDefaults stringForKey:DefaultsStrongsGreekModule];
-            }
+    NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
+    if(!modName || [modName length] == 0) {
+        // get default bible module
+        modName = [userDefaults stringForKey:DefaultsBibleModule];
+        NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+        if([attrType isEqualToString:@"Hebrew"]) {
+            modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
+        } else if([attrType isEqualToString:@"Greek"]) {
+            modName = [userDefaults stringForKey:DefaultsStrongsGreekModule];
         }
-        
-        if(modName) {
-            SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
-            
-            id result = [mod attributeValueForParsedLinkData:data];
-            NSMutableString *key = [NSMutableString string];
-            if([result isKindOfClass:[SwordModuleTextEntry class]]) {
-                key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
-            } else if([result isKindOfClass:[NSArray class]]) {
-                for(SwordModuleTextEntry *entry in (NSArray *)result) {
-                    [key appendFormat:@"%@;", [entry key]];
+    }
+    
+    if(modName) {
+        SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
+
+        id result = [mod attributeValueForParsedLinkData:data];
+        NSMutableString *key = [NSMutableString string];
+        if([result isKindOfClass:[SwordModuleTextEntry class]]) {
+            key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
+        } else if([result isKindOfClass:[NSArray class]]) {
+            int i = 0;
+            for(SwordModuleTextEntry *entry in (NSArray *)result) {
+                if(i > 0) {
+                    [key appendString:@";"];
                 }
+                [key appendString:[entry key]];
+                i++;
             }
-            
-            // open
-            if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-                SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-                [host setSearchText:key];
-            } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-                [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
-                [(WorkspaceViewHostController *)hostingDelegate setSearchText:key];        
-            }            
         }
-    }    
+        // open
+        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            [host setSearchText:key];
+        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
+            [(WorkspaceViewHostController *)hostingDelegate setSearchText:key];        
+        }            
+    }
 }
 
 #pragma mark - General menu

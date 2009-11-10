@@ -17,6 +17,8 @@
 
 @interface ExtTextViewController ()
 
+- (NSString *)processPreviewDisplay:(NSURL *)aUrl;
+
 @end
 
 @implementation ExtTextViewController
@@ -366,50 +368,40 @@
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:willDisplayToolTip:]");
 
-    NSString *ret = nil;
-    
     // create URL
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
         MBLOGV(MBLOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
     } else {
-        NSDictionary *linkResult = [self dataForLink:url];
-        SendNotifyShowPreviewData(linkResult);
-        
-        if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
-            ret = [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
-        }
+        return [self processPreviewDisplay:url];
     }
     
-    return ret;
+    return @"";
 }
 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
     MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:]");
     
-    // this is NSURL
-    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] classname: %@", [link className]);    
-    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] link: %@", [link description]);
-    
-    NSDictionary *linkResult = [self dataForLink:(NSURL *)link];    
-    SendNotifyShowPreviewData(linkResult);
+    [self processPreviewDisplay:(NSURL *)link];
     
     return YES;
 }
 
-- (void)textView:(NSTextView *)aTextView doubleClickedOnCell:(id < NSTextAttachmentCell >)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex {
-    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:doubleClickedOnCell:inRect:atIndex:]");
+- (NSString *)processPreviewDisplay:(NSURL *)aUrl {
+    NSDictionary *linkResult = [self dataForLink:aUrl];
+    SendNotifyShowPreviewData(linkResult);
     
-    /*
-    NSDictionary *attrs = [[aTextView textStorage] attributesAtIndex:charIndex effectiveRange:nil];
-    NSURL *link = [attrs objectForKey:NSLinkAttributeName];
-    if(link != nil) {
-        // set link in delegate
-        [delegate performSelector:@selector(setContextMenuClickedLink:) withObject:link];
-        // call openLink
-        [delegate performSelector:@selector(openLink:) withObject:nil];
+    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] classname: %@", [aUrl className]);    
+    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] link: %@", [aUrl description]);
+    if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
+        return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
     }
-     */
+    
+    return @"";
+}
+
+- (void)textView:(NSTextView *)aTextView doubleClickedOnCell:(id < NSTextAttachmentCell >)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex {
+    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:doubleClickedOnCell:inRect:atIndex:]");    
 }
 
 #pragma mark - mouse tracking protocol

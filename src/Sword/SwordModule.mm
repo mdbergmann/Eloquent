@@ -427,17 +427,6 @@
                 [ret addObject:entry];
             }
         }
-    } else if([attrType isEqualToString:@"Greek"] || [attrType isEqualToString:@"Hebrew"]) {
-        NSString *key = [data objectForKey:ATTRTYPE_VALUE];        
-
-        swModule->setKey([key UTF8String]);
-        SwordModuleTextEntry *entry = [[SwordModuleTextEntry alloc] init];
-        ret = entry;
-        if(![self error]) {
-            NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
-            [entry setText:text];
-            [entry setKey:key];
-        }        
     }
     
     [moduleLock unlock];

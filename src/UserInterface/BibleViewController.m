@@ -166,7 +166,7 @@
 
 - (NSView *)listContentView {
     if(searchType == ReferenceSearchType) {
-        return [entriesOutlineView enclosingScrollView];    
+        return sideBarView;// [entriesOutlineView enclosingScrollView];    
     } else {
         return [searchBookSetsController view];
     }

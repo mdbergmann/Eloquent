@@ -261,7 +261,6 @@
 }
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
-    
     searchType = aType;
     
     // in case the this method is called with nil reference, try taking the old one first
@@ -277,10 +276,9 @@
             NSString *statusText = @"";
             
             if(searchType == ReferenceSearchType) {
-
                 // re-display
                 NSAttributedString *string = [self displayableHTMLForKeys:self.selection];
-                [textViewController setAttributedString:string];                
+                [textViewController setAttributedString:string];
                 
                 if([aReference length] > 0) {
                     NSMutableArray *sel = [NSMutableArray array];
@@ -302,6 +300,11 @@
 
                 // refresh tableview
                 [entriesTableView reloadData];
+                
+                // in case only one entry is the result of filtering, show it
+                if([self.dictKeys count] == 1) {
+                    [entriesTableView selectAll:self];
+                }
                 
                 statusText = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
             } else if(searchType == IndexSearchType) {
