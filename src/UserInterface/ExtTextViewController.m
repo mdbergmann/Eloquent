@@ -423,7 +423,6 @@
 - (void)scrollViewFrameDidChange:(NSNotification *)n {
     //MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - scrollViewFrameDidChange]");
     
-    // update tracking rect
     [scrollView updateMouseTracking];
 }
 
