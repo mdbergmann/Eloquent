@@ -2,7 +2,7 @@
 
 require 'HotCocoa'
 
-buildnumber = File.new("../buildnumber", "r").gets
+buildnumber = File.new("buildnumber", "r").gets
 infoDict = NSMutableDictionary.dictionaryWithContentsOfFile("./Info.plist")
 infoDict["CFBundleVersion"] = buildnumber
 svs = infoDict["CFBundleShortVersionString"]
