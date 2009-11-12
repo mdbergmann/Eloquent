@@ -5,4 +5,4 @@ if !info_dict
   puts "Couldn't load Info.plist"
 end
 
-print info_dict["CFBundleVersion"]
+print info_dict["CFBundleShortVersionString"]

@@ -2,7 +2,7 @@
 # some variables have to be given like:
 # $SRCROOT, $BUILD_DIR, $CONFIGURATION in this order
 
-SRCROOT="/Users/mbergmann/_inProgress/Sources/macsword/macsword/trunk";
+SRCROOT=`pwd`;
 BUILD_DIR="$SRCROOT/build";
 CONFIG="Release";
 TARGET="MacSword";
@@ -25,8 +25,9 @@ if [ $TARGET = "" ]; then
 	exit 1;
 fi
 
-# write build number (svn commit) to Info.plist
-./writeBuildToInfoPlist.pl
+# increment "buildnumber" and write it to Info.plist
+./increment_buildnumber.rb
+./write_buildnumber.rb
 
 # build Deployment version
 xcodebuild -target "$TARGET" -configuration "$CONFIG" clean build
@@ -37,14 +38,14 @@ xcodebuild -target "$TARGET" -configuration "$CONFIG" clean build
 #fi
 
 # generate deploy archive
-BUILDSTR=`$SRCROOT/getLastSVNCommit.pl`;
-BUNDLEVERSION=`$SRCROOT/getBundleVersion.pl`;
-DESTPATH="$SRCROOT/../../$TARGET-""$BUNDLEVERSION""_""$BUILDSTR";
+BUNDLEVERSION=`$SRCROOT/get_bundle_version.rb`;
+DESTPATH="$SRCROOT/../../$TARGET-""$BUNDLEVERSION";
 
 mkdir "$DESTPATH";
-# copy app and userguide
+# copy app
 cp -r "$BUILD_DIR/$CONFIG/$TARGET.app" "$DESTPATH/";
-cp -r "$SRCROOT/Readmes" "$DESTPATH/";
+# copy stuff from docs dir
+cp -r "$SRCROOT/../docs-ms20" "$DESTPATH/docs";
 DMGARCHIVE="$TARGET-${BUNDLEVERSION}.dmg";
 ZIPARCHIVE="$DMGARCHIVE.zip";
 # create disk image
@@ -52,7 +53,7 @@ echo "Destpath: $DESTPATH";
 hdiutil create -srcfolder "$DESTPATH" "$SRCROOT/../../$DMGARCHIVE";
 sleep 2;
 # zip it
-cd "$SRCROOT/../..";
+cd "$SRCROOT/../../";
 zip "$ZIPARCHIVE" "$DMGARCHIVE";
 
 exit 0
