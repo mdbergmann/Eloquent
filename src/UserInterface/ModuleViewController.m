@@ -300,6 +300,7 @@
                 i++;
             }
         }
+
         // open
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
@@ -440,11 +441,10 @@
 - (NSMenu *)menuForEvent:(NSEvent *)event {
     MBLOGV(MBLOG_DEBUG, @"[ModuleViewController -menuForEvent:] %@\n", [event description]);
     
-    NSMenu *ret = nil;
+    NSMenu *ret = textContextMenu;
     
-    // get the current position of the mouse
-    if([event type] == NSRightMouseDown) {
-        
+    if([event type] == NSRightMouseDown ||
+       (([event type] == NSLeftMouseDown) && ([event modifierFlags] & NSControlKeyMask))) {
         // get mouse cursor location
         NSPoint eventLocation = [event locationInWindow];
         NSPoint localPoint = [[textViewController textView] convertPoint:eventLocation fromView:nil];
@@ -455,14 +455,10 @@
         NSURL *link = [attrs objectForKey:NSLinkAttributeName];
         if(link != nil) {
             ret = linkContextMenu;
-            
             // save the URL
             contextMenuClickedLink = link;
-            
         } else if([attrs objectForKey:NSAttachmentAttributeName] != nil) {
             ret = imageContextMenu;            
-        } else {
-            ret = textContextMenu;        
         }
     }
     
