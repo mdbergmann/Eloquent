@@ -150,11 +150,23 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             if([manager fileExistsAtPath:indexPath] == NO) {
                 MBLOG(MBLOG_INFO, @"path to IndexFolder does not exist, creating it!");
                 if([manager createDirectoryAtPath:indexPath attributes:nil] == NO) {
-                    MBLOG(MBLOG_ERR,@"Cannot create installmgr folder in Application Support!");
+                    MBLOG(MBLOG_ERR,@"Cannot create index folder in Application Support!");
                 }
             }
             // put to defaults
             [defaults setObject:indexPath forKey:DEFAULTS_SWINDEX_PATH_KEY];
+            [defaults synchronize];
+            
+            // create default modules folder which is Sword
+            path = DEFAULT_NOTES_PATH;
+            if([manager fileExistsAtPath:path] == NO) {
+                MBLOG(MBLOG_INFO, @"path to notes does not exist, creating it!");
+                if([manager createDirectoryAtPath:path attributes:nil] == NO) {
+                    MBLOG(MBLOG_ERR,@"Cannot create notes folder in Application Support!");
+                }
+            }
+            // put to defaults
+            [defaults setObject:path forKey:DEFAULTS_NOTES_PATH_KEY];
             [defaults synchronize];
         }
         
@@ -194,7 +206,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             // put to defaults
             [defaults setObject:installMgrPath forKey:DEFAULTS_SWINSTALLMGR_PATH_KEY];
             [defaults synchronize];
-        }
+        }        
 	}
     
     return ret;
@@ -243,11 +255,7 @@ static AppController *singleton;
     return self;
 }
 
-/**
- \brief dealloc of this class is called on closing this document
- */
 - (void)finalize {
-    // dealloc object
     [super finalize];
 }
 

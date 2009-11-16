@@ -4,4 +4,4 @@ require 'HotCocoa'
 
 buildnumber = File.new("buildnumber", "r").gets.to_i
 buildnumber += 1
-File.new("buildnumber", "w+").puts(buildnumber.to_s)
+File.new("buildnumber", "w+").write(buildnumber.to_s)

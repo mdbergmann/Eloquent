@@ -21,6 +21,7 @@
 #define APPNAME                     @"MacSword"
 #define DEFAULT_APPSUPPORT_PATH     [@"~/Library/Application Support/MacSword" stringByExpandingTildeInPath]
 #define OLD_BOOKMARK_PATH           [@"~/Library/Application Support/MacSword/Bookmarks.plist" stringByExpandingTildeInPath]
+#define DEFAULT_NOTES_PATH          [@"~/Library/Application Support/MacSword/Notes" stringByExpandingTildeInPath]
 #define DEFAULT_BOOKMARK_PATH       [@"~/Library/Application Support/MacSword/Bookmarklist.plist" stringByExpandingTildeInPath]
 #define DEFAULT_MODULE_PATH         [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
 #define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/MacSword/DefaultSession.plist" stringByExpandingTildeInPath]

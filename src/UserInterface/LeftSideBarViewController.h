@@ -14,7 +14,8 @@
 #define LEFTSIDEBARVIEW_NIBNAME   @"LeftSideBarView"
 
 @class SwordManager;
-@class BookmarkManager;
+@class BookmarkManagerUIController;
+@class NotesManager;
 @class ThreeCellsCell;
 
 @interface LeftSideBarViewController : SideBarViewController <SubviewHosting> {
@@ -22,35 +23,17 @@
     // module about
     IBOutlet NSWindow *moduleAboutWindow;
     IBOutlet NSTextView *moduleAboutTextView;
-    
     // unlock window
     IBOutlet NSWindow *moduleUnlockWindow;
     IBOutlet NSTextField *moduleUnlockTextField;
     IBOutlet NSButton *moduleUnlockOKButton;
-    
     // modules
     IBOutlet NSMenu *moduleMenu;
     
-    // bookmark folder window    
-    IBOutlet NSWindow *bookmarkFolderWindow;
-    IBOutlet NSTextField *bookmarkFolderNameTextField;
-    IBOutlet NSButton *bookmarkFolderOkButton;
-
-    // bookmarks
-    IBOutlet NSMenu *bookmarkMenu;
-    IBOutlet NSWindow *bookmarkPanel;
-    IBOutlet NSTextField *bookmarkNameTextField;    
-    /** the bookmark binding interface controller */
-    IBOutlet NSObjectController *bmObjectController;
-    /** the action in sheet */
-    int bookmarkAction;
-    /** bookmark selection */
-    NSMutableArray *bookmarkSelection;
-
-    // the SwordManager instance
+    BookmarkManagerUIController *bookmarksUIController;
+    
     SwordManager *swordManager;
-    // the BookmarkManager instance
-    BookmarkManager *bookmarkManager;
+    NotesManager *notesManager;
     
     // images
     NSImage *bookmarkGroupImage;
@@ -66,10 +49,14 @@
 }
 
 @property (readwrite) SwordManager *swordManager;
-@property (readwrite) BookmarkManager *bookmarkManager;
+@property (readwrite) BookmarkManagerUIController *bookmarksUIController;
+@property (readwrite) NotesManager *notesManager;
 
 // initialitazion
 - (id)initWithDelegate:(id)aDelegate;
+
+// OutlineView helper
+- (id)objectForClickedRow;
 
 /** displays the module about sheet */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
@@ -78,22 +65,14 @@
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
 
+- (void)reload;
+- (void)doubleClick;
+
 // menu validation
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
-// convenience methods
-- (void)bookmarkDialog:(id)sender;
-
 // actions
 - (IBAction)moduleMenuClicked:(id)sender;
-- (IBAction)bookmarkMenuClicked:(id)sender;
-
-- (IBAction)bmWindowCancel:(id)sender;
-- (IBAction)bmWindowOk:(id)sender;
-
-- (IBAction)bmFolderWindowCancel:(id)sender;
-- (IBAction)bmFolderWindowOk:(id)sender;
-
 - (IBAction)moduleAboutClose:(id)sender;
 - (IBAction)moduleUnlockOk:(id)sender;
 - (IBAction)moduleUnlockCancel:(id)sender;

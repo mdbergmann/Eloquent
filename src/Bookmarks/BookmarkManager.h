@@ -22,4 +22,9 @@
 
 - (Bookmark *)bookmarkForReference:(SwordVerseKey *)aVerseKey;
 
+- (BOOL)deleteBookmark:(Bookmark *)aBookmark;
+
+- (BOOL)deleteBookmarkForPath:(NSIndexPath *)path;
+- (NSIndexPath *)indexPathForBookmark:(Bookmark *)bm;
+
 @end

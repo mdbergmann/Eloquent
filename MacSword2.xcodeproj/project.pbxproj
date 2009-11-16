@@ -85,6 +85,8 @@
 		A95D5279105D49E700FE9A24 /* SwordTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */; };
 		A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
 		A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
+		A96103BC10B03B70007A9371 /* NotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A96103BB10B03B70007A9371 /* NotesManager.m */; };
+		A96103BF10B044EA007A9371 /* NoteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A96103BE10B044EA007A9371 /* NoteItem.m */; };
 		A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9623E5D0F34E412000E1F53 /* MBTextView.m */; };
 		A96515EF0E06C79D0058AA91 /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */; };
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
@@ -165,6 +167,8 @@
 		A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9F8428F0F724B8800F64FCA /* SwordVerseManager.mm */; };
 		A9FCB09910777187000A5871 /* bin in Resources */ = {isa = PBXBuildFile; fileRef = A9FCB08910777187000A5871 /* bin */; };
 		A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */; };
+		A9FCD75B10B1484C006F7A3B /* BookmarkManagerUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD75A10B1484C006F7A3B /* BookmarkManagerUIController.m */; };
+		A9FCD76010B1562D006F7A3B /* BookmarkManagerUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */; };
 		A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
 /* End PBXBuildFile section */
 
@@ -318,6 +322,10 @@
 		A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDPreviewController.m; path = src/UserInterface/HUDPreviewController.m; sourceTree = "<group>"; };
 		A9582A7E0F701D4C0094FAF4 /* SwordVerseKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordVerseKey.h; sourceTree = "<group>"; };
 		A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordVerseKey.mm; sourceTree = "<group>"; };
+		A96103BA10B03B70007A9371 /* NotesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotesManager.h; path = src/NotesTaking/NotesManager.h; sourceTree = "<group>"; };
+		A96103BB10B03B70007A9371 /* NotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesManager.m; path = src/NotesTaking/NotesManager.m; sourceTree = "<group>"; };
+		A96103BD10B044EA007A9371 /* NoteItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteItem.h; path = src/NotesTaking/NoteItem.h; sourceTree = "<group>"; };
+		A96103BE10B044EA007A9371 /* NoteItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteItem.m; path = src/NotesTaking/NoteItem.m; sourceTree = "<group>"; };
 		A9623E5C0F34E412000E1F53 /* MBTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBTextView.h; path = src/UserInterface/MBTextView.h; sourceTree = "<group>"; };
 		A9623E5D0F34E412000E1F53 /* MBTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBTextView.m; path = src/UserInterface/MBTextView.m; sourceTree = "<group>"; };
 		A96515EE0E06C79D0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BibleCombiView.xib; sourceTree = "<group>"; };
@@ -424,6 +432,9 @@
 		A9FCB08910777187000A5871 /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bin; path = sword_mac_build/build/result_inst/bin; sourceTree = "<group>"; };
 		A9FCB0B01078193B000A5871 /* SwordModuleTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModuleTextEntry.h; sourceTree = "<group>"; };
 		A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModuleTextEntry.m; sourceTree = "<group>"; };
+		A9FCD75910B1484C006F7A3B /* BookmarkManagerUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManagerUIController.h; path = src/Bookmarks/BookmarkManagerUIController.h; sourceTree = "<group>"; };
+		A9FCD75A10B1484C006F7A3B /* BookmarkManagerUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManagerUIController.m; path = src/Bookmarks/BookmarkManagerUIController.m; sourceTree = "<group>"; };
+		A9FCD75F10B1562D006F7A3B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BookmarkManagerUI.xib; sourceTree = "<group>"; };
 		A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPreferenceController.h; sourceTree = "<group>"; };
 		A9FD34200E0A70F6001287DD /* MBPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBPreferenceController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -516,11 +527,12 @@
 			isa = PBXGroup;
 			children = (
 				A9D9F5260EAF15410035222E /* Tests */,
+				A91C93F80DF9B149006B7361 /* InstallerConsole */,
 				A9B7441A0F646223001960B0 /* About */,
 				A9FD341C0E0A70F6001287DD /* Preferences */,
 				A91C93EB0DF9B149006B7361 /* Indexing */,
-				A91C93F80DF9B149006B7361 /* InstallerConsole */,
 				A91C93FA0DF9B149006B7361 /* ModuleManager */,
+				A96103B910B03A2E007A9371 /* NotesTaking */,
 				A9E8BD290EADADD000E58D1E /* Bookmarks */,
 				A99055A90E041C3400E8D7A2 /* UserInterface */,
 				A91C94050DF9B149006B7361 /* Sword */,
@@ -576,6 +588,7 @@
 				A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */,
 				A9ABF338107A2A65005D6156 /* InitialInfoView.xib */,
 				A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */,
+				A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -758,6 +771,17 @@
 			name = ProgressOverlayView;
 			sourceTree = "<group>";
 		};
+		A96103B910B03A2E007A9371 /* NotesTaking */ = {
+			isa = PBXGroup;
+			children = (
+				A96103BA10B03B70007A9371 /* NotesManager.h */,
+				A96103BB10B03B70007A9371 /* NotesManager.m */,
+				A96103BD10B044EA007A9371 /* NoteItem.h */,
+				A96103BE10B044EA007A9371 /* NoteItem.m */,
+			);
+			name = NotesTaking;
+			sourceTree = "<group>";
+		};
 		A96516290E06D0940058AA91 /* Hosts */ = {
 			isa = PBXGroup;
 			children = (
@@ -920,6 +944,8 @@
 				A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */,
 				A9E8BD2D0EADB01700E58D1E /* BookmarkManager.h */,
 				A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */,
+				A9FCD75910B1484C006F7A3B /* BookmarkManagerUIController.h */,
+				A9FCD75A10B1484C006F7A3B /* BookmarkManagerUIController.m */,
 			);
 			name = Bookmarks;
 			sourceTree = "<group>";
@@ -1078,6 +1104,7 @@
 				A987A3490F6D5970007E5EE1 /* SplitViewDividerDimple.tiff in Resources */,
 				A9CDDDD10F738E0500C907B9 /* SearchBookSetEditor.xib in Resources */,
 				A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */,
+				A9FCD76010B1562D006F7A3B /* BookmarkManagerUI.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1187,6 +1214,9 @@
 				A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */,
 				A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */,
 				A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */,
+				A96103BC10B03B70007A9371 /* NotesManager.m in Sources */,
+				A96103BF10B044EA007A9371 /* NoteItem.m in Sources */,
+				A9FCD75B10B1484C006F7A3B /* BookmarkManagerUIController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1409,6 +1439,14 @@
 				A9F185490E083117005F3B35 /* English */,
 			);
 			name = WebView.xib;
+			sourceTree = "<group>";
+		};
+		A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9FCD75F10B1562D006F7A3B /* English */,
+			);
+			name = BookmarkManagerUI.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
