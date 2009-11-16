@@ -169,6 +169,8 @@
 		A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */; };
 		A9FCD75B10B1484C006F7A3B /* BookmarkManagerUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD75A10B1484C006F7A3B /* BookmarkManagerUIController.m */; };
 		A9FCD76010B1562D006F7A3B /* BookmarkManagerUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */; };
+		A9FCD81010B1B5A1006F7A3B /* ModuleListUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD80F10B1B5A1006F7A3B /* ModuleListUIController.m */; };
+		A9FCD81C10B1B919006F7A3B /* ModuleListUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */; };
 		A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
 /* End PBXBuildFile section */
 
@@ -435,6 +437,9 @@
 		A9FCD75910B1484C006F7A3B /* BookmarkManagerUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManagerUIController.h; path = src/Bookmarks/BookmarkManagerUIController.h; sourceTree = "<group>"; };
 		A9FCD75A10B1484C006F7A3B /* BookmarkManagerUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManagerUIController.m; path = src/Bookmarks/BookmarkManagerUIController.m; sourceTree = "<group>"; };
 		A9FCD75F10B1562D006F7A3B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BookmarkManagerUI.xib; sourceTree = "<group>"; };
+		A9FCD80E10B1B5A1006F7A3B /* ModuleListUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleListUIController.h; path = src/UserInterface/ModuleListUIController.h; sourceTree = "<group>"; };
+		A9FCD80F10B1B5A1006F7A3B /* ModuleListUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleListUIController.m; path = src/UserInterface/ModuleListUIController.m; sourceTree = "<group>"; };
+		A9FCD81B10B1B919006F7A3B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleListUI.xib; sourceTree = "<group>"; };
 		A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPreferenceController.h; sourceTree = "<group>"; };
 		A9FD34200E0A70F6001287DD /* MBPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBPreferenceController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -589,6 +594,7 @@
 				A9ABF338107A2A65005D6156 /* InitialInfoView.xib */,
 				A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */,
 				A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */,
+				A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -849,6 +855,8 @@
 				A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */,
 				A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */,
 				A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */,
+				A9FCD80E10B1B5A1006F7A3B /* ModuleListUIController.h */,
+				A9FCD80F10B1B5A1006F7A3B /* ModuleListUIController.m */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -1105,6 +1113,7 @@
 				A9CDDDD10F738E0500C907B9 /* SearchBookSetEditor.xib in Resources */,
 				A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */,
 				A9FCD76010B1562D006F7A3B /* BookmarkManagerUI.xib in Resources */,
+				A9FCD81C10B1B919006F7A3B /* ModuleListUI.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,6 +1226,7 @@
 				A96103BC10B03B70007A9371 /* NotesManager.m in Sources */,
 				A96103BF10B044EA007A9371 /* NoteItem.m in Sources */,
 				A9FCD75B10B1484C006F7A3B /* BookmarkManagerUIController.m in Sources */,
+				A9FCD81010B1B5A1006F7A3B /* ModuleListUIController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1447,6 +1457,14 @@
 				A9FCD75F10B1562D006F7A3B /* English */,
 			);
 			name = BookmarkManagerUI.xib;
+			sourceTree = "<group>";
+		};
+		A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9FCD81B10B1B919006F7A3B /* English */,
+			);
+			name = ModuleListUI.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

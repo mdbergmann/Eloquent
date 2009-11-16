@@ -23,50 +23,37 @@
 #import "BookmarkDragItem.h"
 #import "SearchTextObject.h"
 #import "BookmarkManagerUIController.h"
+#import "ModuleListUIController.h"
 #import "globals.h"
+
+#define LEFTSIDEBARVIEW_NIBNAME   @"LeftSideBarView"
 
 // drag & drop types
 #define DD_BOOKMARK_TYPE   @"ddbookmarktype"
 
-enum ModuleMenu_Items{
-    ModuleMenuOpenSingle = 100,
-    ModuleMenuOpenWorkspace,
-    ModuleMenuOpenCurrent,
-    ModuleMenuShowAbout = 120,
-    ModuleMenuUnlock
-}ModuleMenuItems;
-
 @interface LeftSideBarViewController ()
 
-- (void)modulesListChanged:(NSNotification *)notification;
 - (BOOL)isDropSectionBookmarksForItem:(id)anItem;
 
 @end
 
 @implementation LeftSideBarViewController
 
-@synthesize swordManager;
-@synthesize bookmarksUIController;
-@synthesize notesManager;
-
 - (id)initWithDelegate:(id)aDelegate {
     self = [super initWithDelegate:aDelegate];
     if(self) {
         swordManager = [SwordManager defaultManager];
-        notesManager = [NotesManager defaultManager];
+        moduleListUIController = [[ModuleListUIController alloc] initWithDelegate:self hostingDelegate:delegate];
+        bookmarkManager = [BookmarkManager defaultManager];
         bookmarksUIController = [[BookmarkManagerUIController alloc] initWithDelegate:self hostingDelegate:delegate];
+        notesManager = [NotesManager defaultManager];
         
         // prepare images
         bookmarkGroupImage = [[NSImage imageNamed:@"groupbookmark.tiff"] retain];
         bookmarkImage = [[NSImage imageNamed:@"smallbookmark.tiff"] retain];
         lockedImage = [[NSImage imageNamed:NSImageNameLockLockedTemplate] retain];
         unlockedImage = [[NSImage imageNamed:NSImageNameLockUnlockedTemplate] retain];
-        
-        // register for modules changed notification
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(modulesListChanged:)
-                                                     name:NotificationModulesChanged object:nil];            
-        
+                
         // load nib
         BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
         if(!stat) {
@@ -88,11 +75,8 @@ enum ModuleMenu_Items{
     [threeCellsCell setTruncatesLastVisibleLine:YES];
     [threeCellsCell setLineBreakMode:NSLineBreakByTruncatingTail];
     NSTableColumn *tableColumn = [outlineView tableColumnWithIdentifier:@"common"];
-    [tableColumn setDataCell:threeCellsCell];    
-    
-    // this text field should send continiuously
-    [moduleUnlockTextField setContinuous:YES];
-    
+    [tableColumn setDataCell:threeCellsCell];
+        
     // set drag & drop types
     [outlineView registerForDraggedTypes:[NSArray arrayWithObject:DD_BOOKMARK_TYPE]];
     
@@ -116,25 +100,7 @@ enum ModuleMenu_Items{
     return ret;
 }
 
-- (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
-    // get about text as NSAttributedString
-    NSAttributedString *aboutText = [aMod fullAboutText];
-    [[moduleAboutTextView textStorage] setAttributedString:aboutText];
-    // open window
-    [NSApp beginSheet:moduleAboutWindow 
-       modalForWindow:[hostingDelegate window] 
-        modalDelegate:self
-       didEndSelector:nil 
-          contextInfo:nil];    
-}
-
 - (void)reload {
-    [outlineView reloadData];
-}
-
-#pragma mark - Notfications
-
-- (void)modulesListChanged:(NSNotification *)notification {
     [outlineView reloadData];
     [outlineView expandItem:[outlineView itemAtRow:1]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
@@ -152,164 +118,6 @@ enum ModuleMenu_Items{
 
 - (void)removeSubview:(HostableViewController *)aViewController {
     [super removeSubview:aViewController];
-}
-
-#pragma mark - Menu Validation
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	MBLOGV(MBLOG_DEBUG, @"[LeftSideBarViewController -validateMenuItem:] %@", [menuItem description]);
-    
-    BOOL ret = YES;
-    
-    // get module
-    id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
-
-    // get menuitem tag
-    int tag = [menuItem tag];
-    
-    // ------------ modules ---------------
-    if(tag == ModuleMenuOpenCurrent) {
-        if([clicked isKindOfClass:[SwordModule class]]) {
-            SwordModule *mod = clicked;
-            
-            if([[hostingDelegate contentViewController] isKindOfClass:[BibleCombiViewController class]]) {
-                // only commentary and bible views are able to show within bible the current
-                if(([hostingDelegate moduleType] == mod.type) ||
-                   ([hostingDelegate moduleType] == bible && mod.type == commentary)) {
-                    ret = YES;
-                } else {
-                    ret = NO;
-                }                
-            } else {
-                ret = NO;
-            }
-        }
-    } else if(tag == ModuleMenuOpenWorkspace) {
-        // we only open in workspace if the histingDelegate is a workspace
-        if(![hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            ret = NO;
-        }
-    } else if(tag == ModuleMenuShowAbout) {
-        if(![clicked isKindOfClass:[SwordModule class]]) {
-            ret = NO;
-        }
-    } else if(tag == ModuleMenuUnlock) {
-        if([clicked isKindOfClass:[SwordModule class]]) {
-            SwordModule *mod = clicked;
-            if(![mod isEncrypted]) {
-                ret = NO;
-            }
-        }
-    }    
-    
-    return ret;
-}
-
-#pragma mark - Actions
-
-- (IBAction)moduleMenuClicked:(id)sender {
-	MBLOGV(MBLOG_DEBUG, @"[LeftSideBarViewController -moduleMenuClicked:] %@", [sender description]);
-    
-    int tag = [sender tag];
-    
-    // get module
-    SwordModule *mod = nil;
-    id clicked = [outlineView itemAtRow:[outlineView clickedRow]];
-    if([clicked isKindOfClass:[SwordModule class]]) {
-        mod = clicked;
-    }
-    
-    switch(tag) {
-        case ModuleMenuOpenSingle:
-            [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-            break;
-        case ModuleMenuOpenWorkspace:
-            [self doubleClick];
-            break;
-        case ModuleMenuOpenCurrent:
-        {
-            if(mod != nil) {
-                if(mod.type == bible) {
-                    [(BibleCombiViewController *)[hostingDelegate contentViewController] addNewBibleViewWithModule:(SwordBible *)mod];
-                } else if(mod.type == commentary) {
-                    [(BibleCombiViewController *)[hostingDelegate contentViewController] addNewCommentViewWithModule:(SwordCommentary *)mod];                    
-                }
-            }
-            break;
-        }
-        case ModuleMenuShowAbout:
-        {
-            if(mod != nil) {
-                clickedMod = mod;
-                [self displayModuleAboutSheetForModule:mod];
-            }
-            break;
-        }
-        case ModuleMenuUnlock:
-        {
-            if(mod != nil) {
-                clickedMod = mod;
-                // open window
-                [NSApp beginSheet:moduleUnlockWindow 
-                   modalForWindow:[hostingDelegate window] 
-                    modalDelegate:self 
-                   didEndSelector:nil 
-                      contextInfo:nil];                
-            }
-            break;
-        }
-    }
-}
-
-- (IBAction)moduleAboutClose:(id)sender {
-    [moduleAboutWindow close];
-    [NSApp endSheet:moduleAboutWindow];
-    [moduleAboutTextView setString:@""];
-}
-
-- (IBAction)moduleUnlockOk:(id)sender {
-    NSString *unlockCode = [moduleUnlockTextField stringValue];
-    if([unlockCode length] > 0) {
-        // do something to unlock
-        SwordModule *mod = clickedMod;        
-        if(mod) {
-            [mod unlock:unlockCode];
-        }
-
-        [moduleUnlockWindow close];
-        [NSApp endSheet:moduleUnlockWindow];
-        
-        // clear textfield
-        [moduleUnlockTextField setStringValue:@""];
-        
-        // reload item
-        [outlineView reloadData];
-    }
-}
-
-- (IBAction)moduleUnlockCancel:(id)sender {
-    [moduleUnlockWindow close];
-    [NSApp endSheet:moduleUnlockWindow];
-    // clear textfield
-    [moduleUnlockTextField setStringValue:@""];    
-}
-
-// end sheet callback
-- (void)sheetDidEnd:(NSWindow *)sSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	// hide sheet
-	[sSheet orderOut:nil];
-}
-
-#pragma mark - NSControl delegate methods
-
-- (void)controlTextDidChange:(NSNotification *)aNotification {
-    if([aNotification object] == moduleUnlockTextField) {
-        if([[moduleUnlockTextField stringValue] length] == 0) {
-            [moduleUnlockOKButton setEnabled:NO];
-        } else {
-            [moduleUnlockOKButton setEnabled:YES];
-        }        
-    }
 }
 
 #pragma mark - outline datasource methods
@@ -333,12 +141,12 @@ enum ModuleMenu_Items{
         // bookmarks root
         
         // get bookmarks
-        ret = [[[BookmarkManager defaultManager] bookmarks] objectAtIndex:index];
+        ret = [[bookmarkManager bookmarks] objectAtIndex:index];
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         
         // get number of modules in category
-        ret = [[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] objectAtIndex:index];
+        ret = [[swordManager modulesForType:[(SwordModCategory *)item name]] objectAtIndex:index];
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         
@@ -359,7 +167,7 @@ enum ModuleMenu_Items{
         ret = YES;
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
-        ret = ([[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count] > 0);
+        ret = ([[swordManager modulesForType:[(SwordModCategory *)item name]] count] > 0);
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         ret = ([[(Bookmark *)item subGroups] count] > 0);
@@ -388,7 +196,7 @@ enum ModuleMenu_Items{
         // module category
         
         // get number of modules in category
-        ret = [[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count];
+        ret = [[swordManager modulesForType:[(SwordModCategory *)item name]] count];
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         
@@ -431,7 +239,7 @@ enum ModuleMenu_Items{
             // get the bookmarks instances and encode them
             BookmarkDragItem *di = [[BookmarkDragItem alloc] init];
             di.bookmark = item;
-            NSIndexPath *path = [[BookmarkManager defaultManager] indexPathForBookmark:di.bookmark];
+            NSIndexPath *path = [bookmarkManager indexPathForBookmark:di.bookmark];
             di.path = path;
             [dragItems addObject:di];
         }
@@ -485,7 +293,7 @@ enum ModuleMenu_Items{
         // is first level object?
         NSMutableArray *dropPoint = nil;
         if([bitem isKindOfClass:[NSString class]] && [(NSString *)bitem isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
-            dropPoint = [[BookmarkManager defaultManager] bookmarks];
+            dropPoint = [bookmarkManager bookmarks];
         } else {
             dropPoint = [bitem subGroups];
         }
@@ -500,7 +308,7 @@ enum ModuleMenu_Items{
             // delete first, otherwise the path may not be correct anymore
             NSDragOperation draggingOperation = [info draggingSourceOperationMask];
             if(draggingOperation != NSDragOperationCopy) {
-                [[BookmarkManager defaultManager] deleteBookmarkForPath:[bd path]];
+                [bookmarkManager deleteBookmarkForPath:[bd path]];
                 
                 // in case the dropPoint is the same level where we removed the bookmark
                 // it might be that we have to decrement the index otherwise we might get an out of bounds exception when adding
@@ -512,7 +320,7 @@ enum ModuleMenu_Items{
             [dropPoint insertObject:[bd bookmark] atIndex:index];
         }
         
-        [[BookmarkManager defaultManager] saveBookmarks];
+        [bookmarkManager saveBookmarks];
         [outlineView reloadData];        
     }
     
@@ -562,7 +370,7 @@ enum ModuleMenu_Items{
                    ([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")])) {
                     [oview setMenu:[bookmarksUIController bookmarkMenu]];
                 } else if([item isKindOfClass:[SwordModule class]]) {
-                    [oview setMenu:moduleMenu];
+                    [oview setMenu:[moduleListUIController moduleMenu]];
                 } else {
                     [oview setMenu:nil];
                 }
@@ -583,15 +391,13 @@ enum ModuleMenu_Items{
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
-    /*
     if(item != nil) {
-        OutlineListObject *o = [item representedObject];
-        int t = [o objectType];
-        if(t == OutlineItemModuleRoot || t == OutlineItemBookmarkRoot) {
-            return YES;
+        if([item isKindOfClass:[NSString class]] && 
+           ([(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")] ||
+            [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")])) {
+               return YES;
         }
     }
-     */
     
     return NO;
 }

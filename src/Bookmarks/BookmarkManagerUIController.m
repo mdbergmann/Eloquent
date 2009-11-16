@@ -144,7 +144,7 @@ enum BookmarkMenu_Items{
 - (IBAction)bookmarkMenuClicked:(id)sender {
 	MBLOGV(MBLOG_DEBUG, @"[BookmarkManagerUIController -menuClicked:] %@", [sender description]);
         
-    Bookmark *clickedObj = [(LeftSideBarViewController *)delegate objectForClickedRow];
+    Bookmark *clickedObj = [delegate objectForClickedRow];
     int tag = [sender tag];
     bookmarkAction = tag;
     switch(tag) {
@@ -167,6 +167,7 @@ enum BookmarkMenu_Items{
         {
             // bring up bookmark panel
             [bookmarkFolderWindow makeFirstResponder:bookmarkFolderNameTextField];
+            [bookmarkOkButton setEnabled:NO];
             NSWindow *window = [(NSWindowController *)hostingDelegate window];
             [NSApp beginSheet:bookmarkFolderWindow
                modalForWindow:window
@@ -181,6 +182,7 @@ enum BookmarkMenu_Items{
             [bmObjectController setContent:clickedObj];
             // bring up bookmark panel
             [bookmarkDetailPanel makeFirstResponder:bookmarkNameTextField];
+            [bookmarkOkButton setEnabled:YES];
             NSWindow *window = [(NSWindowController *)hostingDelegate window];
             [NSApp beginSheet:bookmarkDetailPanel 
                modalForWindow:window 
@@ -194,7 +196,8 @@ enum BookmarkMenu_Items{
             // confirm by user
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ConfirmBookmarkDelete", @"")
                                              defaultButton:NSLocalizedString(@"Yes", @"") 
-                                           alternateButton:NSLocalizedString(@"No", @"") otherButton:nil 
+                                           alternateButton:NSLocalizedString(@"No", @"") 
+                                               otherButton:nil 
                                  informativeTextWithFormat:NSLocalizedString(@"ConfirmBookmarkDeleteText", @"")];
             if([alert runModal] == NSAlertDefaultReturn) {
                 [self updateBookmarkSelection];
@@ -226,7 +229,6 @@ enum BookmarkMenu_Items{
 - (IBAction)bmWindowOk:(id)sender {
     [NSApp endSheet:bookmarkDetailPanel];
     
-    // get bookmark
     Bookmark *bm = [bmObjectController content];
     if([[bm name] length] > 0) {
         if(bookmarkAction == BookmarkMenuAddNewBM) {
@@ -264,35 +266,29 @@ enum BookmarkMenu_Items{
 - (IBAction)bmFolderWindowOk:(id)sender {
     [NSApp endSheet:bookmarkFolderWindow];
     
+    [self updateBookmarkSelection];
+
     // create new bookmark folder
     Bookmark *bm = [[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]];
-    [bm setSubGroups:[NSMutableArray array]];   // this will get a folder    
-    if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {
-        [self updateBookmarkSelection];
-    }
+    [bm setSubGroups:[NSMutableArray array]];   // this will get a folder 
     
     if([bookmarkSelection count] > 0) {
-        // OutlineListObject will be generated on the fly, so we don't need to update them
         Bookmark *selected = [bookmarkSelection objectAtIndex:0];
         if(selected == nil) {
-            // we add to root
             [[bookmarkManager bookmarks] addObject:bm];
         } else {
             if(![selected isLeaf]) {
-                // add to selected
                 [[selected subGroups] addObject:bm];            
             } else {
-                // we add to root
                 [[bookmarkManager bookmarks] addObject:bm];            
             }
         }
     } else {
-        // we add to root
         [[bookmarkManager bookmarks] addObject:bm];
     }
     
     [bookmarkManager saveBookmarks];
-    [delegate reloadData];    
+    [delegate reloadData];
 }
 
 // end sheet callback
@@ -305,11 +301,9 @@ enum BookmarkMenu_Items{
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
     if([aNotification object] == bookmarkFolderNameTextField) {
-        if([[bookmarkFolderNameTextField stringValue] length] == 0) {
-            [bookmarkFolderOkButton setEnabled:NO];
-        } else {
-            [bookmarkFolderOkButton setEnabled:YES];        
-        }
+        [bookmarkFolderOkButton setEnabled:[[bookmarkFolderNameTextField stringValue] length] > 0];
+    } else if([aNotification object] == bookmarkNameTextField) {
+        [bookmarkOkButton setEnabled:[[bookmarkNameTextField stringValue] length] > 0];        
     }
 }
 
