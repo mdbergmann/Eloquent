@@ -106,14 +106,7 @@
     viewLoaded = YES;
 }
 
-#pragma mark - methods
-
-- (NSView *)listContentView {
-    return [entriesTableView enclosingScrollView];
-}
-
-- (void)adaptUIToHost {
-}
+#pragma mark - Methods
 
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -256,6 +249,8 @@
     return ret;
 }
 
+#pragma mark - TextDisplayable protocol
+
 - (void)displayTextForReference:(NSString *)aReference {
     [self displayTextForReference:aReference searchType:searchType];
 }
@@ -359,6 +354,12 @@
     return @"DictView";
 }
 
+#pragma mark - AccessoryViewProviding protocol
+
+- (NSView *)rightAccessoryView {
+    return [entriesTableView enclosingScrollView];
+}
+
 #pragma mark - SubviewHosting
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -382,7 +383,7 @@
     [self adaptUIToHost];
 }
 
-#pragma mark - actions
+#pragma mark - Actions
 
 - (IBAction)moduleSelectionChanged:(id)sender {
     // get selected modulename

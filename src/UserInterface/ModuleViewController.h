@@ -17,7 +17,7 @@
 @class SwordModule;
 @class ExtTextViewController;
 
-@interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextDisplayable, ContextMenuProviding> {
+@interface ModuleViewController : ModuleCommonsViewController <NSCoding, ContextMenuProviding> {
 
     // placeholder for webview or other views depending on nodule tyoe
     IBOutlet NSBox *placeHolderView;

@@ -25,6 +25,7 @@
 @class LeftSideBarViewController;
 @class RightSideBarViewController;
 @class SingleViewHostController;
+@class ContentDisplayingViewController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
     // splitView to add and remove modules view. splitview hosts placeHolderView
@@ -49,7 +50,7 @@
     IBOutlet NSButton *forceReloadBtn;
     
     // the main view for placeHolderView
-    HostableViewController *contentViewController;
+    ContentDisplayingViewController *contentViewController;
 
     // our delegate
     id delegate;
@@ -86,6 +87,7 @@
 @property (readwrite) id delegate;
 @property (readwrite) SearchType searchType;
 @property (retain, readwrite) SearchTextObject *currentSearchText;
+@property (retain, readwrite) ContentDisplayingViewController *contentViewController;
 
 // methods
 - (NSView *)view;

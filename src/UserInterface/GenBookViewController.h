@@ -18,7 +18,7 @@
 #define GENBOOKVIEW_NIBNAME   @"GenBookView"
 
 /** the view of this view controller is a ScrollSynchronizableView */
-@interface GenBookViewController : ModuleViewController <NSCoding, TextDisplayable, SubviewHosting> {
+@interface GenBookViewController : ModuleViewController <NSCoding> {
     // module popup button
     IBOutlet NSPopUpButton *modulePopBtn;
     // status line
@@ -35,14 +35,6 @@
 - (id)initWithDelegate:(id)aDelegate;
 
 // ---------- methods --------------
-
-// the outline view of the genbook content
-- (NSView *)listContentView;
-
-// method called by subview
-- (void)contentViewInitFinished:(HostableViewController *)aViewController;
-- (void)removeSubview:(HostableViewController *)aViewController;
-- (void)adaptUIToHost;
 - (void)setStatusText:(NSString *)aText;
 
 // protocol definitions

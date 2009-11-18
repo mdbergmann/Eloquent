@@ -16,6 +16,7 @@
 #import "HUDPreviewController.h"
 #import "SwordBook.h"
 #import "SwordTreeEntry.h"
+#import "FileRepresentation.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err = 0;
@@ -291,6 +292,10 @@ static AppController *singleton;
     }
     
     return svh;
+}
+
+- (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep {
+    return nil;
 }
 
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod {

@@ -86,7 +86,6 @@
 		A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
 		A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
 		A96103BC10B03B70007A9371 /* NotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A96103BB10B03B70007A9371 /* NotesManager.m */; };
-		A96103BF10B044EA007A9371 /* NoteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A96103BE10B044EA007A9371 /* NoteItem.m */; };
 		A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9623E5D0F34E412000E1F53 /* MBTextView.m */; };
 		A96515EF0E06C79D0058AA91 /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96515ED0E06C79D0058AA91 /* BibleCombiView.xib */; };
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
@@ -112,6 +111,12 @@
 		A993E8B7105311A000680650 /* libsword-1.6.0-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
 		A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
+		A99A76D510B2A4C4002EFD30 /* FileRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */; };
+		A99A76D810B2ABB9002EFD30 /* FileItemTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A76D710B2ABB9002EFD30 /* FileItemTest.m */; };
+		A99A76DD10B2BCDF002EFD30 /* NotesUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = A99A76DB10B2BCDF002EFD30 /* NotesUI.xib */; };
+		A99A773710B33802002EFD30 /* NotesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A773610B33802002EFD30 /* NotesUIController.m */; };
+		A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A774310B33C7D002EFD30 /* NotesViewController.m */; };
+		A99A774B10B33DE5002EFD30 /* NotesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A99A774910B33DE5002EFD30 /* NotesView.xib */; };
 		A99D31E110A223B600305A57 /* SwordModuleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */; };
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
@@ -120,6 +125,7 @@
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
+		A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
 		A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */; };
 		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
@@ -326,8 +332,6 @@
 		A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordVerseKey.mm; sourceTree = "<group>"; };
 		A96103BA10B03B70007A9371 /* NotesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotesManager.h; path = src/NotesTaking/NotesManager.h; sourceTree = "<group>"; };
 		A96103BB10B03B70007A9371 /* NotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesManager.m; path = src/NotesTaking/NotesManager.m; sourceTree = "<group>"; };
-		A96103BD10B044EA007A9371 /* NoteItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteItem.h; path = src/NotesTaking/NoteItem.h; sourceTree = "<group>"; };
-		A96103BE10B044EA007A9371 /* NoteItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteItem.m; path = src/NotesTaking/NoteItem.m; sourceTree = "<group>"; };
 		A9623E5C0F34E412000E1F53 /* MBTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBTextView.h; path = src/UserInterface/MBTextView.h; sourceTree = "<group>"; };
 		A9623E5D0F34E412000E1F53 /* MBTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBTextView.m; path = src/UserInterface/MBTextView.m; sourceTree = "<group>"; };
 		A96515EE0E06C79D0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BibleCombiView.xib; sourceTree = "<group>"; };
@@ -357,6 +361,16 @@
 		A992B5330DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
 		A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.6.0-svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.6.0-svn-fat.a"; sourceTree = "<group>"; };
 		A993E8CE1053137C00680650 /* BGHUDAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BGHUDAppKit.framework; path = Resources/BGHUDAppKit.framework; sourceTree = "<group>"; };
+		A99A76D310B2A4C4002EFD30 /* FileRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileRepresentation.h; path = src/NotesTaking/FileRepresentation.h; sourceTree = "<group>"; };
+		A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileRepresentation.m; path = src/NotesTaking/FileRepresentation.m; sourceTree = "<group>"; };
+		A99A76D610B2ABB9002EFD30 /* FileItemTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileItemTest.h; path = test/FileItemTest.h; sourceTree = "<group>"; };
+		A99A76D710B2ABB9002EFD30 /* FileItemTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileItemTest.m; path = test/FileItemTest.m; sourceTree = "<group>"; };
+		A99A76DC10B2BCDF002EFD30 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/NotesUI.xib; sourceTree = "<group>"; };
+		A99A773510B33802002EFD30 /* NotesUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotesUIController.h; path = src/NotesTaking/NotesUIController.h; sourceTree = "<group>"; };
+		A99A773610B33802002EFD30 /* NotesUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesUIController.m; path = src/NotesTaking/NotesUIController.m; sourceTree = "<group>"; };
+		A99A774210B33C7D002EFD30 /* NotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotesViewController.h; path = src/NotesTaking/NotesViewController.h; sourceTree = "<group>"; };
+		A99A774310B33C7D002EFD30 /* NotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesViewController.m; path = src/NotesTaking/NotesViewController.m; sourceTree = "<group>"; };
+		A99A774A10B33DE5002EFD30 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/NotesView.xib; sourceTree = "<group>"; };
 		A99DB3220EF96ABF0065482A /* scopebar_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_gradient.png; sourceTree = "<group>"; };
 		A99DB3240EF96C310065482A /* ScopeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopeBarView.h; path = src/UserInterface/ScopeBarView.h; sourceTree = "<group>"; };
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
@@ -368,6 +382,8 @@
 		A9B7441B0F646223001960B0 /* MBAboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAboutWindowController.h; sourceTree = "<group>"; };
 		A9B7441C0F646223001960B0 /* MBAboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAboutWindowController.m; sourceTree = "<group>"; };
 		A9B7441F0F646346001960B0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
+		A9BDB9EB10B3E9B600E8AD3C /* ContentDisplayingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentDisplayingViewController.h; path = src/UserInterface/ContentDisplayingViewController.h; sourceTree = "<group>"; };
+		A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentDisplayingViewController.m; path = src/UserInterface/ContentDisplayingViewController.m; sourceTree = "<group>"; };
 		A9C0F4060EFD67DA00CFDF06 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
 		A9C0F4210EFD67F700CFDF06 /* ConfirmationSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationSheetController.h; sourceTree = "<group>"; };
 		A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmationSheetController.m; sourceTree = "<group>"; };
@@ -593,6 +609,8 @@
 				A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */,
 				A9ABF338107A2A65005D6156 /* InitialInfoView.xib */,
 				A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */,
+				A99A76DB10B2BCDF002EFD30 /* NotesUI.xib */,
+				A99A774910B33DE5002EFD30 /* NotesView.xib */,
 				A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */,
 				A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -782,8 +800,12 @@
 			children = (
 				A96103BA10B03B70007A9371 /* NotesManager.h */,
 				A96103BB10B03B70007A9371 /* NotesManager.m */,
-				A96103BD10B044EA007A9371 /* NoteItem.h */,
-				A96103BE10B044EA007A9371 /* NoteItem.m */,
+				A99A773510B33802002EFD30 /* NotesUIController.h */,
+				A99A773610B33802002EFD30 /* NotesUIController.m */,
+				A99A774210B33C7D002EFD30 /* NotesViewController.h */,
+				A99A774310B33C7D002EFD30 /* NotesViewController.m */,
+				A99A76D310B2A4C4002EFD30 /* FileRepresentation.h */,
+				A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */,
 			);
 			name = NotesTaking;
 			sourceTree = "<group>";
@@ -833,6 +855,8 @@
 				A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */,
 				A9F184610E0811C8005F3B35 /* HostableViewController.h */,
 				A9F184620E0811C8005F3B35 /* HostableViewController.m */,
+				A9BDB9EB10B3E9B600E8AD3C /* ContentDisplayingViewController.h */,
+				A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */,
 				A902D8D00F6E952600F994D2 /* ModuleCommonsViewController.h */,
 				A902D8D10F6E952600F994D2 /* ModuleCommonsViewController.m */,
 				A916FCDD0E053910009CAA2F /* ModuleViewController.h */,
@@ -918,6 +942,8 @@
 				A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */,
 				A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */,
 				A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */,
+				A99A76D610B2ABB9002EFD30 /* FileItemTest.h */,
+				A99A76D710B2ABB9002EFD30 /* FileItemTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -1114,6 +1140,8 @@
 				A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */,
 				A9FCD76010B1562D006F7A3B /* BookmarkManagerUI.xib in Resources */,
 				A9FCD81C10B1B919006F7A3B /* ModuleListUI.xib in Resources */,
+				A99A76DD10B2BCDF002EFD30 /* NotesUI.xib in Resources */,
+				A99A774B10B33DE5002EFD30 /* NotesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1224,9 +1252,12 @@
 				A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */,
 				A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */,
 				A96103BC10B03B70007A9371 /* NotesManager.m in Sources */,
-				A96103BF10B044EA007A9371 /* NoteItem.m in Sources */,
 				A9FCD75B10B1484C006F7A3B /* BookmarkManagerUIController.m in Sources */,
 				A9FCD81010B1B5A1006F7A3B /* ModuleListUIController.m in Sources */,
+				A99A76D510B2A4C4002EFD30 /* FileRepresentation.m in Sources */,
+				A99A773710B33802002EFD30 /* NotesUIController.m in Sources */,
+				A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */,
+				A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1245,6 +1276,7 @@
 				A95D5279105D49E700FE9A24 /* SwordTreeEntry.m in Sources */,
 				A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */,
 				A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */,
+				A99A76D810B2ABB9002EFD30 /* FileItemTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1361,6 +1393,22 @@
 				A992B5330DF9AD6E00207967 /* English */,
 			);
 			name = ThreadedProgressSheet.xib;
+			sourceTree = "<group>";
+		};
+		A99A76DB10B2BCDF002EFD30 /* NotesUI.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A99A76DC10B2BCDF002EFD30 /* English */,
+			);
+			name = NotesUI.xib;
+			sourceTree = "<group>";
+		};
+		A99A774910B33DE5002EFD30 /* NotesView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A99A774A10B33DE5002EFD30 /* English */,
+			);
+			name = NotesView.xib;
 			sourceTree = "<group>";
 		};
 		A9ABF338107A2A65005D6156 /* InitialInfoView.xib */ = {

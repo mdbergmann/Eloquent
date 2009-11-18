@@ -160,17 +160,7 @@
     viewLoaded = YES;
 }
 
-#pragma mark - methods
-
-- (NSView *)listContentView {
-    NSView *ret = nil;
-    
-    if([parBibleViewControllers count] > 0) {
-        ret = [(BibleViewController *)[parBibleViewControllers objectAtIndex:0] listContentView];
-    }
-    
-    return ret;
-}
+#pragma mark - Methods
 
 - (NSString *)label {
     return @"BibleView";
@@ -253,10 +243,6 @@
     if(hostingDelegate) {
         [cvc displayTextForReference:[(WindowHostController *)hostingDelegate searchText] searchType:searchType];
     }
-}
-
-- (NSView *)referenceOptionsView {
-    return referenceOptionsView;
 }
 
 - (void)distributeReference:(NSString *)aRef {
@@ -355,6 +341,22 @@
     }
     
     return ret;
+}
+
+#pragma mark - AccessoryViewDisplaying
+
+- (NSView *)rightAccessoryView {
+    NSView *ret = nil;
+    
+    if([parBibleViewControllers count] > 0) {
+        ret = [(<AccessoryViewProviding>)[parBibleViewControllers objectAtIndex:0] rightAccessoryView];
+    }
+    
+    return ret;
+}
+
+- (NSView *)topAccessoryView {
+    return referenceOptionsView;
 }
 
 #pragma mark - ModuleProviding

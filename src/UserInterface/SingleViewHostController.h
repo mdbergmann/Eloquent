@@ -24,8 +24,6 @@
     ModuleType moduleType;
 }
 
-@property(retain, readwrite) HostableViewController *contentViewController;
-
 // initializers
 - (id)initForViewType:(ModuleType)aType;
 - (id)initWithModule:(SwordModule *)aModule;

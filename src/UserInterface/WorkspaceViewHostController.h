@@ -16,8 +16,9 @@
 
 #define WORKSPACEVIEWHOST_NIBNAME   @"WorkspaceViewHost"
 
-@class HostableViewController;
+@class ContentDisplayingViewController;
 @class SwordModule;
+@class FileRepresentation;
 
 @interface WorkspaceViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
 
@@ -42,9 +43,9 @@
 // methods
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
-- (HostableViewController *)contentViewController;
-- (HostableViewController *)addTabContentForModule:(SwordModule *)aModule;
-- (HostableViewController *)addTabContentForModuleType:(ModuleType)aType;
+- (ContentDisplayingViewController *)addTabContentForModule:(SwordModule *)aModule;
+- (ContentDisplayingViewController *)addTabContentForModuleType:(ModuleType)aType;
+- (ContentDisplayingViewController *)addTabContentForNote:(FileRepresentation *)aFileRep;
 - (NSString *)computeTabTitle;
 
 // actions

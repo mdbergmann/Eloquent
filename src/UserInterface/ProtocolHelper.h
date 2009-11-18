@@ -35,10 +35,15 @@
 - (IBAction)fullScreenModeOnOff:(id)sender;
 @end
 
+@protocol AccessoryViewProviding
+- (NSView *)topAccessoryView;
+- (NSView *)rightAccessoryView;
+@end
+
 @protocol TextDisplayable
+- (void)displayText;
 - (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
-- (NSView *)referenceOptionsView;
 @end
 
 @protocol ModuleProviding

@@ -18,7 +18,7 @@
 #define DICTIONARYVIEW_NIBNAME   @"DictionaryView"
 
 /** the view of this view controller is a ScrollSynchronizableView */
-@interface DictionaryViewController : ModuleViewController <NSCoding, TextDisplayable, SubviewHosting> {
+@interface DictionaryViewController : ModuleViewController <NSCoding> {
     // module popup button
     IBOutlet NSPopUpButton *modulePopBtn;
     // status line
@@ -36,19 +36,7 @@
 - (id)initWithDelegate:(id)aDelegate;
 
 // ---------- methods --------------
-
-// the table view of the dictionary entries
-- (NSView *)listContentView;
-
-// method called by subview
-- (void)contentViewInitFinished:(HostableViewController *)aViewController;
-- (void)removeSubview:(HostableViewController *)aViewController;
-- (void)adaptUIToHost;
 - (void)setStatusText:(NSString *)aText;
-
-// protocol definitions
-- (void)displayTextForReference:(NSString *)aReference;
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;

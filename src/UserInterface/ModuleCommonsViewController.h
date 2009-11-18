@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <HostableViewController.h>
+#import <ContentDisplayingViewController.h>
 #import <ProtocolHelper.h>
 
 enum BibleViewTextContextMenuItems {
@@ -26,7 +26,7 @@ enum GeneralMenuItemAdditions {
     ShowModuleAbout = 100000
 };
 
-@interface ModuleCommonsViewController : HostableViewController <NSCoding, TextDisplayable, MouseTracking> {
+@interface ModuleCommonsViewController : ContentDisplayingViewController <NSCoding, TextDisplayable, MouseTracking> {
     /** options */
     IBOutlet NSView *referenceOptionsView;
 
@@ -116,9 +116,9 @@ enum GeneralMenuItemAdditions {
 - (IBAction)chapterPagerAction:(id)sender;
 
 // TextDisplayable
+- (void)displayText;
 - (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
-- (NSView *)referenceOptionsView;
 
 // MouseTracking
 - (void)mouseEntered:(NSView *)theView;

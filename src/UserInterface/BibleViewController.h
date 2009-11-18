@@ -18,8 +18,7 @@
 
 #define BIBLEVIEW_NIBNAME   @"BibleView"
 
-/** the view of this view controller is a ScrollSynchronizableView */
-@interface BibleViewController : ModuleViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking> {
+@interface BibleViewController : ModuleViewController <NSCoding> {
     IBOutlet NSButton *closeBtn;
     IBOutlet NSPopUpButton *addPopBtn;
     IBOutlet NSPopUpButton *modulePopBtn;
@@ -57,32 +56,17 @@
 - (id)initWithDelegate:(id)aDelegate;
 
 // ----------- methods -------------
-
-// accessory view
-- (NSView *)listContentView;
-
 // searchBookSetsController
 - (SearchBookSetEditorController *)searchBookSetsController;
 
 // pass further the scrollview
 - (NSScrollView *)scrollView;
 
-// method called by subview
-- (void)contentViewInitFinished:(HostableViewController *)aViewController;
-- (void)removeSubview:(HostableViewController *)aViewController;
-- (void)adaptUIToHost;
 - (void)setStatusText:(NSString *)aText;
 - (void)populateAddPopupMenu;
 
-// protocol definitions
-- (void)displayTextForReference:(NSString *)aReference;
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
-
-// MouseTracking
-- (void)mouseEntered:(NSView *)theView;
-- (void)mouseExited:(NSView *)theView;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

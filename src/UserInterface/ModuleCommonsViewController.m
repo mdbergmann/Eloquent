@@ -15,6 +15,7 @@
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
 #import "NSImage+Additions.h"
+#import "ProgressOverlayViewController.h"
 
 @implementation ModuleCommonsViewController
 
@@ -530,6 +531,9 @@
 
 #pragma mark - TextDisplayable protocol
 
+- (void)displayText {    
+}
+
 - (void)displayTextForReference:(NSString *)aReference {
     // do nothing here, subclass will handle    
 }
@@ -538,7 +542,9 @@
     // do nothing here, subclass will handle
 }
 
-- (NSView *)referenceOptionsView {
+#pragma mark - AccessoryProvidingProtocol
+
+- (NSView *)topAccessoryView {
     return referenceOptionsView;
 }
 
@@ -550,6 +556,43 @@
 
 - (void)mouseExited:(NSView *)theView {
     //MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseExited]");
+}
+
+#pragma mark - ProgressIndicating
+
+- (void)beginIndicateProgress {
+    // delegate to host if needed
+    // delegates can be:
+    // - BibleCombiViewController
+    // - SingleViewHostController
+    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+        [(BibleCombiViewController *)delegate beginIndicateProgress];
+    } else {
+        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+        if(![[[self view] subviews] containsObject:[pc view]]) {
+            // we need the same size
+            [[pc view] setFrame:[[self view] frame]];
+            [pc startProgressAnimation];
+            [[self view] addSubview:[pc view]];
+            [[[self view] superview] setNeedsDisplay:YES];
+        }
+    }
+}
+
+- (void)endIndicateProgress {
+    // delegate to host if needed
+    // delegates can be:
+    // - BibleCombiViewController
+    // - SingleViewHostController
+    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+        [(BibleCombiViewController *)delegate endIndicateProgress];
+    } else {
+        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+        [pc stopProgressAnimation];
+        if([[[self view] subviews] containsObject:[pc view]]) {
+            [[pc view] removeFromSuperview];    
+        }
+    }
 }
 
 #pragma mark - NSCoding protocol

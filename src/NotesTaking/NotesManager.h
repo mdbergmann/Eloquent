@@ -8,12 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class FileRepresentation;
 
 @interface NotesManager : NSObject {
     NSString *rootPath;
+    FileRepresentation *rootPathRep;
 }
 
 + (NotesManager *)defaultManager;
 - (id)initWithRootPath:(NSString *)aPath;
+
+- (FileRepresentation *)notesFileRep;
 
 @end

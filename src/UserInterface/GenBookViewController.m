@@ -104,14 +104,7 @@
     viewLoaded = YES;
 }
 
-#pragma mark - methods
-
-- (NSView *)listContentView {
-    return [entriesOutlineView enclosingScrollView];
-}
-
-- (void)adaptUIToHost {
-}
+#pragma mark - Methods
 
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -138,6 +131,14 @@
         
         [modulePopBtn selectItemWithTitle:[module name]];
     }
+}
+
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"GenBookView";
 }
 
 - (void)setStatusText:(NSString *)aText {
@@ -254,6 +255,8 @@
     return ret;
 }
 
+#pragma mark - TextDisplayable protocol
+
 - (void)displayTextForReference:(NSString *)aReference {
     // there is actually only one search type for GenBooks but we use Reference Search Type
     // to (re-)display the selection
@@ -329,12 +332,10 @@
     }
 }
 
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
-    }
-    
-    return @"GenBookView";
+#pragma mark - AccessoryViewProviding protocol
+
+- (NSView *)listContentView {
+    return [entriesOutlineView enclosingScrollView];
 }
 
 #pragma mark - SubviewHosting

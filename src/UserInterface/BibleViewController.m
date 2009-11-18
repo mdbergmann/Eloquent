@@ -164,14 +164,6 @@
 
 #pragma mark - methods
 
-- (NSView *)listContentView {
-    if(searchType == ReferenceSearchType) {
-        return sideBarView;// [entriesOutlineView enclosingScrollView];    
-    } else {
-        return [searchBookSetsController view];
-    }
-}
-
 - (SearchBookSetEditorController *)searchBookSetsController {
     return searchBookSetsController;
 }
@@ -680,7 +672,17 @@
     }
 }
 
-#pragma mark - actions
+#pragma mark - AccessoryViewProviding
+
+- (NSView *)rightAccessoryView {
+    if(searchType == ReferenceSearchType) {
+        return sideBarView;// [entriesOutlineView enclosingScrollView];    
+    } else {
+        return [searchBookSetsController view];
+    }
+}
+
+#pragma mark - Actions
 
 - (IBAction)textContextChange:(id)sender {
     [super textContextChange:sender];

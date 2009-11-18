@@ -18,7 +18,7 @@
 
 @class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
-@interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, ModuleProviding, TextDisplayable, SubviewHosting, MouseTracking, ProgressIndicating> {
+@interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, ModuleProviding, SubviewHosting> {
     // the lookup field
     IBOutlet NSTextField *lookupTF;
     IBOutlet NSButton *okBtn;
@@ -48,13 +48,9 @@
 - (id)initWithDelegate:(id)aDelegate;
 - (id)initWithDelegate:(id)aDelegate andInitialModule:(SwordBible *)aBible;
 
-// the index view of combibible
-- (NSView *)listContentView;
-
 // methods
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule;
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule;
-- (NSView *)referenceOptionsView;
 - (NSArray *)openBibleModules;
 - (NSArray *)openMiscModules;
 - (NSNumber *)bibleViewCount;
@@ -62,21 +58,9 @@
 // ModuleProviding
 - (SwordModule *)module;
 
-// ProgressIndicating
-- (void)beginIndicateProgress;
-- (void)endIndicateProgress;
-
 // SubviewHosting
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
-
-// TextDisplayable
-- (void)displayTextForReference:(NSString *)aReference;
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
-
-// MouseTracking
-- (void)mouseEntered:(NSView *)theView;
-- (void)mouseExited:(NSView *)theView;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

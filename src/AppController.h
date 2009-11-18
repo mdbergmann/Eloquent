@@ -9,6 +9,7 @@
 @class HUDPreviewController;
 @class HUDContentViewController;
 @class MBAboutWindowController;
+@class FileRepresentation;
 
 typedef enum AppErrorCodes {
     INIT_SUCCESS = 0,
@@ -53,8 +54,8 @@ typedef enum AppErrorCodes {
 
 + (AppController *)defaultAppController;
 
-/** opens a new single host window for the given module */
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod;
+- (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep;
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod;
 
 /** stores the session to file */

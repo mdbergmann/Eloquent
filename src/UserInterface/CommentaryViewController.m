@@ -75,28 +75,13 @@
 
 #pragma mark - Methods
 
-- (void)adaptUIToHost {
-    if(delegate) {
-        if([delegate isKindOfClass:[SingleViewHostController class]] || 
-            [delegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [closeBtn setEnabled:NO];
-            [addPopBtn setEnabled:NO];
-        } else if([delegate isKindOfClass:[BibleCombiViewController class]]) {
-            [closeBtn setEnabled:YES];
-            [addPopBtn setEnabled:YES];
-        }
-    }
-}
-
 - (void)populateModulesMenu {
     
     NSMenu *menu = [[NSMenu alloc] init];
-    // generate menu
     [[SwordManager defaultManager] generateModuleMenu:&menu 
                                         forModuletype:commentary 
                                        withMenuTarget:self 
                                        withMenuAction:@selector(moduleSelectionChanged:)];
-    // add menu
     [modulePopBtn setMenu:menu];
     
     // select module
@@ -298,13 +283,12 @@
             if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER] || i == [lines count]-1) {
                 // if we had a text before, store it under the current verse
                 if(currentVerse != nil && [currentText length] > 0) {
-                    // remove last '\n' if there
                     if([currentText hasSuffix:@"\n"]) {
                         [currentText replaceCharactersInRange:NSMakeRange([currentText length]-1, 1) withString:@""];
                     }
-                    // replace all '\n' characters with <br/>
                     [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
                     [module writeEntry:[SwordModuleTextEntry textEntryForKey:currentVerse andText:currentText]];
+
                     // reset currentText
                     currentText = [NSMutableString string];
                 }
@@ -331,6 +315,19 @@
     }    
 }
 
+- (void)adaptUIToHost {
+    if(delegate) {
+        if([delegate isKindOfClass:[SingleViewHostController class]] || 
+           [delegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            [closeBtn setEnabled:NO];
+            [addPopBtn setEnabled:NO];
+        } else if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+            [closeBtn setEnabled:YES];
+            [addPopBtn setEnabled:YES];
+        }
+    }
+}
+
 - (NSString *)label {
     if(module != nil) {
         return [module name];
@@ -339,16 +336,16 @@
     return @"CommentView";
 }
 
-#pragma mark - actions
+#pragma mark - Actions
 
 - (IBAction)closeButton:(id)sender {
-    
     // do not close if we still are in editing mode
     if(editEnabled) {
         // show Alert
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"StillInEditingMode", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"")
-                                       alternateButton:NSLocalizedString(@"Cancel", @"") otherButton:nil 
+                                       alternateButton:NSLocalizedString(@"Cancel", @"") 
+                                           otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"StillInEditingModeText", @"")];
         if([alert runModal] == NSAlertAlternateReturn) {
             // send close view to super view

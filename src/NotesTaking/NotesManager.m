@@ -7,17 +7,22 @@
 //
 
 #import "NotesManager.h"
+#import "FileRepresentation.h"
 #import "globals.h"
 
 @interface NotesManager ()
 
 @property (readwrite, retain) NSString *rootPath;
+@property (readwrite, retain) FileRepresentation *rootPathRep;
 
 @end
 
 @implementation NotesManager
 
 @synthesize rootPath;
+@synthesize rootPathRep;
+
+#pragma mark - Initialisation
 
 static NotesManager *singleton = nil;
 + (NotesManager *)defaultManager {
@@ -31,6 +36,8 @@ static NotesManager *singleton = nil;
     self = [super init];
     if(self) {
         self.rootPath = aPath;
+        self.rootPathRep = [[FileRepresentation alloc] initWithPath:aPath];
+        [rootPathRep buildTree];
     }
     
     return self;
@@ -38,6 +45,13 @@ static NotesManager *singleton = nil;
 
 - (void)finalize {
     [super finalize];
+}
+
+#pragma mark - Methods
+
+
+- (FileRepresentation *)notesFileRep {
+    return rootPathRep;
 }
 
 @end

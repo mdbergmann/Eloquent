@@ -18,7 +18,8 @@
 #import "BookmarkManager.h"
 #import "Bookmark.h"
 #import "NotesManager.h"
-#import "NoteItem.h"
+#import "NotesUIController.h"
+#import "FileRepresentation.h"
 #import "ThreeCellsCell.h"
 #import "BookmarkDragItem.h"
 #import "SearchTextObject.h"
@@ -47,6 +48,7 @@
         bookmarkManager = [BookmarkManager defaultManager];
         bookmarksUIController = [[BookmarkManagerUIController alloc] initWithDelegate:self hostingDelegate:delegate];
         notesManager = [NotesManager defaultManager];
+        notesUIController = [[NotesUIController alloc] initWithDelegate:self hostingDelegate:delegate];
         
         // prepare images
         bookmarkGroupImage = [[NSImage imageNamed:@"groupbookmark.tiff"] retain];
@@ -122,6 +124,39 @@
 
 #pragma mark - outline datasource methods
 
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    NSInteger ret = 0;
+    
+    if(item == nil) {
+        // we have two root items (modules, bookmarks, notes)
+        ret = 3;
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")]) {
+        // modules root
+        // get categories
+        ret = [[SwordModCategory moduleCategories] count];
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
+        // bookmarks root        
+        // get bookmarks
+        ret = [[[BookmarkManager defaultManager] bookmarks] count];
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {
+        // notes root
+        // get notes
+        ret = [[[notesManager notesFileRep] directoryContent] count];
+    } else if([item isKindOfClass:[SwordModCategory class]]) {
+        // module category
+        // get number of modules in category
+        ret = [[swordManager modulesForType:[(SwordModCategory *)item name]] count];
+    } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
+        // bookmark folder
+        ret = [[(Bookmark *)item subGroups] count];
+    } else if([item isKindOfClass:[FileRepresentation class]] && [(FileRepresentation *)item isDirectory]) {
+        // notes folder
+        ret = [[(FileRepresentation *)item directoryContent] count];
+    }
+    
+    return ret;
+}
+
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     id ret = nil;
     
@@ -130,27 +165,32 @@
         if(index == 0) {
             ret = NSLocalizedString(@"LSBModules", @"");
         } else if(index == 1) {
-            ret = NSLocalizedString(@"LSBBookmarks", @"");        
+            ret = NSLocalizedString(@"LSBBookmarks", @"");
+        } else if(index == 2) {
+            ret = NSLocalizedString(@"LSBNotes", @"");
         }
     } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")]) {
         // modules root
-        
         // get categories
         ret = [[SwordModCategory moduleCategories] objectAtIndex:index];
     } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
         // bookmarks root
-        
         // get bookmarks
         ret = [[bookmarkManager bookmarks] objectAtIndex:index];
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {
+        // notes root
+        // get notes
+        ret = [[[notesManager notesFileRep] directoryContent] objectAtIndex:index];
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
-        
         // get number of modules in category
         ret = [[swordManager modulesForType:[(SwordModCategory *)item name]] objectAtIndex:index];
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
-        
         ret = [[(Bookmark *)item subGroups] objectAtIndex:index];
+    } else if([item isKindOfClass:[FileRepresentation class]] && [(FileRepresentation *)item isDirectory]) {
+        // notes folder
+        ret = [[(FileRepresentation *)item directoryContent] objectAtIndex:index];
     }
     
     return ret;
@@ -165,42 +205,18 @@
     } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
         // bookmarks root
         ret = YES;
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {
+        // notes root
+        ret = YES;
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         ret = ([[swordManager modulesForType:[(SwordModCategory *)item name]] count] > 0);
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         ret = ([[(Bookmark *)item subGroups] count] > 0);
-    }
-
-    return ret;
-}
-
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    NSInteger ret = 0;
-    
-    if(item == nil) {
-        // we have two root items (modules, bookmarks)
-        ret = 2;
-    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")]) {
-        // modules root
-        
-        // get categories
-        ret = [[SwordModCategory moduleCategories] count];
-    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
-        // bookmarks root
-        
-        // get bookmarks
-        ret = [[[BookmarkManager defaultManager] bookmarks] count];
-    } else if([item isKindOfClass:[SwordModCategory class]]) {
-        // module category
-        
-        // get number of modules in category
-        ret = [[swordManager modulesForType:[(SwordModCategory *)item name]] count];
-    } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
-        // bookmark folder
-        
-        ret = [[(Bookmark *)item subGroups] count];
+    } else if([item isKindOfClass:[FileRepresentation class]] && [(FileRepresentation *)item isDirectory]) {
+        // notes folder
+        ret = ([[(FileRepresentation *)item directoryContent] count] > 0);
     }
     
     return ret;
@@ -215,6 +231,9 @@
     } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")]) {
         // bookmarks root
         ret = item;
+    } else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {
+        // notes root
+        ret = item;
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         ret = [(SwordModCategory *)item description];
@@ -224,7 +243,10 @@
     } else if([item isKindOfClass:[Bookmark class]]) {
         // bookmark
         ret = [(Bookmark *)item name];
-    }    
+    } else if([item isKindOfClass:[FileRepresentation class]]) {
+        // note
+        ret = [[(FileRepresentation *)item name] stringByDeletingPathExtension];
+    }
     
     return ret;
 }
@@ -351,7 +373,16 @@
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [(WorkspaceViewHostController *)hostingDelegate setSearchText:[b reference]];
         }
-    }    
+    } else if([clickedObj isKindOfClass:[FileRepresentation class]]) {
+        FileRepresentation *f = clickedObj;
+        // depending on the hosting window we open a new tab or window
+        if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            [(WorkspaceViewHostController *)hostingDelegate addTabContentForNote:f];        
+        } else if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+            // default action on this is open another single view host with this module
+            [[AppController defaultAppController] openSingleHostWindowForNote:f];        
+        }
+    }   
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
@@ -371,6 +402,8 @@
                     [oview setMenu:[bookmarksUIController bookmarkMenu]];
                 } else if([item isKindOfClass:[SwordModule class]]) {
                     [oview setMenu:[moduleListUIController moduleMenu]];
+                } else if([item isKindOfClass:[FileRepresentation class]]) {
+                    [oview setMenu:[notesUIController notesMenu]];
                 } else {
                     [oview setMenu:nil];
                 }
@@ -394,7 +427,8 @@
     if(item != nil) {
         if([item isKindOfClass:[NSString class]] && 
            ([(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")] ||
-            [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")])) {
+            [(NSString *)item isEqualToString:NSLocalizedString(@"LSBBookmarks", @"")] ||
+            [(NSString *)item isEqualToString:NSLocalizedString(@"LSBNotes", @"")])) {
                return YES;
         }
     }
@@ -432,6 +466,7 @@
                 [(ThreeCellsCell *)cell setLeftCounter:[(Bookmark *)item childCount]];
                 [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];
             } else if([item isKindOfClass:[SwordModCategory class]]) {
+                ;
                 //[(ThreeCellsCell *)cell setRightCounter:[[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count]];                
             } else if([item isKindOfClass:[SwordModule class]]) {
                 [(ThreeCellsCell *)cell setImage:nil];
@@ -445,6 +480,8 @@
                     }
                 }
                 [(ThreeCellsCell *)cell setRightImage:img];                
+            } else if([item isKindOfClass:[FileRepresentation class]]) {
+                ;
             }
         }
     }

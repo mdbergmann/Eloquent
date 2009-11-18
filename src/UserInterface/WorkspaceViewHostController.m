@@ -11,6 +11,7 @@
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "AppController.h"
+#import "ContentDisplayingViewController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
 #import "DictionaryViewController.h"
@@ -23,6 +24,8 @@
 #import "SwordModule.h"
 #import "SearchTextObject.h"
 #import "FakeModel.h"
+#import "FileRepresentation.h"
+#import "NotesViewController.h"
 
 @interface WorkspaceViewHostController ()
 
@@ -90,7 +93,7 @@
     
     // re-set already loaded tabview items
     int i = 0;
-    for(HostableViewController *vc in viewControllers) {
+    for(ContentDisplayingViewController *vc in viewControllers) {
         if([vc viewLoaded]) {
             NSTabViewItem *item = [[NSTabViewItem alloc] init];
             [item setLabel:[self computeTabTitle]];
@@ -115,50 +118,27 @@
         currentSearchText = [searchTextObjs objectAtIndex:0];
     }
     
-    /*
-    // if a reference is stored, we should load it
-    NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
-    if([referenceText length] > 0) {
-        for(HostableViewController *vc in viewControllers) {
-            if([vc isKindOfClass:[BibleCombiViewController class]]) {
-                [(BibleCombiViewController *)vc displayTextForReference:referenceText searchType:ReferenceSearchType];
-            } else if([vc isKindOfClass:[CommentaryViewController class]]) {
-                [(CommentaryViewController *)vc displayTextForReference:referenceText searchType:ReferenceSearchType];
-            }
-        }
-    }
-    
-    // This is the last selected search type and the text for it
-    NSString *searchText = [currentSearchText searchTextForType:self.searchType];
-    if([searchText length] > 0) {
-        [searchTextField setStringValue:searchText];
-        for(HostableViewController *vc in viewControllers) {
-            if([vc isKindOfClass:[BibleCombiViewController class]]) {
-                [(BibleCombiViewController *)vc displayTextForReference:searchText searchType:self.searchType];
-            } else if([vc isKindOfClass:[CommentaryViewController class]]) {
-                [(CommentaryViewController *)vc displayTextForReference:searchText searchType:self.searchType];
-            }
-        }
-    }
-     */
-    
     // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
     if(contentViewController != nil) {
         // add content view
         [placeHolderView setContentView:[contentViewController view]];
-        // add display options view
-        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];        
+
+        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
+        [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];                    
         
-        // all booktypes have something to show in the right side bar
-        [rsbViewController setContentView:[(GenBookViewController *)contentViewController listContentView]];
-        if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
-           [contentViewController isKindOfClass:[GenBookViewController class]]) {
-            [self showRightSideBar:YES];
-        } else {
-            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+        BOOL showRightSideBar = NO;
+        
+        if([contentViewController isKindOfClass:[ModuleCommonsViewController class]]) {
+            // all booktypes have something to show in the right side bar
+            if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
+               [contentViewController isKindOfClass:[GenBookViewController class]]) {
+                showRightSideBar = YES;
+            } else {
+                showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
+            }
         }
-        
+        [self showRightSideBar:showRightSideBar];        
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
@@ -183,7 +163,7 @@
     return moduleType;
 }
 
-- (HostableViewController *)contentViewController {
+- (ContentDisplayingViewController *)contentViewController {
     return contentViewController;
 }
 
@@ -195,8 +175,8 @@
     [(NSBox *)placeHolderView setContentView:aView];
 }
 
-- (HostableViewController *)addTabContentForModule:(SwordModule *)aModule {
-    HostableViewController *vc = nil;
+- (ContentDisplayingViewController *)addTabContentForModule:(SwordModule *)aModule {
+    ContentDisplayingViewController *vc = nil;
 
     if(aModule != nil) {
         ModuleType moduleType = [aModule type];
@@ -211,14 +191,14 @@
         }
         
         // set hosting delegate
-        [(HostableViewController *)vc setHostingDelegate:self];
+        [vc setHostingDelegate:self];
     }
 
     return vc;
 }
 
-- (HostableViewController *)addTabContentForModuleType:(ModuleType)aType {
-    HostableViewController *vc = nil;
+- (ContentDisplayingViewController *)addTabContentForModuleType:(ModuleType)aType {
+    ContentDisplayingViewController *vc = nil;
     if(aType == bible) {
         vc = [[BibleCombiViewController alloc] initWithDelegate:self];
     } else if(aType == commentary) {
@@ -230,9 +210,14 @@
     }
     
     // set hosting delegate
-    [(HostableViewController *)vc setHostingDelegate:self];
+    [vc setHostingDelegate:self];
     
     // search text objects are added when this view reports it has loaded
+    return vc;
+}
+
+- (ContentDisplayingViewController *)addTabContentForNote:(FileRepresentation *)aFileRep {
+    NotesViewController *vc = [[NotesViewController alloc] initWithDelegate:self hostingDelegate:self fileRep:aFileRep];
     return vc;
 }
 
@@ -325,7 +310,7 @@
     int tag = [(NSMenuItem *)sender tag];
     
     int index = [[tabView tabViewItems] indexOfObject:[tabView selectedTabViewItem]];
-    HostableViewController *vc = [viewControllers objectAtIndex:index];
+    ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
 
     // found view controller?
     if(vc != nil) {
@@ -383,12 +368,14 @@
     
     // find view controller
     int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
-    HostableViewController *vc = [viewControllers objectAtIndex:index];
+    ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
     
     // found view controller?
     if(vc != nil) {
-        // also remove search text obj
-        [searchTextObjs removeObjectAtIndex:index];
+        if(![vc isKindOfClass:[NotesViewController class]]) {
+            // also remove search text obj
+            [searchTextObjs removeObjectAtIndex:index];            
+        }
         // remove this view controller from our list
         [viewControllers removeObjectAtIndex:index];
     }
@@ -407,33 +394,34 @@
 }
 
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-
     if(hostLoaded) {
         if([[tabControl representedTabViewItems] containsObject:tabViewItem]) {
+            
             int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
-            HostableViewController *vc = [viewControllers objectAtIndex:index];
-            // set active view controller
+            ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
             contentViewController = vc;
+            
             if(contentViewController != nil) {
-                // add display options view
-                [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];    
+                [rsbViewController setContentView:[(<AccessoryViewProviding>)vc rightAccessoryView]];
+                [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)vc topAccessoryView]];                    
             }
             
-            // all booktypes have something to show in the right side bar
-            [rsbViewController setContentView:[(GenBookViewController *)vc listContentView]];
+            BOOL showRightSideBar = NO;
             
             // this should help with the problem that the ride side bar always was reset to default width when switching tabs
             if([vc isKindOfClass:[DictionaryViewController class]] ||
                [vc isKindOfClass:[GenBookViewController class]]) {
                 if(![self showingRSB]) {
-                    [self showRightSideBar:YES];
+                    showRightSideBar = YES;
                 }
-            } else {
+            } else if([vc isKindOfClass:[ModuleCommonsViewController class]]) {
                 if(![self showingRSB] && [userDefaults boolForKey:DefaultsShowRSB]) {
-                    [self showRightSideBar:YES];
+                    showRightSideBar = YES;
                 }
             }
 
+            [self showRightSideBar:showRightSideBar];            
+            
             // also set current search Text
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
             
@@ -453,8 +441,7 @@
 
     if(hostLoaded) {
         // we are only interessted in view controllers that show information
-        if([aViewController isKindOfClass:[ModuleViewController class]] || // this also handles commentary view
-           [aViewController isKindOfClass:[BibleCombiViewController class]]) {
+        if([aViewController isKindOfClass:[ContentDisplayingViewController class]]) {
             
             // remove initialMainView if present
             if([[mainSplitView subviews] containsObject:[initialViewController view]]) {
@@ -463,44 +450,47 @@
                 [mainSplitView addSubview:defaultMainView];
             }
             
-            // add view controller
             [viewControllers addObject:aViewController];
-            // make the last added the active one
-            contentViewController = aViewController;
+            contentViewController = (ContentDisplayingViewController *)aViewController;
             
-            SearchType stype = ReferenceSearchType;
-            if([aViewController isKindOfClass:[GenBookViewController class]]) {
-                stype = IndexSearchType;
+            [rsbViewController setContentView:[(<AccessoryViewProviding>)aViewController rightAccessoryView]];
+            [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)aViewController topAccessoryView]];                    
+            
+            BOOL showRightSideBar = NO;
+            
+            if([aViewController isKindOfClass:[ModuleCommonsViewController class]]) {
+                SearchType stype = ReferenceSearchType;
+                if([aViewController isKindOfClass:[GenBookViewController class]]) {
+                    stype = IndexSearchType;
+                }
+                
+                // all booktypes have something to show in the right side bar
+                if([aViewController isKindOfClass:[DictionaryViewController class]] ||
+                   [aViewController isKindOfClass:[GenBookViewController class]]) {
+                    showRightSideBar = YES;
+                } else {
+                    showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
+                }
+
+                // extend searchTexts
+                SearchTextObject *sto = [[SearchTextObject alloc] init];
+                [sto setSearchText:@"" forSearchType:stype];
+                [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
+                [sto setSearchType:stype];
+                [searchTextObjs addObject:sto];
+                // also set current search Text
+                [self setCurrentSearchText:sto];
+                                
+                [self adaptUIToCurrentlyDisplayingModuleType];                
             }
             
-            // extend searchTexts
-            SearchTextObject *sto = [[SearchTextObject alloc] init];
-            [sto setSearchText:@"" forSearchType:stype];
-            [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
-            [sto setSearchType:stype];
-            [searchTextObjs addObject:sto];
-            // also set current search Text
-            [self setCurrentSearchText:sto];
-
-            // all booktypes have something to show in the right side bar
-            [rsbViewController setContentView:[(GenBookViewController *)aViewController listContentView]];
-            if([aViewController isKindOfClass:[DictionaryViewController class]] ||
-               [aViewController isKindOfClass:[GenBookViewController class]]) {
-                [self showRightSideBar:YES];
-            } else {
-                [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
-            }
-
             NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
             [newItem setLabel:[aViewController label]];
             [newItem setView:[aViewController view]];
             [tabView addTabViewItem:newItem];
             [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
-            
-            // add display options view
-            [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];                    
 
-            [self adaptUIToCurrentlyDisplayingModuleType];
+            [self showRightSideBar:showRightSideBar];            
         }
     }
 }
@@ -527,7 +517,7 @@
         // decode viewControllers
         self.viewControllers = [decoder decodeObjectForKey:@"HostableViewControllerListEncoded"];
         // set delegate
-        for(HostableViewController *vc in viewControllers) {
+        for(ContentDisplayingViewController *vc in viewControllers) {
             [vc setDelegate:self];
             [vc setHostingDelegate:self];
             [vc adaptUIToHost];

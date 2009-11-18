@@ -27,8 +27,6 @@
 
 @implementation SingleViewHostController
 
-@synthesize contentViewController;
-
 #pragma mark - initializers
 
 - (id)init {
@@ -59,7 +57,7 @@
         }
         
         // set hosting delegate
-        [(HostableViewController *)contentViewController setHostingDelegate:self];
+        [contentViewController setHostingDelegate:self];
 
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
@@ -90,7 +88,7 @@
         }
         
         // set hosting delegate
-        [(HostableViewController *)contentViewController setHostingDelegate:self];
+        [contentViewController setHostingDelegate:self];
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
@@ -107,48 +105,26 @@
     
     [super awakeFromNib];
 
-    /*
-    // if a reference is stored, we should load it
-    NSString *referenceText = [currentSearchText searchTextForType:ReferenceSearchType];
-    if([referenceText length] > 0) {
-        if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)contentViewController displayTextForReference:referenceText searchType:ReferenceSearchType];
-        } else if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
-            [(CommentaryViewController *)contentViewController displayTextForReference:referenceText searchType:ReferenceSearchType];
-        }
-    }
-    
-    // This is the last selected search type and the text for it
-    NSString *searchText = [currentSearchText searchTextForType:self.searchType];
-    if([searchText length] > 0) {
-        [searchTextField setStringValue:searchText];
-        if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)contentViewController displayTextForReference:searchText searchType:self.searchType];
-        } else if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
-            [(CommentaryViewController *)contentViewController displayTextForReference:searchText searchType:self.searchType];
-        }
-    }
-     */
-    
     // set recent searche array
     [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
     
     // check if view has loaded
     if(contentViewController.viewLoaded == YES) {
-        // add content view
-        [placeHolderView setContentView:[contentViewController view]];
-        // add display options view
-        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)contentViewController referenceOptionsView]];        
+        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
+        [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];                    
         
-        // all booktypes have something to show in the right side bar
-        [rsbViewController setContentView:[(GenBookViewController *)contentViewController listContentView]];
-        if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
-           [contentViewController isKindOfClass:[GenBookViewController class]]) {
-            [self showRightSideBar:YES];
-        } else {
-            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
+        BOOL showRightSideBar = NO;
+        
+        if([contentViewController isKindOfClass:[ModuleCommonsViewController class]]) {
+            // all booktypes have something to show in the right side bar
+            if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
+               [contentViewController isKindOfClass:[GenBookViewController class]]) {
+                showRightSideBar = YES;
+            } else {
+                showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
+            }
         }
-        
+        [self showRightSideBar:showRightSideBar];        
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
@@ -207,19 +183,24 @@
     // first let super class handle it's things
     [super contentViewInitFinished:aView];
     
-    if([aView isKindOfClass:[ModuleCommonsViewController class]]) {
-        // all booktypes have something to show in the right side bar
-        [rsbViewController setContentView:[(GenBookViewController *)aView listContentView]];
-        if([aView isKindOfClass:[DictionaryViewController class]] ||
-            [aView isKindOfClass:[GenBookViewController class]]) {
-            [self showRightSideBar:YES];
-        } else {
-            [self showRightSideBar:[userDefaults boolForKey:DefaultsShowRSB]];                
-        }
-        // add the webview as contentvew to the placeholder
+    if([aView isKindOfClass:[ContentDisplayingViewController class]]) {
         [placeHolderView setContentView:[aView view]];
-        [placeHolderSearchOptionsView setContentView:[(<TextDisplayable>)aView referenceOptionsView]];
 
+        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
+        [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];                    
+        
+        BOOL showRightSideBar = NO;
+        
+        if([contentViewController isKindOfClass:[ModuleCommonsViewController class]]) {
+            // all booktypes have something to show in the right side bar
+            if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
+               [contentViewController isKindOfClass:[GenBookViewController class]]) {
+                showRightSideBar = YES;
+            } else {
+                showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
+            }
+        }
+        [self showRightSideBar:showRightSideBar];        
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
 }

@@ -34,6 +34,7 @@
 @synthesize delegate;
 @dynamic searchType;
 @synthesize currentSearchText;
+@synthesize contentViewController;
 
 typedef enum _NavigationDirectionType {
     DirectionBackward = 1,
@@ -889,7 +890,7 @@ typedef enum _NavigationDirectionType {
             [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
             [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];            
         }
-        [rsbViewController setContentView:[(BibleViewController *)contentViewController listContentView]];    
+        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];    
     }
 
     // -------------------------------

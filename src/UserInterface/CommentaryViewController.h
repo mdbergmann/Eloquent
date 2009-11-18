@@ -17,7 +17,7 @@
 #define COMMENTARYVIEW_NIBNAME   @"CommentaryView"
 
 /** the view of this view controller is a ScrollSynchronizableView */
-@interface CommentaryViewController : BibleViewController <NSCoding, TextDisplayable, SubviewHosting, MouseTracking> {
+@interface CommentaryViewController : BibleViewController <NSCoding> {
     IBOutlet NSButton *editButton;
     BOOL editEnabled;
 }

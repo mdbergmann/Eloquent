@@ -16,6 +16,7 @@
 @class SwordManager;
 @class ModuleListUIController;
 @class NotesManager;
+@class NotesUIController;
 @class ThreeCellsCell;
 
 @interface LeftSideBarViewController : SideBarViewController <SubviewHosting> {
@@ -26,6 +27,7 @@
     ModuleListUIController *moduleListUIController;
     SwordManager *swordManager;
     
+    NotesUIController *notesUIController;
     NotesManager *notesManager;
     
     // images

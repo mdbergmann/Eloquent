@@ -8,9 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <ProtocolHelper.h>
 
-@interface HostableViewController : NSViewController <ProgressIndicating> {
+@interface HostableViewController : NSViewController {
     // the delegate
     IBOutlet id delegate;
     
@@ -29,14 +28,11 @@
 @property (assign, readwrite) id hostingDelegate;
 @property (readwrite) BOOL viewLoaded;
 
-/** report the loading of the view is completed */
 - (void)reportLoadingComplete;
+
+// host data
 - (void)removeFromSuperview;
 - (void)adaptUIToHost;
 - (NSString *)label;
-
-// ProgressIndicating
-- (void)beginIndicateProgress;
-- (void)endIndicateProgress;
 
 @end
