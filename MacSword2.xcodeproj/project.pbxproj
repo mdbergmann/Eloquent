@@ -19,6 +19,7 @@
 		A9061E510F71364A00F6DA1F /* SearchBookSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E500F71364A00F6DA1F /* SearchBookSet.m */; };
 		A908984610C3BF1D0043465F /* Drawer.png in Resources */ = {isa = PBXBuildFile; fileRef = A908984510C3BF1D0043465F /* Drawer.png */; };
 		A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */; };
+		A908988F10C3C8BD0043465F /* edit_small.png in Resources */ = {isa = PBXBuildFile; fileRef = A908988E10C3C8BD0043465F /* edit_small.png */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
 		A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */ = {isa = PBXBuildFile; fileRef = A913C2BE0EC182E200A85F8D /* sword2.icns */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
@@ -223,6 +224,7 @@
 		A908984510C3BF1D0043465F /* Drawer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Drawer.png; sourceTree = "<group>"; };
 		A908984710C3C1AC0043465F /* LeftSideBarAccessoryUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeftSideBarAccessoryUIController.h; path = src/UserInterface/LeftSideBarAccessoryUIController.h; sourceTree = "<group>"; };
 		A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeftSideBarAccessoryUIController.m; path = src/UserInterface/LeftSideBarAccessoryUIController.m; sourceTree = "<group>"; };
+		A908988E10C3C8BD0043465F /* edit_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_small.png; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
 		A913C2BE0EC182E200A85F8D /* sword2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sword2.icns; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A908988E10C3C8BD0043465F /* edit_small.png */,
 				A908984510C3BF1D0043465F /* Drawer.png */,
 				A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */,
 				A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */,
@@ -1139,6 +1142,7 @@
 				A99A76DD10B2BCDF002EFD30 /* NotesUI.xib in Resources */,
 				A99A774B10B33DE5002EFD30 /* NotesView.xib in Resources */,
 				A908984610C3BF1D0043465F /* Drawer.png in Resources */,
+				A908988F10C3C8BD0043465F /* edit_small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

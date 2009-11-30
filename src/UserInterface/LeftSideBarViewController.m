@@ -55,7 +55,8 @@
         bookmarkImage = [[NSImage imageNamed:@"smallbookmark.tiff"] retain];
         lockedImage = [[NSImage imageNamed:NSImageNameLockLockedTemplate] retain];
         unlockedImage = [[NSImage imageNamed:NSImageNameLockUnlockedTemplate] retain];
-        notesDrawer = [[NSImage imageNamed:@"Drawer.png"] retain];
+        notesDrawerImage = [[NSImage imageNamed:@"Drawer.png"] retain];
+        noteImage = [[NSImage imageNamed:@"edit_small.png"] retain];
                 
         // load nib
         BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
@@ -484,7 +485,9 @@
             } else if([item isKindOfClass:[FileRepresentation class]]) {
                 FileRepresentation *fileRep = item;
                 if([fileRep isDirectory]) {
-                    [(ThreeCellsCell *)cell setImage:notesDrawer];                    
+                    [(ThreeCellsCell *)cell setImage:notesDrawerImage];                    
+                } else {
+                    [(ThreeCellsCell *)cell setImage:noteImage];
                 }
             }
         }

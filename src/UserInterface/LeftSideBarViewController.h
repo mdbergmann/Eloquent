@@ -35,7 +35,8 @@
     NSImage *bookmarkImage;
     NSImage *lockedImage;
     NSImage *unlockedImage;
-    NSImage *notesDrawer;
+    NSImage *notesDrawerImage;
+    NSImage *noteImage;
     
     // clicked module
     SwordModule *clickedMod;
