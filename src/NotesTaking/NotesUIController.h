@@ -8,20 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <LeftSideBarAccessoryUIController.h>
 
 @class NotesManager;
 
-@interface NotesUIController : NSObject {
-    IBOutlet id delegate;
-    IBOutlet id hostingDelegate;
-
+@interface NotesUIController : LeftSideBarAccessoryUIController {
     IBOutlet NSMenu *notesMenu;
     
     NotesManager *notesManager;
 }
 
-@property (readwrite) id delegate;
-@property (readwrite) id hostingDelegate;
 @property (readonly) NSMenu *notesMenu;
 
 // actions

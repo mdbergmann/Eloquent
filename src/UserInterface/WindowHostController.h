@@ -26,6 +26,8 @@
 @class RightSideBarViewController;
 @class SingleViewHostController;
 @class ContentDisplayingViewController;
+@class ModuleListUIController;
+@class BookmarkManagerUIController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
     // splitView to add and remove modules view. splitview hosts placeHolderView
@@ -79,6 +81,11 @@
     NSSegmentedControl *searchTypeSegControl;
     // the search text helper object
     SearchTextObject *currentSearchText;
+    
+    // for module about
+    ModuleListUIController *moduleAccessoryViewController;
+    // for bookmarks adding
+    BookmarkManagerUIController *bookmarkManagerUIController;
     
     /** flag indicating that the host has fully loaded */
     BOOL hostLoaded;

@@ -368,20 +368,22 @@
     
     // find view controller
     int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
-    ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
-    
-    // found view controller?
-    if(vc != nil) {
-        if(![vc isKindOfClass:[NotesViewController class]]) {
-            // also remove search text obj
-            [searchTextObjs removeObjectAtIndex:index];            
+    if(index >= 0) {
+        ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
+        
+        // found view controller?
+        if(vc != nil) {
+            if(![vc isKindOfClass:[NotesViewController class]]) {
+                // also remove search text obj
+                [searchTextObjs removeObjectAtIndex:index];            
+            }
+            // remove this view controller from our list
+            [viewControllers removeObjectAtIndex:index];
         }
-        // remove this view controller from our list
-        [viewControllers removeObjectAtIndex:index];
+        
+        // repaint
+        [tabControl setNeedsDisplay:YES];
     }
-    
-    // repaint
-    [tabControl setNeedsDisplay:YES];
 
     return YES;
 }
@@ -446,7 +448,6 @@
             // remove initialMainView if present
             if([[mainSplitView subviews] containsObject:[initialViewController view]]) {
                 [[initialViewController view] removeFromSuperview];
-                // and set default view
                 [mainSplitView addSubview:defaultMainView];
             }
             
@@ -488,7 +489,7 @@
             [newItem setLabel:[aViewController label]];
             [newItem setView:[aViewController view]];
             [tabView addTabViewItem:newItem];
-            [tabView selectTabViewItem:newItem]; // this is optional, but expected behavior        
+            [tabView selectTabViewItem:newItem];
 
             [self showRightSideBar:showRightSideBar];            
         }

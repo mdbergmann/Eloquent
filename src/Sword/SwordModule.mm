@@ -20,32 +20,11 @@
 #import "SwordModuleTextEntry.h"
 #import "SwordVerseKey.h"
 
-@interface SwordModule (/* Private, class continuation */)
-/** private property */
+@interface SwordModule ()
 @property(readwrite, retain) NSMutableDictionary *configEntries;
-@end
-
-@interface SwordModule (PrivateAPI)
-
 - (void)mainInit;
-
 @end
 
-@implementation SwordModule (PrivateAPI)
-
-- (void)mainInit {
-    // set type
-    [self setType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
-    // init lock
-    self.moduleLock = [[NSRecursiveLock alloc] init];
-    self.indexLock = [[NSLock alloc] init];
-    // nil values
-    self.configEntries = [NSMutableDictionary dictionary];
-    // set name
-    self.name = [NSString stringWithCString:swModule->Name() encoding:NSUTF8StringEncoding];
-}
-
-@end
 
 @implementation SwordModule
 
@@ -84,16 +63,20 @@
     return ret;
 }
 
-// initalises the module from a manager
+- (void)mainInit {
+    self.type = [SwordModule moduleTypeForModuleTypeString:[self typeString]];
+    self.moduleLock = [[NSRecursiveLock alloc] init];
+    self.indexLock = [[NSLock alloc] init];
+    self.configEntries = [NSMutableDictionary dictionary];
+    self.name = [NSString stringWithCString:swModule->Name() encoding:NSUTF8StringEncoding];
+}
+
 - (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager {
     self = [super init];
 	if(self) {
-        // get the sword module
 		swModule = [aManager getSWModuleWithName:aName];
-        // set manager
         self.swManager = aManager;
         
-        // main init
         [self mainInit];
 	}
 	
@@ -104,25 +87,18 @@
     return [self initWithSWModule:aModule swordManager:nil];
 }
 
-/** init with given SWModule */
 - (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager {    
     self = [super init];
     if(self) {
-        // copy the module instance
         swModule = aModule;
-        // init with nil and whenever it is used within here, use the default manager
         self.swManager = aManager;
         
-        // main init
         [self mainInit];
     }
     
     return self;
 }
 
-/**
- gc will cleanup
- */
 - (void)finalize {    
 	[super finalize];
 }
@@ -196,7 +172,6 @@
                                                  attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
     [ret appendAttributedString:attrString];
     NSMutableString *aboutStr = [NSMutableString stringWithString:[self aboutText]];
-    [aboutStr replaceOccurrencesOfString:@"\\par" withString:@"\n" options:0 range:NSMakeRange(0, [aboutStr length])];
     attrString = [[NSAttributedString alloc] initWithString:aboutStr 
                                                  attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];    
     if(attrString) {
@@ -258,14 +233,65 @@
     return minVersion;
 }
 
-/** this might be RTF string */
+/** this might be RTF string  but the return value will be converted to UTF8 */
 - (NSString *)aboutText {
-    NSString *aboutText = [configEntries objectForKey:SWMOD_CONFENTRY_ABOUT];
+    NSMutableString *aboutText = [configEntries objectForKey:SWMOD_CONFENTRY_ABOUT];
     if(aboutText == nil) {
-        aboutText = [self configEntryForKey:SWMOD_CONFENTRY_ABOUT];
+        aboutText = [NSMutableString stringWithString:[self configEntryForKey:SWMOD_CONFENTRY_ABOUT]];
         if(aboutText != nil) {
-            [configEntries setObject:aboutText forKey:SWMOD_CONFENTRY_ABOUT];
+			//search & replace the RTF markup:
+			// "\\qc"		- for centering							--->>>  ignore these
+			// "\\pard"		- for resetting paragraph attributes	--->>>  ignore these
+			// "\\par"		- for paragraph breaks					--->>>  honour these
+			// "\\u{num}?"	- for unicode characters				--->>>  honour these
+			[aboutText replaceOccurrencesOfString:@"\\qc" withString:@"" options:0 range:NSMakeRange(0, [aboutText length])];
+			[aboutText replaceOccurrencesOfString:@"\\pard" withString:@"" options:0 range:NSMakeRange(0, [aboutText length])];
+			[aboutText replaceOccurrencesOfString:@"\\par" withString:@"\n" options:0 range:NSMakeRange(0, [aboutText length])];
+            
+			NSMutableString *retStr = [[@"" mutableCopy] autorelease];
+			for(NSUInteger i=0; i<[aboutText length]; i++) {
+				unichar c = [aboutText characterAtIndex:i];
+                
+				if(c == '\\' && ((i+1) < [aboutText length])) {
+					unichar d = [aboutText characterAtIndex:(i+1)];
+					if (d == 'u') {
+						//we have an unicode character!
+						@try {
+							NSUInteger unicodeChar = 0;
+							NSMutableString *unicodeCharString = [[@"" mutableCopy] autorelease];
+							int j = 0;
+							BOOL negative = NO;
+							if ([aboutText characterAtIndex:(i+2)] == '-') {
+								//we have a negative unicode char
+								negative = YES;
+								j++;//skip past the '-'
+							}
+							while(isdigit([aboutText characterAtIndex:(i+2+j)])) {
+								[unicodeCharString appendFormat:@"%C", [aboutText characterAtIndex:(i+2+j)]];
+								j++;
+							}
+							unicodeChar = [unicodeCharString integerValue];
+							if (negative) unicodeChar = 65536 - unicodeChar;
+							i += j+2;
+							[retStr appendFormat:@"%C", unicodeChar];
+						}
+						@catch (NSException * e) {
+							[retStr appendFormat:@"%C", c];
+						}
+						//end dealing with the unicode character.
+					} else {
+						[retStr appendFormat:@"%C", c];
+					}
+				} else {
+					[retStr appendFormat:@"%C", c];
+				}
+			}
+			
+			aboutText = retStr;
+        } else {
+            aboutText = [NSMutableString string];
         }
+        [configEntries setObject:aboutText forKey:SWMOD_CONFENTRY_ABOUT];
     }
     
     return aboutText;    
@@ -536,7 +562,6 @@
 	return has;
 }
 
-/** wrapper around getConfigEntry() */
 - (NSString *)configEntryForKey:(NSString *)entryKey {
 	NSString *result = nil;
     
@@ -544,6 +569,9 @@
     const char *entryStr = swModule->getConfigEntry([entryKey UTF8String]);
 	if(entryStr) {
 		result = [NSString stringWithUTF8String:entryStr];
+        if(!result) {
+            result = [NSString stringWithCString:entryStr encoding:NSISOLatin1StringEncoding];
+        }
     }
 	[moduleLock unlock];
 	

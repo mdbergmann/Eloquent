@@ -21,6 +21,7 @@ typedef sword::multimapwithdefault<sword::SWBuf, sword::SWBuf, std::less <sword:
 #endif
 
 #define INSTALLSOURCE_SECTION_TYPE_FTP  "FTPSource"
+#define INSTALLSOURCE_SECTION_TYPE_HTTP	"HTTPSource"
 
 @implementation SwordInstallSourceController
 
@@ -56,18 +57,17 @@ typedef sword::multimapwithdefault<sword::SWBuf, sword::SWBuf, std::less <sword:
                 
                 // check config
                 if([fm fileExistsAtPath:configFilePath] == NO) {
+                    // create config entry
+                    sword::SWConfig config([configFilePath cStringUsingEncoding:NSUTF8StringEncoding]);
+                    config["General"]["PassiveFTP"] = "true";
+                    config.Save();
+
                     // create default Install source
                     SwordInstallSource *is = [[[SwordInstallSource alloc] initWithType:INSTALLSOURCE_TYPE_FTP] autorelease];
                     [is setCaption:@"CrossWire"];
                     [is setSource:@"ftp.crosswire.org"];
                     [is setDirectory:@"/pub/sword/raw"];
-                    
-                    // create config entry
-                    sword::SWConfig config([configFilePath cStringUsingEncoding:NSUTF8StringEncoding]);
-                    config["General"]["PassiveFTP"] = "true";
-                    config.Save();
-                    
-                    // add is
+                                        
                     // addInstallSource will reinitialize
                     [self addInstallSource:is];                    
                     
@@ -181,42 +181,59 @@ base path of the module installation
     [super dealloc];
 }
 
-// add/remove install sources
 - (void)addInstallSource:(SwordInstallSource *)is {
+    [self addInstallSource:is withReinitialize:YES];
+}
+
+// add/remove install sources
+- (void)addInstallSource:(SwordInstallSource *)is withReinitialize:(BOOL)reinit {
     
     // save at once
     sword::SWConfig config([configFilePath cStringUsingEncoding:NSUTF8StringEncoding]);
-    config["Sources"].insert(ConfigEntMap::value_type(INSTALLSOURCE_SECTION_TYPE_FTP, [[is configEntry] UTF8String]));
+	if([[is type] isEqualToString:INSTALLSOURCE_TYPE_FTP]) {
+		config["Sources"].insert(ConfigEntMap::value_type(INSTALLSOURCE_SECTION_TYPE_FTP, [[is configEntry] UTF8String]));
+	} else {
+		config["Sources"].insert(ConfigEntMap::value_type(INSTALLSOURCE_SECTION_TYPE_HTTP, [[is configEntry] UTF8String]));
+	}
     config.Save();
     
-    // reinit
-    [self reinitialize];
+	if(reinit)
+		[self reinitialize];
 }
 
 - (void)removeInstallSource:(SwordInstallSource *)is {
+    [self removeInstallSource:is withReinitialize:NO];
+}
+
+- (void)removeInstallSource:(SwordInstallSource *)is withReinitialize:(BOOL)reinit {
     
     // remove source
     [installSources removeObjectForKey:[is caption]];
     
     // save at once
     sword::SWConfig config([configFilePath cStringUsingEncoding:NSUTF8StringEncoding]);
+    config["Sources"].erase(INSTALLSOURCE_SECTION_TYPE_HTTP);
     config["Sources"].erase(INSTALLSOURCE_SECTION_TYPE_FTP);
     
     // build up new
     NSEnumerator *iter = [installSources objectEnumerator];
     SwordInstallSource *sis = nil;
     while((sis = [iter nextObject])) {
-        config["Sources"].insert(ConfigEntMap::value_type("FTPSource", [[sis configEntry] UTF8String]));        
+		if([[sis type] isEqualToString:INSTALLSOURCE_TYPE_FTP]) {
+			config["Sources"].insert(ConfigEntMap::value_type(INSTALLSOURCE_SECTION_TYPE_FTP, [[sis configEntry] UTF8String]));
+		} else {
+			config["Sources"].insert(ConfigEntMap::value_type(INSTALLSOURCE_SECTION_TYPE_HTTP, [[sis configEntry] UTF8String]));
+		}
     }
     config.Save();
     
-    // reinit
-    [self reinitialize];
+	if(reinit)
+		[self reinitialize];
 }
 
 - (void)updateInstallSource:(SwordInstallSource *)is {
     // first remove, then add again
-    [self removeInstallSource:is];
+    [self removeInstallSource:is withReinitialize:NO];
     [self addInstallSource:is];
 }
 
@@ -246,7 +263,6 @@ base path of the module installation
  uninstalls a module from a SwordManager
  */
 - (int)uninstallModule:(SwordModule *)aModule fromManager:(SwordManager *)swManager {
-    
     int stat = swInstallMgr->removeModule([swManager swManager], [[aModule name] UTF8String]);
     
     return stat;

@@ -8,13 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <LeftSideBarAccessoryUIController.h>
 
 @class BookmarkManager;
 
-@interface BookmarkManagerUIController : NSObject {
-    IBOutlet id delegate;
-    IBOutlet id hostingDelegate;
-    
+@interface BookmarkManagerUIController : LeftSideBarAccessoryUIController {
     // bookmark folder window    
     IBOutlet NSWindow *bookmarkFolderWindow;
     IBOutlet NSTextField *bookmarkFolderNameTextField;
@@ -32,8 +30,6 @@
     BookmarkManager *bookmarkManager;
 }
 
-@property (readwrite) id delegate;
-@property (readwrite) id hostingDelegate;
 @property (readonly) NSMenu *bookmarkMenu;
 
 // init

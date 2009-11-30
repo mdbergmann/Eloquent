@@ -22,6 +22,8 @@
 #import "CommentaryViewController.h"
 #import "SwordVerseKey.h"
 #import "SingleViewHostController.h"
+#import "ModuleListUIController.h"
+#import "BookmarkManagerUIController.h"
 
 @interface WindowHostController ()
 
@@ -58,7 +60,10 @@ typedef enum _NavigationDirectionType {
         
         // load rightSideBar
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
-        [rsbViewController setHostingDelegate:self];        
+        [rsbViewController setHostingDelegate:self];
+        
+        moduleAccessoryViewController = [[ModuleListUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
+        bookmarkManagerUIController = [[BookmarkManagerUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
     }
     
     return self;
@@ -354,8 +359,8 @@ typedef enum _NavigationDirectionType {
     [addBookmarkBtn sizeToFit];
     [addBookmarkBtn setFrameSize:NSMakeSize(32.0, [addBookmarkBtn frame].size.height)];
     // resize the height to what we have defined
-    [addBookmarkBtn setTarget:lsbViewController];
-    [addBookmarkBtn setAction:@selector(bookmarkDialog:)];    
+    [addBookmarkBtn setTarget:bookmarkManagerUIController];
+    [addBookmarkBtn setAction:@selector(bookmarkDialog:)];
     // add bookmark item
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADDBOOKMARK_TYPE_ITEM];
     [item setLabel:NSLocalizedString(@"AddBookmarkLabel", @"")];
@@ -967,7 +972,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
-    [lsbViewController displayModuleAboutSheetForModule:aMod];
+    [moduleAccessoryViewController displayModuleAboutSheetForModule:aMod];
 }
 
 - (NSString *)computeWindowTitle {
@@ -1174,6 +1179,9 @@ typedef enum _NavigationDirectionType {
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
         [rsbViewController setHostingDelegate:self];    
     }
+
+    moduleAccessoryViewController = [[ModuleListUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
+    bookmarkManagerUIController = [[BookmarkManagerUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
     
     return self;
 }

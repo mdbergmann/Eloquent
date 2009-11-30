@@ -51,10 +51,11 @@
         notesUIController = [[NotesUIController alloc] initWithDelegate:self hostingDelegate:delegate];
         
         // prepare images
-        bookmarkGroupImage = [[NSImage imageNamed:@"groupbookmark.tiff"] retain];
+        bookmarkGroupImage = [[NSImage imageNamed:@"Drawer.png"] retain];
         bookmarkImage = [[NSImage imageNamed:@"smallbookmark.tiff"] retain];
         lockedImage = [[NSImage imageNamed:NSImageNameLockLockedTemplate] retain];
         unlockedImage = [[NSImage imageNamed:NSImageNameLockUnlockedTemplate] retain];
+        notesDrawer = [[NSImage imageNamed:@"Drawer.png"] retain];
                 
         // load nib
         BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
@@ -382,7 +383,7 @@
             // default action on this is open another single view host with this module
             [[AppController defaultAppController] openSingleHostWindowForNote:f];        
         }
-    }   
+    }
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
@@ -481,7 +482,10 @@
                 }
                 [(ThreeCellsCell *)cell setRightImage:img];                
             } else if([item isKindOfClass:[FileRepresentation class]]) {
-                ;
+                FileRepresentation *fileRep = item;
+                if([fileRep isDirectory]) {
+                    [(ThreeCellsCell *)cell setImage:notesDrawer];                    
+                }
             }
         }
     }

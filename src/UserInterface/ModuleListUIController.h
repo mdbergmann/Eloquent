@@ -8,14 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <LeftSideBarAccessoryUIController.h>
 
 @class SwordManager;
 @class SwordModule;
 
-@interface ModuleListUIController : NSObject {
-    IBOutlet id delegate;
-    IBOutlet id hostingDelegate;
-
+@interface ModuleListUIController : LeftSideBarAccessoryUIController {
     // module about
     IBOutlet NSWindow *moduleAboutWindow;
     IBOutlet NSTextView *moduleAboutTextView;
@@ -29,8 +27,6 @@
     SwordModule *clickedMod;
 }
 
-@property (readwrite) id delegate;
-@property (readwrite) id hostingDelegate;
 @property (readonly) NSMenu *moduleMenu;
 
 // init

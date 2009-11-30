@@ -34,29 +34,23 @@ enum BookmarkMenu_Items{
 
 @implementation BookmarkManagerUIController
 
-@synthesize delegate;
-@synthesize hostingDelegate;
 @synthesize bookmarkMenu;
 
 - (id)init {
-    self = [super init];
+    return [super init];
+}
+
+- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
+    self = [super initWithDelegate:aDelegate hostingDelegate:aHostingDelegate];
     if(self) {
         bookmarkSelection = [[NSMutableArray alloc] init];
         bookmarkManager = [BookmarkManager defaultManager];
-
+        
         BOOL stat = [NSBundle loadNibNamed:BOOKMARKMANAGER_UI_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[BookmarkManagerUIController -init] unable to load nib!");
         }        
     }
-    return self;
-}
-
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
-    self = [self init];
-    self.delegate = aDelegate;
-    self.hostingDelegate = aHostingDelegate;
-    
     return self;
 }
 
@@ -91,15 +85,15 @@ enum BookmarkMenu_Items{
 }
 
 - (void)updateBookmarkSelection {
-    id clicked = [(LeftSideBarViewController *)delegate objectForClickedRow];
+    Bookmark *clickedObj = (Bookmark *)[self delegateSelectedObject];
     if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {
         // get current selected module of clicked row
-        if(clicked && [clicked isKindOfClass:[Bookmark class]]) {
+        if(clickedObj && [clickedObj isKindOfClass:[Bookmark class]]) {
             // replace any old selected with the clicked one
             [bookmarkSelection removeAllObjects];
-            [bookmarkSelection addObject:clicked];
+            [bookmarkSelection addObject:clickedObj];
         }
-    }    
+    }
 }
 
 #pragma mark - Menu Validation
@@ -144,7 +138,7 @@ enum BookmarkMenu_Items{
 - (IBAction)bookmarkMenuClicked:(id)sender {
 	MBLOGV(MBLOG_DEBUG, @"[BookmarkManagerUIController -menuClicked:] %@", [sender description]);
         
-    Bookmark *clickedObj = [delegate objectForClickedRow];
+    Bookmark *clickedObj = (Bookmark *)[self delegateSelectedObject];
     int tag = [sender tag];
     bookmarkAction = tag;
     switch(tag) {
@@ -205,7 +199,7 @@ enum BookmarkMenu_Items{
                     [bookmarkManager deleteBookmark:b];
                 }
                 [bookmarkManager saveBookmarks];
-                [delegate reload];
+                [self delegateReload];
             }
             break;
         }
@@ -217,7 +211,7 @@ enum BookmarkMenu_Items{
         }
             break;
         case BookmarkMenuOpenBMInCurrent:
-            [delegate doubleClick];
+            [self delegateDoubleClick];
             break;
     }    
 }
@@ -242,7 +236,7 @@ enum BookmarkMenu_Items{
                 } else {
                     if(![selected isLeaf]) {
                         // add to selected
-                        [[selected subGroups] addObject:bm];            
+                        [[selected subGroups] addObject:bm];
                     } else {
                         // we add to root
                         [[bookmarkManager bookmarks] addObject:bm];            
@@ -255,8 +249,9 @@ enum BookmarkMenu_Items{
         }
         
         [bookmarkManager saveBookmarks];
-    }    
-    [delegate reload];
+    } 
+    
+    [self delegateReload];
 }
 
 - (IBAction)bmFolderWindowCancel:(id)sender {
@@ -288,7 +283,7 @@ enum BookmarkMenu_Items{
     }
     
     [bookmarkManager saveBookmarks];
-    [delegate reloadData];
+    [self delegateReload];
 }
 
 // end sheet callback

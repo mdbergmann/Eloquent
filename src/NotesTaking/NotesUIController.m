@@ -23,14 +23,16 @@ enum NotesMenu_Items{
 
 @implementation NotesUIController
 
-@synthesize delegate;
-@synthesize hostingDelegate;
 @synthesize notesMenu;
 
 #pragma mark - Initialisation
 
 - (id)init {
-    self = [super init];
+    return [super init];
+}
+
+- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
+    self = [super initWithDelegate:aDelegate hostingDelegate:aHostingDelegate];
     if(self) {
         notesManager = [NotesManager defaultManager];
         
@@ -39,14 +41,6 @@ enum NotesMenu_Items{
             MBLOG(MBLOG_ERR, @"[NotesUIController -init] unable to load nib!");
         }        
     }
-    return self;
-}
-
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
-    self = [self init];
-    self.delegate = aDelegate;
-    self.hostingDelegate = aHostingDelegate;
-    
     return self;
 }
 
@@ -87,7 +81,7 @@ enum NotesMenu_Items{
 - (IBAction)notesMenuClicked:(id)sender {
 	MBLOGV(MBLOG_DEBUG, @"[NotesUIController -menuClicked:] %@", [sender description]);
     
-    FileRepresentation *clickedObj = [delegate objectForClickedRow];
+    FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
     int tag = [sender tag];
     switch(tag) {
         case NotesMenuAddNew:
@@ -95,7 +89,7 @@ enum NotesMenu_Items{
         case NotesMenuRemove:
         case NotesMenuOpenInNew:
         case NotesMenuOpenInCurrent:
-            [delegate doubleClick];
+            [self delegateDoubleClick];
             break;
     }    
 }

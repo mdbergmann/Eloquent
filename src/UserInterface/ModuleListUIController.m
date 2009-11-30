@@ -33,12 +33,14 @@ enum ModuleMenu_Items{
 
 @implementation ModuleListUIController
 
-@synthesize delegate;
-@synthesize hostingDelegate;
 @synthesize moduleMenu;
 
 - (id)init {
-    self = [super init];
+    return [super init];
+}
+
+- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
+    self = [super initWithDelegate:aDelegate hostingDelegate:aHostingDelegate];
     if(self) {
         swordManager = [SwordManager defaultManager];
         
@@ -46,20 +48,12 @@ enum ModuleMenu_Items{
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(modulesListChanged:)
                                                      name:NotificationModulesChanged object:nil];            
-
+        
         BOOL stat = [NSBundle loadNibNamed:MODULELIST_UI_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[ModuleListUIController -init] unable to load nib!");
         }        
     }
-    return self;
-}
-
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
-    self = [self init];
-    self.delegate = aDelegate;
-    self.hostingDelegate = aHostingDelegate;
-    
     return self;
 }
 
@@ -89,7 +83,7 @@ enum ModuleMenu_Items{
 #pragma mark - Notfications
 
 - (void)modulesListChanged:(NSNotification *)notification {
-    [delegate reloadData];
+    [self delegateReload];
 }
 
 #pragma mark - Menu Validation
@@ -99,7 +93,7 @@ enum ModuleMenu_Items{
     
     BOOL ret = YES;
     
-    SwordModule *clicked = [delegate objectForClickedRow];
+    SwordModule *clicked = (SwordModule *)[self delegateSelectedObject];
     
     int tag = [menuItem tag];
     if(tag == ModuleMenuOpenCurrent) {
@@ -146,7 +140,7 @@ enum ModuleMenu_Items{
     
     int tag = [sender tag];
     
-    SwordModule *clicked = [delegate objectForClickedRow];
+    SwordModule *clicked = (SwordModule *)[self delegateSelectedObject];
     clickedMod = clicked;
     
     switch(tag) {
@@ -154,7 +148,7 @@ enum ModuleMenu_Items{
             [[AppController defaultAppController] openSingleHostWindowForModule:clicked];
             break;
         case ModuleMenuOpenWorkspace:
-            [delegate doubleClick];
+            [self delegateDoubleClick];
             break;
         case ModuleMenuOpenCurrent:
         {
@@ -201,7 +195,7 @@ enum ModuleMenu_Items{
     
     [moduleUnlockTextField setStringValue:@""];
     
-    [delegate reload];
+    [self delegateReload];
 }
 
 - (IBAction)moduleUnlockCancel:(id)sender {

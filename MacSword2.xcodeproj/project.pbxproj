@@ -17,7 +17,8 @@
 		A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90545B70E62F11900CF4D18 /* DictionaryView.xib */; };
 		A9061E0F0F70EA5C00F6DA1F /* SearchBookSetEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E0E0F70EA5C00F6DA1F /* SearchBookSetEditorController.m */; };
 		A9061E510F71364A00F6DA1F /* SearchBookSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E500F71364A00F6DA1F /* SearchBookSet.m */; };
-		A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */; };
+		A908984610C3BF1D0043465F /* Drawer.png in Resources */ = {isa = PBXBuildFile; fileRef = A908984510C3BF1D0043465F /* Drawer.png */; };
+		A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
 		A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */ = {isa = PBXBuildFile; fileRef = A913C2BE0EC182E200A85F8D /* sword2.icns */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
@@ -57,8 +58,6 @@
 		A91C94330DF9B149006B7361 /* MBThreadedProgressSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */; };
 		A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */; };
 		A9202A2D0E59A2650094F629 /* CommentaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9202A2B0E59A2650094F629 /* CommentaryView.xib */; };
-		A9206EEC0EFBA91300B94E41 /* scopebar-active.png in Resources */ = {isa = PBXBuildFile; fileRef = A9206EEA0EFBA91300B94E41 /* scopebar-active.png */; };
-		A9206EED0EFBA91300B94E41 /* scopebar-notactive.png in Resources */ = {isa = PBXBuildFile; fileRef = A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */; };
 		A92480C10F4D99630048A603 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
 		A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A9266CFC0F882BC800BA1731 /* HostWindow.m */; };
 		A92819980E100F240007B767 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
@@ -221,7 +220,9 @@
 		A9061E0E0F70EA5C00F6DA1F /* SearchBookSetEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchBookSetEditorController.m; path = src/UserInterface/SearchBookSetEditorController.m; sourceTree = "<group>"; };
 		A9061E4F0F71364A00F6DA1F /* SearchBookSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookSet.h; sourceTree = "<group>"; };
 		A9061E500F71364A00F6DA1F /* SearchBookSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookSet.m; sourceTree = "<group>"; };
-		A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_gradient.png; sourceTree = "<group>"; };
+		A908984510C3BF1D0043465F /* Drawer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Drawer.png; sourceTree = "<group>"; };
+		A908984710C3C1AC0043465F /* LeftSideBarAccessoryUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeftSideBarAccessoryUIController.h; path = src/UserInterface/LeftSideBarAccessoryUIController.h; sourceTree = "<group>"; };
+		A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeftSideBarAccessoryUIController.m; path = src/UserInterface/LeftSideBarAccessoryUIController.m; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
 		A913C2BE0EC182E200A85F8D /* sword2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sword2.icns; sourceTree = "<group>"; };
@@ -298,8 +299,6 @@
 		A9202A280E59A0E80094F629 /* CommentaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentaryViewController.h; path = src/UserInterface/CommentaryViewController.h; sourceTree = "<group>"; };
 		A9202A290E59A0E80094F629 /* CommentaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentaryViewController.m; path = src/UserInterface/CommentaryViewController.m; sourceTree = "<group>"; };
 		A9202A2C0E59A2650094F629 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CommentaryView.xib; sourceTree = "<group>"; };
-		A9206EEA0EFBA91300B94E41 /* scopebar-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scopebar-active.png"; sourceTree = "<group>"; };
-		A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scopebar-notactive.png"; sourceTree = "<group>"; };
 		A92480BF0F4D99630048A603 /* SwordBibleChapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBibleChapter.h; sourceTree = "<group>"; };
 		A92480C00F4D99630048A603 /* SwordBibleChapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordBibleChapter.m; sourceTree = "<group>"; };
 		A9266CFB0F882BC800BA1731 /* HostWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostWindow.h; path = src/UserInterface/HostWindow.h; sourceTree = "<group>"; };
@@ -650,20 +649,18 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A908984510C3BF1D0043465F /* Drawer.png */,
 				A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */,
 				A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */,
 				A9D72F1D0F6D362400333554 /* ResizeControl.png */,
 				A9D72F1E0F6D362400333554 /* SidebarBottomGradient.png */,
 				A9D4B9920EFEA10800A5AFF9 /* groupbookmark.tiff */,
 				A9D4B9930EFEA10800A5AFF9 /* smallbookmark.tiff */,
-				A9206EEA0EFBA91300B94E41 /* scopebar-active.png */,
-				A9206EEB0EFBA91300B94E41 /* scopebar-notactive.png */,
 				A99DB3220EF96ABF0065482A /* scopebar_gradient.png */,
 				A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */,
 				A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */,
 				A991F4A20EE2E224009A6D08 /* ModuleManager.png */,
 				A913C2BE0EC182E200A85F8D /* sword2.icns */,
-				A90BE4B50E66E9FD008B4B60 /* dark_gradient.png */,
 				A9CDC4570E652FD700BDA30F /* fifteenpieces.png */,
 				A91A23380E61955000382F44 /* add.png */,
 				A91A23390E61955000382F44 /* edit.png */,
@@ -875,6 +872,8 @@
 				A98810330EB4A6820066943B /* SideBarViewController.m */,
 				A98810350EB4A9350066943B /* LeftSideBarViewController.h */,
 				A98810360EB4A9350066943B /* LeftSideBarViewController.m */,
+				A908984710C3C1AC0043465F /* LeftSideBarAccessoryUIController.h */,
+				A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */,
 				A9D849690EFA361F000457EC /* RightSideBarViewController.h */,
 				A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */,
 				A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */,
@@ -1112,7 +1111,6 @@
 				A91A234F0E61955000382F44 /* remove.png in Resources */,
 				A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */,
 				A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */,
-				A90BE4B60E66E9FD008B4B60 /* dark_gradient.png in Resources */,
 				A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */,
 				A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */,
 				A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */,
@@ -1124,8 +1122,6 @@
 				A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */,
 				A9D849660EFA2D34000457EC /* LeftSideBarView.xib in Resources */,
 				A9D849670EFA2D34000457EC /* RightSideBarView.xib in Resources */,
-				A9206EEC0EFBA91300B94E41 /* scopebar-active.png in Resources */,
-				A9206EED0EFBA91300B94E41 /* scopebar-notactive.png in Resources */,
 				A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */,
 				A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */,
 				A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */,
@@ -1142,6 +1138,7 @@
 				A9FCD81C10B1B919006F7A3B /* ModuleListUI.xib in Resources */,
 				A99A76DD10B2BCDF002EFD30 /* NotesUI.xib in Resources */,
 				A99A774B10B33DE5002EFD30 /* NotesView.xib in Resources */,
+				A908984610C3BF1D0043465F /* Drawer.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1258,6 +1255,7 @@
 				A99A773710B33802002EFD30 /* NotesUIController.m in Sources */,
 				A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */,
 				A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */,
+				A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
