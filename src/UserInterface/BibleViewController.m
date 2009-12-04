@@ -682,6 +682,10 @@
     }
 }
 
+- (BOOL)showsRightSideBar {
+    return [userDefaults boolForKey:DefaultsShowRSB];
+}
+
 #pragma mark - Actions
 
 - (IBAction)textContextChange:(id)sender {
@@ -905,7 +909,6 @@
         self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];        
         self.textContext = [decoder decodeIntegerForKey:@"TextContextKey"];
         
-        // init SearchBookSetController
         searchBookSetsController = [[SearchBookSetEditorController alloc] init];
         [searchBookSetsController setDelegate:self];
 
@@ -920,13 +923,9 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode common things first
     [super encodeWithCoder:encoder];
     
-    // text display context
-    [encoder encodeInteger:textContext forKey:@"TextContextKey"];
-    
-    // encode nib name
+    [encoder encodeInteger:textContext forKey:@"TextContextKey"];    
     [encoder encodeObject:nibName forKey:@"NibNameKey"];
 }
 

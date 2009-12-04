@@ -334,8 +334,12 @@
 
 #pragma mark - AccessoryViewProviding protocol
 
-- (NSView *)listContentView {
+- (NSView *)rightAccessoryView {
     return [entriesOutlineView enclosingScrollView];
+}
+
+- (BOOL)showsRightSideBar {
+    return YES;
 }
 
 #pragma mark - SubviewHosting
@@ -502,7 +506,6 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode common things first
     [super encodeWithCoder:encoder];
 }
 

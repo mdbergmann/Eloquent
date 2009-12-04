@@ -9,6 +9,7 @@
 #import "NotesUIController.h"
 #import "LeftSideBarViewController.h"
 #import "NotesManager.h"
+#import "FileRepresentation.h"
 
 
 #define NOTES_UI_NIBNAME @"NotesUI"
@@ -17,9 +18,15 @@ enum NotesMenu_Items{
     NotesMenuAddNew = 1,
     NotesMenuAddNewFolder,
     NotesMenuRemove,
-    NotesMenuOpenInNew,
-    NotesMenuOpenInCurrent,
+    ModuleMenuOpenSingle,
+    ModuleMenuOpenWorkspace,
 }NotesMenuItems;
+
+@interface NotesUIController ()
+
+- (BOOL)createNewNoteIn:(FileRepresentation *)aFolderRep folder:(BOOL)folder;
+
+@end
 
 @implementation NotesUIController
 
@@ -52,6 +59,23 @@ enum NotesMenu_Items{
     
 }
 
+- (BOOL)createNewNoteIn:(FileRepresentation *)aFolderRep folder:(BOOL)folder {
+    @try {
+        NSString *newFileName = [NSString stringWithFormat:@"%@.rtf", NSLocalizedString(@"NewNote", @"")];
+        [FileRepresentation createWithName:newFileName isFolder:folder destinationDirectoryRep:aFolderRep];
+        return YES;
+    }
+    @catch (NSException * e) {
+        MBLOGV(MBLOG_ERR, @"[NotesUIController -createNewNoteIn:] %@", [e reason]);
+        
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Error", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"ErrorOnCreatingNote", @"")];
+        [alert runModal];
+    }
+    return NO;
+}
+
 #pragma mark - Menu Validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -59,14 +83,17 @@ enum NotesMenu_Items{
     
     BOOL ret = YES;
     
+    FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
     if(delegate && hostingDelegate) {
         int tag = [menuItem tag];        
         switch(tag) {
             case NotesMenuAddNew:
             case NotesMenuAddNewFolder:
+                ret = [clickedObj isDirectory];
+                break;
             case NotesMenuRemove:
-            case NotesMenuOpenInNew:
-            case NotesMenuOpenInCurrent:
+            case ModuleMenuOpenSingle:
+            case ModuleMenuOpenWorkspace:
                 break;
         }
     } else {
@@ -85,10 +112,18 @@ enum NotesMenu_Items{
     int tag = [sender tag];
     switch(tag) {
         case NotesMenuAddNew:
+            if([self createNewNoteIn:clickedObj folder:NO]) {
+                [self delegateReload];
+            }
+            break;
         case NotesMenuAddNewFolder:
+            if([self createNewNoteIn:clickedObj folder:YES]) {
+                [self delegateReload];
+            }
+            break;
         case NotesMenuRemove:
-        case NotesMenuOpenInNew:
-        case NotesMenuOpenInCurrent:
+        case ModuleMenuOpenSingle:
+        case ModuleMenuOpenWorkspace:
             [self delegateDoubleClick];
             break;
     }    

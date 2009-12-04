@@ -29,7 +29,7 @@
 @class ModuleListUIController;
 @class BookmarkManagerUIController;
 
-@interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, WindowHosting> {
+@interface WindowHostController : NSWindowController <NSCoding, SubviewHosting> {
     // splitView to add and remove modules view. splitview hosts placeHolderView
     IBOutlet FullScreenSplitView *mainSplitView;
     // the contentview of the window
@@ -129,19 +129,14 @@
 // Printing
 - (IBAction)myPrint:(id)sender;
 
-// WindowHosting
-- (ModuleType)moduleType;
-
 // computed window title
 - (NSString *)computeWindowTitle;
+- (void)setupContentRelatedViews;
+- (void)adaptAccessoryViewComponents;
 
 // SubviewHosting
 - (void)contentViewInitFinished:(HostableViewController *)aView;
 - (void)removeSubview:(HostableViewController *)aViewController;
-
-// NSCoding
-- (id)initWithCoder:(NSCoder *)decoder;
-- (void)encodeWithCoder:(NSCoder *)encoder;
 
 // actions
 - (void)clearRecents:(id)sender;

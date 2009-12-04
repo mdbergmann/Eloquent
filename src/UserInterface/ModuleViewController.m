@@ -42,13 +42,10 @@
     if(self) {
         performProgressCalculation = YES;
         
-        // pre-set search type to Reference
         searchType = ReferenceSearchType;
         
-        // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
 
-        // register for modules changed notification
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(modulesListChanged:)
                                                      name:NotificationModulesChanged object:nil];            
@@ -485,17 +482,12 @@
     self = [super initWithCoder:decoder];
     if(self) {
         performProgressCalculation = YES;
-        // pre-set search type to Reference
         searchType = ReferenceSearchType;
-        // decode module name
         NSString *moduleName = [decoder decodeObjectForKey:@"ModuleNameEncoded"];
-        // set module
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
         
-        // create textview controller
         textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
 
-        // register for modules changed notification
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(modulesListChanged:)
                                                      name:NotificationModulesChanged object:nil];            
@@ -507,9 +499,7 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode common things first
     [super encodeWithCoder:encoder];
-    // encode module name
     [encoder encodeObject:[module name] forKey:@"ModuleNameEncoded"];
 }
 

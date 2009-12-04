@@ -18,6 +18,7 @@
 @class NotesManager;
 @class NotesUIController;
 @class ThreeCellsCell;
+@class LeftSideBarAccessoryUIController;
 
 @interface LeftSideBarViewController : SideBarViewController <SubviewHosting> {
         
@@ -55,7 +56,7 @@
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
 
-- (void)reload;
+- (void)reloadForController:(LeftSideBarAccessoryUIController *)aController;
 - (void)doubleClick;
 
 @end

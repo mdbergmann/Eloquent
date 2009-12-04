@@ -100,10 +100,9 @@ enum ModuleMenu_Items{
         if([clicked isKindOfClass:[SwordModule class]]) {
             SwordModule *mod = clicked;
             
-            if([[hostingDelegate contentViewController] isKindOfClass:[BibleCombiViewController class]]) {
+            if([[hostingDelegate contentViewController] contentViewType] == SwordBibleContentType) {
                 // only commentary and bible views are able to show within bible the current
-                if(([hostingDelegate moduleType] == mod.type) ||
-                   ([hostingDelegate moduleType] == bible && mod.type == commentary)) {
+                if(mod.type == bible || mod.type == commentary) {                    
                     ret = YES;
                 } else {
                     ret = NO;

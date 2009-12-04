@@ -359,6 +359,10 @@
     return referenceOptionsView;
 }
 
+- (BOOL)showsRightSideBar {
+    return [userDefaults boolForKey:DefaultsShowRSB];
+}
+
 #pragma mark - ModuleProviding
 
 - (SwordModule *)module {

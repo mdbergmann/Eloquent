@@ -55,6 +55,8 @@
 - (void)awakeFromNib {
     [self displayText];
     
+    [saveButton setEnabled:NO];
+    
     viewLoaded = YES;
     [self reportLoadingComplete];
 }
@@ -70,8 +72,70 @@
 
 - (void)displayText {
     if(fileRep) {
-        [textView insertText:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL]];
-    }    
+        NSData *textData = [fileRep fileContent];
+        if([textData length] > 0) {
+            [textView insertText:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL]];            
+        }
+    }
+}
+
+#pragma mark - AccessoryViewProviding protocol
+
+- (BOOL)showsRightSideBar {
+    return NO;
+}
+
+#pragma mark - Printing
+
+- (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {
+    NSSize paperSize = [printInfo paperSize];
+    
+    NSSize printSize = NSMakeSize(paperSize.width - ([printInfo leftMargin] + [printInfo rightMargin]), 
+                                  paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
+    
+    // create print view
+    NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
+    [printView insertText:[textView attributedString]];
+    
+    return printView;
+}
+
+#pragma mark - NSTextView delegate methods
+
+- (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+    [saveButton setEnabled:YES];
+    return YES;
+}
+
+#pragma mark - Actions
+
+- (IBAction)save:(id)sender {
+    NSData *rtfData = [textView RTFFromRange:NSMakeRange(0, [[textView string] length])];
+    [fileRep setFileContent:rtfData];
+    [saveButton setEnabled:NO];
+}
+
+#pragma mark - NSCoding protocol
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super initWithCoder:decoder];
+    if(self) {
+        self.fileRep = [[FileRepresentation alloc] initWithPath:[decoder decodeObjectForKey:@"NoteFilePath"]];
+        
+        // load nib
+        BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];
+        if(!stat) {
+            MBLOG(MBLOG_ERR, @"[NotesViewController -initWithCoder:] unable to load nib!");
+        }
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [super encodeWithCoder:encoder];
+    
+    [encoder encodeObject:[fileRep filePath] forKey:@"NoteFilePath"];
 }
 
 @end

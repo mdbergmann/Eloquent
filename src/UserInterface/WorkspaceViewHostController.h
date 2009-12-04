@@ -20,7 +20,7 @@
 @class SwordModule;
 @class FileRepresentation;
 
-@interface WorkspaceViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
+@interface WorkspaceViewHostController : WindowHostController <NSCoding, SubviewHosting> {
 
     /** the view switcher */
     //IBOutlet NSSegmentedControl *tabControl;
@@ -52,9 +52,6 @@
 - (IBAction)addTab:(id)sender;
 - (IBAction)menuItemSelected:(id)sender;
 - (IBAction)openModuleInstaller:(id)sender;
-
-// WindowHosting
-- (ModuleType)moduleType;
 
 // SubviewHosting
 - (void)contentViewInitFinished:(HostableViewController *)aView;

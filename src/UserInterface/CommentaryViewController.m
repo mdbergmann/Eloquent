@@ -481,7 +481,6 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode common things first
     [super encodeWithCoder:encoder];
 }
 

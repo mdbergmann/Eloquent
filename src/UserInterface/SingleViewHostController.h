@@ -19,9 +19,7 @@
 @class SwordModule;
 @class SearchTextObject;
 
-@interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting, WindowHosting> {
-    // the type of view
-    ModuleType moduleType;
+@interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting> {
 }
 
 // initializers
@@ -31,9 +29,6 @@
 // methods
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
-
-// WindowHosting
-- (ModuleType)moduleType;
 
 // SubviewHosting
 - (void)contentViewInitFinished:(HostableViewController *)aView;

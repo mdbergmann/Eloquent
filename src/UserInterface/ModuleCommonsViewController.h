@@ -27,7 +27,6 @@ enum GeneralMenuItemAdditions {
 };
 
 @interface ModuleCommonsViewController : ContentDisplayingViewController <NSCoding, TextDisplayable, MouseTracking> {
-    /** options */
     IBOutlet NSView *referenceOptionsView;
 
     IBOutlet NSPopUpButton *fontSizePopUpButton;
@@ -90,9 +89,6 @@ enum GeneralMenuItemAdditions {
  font size options
  */
 - (void)initFontSizeOptions;
-
-// printing
-- (NSView *)printViewForInfo:(NSPrintInfo *)printInfo;
 
 // Actions to be overriden by subclasses
 - (IBAction)fontSizeChange:(id)sender;

@@ -24,6 +24,28 @@
 @synthesize parent;
 
 
++ (FileRepresentation *)createWithName:(NSString *)aName isFolder:(BOOL)isFolder destinationDirectoryRep:(FileRepresentation *)aFolderRep {
+    if(![aFolderRep isDirectory]) {
+        MBLOG(MBLOG_WARN, @"[FileRepresentation +createWithName::] destination is no directory!");
+        [NSException raise:@"NoDirectory" format:@"Given inFolder FileRepresentation is no folder!"];
+    }
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *absFileName = [[aFolderRep filePath] stringByAppendingPathComponent:aName];
+    BOOL createSuccess = YES;
+    if(!isFolder) {
+        createSuccess = [fm createFileAtPath:absFileName contents:[NSData data] attributes:nil];
+    } else {
+        createSuccess = [fm createDirectoryAtPath:absFileName attributes:nil];        
+    }
+    if(createSuccess) {
+        FileRepresentation *fileRep = [[FileRepresentation alloc] initWithPath:absFileName];
+        [aFolderRep addFileRepresentation:fileRep];
+        return fileRep;
+    }
+    return nil;
+}
+
 + (BOOL)copyComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep {
     if(![destDirectoryRep isDirectory]) {
         MBLOG(MBLOG_WARN, @"[FileRepresentation +moveComplete::] destination is no directory!");
@@ -122,7 +144,7 @@
 }
 
 - (NSData *)fileContent {
-    return [NSData dataWithContentsOfFile:[self filePath]];
+    return[NSData dataWithContentsOfFile:[self filePath]];
 }
 
 - (void)setFileContent:(NSData *)aData {

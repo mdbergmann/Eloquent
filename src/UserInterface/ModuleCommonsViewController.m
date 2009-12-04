@@ -296,13 +296,6 @@
     [textContextPopUpButton setAction:@selector(textContextChange:)];
 }
 
-#pragma mark - Printing
-
-/** to be overriden by subclasses */
-- (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {
-    return nil;
-}
-
 #pragma mark - Actions
 
 - (IBAction)fontSizeChange:(id)sender {
@@ -548,6 +541,20 @@
     return referenceOptionsView;
 }
 
+- (void)adaptTopAccessoryViewComponentsForSearchType:(SearchType)aType {
+    if(aType == ReferenceSearchType) {
+        [[self modDisplayOptionsPopUpButton] setEnabled:YES];
+        [[self displayOptionsPopUpButton] setEnabled:YES];
+        [[self fontSizePopUpButton] setEnabled:YES];
+        [[self textContextPopUpButton] setEnabled:NO];
+    } else {
+        [[self modDisplayOptionsPopUpButton] setEnabled:NO];
+        [[self displayOptionsPopUpButton] setEnabled:NO];
+        [[self fontSizePopUpButton] setEnabled:YES];
+        [[self textContextPopUpButton] setEnabled:YES];
+    }            
+}
+
 #pragma mark - MouseTracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
@@ -600,22 +607,17 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [self init];
     if(self) {
-        // decode reference
         self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
-        // decode font size
         NSNumber *fontSize = [decoder decodeObjectForKey:@"CustomFontSizeEncoded"];
         if(fontSize) {
             self.customFontSize = [fontSize intValue];        
         }
-        // display options
         NSDictionary *dOpts = [decoder decodeObjectForKey:@"ReferenceModDisplayOptions"];
         if(dOpts) {
-            // set defaults
             self.modDisplayOptions = [NSMutableDictionary dictionaryWithDictionary:dOpts];
         }
         dOpts = [decoder decodeObjectForKey:@"ReferenceDisplayOptions"];
         if(dOpts) {
-            // set defaults
             self.displayOptions = [NSMutableDictionary dictionaryWithDictionary:dOpts];
         }
     }
@@ -624,13 +626,9 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode custom font size
     [encoder encodeObject:[NSNumber numberWithInt:customFontSize] forKey:@"CustomFontSizeEncoded"];
-    // encode reference
     [encoder encodeObject:reference forKey:@"ReferenceEncoded"];
-    // display options
     [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
-    // display options
     [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
 }
 

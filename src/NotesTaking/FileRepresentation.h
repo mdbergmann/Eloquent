@@ -19,6 +19,7 @@
 
 @property (readwrite, retain) NSString *filePath;
 
++ (FileRepresentation *)createWithName:(NSString *)aName isFolder:(BOOL)isFolder destinationDirectoryRep:(FileRepresentation *)aFolderRep;
 + (BOOL)copyComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep;
 + (BOOL)moveComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep;
 + (BOOL)deleteComplete:(FileRepresentation *)fileRep;

@@ -34,6 +34,7 @@
 
 @interface LeftSideBarViewController ()
 
+- (void)reload;
 - (BOOL)isDropSectionBookmarksForItem:(id)anItem;
 
 @end
@@ -108,6 +109,16 @@
     [outlineView reloadData];
     [outlineView expandItem:[outlineView itemAtRow:1]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
+}
+
+- (void)reloadForController:(LeftSideBarAccessoryUIController *)aController {
+    if([aController isKindOfClass:[ModuleListUIController class]]) {
+        [outlineView reloadItem:[outlineView itemAtRow:0] reloadChildren:YES];
+    } else if([aController isKindOfClass:[BookmarkManagerUIController class]]) {
+        [outlineView reloadItem:[outlineView itemAtRow:1] reloadChildren:YES];
+    } else if([aController isKindOfClass:[NotesUIController class]]) {
+        [outlineView reloadItem:[outlineView itemAtRow:2] reloadChildren:YES];        
+    }
 }
 
 #pragma mark - SubviewHosting protocol
@@ -251,6 +262,17 @@
     }
     
     return ret;
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+    if([item isKindOfClass:[FileRepresentation class]]) {
+        FileRepresentation *fileRep = item;
+        NSString *fileName = (NSString *)object;
+        if(![fileRep isDirectory]) {
+            fileName = [NSString stringWithFormat:@"%@.rtf", fileName];
+        }
+        [fileRep setName:fileName];            
+    }    
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
@@ -422,10 +444,14 @@
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    if([item isKindOfClass:[FileRepresentation class]]) {
+        return YES;
+    }
     return NO;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
+    /*
     if(item != nil) {
         if([item isKindOfClass:[NSString class]] && 
            ([(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")] ||
@@ -434,6 +460,7 @@
                return YES;
         }
     }
+     */
     
     return NO;
 }
@@ -444,6 +471,7 @@
     [(ThreeCellsCell *)cell setRightImage:nil];
     [(ThreeCellsCell *)cell setRightCounter:0];
     [(ThreeCellsCell *)cell setLeftCounter:0];
+    [(ThreeCellsCell *)cell setEditable:NO];    
 
     if(item != nil) {        
         if([item isKindOfClass:[NSString class]]) {
@@ -483,6 +511,7 @@
                 }
                 [(ThreeCellsCell *)cell setRightImage:img];                
             } else if([item isKindOfClass:[FileRepresentation class]]) {
+                [(ThreeCellsCell *)cell setEditable:YES];
                 FileRepresentation *fileRep = item;
                 if([fileRep isDirectory]) {
                     [(ThreeCellsCell *)cell setImage:notesDrawerImage];                    

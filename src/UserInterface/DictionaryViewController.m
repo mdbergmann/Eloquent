@@ -360,6 +360,10 @@
     return [entriesTableView enclosingScrollView];
 }
 
+- (BOOL)showsRightSideBar {
+    return YES;
+}
+
 #pragma mark - SubviewHosting
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -492,7 +496,6 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode common things first
     [super encodeWithCoder:encoder];
 }
 

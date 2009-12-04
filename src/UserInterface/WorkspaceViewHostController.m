@@ -120,25 +120,10 @@
     
     // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
+    
     if(contentViewController != nil) {
-        // add content view
-        [placeHolderView setContentView:[contentViewController view]];
-
-        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
-        [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];                    
-        
-        BOOL showRightSideBar = NO;
-        
-        if([contentViewController isKindOfClass:[ModuleCommonsViewController class]]) {
-            // all booktypes have something to show in the right side bar
-            if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
-               [contentViewController isKindOfClass:[GenBookViewController class]]) {
-                showRightSideBar = YES;
-            } else {
-                showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
-            }
-        }
-        [self showRightSideBar:showRightSideBar];        
+        [self setupContentRelatedViews];
+        [self adaptAccessoryViewComponents];
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
     
@@ -146,22 +131,6 @@
 }
 
 #pragma mark - Methods
-
-- (ModuleType)moduleType {
-    ModuleType moduleType = bible;
-    
-    if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
-        moduleType = commentary;
-    } else if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-        moduleType = bible;
-    } else if([contentViewController isKindOfClass:[DictionaryViewController class]]) {
-        moduleType = dictionary;
-    } else if([contentViewController isKindOfClass:[GenBookViewController class]]) {
-        moduleType = genbook;
-    }
-    
-    return moduleType;
-}
 
 - (ContentDisplayingViewController *)contentViewController {
     return contentViewController;
@@ -240,12 +209,6 @@
 
 #pragma mark - Toolbar Actions
 
-- (void)addBibleTB:(id)sender {
-    if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:nil];
-    }
-}
-
 - (IBAction)forceReload:(id)sender {
     [(ModuleCommonsViewController *)contentViewController setForceRedisplay:YES];
     [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
@@ -265,11 +228,9 @@
 - (IBAction)performClose:(id)sender {
     MBLOG(MBLOG_DEBUG, @"[WorkspaceViewHostController -performClose:]");
 
-    // if there are no tabs, close window
     if([[tabView tabViewItems] count] == 0) {
         [self close];
     } else {
-        // get current selected tab item
         NSTabViewItem *item = [tabView selectedTabViewItem];
         if(item != nil) {
             // find view controller
@@ -277,11 +238,8 @@
             HostableViewController *vc = [viewControllers objectAtIndex:index];
             [tabView removeTabViewItem:item];
             
-            // found view controller?
             if(vc != nil) {
-                // also remove search text obj
                 [searchTextObjs removeObjectAtIndex:index];
-                // remove this view controller from our list
                 [viewControllers removeObjectAtIndex:index];
             }
         }
@@ -289,7 +247,7 @@
 }
 
 - (IBAction)addTab:(id)sender {
-    // get default bible
+    // adding a tab adds a default bible view
     NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
     SwordModule *mod = nil;
     if(sBible != nil) {
@@ -298,7 +256,7 @@
     if(mod) {
         [self addTabContentForModule:mod];
     } else {
-        [self addTabContentForModuleType:[self moduleType]];    
+        // TODO: define a deault bible to open here
     }
 }
 
@@ -369,19 +327,13 @@
     // find view controller
     int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
     if(index >= 0) {
-        ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
-        
-        // found view controller?
+        ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];        
         if(vc != nil) {
-            if(![vc isKindOfClass:[NotesViewController class]]) {
-                // also remove search text obj
-                [searchTextObjs removeObjectAtIndex:index];            
-            }
+            // also remove search text obj
+            [searchTextObjs removeObjectAtIndex:index];            
             // remove this view controller from our list
             [viewControllers removeObjectAtIndex:index];
-        }
-        
-        // repaint
+        }        
         [tabControl setNeedsDisplay:YES];
     }
 
@@ -398,36 +350,26 @@
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     if(hostLoaded) {
         if([[tabControl representedTabViewItems] containsObject:tabViewItem]) {
-            
             int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
-            ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
-            contentViewController = vc;
+            contentViewController = [viewControllers objectAtIndex:index];
             
             if(contentViewController != nil) {
-                [rsbViewController setContentView:[(<AccessoryViewProviding>)vc rightAccessoryView]];
-                [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)vc topAccessoryView]];                    
-            }
-            
-            BOOL showRightSideBar = NO;
-            
-            // this should help with the problem that the ride side bar always was reset to default width when switching tabs
-            if([vc isKindOfClass:[DictionaryViewController class]] ||
-               [vc isKindOfClass:[GenBookViewController class]]) {
-                if(![self showingRSB]) {
-                    showRightSideBar = YES;
-                }
-            } else if([vc isKindOfClass:[ModuleCommonsViewController class]]) {
-                if(![self showingRSB] && [userDefaults boolForKey:DefaultsShowRSB]) {
-                    showRightSideBar = YES;
-                }
-            }
+                [rsbViewController setContentView:[contentViewController rightAccessoryView]];
+                [placeHolderSearchOptionsView setContentView:[contentViewController topAccessoryView]];                    
 
-            [self showRightSideBar:showRightSideBar];            
+                BOOL showRightSideBar = YES;
+                if([contentViewController isSwordModuleContentType]) {
+                    if([self showingRSB] && ![userDefaults boolForKey:DefaultsShowRSB]) {
+                        showRightSideBar = NO;
+                    }
+                } else if([contentViewController isNoteContentType]) {
+                    showRightSideBar = NO;
+                }
+                [self showRightSideBar:showRightSideBar];
+            }
             
-            // also set current search Text
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
-            
-            // tell host to adapt ui
+            [self adaptAccessoryViewComponents];
             [self adaptUIToCurrentlyDisplayingModuleType];
         }
     }
@@ -453,45 +395,30 @@
             
             [viewControllers addObject:aViewController];
             contentViewController = (ContentDisplayingViewController *)aViewController;
-            
-            [rsbViewController setContentView:[(<AccessoryViewProviding>)aViewController rightAccessoryView]];
-            [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)aViewController topAccessoryView]];                    
-            
-            BOOL showRightSideBar = NO;
-            
-            if([aViewController isKindOfClass:[ModuleCommonsViewController class]]) {
-                SearchType stype = ReferenceSearchType;
-                if([aViewController isKindOfClass:[GenBookViewController class]]) {
-                    stype = IndexSearchType;
-                }
-                
-                // all booktypes have something to show in the right side bar
-                if([aViewController isKindOfClass:[DictionaryViewController class]] ||
-                   [aViewController isKindOfClass:[GenBookViewController class]]) {
-                    showRightSideBar = YES;
-                } else {
-                    showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
-                }
-
-                // extend searchTexts
-                SearchTextObject *sto = [[SearchTextObject alloc] init];
-                [sto setSearchText:@"" forSearchType:stype];
-                [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
-                [sto setSearchType:stype];
-                [searchTextObjs addObject:sto];
-                // also set current search Text
-                [self setCurrentSearchText:sto];
-                                
-                [self adaptUIToCurrentlyDisplayingModuleType];                
+                        
+            SearchType stype = ReferenceSearchType;
+            if([contentViewController contentViewType] == SwordGenBookContentType) {
+                stype = IndexSearchType;
             }
             
+            // extend searchTexts
+            SearchTextObject *sto = [[SearchTextObject alloc] init];
+            [sto setSearchText:@"" forSearchType:stype];
+            [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
+            [sto setSearchType:stype];
+            [searchTextObjs addObject:sto];
+            [self setCurrentSearchText:sto];
+                                        
+            // add tab item
             NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
-            [newItem setLabel:[aViewController label]];
-            [newItem setView:[aViewController view]];
+            [newItem setLabel:[contentViewController label]];
+            [newItem setView:[contentViewController view]];
             [tabView addTabViewItem:newItem];
             [tabView selectTabViewItem:newItem];
 
-            [self showRightSideBar:showRightSideBar];            
+            [self setupContentRelatedViews];
+            [self adaptAccessoryViewComponents];
+            [self adaptUIToCurrentlyDisplayingModuleType];
         }
     }
 }
@@ -511,20 +438,15 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {
-                
-        // decode search texts
         self.searchTextObjs = [decoder decodeObjectForKey:@"SearchTextObjects"];
 
-        // decode viewControllers
         self.viewControllers = [decoder decodeObjectForKey:@"HostableViewControllerListEncoded"];
-        // set delegate
         for(ContentDisplayingViewController *vc in viewControllers) {
             [vc setDelegate:self];
             [vc setHostingDelegate:self];
             [vc adaptUIToHost];
         }
 
-        // load the common things
         [super initWithCoder:decoder];
 
         // load nib
@@ -541,7 +463,6 @@
             [[self window] setFrame:frame display:YES];
         }
 
-        // loop over tab items and set title
         for(NSTabViewItem *item in [tabView tabViewItems]) {
             [item setLabel:[self computeTabTitle]];
         }
@@ -551,9 +472,7 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode hostableviewcontroller
     [encoder encodeObject:viewControllers forKey:@"HostableViewControllerListEncoded"];
-    // encode search texts
     [encoder encodeObject:searchTextObjs forKey:@"SearchTextObjects"];
     
     [super encodeWithCoder:encoder];

@@ -21,7 +21,7 @@
 #import "SwordModule.h"
 #import "SearchTextObject.h"
 
-@interface SingleViewHostController (/* */)
+@interface SingleViewHostController ()
 
 @end
 
@@ -41,7 +41,6 @@
 - (id)initForViewType:(ModuleType)aType {
     self = [self init];
     if(self) {
-        moduleType = aType;
         if(aType == bible) {
             contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self];
             self.searchType = ReferenceSearchType;
@@ -72,7 +71,7 @@
 - (id)initWithModule:(SwordModule *)aModule {
     self = [self init];
     if(self) {
-        moduleType = [aModule type];
+        ModuleType moduleType = [aModule type];
         if(moduleType == bible) {
             contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
             self.searchType = ReferenceSearchType;
@@ -107,49 +106,19 @@
 
     // set recent searche array
     [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
-    
-    // check if view has loaded
-    if(contentViewController.viewLoaded == YES) {
-        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
-        [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];                    
         
-        BOOL showRightSideBar = NO;
-        
-        if([contentViewController isKindOfClass:[ModuleCommonsViewController class]]) {
-            // all booktypes have something to show in the right side bar
-            if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
-               [contentViewController isKindOfClass:[GenBookViewController class]]) {
-                showRightSideBar = YES;
-            } else {
-                showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
-            }
-        }
-        [self showRightSideBar:showRightSideBar];        
-        [self adaptUIToCurrentlyDisplayingModuleType];
-    }
-    
     // set font for bottombar segmented control
     [leftSideBottomSegControl setFont:FontStd];
     [rightSideBottomSegControl setFont:FontStd];
-}
 
-#pragma mark - methods
-
-- (ModuleType)moduleType {
-    ModuleType type = bible;
-    
-    if([contentViewController isKindOfClass:[CommentaryViewController class]]) {
-        type = commentary;
-    } else if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-        type = bible;
-    } else if([contentViewController isKindOfClass:[DictionaryViewController class]]) {
-        type = dictionary;
-    } else if([contentViewController isKindOfClass:[GenBookViewController class]]) {
-        type = genbook;
+    if(contentViewController != nil) {
+        [self setupContentRelatedViews];
+        [self adaptAccessoryViewComponents];
+        [self adaptUIToCurrentlyDisplayingModuleType];
     }
-
-    return type;
 }
+
+#pragma mark - Methods
 
 - (NSView *)view {
     return [(NSBox *)placeHolderView contentView];
@@ -157,14 +126,6 @@
 
 - (void)setView:(NSView *)aView {
     [(NSBox *)placeHolderView setContentView:aView];
-}
-
-#pragma mark - toolbar actions
-
-- (void)addBibleTB:(id)sender {
-    if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)contentViewController addNewBibleViewWithModule:nil];
-    }
 }
 
 #pragma mark - Actions
@@ -184,23 +145,9 @@
     [super contentViewInitFinished:aView];
     
     if([aView isKindOfClass:[ContentDisplayingViewController class]]) {
-        [placeHolderView setContentView:[aView view]];
-
-        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
-        [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];                    
-        
-        BOOL showRightSideBar = NO;
-        
-        if([contentViewController isKindOfClass:[ModuleCommonsViewController class]]) {
-            // all booktypes have something to show in the right side bar
-            if([contentViewController isKindOfClass:[DictionaryViewController class]] ||
-               [contentViewController isKindOfClass:[GenBookViewController class]]) {
-                showRightSideBar = YES;
-            } else {
-                showRightSideBar = [userDefaults boolForKey:DefaultsShowRSB];
-            }
-        }
-        [self showRightSideBar:showRightSideBar];        
+        self.contentViewController = (ContentDisplayingViewController *)aView;
+        [self setupContentRelatedViews];
+        [self adaptAccessoryViewComponents];
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
 }
@@ -216,21 +163,12 @@
     if(self) {        
         // decode contentViewController
         contentViewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
-        // set delegate
         [contentViewController setDelegate:self];
         [contentViewController setHostingDelegate:self];
         [contentViewController adaptUIToHost];
         
-        // decode searchQuery
         self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
 
-        if([contentViewController isKindOfClass:[BibleCombiViewController class]]) {
-            moduleType = bible;
-        } else {
-            moduleType = [[(ModuleViewController *)contentViewController module] type];        
-        }
-
-        // load the common things
         [super initWithCoder:decoder];
 
         // load nib
@@ -252,7 +190,6 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    // encode hostableviewcontroller
     [encoder encodeObject:contentViewController forKey:@"HostableViewControllerEncoded"];
     
     [super encodeWithCoder:encoder];

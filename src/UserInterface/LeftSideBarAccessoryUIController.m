@@ -33,7 +33,7 @@
 
 - (void)delegateReload {
     if(delegate && [delegate respondsToSelector:@selector(reload)]) {
-        [delegate performSelector:@selector(reload)];
+        [delegate performSelector:@selector(reload) withObject:self];
     }    
 }
 

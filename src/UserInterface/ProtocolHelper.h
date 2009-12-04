@@ -18,10 +18,6 @@
 - (void)removeSubview:(HostableViewController *)aViewController;
 @end
 
-@protocol WindowHosting
-- (ModuleType)moduleType;
-@end
-
 /** protocol to track mouse movement */
 @protocol MouseTracking
 - (void)mouseEntered:(NSView *)theView;
@@ -38,6 +34,8 @@
 @protocol AccessoryViewProviding
 - (NSView *)topAccessoryView;
 - (NSView *)rightAccessoryView;
+- (void)adaptTopAccessoryViewComponentsForSearchType:(SearchType)aType;
+- (BOOL)showsRightSideBar;
 @end
 
 @protocol TextDisplayable

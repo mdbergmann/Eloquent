@@ -20,10 +20,14 @@
 #import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
+#import "GenBookViewController.h"
+#import "DictionaryViewController.h"
 #import "SwordVerseKey.h"
 #import "SingleViewHostController.h"
 #import "ModuleListUIController.h"
 #import "BookmarkManagerUIController.h"
+#import "WorkspaceViewHostController.h"
+#import "NotesViewController.h"
 
 @interface WindowHostController ()
 
@@ -70,7 +74,6 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)awakeFromNib {
-    
     // set default widths for sbs
     defaultLSBWidth = 250;
     defaultRSBWidth = 200;
@@ -85,7 +88,6 @@ typedef enum _NavigationDirectionType {
     [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     [contentSplitView setDelegate:self];
     
-    // toolbar
     [self setupToolbar];
     
     // activate mouse movement in subviews
@@ -93,25 +95,6 @@ typedef enum _NavigationDirectionType {
     // set window status bar
 	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
 	[self.window setContentBorderThickness:35.0f forEdge:NSMinYEdge];
-    
-    // set up left and right side bar
-    /*
-    if([lsbViewController viewLoaded]) {
-        [mainSplitView addSubview:[lsbViewController view] positioned:NSWindowBelow relativeTo:nil];
-        NSSize s = [[lsbViewController view] frame].size;
-        s.width = lsbWidth;
-        [[lsbViewController view] setFrameSize:s];
-    }
-     */
-    /*
-    if([rsbViewController viewLoaded]) {
-        [contentSplitView addSubview:[rsbViewController view] positioned:NSWindowAbove relativeTo:nil];
-        NSSize s = [[rsbViewController view] frame].size;
-        s.width = rsbWidth;
-        [[rsbViewController view] setFrameSize:s];
-    }
-     */
-    
     
     // lets show the images in sidebar seg control
     [self showingLSB];
@@ -122,13 +105,6 @@ typedef enum _NavigationDirectionType {
     // prepare search text fields recents menu
     NSMenu *recentsMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")];
     [recentsMenu setAutoenablesItems:YES];
-    //NSMenuItem *item = [recentsMenu addItemWithTitle:NSLocalizedString(@"ClearRecentItems", @"") action:@selector(clearRecents:) keyEquivalent:@""];
-    //[item setTarget:self];
-    //[item setAction:@selector(clearRecents:)];
-    // separator
-    //item = [NSMenuItem separatorItem];
-    //[recentsMenu addItem:item];
-    //[item setTag:NSSearchFieldRecentsTitleMenuItemTag];
     // recent searches
     NSMenuItem *item = [recentsMenu addItemWithTitle:NSLocalizedString(@"RecentSearches", @"") action:nil keyEquivalent:@""];
     [item setTag:NSSearchFieldRecentsTitleMenuItemTag];
@@ -138,19 +114,7 @@ typedef enum _NavigationDirectionType {
     // install menu
     [[searchTextField cell] setSearchMenuTemplate:recentsMenu];
     
-    if(contentViewController != nil) {
-        if([currentSearchText searchType] == ReferenceSearchType) {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];
-        } else {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];
-        }
-    }
+    [self setupContentRelatedViews];
 }
 
 - (void)setSearchType:(SearchType)aType {
@@ -159,6 +123,19 @@ typedef enum _NavigationDirectionType {
 
 - (SearchType)searchType; {
     return [currentSearchText searchType];
+}
+
+- (void)setupContentRelatedViews {
+    [placeHolderView setContentView:[contentViewController view]];        
+    [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
+    [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];    
+}
+
+- (void)adaptAccessoryViewComponents {
+    if(contentViewController != nil) {
+        [contentViewController adaptTopAccessoryViewComponentsForSearchType:[self searchType]];
+        [self showRightSideBar:[contentViewController showsRightSideBar]];
+    }
 }
 
 #pragma mark - toolbar stuff
@@ -177,106 +154,9 @@ typedef enum _NavigationDirectionType {
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     
     NSToolbarItem *item = nil;
-    //NSImage *image = nil;
-    
-    // ----------------------------------------------------------------------------------------
-    // toggle module list view
-    /*
-     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TOGGLE_MODULES_ITEM];
-     [item setLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
-     [item setPaletteLabel:NSLocalizedString(@"ToggleModulesLabel", @"")];
-     [item setToolTip:NSLocalizedString(@"ToggleModulesToolTip", @"")];
-     image = [NSImage imageNamed:@"agt_add-to-autorun.png"];
-     [item setImage:image];
-     [item setTarget:self];
-     [item setAction:@selector(toggleModulesTB:)];
-     [tbIdentifiers setObject:item forKey:TB_TOGGLE_MODULES_ITEM];
-     */
-    
-    /*
-     if([self moduleType] == bible) {
-     // add bibleview
-     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADD_BIBLE_ITEM];
-     [item setLabel:NSLocalizedString(@"AddBibleLabel", @"")];
-     [item setPaletteLabel:NSLocalizedString(@"AddBibleLabel", @"")];
-     [item setToolTip:NSLocalizedString(@"AddBibleToolTip", @"")];
-     image = [NSImage imageNamed:@"add.png"];
-     [item setImage:image];
-     [item setTarget:self];
-     [item setAction:@selector(addBibleTB:)];
-     [tbIdentifiers setObject:item forKey:TB_ADD_BIBLE_ITEM];
-     }
-     */
-    
-    /*
-     // search type
-     searchTypePopup = [[NSPopUpButton alloc] init];
-     [searchTypePopup setFrame:NSMakeRect(0,0,140,32)];
-     [searchTypePopup setPullsDown:NO];
-     //[[searchTypePopup cell] setUsesItemFromMenu:YES];
-     // create menu
-     NSMenu *searchTypeMenu = [[NSMenu alloc] init];
-     NSMenuItem *mItem = [[NSMenuItem alloc] initWithTitle:@"Reference" action:@selector(searchType:) keyEquivalent:@""];
-     [mItem setTag:ReferenceSearchType];
-     [searchTypeMenu addItem:mItem];
-     mItem = [[NSMenuItem alloc] initWithTitle:@"Index" action:@selector(searchType:) keyEquivalent:@""];
-     [mItem setTag:IndexSearchType];
-     [searchTypeMenu addItem:mItem];
-     //    mItem = [[NSMenuItem alloc] initWithTitle:@"View" action:@selector(searchType:) keyEquivalent:@""];
-     //    [mItem setTag:ViewSearchType];
-     //    [searchTypeMenu addItem:mItem];
-     [searchTypePopup setMenu:searchTypeMenu];
-     [searchTypePopup selectItemWithTitle:@"Reference"];
-     // item toolbaritem
-     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TYPE_ITEM];
-     [item setLabel:NSLocalizedString(@"SearchTypeLabel", @"")];
-     [item setPaletteLabel:NSLocalizedString(@"SearchTypePalette", @"")];
-     [item setToolTip:NSLocalizedString(@"SearchTypeTooltip", @"")];
-     // use popUpButton as view
-     [item setView:searchTypePopup];
-     [item setMinSize:[searchTypePopup frame].size];
-     [item setMaxSize:[searchTypePopup frame].size];
-     // add toolbar item to dict
-     [tbIdentifiers setObject:item forKey:TB_SEARCH_TYPE_ITEM];
-     */
-    
+
     float segmentControlHeight = 32.0;
     float segmentControlWidth = (2*64.0);
-    
-    /*
-    // Navigation Control
-    navigationSegControl = [[NSSegmentedControl alloc] init];
-    [navigationSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
-    [navigationSegControl setSegmentCount:2];
-    // set tracking style
-    [[navigationSegControl cell] setTrackingMode:NSSegmentSwitchTrackingMomentary];
-    // insert image for segments
-    image = [NSImage imageNamed:NSImageNameGoLeftTemplate];
-    [navigationSegControl setImage:image forSegment:0];
-    [[navigationSegControl cell] setTag:DirectionBackward forSegment:0];
-    image = [NSImage imageNamed:NSImageNameGoRightTemplate];
-    [navigationSegControl setImage:image forSegment:1];
-    [[navigationSegControl cell] setTag:DirectionForward forSegment:1];
-    [navigationSegControl sizeToFit];
-    [navigationSegControl setAction:@selector(navigationAction:)];
-    [navigationSegControl setTarget:self];
-    // resize the height to what we have defined
-    [navigationSegControl setFrameSize:NSMakeSize([navigationSegControl frame].size.width, segmentControlHeight)];
-    if([self moduleType] != bible && [self moduleType] != commentary) {
-        [[navigationSegControl cell] setEnabled:NO forSegment:0];
-        [[navigationSegControl cell] setEnabled:NO forSegment:1];        
-    }
-    // the Toolbar itemitem
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_NAVIGATION_TYPE_ITEM];
-    [item setLabel:NSLocalizedString(@"NavigationItemLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"NavigationItemPalette", @"")];
-    [item setToolTip:NSLocalizedString(@"NavigationItemTooltip", @"")];
-    [item setMinSize:[navigationSegControl frame].size];
-    [item setMaxSize:[navigationSegControl frame].size];
-    // set the segmented control as the view of the toolbar item
-    [item setView:navigationSegControl];
-    [tbIdentifiers setObject:item forKey:TB_NAVIGATION_TYPE_ITEM];
-     */
     
     // Search Control
     searchTypeSegControl = [[NSSegmentedControl alloc] init];
@@ -294,7 +174,7 @@ typedef enum _NavigationDirectionType {
     [searchTypeSegControl setImage:[NSImage imageNamed:NSImageNameRevealFreestandingTemplate] forSegment:1];
     [[searchTypeSegControl cell] setTag:ReferenceSearchType forSegment:0];
     [[searchTypeSegControl cell] setTag:IndexSearchType forSegment:1];
-    if([self moduleType] == genbook) {
+    if([contentViewController contentViewType] == SwordGenBookContentType) {
         [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
         [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
         [[searchTypeSegControl cell] setSelected:NO forSegment:0];
@@ -328,7 +208,7 @@ typedef enum _NavigationDirectionType {
     [searchTextField setTarget:self];
     [searchTextField setAction:@selector(searchInput:)];
     [[searchTextField cell] setScrollable:YES];
-    if([self moduleType] == dictionary) {
+    if([contentViewController contentViewType] == SwordDictionaryContentType) {
         [searchTextField setContinuous:YES];
         [[searchTextField cell] setSendsSearchStringImmediately:YES];
         //[[searchTextField cell] setSendsWholeSearchString:NO];
@@ -393,19 +273,6 @@ typedef enum _NavigationDirectionType {
     [item setView:forceReloadBtn];
     [tbIdentifiers setObject:item forKey:TB_FORCERELOAD_TYPE_ITEM];
     
-    // module installer item
-    /*
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_MODULEINSTALLER_ITEM];
-    [item setLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"ModuleInstallerLabel", @"")];
-    [item setToolTip:NSLocalizedString(@"ModuleInstallerTooltip", @"")];
-    image = [NSImage imageNamed:@"ModuleManager.png"];
-    [item setImage:image];
-    [item setTarget:[AppController defaultAppController]];
-    [item setAction:@selector(showModuleManager:)];
-    [tbIdentifiers setObject:item forKey:TB_MODULEINSTALLER_ITEM];
-     */
-    
     // add std items
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarFlexibleSpaceItemIdentifier];
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSpaceItemIdentifier];
@@ -425,16 +292,6 @@ typedef enum _NavigationDirectionType {
     // We are the delegate
     [toolbar setDelegate:self];
     
-    /*
-    SInt32 MacVersion;
-    if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr) {
-        if (MacVersion >= 0x1040) {
-            // this call is Tiger only
-            [toolbar setShowsBaselineSeparator:NO];
-        }
-    }
-     */
-
     // Attach the toolbar to the document window 
     [[self window] setToolbar:toolbar];
 }
@@ -482,9 +339,6 @@ typedef enum _NavigationDirectionType {
     [searchTextField setRecentSearches:recents];
 }
 
-- (void)addBibleTB:(id)sender {
-}
-
 - (void)toggleModulesTB:(id)sender {
     if(![self showingLSB]) {
         [self showLeftSideBar:YES];
@@ -524,7 +378,6 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)searchType:(id)sender {
-
     SearchType type;
     if([(NSSegmentedControl *)sender selectedSegment] == 0) {
         type = ReferenceSearchType;
@@ -765,11 +618,8 @@ typedef enum _NavigationDirectionType {
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
         size.width = lsbWidth;
-        // add
         [mainSplitView addSubview:v positioned:NSWindowBelow relativeTo:nil];
-        // change size
         [[v animator] setFrameSize:size];
-        // show image play to left
         [leftSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
     } else {
         // shrink the view
@@ -778,13 +628,7 @@ typedef enum _NavigationDirectionType {
         if(size.width > 0) {
             lsbWidth = size.width;
         }
-        /*
-        size.width = 0;
-        [[v animator] setFrameSize:size];
-         */
-        // remove
         [[v animator] removeFromSuperview];
-        // show image play to right
         [leftSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     }
     
@@ -803,11 +647,8 @@ typedef enum _NavigationDirectionType {
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
         size.width = rsbWidth;
-        // add
         [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
-        // change size
         [[v animator] setFrameSize:size];
-        // show image play to right
         [rightSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     } else {
         // shrink the view
@@ -816,14 +657,7 @@ typedef enum _NavigationDirectionType {
         if(size.width > 0) {
             rsbWidth = size.width;
         }
-        /*
-        size.width = 0;
-        [[v animator] setFrameSize:size];
-         */
-        
-        // remove
         [[v animator] removeFromSuperview];
-        // show image play to left
         [rightSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
     }
     
@@ -856,21 +690,15 @@ typedef enum _NavigationDirectionType {
     if(aType != oldType) {
         text = [currentSearchText searchTextForType:aType];    
     }
-    // if aString is not nil, the search text can be overriden here
     if(aString != nil) {
         text = aString;
     }
-    // display last search result
     [self setSearchText:text];
     
-    // do more UI setup here
     [self adaptUIToCurrentlyDisplayingModuleType];
 }
 
 - (void)adaptUIToCurrentlyDisplayingModuleType {
-    
-    ModuleType type = [self moduleType];
-    
     // -------------------------------
     // search text and recent searches
     // -------------------------------
@@ -884,85 +712,78 @@ typedef enum _NavigationDirectionType {
     // content view controller stuff
     // -------------------------------
     if(contentViewController != nil) {
-        if(stype == ReferenceSearchType) {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:NO];            
-        } else {
-            [[(ModuleCommonsViewController *)contentViewController modDisplayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController displayOptionsPopUpButton] setEnabled:NO];
-            [[(ModuleCommonsViewController *)contentViewController fontSizePopUpButton] setEnabled:YES];
-            [[(ModuleCommonsViewController *)contentViewController textContextPopUpButton] setEnabled:YES];            
-        }
+        [self adaptAccessoryViewComponents];
         [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];    
-    }
 
-    // -------------------------------
-    // search segment control
-    // -------------------------------    
-    if(type == genbook) {
-        [currentSearchText setSearchType:IndexSearchType];
-        [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
-        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-        [[searchTypeSegControl cell] setSelected:NO forSegment:0];
-        [[searchTypeSegControl cell] setSelected:YES forSegment:1];        
-    } else {        
-        [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
-        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-        switch(stype) {
-            case ReferenceSearchType:
-                [[searchTypeSegControl cell] setSelected:YES forSegment:0];
-                [[searchTypeSegControl cell] setSelected:NO forSegment:1];
-                break;
-            case IndexSearchType:
-                [[searchTypeSegControl cell] setSelected:NO forSegment:0];
-                [[searchTypeSegControl cell] setSelected:YES forSegment:1];
-                break;
-            case ViewSearchType:
-                break;
+        // -------------------------------
+        // search segment control
+        // -------------------------------
+        if([contentViewController contentViewType] == SwordGenBookContentType) {
+            [currentSearchText setSearchType:IndexSearchType];
+            [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
+            [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
+            [[searchTypeSegControl cell] setSelected:NO forSegment:0];
+            [[searchTypeSegControl cell] setSelected:YES forSegment:1];        
+        } else {        
+            [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
+            [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
+            switch(stype) {
+                case ReferenceSearchType:
+                    [[searchTypeSegControl cell] setSelected:YES forSegment:0];
+                    [[searchTypeSegControl cell] setSelected:NO forSegment:1];
+                    break;
+                case IndexSearchType:
+                    [[searchTypeSegControl cell] setSelected:NO forSegment:0];
+                    [[searchTypeSegControl cell] setSelected:YES forSegment:1];
+                    break;
+                case ViewSearchType:
+                    break;
+            }
         }
-    }
-    
-    // -----------------
-    // search text field
-    // -----------------
-    if(type == dictionary || type == genbook) {
-        if(stype == ReferenceSearchType) {
-            [searchTextField setContinuous:YES];
-            [[searchTextField cell] setSendsSearchStringImmediately:YES];
-            //[[searchTextField cell] setSendsWholeSearchString:NO];
+        
+        // -----------------
+        // search text field
+        // -----------------
+        if([contentViewController contentViewType] == SwordGenBookContentType ||
+           [contentViewController contentViewType] == SwordDictionaryContentType) {
+            if(stype == ReferenceSearchType) {
+                [searchTextField setContinuous:YES];
+                [[searchTextField cell] setSendsSearchStringImmediately:YES];
+                //[[searchTextField cell] setSendsWholeSearchString:NO];
+            } else {
+                [searchTextField setContinuous:NO];
+                [[searchTextField cell] setSendsSearchStringImmediately:NO];
+                [[searchTextField cell] setSendsWholeSearchString:YES];            
+            }
         } else {
             [searchTextField setContinuous:NO];
             [[searchTextField cell] setSendsSearchStringImmediately:NO];
-            [[searchTextField cell] setSendsWholeSearchString:YES];            
+            [[searchTextField cell] setSendsWholeSearchString:YES];        
         }
-    } else {
-        [searchTextField setContinuous:NO];
-        [[searchTextField cell] setSendsSearchStringImmediately:NO];
-        [[searchTextField cell] setSendsWholeSearchString:YES];        
-    }
-
-    // -----------------
-    // navigation
-    // -----------------
-    if(type == bible || type == commentary) {
-        [[navigationSegControl cell] setEnabled:YES forSegment:0];
-        [[navigationSegControl cell] setEnabled:YES forSegment:1];    
-    } else {
-        [[navigationSegControl cell] setEnabled:NO forSegment:0];
-        [[navigationSegControl cell] setEnabled:NO forSegment:1];        
-    }
-    
-    // -----------------
-    // bookmark button
-    // -----------------
-    if(type == bible || type == commentary) {
-        [addBookmarkBtn setEnabled:(stype == ReferenceSearchType)];
-        [forceReloadBtn setEnabled:YES];
-    } else {
-        [addBookmarkBtn setEnabled:NO];
-        [forceReloadBtn setEnabled:NO];    
+        
+        // -----------------
+        // navigation
+        // -----------------
+        if([contentViewController contentViewType] == SwordBibleContentType ||
+           [contentViewController contentViewType] == SwordCommentaryContentType) {
+            [[navigationSegControl cell] setEnabled:YES forSegment:0];
+            [[navigationSegControl cell] setEnabled:YES forSegment:1];    
+        } else {
+            [[navigationSegControl cell] setEnabled:NO forSegment:0];
+            [[navigationSegControl cell] setEnabled:NO forSegment:1];        
+        }
+        
+        // -----------------
+        // bookmark button
+        // -----------------
+        if([contentViewController contentViewType] == SwordBibleContentType ||
+           [contentViewController contentViewType] == SwordCommentaryContentType) {
+            [addBookmarkBtn setEnabled:(stype == ReferenceSearchType)];
+            [forceReloadBtn setEnabled:YES];
+        } else {
+            [addBookmarkBtn setEnabled:NO];
+            [forceReloadBtn setEnabled:NO];    
+        }
     }
     
     // -----------------
@@ -985,9 +806,13 @@ typedef enum _NavigationDirectionType {
     }
     
     if(contentViewController != nil) {
-        SwordModule *mod = [(ModuleViewController *)contentViewController module];
-        if(mod != nil) {
-            [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
+        if([contentViewController isSwordModuleContentType]) {
+            SwordModule *mod = [(ModuleViewController *)contentViewController module];
+            if(mod != nil) {
+                [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
+            }            
+        } else if([contentViewController isNoteContentType]) {
+            [ret appendString:[(NotesViewController *)contentViewController label]];
         }
     }    
     
@@ -1090,17 +915,9 @@ typedef enum _NavigationDirectionType {
 #pragma mark - NSWindow delegate methods
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
-    /*
-    [scopeBarView setWindowActive:YES];
-    [scopeBarView setNeedsDisplay:YES];
-     */
 }
 
 - (void)windowDidResignMain:(NSNotification *)notification {
-    /*
-    [scopeBarView setWindowActive:NO];
-    [scopeBarView setNeedsDisplay:YES];
-     */
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -1134,13 +951,6 @@ typedef enum _NavigationDirectionType {
     }
 }
 
-#pragma mark - WindowHosting protocol
-
-/** abstract method */
-- (ModuleType)moduleType {
-    return bible;   // default is bible
-}
-
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
@@ -1166,7 +976,6 @@ typedef enum _NavigationDirectionType {
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    
     // load lsb view
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
     if(lsbViewController == nil) {

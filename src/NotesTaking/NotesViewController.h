@@ -14,6 +14,7 @@
 
 @interface NotesViewController : ContentDisplayingViewController {
     IBOutlet NSTextView *textView;
+    IBOutlet NSButton *saveButton;
     FileRepresentation *fileRep;
 }
 
@@ -25,5 +26,8 @@
 
 // methods
 - (void)displayText;
+
+// actions
+- (IBAction)save:(id)sender;
 
 @end
