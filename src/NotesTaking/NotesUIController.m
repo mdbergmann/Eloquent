@@ -10,7 +10,7 @@
 #import "LeftSideBarViewController.h"
 #import "NotesManager.h"
 #import "FileRepresentation.h"
-
+#import "AppController.h"
 
 #define NOTES_UI_NIBNAME @"NotesUI"
 
@@ -62,7 +62,11 @@ enum NotesMenu_Items{
 - (BOOL)createNewNoteIn:(FileRepresentation *)aFolderRep folder:(BOOL)folder {
     @try {
         NSString *newFileName = [NSString stringWithFormat:@"%@.rtf", NSLocalizedString(@"NewNote", @"")];
+        if(folder) {
+            newFileName = [NSString stringWithString:NSLocalizedString(@"NewFolder", @"")];
+        }
         [FileRepresentation createWithName:newFileName isFolder:folder destinationDirectoryRep:aFolderRep];
+        
         return YES;
     }
     @catch (NSException * e) {
@@ -84,20 +88,19 @@ enum NotesMenu_Items{
     BOOL ret = YES;
     
     FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
-    if(delegate && hostingDelegate) {
-        int tag = [menuItem tag];        
-        switch(tag) {
-            case NotesMenuAddNew:
-            case NotesMenuAddNewFolder:
-                ret = [clickedObj isDirectory];
-                break;
-            case NotesMenuRemove:
-            case ModuleMenuOpenSingle:
-            case ModuleMenuOpenWorkspace:
-                break;
-        }
-    } else {
-        MBLOG(MBLOG_ERR, @"[NotesUIController -validateMenuItem:] delegate and hostingDelegate are not available!");
+    int tag = [menuItem tag];        
+    switch(tag) {
+        case NotesMenuAddNew:
+        case NotesMenuAddNewFolder:
+            ret = ([clickedObj isKindOfClass:[FileRepresentation class]] && [clickedObj isDirectory]);
+            break;
+        case NotesMenuRemove:
+        case ModuleMenuOpenSingle:
+        case ModuleMenuOpenWorkspace:
+            if(![clickedObj isKindOfClass:[FileRepresentation class]]) {
+                ret = NO;
+            }
+            break;
     }
     
     return ret;
@@ -109,6 +112,9 @@ enum NotesMenu_Items{
 	MBLOGV(MBLOG_DEBUG, @"[NotesUIController -menuClicked:] %@", [sender description]);
     
     FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
+    if([clickedObj isKindOfClass:[NSString class]] && [(NSString *)clickedObj isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {
+        clickedObj = [notesManager notesFileRep];
+    }
     int tag = [sender tag];
     switch(tag) {
         case NotesMenuAddNew:
@@ -122,7 +128,21 @@ enum NotesMenu_Items{
             }
             break;
         case NotesMenuRemove:
+        {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Confirmation", @"")
+                                             defaultButton:NSLocalizedString(@"OK", @"") 
+                                           alternateButton:NSLocalizedString(@"Cancel", @"")
+                                               otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"ConfirmDelete", @"")];
+            if([alert runModal] == NSAlertDefaultReturn) {
+                [FileRepresentation deleteComplete:clickedObj];
+                [self delegateReload];
+            }
+            break;            
+        }
         case ModuleMenuOpenSingle:
+            [[AppController defaultAppController] openSingleHostWindowForNote:clickedObj];
+            break;
         case ModuleMenuOpenWorkspace:
             [self delegateDoubleClick];
             break;

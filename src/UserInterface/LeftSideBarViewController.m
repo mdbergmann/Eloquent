@@ -426,7 +426,8 @@
                     [oview setMenu:[bookmarksUIController bookmarkMenu]];
                 } else if([item isKindOfClass:[SwordModule class]]) {
                     [oview setMenu:[moduleListUIController moduleMenu]];
-                } else if([item isKindOfClass:[FileRepresentation class]]) {
+                } else if([item isKindOfClass:[FileRepresentation class]] ||
+                          ([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:NSLocalizedString(@"LSBNotes", @"")])) {
                     [oview setMenu:[notesUIController notesMenu]];
                 } else {
                     [oview setMenu:nil];

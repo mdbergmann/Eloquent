@@ -262,7 +262,6 @@ static AppController *singleton;
 
 /** opens a new single host window for the given module */
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod {
-    
     // if module is nil, we open with default bible module
     if(mod == nil) {
         // get default bible
@@ -295,7 +294,12 @@ static AppController *singleton;
 }
 
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep {
-    return nil;
+    SingleViewHostController *svh = [[SingleViewHostController alloc] initWithFileRepresentation:fileRep];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    [svh showWindow:self];
+
+    return svh;
 }
 
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod {

@@ -20,6 +20,8 @@
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SearchTextObject.h"
+#import "FileRepresentation.h"
+#import "NotesViewController.h"
 
 @interface SingleViewHostController ()
 
@@ -27,15 +29,10 @@
 
 @implementation SingleViewHostController
 
-#pragma mark - initializers
+#pragma mark - Initializers
 
 - (id)init {
-    self = [super init];
-    if(self) {
-        MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] loading nib");        
-    }
-    
-    return self;
+    return [super init];
 }
 
 - (id)initForViewType:(ModuleType)aType {
@@ -55,10 +52,8 @@
             self.searchType = IndexSearchType;        
         }
         
-        // set hosting delegate
         [contentViewController setHostingDelegate:self];
 
-        // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
@@ -86,10 +81,25 @@
             self.searchType = IndexSearchType;
         }
         
-        // set hosting delegate
         [contentViewController setHostingDelegate:self];
         
-        // load nib
+        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
+        if(!stat) {
+            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
+        }
+    }
+    
+    return self;    
+}
+
+- (id)initWithFileRepresentation:(FileRepresentation *)aFileRep {
+    self = [self init];
+    if(self) {
+        contentViewController = [[NotesViewController alloc] initWithFileRepresentation:aFileRep];
+        self.searchType = IndexSearchType;
+        
+        [contentViewController setHostingDelegate:self];
+        
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
@@ -104,7 +114,6 @@
     
     [super awakeFromNib];
 
-    // set recent searche array
     [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
         
     // set font for bottombar segmented control
@@ -145,7 +154,6 @@
     [super contentViewInitFinished:aView];
     
     if([aView isKindOfClass:[ContentDisplayingViewController class]]) {
-        self.contentViewController = (ContentDisplayingViewController *)aView;
         [self setupContentRelatedViews];
         [self adaptAccessoryViewComponents];
         [self adaptUIToCurrentlyDisplayingModuleType];
@@ -171,13 +179,11 @@
 
         [super initWithCoder:decoder];
 
-        // load nib
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
         }
 
-        // set window frame
         NSRect frame;
         frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
         frame.size = [decoder decodeSizeForKey:@"WindowSizeEncoded"];
