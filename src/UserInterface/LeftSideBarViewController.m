@@ -84,6 +84,8 @@
         
     // set drag & drop types
     [outlineView registerForDraggedTypes:[NSArray arrayWithObject:DD_BOOKMARK_TYPE]];
+	// make our outline view appear with gradient selection, and behave like the Finder, iTunes, etc.
+	[outlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
     
     // expand the first two items
     // second first, otherwise second is not second anymore
@@ -452,7 +454,6 @@
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
-    /*
     if(item != nil) {
         if([item isKindOfClass:[NSString class]] && 
            ([(NSString *)item isEqualToString:NSLocalizedString(@"LSBModules", @"")] ||
@@ -461,7 +462,6 @@
                return YES;
         }
     }
-     */
     
     return NO;
 }
@@ -476,12 +476,12 @@
 
     if(item != nil) {        
         if([item isKindOfClass:[NSString class]]) {
-            NSFont *font = FontLargeBold;
+            NSFont *font = FontStdBold;
             //float pointSize = [font pointSize];
             //[aOutlineView setRowHeight:pointSize + 6];
             
             [cell setFont:font];
-            [cell setTextColor:[NSColor grayColor]];
+            //[cell setTextColor:[NSColor grayColor]];
             //float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
         } else {
             NSFont *font = FontStd;
@@ -489,7 +489,7 @@
             //[aOutlineView setRowHeight:pointSize + 6];
             
             [cell setFont:font];
-            [cell setTextColor:[NSColor blackColor]];
+            //[cell setTextColor:[NSColor blackColor]];
             
             if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
                 [(ThreeCellsCell *)cell setImage:bookmarkImage];

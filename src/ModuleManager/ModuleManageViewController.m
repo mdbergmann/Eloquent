@@ -339,6 +339,7 @@
 - (void)awakeFromNib {
     // set default menu
     [categoryOutlineView setMenu:installSourceMenu];    
+    [categoryOutlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
     
     // reload data
     [categoryOutlineView reloadData];

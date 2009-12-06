@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface ThreeCellsCell : NSCell {
+@interface ThreeCellsCell : NSTextFieldCell {
     NSImage *image;
     NSImage *rightImage;
-    NSColor *textColor;
+    //NSColor *textColor;
     NSFont *countFont;
     int rightCounter;
     int leftCounter;
@@ -20,7 +20,7 @@
 
 @property (retain, readwrite) NSImage *image;
 @property (retain, readwrite) NSImage *rightImage;
-@property (retain, readwrite) NSColor *textColor;
+//@property (retain, readwrite) NSColor *textColor;
 @property (readwrite) int rightCounter;
 @property (readwrite) int leftCounter;
 

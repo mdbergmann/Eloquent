@@ -14,13 +14,20 @@
 #define MARGIN_X 7
 #define MARGIN_Y 1
 
+@interface ThreeCellsCell ()
+
+@property(readwrite, retain) NSFont *countFont;
+
+@end
+
 @implementation ThreeCellsCell
 
 @synthesize image;
 @synthesize rightImage;
-@synthesize textColor;
+//@synthesize textColor;
 @synthesize rightCounter;
 @synthesize leftCounter;
+@synthesize countFont;
 
 - (id)init {
     self = [super init];
@@ -29,7 +36,7 @@
         [self setLeftCounter:0];
         [self setImage:nil];
         [self setRightImage:nil];
-        countFont = [[NSFontManager sharedFontManager] convertFont:[NSFont fontWithName:@"Helvetica" size:11.0] toHaveTrait:NSBoldFontMask];
+        [self setCountFont:[[NSFontManager sharedFontManager] convertFont:[NSFont fontWithName:@"Helvetica" size:11.0] toHaveTrait:NSBoldFontMask]];
     }
     
     return self;
@@ -37,13 +44,13 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	ThreeCellsCell *cell = (ThreeCellsCell *)[super copyWithZone:zone];
+    cell->image = [image retain];
+    cell->rightImage = [rightImage retain];
+    cell->countFont = [countFont retain];
 	return cell;
 }
 
 - (void)finalize {
-    [self setImage:nil];
-    [self setRightImage:nil];
-    
     [super finalize];
 }
 
@@ -106,11 +113,12 @@
     NSRect result;
     result.size = NSMakeSize(counterWidth, 2 * RADIUS); // temp
     result.origin.x = cellFrame.origin.x + cellFrame.size.width - MARGIN_X - result.size.width;
-    result.origin.y = cellFrame.origin.y + MARGIN_Y + 1.0;
+    result.origin.y = cellFrame.origin.y + MARGIN_Y + 3.0;
     
     return result;
 }
 
+/*
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
 	[controlView lockFocus];
     
@@ -128,17 +136,13 @@
     
 	[controlView unlockFocus];
 }
-
+*/
+ 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     
 	// backup title
 	NSString *title = [self stringValue];
-	
-	// paint background without text
-	[self setStringValue:@""];
-	// now paint background
-	[super drawWithFrame:cellFrame inView:controlView];
-    
+	    
     // left image frame
     NSRect imageFrame;
     imageFrame = cellFrame;
@@ -305,9 +309,11 @@
 	NSRect textFrame;
 	textFrame = cellFrame;
 	textFrame.origin.x += imageFrame.size.width + 2.0;
-    textFrame.origin.y += 2.0;
+    textFrame.origin.y += 1.0;
     textFrame.size.height -= 2.0;
 	textFrame.size.width -= (imageFrame.size.width + rightFrame.size.width + 8.0);
+    
+    /*
 	// text cell
 	NSTextFieldCell *textCell = [[NSTextFieldCell alloc] initTextCell:title];
     [textCell setEditable:YES];
@@ -319,17 +325,18 @@
     [textCell setLineBreakMode:[self lineBreakMode]];
 	[textCell setTextColor:[self textColor]];
     [textCell setFont:[self font]];
+     */
     
     // draw cells
     if(imageCell) {
         [imageCell drawWithFrame:imageFrame inView:controlView];
     }
-    // draw text cell
-	[textCell drawWithFrame:textFrame inView:controlView];
     // draw right cell
     if(rightCell) {
         [rightCell drawWithFrame:rightFrame inView:controlView];    
     }
+    // draw text cell
+	[super drawWithFrame:textFrame inView:controlView];
 	
 	// und titel wieder setzen
 	[self setStringValue:title];
