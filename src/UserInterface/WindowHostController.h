@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <ProtocolHelper.h>
 #import <Indexer.h>
+#import <ContentDisplayingViewController.h>
 
 // toolbar identifiers
 #define TB_ADD_BIBLE_ITEM           @"IdAddBible"
@@ -125,6 +126,8 @@
 
 /** tells the lsb to open the module about window */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
+
+- (ContentViewType)contentViewType;
 
 // Printing
 - (IBAction)myPrint:(id)sender;

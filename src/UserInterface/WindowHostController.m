@@ -819,6 +819,13 @@ typedef enum _NavigationDirectionType {
     return ret;
 }
 
+- (ContentViewType)contentViewType {
+    if(contentViewController) {
+        return [contentViewController contentViewType];
+    }
+    return SwordBibleContentType;
+}
+
 #pragma mark - NSSplitView delegate methods
 
 - (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {

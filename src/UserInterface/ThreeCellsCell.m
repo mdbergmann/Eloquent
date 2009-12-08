@@ -24,7 +24,6 @@
 
 @synthesize image;
 @synthesize rightImage;
-//@synthesize textColor;
 @synthesize rightCounter;
 @synthesize leftCounter;
 @synthesize countFont;

@@ -121,7 +121,8 @@ enum BookmarkMenu_Items{
             case BookmarkMenuOpenBMInCurrent:
                 // we can only open in current, if it is a commentary or bible view
                 if([hostingDelegate isKindOfClass:[SingleViewHostController class]] && 
-                   ([(SingleViewHostController *)hostingDelegate moduleType] == bible || [(SingleViewHostController *)hostingDelegate moduleType] == commentary)) {
+                   ([(SingleViewHostController *)hostingDelegate contentViewType] == SwordBibleContentType || 
+                    [(SingleViewHostController *)hostingDelegate contentViewType] == SwordCommentaryContentType)) {
                     ret = YES;
                 }
                 break;

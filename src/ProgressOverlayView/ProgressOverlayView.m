@@ -25,7 +25,7 @@
     CGContextRef currentContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
     CGContextSaveGState(currentContext);
     
-    [[NSColor colorWithCalibratedRed:0.4 green:0.4 blue:0.4 alpha:0.3f] set];
+    [[NSColor colorWithCalibratedRed:0.4f green:0.4f blue:0.4f alpha:0.3f] set];
     [NSBezierPath fillRect:rect];
 
     CGContextRestoreGState(currentContext);

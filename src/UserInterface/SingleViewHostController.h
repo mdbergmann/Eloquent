@@ -18,6 +18,7 @@
 @class HostableViewController;
 @class SwordModule;
 @class SearchTextObject;
+@class FileRepresentation;
 
 @interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting> {
 }
@@ -25,6 +26,7 @@
 // initializers
 - (id)initForViewType:(ModuleType)aType;
 - (id)initWithModule:(SwordModule *)aModule;
+- (id)initWithFileRepresentation:(FileRepresentation *)aFileRep;
 
 // methods
 - (NSView *)view;
