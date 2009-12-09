@@ -134,6 +134,7 @@ class sword::SWModule;
 //+ (void)initStringManager;
 + (void)initLocale;
 + (NSArray *)moduleTypes;
++ (NSDictionary *)linkDataForLinkURL:(NSURL *)aURL;
 
 /** Constructor */
 - (id)initWithPath:(NSString *)path;

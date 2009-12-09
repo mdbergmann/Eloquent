@@ -37,9 +37,6 @@
 // delegate methods called from MBTextView
 - (NSMenu *)menuForEvent:(NSEvent *)event;
 
-// methods
-- (NSDictionary *)dataForLink:(NSURL *)aURL;
-
 - (void)setAttributedString:(NSAttributedString *)aString;
 
 // MouseTrackingScrollView delegate methods

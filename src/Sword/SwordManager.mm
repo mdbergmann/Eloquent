@@ -143,6 +143,58 @@ using std::list;
 
 # pragma mark - class methods
 
++ (NSDictionary *)linkDataForLinkURL:(NSURL *)aURL {
+    // there are two types of links
+    // our generated sword:// links and study data beginning with applewebdata://
+    
+    NSMutableDictionary *ret = [NSMutableDictionary dictionary];
+    
+    NSString *scheme = [aURL scheme];
+    if([scheme isEqualToString:@"sword"]) {
+        // in this case host is the module and path the reference
+        [ret setObject:[aURL host] forKey:ATTRTYPE_MODULE];
+        [ret setObject:[[[aURL path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"/" withString:@""]
+                forKey:ATTRTYPE_VALUE];
+        [ret setObject:@"scriptRef" forKey:ATTRTYPE_TYPE];
+        [ret setObject:@"showRef" forKey:ATTRTYPE_ACTION];
+    } else if([scheme isEqualToString:@"applewebdata"]) {
+        // in this case
+        NSString *path = [aURL path];
+        NSString *query = [aURL query];
+        if([[path lastPathComponent] isEqualToString:@"passagestudy.jsp"]) {
+            NSArray *data = [query componentsSeparatedByString:@"&"];
+            NSString *type = @"x";
+            NSString *module = @"";
+            NSString *passage = @"";
+            NSString *value = @"1";
+            NSString *action = @"";
+            for(NSString *entry in data) {
+                if([entry hasPrefix:@"type="]) {
+                    type = [[entry componentsSeparatedByString:@"="] objectAtIndex:1];
+                } else if([entry hasPrefix:@"module="]) {
+                    module = [[entry componentsSeparatedByString:@"="] objectAtIndex:1];
+                } else if([entry hasPrefix:@"passage="]) {
+                    passage = [[entry componentsSeparatedByString:@"="] objectAtIndex:1];
+                } else if([entry hasPrefix:@"action="]) {
+                    action = [[entry componentsSeparatedByString:@"="] objectAtIndex:1];                    
+                } else if([entry hasPrefix:@"value="]) {
+                    value = [[entry componentsSeparatedByString:@"="] objectAtIndex:1];                    
+                } else {
+                    MBLOGV(MBLOG_WARN, @"[ExtTextViewController -dataForLink:] unknown parameter: %@\n", entry);
+                }
+            }
+            
+            [ret setObject:module forKey:ATTRTYPE_MODULE];
+            [ret setObject:passage forKey:ATTRTYPE_PASSAGE];
+            [ret setObject:value forKey:ATTRTYPE_VALUE];
+            [ret setObject:action forKey:ATTRTYPE_ACTION];
+            [ret setObject:type forKey:ATTRTYPE_TYPE];
+        }
+    }
+    
+    return ret;
+}
+
 + (void)initLocale {
     // set locale swManager
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];

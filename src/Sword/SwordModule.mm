@@ -476,6 +476,7 @@
     SwordModuleTextEntry *ret = nil;
     
     if(aKey && [aKey length] > 0) {
+        swModule->setSkipConsecutiveLinks(YES);
         [self setPositionFromKeyString:aKey];
         if(![self error]) {
             //const char *keyCStr = swModule->getKeyText();

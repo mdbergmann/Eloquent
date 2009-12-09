@@ -75,6 +75,7 @@ typedef enum AppErrorCodes {
 - (IBAction)openNewSingleDictionaryHostWindow:(id)sender;
 - (IBAction)openNewSingleGenBookHostWindow:(id)sender;
 - (IBAction)openNewWorkspaceHostWindow:(id)sender;
+- (IBAction)createAndOpenNewStudyNote:(id)sender;
 - (IBAction)showPreferenceSheet:(id)sender;
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showModuleManager:(id)sender;

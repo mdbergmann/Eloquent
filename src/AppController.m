@@ -17,6 +17,7 @@
 #import "SwordBook.h"
 #import "SwordTreeEntry.h"
 #import "FileRepresentation.h"
+#import "NotesManager.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err = 0;
@@ -385,6 +386,15 @@ static AppController *singleton;
     [windowHosts addObject:wvh];
     [wvh setDelegate:self];
     [wvh showWindow:self];
+}
+
+- (IBAction)createAndOpenNewStudyNote:(id)sender {
+    FileRepresentation *newNote = [FileRepresentation createWithName:NSLocalizedString(@"NewNote", @"") 
+                                                            isFolder:NO 
+                                             destinationDirectoryRep:[[NotesManager defaultManager] notesFileRep]];
+    if(newNote) {
+        [self openSingleHostWindowForNote:newNote];
+    }
 }
 
 - (IBAction)showPreferenceSheet:(id)sender {

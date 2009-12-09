@@ -122,7 +122,6 @@ NSLock *bibleLock = nil;
 }
 
 - (void)buildBookList {
-    
 	[moduleLock lock];
     
     sword::VerseMgr *vmgr = sword::VerseMgr::getSystemVerseMgr();
@@ -172,8 +171,6 @@ NSLock *bibleLock = nil;
 }
 
 - (BOOL)hasReference:(NSString *)ref {
-    BOOL ret = NO;    
-    
 	[moduleLock lock];
 	
 	sword::VerseKey	*key = (sword::VerseKey *)(swModule->CreateKey());
@@ -186,14 +183,14 @@ NSLock *bibleLock = nil;
     if(bb) {
         if(chapter > 0 && chapter < [bb numberOfChapters]) {
             if(verse > 0 && verse < [bb numberOfVersesForChapter:chapter]) {
-                ret = YES;
+                return YES;
             }
         }
     }    
     
 	[moduleLock unlock];
 	
-	return ret;
+	return NO;
 }
 
 - (int)numberOfVerseKeysForReference:(NSString *)aReference {
@@ -240,7 +237,6 @@ NSLock *bibleLock = nil;
 }
 
 - (int)versesForBible {
-
     int ret = 0;
 
     for(SwordBibleBook *bb in [self books]) {

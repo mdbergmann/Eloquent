@@ -14,7 +14,6 @@
 #import "SwordCommentary.h"
 #import "globals.h"
 
-// Well this is pretty much an empty sub-class of SwordBible
 @implementation SwordCommentary
 
 /** 
@@ -61,23 +60,7 @@
         newConf[aNameCStr]["SourceType"] = "ThML";
         newConf[aNameCStr]["Editable"] = "YES";
         newConf[aNameCStr]["About"] = "This module allows you to store your own commentary.";
-        newConf.Save();        
-        
-        /*
-        FileMgr::createParent("/Users/mbergmann/Applications/MacSword/modules/comments/rawcom/mbergmannCommentary1/x");
-        // let's create a brand new empty module
-        sword::RawCom::createModule("/Users/mbergmann/Applications/MacSword/modules/comments/rawcom/mbergmannCommentary1");
-                
-        // let's add our .conf file
-        SWConfig mbergmannConf("/Users/mbergmann/Applications/MacSword/mods.d/mbergmannCommentary1.conf");
-        
-        mbergmanConf["MBergmannCommentary1"]["DataPath"] = "./modules/comments/rawcom/mbergmannCommentary1";
-        mbergmanConf["MBergmannCommentary1"]["ModDrv"] = "RawCom";
-        mbergmanConf["MBergmannCommentary1"]["SourceType"] = "OSIS";
-        mbergmanConf["MBergmannCommentary1"]["Decription"] = "Manfred Bergmann's Concise Commentary on the Bible";
-        mbergmanConf["MBergmannCommentary1"]["About"] = "...";
-        mbergmanConf.Save();        
-         */
+        newConf.Save();
     }
     
     return ret;

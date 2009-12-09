@@ -268,7 +268,7 @@
 
 - (IBAction)openLink:(id)sender {
     // get data for the link
-    NSDictionary *data = [textViewController dataForLink:contextMenuClickedLink];
+    NSDictionary *data = [SwordManager linkDataForLinkURL:contextMenuClickedLink];
     NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
     if(!modName || [modName length] == 0) {
         // get default bible module
@@ -360,7 +360,7 @@
         switch([menuItem tag]) {
             case OpenLink:
             {
-                NSDictionary *data = [textViewController dataForLink:contextMenuClickedLink];
+                NSDictionary *data = [SwordManager linkDataForLinkURL:contextMenuClickedLink];
                 if(data) {
                     // this is all we can open
                     NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
@@ -370,7 +370,7 @@
                        ![attrType isEqualToString:@"Greek"] &&
                        ![attrType isEqualToString:@"Hebrew"]) {
                         ret = NO;
-                    }                    
+                    }
                 }
                 break;
             }

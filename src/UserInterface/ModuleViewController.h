@@ -12,13 +12,12 @@
 #import <ProtocolHelper.h>
 #import <Indexer.h>
 
-#define TEXT_VERSE_MARKER @"VerseMarkerAttributeName"
+#define TEXT_VERSE_MARKER   @"VerseMarkerAttributeName"
 
 @class SwordModule;
 @class ExtTextViewController;
 
 @interface ModuleViewController : ModuleCommonsViewController <NSCoding, ContextMenuProviding> {
-
     // placeholder for webview or other views depending on nodule tyoe
     IBOutlet NSBox *placeHolderView;
     
