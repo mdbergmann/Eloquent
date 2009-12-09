@@ -370,6 +370,7 @@
             
             // init Reg ex
             MBRegex *regex = [MBRegex regexWithPattern:searchStr];
+            [regex setCaseSensitive:NO];
 
             for(ModuleListObject *mod in moduleData) {
                 // try to match against name of module
