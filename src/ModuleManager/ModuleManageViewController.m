@@ -618,7 +618,10 @@
             [sis reinitialize];
         }
         
-        // remove selection
+        // set selection to none and reload
+        [modListViewController setInstallSources:[NSArray array]];
+        [modListViewController refreshModulesList];
+
         [self setSelectedInstallSources:[NSArray array]];
         [categoryOutlineView deselectAll:self];
         [categoryOutlineView reloadData];
@@ -626,11 +629,7 @@
         // refresh install source list and reload
         [self refreshInstallSourceListObjects];
         [categoryOutlineView reloadData];
-        
-        // set selection to none and reload
-        [modListViewController setInstallSources:[NSArray array]];
-        [modListViewController refreshModulesList];
-        
+                
         [ps stopProgressAnimation];
         [ps endSheet];                
     }

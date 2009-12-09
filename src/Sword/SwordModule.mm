@@ -186,15 +186,27 @@
 }
 
 - (NSString *)descr {
-    return [NSString stringWithCString:swModule->Description() encoding:NSUTF8StringEncoding];
+    NSString *str = [NSString stringWithCString:swModule->Description() encoding:NSUTF8StringEncoding];
+    if(!str) {
+        str = [NSString stringWithCString:swModule->Description() encoding:NSISOLatin1StringEncoding];
+    }
+    return str;
 }
 
 - (NSString *)lang {
-    return [NSString stringWithCString:swModule->Lang() encoding:NSUTF8StringEncoding];
+    NSString *str = [NSString stringWithCString:swModule->Lang() encoding:NSUTF8StringEncoding];
+    if(!str) {
+        str = [NSString stringWithCString:swModule->Lang() encoding:NSISOLatin1StringEncoding];
+    }
+    return str;
 }
 
 - (NSString *)typeString {
-    return [NSString stringWithCString:swModule->Type() encoding:NSUTF8StringEncoding];
+    NSString *str = [NSString stringWithCString:swModule->Type() encoding:NSUTF8StringEncoding];
+    if(!str) {
+        str = [NSString stringWithCString:swModule->Type() encoding:NSISOLatin1StringEncoding];
+    }
+    return str;
 }
 
 - (NSString *)cipherKey {

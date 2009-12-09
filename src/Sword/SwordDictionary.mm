@@ -34,34 +34,44 @@
 /**
  only the keys are stored here in an array
  */
-- (void)readKeys {
-    
+- (void)readKeys {    
 	if(keys == nil) {
         [self readFromCache];
     }
     
     // still no entries?
 	if([keys count] == 0) {
-        [moduleLock lock];
-        
         NSMutableArray *arr = [NSMutableArray array];
+
+        [moduleLock lock];
         
         swModule->setSkipConsecutiveLinks(true);
         *swModule = sword::TOP;
         swModule->getRawEntry();        
-        while(!swModule->Error()) {
-            if(swModule->isUnicode()) {
-                [arr addObject:[[NSString stringWithUTF8String:swModule->KeyText()] capitalizedString]];
+        while(![self error]) {
+            char *cStrKeyText = (char *)swModule->KeyText();
+            if(cStrKeyText) {
+                NSString *keyText = [NSString stringWithUTF8String:cStrKeyText];
+                if(!keyText) {
+                    keyText = [NSString stringWithCString:swModule->KeyText() encoding:NSISOLatin1StringEncoding];
+                    if(!keyText) {
+                        MBLOGV(MBLOG_ERR, @"[SwordCommentary -readKeys] unable to create NSString instance from string: %s", cStrKeyText);
+                    }
+                }
+                
+                if(keyText) {
+                    [arr addObject:[keyText capitalizedString]];
+                }
             } else {
-                [arr addObject:[[NSString stringWithCString:swModule->KeyText() encoding:NSISOLatin1StringEncoding] capitalizedString]];
+                MBLOG(MBLOG_ERR, @"[SwordCommentary -readKeys] could not get keytext from sword module!");                
             }
+            
             (*swModule)++;
         }
-        
-        // set entries
-        self.keys = arr;
-        
+
         [moduleLock unlock];
+        
+        self.keys = arr;        
         [self writeToCache];
     }
 }
