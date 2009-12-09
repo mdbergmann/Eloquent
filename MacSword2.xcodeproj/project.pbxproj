@@ -91,6 +91,7 @@
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
 		A9698C001000CAB30024CC6B /* osis2mod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9698BFF1000CAB30024CC6B /* osis2mod.cpp */; };
+		A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A987A3480F6D5970007E5EE1 /* SplitViewDividerBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */; };
@@ -341,6 +342,8 @@
 		A96516620E06D3DA0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
 		A9698BF91000CA790024CC6B /* Osis2Mod */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Osis2Mod; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9698BFF1000CAB30024CC6B /* osis2mod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = osis2mod.cpp; path = "sword_mac_build/sword-trunk/utilities/osis2mod.cpp"; sourceTree = "<group>"; };
+		A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextView+LookupAdditions.h"; path = "src/UserInterface/NSTextView+LookupAdditions.h"; sourceTree = "<group>"; };
+		A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+LookupAdditions.m"; path = "src/UserInterface/NSTextView+LookupAdditions.m"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
 		A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerBar.tiff; sourceTree = "<group>"; };
 		A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerDimple.tiff; sourceTree = "<group>"; };
@@ -900,6 +903,8 @@
 				A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */,
 				A9D450C40F59884A001617B1 /* NSImage+Additions.h */,
 				A9D450C50F59884A001617B1 /* NSImage+Additions.m */,
+				A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */,
+				A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */,
 			);
 			name = HelperObjects;
 			sourceTree = "<group>";
@@ -1260,6 +1265,7 @@
 				A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */,
 				A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */,
 				A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */,
+				A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

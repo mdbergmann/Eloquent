@@ -21,7 +21,15 @@ typedef enum _ContentViewType {
 
 @interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating> {
     IBOutlet NSView *topAccessoryView;
+
+    BOOL forceRedisplay;
+    SearchType searchType;
+    NSString *reference;
 }
+
+@property (readwrite) BOOL forceRedisplay;
+@property (readwrite) SearchType searchType;
+@property (retain, readwrite) NSString *reference;
 
 // printing
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo;

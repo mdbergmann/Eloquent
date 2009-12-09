@@ -8,6 +8,7 @@
 
 #import "NotesViewController.h"
 #import "FileRepresentation.h"
+#import "NSTextView+LookupAdditions.h"
 
 #define NOTESVIEW_NIBNAME    @"NotesView"
 
@@ -39,6 +40,7 @@
         [self setDelegate:aDelegate];
         [self setHostingDelegate:aHostingDelegate];
         [self setFileRep:aFileRep];
+        lastFoundRange = NSMakeRange(NSNotFound, 0);        
         
         BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];
         if(!stat) {
@@ -68,9 +70,9 @@
     return @"";
 }
 
-#pragma mark - Methods
+#pragma mark - TextDisplayable protocol
 
-- (void)displayText {
+- (void)displayText {    
     if(fileRep) {
         NSData *textData = [fileRep fileContent];
         if([textData length] > 0) {
@@ -78,6 +80,31 @@
         }
     }
 }
+
+- (void)displayTextForReference:(NSString *)aReference {
+    [self displayTextForReference:aReference searchType:IndexSearchType];
+}
+
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
+    if(!aReference || [aReference length] == 0) {
+        [self displayText];
+    } else {
+        [self setReference:aReference];
+
+        NSRange inputRange = NSMakeRange(NSNotFound, 0);
+        if(self.forceRedisplay) {
+            inputRange = lastFoundRange;
+        }
+        NSRange foundRange = [textView rangeOfTextToken:aReference lastFound:inputRange directionRight:YES];
+        if(foundRange.location != NSNotFound) {
+            // scroll
+            NSRect foundRect = [textView rectForTextRange:foundRange];
+            [[textView enclosingScrollView] scrollRectToVisible:foundRect];
+            [textView showFindIndicatorForRange:foundRange];
+        }
+    }
+}
+
 
 #pragma mark - AccessoryViewProviding protocol
 

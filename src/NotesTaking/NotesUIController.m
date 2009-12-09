@@ -18,8 +18,8 @@ enum NotesMenu_Items{
     NotesMenuAddNew = 1,
     NotesMenuAddNewFolder,
     NotesMenuRemove,
-    ModuleMenuOpenSingle,
-    ModuleMenuOpenWorkspace,
+    NotesMenuOpenSingle,
+    NotesMenuOpenWorkspace,
 }NotesMenuItems;
 
 @interface NotesUIController ()
@@ -85,21 +85,23 @@ enum NotesMenu_Items{
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 	MBLOGV(MBLOG_DEBUG, @"[NotesUIController -validateMenuItem:] %@", [menuItem description]);
     
-    BOOL ret = YES;
+    BOOL ret = NO;
     
     FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
     int tag = [menuItem tag];        
     switch(tag) {
         case NotesMenuAddNew:
         case NotesMenuAddNewFolder:
-            ret = ([clickedObj isKindOfClass:[FileRepresentation class]] && [clickedObj isDirectory]);
+            ret = (([clickedObj isKindOfClass:[FileRepresentation class]] && [clickedObj isDirectory]) ||
+                   [clickedObj isKindOfClass:[NSString class]]);
             break;
         case NotesMenuRemove:
-        case ModuleMenuOpenSingle:
-        case ModuleMenuOpenWorkspace:
-            if(![clickedObj isKindOfClass:[FileRepresentation class]]) {
-                ret = NO;
-            }
+            ret = ([clickedObj isKindOfClass:[FileRepresentation class]] || 
+                   ([clickedObj isKindOfClass:[FileRepresentation class]] && [clickedObj isDirectory]));
+            break;
+        case NotesMenuOpenSingle:
+        case NotesMenuOpenWorkspace:
+            ret = ([clickedObj isKindOfClass:[FileRepresentation class]] && ![clickedObj isDirectory]);
             break;
     }
     
@@ -140,10 +142,10 @@ enum NotesMenu_Items{
             }
             break;            
         }
-        case ModuleMenuOpenSingle:
+        case NotesMenuOpenSingle:
             [[AppController defaultAppController] openSingleHostWindowForNote:clickedObj];
             break;
-        case ModuleMenuOpenWorkspace:
+        case NotesMenuOpenWorkspace:
             [self delegateDoubleClick];
             break;
     }    

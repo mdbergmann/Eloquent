@@ -17,6 +17,19 @@
 
 @implementation ContentDisplayingViewController
 
+@synthesize forceRedisplay;
+@synthesize searchType;
+@synthesize reference;
+
+- (id)init {
+    self = [super init];
+    if(self) {
+        [self setReference:@""];
+        forceRedisplay = NO;
+    }
+    return self;
+}
+
 - (void)hostingDelegateShowRightSideBar:(BOOL)aFlag {
     if(hostingDelegate && [hostingDelegate respondsToSelector:@selector(showRightSideBar:)]) {
         [hostingDelegate performSelector:@selector(showRightSideBar:)];

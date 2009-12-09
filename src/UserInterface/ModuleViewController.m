@@ -19,6 +19,7 @@
 #import "SwordModuleTextEntry.h"
 #import "ReferenceCacheManager.h"
 #import "ReferenceCacheObject.h"
+#import "NSTextView+LookupAdditions.h"
 
 @interface ModuleViewController () 
 
@@ -185,7 +186,7 @@
     MBLOG(MBLOG_DEBUG, @"[ModuleViewController -loopUpInIndex:]");
     
     // get selection
-    NSString *sel = [textViewController selectedString];
+    NSString *sel = [[textViewController textView] selectedString];
     if(sel != nil) {
         // if the host is a single view, switch to index and search for the given word
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
@@ -203,7 +204,7 @@
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
     
     // get selection
-    NSString *sel = [textViewController selectedString];
+    NSString *sel = [[textViewController textView] selectedString];
     if(sel != nil) {
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             // create new single host
@@ -219,7 +220,7 @@
 - (IBAction)lookUpInDictionary:(id)sender {
     MBLOG(MBLOG_DEBUG, @"[ModuleViewController -loopUpInDictionary:]");
     
-    NSString *sel = [textViewController selectedString];
+    NSString *sel = [[textViewController textView] selectedString];
     if(sel != nil) {
         // get default dictionary module
         NSString *defDictName = [userDefaults stringForKey:DefaultsDictionaryModule];
@@ -251,7 +252,7 @@
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
     
     // get selection
-    NSString *sel = [textViewController selectedString];
+    NSString *sel = [[textViewController textView] selectedString];
     if(sel != nil) {
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
@@ -326,7 +327,7 @@
     
     if([menuItem menu] == textContextMenu) {
         // we need the length of the selected text
-        NSString *textSelection = [textViewController selectedString];
+        NSString *textSelection = [[textViewController textView] selectedString];
         
         BOOL ret = YES;
         int tag = [menuItem tag];

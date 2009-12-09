@@ -39,6 +39,11 @@
     NSImage *notesDrawerImage;
     NSImage *noteImage;
     
+    // root outlineview items
+    id modulesRootItem;
+    id bookmarksRootItem;
+    id notesRootItem;
+    
     // clicked module
     SwordModule *clickedMod;
     

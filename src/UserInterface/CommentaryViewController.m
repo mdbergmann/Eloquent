@@ -19,6 +19,7 @@
 #import "SwordCommentary.h"
 #import "SwordModuleTextEntry.h"
 #import "NSButton+Color.h"
+#import "NSTextView+LookupAdditions.h"
 
 @interface CommentaryViewController ()
 /** generates HTML for display */
@@ -413,7 +414,7 @@
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
     // changing text in lines with verse text markers it not allowed
-    NSRange lineRange = [textViewController rangeOfLineAtIndex:affectedCharRange.location];
+    NSRange lineRange = [aTextView rangeOfLineAtIndex:affectedCharRange.location];
     if(lineRange.location != NSNotFound) {
         NSDictionary *attrs = [[aTextView attributedString] attributesAtIndex:lineRange.location effectiveRange:nil];    
         if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER]) {

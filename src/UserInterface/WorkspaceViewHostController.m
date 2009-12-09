@@ -96,9 +96,9 @@
     for(ContentDisplayingViewController *vc in viewControllers) {
         if([vc viewLoaded]) {
             NSTabViewItem *item = [[NSTabViewItem alloc] init];
-            [item setLabel:[self computeTabTitle]];
             [item setView:[vc view]];
             [tabView addTabViewItem:item];
+            [item setLabel:[self computeTabTitle]];
             
             // select first
             if(i == 0) {
@@ -198,9 +198,13 @@
     NSMutableString *ret = [NSMutableString string];
     
     if(contentViewController != nil) {
-        SwordModule *mod = [(ModuleViewController *)contentViewController module];
-        if(mod != nil) {
-            [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
+        if([contentViewController isSwordModuleContentType]) {
+            SwordModule *mod = [(ModuleViewController *)contentViewController module];
+            if(mod != nil) {
+                [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
+            }            
+        } else if([contentViewController isNoteContentType]) {
+            [ret appendString:[(NotesViewController *)contentViewController label]];
         }
     }    
     
@@ -411,7 +415,7 @@
                                         
             // add tab item
             NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
-            [newItem setLabel:[contentViewController label]];
+            [newItem setLabel:[self computeTabTitle]];
             [newItem setView:[contentViewController view]];
             [tabView addTabViewItem:newItem];
             [tabView selectTabViewItem:newItem];
@@ -463,9 +467,15 @@
             [[self window] setFrame:frame display:YES];
         }
 
-        for(NSTabViewItem *item in [tabView tabViewItems]) {
-            [item setLabel:[self computeTabTitle]];
-        }
+        // set tab labels
+        for(int i = [viewControllers count]-1;i >= 0;--i) {
+            ContentDisplayingViewController *vc = [viewControllers objectAtIndex:i];
+            contentViewController = vc;
+            if([vc viewLoaded]) {
+                NSTabViewItem *item = [[tabView tabViewItems] objectAtIndex:i];
+                [item setLabel:[self computeTabTitle]];
+            }
+        }        
     }
     
     return self;

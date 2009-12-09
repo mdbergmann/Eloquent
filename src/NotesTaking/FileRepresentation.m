@@ -14,6 +14,8 @@
 @property (readwrite, retain) NSMutableDictionary *directoryContentWrapper;
 @property (readwrite) FileRepresentation *parent;
 
++ (NSString *)findFileNameForPreferredName:(NSString *)aFileName atFolder:(NSString *)aFolder;
+
 @end
 
 @implementation FileRepresentation
@@ -24,6 +26,24 @@
 @synthesize parent;
 
 
++ (NSString *)findFileNameForPreferredName:(NSString *)aFileName atFolder:(NSString *)aFolder {
+    NSString *pathExtension = [aFileName pathExtension];
+    NSString *fileName = [aFileName stringByDeletingPathExtension];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];    
+    NSString *absPath = [aFolder stringByAppendingPathComponent:aFileName];
+    int i = 1;
+    while([fm fileExistsAtPath:absPath]) {
+        if([pathExtension length] > 0) {
+            absPath = [aFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%i.%@", fileName, i, pathExtension]];
+        } else {
+            absPath = [aFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%i", aFileName, i]];
+        }
+        i++;
+    }
+    return [absPath lastPathComponent];
+}
+
 + (FileRepresentation *)createWithName:(NSString *)aName isFolder:(BOOL)isFolder destinationDirectoryRep:(FileRepresentation *)aFolderRep {
     if(![aFolderRep isDirectory]) {
         MBLOG(MBLOG_WARN, @"[FileRepresentation +createWithName::] destination is no directory!");
@@ -31,7 +51,8 @@
     }
     
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSString *absFileName = [[aFolderRep filePath] stringByAppendingPathComponent:aName];
+    NSString *fileName = [FileRepresentation findFileNameForPreferredName:aName atFolder:[aFolderRep filePath]];
+    NSString *absFileName = [[aFolderRep filePath] stringByAppendingPathComponent:fileName];
     BOOL createSuccess = YES;
     if(!isFolder) {
         createSuccess = [fm createFileAtPath:absFileName contents:[NSData data] attributes:nil];
@@ -55,15 +76,16 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     
     // copy
-    NSString *destinationPath = [[destDirectoryRep filePath] stringByAppendingPathComponent:[source name]];
+    NSString *fileName = [FileRepresentation findFileNameForPreferredName:[source name] atFolder:[destDirectoryRep filePath]];    
+    NSString *destinationPath = [[destDirectoryRep filePath] stringByAppendingPathComponent:fileName];
     if(![fm copyItemAtPath:[source filePath] toPath:destinationPath error:NULL]) {
         MBLOGV(MBLOG_ERR, @"[FileRepresentation +copyComplete::] unable to copy file %@ to path %@", [source filePath], destinationPath);
         return NO;
     }
     FileRepresentation *destinationFileRep = [[FileRepresentation alloc] initWithPath:destinationPath];
-    [destDirectoryRep buildTree];
-    
-    // add destination file rep to dest folder rep
+    if([destinationFileRep isDirectory]) {
+        [destinationFileRep buildTree];
+    }
     [destDirectoryRep addFileRepresentation:destinationFileRep];
     
     return YES;

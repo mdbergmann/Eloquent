@@ -19,5 +19,6 @@
 - (id)initWithRootPath:(NSString *)aPath;
 
 - (FileRepresentation *)notesFileRep;
+- (FileRepresentation *)fileRepForPath:(NSString *)aFilePath;
 
 @end

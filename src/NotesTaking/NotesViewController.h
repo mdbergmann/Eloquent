@@ -12,10 +12,11 @@
 
 @class FileRepresentation;
 
-@interface NotesViewController : ContentDisplayingViewController {
+@interface NotesViewController : ContentDisplayingViewController <TextDisplayable> {
     IBOutlet NSTextView *textView;
     IBOutlet NSButton *saveButton;
     FileRepresentation *fileRep;
+    NSRange lastFoundRange;
 }
 
 @property (readwrite, retain) FileRepresentation *fileRep;
@@ -24,8 +25,10 @@
 - (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate;
 - (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate fileRep:(FileRepresentation *)aFileRep;
 
-// methods
+// TextDisplayable
 - (void)displayText;
+- (void)displayTextForReference:(NSString *)aReference;
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
 // actions
 - (IBAction)save:(id)sender;

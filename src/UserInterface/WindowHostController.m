@@ -718,7 +718,8 @@ typedef enum _NavigationDirectionType {
         // -------------------------------
         // search segment control
         // -------------------------------
-        if([contentViewController contentViewType] == SwordGenBookContentType) {
+        if([contentViewController contentViewType] == SwordGenBookContentType ||
+           [contentViewController contentViewType] == NoteContentType) {
             [currentSearchText setSearchType:IndexSearchType];
             [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
             [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
@@ -745,7 +746,8 @@ typedef enum _NavigationDirectionType {
         // search text field
         // -----------------
         if([contentViewController contentViewType] == SwordGenBookContentType ||
-           [contentViewController contentViewType] == SwordDictionaryContentType) {
+           [contentViewController contentViewType] == SwordDictionaryContentType ||
+           [contentViewController contentViewType] == NoteContentType) {
             if(stype == ReferenceSearchType) {
                 [searchTextField setContinuous:YES];
                 [[searchTextField cell] setSendsSearchStringImmediately:YES];
@@ -779,6 +781,9 @@ typedef enum _NavigationDirectionType {
         if([contentViewController contentViewType] == SwordBibleContentType ||
            [contentViewController contentViewType] == SwordCommentaryContentType) {
             [addBookmarkBtn setEnabled:(stype == ReferenceSearchType)];
+            [forceReloadBtn setEnabled:YES];
+        } else if([contentViewController contentViewType] == NoteContentType) {
+            [addBookmarkBtn setEnabled:NO];
             [forceReloadBtn setEnabled:YES];
         } else {
             [addBookmarkBtn setEnabled:NO];

@@ -22,9 +22,6 @@
 @synthesize customFontSize;
 @synthesize modDisplayOptions;
 @synthesize displayOptions;
-@synthesize forceRedisplay;
-@synthesize searchType;
-@synthesize reference;
 @synthesize modDisplayOptionsPopUpButton;
 @synthesize displayOptionsPopUpButton;
 @synthesize fontSizePopUpButton;
@@ -35,10 +32,6 @@
 - (id)init {
     self = [super init];
     if(self) {
-        
-        [self setReference:@""];
-        forceRedisplay = NO;
-
         customFontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
 
         // init modDisplayOptions Dictionary

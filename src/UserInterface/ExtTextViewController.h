@@ -38,15 +38,6 @@
 - (NSMenu *)menuForEvent:(NSEvent *)event;
 
 // methods
-- (NSRange)rangeOfFirstLineWithLineRect:(NSRect *)lineRect;
-- (NSRange)rangeOfLineAtIndex:(long)index;
-- (NSRect)rectOfFirstLine;
-- (NSRect)rectOfLastLine;
-- (NSRange)rangeOfVisibleText;
-- (NSRange)rangeOfTextToken:(NSString *)token lastFound:(NSRange)lastFoundRange directionRight:(BOOL)right;
-- (NSRect)rectForTextRange:(NSRange)range;
-- (NSRect)rectForAttributeName:(NSString *)attrName attributeValue:(id)attrValue;
-- (NSString *)selectedString;
 - (NSDictionary *)dataForLink:(NSURL *)aURL;
 
 - (void)setAttributedString:(NSAttributedString *)aString;

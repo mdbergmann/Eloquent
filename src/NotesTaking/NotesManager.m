@@ -15,6 +15,8 @@
 @property (readwrite, retain) NSString *rootPath;
 @property (readwrite, retain) FileRepresentation *rootPathRep;
 
+- (FileRepresentation *)_fileRepForPath:(NSString *)aFilePath inFolder:(FileRepresentation *)aFolderRep;
+
 @end
 
 @implementation NotesManager
@@ -52,6 +54,25 @@ static NotesManager *singleton = nil;
 
 - (FileRepresentation *)notesFileRep {
     return rootPathRep;
+}
+
+- (FileRepresentation *)fileRepForPath:(NSString *)aFilePath {
+    return [self _fileRepForPath:aFilePath inFolder:[self rootPathRep]];
+}
+
+- (FileRepresentation *)_fileRepForPath:(NSString *)aFilePath inFolder:(FileRepresentation *)aFolderRep {
+    for(FileRepresentation *rep in [aFolderRep directoryContent]) {
+        if([[rep filePath] isEqualToString:aFilePath]) {
+            return rep;
+        }
+        if([rep isDirectory]) {
+            FileRepresentation *found = [self _fileRepForPath:aFilePath inFolder:rep];
+            if(found) {
+                return found;
+            }
+        }
+    }
+    return nil;
 }
 
 @end
