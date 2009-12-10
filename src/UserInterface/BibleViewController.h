@@ -68,10 +68,6 @@
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
 
-// NSCoding
-- (id)initWithCoder:(NSCoder *)decoder;
-- (void)encodeWithCoder:(NSCoder *)encoder;
-
 // actions
 - (IBAction)addModule:(id)sender;
 - (IBAction)closeButton:(id)sender;

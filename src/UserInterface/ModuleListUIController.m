@@ -33,6 +33,114 @@ enum ModuleMenu_Items{
 
 @implementation ModuleListUIController
 
+/**
+ generate a menu structure
+ 
+ @params[in|out] subMenuItem is the start of the menustructure.
+ @params[in] type, create menu for module types. ModuleType enum values can be ORed, -1 for all
+ @params[in] aTarget the target object of the created menuitem
+ @params[in] aSelector the selector of the target that should be called
+ */
++ (void)generateModuleMenu:(NSMenu **)itemMenu 
+             forModuletype:(int)type 
+            withMenuTarget:(id)aTarget 
+            withMenuAction:(SEL)aSelector {
+    
+    SwordManager *swManager = [SwordManager defaultManager];
+    // create menu for modules for specified type
+    // bibles
+    if((type == -1) || ((type & bible) == bible)) {
+        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_BIBLES];
+        for(SwordBible *mod in mods) {
+            NSMenuItem *menuItem = [[NSMenuItem alloc] init];
+            [menuItem setTitle:[mod name]];
+            //[menuItem setToolTip:[[urlval valueData] absoluteString]];					
+            //image = [NSImage imageNamed:@"ItemAdd"];
+            //[image setSize:NSMakeSize(32,32)];
+            //[menuItem setImage:image];
+            [menuItem setTarget:aTarget];
+            [menuItem setAction:aSelector];
+            [menuItem setEnabled:YES];
+            [*itemMenu addItem:menuItem];
+            [menuItem release];
+        }
+        
+        // add separator as last item
+        [*itemMenu addItem:[NSMenuItem separatorItem]];
+    }
+    
+    // commentaries
+    if((type == -1) || ((type & commentary) == commentary)) {
+        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_COMMENTARIES];
+        for(SwordBible *mod in mods) {
+            NSMenuItem *menuItem = [[NSMenuItem alloc] init];
+            [menuItem setTitle:[mod name]];
+            //[menuItem setToolTip:[[urlval valueData] absoluteString]];					
+            //image = [NSImage imageNamed:@"ItemAdd"];
+            //[image setSize:NSMakeSize(32,32)];
+            //[menuItem setImage:image];
+            [menuItem setTarget:aTarget];
+            [menuItem setAction:aSelector];
+            [menuItem setEnabled:YES];
+            [*itemMenu addItem:menuItem];
+            [menuItem release];
+        }
+        
+        // add separator as last item
+        [*itemMenu addItem:[NSMenuItem separatorItem]];
+    }
+    
+    // dictionaries
+    if((type == -1) || ((type & dictionary) == dictionary)) {
+        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_DICTIONARIES];
+        for(SwordBible *mod in mods) {
+            NSMenuItem *menuItem = [[NSMenuItem alloc] init];
+            [menuItem setTitle:[mod name]];
+            //[menuItem setToolTip:[[urlval valueData] absoluteString]];					
+            //image = [NSImage imageNamed:@"ItemAdd"];
+            //[image setSize:NSMakeSize(32,32)];
+            //[menuItem setImage:image];
+            [menuItem setTarget:aTarget];
+            [menuItem setAction:aSelector];
+            [*itemMenu addItem:menuItem];
+            [menuItem release];
+        }
+        
+        // add separator as last item
+        [*itemMenu addItem:[NSMenuItem separatorItem]];
+    }
+    
+    // gen books
+    if((type == -1) || ((type & genbook) == genbook)) {
+        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_GENBOOKS];
+        for(SwordBible *mod in mods) {
+            NSMenuItem *menuItem = [[NSMenuItem alloc] init];
+            [menuItem setTitle:[mod name]];
+            //[menuItem setToolTip:[[urlval valueData] absoluteString]];					
+            //image = [NSImage imageNamed:@"ItemAdd"];
+            //[image setSize:NSMakeSize(32,32)];
+            //[menuItem setImage:image];
+            [menuItem setTarget:aTarget];
+            [menuItem setAction:aSelector];
+            [*itemMenu addItem:menuItem];
+            [menuItem release];
+        }
+        
+        // add separator as last item
+        [*itemMenu addItem:[NSMenuItem separatorItem]];
+    }
+    
+    // check last item is a separator, then remove    
+    int len = [[*itemMenu itemArray] count];
+    if(len > 0) {
+        NSMenuItem *last = [*itemMenu itemAtIndex:len-1];
+        if([last isSeparatorItem]) {
+            [*itemMenu removeItem:last];
+        }
+    }
+}
+
+
 @synthesize moduleMenu;
 
 - (id)init {

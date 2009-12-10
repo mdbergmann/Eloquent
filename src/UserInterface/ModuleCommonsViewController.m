@@ -57,6 +57,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // init display options
     [self initDefaultModDisplayOptions];
     [self initDefaultDisplayOptions];

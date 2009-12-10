@@ -40,7 +40,8 @@
         [self setDelegate:aDelegate];
         [self setHostingDelegate:aHostingDelegate];
         [self setFileRep:aFileRep];
-        lastFoundRange = NSMakeRange(NSNotFound, 0);        
+        lastFoundRange = NSMakeRange(NSNotFound, 0);
+        contentDisplayController = self;
         
         BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];
         if(!stat) {
@@ -55,8 +56,9 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+
     [self displayText];
-    
     [saveButton setEnabled:NO];
     
     viewLoaded = YES;
@@ -68,6 +70,34 @@
         return [[fileRep name] stringByDeletingPathExtension];
     }
     return @"";
+}
+
+#pragma mark - Context Menu validation
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+    if([menuItem menu] == textContextMenu) {
+        if(selector == @selector(createSwordLinkFromTextSelection:)) {
+            MBLOG(MBLOG_ERR, @"[NotesViewController -validateMenuItem:]");
+            return YES;
+        }
+    }
+    
+    return [super validateMenuItem:menuItem];
+}
+
+#pragma mark - TextContentProviding protocol
+
+- (NSTextView *)textView {
+    return textView;
+}
+
+- (NSScrollView *)scrollView {
+    return [textView enclosingScrollView];
+}
+
+- (void)setAttributedString:(NSAttributedString *)aString {
+    [[textView textStorage] setAttributedString:aString];
 }
 
 #pragma mark - TextDisplayable protocol
@@ -142,12 +172,19 @@
     [saveButton setEnabled:NO];
 }
 
+- (IBAction)createSwordLinkFromTextSelection:(id)sender {
+    MBLOG(MBLOG_ERR, @"[NotesViewController -createSwordLinkFromTextSelection:]");
+    
+}
+
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
         self.fileRep = [[FileRepresentation alloc] initWithPath:[decoder decodeObjectForKey:@"NoteFilePath"]];
+        lastFoundRange = NSMakeRange(NSNotFound, 0);
+        contentDisplayController = self;        
         
         // load nib
         BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];

@@ -31,6 +31,7 @@
 #import "BookmarkManager.h"
 #import "SwordVerseKey.h"
 #import "IndexingManager.h"
+#import "ModuleListUIController.h"
 
 @interface BibleViewController ()
 
@@ -127,13 +128,13 @@
     
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
-    if(textViewController.viewLoaded == YES) {
+    if([(HostableViewController *)contentDisplayController viewLoaded]) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[textViewController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[textViewController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
         
         // add the webview as contentvew to the placeholder    
-        [placeHolderView setContentView:[textViewController view]];
+        [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];
     }
     
@@ -141,16 +142,6 @@
     [self populateModulesMenu];
     [self populateAddPopupMenu];
     
-    // populate menu items with modules
-    NSMenu *bibleModules = [[NSMenu alloc] init];
-    [[SwordManager defaultManager] generateModuleMenu:&bibleModules forModuletype:bible withMenuTarget:self withMenuAction:@selector(lookUpInIndexOfBible:)];
-    NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
-    [item setSubmenu:bibleModules];
-    NSMenu *dictModules = [[NSMenu alloc] init];
-    [[SwordManager defaultManager] generateModuleMenu:&dictModules forModuletype:dictionary withMenuTarget:self withMenuAction:@selector(lookUpInDictionaryOfModule:)];
-    item = [textContextMenu itemWithTag:LookUpInDictionaryList];
-    [item setSubmenu:dictModules];
-
     [self adaptUIToHost];
     
     // if we have areference, display it
@@ -182,13 +173,21 @@
     }
 }
 
+/**
+ overriding from super class
+ */
+- (void)modulesListChanged:(NSNotification *)aNotification {
+    [self populateModulesMenu];
+    [self populateAddPopupMenu];
+}
+
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
     // generate menu
-    [[SwordManager defaultManager] generateModuleMenu:&menu 
-                                        forModuletype:bible 
-                                       withMenuTarget:self 
-                                       withMenuAction:@selector(moduleSelectionChanged:)];
+    [ModuleListUIController generateModuleMenu:&menu 
+                                 forModuletype:bible 
+                                withMenuTarget:self 
+                                withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
     
@@ -209,28 +208,21 @@
     }
 }
 
-/**
- overriding from super class
- */
-- (void)modulesListChanged:(NSNotification *)aNotification {
-    [self populateModulesMenu];
-    [self populateAddPopupMenu];
-}
-
 - (void)populateAddPopupMenu {
     // generate bibles menu
-    biblesMenu = [[NSMenu alloc] init];    
-    [[SwordManager defaultManager] generateModuleMenu:&biblesMenu 
-                                        forModuletype:bible 
-                                       withMenuTarget:self 
-                                       withMenuAction:@selector(addModule:)];
+    biblesMenu = [[NSMenu alloc] init];
+    [biblesMenu setAutoenablesItems:YES];
+    [ModuleListUIController generateModuleMenu:&biblesMenu 
+                                 forModuletype:bible 
+                                withMenuTarget:self 
+                                withMenuAction:@selector(addModule:)];
     
     // generate commentary menu
-    commentariesMenu = [[NSMenu alloc] init];    
-    [[SwordManager defaultManager] generateModuleMenu:&commentariesMenu 
-                                        forModuletype:commentary 
-                                       withMenuTarget:self 
-                                       withMenuAction:@selector(addModule:)];    
+    commentariesMenu = [[NSMenu alloc] init];
+    [ModuleListUIController generateModuleMenu:&commentariesMenu 
+                                 forModuletype:commentary 
+                                withMenuTarget:self 
+                                withMenuAction:@selector(addModule:)];
     
     // overall menu
     NSMenu *allMenu = [[NSMenu alloc] init];
@@ -262,7 +254,7 @@
 }
 
 - (NSScrollView *)scrollView {
-    return (NSScrollView *)[textViewController scrollView];
+    return (NSScrollView *)[(<TextContentProviding>)contentDisplayController scrollView];
 }
 
 - (void)setStatusText:(NSString *)aText {
@@ -449,7 +441,7 @@
     [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
                                    size:(int)customFontSize];
-    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
+    [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
 
     return [[NSMutableAttributedString alloc] initWithHTML:data 
@@ -659,7 +651,7 @@
             [self setStatusText:statusText];
 
             // display
-            [textViewController setAttributedString:text];                        
+            [(<TextContentProviding>)contentDisplayController setAttributedString:text];                        
             
             if(aType == ReferenceSearchType) {
                 // stop indicating progress
@@ -742,8 +734,8 @@
     // check if this view has completed loading
     if(viewLoaded == YES) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[textViewController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[textViewController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[(<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
         
         // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[aView view]];

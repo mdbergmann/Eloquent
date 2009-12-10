@@ -11,17 +11,6 @@
 #import <ContentDisplayingViewController.h>
 #import <ProtocolHelper.h>
 
-enum BibleViewTextContextMenuItems {
-    LookUpInIndexDefault = 100,
-    LookUpInIndexList,
-    LookUpInDictionaryDefault = 300,
-    LookUpInDictionaryList
-};
-
-enum BibleViewLinkContextMenuItems {
-    OpenLink = 10,
-};
-
 enum GeneralMenuItemAdditions {
     ShowModuleAbout = 100000
 };

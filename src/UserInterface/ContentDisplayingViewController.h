@@ -19,8 +19,28 @@ typedef enum _ContentViewType {
     NoteContentType = 100,
 }ContentViewType;
 
-@interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating> {
+enum TextContextMenuItems {
+    LookUpInIndexDefault = 100,
+    LookUpInIndexList,
+    LookUpInDictionaryDefault = 300,
+    LookUpInDictionaryList
+};
+
+enum LinkContextMenuItems {
+    OpenLink = 10,
+};
+
+@interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding> {
     IBOutlet NSView *topAccessoryView;
+    IBOutlet id contentDisplayController;
+    
+    // content context menues
+    IBOutlet NSMenu *textContextMenu;
+    IBOutlet NSMenu *linkContextMenu;
+    IBOutlet NSMenu *imageContextMenu;
+    
+    // context menu clicked link
+    NSURL *contextMenuClickedLink;
 
     BOOL forceRedisplay;
     SearchType searchType;
@@ -30,6 +50,10 @@ typedef enum _ContentViewType {
 @property (readwrite) BOOL forceRedisplay;
 @property (readwrite) SearchType searchType;
 @property (retain, readwrite) NSString *reference;
+@property (retain, readwrite) NSURL *contextMenuClickedLink;
+
+// delegate method of ContentDisplayController, called for context menu selection
+- (NSMenu *)menuForEvent:(NSEvent *)event;
 
 // printing
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo;
@@ -43,6 +67,18 @@ typedef enum _ContentViewType {
 // ProgressIndicating
 - (void)beginIndicateProgress;
 - (void)endIndicateProgress;
+
+// ContextMenuProviding
+- (NSMenu *)textContextMenu;
+- (NSMenu *)linkContextMenu;
+- (NSMenu *)imageContextMenu;
+
+// context menu actions
+- (IBAction)lookUpInIndex:(id)sender;
+- (IBAction)lookUpInIndexOfBible:(id)sender;
+- (IBAction)lookUpInDictionary:(id)sender;
+- (IBAction)lookUpInDictionaryOfModule:(id)sender;
+- (IBAction)openLink:(id)sender;
 
 // convenience methods
 - (void)hostingDelegateShowRightSideBar:(BOOL)aFlag;

@@ -20,6 +20,7 @@
 #import "SwordModuleTextEntry.h"
 #import "NSButton+Color.h"
 #import "NSTextView+LookupAdditions.h"
+#import "ModuleListUIController.h"
 
 @interface CommentaryViewController ()
 /** generates HTML for display */
@@ -43,7 +44,7 @@
         editEnabled = NO;
         
         // create textview controller
-        textViewController = [[ExtTextViewController alloc] initWithDelegate:self];
+        contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
         
         self.nibName = COMMENTARYVIEW_NIBNAME;
         
@@ -79,10 +80,10 @@
 - (void)populateModulesMenu {
     
     NSMenu *menu = [[NSMenu alloc] init];
-    [[SwordManager defaultManager] generateModuleMenu:&menu 
-                                        forModuletype:commentary 
-                                       withMenuTarget:self 
-                                       withMenuAction:@selector(moduleSelectionChanged:)];
+    [ModuleListUIController generateModuleMenu:&menu 
+                                 forModuletype:commentary 
+                                withMenuTarget:self 
+                                withMenuAction:@selector(moduleSelectionChanged:)];
     [modulePopBtn setMenu:menu];
     
     // select module
@@ -119,12 +120,12 @@
 - (void)populateAddPopupMenu {
     
     // generate commentary menu
-    commentariesMenu = [[NSMenu alloc] init];    
-    [[SwordManager defaultManager] generateModuleMenu:&commentariesMenu 
-                                        forModuletype:commentary 
-                                       withMenuTarget:self 
-                                       withMenuAction:@selector(addModule:)];    
-    
+    commentariesMenu = [[NSMenu alloc] init];
+    [ModuleListUIController generateModuleMenu:&commentariesMenu 
+                                 forModuletype:commentary 
+                                withMenuTarget:self 
+                                withMenuAction:@selector(addModule:)];
+
     // overall menu
     NSMenu *allMenu = [[NSMenu alloc] init];
     [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
@@ -176,7 +177,7 @@
     // set scroll to line height
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
                                    size:(int)customFontSize];
-    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
+    [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
     ret = [[NSMutableAttributedString alloc] initWithHTML:data 
@@ -265,8 +266,8 @@
 
 - (void)saveCommentaryText {
     // go through the text and store it
-    NSAttributedString *attrString = [[textViewController textView] attributedString];
-    NSString *text = [[textViewController textView] string];
+    NSAttributedString *attrString = [[(<TextContentProviding>)contentDisplayController textView] attributedString];
+    NSString *text = [[(<TextContentProviding>)contentDisplayController textView] string];
     NSArray *lines = [text componentsSeparatedByString:@"\n"];
     long lineStartIndex = 0;
     NSString *currentVerse = nil;
@@ -372,22 +373,22 @@
     
     if(editEnabled == NO) {
         // make textview editable
-        [[textViewController textView] setEditable:YES];
-        [[textViewController textView] setContinuousSpellCheckingEnabled:YES];
-        [[textViewController textView] setAllowsUndo:YES];        
+        [[(<TextContentProviding>)contentDisplayController textView] setEditable:YES];
+        [[(<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:YES];
+        [[(<TextContentProviding>)contentDisplayController textView] setAllowsUndo:YES];        
         [editButton setTextColor:[NSColor redColor]];
         
         // set the delegate to be us temporarily
-        [[textViewController textView] setDelegate:self];
+        [[(<TextContentProviding>)contentDisplayController textView] setDelegate:self];
         
     } else {
-        [[textViewController textView] setEditable:NO];
-        [[textViewController textView] setContinuousSpellCheckingEnabled:NO];
-        [[textViewController textView] setAllowsUndo:NO];
+        [[(<TextContentProviding>)contentDisplayController textView] setEditable:NO];
+        [[(<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:NO];
+        [[(<TextContentProviding>)contentDisplayController textView] setAllowsUndo:NO];
         [editButton setTextColor:[NSColor blackColor]];
         
         // set the delegate back to where it belongs
-        [[textViewController textView] setDelegate:textViewController];
+        [[(<TextContentProviding>)contentDisplayController textView] setDelegate:contentDisplayController];
 
         // store text
         [self saveCommentaryText];
@@ -433,14 +434,14 @@
  for as long as we are delegate, forward to text controller
  */
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
-    return [textViewController textView:textView willDisplayToolTip:tooltip forCharacterAtIndex:characterIndex];
+    return [(<TextContentProviding>)contentDisplayController textView:textView willDisplayToolTip:tooltip forCharacterAtIndex:characterIndex];
 }
 
 /** 
  for as long as we are delegate, forward to text controller
  */
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-    return [textViewController textView:aTextView clickedOnLink:link atIndex:charIndex];
+    return [(<TextContentProviding>)contentDisplayController textView:aTextView clickedOnLink:link atIndex:charIndex];
 }
 
 #pragma mark - NSOutlineView delegate methods

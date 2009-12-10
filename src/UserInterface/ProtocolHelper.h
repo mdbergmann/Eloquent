@@ -13,18 +13,15 @@
 @class HostableViewController;
 
 @protocol SubviewHosting
-/** called from subview when it has fully loaded */
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
 @end
 
-/** protocol to track mouse movement */
 @protocol MouseTracking
 - (void)mouseEntered:(NSView *)theView;
 - (void)mouseExited:(NSView *)theView;
 @end
 
-/** protocol for full screen views */
 @protocol FullScreenCapability
 - (BOOL)isFullScreenMode;
 - (void)setFullScreenMode:(BOOL)flag;
@@ -36,6 +33,12 @@
 - (NSView *)rightAccessoryView;
 - (void)adaptTopAccessoryViewComponentsForSearchType:(SearchType)aType;
 - (BOOL)showsRightSideBar;
+@end
+
+@protocol TextContentProviding
+- (NSTextView *)textView;
+- (NSScrollView *)scrollView;
+- (void)setAttributedString:(NSAttributedString *)aString;
 @end
 
 @protocol TextDisplayable

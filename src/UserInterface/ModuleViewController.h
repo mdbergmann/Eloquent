@@ -17,35 +17,17 @@
 @class SwordModule;
 @class ExtTextViewController;
 
-@interface ModuleViewController : ModuleCommonsViewController <NSCoding, ContextMenuProviding> {
-    // placeholder for webview or other views depending on nodule tyoe
+@interface ModuleViewController : ModuleCommonsViewController <NSCoding> {
     IBOutlet NSBox *placeHolderView;
     
-    // context menus
-    IBOutlet NSMenu *textContextMenu;
-    IBOutlet NSMenu *linkContextMenu;
-    IBOutlet NSMenu *imageContextMenu;    
-
-    // the module
     SwordModule *module;
-    
-    // we need a webview for text display
-    ExtTextViewController *textViewController;
-    
-    // context menu clicked link
-    NSURL *contextMenuClickedLink;
-    
-    // perform progress calculation
     BOOL performProgressCalculation;
-    
-    // a indexer
     Indexer *indexer;
 }
 
 // --------- properties ---------
 @property (retain, readwrite) SwordModule *module;
 @property (readwrite) BOOL performProgressCalculation;
-@property (retain, readwrite) NSURL *contextMenuClickedLink;
 
 // ---------- methods ---------
 - (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results;
@@ -67,27 +49,7 @@
 // the text view
 - (NSTextView *)textView;
 
-// ---------- Hostable delegate methods ---------
-- (void)contentViewInitFinished:(HostableViewController *)aView;
-
-// delegate method of ExtTextViewController
-- (NSMenu *)menuForEvent:(NSEvent *)event;
-
-// NSCoding
-- (id)initWithCoder:(NSCoder *)decoder;
-- (void)encodeWithCoder:(NSCoder *)encoder;
-
-// ContextMenuProviding
-- (NSMenu *)textContextMenu;
-- (NSMenu *)linkContextMenu;
-- (NSMenu *)imageContextMenu;
-
 // context menu actions
-- (IBAction)lookUpInIndex:(id)sender;
-- (IBAction)lookUpInIndexOfBible:(id)sender;
-- (IBAction)lookUpInDictionary:(id)sender;
-- (IBAction)lookUpInDictionaryOfModule:(id)sender;
-- (IBAction)openLink:(id)sender;
 - (IBAction)displayModuleAbout:(id)sender;
 
 @end

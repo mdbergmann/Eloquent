@@ -19,6 +19,7 @@
 #import "SwordModule.h"
 #import "SwordBook.h"
 #import "IndexingManager.h"
+#import "ModuleListUIController.h"
 
 @interface GenBookViewController (/* class continuation */)
 
@@ -73,19 +74,17 @@
 }
 
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[GenBookViewController -awakeFromNib]");
-
     [super awakeFromNib];
         
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
-    if(textViewController.viewLoaded == YES) {
+    if([(HostableViewController *)contentDisplayController viewLoaded]) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[textViewController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[textViewController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
         
         // add the webview as contentvew to the placeholder    
-        [placeHolderView setContentView:[textViewController view]];
+        [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];        
     }
     
@@ -109,10 +108,10 @@
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
     // generate menu
-    [[SwordManager defaultManager] generateModuleMenu:&menu 
-                                        forModuletype:genbook
-                                       withMenuTarget:self 
-                                       withMenuAction:@selector(moduleSelectionChanged:)];
+    [ModuleListUIController generateModuleMenu:&menu 
+                                 forModuletype:genbook 
+                                withMenuTarget:self 
+                                withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
     
@@ -229,7 +228,7 @@
     // set scroll to line height
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
                                    size:(int)customFontSize];
-    [[textViewController scrollView] setLineScroll:[[[textViewController textView] layoutManager] defaultLineHeightForFont:font]];
+    [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
     ret = [[NSMutableAttributedString alloc] initWithHTML:data 
@@ -284,7 +283,7 @@
 
                 // re-display
                 NSAttributedString *string = [self displayableHTMLForKeys:self.selection];
-                [textViewController setAttributedString:string];
+                [(<TextContentProviding>)contentDisplayController setAttributedString:string];
 
                 // refresh outlineview
                 [entriesOutlineView reloadData];
@@ -354,12 +353,12 @@
     // check if this view has completed loading
     if(viewLoaded == YES) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[textViewController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[textViewController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
         
         // we have some special setting for the textview
         // it should be allowed to edit images
-        [[textViewController textView] setAllowsImageEditing:YES];
+        [[(<TextContentProviding>)contentDisplayController textView] setAllowsImageEditing:YES];
         
         // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[aView view]];

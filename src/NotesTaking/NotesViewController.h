@@ -12,7 +12,7 @@
 
 @class FileRepresentation;
 
-@interface NotesViewController : ContentDisplayingViewController <TextDisplayable> {
+@interface NotesViewController : ContentDisplayingViewController <TextDisplayable, TextContentProviding> {
     IBOutlet NSTextView *textView;
     IBOutlet NSButton *saveButton;
     FileRepresentation *fileRep;
@@ -30,7 +30,13 @@
 - (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
+// TextContentProviding
+- (NSTextView *)textView;
+- (NSScrollView *)scrollView;
+- (void)setAttributedString:(NSAttributedString *)aString;
+
 // actions
 - (IBAction)save:(id)sender;
+- (IBAction)createSwordLinkFromTextSelection:(id)sender;
 
 @end

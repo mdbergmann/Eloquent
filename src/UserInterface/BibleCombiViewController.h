@@ -62,8 +62,4 @@
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
 
-// NSCoding
-- (id)initWithCoder:(NSCoder *)decoder;
-- (void)encodeWithCoder:(NSCoder *)encoder;
-
 @end

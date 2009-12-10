@@ -29,6 +29,19 @@
 
 @property (readonly) NSMenu *moduleMenu;
 
+/**
+ generate a menu structure
+ 
+ @params[in|out] subMenuItem is the start of the menustructure.
+ @params[in] type, create menu for module types. ModuleType enum values can be ORed, -1 for all
+ @params[in] aTarget the target object of the created menuitem
+ @params[in] aSelector the selector of the target that should be called
+ */
++ (void)generateModuleMenu:(NSMenu **)itemMenu 
+             forModuletype:(int)type 
+            withMenuTarget:(id)aTarget 
+            withMenuAction:(SEL)aSelector;
+    
 // init
 - (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate;
 

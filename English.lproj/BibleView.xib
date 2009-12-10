@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10B504</string>
+		<string key="IBDocument.SystemVersion">10C540</string>
 		<string key="IBDocument.InterfaceBuilderVersion">740</string>
-		<string key="IBDocument.AppKitVersion">1038.2</string>
-		<string key="IBDocument.HIToolboxVersion">437.00</string>
+		<string key="IBDocument.AppKitVersion">1038.25</string>
+		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">740</string>
@@ -380,7 +380,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="NSMenuItem" id="140601325">
 						<reference key="NSMenu" ref="650197534"/>
-						<string key="NSTitle">Look Up in Index</string>
+						<string key="NSTitle">Look up in index</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="344040759"/>
@@ -389,7 +389,7 @@
 					</object>
 					<object class="NSMenuItem" id="500494246">
 						<reference key="NSMenu" ref="650197534"/>
-						<string key="NSTitle">Loop Up in Index of</string>
+						<string key="NSTitle">Loop up in index of</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="344040759"/>
@@ -398,7 +398,7 @@
 					</object>
 					<object class="NSMenuItem" id="438113320">
 						<reference key="NSMenu" ref="650197534"/>
-						<string key="NSTitle">Loop Up in default Dictionary</string>
+						<string key="NSTitle">Loop up in default dictionary</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="344040759"/>
@@ -1789,6 +1789,52 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">ContentDisplayingViewController</string>
+					<string key="superclassName">HostableViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>lookUpInDictionary:</string>
+							<string>lookUpInDictionaryOfModule:</string>
+							<string>lookUpInIndex:</string>
+							<string>lookUpInIndexOfBible:</string>
+							<string>openLink:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>contentDisplayController</string>
+							<string>imageContextMenu</string>
+							<string>linkContextMenu</string>
+							<string>textContextMenu</string>
+							<string>topAccessoryView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>NSMenu</string>
+							<string>NSMenu</string>
+							<string>NSMenu</string>
+							<string>NSView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/ContentDisplayingViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">HeaderImageView</string>
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1819,7 +1865,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">ModuleCommonsViewController</string>
-					<string key="superclassName">HostableViewController</string>
+					<string key="superclassName">ContentDisplayingViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -1897,42 +1943,12 @@
 					<string key="className">ModuleViewController</string>
 					<string key="superclassName">ModuleCommonsViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>displayModuleAbout:</string>
-							<string>lookUpInDictionary:</string>
-							<string>lookUpInDictionaryOfModule:</string>
-							<string>lookUpInIndex:</string>
-							<string>lookUpInIndexOfBible:</string>
-							<string>openLink:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
+						<string key="NS.key.0">displayModuleAbout:</string>
+						<string key="NS.object.0">id</string>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>imageContextMenu</string>
-							<string>linkContextMenu</string>
-							<string>placeHolderView</string>
-							<string>textContextMenu</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSMenu</string>
-							<string>NSMenu</string>
-							<string>NSBox</string>
-							<string>NSMenu</string>
-						</object>
+						<string key="NS.key.0">placeHolderView</string>
+						<string key="NS.object.0">NSBox</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -1944,6 +1960,13 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">src/UserInterface/NSButton+Color.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSTextView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/NSTextView+LookupAdditions.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

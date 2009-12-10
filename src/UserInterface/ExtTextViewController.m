@@ -133,7 +133,6 @@
     if(delegate) {
         return [delegate performSelector:@selector(menuForEvent:) withObject:event];
     }
-    
     return nil;
 }
 
