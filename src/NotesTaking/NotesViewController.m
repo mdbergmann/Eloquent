@@ -7,10 +7,22 @@
 //
 
 #import "NotesViewController.h"
+#import "globals.h"
 #import "FileRepresentation.h"
 #import "NSTextView+LookupAdditions.h"
+#import "ModuleViewController.h"
+#import "MBPreferenceController.h"
+#import "HUDPreviewController.h"
+#import "SwordManager.h"
 
 #define NOTESVIEW_NIBNAME    @"NotesView"
+
+@interface NotesViewController ()
+
+- (NSAttributedString *)swordLinkStringFromReference:(NSString *)aReference ofModule:(NSString *)aModuleName;
+- (NSString *)processPreviewDisplay:(NSURL *)aUrl;
+
+@end
 
 @implementation NotesViewController
 
@@ -72,14 +84,35 @@
     return @"";
 }
 
+- (NSAttributedString *)swordLinkStringFromReference:(NSString *)aReference ofModule:(NSString *)aModuleName {
+    
+    NSString *keyLink = [NSString stringWithFormat:@"sword://%@/%@", aModuleName, aReference];
+    NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    // add attributes
+    NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
+    [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
+    [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
+    [keyAttributes setObject:aReference forKey:TEXT_VERSE_MARKER];
+    
+    // prepare output
+    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:aReference attributes:keyAttributes];
+    if(!keyString) {
+        keyString = [[NSAttributedString alloc] init];
+    }
+    return keyString;
+}
+
 #pragma mark - Context Menu validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     if([menuItem menu] == textContextMenu) {
         if(selector == @selector(createSwordLinkFromTextSelection:)) {
-            MBLOG(MBLOG_ERR, @"[NotesViewController -validateMenuItem:]");
-            return YES;
+            if([[[self textView] selectedString] length] > 0) {
+                return YES;                
+            }
+            return NO;
         }
     }
     
@@ -173,8 +206,57 @@
 }
 
 - (IBAction)createSwordLinkFromTextSelection:(id)sender {
-    MBLOG(MBLOG_ERR, @"[NotesViewController -createSwordLinkFromTextSelection:]");
+    NSString *selectedText = [[self textView] selectedString];
+    NSString *trimmedText = [selectedText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if([trimmedText length] > 0) {
+        
+        // get default bible module
+        NSString *defBibleName = [userDefaults stringForKey:DefaultsBibleModule];
+        if(defBibleName == nil) {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"NoDefaultBibleSelected", @"") 
+                                             defaultButton:NSLocalizedString(@"OK" , @"")
+                                           alternateButton:nil 
+                                               otherButton:nil
+                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultBibleSelectedText", @"")];
+            [alert runModal];
+        } else {
+            NSAttributedString *replacementString = [self swordLinkStringFromReference:trimmedText ofModule:defBibleName];
+            [[[self textView] textStorage] replaceCharactersInRange:[[self textView] selectedRange] withAttributedString:replacementString];
+        }
+    }
+}
+
+#pragma mark - NSTextView delegates
+
+- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
+    // create URL
+    NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if(!url) {
+        MBLOGV(MBLOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
+    } else {
+        return [self processPreviewDisplay:url];
+    }
     
+    return @"";
+}
+
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+    [self processPreviewDisplay:(NSURL *)link];
+    
+    return YES;
+}
+
+- (NSString *)processPreviewDisplay:(NSURL *)aUrl {
+    NSDictionary *linkResult = [SwordManager linkDataForLinkURL:aUrl];
+    SendNotifyShowPreviewData(linkResult);
+    
+    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] classname: %@", [aUrl className]);    
+    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] link: %@", [aUrl description]);
+    if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
+        return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
+    }
+    
+    return @"";
 }
 
 #pragma mark - NSCoding protocol
