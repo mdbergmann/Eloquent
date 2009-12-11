@@ -28,6 +28,7 @@ enum TextContextMenuItems {
 
 enum LinkContextMenuItems {
     OpenLink = 10,
+    RemoveLink
 };
 
 @interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding> {
@@ -39,8 +40,10 @@ enum LinkContextMenuItems {
     IBOutlet NSMenu *linkContextMenu;
     IBOutlet NSMenu *imageContextMenu;
     
-    // context menu clicked link
+    // context menu clicked
+    NSEvent *lastEvent;
     NSURL *contextMenuClickedLink;
+    NSRange clickedLinkTextRange;
 
     BOOL forceRedisplay;
     SearchType searchType;
@@ -50,7 +53,7 @@ enum LinkContextMenuItems {
 @property (readwrite) BOOL forceRedisplay;
 @property (readwrite) SearchType searchType;
 @property (retain, readwrite) NSString *reference;
-@property (retain, readwrite) NSURL *contextMenuClickedLink;
+@property (retain, readwrite) NSEvent *lastEvent;
 
 // delegate method of ContentDisplayController, called for context menu selection
 - (NSMenu *)menuForEvent:(NSEvent *)event;
@@ -79,6 +82,7 @@ enum LinkContextMenuItems {
 - (IBAction)lookUpInDictionary:(id)sender;
 - (IBAction)lookUpInDictionaryOfModule:(id)sender;
 - (IBAction)openLink:(id)sender;
+- (IBAction)removeLink:(id)sender;
 
 // convenience methods
 - (void)hostingDelegateShowRightSideBar:(BOOL)aFlag;

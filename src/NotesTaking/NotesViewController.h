@@ -34,9 +34,10 @@
 - (NSTextView *)textView;
 - (NSScrollView *)scrollView;
 - (void)setAttributedString:(NSAttributedString *)aString;
+- (void)textChanged:(NSNotification *)aNotification;
 
 // actions
-- (IBAction)save:(id)sender;
+- (IBAction)saveDocument:(id)sender;
 - (IBAction)createSwordLinkFromTextSelection:(id)sender;
 
 @end

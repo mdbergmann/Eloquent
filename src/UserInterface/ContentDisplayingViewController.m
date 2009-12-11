@@ -24,18 +24,33 @@
 #import "ModuleListUIController.h"
 
 
+@interface ContentDisplayingViewController ()
+
+@property (retain, readwrite) NSURL *contextMenuClickedLink;
+@property (readwrite) NSRange clickedLinkTextRange;
+
+- (NSDictionary *)textAttributesOfLastEventLocation;
+
+@end
+
 @implementation ContentDisplayingViewController
 
 @synthesize forceRedisplay;
 @synthesize searchType;
 @synthesize reference;
 @synthesize contextMenuClickedLink;
+@synthesize clickedLinkTextRange;
+@synthesize lastEvent;
+
 
 - (id)init {
     self = [super init];
     if(self) {
         [self setReference:@""];
-        forceRedisplay = NO;
+        [self setContextMenuClickedLink:nil];
+        [self setClickedLinkTextRange:NSMakeRange(NSNotFound, 0)];
+        [self setForceRedisplay:NO];
+        [self setLastEvent:nil];
     }
     return self;
 }
@@ -104,15 +119,10 @@
     NSMenu *ret = textContextMenu;
     
     if([event type] == NSRightMouseDown ||
-       (([event type] == NSLeftMouseDown) && ([event modifierFlags] & NSControlKeyMask))) {
-        NSTextView *textView = [(<TextContentProviding>)contentDisplayController textView];
-        // get mouse cursor location
-        NSPoint eventLocation = [event locationInWindow];
-        NSPoint localPoint = [textView convertPoint:eventLocation fromView:nil];
-        int glyphIndex = [[textView layoutManager] glyphIndexForPoint:localPoint inTextContainer:[textView textContainer]];
-        int characterIndex = [[textView layoutManager] characterIndexForGlyphAtIndex:glyphIndex];
-        NSDictionary *attrs = [[textView textStorage] attributesAtIndex:characterIndex effectiveRange:nil];
+       (([event type] == NSLeftMouseDown) && ([event modifierFlags] & NSControlKeyMask))) {        
         // is link?
+        [self setLastEvent:event];
+        NSDictionary *attrs = [self textAttributesOfLastEventLocation];
         NSURL *link = [attrs objectForKey:NSLinkAttributeName];
         if(link != nil) {
             ret = linkContextMenu;
@@ -124,6 +134,18 @@
     }
     
     return ret;
+}
+
+- (NSDictionary *)textAttributesOfLastEventLocation {
+    NSTextView *textView = [(<TextContentProviding>)contentDisplayController textView];
+    
+    // get mouse cursor location
+    NSPoint eventLocation = [lastEvent locationInWindow];
+    NSPoint localPoint = [textView convertPoint:eventLocation fromView:nil];
+    int glyphIndex = [[textView layoutManager] glyphIndexForPoint:localPoint inTextContainer:[textView textContainer]];
+    int characterIndex = [[textView layoutManager] characterIndexForGlyphAtIndex:glyphIndex];
+    
+    return [[textView textStorage] attributesAtIndex:characterIndex effectiveRange:&clickedLinkTextRange];
 }
 
 #pragma mark - Context Menu validation
@@ -168,7 +190,14 @@
                     ret = NO;
                 }
             }
-        }        
+        } else if(selector == @selector(removeLink:)) {
+            // is link?
+            NSDictionary *attrs = [self textAttributesOfLastEventLocation];
+            NSURL *link = [attrs objectForKey:NSLinkAttributeName];
+            if(link == nil) {
+                ret = NO;
+            }
+        }
         return ret;
     }
     
@@ -321,6 +350,16 @@
             [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
             [(WorkspaceViewHostController *)hostingDelegate setSearchText:key];        
         }            
+    }
+}
+
+- (IBAction)removeLink:(id)sender {
+    if(clickedLinkTextRange.location != NSNotFound) {
+        NSTextView *textView = [(<TextContentProviding>)contentDisplayController textView];
+        NSMutableAttributedString *textStorage = [textView textStorage];
+        [textStorage removeAttribute:NSLinkAttributeName range:clickedLinkTextRange];
+        [textStorage removeAttribute:TEXT_VERSE_MARKER range:clickedLinkTextRange];
+        [(<TextContentProviding>)contentDisplayController textChanged:[NSNotification notificationWithName:@"TextChangedNotification" object:textView]];
     }
 }
 

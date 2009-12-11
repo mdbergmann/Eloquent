@@ -7,7 +7,7 @@ VERS=1.6.0-svn
 BDIR=`pwd`
 
 DEBUG=0
-FAT=0
+FAT=1
 PPC=0
 INTEL=0
 

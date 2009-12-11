@@ -131,6 +131,11 @@
 
 - (void)setAttributedString:(NSAttributedString *)aString {
     [[textView textStorage] setAttributedString:aString];
+    [self textChanged:[NSNotification notificationWithName:@"TextChangedNotification" object:textView]];
+}
+
+- (void)textChanged:(NSNotification *)aNotification {
+    [saveButton setEnabled:YES];
 }
 
 #pragma mark - TextDisplayable protocol
@@ -199,7 +204,7 @@
 
 #pragma mark - Actions
 
-- (IBAction)save:(id)sender {
+- (IBAction)saveDocument:(id)sender {
     NSData *rtfData = [textView RTFFromRange:NSMakeRange(0, [[textView string] length])];
     [fileRep setFileContent:rtfData];
     [saveButton setEnabled:NO];
@@ -222,11 +227,16 @@
         } else {
             NSAttributedString *replacementString = [self swordLinkStringFromReference:trimmedText ofModule:defBibleName];
             [[[self textView] textStorage] replaceCharactersInRange:[[self textView] selectedRange] withAttributedString:replacementString];
+            [self textChanged:nil];
         }
     }
 }
 
 #pragma mark - NSTextView delegates
+
+- (NSMenu *)menuForEvent:(NSEvent *)event {
+    return [super menuForEvent:event];
+}
 
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     // create URL

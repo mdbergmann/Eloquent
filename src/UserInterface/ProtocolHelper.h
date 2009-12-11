@@ -39,6 +39,7 @@
 - (NSTextView *)textView;
 - (NSScrollView *)scrollView;
 - (void)setAttributedString:(NSAttributedString *)aString;
+- (void)textChanged:(NSNotification *)aNotification;
 @end
 
 @protocol TextDisplayable
