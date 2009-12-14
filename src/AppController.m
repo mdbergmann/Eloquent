@@ -96,7 +96,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
     
     // set default bible
-    [defaultsDict setObject:@"GerSch" forKey:DefaultsBibleModule];
+    [defaultsDict setObject:@"KJV" forKey:DefaultsBibleModule];
     [defaultsDict setObject:@"StrongsGreek" forKey:DefaultsStrongsGreekModule];
     [defaultsDict setObject:@"StrongsHebrew" forKey:DefaultsStrongsHebrewModule];
     
