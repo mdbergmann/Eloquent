@@ -28,6 +28,7 @@ using sword::AttributeValue;
 
 - (void)buildBookList;
 - (BOOL)containsBookNumber:(int)aBookNum;
+- (NSArray *)textEntriesForReference:(NSString *)aReference context:(int)context textType:(TextPullType)textType;
 
 @end
 
@@ -267,11 +268,23 @@ NSLock *bibleLock = nil;
 }
 
 - (NSArray *)strippedTextEntriesForRef:(NSString *)reference context:(int)context {
+    return [self textEntriesForReference:reference context:context textType:TextTypeStripped];
+}
+
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference {
+    return [self renderedTextEntriesForRef:reference context:0];
+}
+
+- (NSArray *)renderedTextEntriesForRef:(NSString *)reference context:(int)context {
+    return [self textEntriesForReference:reference context:context textType:TextTypeRendered];
+}
+
+- (NSArray *)textEntriesForReference:(NSString *)aReference context:(int)context textType:(TextPullType)textType {
     NSMutableArray *ret = [NSMutableArray array];
     
     [moduleLock lock];
     
-    const char *cref = [reference UTF8String];
+    const char *cref = [aReference UTF8String];
     sword::VerseKey	vk;
     vk.setVersificationSystem([[self versification] UTF8String]);
     sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
@@ -281,16 +294,19 @@ NSLock *bibleLock = nil;
         vk.setText(lk.getText());
         NSString *keyString = [NSString stringWithUTF8String:vk.getText()];
         if(context != 0) {
-            vk.setVerse(vk.getVerse() - context);
-            for(int i = 0;i <= context*2;i++) {
-                SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeStripped];
+            long lowVerse = vk.getVerse() - context;
+            long highVerse = lowVerse + (context * 2);
+            for(;lowVerse <= highVerse;lowVerse++) {
+                vk.setVerse(lowVerse);
+                keyString = [NSString stringWithUTF8String:vk.getText()];
+                SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:textType];
                 if(entry) {
                     [ret addObject:entry];        
                 }
                 vk.increment();
             }
         } else {
-            SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeStripped];
+            SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:textType];
             if(entry) {
                 [ret addObject:entry];
             }            
@@ -299,43 +315,7 @@ NSLock *bibleLock = nil;
     
     [moduleLock unlock];        
     
-    return ret;
-}
-
-- (NSArray *)renderedTextEntriesForRef:(NSString *)reference {
-    return [self renderedTextEntriesForRef:reference context:0];
-}
-
-- (NSArray *)renderedTextEntriesForRef:(NSString *)reference context:(int)context {
-    NSMutableArray *ret = [NSMutableArray array];
-    
-    const char *cref = [reference UTF8String];
-    sword::VerseKey	vk;
-    vk.setVersificationSystem([[self versification] UTF8String]);
-    sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-    // iterate through keys
-    for (lk = sword::TOP; !lk.Error(); lk++) {
-        // set current key to vk
-        vk.setText(lk.getText());
-        NSString *keyString = [NSString stringWithUTF8String:vk.getText()];
-        if(context != 0) {
-            vk.setVerse(vk.getVerse() - context);
-            for(int i = 0;i <= context*2;i++) {
-                SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeRendered];
-                if(entry) {
-                    [ret addObject:entry];        
-                }
-                vk.increment();
-            }
-        } else {
-            SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:TextTypeRendered];
-            if(entry) {
-                [ret addObject:entry];
-            }            
-        }
-    }
-    
-    return ret;
+    return ret;    
 }
 
 - (void)writeEntry:(SwordModuleTextEntry *)anEntry {

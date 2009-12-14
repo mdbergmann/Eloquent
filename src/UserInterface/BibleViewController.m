@@ -281,24 +281,21 @@
                                                             ascending:YES 
                                                              selector:@selector(caseInsensitiveCompare:)]];
     NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
-    NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionary];
-    // set number of search results for output
-    *results = [sortedSearchResults count];
+    *results = [sortedSearchResults count];     // set output
     if(sortedSearchResults) {
-        // strip searchQuery
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
-        // key attributes
+        
         NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
                                           size:(int)customFontSize];
-        NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-        // content attributes
         NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
                                           size:(int)customFontSize];
-        [contentAttributes setObject:contentFont forKey:NSFontAttributeName];
 
-        // strip binary search tokens
+        NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
+        NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
+
+        // strip search tokens
         searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
-        // build search string
+
         for(SearchResultEntry *searchResultEntry in sortedSearchResults) {            
             if([searchResultEntry keyString] != nil) {
                 NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[searchResultEntry keyString] context:textContext];
