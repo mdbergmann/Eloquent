@@ -314,14 +314,15 @@
                     [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
                     
                     // prepare output
-                    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] attributes:keyAttributes];
+                    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] 
+                                                                                    attributes:keyAttributes];
                     NSAttributedString *contentString = nil;
                     if([keyStr isEqualToString:[searchResultEntry keyString]]) {
                         contentString = [Highlighter highlightText:contentStr 
                                                          forTokens:searchQuery 
                                                         attributes:contentAttributes];                        
                     } else {
-                        contentString = [[NSAttributedString alloc] initWithString:contentStr];
+                        contentString = [[NSAttributedString alloc] initWithString:contentStr attributes:contentAttributes];
                     }
                     [ret appendAttributedString:keyString];
                     [ret appendAttributedString:contentString];
