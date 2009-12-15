@@ -72,6 +72,7 @@
 	IBOutlet NSView *generalView;
     NSRect generalViewRect;
 	IBOutlet NSView *bibleDisplayView;
+    IBOutlet NSBox *displaySettingsBox;
     NSRect bibleDisplayViewRect;
 	
 	// the window the sheet shall come up

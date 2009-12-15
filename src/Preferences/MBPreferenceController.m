@@ -3,6 +3,13 @@
 #import "IndexingManager.h"
 #import "globals.h"
 
+@interface MBPreferenceController ()
+
+- (void)applyFontPreviewText;
+- (void)applyFontTextFieldPreviewHeight;
+
+@end
+
 @implementation MBPreferenceController
 
 @synthesize delegate;
@@ -28,7 +35,7 @@ static MBPreferenceController *instance;
 	self = [super initWithWindowNibName:@"Preferences" owner:self];
 	if(self == nil) {
 		MBLOG(MBLOG_ERR, @"[MBPreferenceController -init] cannot init!");		
-	} else {        
+	} else {
         instance = self;
         delegate = aDelegate;
 	}
@@ -110,12 +117,7 @@ static MBPreferenceController *instance;
     // call delegate directly
     [self tabView:prefsTabView didSelectTabViewItem:tvi];
     
-    // set font family and size in bible text
-    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
-    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
-    NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, fontSize];
-    [bibleFontTextField setStringValue:fontText];
-    bibleDisplayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
+    [self applyFontPreviewText];
 }
 
 - (void)changeFont:(id)sender {
@@ -135,10 +137,27 @@ static MBPreferenceController *instance;
     [userDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
     [userDefaults setObject:fontBoldName forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
     [userDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
-    
-    NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, (int)fontSize];
+        
+    [self applyFontPreviewText];
+}
+
+- (void)applyFontPreviewText {
+    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
+    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, fontSize];
+    bibleDisplayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
     [bibleFontTextField setStringValue:fontText];
-    bibleDisplayFont = newFont;
+    
+    [self applyFontTextFieldPreviewHeight];
+}
+
+- (void)applyFontTextFieldPreviewHeight {
+    CGFloat newHeight = [bibleDisplayFont pointSize] + ([bibleDisplayFont pointSize] / 1.3);
+    CGFloat heightDiff = [bibleFontTextField frame].size.height - newHeight;
+    NSRect previewRect = [bibleFontTextField frame];
+    previewRect.size.height = newHeight;
+    previewRect.origin.y = previewRect.origin.y + heightDiff;
+    [bibleFontTextField setFrame:previewRect];
 }
 
 //--------------------------------------------------------------------
