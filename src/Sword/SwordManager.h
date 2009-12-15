@@ -149,6 +149,7 @@ class sword::SWModule;
 
 - (NSArray *)listModules;
 - (NSArray *)moduleNames;
+- (NSArray *)sortedModuleNames;
 - (SwordModule *)moduleWithName:(NSString *)name;
 
 - (NSArray *)modulesForFeature:(NSString *)feature;

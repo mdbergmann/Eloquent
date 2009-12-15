@@ -2,11 +2,15 @@
 #import "SwordManager.h"
 #import "IndexingManager.h"
 #import "globals.h"
+#import "NSDictionary+ModuleDisplaySettings.h"
+#import "NSMutableDictionary+ModuleDisplaySettings.h"
 
 @interface MBPreferenceController ()
 
 - (void)applyFontPreviewText;
 - (void)applyFontTextFieldPreviewHeight;
+
+- (void)moduleFontsTableViewDoubleClick:(id)sender;
 
 @end
 
@@ -38,6 +42,8 @@ static MBPreferenceController *instance;
 	} else {
         instance = self;
         delegate = aDelegate;
+        moduleFontAction = NO;
+        currentModuleName = nil;
 	}
 	
 	return self;
@@ -78,6 +84,10 @@ static MBPreferenceController *instance;
 }
 
 - (WebPreferences *)defaultWebPreferences {
+    return [self defaultWebPreferencesForModuleName:nil];
+}
+
+- (WebPreferences *)defaultWebPreferencesForModuleName:(NSString *)aModName {
     // init web preferences
     WebPreferences *webPreferences = [[WebPreferences alloc] init];
     [webPreferences setAutosaves:NO];
@@ -86,10 +96,42 @@ static MBPreferenceController *instance;
     [webPreferences setJavaScriptEnabled:NO];
     [webPreferences setPlugInsEnabled:NO];
     // set default font
-    [webPreferences setStandardFontFamily:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
-    [webPreferences setDefaultFontSize:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];        
+    if(aModName == nil) {
+        [webPreferences setStandardFontFamily:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
+        [webPreferences setDefaultFontSize:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];                
+    } else {
+        NSFont *defaultFont = [self normalDisplayFontForModuleName:aModName];
+        [webPreferences setStandardFontFamily:[defaultFont familyName]];
+        [webPreferences setDefaultFontSize:(int)[defaultFont pointSize]];
+    }
     
-    return webPreferences;
+    return webPreferences;    
+}
+
+- (NSFont *)normalDisplayFontForModuleName:(NSString *)aModName {
+    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
+    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
+
+    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:aModName];
+    if(settings) {
+        displayFont = [settings displayFont];
+    }
+    
+    return displayFont;
+}
+
+- (NSFont *)boldDisplayFontForModuleName:(NSString *)aModName {
+    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
+    
+    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:aModName];
+    if(settings) {
+        displayFont = [settings displayFontBold];
+    }
+    
+    return displayFont;    
 }
 
 //--------------------------------------------------------------------
@@ -100,12 +142,15 @@ static MBPreferenceController *instance;
 	
     generalViewRect = [generalView frame];
     bibleDisplayViewRect = [bibleDisplayView frame];
+    moduleFontsViewRect = [moduleFontsView frame];
+    
+    [moduleFontsTableView setTarget:self];
+    [moduleFontsTableView setDoubleAction:@selector(moduleFontsTableViewDoubleClick:)];
     
     // calculate margins
     southMargin = [prefsTabView frame].origin.y;
     northMargin = [[self window] frame].size.height - [prefsTabView frame].size.height + 50;
     sideMargin = ([[self window] frame].size.width - [prefsTabView frame].size.width) / 2;
-    //sideMargin = 0;
     
     // topTabViewmargin
     topTabViewMargin = [prefsTabView frame].size.height - [prefsTabView contentRect].size.height;
@@ -130,15 +175,35 @@ static MBPreferenceController *instance;
     float fontSize = [newFont pointSize];
     NSString *fontBoldName = [NSString stringWithString:fontFamily];
     if(![fontBoldName hasSuffix:@"Bold"]) {
-        fontBoldName  = [NSString stringWithFormat:@"%@ Bold", fontFamily];
+        NSString *fontBoldNameTemp = [NSString stringWithFormat:@"%@ Bold", fontFamily];
+        if([[fontManager availableFontFamilies] containsObject:fontBoldNameTemp]) {
+            fontBoldName = fontBoldNameTemp;
+        }
     }
     
-    // update user defaults
-    [userDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
-    [userDefaults setObject:fontBoldName forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
-    [userDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
+    if(!moduleFontAction) {
+        [userDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
+        [userDefaults setObject:fontBoldName forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+        [userDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
         
-    [self applyFontPreviewText];
+        [self applyFontPreviewText];        
+    } else {
+        NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
+        NSMutableDictionary *settings = [moduleSettings objectForKey:currentModuleName];
+        if(!settings) {
+            settings = [NSMutableDictionary dictionary];
+        } else {
+            settings = [settings mutableCopy];
+        }
+        [settings setDisplayFont:[NSFont fontWithName:fontFamily size:(float)fontSize]];
+        [settings setDisplayFontBold:[NSFont fontWithName:fontBoldName size:(float)fontSize]];
+
+        [moduleSettings setObject:settings forKey:currentModuleName];
+        [userDefaults setObject:moduleSettings forKey:DefaultsModuleDisplaySettingsKey];
+        
+        [moduleFontsTableView noteNumberOfRowsChanged];
+        [moduleFontsTableView reloadData];
+    }
 }
 
 - (void)applyFontPreviewText {
@@ -182,6 +247,10 @@ static MBPreferenceController *instance;
 		// set view
 		viewframe = bibleDisplayViewRect;
 		prefsView = bibleDisplayView;
+	} else if([[tabViewItem identifier] isEqualToString:@"modulefonts"]) {
+		// set view
+		viewframe = moduleFontsViewRect;
+		prefsView = moduleFontsView;
     }
 	
 	// calculate the difference in size
@@ -262,6 +331,7 @@ static MBPreferenceController *instance;
  \brief opens the system fonts panel
  */
 - (IBAction)openFontsPanel:(id)sender {
+    moduleFontAction = NO;
 	NSFontPanel *fp = [NSFontPanel sharedFontPanel];
 	[fp setIsVisible:YES];
     
@@ -269,6 +339,69 @@ static MBPreferenceController *instance;
     NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
                                    size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
     [fontManager setSelectedFont:font isMultiple:NO];
+}
+
+#pragma mark - ModuleFont NSTableView
+
+- (void)moduleFontsTableViewDoubleClick:(id)sender {
+    moduleFontAction = YES;
+	NSFontPanel *fp = [NSFontPanel sharedFontPanel];
+	[fp setIsVisible:YES];
+    
+    int clickedRow = [moduleFontsTableView clickedRow];
+    currentModuleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:clickedRow];
+    
+    [fontManager setSelectedFont:[self normalDisplayFontForModuleName:currentModuleName] isMultiple:NO];
+}
+
+- (IBAction)resetModuleFont:(id)sender {
+    int clickedRow = [moduleFontsTableView clickedRow];
+    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:clickedRow];
+    
+    // remove from user defaults. this will apply the default font
+    NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
+    [moduleSettings removeObjectForKey:moduleName];
+    [userDefaults setObject:moduleSettings forKey:DefaultsModuleDisplaySettingsKey];
+    
+    [moduleFontsTableView noteNumberOfRowsChanged];
+    [moduleFontsTableView reloadData];
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
+    return [[[SwordManager defaultManager] moduleNames] count];
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+    if([[aTableColumn identifier] isEqualToString:@"module"]) {
+        return [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:rowIndex];        
+    } else if([[aTableColumn identifier] isEqualToString:@"font"]) {
+        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:rowIndex];
+        NSFont *displayFont = [self normalDisplayFontForModuleName:moduleName];
+        return [NSString stringWithFormat:@"%@ - %i", [displayFont familyName], (int)[displayFont pointSize]];
+    }
+    
+    return nil;
+}
+
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+    if([[aTableColumn identifier] isEqualToString:@"module"] || 
+       [[aTableColumn identifier] isEqualToString:@"font"]) {
+        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:rowIndex];
+        NSFont *displayFont = [self normalDisplayFontForModuleName:moduleName];
+        [aCell setFont:displayFont];        
+    }     
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:row];
+    
+    CGFloat pointSize = [[self normalDisplayFontForModuleName:moduleName] pointSize];
+    CGFloat newHeight = pointSize + (pointSize / 1.3);
+    return newHeight;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+    return NO;
 }
 
 @end

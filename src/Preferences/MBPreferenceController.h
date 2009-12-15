@@ -27,6 +27,9 @@
 #define DefaultsHeaderViewFontSizeKey               @"DefaultsHeaderViewFontSizeKey"
 #define DefaultsHeaderViewFontSizeBigKey            @"DefaultsHeaderViewFontSizeBigKey"
 
+// module display settings
+#define DefaultsModuleDisplaySettingsKey            @"DefaultsModuleDisplaySettingsKey"
+
 // cipher keys
 #define DefaultsModuleCipherKeysKey                 @"DefaultsModuleCipherKeysKey"
 
@@ -72,9 +75,13 @@
 	IBOutlet NSView *generalView;
     NSRect generalViewRect;
 	IBOutlet NSView *bibleDisplayView;
-    IBOutlet NSBox *displaySettingsBox;
     NSRect bibleDisplayViewRect;
-	
+    IBOutlet NSView *moduleFontsView;
+    IBOutlet NSTableView *moduleFontsTableView;
+    NSRect moduleFontsViewRect;
+    NSString *currentModuleName;
+	BOOL moduleFontAction;
+    
 	// the window the sheet shall come up
 	NSWindow *sheetWindow;
     
@@ -101,27 +108,28 @@
 
 /** returns a copy of the default web preferences */
 - (WebPreferences *)defaultWebPreferences;
+- (WebPreferences *)defaultWebPreferencesForModuleName:(NSString *)aModName;
 
 - (NSArray *)moduleNamesOfTypeBible;
 - (NSArray *)moduleNamesOfTypeDictionary;
 - (NSArray *)moduleNamesOfTypeStrongsGreek;
 - (NSArray *)moduleNamesOfTypeStrongsHebrew;
 
+// get font for module
+- (NSFont *)normalDisplayFontForModuleName:(NSString *)aModName;
+- (NSFont *)boldDisplayFontForModuleName:(NSString *)aModName;
+
 // begin sheet
 - (void)beginSheetForWindow:(NSWindow *)docWindow;
 - (void)endSheet;
-
 // sheet return code
 - (int)sheetReturnCode;
-
 // end sheet callback
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-
-// recalculate frame rect
-//- (NSRect)frameRectForTabViewItem:(NSTabViewItem *)item;
 
 // actions
 - (IBAction)toggleBackgroundIndexer:(id)sender;
 - (IBAction)openFontsPanel:(id)sender;
+- (IBAction)resetModuleFont:(id)sender;
 
 @end

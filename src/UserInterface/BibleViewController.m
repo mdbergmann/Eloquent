@@ -285,9 +285,12 @@
     if(sortedSearchResults) {
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
-        NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+        NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
+        NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
+        
+        NSFont *keyFont = [NSFont fontWithName:[boldDisplayFont familyName]
                                           size:(int)customFontSize];
-        NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+        NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
                                           size:(int)customFontSize];
 
         NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
@@ -434,10 +437,12 @@
 - (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
-    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
     [webPrefs setDefaultFontSize:(int)customFontSize];
     [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
-    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+
+    NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
+    NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                    size:(int)customFontSize];
     [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
@@ -469,7 +474,8 @@
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
     NSString *text = [anAttrString string];
-    NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+    NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
+    NSFont *fontBold = [NSFont fontWithName:[boldDisplayFont familyName]
                                        size:(int)customFontSize];
     while(found) {
         int tLen = [text length];

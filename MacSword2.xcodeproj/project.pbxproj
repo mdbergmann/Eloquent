@@ -132,6 +132,8 @@
 		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
 		A9CDDDD10F738E0500C907B9 /* SearchBookSetEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */; };
+		A9CFAE0B10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CFAE0A10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m */; };
+		A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CFAEA110D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m */; };
 		A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D102580EC1ED0A0023FF23 /* WindowHostController.m */; };
 		A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */; };
 		A9D450C60F59884A001617B1 /* NSImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D450C50F59884A001617B1 /* NSImage+Additions.m */; };
@@ -395,6 +397,10 @@
 		A9CC33500EB0699900810821 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
 		A9CDDDD00F738E0500C907B9 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SearchBookSetEditor.xib; sourceTree = "<group>"; };
+		A9CFAE0910D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+ModuleDisplaySettings.h"; sourceTree = "<group>"; };
+		A9CFAE0A10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+ModuleDisplaySettings.m"; sourceTree = "<group>"; };
+		A9CFAEA010D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ModuleDisplaySettings.h"; sourceTree = "<group>"; };
+		A9CFAEA110D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ModuleDisplaySettings.m"; sourceTree = "<group>"; };
 		A9D102570EC1ED0A0023FF23 /* WindowHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowHostController.h; path = src/UserInterface/WindowHostController.h; sourceTree = "<group>"; };
 		A9D102580EC1ED0A0023FF23 /* WindowHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowHostController.m; path = src/UserInterface/WindowHostController.m; sourceTree = "<group>"; };
 		A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
@@ -1007,6 +1013,10 @@
 			children = (
 				A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */,
 				A9FD34200E0A70F6001287DD /* MBPreferenceController.m */,
+				A9CFAE0910D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.h */,
+				A9CFAE0A10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m */,
+				A9CFAEA010D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.h */,
+				A9CFAEA110D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m */,
 			);
 			name = Preferences;
 			path = src/Preferences;
@@ -1266,6 +1276,8 @@
 				A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */,
 				A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */,
 				A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */,
+				A9CFAE0B10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */,
+				A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

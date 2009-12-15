@@ -456,6 +456,10 @@ using std::list;
     return [modules allKeys];
 }
 
+- (NSArray *)sortedModuleNames {
+    return [[self moduleNames] sortedArrayUsingSelector:@selector(compare:)];
+}
+
 /** 
  Retrieve list of installed modules as an array, where the module has a specific feature
 */

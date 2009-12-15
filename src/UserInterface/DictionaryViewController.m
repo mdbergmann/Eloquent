@@ -152,13 +152,16 @@
     if(sortedSearchResults) {
         // strip searchQuery
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
-        // key attributes
-        NSFont *keyFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] 
+        
+        NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
+        NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
+        
+        NSFont *keyFont = [NSFont fontWithName:[boldDisplayFont familyName]
                                           size:(int)customFontSize];
+        NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
+                                              size:(int)customFontSize];
+
         NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-        // content font
-        NSFont *contentFont = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                              size:(int)customFontSize];            
         NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
         // strip binary search tokens
         searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
@@ -212,12 +215,13 @@
         [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
                     forKey:NSCharacterEncodingDocumentOption];
         // set web preferences
-        WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+        WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
         // set custom font size
         [webPrefs setDefaultFontSize:(int)customFontSize];
         [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
         // set scroll to line height
-        NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+        NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
+        NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                        size:(int)customFontSize];
         [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
         // set text
