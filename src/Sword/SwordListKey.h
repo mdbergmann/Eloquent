@@ -7,20 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <SwordKey.h>
 
 #ifdef __cplusplus
-#include <versekey.h>
+#include <swkey.h>
 #include <listkey.h>
 #endif
 
 @class SwordBible;
-@class SwordVerseKey;
 
-@interface SwordListKey : NSObject {
-#ifdef __cplusplus
-    sword::ListKey *lk;
-#endif
-    BOOL created;
+@interface SwordListKey : SwordKey {
 }
 
 + (id)listKeyWithRef:(NSString *)aRef;
@@ -35,6 +31,6 @@
 - (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
 - (NSInteger)numberOfVerses;
-- (BOOL)containsKey:(SwordVerseKey *)aVerseKey;
+- (BOOL)containsKey:(SwordKey *)aVerseKey;
 
 @end

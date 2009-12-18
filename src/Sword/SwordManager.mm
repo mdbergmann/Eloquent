@@ -446,6 +446,10 @@ using std::list;
 	[managerLock unlock];
 }
 
+- (BOOL)globalOption:(NSString *)option {
+    return [[NSString stringWithUTF8String:swManager->getGlobalOption([option UTF8String])] isEqualToString:SW_ON];
+}
+
 /** 
  list all module and return them in a Array 
  */

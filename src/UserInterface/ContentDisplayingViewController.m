@@ -46,6 +46,7 @@
 - (id)init {
     self = [super init];
     if(self) {
+        [self setSearchType:ReferenceSearchType];
         [self setReference:@""];
         [self setContextMenuClickedLink:nil];
         [self setClickedLinkTextRange:NSMakeRange(NSNotFound, 0)];

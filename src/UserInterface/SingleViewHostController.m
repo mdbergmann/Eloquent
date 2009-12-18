@@ -40,18 +40,13 @@
     if(self) {
         if(aType == bible) {
             contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self];
-            self.searchType = ReferenceSearchType;
         } else if(aType == commentary) {
             contentViewController = [[CommentaryViewController alloc] initWithDelegate:self];
-            self.searchType = ReferenceSearchType;
         } else if(aType == dictionary) {
             contentViewController = [[DictionaryViewController alloc] initWithDelegate:self];
-            self.searchType = ReferenceSearchType;        
         } else if(aType == genbook) {
             contentViewController = [[GenBookViewController alloc] initWithDelegate:self];
-            self.searchType = IndexSearchType;        
         }
-        
         [contentViewController setHostingDelegate:self];
 
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
@@ -69,18 +64,13 @@
         ModuleType moduleType = [aModule type];
         if(moduleType == bible) {
             contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
-            self.searchType = ReferenceSearchType;
         } else if(moduleType == commentary) {
             contentViewController = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
-            self.searchType = ReferenceSearchType;
         } else if(moduleType == dictionary) {
             contentViewController = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
-            self.searchType = ReferenceSearchType;
         } else if(moduleType == genbook) {
             contentViewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
-            self.searchType = IndexSearchType;
         }
-        
         [contentViewController setHostingDelegate:self];
         
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
@@ -95,9 +85,7 @@
 - (id)initWithFileRepresentation:(FileRepresentation *)aFileRep {
     self = [self init];
     if(self) {
-        contentViewController = [[NotesViewController alloc] initWithFileRepresentation:aFileRep];
-        self.searchType = IndexSearchType;
-        
+        contentViewController = [[NotesViewController alloc] initWithFileRepresentation:aFileRep];        
         [contentViewController setHostingDelegate:self];
         
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
@@ -113,18 +101,19 @@
     MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -awakeFromNib]");
     
     [super awakeFromNib];
-
-    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
         
     // set font for bottombar segmented control
     [leftSideBottomSegControl setFont:FontStd];
     [rightSideBottomSegControl setFont:FontStd];
 
     if(contentViewController != nil) {
+        [self setSearchType:[contentViewController searchType]];
         [self setupContentRelatedViews];
         [self adaptAccessoryViewComponents];
         [self adaptUIToCurrentlyDisplayingModuleType];
     }
+    
+    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
 }
 
 #pragma mark - Methods
@@ -154,6 +143,7 @@
     [super contentViewInitFinished:aView];
     
     if([aView isKindOfClass:[ContentDisplayingViewController class]]) {
+        [self setSearchType:[contentViewController searchType]];
         [self setupContentRelatedViews];
         [self adaptAccessoryViewComponents];
         [self adaptUIToCurrentlyDisplayingModuleType];

@@ -11,27 +11,28 @@
 
 @implementation SwordVerseKey
 
++ (id)verseKeyWithVersification:(NSString *)scheme {
+    return [[[SwordVerseKey alloc] initWithVersification:scheme] autorelease];
+}
+
 + (id)verseKeyWithRef:(NSString *)aRef {
-    return [[SwordVerseKey alloc] initWithRef:aRef];
+    return [[[SwordVerseKey alloc] initWithRef:aRef] autorelease];
 }
 
 + (id)verseKeyWithRef:(NSString *)aRef versification:(NSString *)scheme {
-    return [[SwordVerseKey alloc] initWithRef:aRef versification:scheme];    
+    return [[[SwordVerseKey alloc] initWithRef:aRef versification:scheme] autorelease];
 }
 
 - (id)init {
     return [super init];
 }
 
+- (id)initWithVersification:(NSString *)scheme {
+    return [self initWithRef:nil versification:scheme];
+}
+
 - (id)initWithSWVerseKey:(sword::VerseKey *)aVk {
-    self = [self init];
-    if(self) {
-        // copy reference
-        vk = aVk;
-        created = NO;
-    }
-    
-    return self;
+    return [super initWithSWKey:aVk];
 }
 
 - (id)initWithRef:(NSString *)aRef {
@@ -41,11 +42,15 @@
 - (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme {
     self = [self init];
     if(self) {
-        vk = new sword::VerseKey([aRef UTF8String]);
-        created = YES;
-        
+        sk = new sword::VerseKey();            
+        created = YES;        
+
         if(scheme) {
             [self setVersification:scheme];
+        }
+        
+        if(aRef) {
+            [self setKeyText:aRef];
         }
     }
     
@@ -53,79 +58,75 @@
 }
 
 - (void)finalize {
-    if(created) {
-        delete vk;
-    }
-    
     [super finalize];
 }
 
+- (void)dealloc {
+    [super dealloc];    
+}
+
+- (BOOL)headings {
+    return (BOOL)((sword::VerseKey *)sk)->Headings();
+}
+
+- (void)setHeadings:(BOOL)flag {
+    ((sword::VerseKey *)sk)->Headings((int)flag);
+}
+
 - (int)testament {
-    return vk->getTestament();
+    return ((sword::VerseKey *)sk)->getTestament();
 }
 
 - (int)book {
-    return vk->getBook();
+    return ((sword::VerseKey *)sk)->getBook();
 }
 
 - (int)chapter {
-    return vk->getChapter();
+    return ((sword::VerseKey *)sk)->getChapter();
 }
 
 - (int)verse {
-    return vk->getVerse();
+    return ((sword::VerseKey *)sk)->getVerse();
 }
 
 - (void)setTestament:(int)val {
-    vk->setTestament(val);
+    ((sword::VerseKey *)sk)->setTestament(val);
 }
 
 - (void)setBook:(int)val {
-    vk->setBook(val);
+    ((sword::VerseKey *)sk)->setBook(val);
 }
 
 - (void)setChapter:(int)val {
-    vk->setChapter(val);
+    ((sword::VerseKey *)sk)->setChapter(val);
 }
 
 - (void)setVerse:(int)val {
-    vk->setVerse(val);
-}
-
-- (void)decrement {
-    vk->decrement();
-}
-
-- (void)increment {
-    vk->increment();
-}
-
-- (NSString *)keyText {
-    return [NSString stringWithUTF8String:vk->getText()];
+    ((sword::VerseKey *)sk)->setVerse(val);
 }
 
 - (NSString *)bookName {
-    return [NSString stringWithUTF8String:vk->getBookName()];
+    return [NSString stringWithUTF8String:((sword::VerseKey *)sk)->getBookName()];
 }
 
 - (NSString *)osisBookName {
-    return [NSString stringWithUTF8String:vk->getOSISBookName()];
+    return [NSString stringWithUTF8String:((sword::VerseKey *)sk)->getOSISBookName()];
 }
 
 - (NSString *)osisRef {
-    return [NSString stringWithUTF8String:vk->getOSISRef()];    
+    return [NSString stringWithUTF8String:((sword::VerseKey *)sk)->getOSISRef()];    
 }
 
 - (void)setVersification:(NSString *)versification {
-    vk->setVersificationSystem([versification UTF8String]);
+    ((sword::VerseKey *)sk)->setVersificationSystem([versification UTF8String]);
 }
 
 - (NSString *)versification {
-    return [NSString stringWithUTF8String:vk->getVersificationSystem()];
+    return [NSString stringWithUTF8String:((sword::VerseKey *)sk)->getVersificationSystem()];
 }
 
 - (sword::VerseKey *)swVerseKey {
-    return vk;
+    return (sword::VerseKey *)sk;
 }
 
 @end

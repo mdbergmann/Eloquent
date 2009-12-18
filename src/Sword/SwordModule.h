@@ -31,7 +31,7 @@ class sword::SWModule;
 #define ATTRTYPE_ACTION     @"action"
 #define ATTRTYPE_VALUE      @"value"
 
-@class SwordManager, SwordModuleTextEntry, SwordVerseKey;
+@class SwordManager, SwordModuleTextEntry, SwordKey;
 
 typedef enum {
     TextTypeStripped = 1,
@@ -146,7 +146,7 @@ typedef enum {
 - (NSString *)configEntryForKey:(NSString *)entryKey;
 
 - (void)setPositionFromKeyString:(NSString *)aKeyString;
-- (void)setPositionFromVerseKey:(SwordVerseKey *)aVerseKey;
+- (void)setPositionFromKey:(SwordKey *)aKey;
 
 /**
  returns attribute values from the engine for notes, cross-refs and such for the given link type
@@ -155,11 +155,14 @@ typedef enum {
  */
 - (id)attributeValueForParsedLinkData:(NSDictionary *)data;
 
+/** returns the pre-verse entry value */
+- (NSString *)entryAttributeValuePreverse;
+
 /**
  return a dictionary with key and text
  type can be: "rendered" or "stripped"
  */
-- (SwordModuleTextEntry *)textEntryForKey:(NSString *)aKey textType:(TextPullType)aType;
+- (SwordModuleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType;
 
 // ------- SwordModuleAccess ---------
 - (long)entryCount;

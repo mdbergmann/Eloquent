@@ -18,6 +18,8 @@
 #import "SwordBibleBook.h"
 #import "SwordListKey.h"
 #import "SwordModuleTextEntry.h"
+#import "SwordVerseKey.h"
+#import "SwordListKey.h"
 
 using sword::AttributeTypeList;
 using sword::AttributeList;
@@ -284,29 +286,25 @@ NSLock *bibleLock = nil;
     
     [moduleLock lock];
     
-    const char *cref = [aReference UTF8String];
-    sword::VerseKey	vk;
-    vk.setVersificationSystem([[self versification] UTF8String]);
-    sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-    // iterate through keys
-    for (lk = sword::TOP; !lk.Error(); lk++) {
+    SwordVerseKey *vk = [SwordVerseKey verseKeyWithVersification:[self versification]];
+    [vk setHeadings:YES];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:aReference versification:[self versification]];
+    for (*[lk swListKey] = sword::TOP; ![lk swListKey]->Error(); *[lk swListKey] += 1) {
         // set current key to vk
-        vk.setText(lk.getText());
-        NSString *keyString = [NSString stringWithUTF8String:vk.getText()];
+        [vk setKeyText:[lk keyText]];
         if(context != 0) {
-            long lowVerse = vk.getVerse() - context;
+            long lowVerse = [vk verse] - context;
             long highVerse = lowVerse + (context * 2);
             for(;lowVerse <= highVerse;lowVerse++) {
-                vk.setVerse(lowVerse);
-                keyString = [NSString stringWithUTF8String:vk.getText()];
-                SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:textType];
+                [vk setVerse:lowVerse];
+                SwordModuleTextEntry *entry = [self textEntryForKey:vk textType:textType];
                 if(entry) {
                     [ret addObject:entry];        
                 }
-                vk.increment();
+                [vk increment];
             }
         } else {
-            SwordModuleTextEntry *entry = [self textEntryForKey:keyString textType:textType];
+            SwordModuleTextEntry *entry = [self textEntryForKey:vk textType:textType];
             if(entry) {
                 [ret addObject:entry];
             }            

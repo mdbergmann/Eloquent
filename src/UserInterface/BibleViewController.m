@@ -32,6 +32,7 @@
 #import "SwordVerseKey.h"
 #import "IndexingManager.h"
 #import "ModuleListUIController.h"
+#import "SwordModuleTextEntry.h"
 
 @interface BibleViewController ()
 
@@ -62,7 +63,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        // some common init
+        self.searchType = ReferenceSearchType;
         self.module = nil;
         self.delegate = nil;
         self.bookSelection = [NSMutableArray array];
@@ -414,6 +415,12 @@
     
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
+    
+    // pre-verse heading ?
+    if([anEntry preverseHeading]) {
+        [aString appendFormat:@"<br /><p><i><span style=\"color:darkGray\">%@</span></i></p>", [anEntry preverseHeading]];
+    }
+    
     // text get marked with ";;;<verseMarkerInfo>;;;" which is replaced later on with a marker
     if(!isVersesOnOneLine) {
         // mark new chapter

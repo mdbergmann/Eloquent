@@ -49,6 +49,7 @@
 - (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate fileRep:(FileRepresentation *)aFileRep {
     self = [super init];
     if(self) {
+        [self setSearchType:IndexSearchType];
         [self setDelegate:aDelegate];
         [self setHostingDelegate:aHostingDelegate];
         [self setFileRep:aFileRep];

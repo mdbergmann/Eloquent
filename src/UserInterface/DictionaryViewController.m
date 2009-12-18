@@ -38,7 +38,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        // some common init
+        self.searchType = ReferenceSearchType;
         self.module = nil;
         self.delegate = nil;
         self.selection = [NSMutableArray array];

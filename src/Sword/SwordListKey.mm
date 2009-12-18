@@ -18,11 +18,11 @@
 @implementation SwordListKey
 
 + (id)listKeyWithRef:(NSString *)aRef {
-    return [[SwordListKey alloc] initWithRef:aRef];
+    return [[[SwordListKey alloc] initWithRef:aRef] autorelease];
 }
 
 + (id)listKeyWithRef:(NSString *)aRef versification:(NSString *)scheme {
-    return [[SwordListKey alloc] initWithRef:aRef versification:scheme];
+    return [[[SwordListKey alloc] initWithRef:aRef versification:scheme] autorelease];
 }
 
 - (id)init {
@@ -30,14 +30,7 @@
 }
 
 - (id)initWithSWListKey:(sword::ListKey *)aLk {
-    self = [self init];
-    if(self) {
-        // copy reference
-        lk = aLk;
-        created = NO;
-    }
-    
-    return self;
+    return [super initWithSWKey:aLk];
 }
 
 - (id)initWithRef:(NSString *)aRef {
@@ -52,7 +45,7 @@
             vk.setVersificationSystem([scheme UTF8String]);
         }
         sword::ListKey listKey = vk.ParseVerseList([aRef UTF8String], "Gen1", true);
-        lk = new sword::ListKey(listKey);
+        sk = new sword::ListKey(listKey);
         created = YES;
     }
     
@@ -60,18 +53,18 @@
 }
 
 - (void)finalize {
-    if(created) {
-        delete lk;
-    }
-    
     [super finalize];
+}
+
+- (void)dealloc {
+    [super dealloc];    
 }
 
 - (NSInteger)numberOfVerses {
     NSInteger ret = 0;
     
-    if(lk) {
-        for(*lk = sword::TOP; !lk->Error(); *lk++) ret++;    
+    if(sk) {
+        for(*sk = sword::TOP; !sk->Error(); *sk++) ret++;    
     }
     
     return ret;
@@ -80,16 +73,16 @@
 - (BOOL)containsKey:(SwordVerseKey *)aVerseKey {
     BOOL ret = NO;
     
-    if(lk) {
-        *lk = [[aVerseKey osisRef] UTF8String];
-        ret = !lk->Error();
+    if(sk) {
+        *sk = [[aVerseKey osisRef] UTF8String];
+        ret = !sk->Error();
     }
     
     return ret;
 }
 
 - (sword::ListKey *)swListKey {
-    return lk;
+    return (sword::ListKey *)sk;
 }
 
 @end

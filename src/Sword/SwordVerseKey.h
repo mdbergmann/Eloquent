@@ -7,18 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <SwordKey.h>
 
 #ifdef __cplusplus
 #include <versekey.h>
 #endif
 
-@interface SwordVerseKey : NSObject {
-#ifdef __cplusplus
-    sword::VerseKey *vk;
-#endif
-    BOOL created;
+@interface SwordVerseKey : SwordKey {
 }
 
++ (id)verseKeyWithVersification:(NSString *)scheme;
 + (id)verseKeyWithRef:(NSString *)aRef;
 + (id)verseKeyWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
@@ -27,20 +25,20 @@
 - (sword::VerseKey *)swVerseKey;
 #endif
 
+- (id)initWithVersification:(NSString *)scheme;
 - (id)initWithRef:(NSString *)aRef;
 - (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
 - (int)testament;
-- (int)book;
-- (int)chapter;
-- (int)verse;
 - (void)setTestament:(int)val;
+- (int)book;
 - (void)setBook:(int)val;
+- (int)chapter;
 - (void)setChapter:(int)val;
+- (int)verse;
 - (void)setVerse:(int)val;
-- (void)decrement;
-- (void)increment;
-- (NSString *)keyText;
+- (BOOL)headings;
+- (void)setHeadings:(BOOL)flag;
 - (NSString *)bookName;
 - (NSString *)osisBookName;
 - (NSString *)osisRef;

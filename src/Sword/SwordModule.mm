@@ -472,41 +472,49 @@
     return ret;
 }
 
-- (SwordModuleTextEntry *)textEntryForKey:(NSString *)aKey textType:(TextPullType)aType {
-    SwordModuleTextEntry *ret = nil;
-    
-    if(aKey && [aKey length] > 0) {
-        swModule->setSkipConsecutiveLinks(YES);
-        [self setPositionFromKeyString:aKey];
-        if(![self error]) {
-            //const char *keyCStr = swModule->getKeyText();
-            const char *txtCStr = NULL;
-            if(aType == TextTypeRendered) {
-               txtCStr = swModule->RenderText();            
-            } else {
-                txtCStr = swModule->StripText();
-            }
-            NSString *key = aKey;
-            NSString *txt = @"";
-            txt = [NSString stringWithUTF8String:txtCStr];
-            //key = [NSString stringWithUTF8String:keyCStr];
-            
-            // add to dict
-            if(key && txt) {
-                ret = [SwordModuleTextEntry textEntryForKey:key andText:txt];
-            } else {
-                MBLOG(MBLOG_ERR, @"[SwordModule -textEntryForKey::] nil key");
-            }            
-        }        
-    }
-    
-    return ret;
+- (NSString *)entryAttributeValuePreverse {
+    return [NSString stringWithUTF8String:swModule->getEntryAttributes()["Heading"]["Preverse"]["0"].c_str()];
 }
 
 - (NSString *)description {
     return [self name];
 }
 
+- (SwordModuleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType {
+    SwordModuleTextEntry *ret = nil;
+    
+    if(aKey) {
+        [self setPositionFromKey:aKey];
+        if(![self error]) {
+            const char *txtCStr = NULL;
+            if(aType == TextTypeRendered) {
+                txtCStr = swModule->RenderText();            
+            } else {
+                txtCStr = swModule->StripText();
+            }
+            
+            NSString *key = [aKey keyText];
+            NSString *txt = @"";
+            txt = [NSString stringWithUTF8String:txtCStr];
+            
+            // add to dict
+            if(key && txt) {
+                ret = [SwordModuleTextEntry textEntryForKey:key andText:txt];
+            } else {
+                MBLOG(MBLOG_ERR, @"[SwordModule -textEntryForKey::] nil key");
+            }
+            
+            if([swManager globalOption:SW_OPTION_HEADINGS] && [self hasFeature:SWMOD_FEATURE_HEADINGS]) {
+                NSString *preverseHeading = [self entryAttributeValuePreverse];
+                if(preverseHeading && [preverseHeading length] > 0) {
+                    [ret setPreverseHeading:preverseHeading];
+                }
+            }
+        }
+    }
+    
+    return ret;
+}
 
 #pragma mark - SwordModuleAccess
 
@@ -522,7 +530,7 @@
     NSArray *ret = nil;
     
     [moduleLock lock];
-    SwordModuleTextEntry *entry = [self textEntryForKey:reference textType:TextTypeStripped];
+    SwordModuleTextEntry *entry = [self textEntryForKey:[SwordKey keyWithRef:reference] textType:TextTypeStripped];
     if(entry) {
         ret = [NSArray arrayWithObject:entry];    
     }
@@ -535,7 +543,7 @@
     NSArray *ret = nil;
     
     [moduleLock lock];
-    SwordModuleTextEntry *entry = [self textEntryForKey:reference textType:TextTypeRendered];
+    SwordModuleTextEntry *entry = [self textEntryForKey:[SwordKey keyWithRef:reference] textType:TextTypeRendered];
     if(entry) {
         ret = [NSArray arrayWithObject:entry];
     }
@@ -595,8 +603,8 @@
     swModule->setKey([aKeyString UTF8String]);        
 }
 
-- (void)setPositionFromVerseKey:(SwordVerseKey *)aVerseKey {
-    swModule->setKey([aVerseKey swVerseKey]);
+- (void)setPositionFromKey:(SwordKey *)aKey {
+    swModule->setKey([aKey swKey]);
 }
 
 - (sword::SWModule *)swModule {

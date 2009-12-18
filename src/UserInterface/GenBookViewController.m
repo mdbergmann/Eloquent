@@ -36,8 +36,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        // some common init
-        searchType = ReferenceSearchType;   // genbook does not have this search type but let's pre-set this
+        self.searchType = IndexSearchType;
         self.module = nil;
         self.delegate = nil;
         self.selection = [NSMutableArray array];
@@ -58,7 +57,7 @@
     self = [self init];
     if(self) {
         MBLOG(MBLOG_DEBUG, @"[GenBookViewController -init]");
-        self.module = (SwordBook *)aModule;
+        self.module = aModule;
         self.delegate = aDelegate;
                 
         // load nib
@@ -94,7 +93,7 @@
     // check which delegate we have and en/disable the close button
     [self adaptUIToHost];
 
-    // if we have areference, display it
+    // if we have a reference, display it
     if(reference && [reference length] > 0) {
         [self displayTextForReference:reference searchType:searchType];    
     }

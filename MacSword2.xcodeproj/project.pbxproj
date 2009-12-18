@@ -129,6 +129,7 @@
 		A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
 		A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */; };
+		A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9C5D29210DAEF5E006893E2 /* SwordKey.mm */; };
 		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
 		A9CDDDD10F738E0500C907B9 /* SearchBookSetEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */; };
@@ -393,6 +394,8 @@
 		A9C0F4060EFD67DA00CFDF06 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
 		A9C0F4210EFD67F700CFDF06 /* ConfirmationSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationSheetController.h; sourceTree = "<group>"; };
 		A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmationSheetController.m; sourceTree = "<group>"; };
+		A9C5D29110DAEF5E006893E2 /* SwordKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordKey.h; sourceTree = "<group>"; };
+		A9C5D29210DAEF5E006893E2 /* SwordKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordKey.mm; sourceTree = "<group>"; };
 		A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
 		A9CC33500EB0699900810821 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
@@ -770,6 +773,8 @@
 				A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */,
 				A9CC334F0EB0699900810821 /* SwordModCategory.h */,
 				A9CC33500EB0699900810821 /* SwordModCategory.m */,
+				A9C5D29110DAEF5E006893E2 /* SwordKey.h */,
+				A9C5D29210DAEF5E006893E2 /* SwordKey.mm */,
 				A9582A7E0F701D4C0094FAF4 /* SwordVerseKey.h */,
 				A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */,
 				A937B0B40F8F9B2100948406 /* SwordListKey.h */,
@@ -1278,6 +1283,7 @@
 				A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */,
 				A9CFAE0B10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */,
 				A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
+				A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

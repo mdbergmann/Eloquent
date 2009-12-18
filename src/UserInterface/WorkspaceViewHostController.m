@@ -400,12 +400,8 @@
             [viewControllers addObject:aViewController];
             contentViewController = (ContentDisplayingViewController *)aViewController;
                         
-            SearchType stype = ReferenceSearchType;
-            if([contentViewController contentViewType] == SwordGenBookContentType) {
-                stype = IndexSearchType;
-            }
-            
             // extend searchTexts
+            SearchType stype = [contentViewController searchType];
             SearchTextObject *sto = [[SearchTextObject alloc] init];
             [sto setSearchText:@"" forSearchType:stype];
             [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];

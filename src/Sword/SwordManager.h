@@ -146,6 +146,7 @@ class sword::SWModule;
 
 - (void)setCipherKey:(NSString*)key forModuleNamed:(NSString *)name;
 - (void)setGlobalOption:(NSString*)option value:(NSString *)value;
+- (BOOL)globalOption:(NSString *)option;
 
 - (NSArray *)listModules;
 - (NSArray *)moduleNames;
