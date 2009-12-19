@@ -19,7 +19,8 @@
     BOOL created;
 }
 
-+ (id)keyWithRef:(NSString *)aRef;
++ (id)swordKey;
++ (id)swordKeyWithRef:(NSString *)aRef;
 
 #ifdef __cplusplus
 - (id)initWithSWKey:(sword::SWKey *)aSk;
@@ -28,6 +29,7 @@
 
 - (id)initWithRef:(NSString *)aRef;
 
+- (void)setPosition:(int)aPosition;
 - (void)decrement;
 - (void)increment;
 - (NSString *)keyText;

@@ -11,16 +11,20 @@
 
 @implementation SwordKey
 
-+ (id)keyWithRef:(NSString *)aRef {
++ (id)swordKey {
+    return [[[SwordKey alloc] init] autorelease];
+}
+
++ (id)swordKeyWithRef:(NSString *)aRef {
     return [[[SwordKey alloc] initWithRef:aRef] autorelease];
 }
 
 - (id)init {
-    return [super init];
+    return [self initWithRef:nil];
 }
 
 - (id)initWithSWKey:(sword::SWKey *)aSk {
-    self = [self init];
+    self = [super init];
     if(self) {
         sk = aSk;
         created = NO;
@@ -30,9 +34,9 @@
 }
 
 - (id)initWithRef:(NSString *)aRef {
-    self = [self init];
+    self = [super init];
     if(self) {
-        sk = new sword::SWKey();            
+        sk = new sword::SWKey();
         created = YES;
         
         if(aRef) {
@@ -60,6 +64,10 @@
 }
 
 #pragma mark - Methods
+
+- (void)setPosition:(int)aPosition {
+    sk->setPosition(sword::SW_POSITION((char)aPosition));
+}
 
 - (void)decrement {
     sk->decrement();

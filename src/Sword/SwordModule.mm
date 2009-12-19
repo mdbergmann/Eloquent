@@ -212,7 +212,7 @@
 - (NSString *)cipherKey {
     NSString *cipherKey = [configEntries objectForKey:SWMOD_CONFENTRY_CIPHERKEY];
     if(cipherKey == nil) {
-        cipherKey = [self configEntryForKey:SWMOD_CONFENTRY_CIPHERKEY];
+        cipherKey = [self configFileEntryForConfigKey:SWMOD_CONFENTRY_CIPHERKEY];
         if(cipherKey != nil) {
             [configEntries setObject:cipherKey forKey:SWMOD_CONFENTRY_CIPHERKEY];
         }
@@ -224,7 +224,7 @@
 - (NSString *)version {
     NSString *version = [configEntries objectForKey:SWMOD_CONFENTRY_VERSION];
     if(version == nil) {
-        version = [self configEntryForKey:SWMOD_CONFENTRY_VERSION];
+        version = [self configFileEntryForConfigKey:SWMOD_CONFENTRY_VERSION];
         if(version != nil) {
             [configEntries setObject:version forKey:SWMOD_CONFENTRY_VERSION];
         }
@@ -236,7 +236,7 @@
 - (NSString *)minVersion {
     NSString *minVersion = [configEntries objectForKey:SWMOD_CONFENTRY_MINVERSION];
     if(minVersion == nil) {
-        minVersion = [self configEntryForKey:SWMOD_CONFENTRY_MINVERSION];
+        minVersion = [self configFileEntryForConfigKey:SWMOD_CONFENTRY_MINVERSION];
         if(minVersion != nil) {
             [configEntries setObject:minVersion forKey:SWMOD_CONFENTRY_MINVERSION];
         }
@@ -249,7 +249,7 @@
 - (NSString *)aboutText {
     NSMutableString *aboutText = [configEntries objectForKey:SWMOD_CONFENTRY_ABOUT];
     if(aboutText == nil) {
-        aboutText = [NSMutableString stringWithString:[self configEntryForKey:SWMOD_CONFENTRY_ABOUT]];
+        aboutText = [NSMutableString stringWithString:[self configFileEntryForConfigKey:SWMOD_CONFENTRY_ABOUT]];
         if(aboutText != nil) {
 			//search & replace the RTF markup:
 			// "\\qc"		- for centering							--->>>  ignore these
@@ -313,7 +313,7 @@
 - (NSString *)versification {
     NSString *versification = [configEntries objectForKey:SWMOD_CONFENTRY_VERSIFICATION];
     if(versification == nil) {
-        versification = [self configEntryForKey:SWMOD_CONFENTRY_VERSIFICATION];
+        versification = [self configFileEntryForConfigKey:SWMOD_CONFENTRY_VERSIFICATION];
         if(versification != nil) {
             [configEntries setObject:versification forKey:SWMOD_CONFENTRY_VERSIFICATION];
         }
@@ -331,7 +331,7 @@
     BOOL ret = NO;
     NSString *editable = [configEntries objectForKey:SWMOD_CONFENTRY_EDITABLE];
     if(editable == nil) {
-        editable = [self configEntryForKey:SWMOD_CONFENTRY_EDITABLE];
+        editable = [self configFileEntryForConfigKey:SWMOD_CONFENTRY_EDITABLE];
         if(editable != nil) {
             [configEntries setObject:editable forKey:SWMOD_CONFENTRY_EDITABLE];
         }
@@ -350,7 +350,7 @@
     BOOL ret = NO;
     NSString *direction = [configEntries objectForKey:SWMOD_CONFENTRY_DIRECTION];
     if(direction == nil) {
-        direction = [self configEntryForKey:SWMOD_CONFENTRY_DIRECTION];
+        direction = [self configFileEntryForConfigKey:SWMOD_CONFENTRY_DIRECTION];
         if(direction != nil) {
             [configEntries setObject:direction forKey:SWMOD_CONFENTRY_DIRECTION];
         }
@@ -411,69 +411,28 @@
 - (id)attributeValueForParsedLinkData:(NSDictionary *)data {
     id ret = nil;
     
-    [moduleLock lock];
     NSString *passage = [data objectForKey:ATTRTYPE_PASSAGE];
     if(passage) {
         passage = [[passage stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     } 
     NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
     if([attrType isEqualToString:@"n"]) {
-        [self setPositionFromKeyString:passage];
-        swModule->RenderText(); // force processing of key
-        
-        sword::SWBuf footnoteText = swModule->getEntryAttributes()["Footnote"][[[data objectForKey:ATTRTYPE_VALUE] UTF8String]]["body"].c_str();
-        // convert from base markup to display markup
-        char *fText = (char *)swModule->StripText(footnoteText);
-        ret = [NSString stringWithUTF8String:fText];
+        NSString *footnoteText = [self entryAttributeValueFootnoteOfType:attrType 
+                                                              indexValue:[data objectForKey:ATTRTYPE_VALUE] 
+                                                                  forKey:[SwordKey swordKeyWithRef:passage]];
+        ret = [self strippedTextFromString:footnoteText];
     } else if([attrType isEqualToString:@"x"]) {
-        [self setPositionFromKeyString:passage];
-        swModule->RenderText(); // force processing of key
-        
-        sword::SWBuf refList = swModule->getEntryAttributes()["Footnote"][[[data objectForKey:ATTRTYPE_VALUE] UTF8String]]["refList"];
-        sword::VerseKey parser([passage UTF8String]);
-        parser.setVersificationSystem([[self versification] UTF8String]);
-        sword::ListKey refs = parser.ParseVerseList(refList, parser, true);
-        
-        ret = [NSMutableArray array];
-        // collect references
-        for(refs = sword::TOP; !refs.Error(); refs++) {
-            swModule->setKey(refs);
-            if(![self error]) {
-                NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
-                NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
-                
-                SwordModuleTextEntry *entry = [SwordModuleTextEntry textEntryForKey:key andText:text];
-                [ret addObject:entry];
-            }
-        }
+        NSString *refListString = [self entryAttributeValueFootnoteOfType:attrType
+                                                               indexValue:[data objectForKey:ATTRTYPE_VALUE] 
+                                                                   forKey:[SwordKey swordKeyWithRef:passage]];
+        ret = [self strippedTextEntriesForRef:refListString];
     } else if([attrType isEqualToString:@"scriptRef"] || [attrType isEqualToString:@"scripRef"]) {
         NSString *key = [[[data objectForKey:ATTRTYPE_VALUE] stringByReplacingOccurrencesOfString:@"+" 
                                                                                        withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        sword::VerseKey parser("gen.1.1");
-        parser.setVersificationSystem([[self versification] UTF8String]);
-        sword::ListKey refs = parser.ParseVerseList([key UTF8String], parser, true);
-        
-        ret = [NSMutableArray array];
-        // collect references
-        for(refs = sword::TOP; !refs.Error(); refs++) {
-            swModule->setKey(refs);
-            if(![self error]) {
-                NSString *key = [NSString stringWithUTF8String:swModule->getKeyText()];
-                NSString *text = [NSString stringWithUTF8String:swModule->StripText()];
-                
-                SwordModuleTextEntry *entry = [SwordModuleTextEntry textEntryForKey:key andText:text];
-                [ret addObject:entry];
-            }
-        }
+        ret = [self strippedTextEntriesForRef:key];
     }
     
-    [moduleLock unlock];
-    
     return ret;
-}
-
-- (NSString *)entryAttributeValuePreverse {
-    return [NSString stringWithUTF8String:swModule->getEntryAttributes()["Heading"]["Preverse"]["0"].c_str()];
 }
 
 - (NSString *)description {
@@ -486,18 +445,14 @@
     if(aKey) {
         [self setPositionFromKey:aKey];
         if(![self error]) {
-            const char *txtCStr = NULL;
+            NSString *txt = @"";
             if(aType == TextTypeRendered) {
-                txtCStr = swModule->RenderText();            
+                txt = [self renderedText];
             } else {
-                txtCStr = swModule->StripText();
+                txt = [self strippedText];
             }
             
             NSString *key = [aKey keyText];
-            NSString *txt = @"";
-            txt = [NSString stringWithUTF8String:txtCStr];
-            
-            // add to dict
             if(key && txt) {
                 ret = [SwordModuleTextEntry textEntryForKey:key andText:txt];
             } else {
@@ -529,12 +484,11 @@
 - (NSArray *)strippedTextEntriesForRef:(NSString *)reference {
     NSArray *ret = nil;
     
-    [moduleLock lock];
-    SwordModuleTextEntry *entry = [self textEntryForKey:[SwordKey keyWithRef:reference] textType:TextTypeStripped];
+    SwordModuleTextEntry *entry = [self textEntryForKey:[SwordKey swordKeyWithRef:reference] 
+                                               textType:TextTypeStripped];
     if(entry) {
         ret = [NSArray arrayWithObject:entry];    
     }
-    [moduleLock unlock];    
     
     return ret;    
 }
@@ -542,12 +496,11 @@
 - (NSArray *)renderedTextEntriesForRef:(NSString *)reference {
     NSArray *ret = nil;
     
-    [moduleLock lock];
-    SwordModuleTextEntry *entry = [self textEntryForKey:[SwordKey keyWithRef:reference] textType:TextTypeRendered];
+    SwordModuleTextEntry *entry = [self textEntryForKey:[SwordKey swordKeyWithRef:reference] 
+                                               textType:TextTypeRendered];
     if(entry) {
         ret = [NSArray arrayWithObject:entry];
     }
-    [moduleLock unlock];
     
     return ret;
 }
@@ -583,7 +536,7 @@
 	return has;
 }
 
-- (NSString *)configEntryForKey:(NSString *)entryKey {
+- (NSString *)configFileEntryForConfigKey:(NSString *)entryKey {
 	NSString *result = nil;
     
 	[moduleLock lock];
@@ -600,11 +553,76 @@
 }
 
 - (void)setPositionFromKeyString:(NSString *)aKeyString {
-    swModule->setKey([aKeyString UTF8String]);        
+    [moduleLock lock];
+    swModule->setKey([aKeyString UTF8String]);
+    [moduleLock unlock];
 }
 
 - (void)setPositionFromKey:(SwordKey *)aKey {
+    [moduleLock lock];
     swModule->setKey([aKey swKey]);
+    [moduleLock unlock];
+}
+
+- (NSString *)renderedText {
+    NSString *ret = @"";
+    [moduleLock lock];
+    ret = [NSString stringWithUTF8String:swModule->RenderText()];
+    [moduleLock unlock];
+
+    return ret;
+}
+
+- (NSString *)renderedTextFromString:(NSString *)aString {
+    return [NSString stringWithUTF8String:swModule->RenderText([aString UTF8String])];
+}
+
+- (NSString *)strippedText {
+    NSString *ret = @"";
+    [moduleLock lock];
+    ret = [NSString stringWithUTF8String:swModule->StripText()];
+    [moduleLock unlock];    
+    
+    return ret;
+}
+
+- (NSString *)strippedTextFromString:(NSString *)aString {
+    return [NSString stringWithUTF8String:swModule->StripText([aString UTF8String])];
+}
+
+- (NSString *)entryAttributeValuePreverse {
+    NSString *ret = @"";
+    [moduleLock lock];
+    ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Heading"]["Preverse"]["0"].c_str()];
+    [moduleLock unlock];
+    
+    return ret;
+}
+
+- (NSString *)entryAttributeValuePreverseForKey:(SwordKey *)aKey {
+    [self setPositionFromKey:aKey];
+    swModule->RenderText(); // force processing of key
+    return [self entryAttributeValuePreverse];
+}
+
+- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index {
+    NSString *ret = @"";
+    
+    [moduleLock lock];
+    if([fnType isEqualToString:@"x"]) {
+        ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["refList"].c_str()];        
+    } else if([fnType isEqualToString:@"n"]) {
+        ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["body"].c_str()];
+    }
+    [moduleLock unlock];
+    
+    return ret;
+}
+
+- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index forKey:(SwordKey *)aKey {
+    [self setPositionFromKey:aKey];
+    swModule->RenderText(); // force processing of key
+    return [self entryAttributeValueFootnoteOfType:fnType indexValue:index];
 }
 
 - (sword::SWModule *)swModule {

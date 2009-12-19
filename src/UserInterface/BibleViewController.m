@@ -18,6 +18,7 @@
 #import "ReferenceCacheObject.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
+#import "SwordBible.h"
 #import "SwordSearching.h"
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
@@ -415,6 +416,8 @@
     
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
+    
+    //NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book]];
     
     // pre-verse heading ?
     if([anEntry preverseHeading]) {

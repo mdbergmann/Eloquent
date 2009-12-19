@@ -23,6 +23,9 @@ typedef unsigned int __u32;
 //typedef unsigned long long __u64;
 #endif
 
+#undef __swap16
+#undef __swap32
+#undef __swap64
 
 #define __swap16(x) \
 	((__u16)( \

@@ -11,6 +11,10 @@
 
 @implementation SwordVerseKey
 
++ (id)verseKey {
+    return [[[SwordVerseKey alloc] init] autorelease];
+}
+
 + (id)verseKeyWithVersification:(NSString *)scheme {
     return [[[SwordVerseKey alloc] initWithVersification:scheme] autorelease];
 }
@@ -24,7 +28,7 @@
 }
 
 - (id)init {
-    return [super init];
+    return [self initWithRef:nil];
 }
 
 - (id)initWithVersification:(NSString *)scheme {
@@ -40,21 +44,20 @@
 }
 
 - (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme {
-    self = [self init];
+    sword::VerseKey *vk = new sword::VerseKey();            
+    self = [super initWithSWKey:vk];
     if(self) {
-        sk = new sword::VerseKey();            
-        created = YES;        
-
+        created = YES;
         if(scheme) {
             [self setVersification:scheme];
         }
         
         if(aRef) {
             [self setKeyText:aRef];
-        }
-    }
+        }        
+    }    
     
-    return self;    
+    return self;
 }
 
 - (void)finalize {

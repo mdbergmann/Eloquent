@@ -38,14 +38,14 @@
 }
 
 - (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme {
-    self = [self init];
+    sword::VerseKey vk;
+    if(scheme) {
+        vk.setVersificationSystem([scheme UTF8String]);
+    }
+    sword::ListKey listKey = vk.ParseVerseList([aRef UTF8String], "Gen1", true);
+    sword::ListKey *lk = new sword::ListKey(listKey);
+    self = [super initWithSWKey:lk];
     if(self) {
-        sword::VerseKey vk;
-        if(scheme) {
-            vk.setVersificationSystem([scheme UTF8String]);
-        }
-        sword::ListKey listKey = vk.ParseVerseList([aRef UTF8String], "Gen1", true);
-        sk = new sword::ListKey(listKey);
         created = YES;
     }
     

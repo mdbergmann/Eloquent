@@ -254,6 +254,36 @@ NSLock *bibleLock = nil;
     return ret;
 }
 
+- (NSString *)moduleIntroduction {
+    NSString *ret = @"";
+    
+    SwordVerseKey *key = [SwordVerseKey verseKeyWithVersification:[self versification]];
+    BOOL headings = [key headings];
+    [key setHeadings:YES];
+    [key setPosition:0];
+    [self setPositionFromKey:key];
+    ret = [self renderedText];
+    [key setHeadings:headings];
+    
+    return ret;
+}
+
+- (NSString *)bookIntroductionFor:(SwordBibleBook *)aBook {
+    NSString *ret = @"";
+    
+    SwordVerseKey *key = [SwordVerseKey verseKeyWithVersification:[self versification]];
+    BOOL headings = [key headings];
+    [key setHeadings:YES];
+    [key setTestament:[aBook testament]];
+    [key setBook:[aBook number]];
+    [key setChapter:0];
+    [self setPositionFromKey:key];
+    ret = [self renderedText];
+    [key setHeadings:headings];
+    
+    return ret;
+}
+
 #pragma mark - SwordModuleAccess
 
 - (long)entryCount {

@@ -43,6 +43,7 @@ public:
 	CURLHTTPTransport(const char *host, StatusReporter *statusReporter = 0);
 	~CURLHTTPTransport();
 
+	virtual std::vector<struct DirEntry> getDirList(const char *dirURL);
 	virtual char getURL(const char *destPath, const char *sourceURL, SWBuf *destBuf = 0);
 };
 

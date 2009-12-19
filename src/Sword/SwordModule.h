@@ -143,10 +143,15 @@ typedef enum {
 - (void)releaseModuleLock;
 
 - (BOOL)hasFeature:(NSString *)feature;
-- (NSString *)configEntryForKey:(NSString *)entryKey;
+- (NSString *)configFileEntryForConfigKey:(NSString *)entryKey;
 
 - (void)setPositionFromKeyString:(NSString *)aKeyString;
 - (void)setPositionFromKey:(SwordKey *)aKey;
+
+- (NSString *)renderedText;
+- (NSString *)renderedTextFromString:(NSString *)aString;
+- (NSString *)strippedText;
+- (NSString *)strippedTextFromString:(NSString *)aString;
 
 /**
  returns attribute values from the engine for notes, cross-refs and such for the given link type
@@ -157,6 +162,10 @@ typedef enum {
 
 /** returns the pre-verse entry value */
 - (NSString *)entryAttributeValuePreverse;
+- (NSString *)entryAttributeValuePreverseForKey:(SwordKey *)aKey;
+
+- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index;
+- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index forKey:(SwordKey *)aKey;
 
 /**
  return a dictionary with key and text

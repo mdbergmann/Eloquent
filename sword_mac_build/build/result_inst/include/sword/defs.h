@@ -12,16 +12,23 @@
  #define SWORD_NAMESPACE_END }
 #endif
 
-
 SWORD_NAMESPACE_START
+
+#define SWTRY try
+#define SWCATCH(x) catch (x)
 
 #ifdef _WIN32_WCE
 #define SWTRY
 #define SWCATCH(x) if (0)
 #define GLOBCONFPATH "/Program Files/sword/sword.conf"
-#else
-#define SWTRY try
-#define SWCATCH(x) catch (x)
+#endif
+
+#ifdef ANDROID
+#define _NO_IOSTREAM_
+#undef SWTRY
+#undef SWCATCH
+#define SWTRY
+#define SWCATCH(x) if (0)
 #endif
 
 // _declspec works in BC++ 5 and later, as well as VC++

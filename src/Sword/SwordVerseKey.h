@@ -16,6 +16,7 @@
 @interface SwordVerseKey : SwordKey {
 }
 
++ (id)verseKey;
 + (id)verseKeyWithVersification:(NSString *)scheme;
 + (id)verseKeyWithRef:(NSString *)aRef;
 + (id)verseKeyWithRef:(NSString *)aRef versification:(NSString *)scheme;
