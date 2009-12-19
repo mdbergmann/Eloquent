@@ -43,7 +43,7 @@
 - (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
 - (NSString *)createHTMLStringWithMarkersFromVerseData:(NSArray *)verseData;
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordModuleTextEntry *)anEntry;
-- (int)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString forChapter:(int)lastChapter;
+- (void)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
 - (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString;
 - (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString;
 - (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)aAttrString;
@@ -375,10 +375,11 @@
 
 - (NSString *)createHTMLStringWithMarkersFromVerseData:(NSArray *)verseData {
     NSMutableString *htmlString = [NSMutableString string];
-    int lastChapter = -1;
+    lastChapter = -1;
+    lastBook = -1;
     for(SwordModuleTextEntry *entry in verseData) {
         [self applyBookmarkHighlightingOnTextEntry:entry];
-        lastChapter = [self appendHTMLFromTextEntry:entry atHTMLString:htmlString forChapter:lastChapter];
+        [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
     }
     return htmlString;
 }
@@ -405,7 +406,7 @@
     }
 }
 
-- (int)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString forChapter:(int)lastChapter {
+- (void)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString {
     NSString *bookName = @"";
     int book = -1;
     int chapter = -1;
@@ -417,7 +418,14 @@
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
     
-    //NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book]];
+    if(book != lastBook) {
+        if([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS]) {
+            NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book]];
+            if(bookIntro && [bookIntro length] > 0) {
+                [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", bookIntro];
+            }
+        }        
+    }
     
     // pre-verse heading ?
     if([anEntry preverseHeading]) {
@@ -428,20 +436,35 @@
     if(!isVersesOnOneLine) {
         // mark new chapter
         if(chapter != lastChapter) {
+            if([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS]) {
+                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book] 
+                                                                           chapter:chapter];
+                if(chapIntro && [chapIntro length] > 0) {
+                    [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", chapIntro];                    
+                }
+            }
             [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
         }
         [aString appendFormat:@";;;%@;;; %@\n", verseMarkerInfo, [anEntry text]];   // verse marker
     } else {
-        if(isShowVerseNumbersOnly) {
-            if(chapter != lastChapter) {
+        if(chapter != lastChapter) {
+            if([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS]) {
+                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book] 
+                                                                           chapter:chapter];
+                if(chapIntro && [chapIntro length] > 0) {
+                    [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", chapIntro];                    
+                }
+            }
+            if(isShowVerseNumbersOnly) {
                 [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
-            }                
+            }
         }
         [aString appendFormat:@";;;%@;;;", verseMarkerInfo];    // verse marker
         [aString appendFormat:@"%@<br />\n", [anEntry text]];
     }
     
-    return chapter;
+    lastChapter = chapter;
+    lastBook = book;
 }
 
 - (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString {

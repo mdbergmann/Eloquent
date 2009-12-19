@@ -40,6 +40,8 @@
 - (void)setVerse:(int)val;
 - (BOOL)headings;
 - (void)setHeadings:(BOOL)flag;
+- (BOOL)autoNormalize;
+- (void)setAutoNormalize:(BOOL)flag;
 - (NSString *)bookName;
 - (NSString *)osisBookName;
 - (NSString *)osisRef;

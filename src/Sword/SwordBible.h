@@ -48,6 +48,7 @@ typedef enum {
 - (NSArray *)bookList;
 
 - (NSString *)bookIntroductionFor:(SwordBibleBook *)aBook;
+- (NSString *)chapterIntroductionFor:(SwordBibleBook *)aBook chapter:(int)chapter;
 - (NSString *)moduleIntroduction;
 
 // some numbers

@@ -273,15 +273,39 @@ NSLock *bibleLock = nil;
     
     SwordVerseKey *key = [SwordVerseKey verseKeyWithVersification:[self versification]];
     BOOL headings = [key headings];
+    BOOL autoNorm = [key autoNormalize];
     [key setHeadings:YES];
+    [key setAutoNormalize:NO];
     [key setTestament:[aBook testament]];
-    [key setBook:[aBook number]];
+    [key setBook:[aBook number]-1];
     [key setChapter:0];
+    [key setVerse:0];
     [self setPositionFromKey:key];
     ret = [self renderedText];
     [key setHeadings:headings];
+    [key setAutoNormalize:autoNorm];
     
     return ret;
+}
+
+- (NSString *)chapterIntroductionFor:(SwordBibleBook *)aBook chapter:(int)chapter {
+    NSString *ret = @"";
+    
+    SwordVerseKey *key = [SwordVerseKey verseKeyWithVersification:[self versification]];
+    BOOL headings = [key headings];
+    BOOL autoNorm = [key autoNormalize];
+    [key setHeadings:YES];
+    [key setAutoNormalize:NO];
+    [key setTestament:[aBook testament]];
+    [key setBook:[aBook number]-1];
+    [key setChapter:chapter];
+    [key setVerse:0];
+    [self setPositionFromKey:key];
+    ret = [self renderedText];
+    [key setHeadings:headings];
+    [key setAutoNormalize:autoNorm];
+    
+    return ret;    
 }
 
 #pragma mark - SwordModuleAccess

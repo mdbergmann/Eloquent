@@ -44,6 +44,10 @@
     
     // text display context
     NSInteger textContext;
+    
+    // helper vars for rendering
+    int lastChapter;
+    int lastBook;
 }
 
 @property (retain, readwrite) NSString *nibName;

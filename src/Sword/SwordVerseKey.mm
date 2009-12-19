@@ -76,6 +76,14 @@
     ((sword::VerseKey *)sk)->Headings((int)flag);
 }
 
+- (BOOL)autoNormalize {
+    return (BOOL)((sword::VerseKey *)sk)->AutoNormalize();
+}
+
+- (void)setAutoNormalize:(BOOL)flag {
+    ((sword::VerseKey *)sk)->AutoNormalize((int)flag);    
+}
+
 - (int)testament {
     return ((sword::VerseKey *)sk)->getTestament();
 }
