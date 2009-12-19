@@ -419,7 +419,7 @@
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
     
     if(book != lastBook) {
-        if([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS]) {
+        if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
             NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book]];
             if(bookIntro && [bookIntro length] > 0) {
                 [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", bookIntro];
@@ -436,7 +436,7 @@
     if(!isVersesOnOneLine) {
         // mark new chapter
         if(chapter != lastChapter) {
-            if([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS]) {
+            if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book] 
                                                                            chapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
@@ -448,7 +448,7 @@
         [aString appendFormat:@";;;%@;;; %@\n", verseMarkerInfo, [anEntry text]];   // verse marker
     } else {
         if(chapter != lastChapter) {
-            if([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS]) {
+            if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book] 
                                                                            chapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
@@ -459,7 +459,7 @@
                 [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
             }
         }
-        [aString appendFormat:@";;;%@;;;", verseMarkerInfo];    // verse marker
+        [aString appendFormat:@"<b>;;;%@;;;</b>", verseMarkerInfo];    // verse marker
         [aString appendFormat:@"%@<br />\n", [anEntry text]];
     }
     
@@ -507,9 +507,6 @@
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
     NSString *text = [anAttrString string];
-    NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
-    NSFont *fontBold = [NSFont fontWithName:[boldDisplayFont familyName]
-                                       size:(int)customFontSize];
     while(found) {
         int tLen = [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, tLen-replaceRange.location)];
@@ -542,11 +539,8 @@
                     // TODO: show abbrevation
                 }
                 
-                NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:2];
+                NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:1];
                 [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
-                if(fontBold) {
-                    [markerOpts setObject:fontBold forKey:NSFontAttributeName];                
-                }
                 
                 [anAttrString replaceCharactersInRange:replaceRange withString:visible];
                 [anAttrString addAttributes:markerOpts range:linkRange];
