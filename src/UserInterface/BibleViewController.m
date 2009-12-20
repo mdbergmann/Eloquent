@@ -630,7 +630,6 @@
                     text = [self displayableHTMLFromVerseData:verseData];                        
 
                 } else if(searchType == IndexSearchType) {
-                    // search in index
                     if(![module hasIndex]) {
                         // let the user know that we're creating the index now
                         NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
@@ -643,17 +642,14 @@
                         // progress indicator is stopped in the delegate methods of either indexing or searching
                         [self beginIndicateProgress];
 
-                        // create index first if not exists
                         [module createIndexThreadedWithDelegate:self];
                     } else {
                         // show progress indicator
                         // progress indicator is stopped in the delegate methods of either indexing or searching
                         [self beginIndicateProgress];
 
-                        // now search
                         SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
                         long maxResults = 10000;
-                        // get new search results
                         indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
                         if(indexer == nil) {
                             MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference::] Could not get indexer for searching!");

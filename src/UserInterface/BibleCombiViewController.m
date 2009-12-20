@@ -223,7 +223,7 @@
         }
     }
     
-    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
     [cvc setHostingDelegate:delegate];
     
     if([parMiscViewControllers count] == 0) {

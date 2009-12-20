@@ -152,11 +152,11 @@
         if(moduleType == bible) {
             vc = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
         } else if(moduleType == commentary) {
-            vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+            vc = [[CommentaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
         } else if(moduleType == dictionary) {
-            vc = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
+            vc = [[DictionaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
         } else if(moduleType == genbook) {
-            vc = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
+            vc = [[GenBookViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
         }
         
         // set hosting delegate
@@ -280,12 +280,13 @@
             case 1:
             {
                 // open in single
+
+                // save search reference
+                NSString *searchRef = [searchTextField stringValue];
+                
                 NSTabViewItem *tvi = [[tabView tabViewItems] objectAtIndex:index];
-                // also remove search text obj
                 [searchTextObjs removeObjectAtIndex:index];
-                // remove this view controller from our list
                 [viewControllers removeObject:vc];
-                // remove tab
                 [tabView removeTabViewItem:tvi];
 
                 // if there are more tabviews, select the next one
@@ -297,16 +298,19 @@
                     [self showRightSideBar:NO];
                 }
                 
+                SingleViewHostController *svc = nil;
                 if([vc isKindOfClass:[ModuleViewController class]]) {
                     // get module of vc and use it to open a single view
                     SwordModule *mod = [(ModuleViewController *)vc module];
-                    [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+                    svc = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
                 } else if([vc isKindOfClass:[BibleCombiViewController class]]) {                    
                     // open single host window
-                    SingleViewHostController *svc = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
+                    svc = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
                     [svc setView:[tvi view]];
                     [svc setContentViewController:vc];
-                }                
+                }
+                [svc setSearchText:searchRef];
+                [vc setHostingDelegate:svc];
                 break;
             }
         }

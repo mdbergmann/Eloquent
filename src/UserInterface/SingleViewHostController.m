@@ -65,11 +65,11 @@
         if(moduleType == bible) {
             contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
         } else if(moduleType == commentary) {
-            contentViewController = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+            contentViewController = [[CommentaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
         } else if(moduleType == dictionary) {
-            contentViewController = [[DictionaryViewController alloc] initWithModule:aModule delegate:self];
+            contentViewController = [[DictionaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
         } else if(moduleType == genbook) {
-            contentViewController = [[GenBookViewController alloc] initWithModule:aModule delegate:self];
+            contentViewController = [[GenBookViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
         }
         [contentViewController setHostingDelegate:self];
         
