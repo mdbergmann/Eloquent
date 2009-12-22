@@ -138,7 +138,8 @@ NSLock *bibleLock = nil;
         SwordBibleBook *bb = [[SwordBibleBook alloc] initWithBook:book];
         [bb setNumber:i+1];
         
-        [buf setObject:bb forKey:[bb name]];
+        NSString *bookName = [bb name];
+        [buf setObject:bb forKey:bookName];
     }
     self.books = buf;
     
@@ -254,6 +255,15 @@ NSLock *bibleLock = nil;
     return ret;
 }
 
+- (SwordBibleBook *)bookForLocalizedName:(NSString *)bookName {
+    for(SwordBibleBook *book in [[self books] allValues]) {
+        if([[book localizedName] isEqualToString:bookName]) {
+            return book;
+        }
+    }
+    return nil;
+}
+
 - (NSString *)moduleIntroduction {
     NSString *ret = @"";
     
@@ -277,7 +287,7 @@ NSLock *bibleLock = nil;
     [key setHeadings:YES];
     [key setAutoNormalize:NO];
     [key setTestament:[aBook testament]];
-    [key setBook:[aBook number]-1];
+    [key setBook:[aBook numberInTestament]];
     [key setChapter:0];
     [key setVerse:0];
     [self setPositionFromKey:key];
@@ -297,7 +307,7 @@ NSLock *bibleLock = nil;
     [key setHeadings:YES];
     [key setAutoNormalize:NO];
     [key setTestament:[aBook testament]];
-    [key setBook:[aBook number]-1];
+    [key setBook:[aBook numberInTestament]];
     [key setChapter:chapter];
     [key setVerse:0];
     [self setPositionFromKey:key];

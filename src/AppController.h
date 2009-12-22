@@ -85,6 +85,10 @@ typedef enum AppErrorCodes {
 - (IBAction)openMacSwordHomePage:(id)sender;
 - (IBAction)openMacSwordForumPage:(id)sender;
 
+// linking SWORD utils
+- (IBAction)linkSwordUtils:(id)sender;
+- (IBAction)unlinkSwordUtils:(id)sender;
+
 // module creation
 - (IBAction)createCommentaryOk:(id)sender;
 - (IBAction)createCommentaryCancel:(id)sender;

@@ -21,6 +21,7 @@
 #import "NSButton+Color.h"
 #import "NSTextView+LookupAdditions.h"
 #import "ModuleListUIController.h"
+#import "SwordVerseKey.h"
 
 @interface CommentaryViewController ()
 /** generates HTML for display */
@@ -153,8 +154,12 @@
         int book = -1;
         int chapter = -1;
         int verse = -1;
-        // decode ref
-        [SwordBible decodeRef:key intoBook:&bookName book:&book chapter:&chapter verse:&verse];
+
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:key versification:[module versification]];
+        bookName = [verseKey bookName];
+        book = [verseKey book];
+        chapter = [verseKey chapter];
+        verse = [verseKey verse];
         
         // the verse link, later we have to add percent escapes
         NSString *verseInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];

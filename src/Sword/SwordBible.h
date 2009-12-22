@@ -52,6 +52,7 @@ typedef enum {
 - (NSString *)moduleIntroduction;
 
 // some numbers
+- (SwordBibleBook *)bookForLocalizedName:(NSString *)bookName;
 - (int)chaptersForBookName:(NSString *)bookName;
 - (int)versesForChapter:(int)chapter bookName:(NSString *)bookName;
 - (int)versesForBible;

@@ -22,11 +22,13 @@ class sword::VerseMgr::Book;
     
     NSString *localizedName;
     int number;
+    int numberInTestament;
     int testament;
     NSMutableArray *chapters;
 }
 
 @property (readwrite) int number;
+@property (readwrite) int numberInTestament;
 @property (readwrite) int testament;
 @property (retain, readwrite) NSString *localizedName;
 @property (retain, readwrite) NSMutableArray *chapters;

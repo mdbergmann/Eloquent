@@ -13,6 +13,7 @@
 @implementation SwordBibleBook
 
 @synthesize number;
+@synthesize numberInTestament;
 @synthesize testament;
 @synthesize localizedName;
 @synthesize chapters;
@@ -21,6 +22,7 @@
     self = [super init];
     if(self) {
         self.number = 0;
+        self.numberInTestament = 0;
         self.testament = 0;        
         self.localizedName = @"";
         self.chapters = [NSMutableArray array];
@@ -36,11 +38,10 @@
         
         sword::VerseKey vk = sword::VerseKey(aBook->getOSISName());
         [self setTestament:vk.Testament()];
-
+        [self setNumberInTestament:vk.Book()];
+        
         // get system localemgr to be able to translate the english bookname
         sword::LocaleMgr *lmgr = sword::LocaleMgr::getSystemLocaleMgr();
-
-        // set localized book name
         self.localizedName = [NSString stringWithUTF8String:lmgr->translate(swBook->getLongName())];
         
         // create chapters

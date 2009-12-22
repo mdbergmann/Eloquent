@@ -26,6 +26,7 @@
 		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
 		A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A916FCE50E05483F009CAA2F /* BibleView.xib */; };
 		A916FD6E0E0555EB009CAA2F /* BibleCombiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */; };
+		A9188E7610E0F401006DA14B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9188E7510E0F401006DA14B /* Security.framework */; };
 		A91A23020E61926800382F44 /* HeaderImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A91A23010E61926800382F44 /* HeaderImageView.m */; };
 		A91A23440E61955000382F44 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23380E61955000382F44 /* add.png */; };
 		A91A23450E61955000382F44 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23390E61955000382F44 /* edit.png */; };
@@ -240,6 +241,7 @@
 		A916FCE60E05483F009CAA2F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BibleView.xib; sourceTree = "<group>"; };
 		A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleCombiViewController.h; path = src/UserInterface/BibleCombiViewController.h; sourceTree = "<group>"; };
 		A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleCombiViewController.m; path = src/UserInterface/BibleCombiViewController.m; sourceTree = "<group>"; };
+		A9188E7510E0F401006DA14B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A91A23000E61926800382F44 /* HeaderImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeaderImageView.h; path = src/UserInterface/HeaderImageView.h; sourceTree = "<group>"; };
 		A91A23010E61926800382F44 /* HeaderImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeaderImageView.m; path = src/UserInterface/HeaderImageView.m; sourceTree = "<group>"; };
 		A91A23380E61955000382F44 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
 				A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */,
 				A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */,
+				A9188E7610E0F401006DA14B /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +546,7 @@
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				A9188E7510E0F401006DA14B /* Security.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -1038,6 +1042,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				A9F61C8A0E0102D900C3A0EF /* CopyFiles */,
+				A9F2C6C710DF722900C751AA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1188,6 +1193,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		A9F2C6C710DF722900C751AA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/local/bin/macruby;
+			shellScript = "require 'HotCocoa'\n\nbuildnumber = File.new(\"buildnumber\", \"r\").gets.to_i\nbuildnumber += 1\nFile.new(\"buildnumber\", \"w+\").write(buildnumber.to_s)";
 		};
 /* End PBXShellScriptBuildPhase section */
 

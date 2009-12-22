@@ -411,16 +411,22 @@
     int book = -1;
     int chapter = -1;
     int verse = -1;
-    [SwordBible decodeRef:[anEntry key] intoBook:&bookName book:&book chapter:&chapter verse:&verse];
+    
+    SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[anEntry key] versification:[module versification]];
+    bookName = [verseKey bookName];
+    book = [verseKey book];
+    chapter = [verseKey chapter];
+    verse = [verseKey verse];
     
     NSString *verseMarkerInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
     
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
     
+    SwordBibleBook *bibleBook = (SwordBibleBook *)[(SwordBible *)module bookForLocalizedName:bookName];
     if(book != lastBook) {
         if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
-            NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book]];
+            NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:bibleBook];
             if(bookIntro && [bookIntro length] > 0) {
                 [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", bookIntro];
             }
@@ -437,7 +443,7 @@
         // mark new chapter
         if(chapter != lastChapter) {
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
-                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book] 
+                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:bibleBook 
                                                                            chapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
                     [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", chapIntro];                    
@@ -449,7 +455,7 @@
     } else {
         if(chapter != lastChapter) {
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
-                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:(SwordBibleBook *)[[(SwordBible *)module bookList] objectAtIndex:book] 
+                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:bibleBook 
                                                                            chapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
                     [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", chapIntro];                    

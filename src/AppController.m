@@ -509,6 +509,60 @@ static AppController *singleton;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/forums/mvnforum/listthreads?forum=4"]];    
 }
 
+- (IBAction)linkSwordUtils:(id)sender {
+    AuthorizationRef authorizationRef;
+    OSStatus status;
+    
+    /* Create a new authorization reference which will later be passed to the tool. */
+    status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, 
+                                 kAuthorizationFlagDefaults, &authorizationRef);
+    
+    if(status != errAuthorizationSuccess) {
+        MBLOGV(MBLOG_ERR, @"Failed to create the authref: %ld", status);
+    } else {
+        NSString *cmd = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin/link_tools.sh"];
+        
+        int err = AuthorizationExecuteWithPrivileges(authorizationRef, [cmd UTF8String], 0, NULL, NULL);
+        if(err != 0) {
+            MBLOG(MBLOG_ERR, @"Error at executeWithPrivileges!");
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                             defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"ErrorSWORDToolsInstallation", @"")];
+            [alert runModal];
+        } else {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                             defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"SWORDToolsInstalled", @"")];
+            [alert runModal];
+        }
+    }    
+}
+
+- (IBAction)unlinkSwordUtils:(id)sender {
+    AuthorizationRef authorizationRef;
+    OSStatus status;
+    
+    /* Create a new authorization reference which will later be passed to the tool. */
+    status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, 
+                                 kAuthorizationFlagDefaults, &authorizationRef);
+    
+    if(status != errAuthorizationSuccess) {
+        MBLOGV(MBLOG_ERR, @"Failed to create the authref: %ld", status);
+    } else {
+        NSString *cmd = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin/unlink_tools.sh"];
+        
+        int err = AuthorizationExecuteWithPrivileges(authorizationRef, [cmd UTF8String], 0, NULL, NULL);
+        if(err != 0) {
+            MBLOG(MBLOG_ERR, @"Error at executeWithPrivileges!");
+        } else {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                             defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"SWORDToolsUninstalled", @"")];
+            [alert runModal];
+        }
+    }    
+}
+
 #pragma mark - NSControl delegate methods
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
