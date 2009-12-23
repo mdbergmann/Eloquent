@@ -437,6 +437,25 @@
     }
 }
 
+#pragma mark - ContentSaving
+
+- (BOOL)hasUnsavedContent {
+    for(ContentDisplayingViewController *vc in viewControllers) {
+        if([vc hasUnsavedContent]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)saveContent {
+    for(ContentDisplayingViewController *vc in viewControllers) {
+        if([vc hasUnsavedContent]) {
+            [vc saveContent];
+        }
+    }
+}
+
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {

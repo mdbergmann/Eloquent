@@ -31,7 +31,8 @@ enum LinkContextMenuItems {
     RemoveLink
 };
 
-@interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding> {
+@interface ContentDisplayingViewController : HostableViewController 
+    <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding, ContentSaving> {
     IBOutlet NSView *topAccessoryView;
     IBOutlet id contentDisplayController;
     
@@ -75,6 +76,11 @@ enum LinkContextMenuItems {
 - (NSMenu *)textContextMenu;
 - (NSMenu *)linkContextMenu;
 - (NSMenu *)imageContextMenu;
+
+// ContentSaving
+- (BOOL)hasUnsavedContent;
+- (void)saveContent;
+- (IBAction)saveDocument:(id)sender;
 
 // context menu actions
 - (IBAction)lookUpInIndex:(id)sender;

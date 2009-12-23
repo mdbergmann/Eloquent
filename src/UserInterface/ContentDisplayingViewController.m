@@ -205,6 +205,20 @@
     return YES;
 }
 
+#pragma mark - ContentSaving
+
+/** all three methods shuld be overriden by subclasses if there is content they have to save */
+- (BOOL)hasUnsavedContent {
+    return NO;
+}
+
+- (void)saveContent {
+}
+
+- (IBAction)saveDocument:(id)sender {
+}
+
+
 #pragma mark - Text Context Menu actions
 
 - (IBAction)lookUpInIndex:(id)sender {

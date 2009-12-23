@@ -374,6 +374,26 @@
     return nil;
 }
 
+#pragma mark - ContentSaving
+
+- (BOOL)hasUnsavedContent {
+    for(ContentDisplayingViewController *vc in parMiscViewControllers) {
+        if([vc hasUnsavedContent]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (void)saveContent {
+    for(ContentDisplayingViewController *vc in parMiscViewControllers) {
+        if([vc hasUnsavedContent]) {
+            [vc saveContent];
+        }
+    }
+}
+
 #pragma mark - Printing
 
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {

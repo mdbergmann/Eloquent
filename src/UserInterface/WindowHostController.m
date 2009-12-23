@@ -963,6 +963,16 @@ typedef enum _NavigationDirectionType {
     }
 }
 
+#pragma mark - ContentSaving
+
+- (BOOL)hasUnsavedContent {
+    return [contentViewController hasUnsavedContent];
+}
+
+- (void)saveContent {
+    [contentViewController saveContent];
+}
+
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {

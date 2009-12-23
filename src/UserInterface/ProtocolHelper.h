@@ -42,6 +42,11 @@
 - (void)textChanged:(NSNotification *)aNotification;
 @end
 
+@protocol ContentSaving
+- (BOOL)hasUnsavedContent;
+- (void)saveContent;
+@end
+
 @protocol TextDisplayable
 - (void)displayText;
 - (void)displayTextForReference:(NSString *)aReference;

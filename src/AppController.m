@@ -829,6 +829,33 @@ static AppController *singleton;
 */
 - (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
 
+    // check for any unsaved content
+    BOOL unsavedContent = NO;
+    for(WindowHostController *hc in windowHosts) {
+        if([hc hasUnsavedContent]) {
+            unsavedContent = YES;
+            break;
+        }
+    }
+    if(unsavedContent) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                         defaultButton:NSLocalizedString(@"Yes", @"") 
+                                       alternateButton:NSLocalizedString(@"Cancel", @"") 
+                                           otherButton:NSLocalizedString(@"No", @"")
+                             informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];    
+        NSInteger modalResult = [alert runModal];
+        if(modalResult == NSAlertDefaultReturn) {
+            for(WindowHostController *hc in windowHosts) {
+                if([hc hasUnsavedContent]) {
+                    [hc saveContent];
+                }
+            }        
+        } else if(modalResult == NSAlertAlternateReturn) {
+            return NSTerminateCancel;
+        }        
+    }    
+    
+    
     if([sessionPath length] == 0) {
         sessionPath = DEFAULT_SESSION_PATH;
     }    

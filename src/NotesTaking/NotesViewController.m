@@ -203,6 +203,16 @@
     return YES;
 }
 
+#pragma mark - ContentSaving
+
+- (BOOL)hasUnsavedContent {
+    return [saveButton isEnabled];
+}
+
+- (void)saveContent {
+    [self saveDocument:self];
+}
+
 #pragma mark - Actions
 
 - (IBAction)saveDocument:(id)sender {

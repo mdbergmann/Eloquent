@@ -408,10 +408,21 @@
     editEnabled = !editEnabled;
 }
 
-- (IBAction)saveDocument:(id)sender {
-    // store text
-    [self saveCommentaryText];
+#pragma mark - ContentSaving
 
+- (BOOL)hasUnsavedContent {
+    return [[editButton title] hasPrefix:@"*"];
+}
+
+- (void)saveContent {
+    [self saveDocument:self];
+}
+
+#pragma mark - Actions
+
+- (IBAction)saveDocument:(id)sender {
+    [self saveCommentaryText];
+    
     // text has changed, change the label of the Edit button to indicate that hacnges have been made
     [editButton setTitle:NSLocalizedString(@"Edit", @"")];
     [editButton setTextColor:[NSColor redColor]];
