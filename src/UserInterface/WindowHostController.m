@@ -934,6 +934,19 @@ typedef enum _NavigationDirectionType {
 
 - (void)windowWillClose:(NSNotification *)notification {
     MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
+    
+    if([self hasUnsavedContent]) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                         defaultButton:NSLocalizedString(@"Yes", @"") 
+                                       alternateButton:NSLocalizedString(@"No", @"") 
+                                           otherButton:nil
+                             informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];    
+        NSInteger modalResult = [alert runModal];
+        if(modalResult == NSAlertDefaultReturn) {
+            [self saveContent];
+        }
+    }
+    
     // tell delegate that we are closing
     if(delegate && [delegate respondsToSelector:@selector(hostClosing:)]) {
         [delegate performSelector:@selector(hostClosing:) withObject:self];

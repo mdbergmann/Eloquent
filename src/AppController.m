@@ -842,7 +842,7 @@ static AppController *singleton;
                                          defaultButton:NSLocalizedString(@"Yes", @"") 
                                        alternateButton:NSLocalizedString(@"Cancel", @"") 
                                            otherButton:NSLocalizedString(@"No", @"")
-                             informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];    
+                             informativeTextWithFormat:NSLocalizedString(@"UnsavedContentQuit", @"")];    
         NSInteger modalResult = [alert runModal];
         if(modalResult == NSAlertDefaultReturn) {
             for(WindowHostController *hc in windowHosts) {
@@ -853,8 +853,7 @@ static AppController *singleton;
         } else if(modalResult == NSAlertAlternateReturn) {
             return NSTerminateCancel;
         }        
-    }    
-    
+    }
     
     if([sessionPath length] == 0) {
         sessionPath = DEFAULT_SESSION_PATH;

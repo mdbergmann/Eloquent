@@ -337,6 +337,20 @@
     if(index >= 0) {
         ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];        
         if(vc != nil) {
+            if([vc hasUnsavedContent]) {
+                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                                 defaultButton:NSLocalizedString(@"Yes", @"") 
+                                               alternateButton:NSLocalizedString(@"Cancel", @"") 
+                                                   otherButton:NSLocalizedString(@"No", @"")
+                                     informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];    
+                NSInteger modalResult = [alert runModal];
+                if(modalResult == NSAlertDefaultReturn) {
+                    [vc saveContent];
+                } else if(modalResult == NSAlertAlternateReturn) {
+                    return NO;
+                }
+            }
+            
             // also remove search text obj
             [searchTextObjs removeObjectAtIndex:index];            
             // remove this view controller from our list

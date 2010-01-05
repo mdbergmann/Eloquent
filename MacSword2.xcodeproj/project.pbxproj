@@ -75,7 +75,7 @@
 		A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
 		A9582A800F701D4C0094FAF4 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
-		A95D51A5105D431600FE9A24 /* libsword-1.6.0-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
+		A95D51A5105D431600FE9A24 /* libsword-1.6.1-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
 		A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */; };
 		A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94150DF9B149006B7361 /* SwordManager.mm */; };
 		A95D5272105D49D400FE9A24 /* SwordModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94170DF9B149006B7361 /* SwordModule.mm */; };
@@ -108,9 +108,9 @@
 		A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52E0DF9AD6E00207967 /* ModuleManager.xib */; };
 		A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5300DF9AD6E00207967 /* ModuleManageView.xib */; };
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
-		A993E8B51053119700680650 /* libsword-1.6.0-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
-		A993E8B61053119700680650 /* libsword-1.6.0-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
-		A993E8B7105311A000680650 /* libsword-1.6.0-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */; };
+		A993E8B51053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
+		A993E8B61053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
+		A993E8B7105311A000680650 /* libsword-1.6.1-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
 		A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A99A76D510B2A4C4002EFD30 /* FileRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */; };
@@ -193,7 +193,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */,
-				A993E8B7105311A000680650 /* libsword-1.6.0-svn-fat.a in CopyFiles */,
+				A993E8B7105311A000680650 /* libsword-1.6.1-svn-fat.a in CopyFiles */,
 				A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
@@ -368,7 +368,7 @@
 		A992B52F0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManager.xib; sourceTree = "<group>"; };
 		A992B5310DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManageView.xib; sourceTree = "<group>"; };
 		A992B5330DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
-		A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.6.0-svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.6.0-svn-fat.a"; sourceTree = "<group>"; };
+		A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.6.1-svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.6.1-svn-fat.a"; sourceTree = "<group>"; };
 		A993E8CE1053137C00680650 /* BGHUDAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BGHUDAppKit.framework; path = Resources/BGHUDAppKit.framework; sourceTree = "<group>"; };
 		A99A76D310B2A4C4002EFD30 /* FileRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileRepresentation.h; path = src/NotesTaking/FileRepresentation.h; sourceTree = "<group>"; };
 		A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileRepresentation.m; path = src/NotesTaking/FileRepresentation.m; sourceTree = "<group>"; };
@@ -480,7 +480,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A993E8B51053119700680650 /* libsword-1.6.0-svn-fat.a in Frameworks */,
+				A993E8B51053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */,
 				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
@@ -496,7 +496,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A993E8B61053119700680650 /* libsword-1.6.0-svn-fat.a in Frameworks */,
+				A993E8B61053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,7 +504,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A95D51A5105D431600FE9A24 /* libsword-1.6.0-svn-fat.a in Frameworks */,
+				A95D51A5105D431600FE9A24 /* libsword-1.6.1-svn-fat.a in Frameworks */,
 				A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */,
 				A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */,
 			);
@@ -528,7 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				A993E8CE1053137C00680650 /* BGHUDAppKit.framework */,
-				A993E8B41053119700680650 /* libsword-1.6.0-svn-fat.a */,
+				A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */,
 				A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */,
 				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
 				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,

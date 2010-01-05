@@ -3,11 +3,11 @@
 #
 
 APP=sword
-VERS=1.6.0-svn
+VERS=1.6.1-svn
 BDIR=`pwd`
 
 DEBUG=0
-FAT=1
+FAT=0
 PPC=0
 INTEL=0
 
@@ -87,6 +87,7 @@ if [ $PPC -eq 1 ] || [ $FAT -eq 1 ]; then
 	cd sword-trunk
 #	make distclean
 	./autogen.sh
+	echo 'end autogen.sh'
 	export CC=gcc
 	export CXX=g++
 	export SDK=/Developer/SDKs/MacOSX10.5.sdk
@@ -109,6 +110,7 @@ fi
 
 # then build intel version to SDK 10.5
 if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
+    echo "building intel version of library..."
 	#cd $APP-$VERS
 	cd sword-trunk
 #	make distclean
@@ -126,10 +128,11 @@ if [ $INTEL -eq 1 ] || [ $FAT -eq 1 ]; then
 	#export PATH=$PATH:$INTELPREFIX/bin
 	./configure --prefix=$INTELPREFIX --without-clucene --with-zlib --with-conf --with-icu --with-curl --enable-tests --disable-shared --enable-utilities
 	make all install
-	make clean		
+	make clean
 	cd $BDIR
 	# copy to result dir
 	cp $INTELPREFIX/lib/lib$APP.a $RESULTPREFIX/lib/lib$APP-$VERS-intel.a
+    echo "building intel version of library...done"
 
 	# only for fat version
 	if [ $FAT -eq 1 ]; then
