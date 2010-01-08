@@ -83,6 +83,14 @@ static MBPreferenceController *instance;
     return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_HEBREWDEF];
 }
 
+- (NSArray *)moduleNamesOfTypeMorphHebrew {
+    return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_HEBREWPARSE];
+}
+
+- (NSArray *)moduleNamesOfTypeMorphGreek {
+    return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_GREEKPARSE];
+}
+
 - (WebPreferences *)defaultWebPreferences {
     return [self defaultWebPreferencesForModuleName:nil];
 }

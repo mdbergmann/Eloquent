@@ -45,6 +45,8 @@
 #define DefaultsDictionaryModule                    @"DefaultsDictionaryModule"
 #define DefaultsStrongsHebrewModule                 @"DefaultsStrongsHebrewModule"
 #define DefaultsStrongsGreekModule                  @"DefaultsStrongsGreekModule"
+#define DefaultsMorphHebrewModule                   @"DefaultsMorphHebrewModule"
+#define DefaultsMorphGreekModule                    @"DefaultsMorphGreekModule"
 
 // indexing defaults
 #define DefaultsBackgroundIndexerEnabled            @"DefaultsBackgroundIndexerEnabled"

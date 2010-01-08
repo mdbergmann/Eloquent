@@ -24,13 +24,15 @@
     if(previewData) {
         NSString *module = [previewData objectForKey:ATTRTYPE_MODULE];
         if(!module || [module length] == 0) {
-            // get default bible module
+            // get module for previewtype
             module = [userDefaults stringForKey:DefaultsBibleModule];
             NSString *attrType = [previewData objectForKey:ATTRTYPE_TYPE];
             if([attrType isEqualToString:@"Hebrew"]) {
                 module = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
             } else if([attrType isEqualToString:@"Greek"]) {
                 module = [userDefaults stringForKey:DefaultsStrongsGreekModule];
+            } else if([attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
+                module = [userDefaults stringForKey:DefaultsMorphGreekModule];
             }
         }
         
@@ -48,6 +50,8 @@
                 }
             } else if([[previewData objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showStrongs"]) {
                 displayType = SW_OPTION_STRONGS;            
+            } else if([[previewData objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showMorph"]) {
+                displayType = SW_OPTION_MORPHS;
             } else if([[previewData objectForKey:ATTRTYPE_ACTION] isEqualToString:@"showRef"]) {
                 displayType = SW_OPTION_REF;
             }

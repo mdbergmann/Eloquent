@@ -193,7 +193,8 @@
     if([attrType isEqualToString:@"scriptRef"] || 
        [attrType isEqualToString:@"scripRef"] ||
        [attrType isEqualToString:@"Greek"] ||
-       [attrType isEqualToString:@"Hebrew"]) {
+       [attrType isEqualToString:@"Hebrew"] ||
+       [attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
         NSString *key = [data objectForKey:ATTRTYPE_VALUE];
         ret = [self strippedTextEntriesForRef:key];
     }
