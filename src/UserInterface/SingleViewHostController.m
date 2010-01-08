@@ -114,6 +114,8 @@
     }
     
     [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
+    
+    hostLoaded = YES;
 }
 
 #pragma mark - Methods

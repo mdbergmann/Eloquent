@@ -902,18 +902,20 @@ typedef enum _NavigationDirectionType {
  */
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)aNotification {
-    NSSplitView *sv = [aNotification object];
-    if(sv == mainSplitView) {
-        NSSize s = [[lsbViewController view] frame].size;
-        if(s.width > 10) {
-            //MBLOGV(MBLOG_DEBUG, @"left width: %f", s.width);
-        }            
-    } else if(sv == contentSplitView) {
-        NSSize s = [[rsbViewController view] frame].size;
-        if(s.width > 10) {
-            rsbWidth = s.width;
-        }
-    }        
+    if(hostLoaded) {
+        NSSplitView *sv = [aNotification object];
+        if(sv == mainSplitView) {
+            NSSize s = [[lsbViewController view] frame].size;
+            if(s.width > 10) {
+                //MBLOGV(MBLOG_DEBUG, @"left width: %f", s.width);
+            }            
+        } else if(sv == contentSplitView) {
+            NSSize s = [[rsbViewController view] frame].size;
+            if(s.width > 10) {
+                rsbWidth = s.width;
+            }
+        }        
+    }
 }
 
 - (NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
