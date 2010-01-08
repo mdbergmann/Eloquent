@@ -911,7 +911,7 @@ typedef enum _NavigationDirectionType {
     } else if(sv == contentSplitView) {
         NSSize s = [[rsbViewController view] frame].size;
         if(s.width > 10) {
-            //MBLOGV(MBLOG_DEBUG, @"right width: %f", s.width);
+            rsbWidth = s.width;
         }
     }        
 }
