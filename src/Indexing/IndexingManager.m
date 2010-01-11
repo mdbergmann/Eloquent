@@ -382,15 +382,14 @@
 /**
 \brief checks whether an index already exists for the given module name and type
  @param[in] modName: the name of the module.
- @param[in] modType: the type of the module. depending on this, more than one index may be created for the module.
  @return: YES/NO
  */
 - (BOOL)indexExistsForModuleName:(NSString *)aModName {
-	NSFileManager *fm = [NSFileManager defaultManager];	
-
-    NSString *indexPath = [self indexFolderPathForModuleName:aModName];
+	BOOL			isDir		= NO;
+	NSFileManager	*fm			= [NSFileManager defaultManager];	
+    NSString		*indexPath	= [self indexFolderPathForModuleName:aModName];
 	
-	return [fm fileExistsAtPath:indexPath];
+	return (([fm fileExistsAtPath:indexPath isDirectory:&isDir] && isDir == YES) ? YES : NO);
 }
 
 /**
@@ -399,11 +398,13 @@
 - (BOOL)removeIndexForModuleName:(NSString *)modName {
     BOOL ret = YES;
     
-	NSFileManager *fm = [NSFileManager defaultManager];	
-    NSString *indexPath = [self indexFolderPathForModuleName:modName];	
+	NSFileManager	*fm			= [NSFileManager defaultManager];	
+    NSString		*indexPath	= [self indexFolderPathForModuleName:modName];	
+
 	if([fm fileExistsAtPath:indexPath]) {
         ret = [fm removeFileAtPath:indexPath handler:nil];
-        if(!ret) {
+    
+		if(!ret) {
             MBLOGV(MBLOG_ERR, @"[IndexingManager -removeIndexForModuleName:] could not remove index for module: %@", modName);
         }
     }

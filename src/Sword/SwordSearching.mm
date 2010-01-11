@@ -40,35 +40,60 @@ NSString *MacSwordIndexVersion = @"2.6";
 }
 
 - (BOOL)hasIndex {
-    BOOL ret = NO;
-    
     // get IndexingManager
-    IndexingManager *im = [IndexingManager sharedManager]; 
-    NSString *path = [im indexFolderPathForModuleName:[self name]];
-    BOOL isDir;
+    IndexingManager *im			= [IndexingManager sharedManager]; 
+	NSString		*modName	= [self name];
+    NSString		*path		= [im indexFolderPathForModuleName:modName];
+    BOOL			ret			= NO;
     
-    if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir) {
+    
+    if([im indexExistsForModuleName:[self name]]) {
         NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:[path stringByAppendingPathComponent:@"version.plist"]];
         if(d) {		
             if([[d objectForKey:@"MacSword Index Version"] isEqualToString:MacSwordIndexVersion]) {
                 if(([d objectForKey:@"Sword Module Version"] == NULL) ||
                     ([[d objectForKey:@"Sword Module Version"] isEqualToString:[self version]])) {
-                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has valid index", [self name]);
+                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has valid index", modName);
                     ret = YES;
-                } else {
+                } 
+				else {
                     //index out of date remove it
-                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", [self name]);
-                    [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];                
+                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", modName);
+                    [im removeIndexForModuleName: modName];
                 }
-            } else {
+            } 
+			else {
                 //index out of date remove it
-                MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", [self name]);
-                [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];            
+                MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", modName);
+				[im removeIndexForModuleName: modName];
             }
-        }		
+        }
+		else {
+			MBLOGV( MBLOG_DEBUG, @"[SwordSearching -hasIndex] version.plist for module %@ was not found.", modName);			
+		}
     }
+	else {
+		MBLOGV( MBLOG_DEBUG, @"[SwordSearching -hasIndex] index for module %@ was not found.", modName);
+	}
     
 	return ret;
+}
+
+/**
+ \brief This message is used to force an index rebuild.
+ */
+- (void)recreateIndex
+{
+	NSString*			modName	= [ self name];
+
+	MBLOGV(MBLOG_DEBUG, @"ENTERING -- [SwordSearching -recreateIndex] for module %@", modName);
+	
+	if ([ self hasIndex]) {
+		[[ IndexingManager sharedManager] removeIndexForModuleName: modName];
+	}
+	[ self createIndex];
+	
+	MBLOG(MBLOG_DEBUG, @"LEAVING  -- [SwordSearching -recreateIndex]");
 }
 
 - (void)createIndex {
