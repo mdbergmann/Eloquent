@@ -40,12 +40,10 @@ NSString *MacSwordIndexVersion = @"2.6";
 }
 
 - (BOOL)hasIndex {
-    // get IndexingManager
-    IndexingManager *im			= [IndexingManager sharedManager]; 
-	NSString		*modName	= [self name];
-    NSString		*path		= [im indexFolderPathForModuleName:modName];
-    BOOL			ret			= NO;
-    
+    IndexingManager *im	= [IndexingManager sharedManager]; 
+	NSString *modName = [self name];
+    NSString *path = [im indexFolderPathForModuleName:modName];
+    BOOL ret = NO;
     
     if([im indexExistsForModuleName:[self name]]) {
         NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:[path stringByAppendingPathComponent:@"version.plist"]];
@@ -59,13 +57,13 @@ NSString *MacSwordIndexVersion = @"2.6";
 				else {
                     //index out of date remove it
                     MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", modName);
-                    [im removeIndexForModuleName: modName];
+                    [im removeIndexForModuleName:modName];
                 }
             } 
 			else {
                 //index out of date remove it
                 MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", modName);
-				[im removeIndexForModuleName: modName];
+				[im removeIndexForModuleName:modName];
             }
         }
 		else {
@@ -82,28 +80,29 @@ NSString *MacSwordIndexVersion = @"2.6";
 /**
  \brief This message is used to force an index rebuild.
  */
-- (void)recreateIndex
-{
-	NSString*			modName	= [ self name];
-
-	MBLOGV(MBLOG_DEBUG, @"ENTERING -- [SwordSearching -recreateIndex] for module %@", modName);
-	
-	if ([ self hasIndex]) {
-		[[ IndexingManager sharedManager] removeIndexForModuleName: modName];
-	}
-	[ self createIndex];
-	
+- (void)recreateIndex {
+	MBLOGV(MBLOG_DEBUG, @"ENTERING -- [SwordSearching -recreateIndex] for module %@", [self name]);
+	[self deleteIndex];
+	[self createIndex];
 	MBLOG(MBLOG_DEBUG, @"LEAVING  -- [SwordSearching -recreateIndex]");
 }
 
-- (void)createIndex {
+- (void)deleteIndex {
+    [indexLock lock];
+	if([self hasIndex]) {
+		[[IndexingManager sharedManager] removeIndexForModuleName:[self name]];
+	}    
+    [indexLock unlock];
+}
 
+- (void)createIndex {
 	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndex]");
 	
     [indexLock lock];
     
 	// get Indexer
-    Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
+    Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] 
+                                                                  moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
     if(indexer == nil) {
         MBLOG(MBLOG_ERR, @"Could not create Indexer for this module!");
     } else {

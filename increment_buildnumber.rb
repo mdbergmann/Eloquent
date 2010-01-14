@@ -2,6 +2,8 @@
 
 require 'HotCocoa'
 
+# the prefix is incremented for every minor/major version number increment
+# the actual number begins at 1
 prefix = "a"
 
 buildstring = File.new("buildnumber", "r").gets

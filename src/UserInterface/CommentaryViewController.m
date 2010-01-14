@@ -399,8 +399,8 @@
         // store text
         [self saveCommentaryText];
 		
-		if( [ module respondsToSelector: @selector(recreateIndex)]) {
-			[ module recreateIndex];
+		if([module respondsToSelector:@selector(recreateIndex)]) {
+			[module recreateIndex];
 		}
 		
         [editButton setTitle:NSLocalizedString(@"Edit", @"")];

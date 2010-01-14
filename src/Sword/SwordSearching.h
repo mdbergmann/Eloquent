@@ -23,6 +23,7 @@
 
 - (BOOL)hasIndex;
 - (void)createIndex;
+- (void)deleteIndex;
 - (void)recreateIndex;
 - (void)createIndexThreadedWithDelegate:(id)aDelegate;
 - (void)indexContentsIntoIndex:(Indexer *)indexer;
