@@ -478,7 +478,7 @@
         if(([[mod module] status] & ModStatCiphered) == ModStatCiphered) {
             ret = [NSNumber numberWithBool:YES];
         } else {
-            ret = [NSNumber numberWithBool:NO];        
+            ret = [NSNumber numberWithBool:NO];
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_TASK]) {
         // for the cell we return the index number
@@ -489,14 +489,12 @@
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODRVERSION]) {
         ret = [[mod module] version];
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODLVERSION]) {
-        
         // if the module is installed, show installed version
         if(([[mod module] status] & ModStatNew) > 0) {
             // this module is not installed
             ret = @"";
         } else {
-            // get installed module
-            ret = [[mod module] version];
+            ret = [[[SwordManager defaultManager] moduleWithName:[mod moduleName]] version];
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODDESCR]) {
         //SwordManager *bMgr = [[mod installSource] swordManager];
