@@ -13,6 +13,7 @@
 #import <Indexer.h>
 
 #define TEXT_VERSE_MARKER   @"VerseMarkerAttributeName"
+#define CHAPTER_BEGINNING_MARKER @"ChapterBeginningMarker"
 
 @class SwordModule;
 @class ExtTextViewController;

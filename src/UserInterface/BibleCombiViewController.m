@@ -623,12 +623,8 @@
     NSMutableArray *subViews = [NSMutableArray arrayWithArray:[parBibleSplitView subviews]];
     [subViews addObjectsFromArray:[parMiscSplitView subviews]];
     
-    // the current horizontal textcontainer inset
-    float inset = 0.0;
-    if([userDefaults objectForKey:DefaultsTextContainerHorizontalMargins]) {
-        inset = [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue];    
-    }
-    
+    BOOL hasDefaultsInset = [userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] != nil;
+    float defaultsInset = [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue];
     NSEnumerator *iter = [subViews reverseObjectEnumerator];
     ScrollSynchronizableView *v = nil;
     while((v = [iter nextObject])) {
@@ -651,7 +647,7 @@
             BOOL updateScroll = YES;
             if(searchType == ReferenceSearchType) {
                 
-                // get the cerseMarker of this syncview
+                // get the verseMarker of this syncview
                 NSString *marker = [self verseMarkerOfFirstLineOfTextView:v];
                 
                 // the sender is the rightest scrollview
@@ -667,11 +663,29 @@
                     // get view rect of this glyph range
                     NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
                      */
-                    
+                                    
+                    NSString *logStr;
                     NSRect destRect = [self rectForAttributeName:TEXT_VERSE_MARKER attributeValue:sourceMarker inTextView:v.textView];
-                    
                     if(destRect.origin.x != NSNotFound) {
+                        // the current horizontal textcontainer inset
+                        float inset = 0.0;
+                        if(hasDefaultsInset && destRect.origin.y != 0) {
+                            inset = defaultsInset;    
+                        }
+                        
                         // set point
+                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] current X offset: %.0f",  destRect.origin.x];
+                        MBLOG(MBLOG_DEBUG, logStr);
+                        
+                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] current Y offset: %.0f",  destRect.origin.y];
+                        MBLOG(MBLOG_DEBUG, logStr);
+                                                
+                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] current inset: %.0f",  inset];
+                        MBLOG(MBLOG_DEBUG, logStr);
+
+                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] source marker: %@",  sourceMarker];
+                        MBLOG(MBLOG_DEBUG, logStr);
+                        
                         destPoint.x = destRect.origin.x;
                         destPoint.y = destRect.origin.y + inset;                                            
                     } else {
@@ -763,7 +777,7 @@
     // get the first found verseMarker attribute in the given text
     long len = [text length];
     for(int i = 0;i < len;i++) {
-        NSString * val = [text attribute:@"VerseMarkerAttributeName" atIndex:i effectiveRange:nil];
+        NSString * val = [text attribute:TEXT_VERSE_MARKER atIndex:i effectiveRange:nil];
         if(val != nil) {
             ret = val;
             break;
@@ -816,6 +830,7 @@
     NSRange lineRange = [self rangeFromViewableFirstLineInTextView:[syncView textView] lineRect:&lineRect];
     // try to get characters of textStorage
     NSAttributedString *attrString = [[[syncView textView] textStorage] attributedSubstringFromRange:NSMakeRange(lineRange.location, lineRange.length)];
+
     // now, that we have the first line, extract the verse Marker
     return [self verseMarkerInTextLine:attrString];    
 }

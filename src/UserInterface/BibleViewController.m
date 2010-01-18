@@ -423,6 +423,7 @@
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
     
+    // book introductions
     SwordBibleBook *bibleBook = (SwordBibleBook *)[(SwordBible *)module bookForLocalizedName:bookName];
     if(book != lastBook) {
         if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
@@ -462,10 +463,18 @@
                 }
             }
             if(isShowVerseNumbersOnly) {
-                [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
+                ///[aString appendFormat:@"<b>%@ %i:</b><br />\n", bookName, chapter];
             }
         }
-        [aString appendFormat:@"<b>;;;%@;;;</b>", verseMarkerInfo];    // verse marker
+        if(verse == 1 && isShowVerseNumbersOnly) {
+            if(chapter == 1) {
+                [aString appendFormat:@"<b>;;;%@|%i;;;:</b><br />\n<b>;;;%@;;;</b>", bookName, chapter, verseMarkerInfo];    // verse marker
+            } else {
+                [aString appendFormat:@"<br /><b>;;;%@|%i;;;:</b><br />\n<b>;;;%@;;;</b>", bookName, chapter, verseMarkerInfo];    // verse marker
+            }
+        } else {
+            [aString appendFormat:@"<b>;;;%@;;;</b>", verseMarkerInfo];    // verse marker
+        }
         [aString appendFormat:@"%@<br />\n", [anEntry text]];
     }
     
@@ -502,7 +511,7 @@
             [anString setAttributes:attrs range:effectiveRange];
 		}
 		i += effectiveRange.length;
-	}    
+	}
 }
 
 - (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)anAttrString {
@@ -524,34 +533,53 @@
                 
                 // create marker
                 NSString *marker = [text substringWithRange:NSMakeRange(replaceRange.location + 3, replaceRange.length - 6)];
+
                 NSArray *comps = [marker componentsSeparatedByString:@"|"];
-                NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
-                
-                NSString *visible = @"";
-                NSRange linkRange;
-                linkRange.length = 0;
-                linkRange.location = NSNotFound;
-                if(showBookNames) {
-                    if(isVersesOnOneLine && !isShowVerseNumbersOnly) {
-                        visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
-                        linkRange.location = replaceRange.location;
-                        linkRange.length = [visible length] - 2;                            
-                    } else {
-                        visible = [NSString stringWithFormat:@"%@ ", [comps objectAtIndex:2]];
-                        linkRange.location = replaceRange.location;
-                        linkRange.length = [visible length] - 1;
+                if([comps count] == 2) {         
+                    NSString *verseMarker = [NSString stringWithFormat:@"%@ %@", [comps objectAtIndex:0], [comps objectAtIndex:1]];
+
+                    NSRange linkRange;
+                    linkRange.length = 9;
+                    linkRange.location = replaceRange.location;
+                    
+                    NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:3];
+                    [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
+                    
+                    [anAttrString replaceCharactersInRange:replaceRange withString: verseMarker];
+                    [anAttrString addAttributes:markerOpts range:linkRange];   
+                } else {
+                    NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
+                    
+                    NSString *visible = @"";
+                    NSRange linkRange;
+                    linkRange.length = 0;
+                    linkRange.location = NSNotFound;
+                    if(showBookNames) {
+                        if(isVersesOnOneLine && !isShowVerseNumbersOnly) {
+                            visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
+                            linkRange.location = replaceRange.location;
+                            linkRange.length = [visible length] - 2;                            
+                        } else {
+                            visible = [NSString stringWithFormat:@"%@ ", [comps objectAtIndex:2]];
+                            linkRange.location = replaceRange.location;
+                            linkRange.length = [visible length] - 1;
+                        }
+                    } else if(showBookAbbr) {
+                        // TODO: show abbrevation
                     }
-                } else if(showBookAbbr) {
-                    // TODO: show abbrevation
+                    NSString *verseLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], verseMarker];
+                    NSURL *verseURL = [NSURL URLWithString:[verseLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                    
+                    NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:3];
+                    [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
+                    [markerOpts setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+                    [markerOpts setObject:verseURL forKey:NSLinkAttributeName];
+                    
+                    [anAttrString replaceCharactersInRange:replaceRange withString:visible];
+                    [anAttrString addAttributes:markerOpts range:linkRange];
+                    
+                    replaceRange.location += [visible length];   
                 }
-                
-                NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:1];
-                [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
-                
-                [anAttrString replaceCharactersInRange:replaceRange withString:visible];
-                [anAttrString addAttributes:markerOpts range:linkRange];
-                
-                replaceRange.location += [visible length];
             }
         } else {
             found = NO;
