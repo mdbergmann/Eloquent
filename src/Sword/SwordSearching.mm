@@ -83,7 +83,7 @@ NSString *MacSwordIndexVersion = @"2.6";
 - (void)recreateIndex {
 	MBLOGV(MBLOG_DEBUG, @"ENTERING -- [SwordSearching -recreateIndex] for module %@", [self name]);
 	[self deleteIndex];
-	[self createIndex];
+	//[self createIndex];
 	MBLOG(MBLOG_DEBUG, @"LEAVING  -- [SwordSearching -recreateIndex]");
 }
 
