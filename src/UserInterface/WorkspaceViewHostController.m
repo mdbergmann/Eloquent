@@ -176,12 +176,9 @@
         vc = [[DictionaryViewController alloc] initWithDelegate:self];
     } else if(aType == genbook) {
         vc = [[GenBookViewController alloc] initWithDelegate:self];
-    }
-    
-    // set hosting delegate
+    }    
     [vc setHostingDelegate:self];
     
-    // search text objects are added when this view reports it has loaded
     return vc;
 }
 
@@ -222,10 +219,8 @@
 #pragma mark - Actions
 
 - (void)searchInput:(id)sender {
-    // let super class handle things first
     [super searchInput:sender];
     
-    // now set new tab title to the current active one
     [[tabView selectedTabViewItem] setLabel:[self computeTabTitle]];
 }
 

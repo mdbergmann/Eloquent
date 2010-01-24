@@ -1205,7 +1205,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/local/bin/macruby;
-			shellScript = "require 'HotCocoa'\n\nbuildnumber = File.new(\"buildnumber\", \"r\").gets.to_i\nbuildnumber += 1\nFile.new(\"buildnumber\", \"w+\").write(buildnumber.to_s)";
+			shellScript = "require 'HotCocoa'\n\n# the prefix is incremented for every minor/major version number increment\n# the actual number begins at 1\nprefix = \"a\"\n\nbuildstring = File.new(\"buildnumber\", \"r\").gets\nsplitnum = buildstring.split(prefix)\nnumber = splitnum[splitnum.length-1].to_i\nnumber += 1\nbuildnumber = prefix + number.to_s\nFile.new(\"buildnumber\", \"w+\").write(buildnumber)\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
