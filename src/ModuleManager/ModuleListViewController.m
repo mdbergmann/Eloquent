@@ -171,14 +171,22 @@
 		ret = YES;
 	}
 	else {
-		
+	
+		// begin fix for MACSW-172 (draymer)
+		ModuleListObject *selectedObj = nil;
+		ModuleListObject *accessedObj = nil;		
 		ModuleListObject *modObj = nil;
-		// get current selected module
-		if(selectedModuleCount == 0) {
-			modObj = [self moduleObjectForClickedRow];	
-		} else {
-			modObj = [moduleSelection objectAtIndex:0];
+		
+		// need to check to see if the module being modified is that same as the
+		// module being selected.
+		accessedObj = [self moduleObjectForClickedRow];	
+		if( selectedModuleCount == 1) {
+			selectedObj = [moduleSelection objectAtIndex:0];
 		}
+		
+		modObj = (selectedObj == accessedObj ? selectedObj : accessedObj);
+		
+		// end fix for MACSW-172
 		
 		if(modObj != nil) {
 			
