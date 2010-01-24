@@ -115,7 +115,8 @@
 
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList {
-    
+    MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -refreshModulesList]");
+	
     // prepare the module data for display
     
     // get SwordInstallSourceController
@@ -162,37 +163,51 @@
 	MBLOGV(MBLOG_DEBUG, @"[ModuleListViewController -validateMenuItem:] %@", [menuItem description]);
     
     BOOL ret = NO;
-    
-    // get selected item
-    // get current selected module
-    if([moduleSelection count] == 1) {
-        ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
-        
-        // get menuitem tag
-        int tag = [menuItem tag];
-        
-        // if tag is install
-        if(tag == TaskInstall) {
-            // install should only be active if it is not installed
-            if(([[modObj module] status] & ModStatNew) > 0) {
-                ret = YES;
-            }
-        } else if(tag == TaskRemove) {
-            // remove only if module is installed
-            if(([[modObj module] status] & ModStatNew) == 0) {
-                ret = YES;
-            }
-        } else if(tag == TaskUpdate) {
-            // update only if module is updateable
-            if(([[modObj module] status] & ModStatUpdated) > 0) {
-                ret = YES;
-            }
-        } else if(tag == TaskNone) {
-            return YES;
-        }
-    } else if([moduleSelection count] > 1) {
-        ret = YES;
-    }
+    int selectedModuleCount = [moduleSelection count];
+	
+	//MBLOGV(MBLOG_DEBUG, @"%d module(s) selected", selectedModuleCount);
+	
+	if(selectedModuleCount > 1) {
+		ret = YES;
+	}
+	else {
+		
+		ModuleListObject *modObj = nil;
+		// get current selected module
+		if(selectedModuleCount == 0) {
+			modObj = [self moduleObjectForClickedRow];	
+		} else {
+			modObj = [moduleSelection objectAtIndex:0];
+		}
+		
+		if(modObj != nil) {
+			
+			MBLOGV(MBLOG_DEBUG, @"selected module: %xd", modObj);
+			
+			// get menuitem tag
+			int tag = [menuItem tag];
+			
+			// if tag is install
+			if(tag == TaskInstall) {
+				// install should only be active if it is not installed
+				if(([[modObj module] status] & ModStatNew) > 0) {
+					ret = YES;
+				}
+			} else if(tag == TaskRemove) {
+				// remove only if module is installed
+				if(([[modObj module] status] & ModStatNew) == 0) {
+					ret = YES;
+				}
+			} else if(tag == TaskUpdate) {
+				// update only if module is updateable
+				if(([[modObj module] status] & ModStatUpdated) > 0) {
+					ret = YES;
+				}
+			} else if(tag == TaskNone) {
+				return YES;
+			}
+		}
+    } 
     
     return ret;
 }
