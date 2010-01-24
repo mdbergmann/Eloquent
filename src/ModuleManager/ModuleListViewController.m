@@ -16,12 +16,11 @@
 
 @interface ModuleListViewController (PrivateAPI)
 
-// some setters for convenience
 - (void)setModuleData:(NSMutableArray *)anArray;
 - (void)setModuleSelection:(NSMutableArray *)anArray;
 
-/** get clicked mod object in row */
 - (ModuleListObject *)moduleObjectForClickedRow;
+- (void)updateModuleSelection;
 
 @end
 
@@ -53,6 +52,16 @@
     return ret;
 }
 
+- (void)updateModuleSelection {
+    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
+        ModuleListObject *clicked = [self moduleObjectForClickedRow];
+        if(clicked) {
+            [moduleSelection removeAllObjects];
+            [moduleSelection addObject:clicked];
+        }
+    }    
+}
+
 @end
 
 @implementation ModuleListViewController
@@ -79,15 +88,10 @@
 }
 
 - (id)init {
-
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -init]");
     self = [super init];
     if(self) {
-        // init install source array
         installSources = [[NSArray array] retain];
-        // init module data array
         moduleData = [[NSMutableArray array] retain];
-        // init selection
         moduleSelection = [[NSMutableArray array] retain];
     }
     
@@ -95,7 +99,6 @@
 }
 
 - (void)dealloc {
-
     [self setModuleData:nil];
     [self setModuleSelection:nil];
     [self setInstallSources:nil];
@@ -107,15 +110,11 @@
 //----------- Nib delegates ----------------------------------
 //--------------------------------------------------------------------
 - (void)awakeFromNib {
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -awakeFromNib]");
-    
-    // set menu
     [moduleOutlineView setMenu:moduleMenu];
 }
 
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList {
-    
     // prepare the module data for display
     
     // get SwordInstallSourceController
@@ -152,9 +151,8 @@
     [moduleOutlineView reloadData];
 }
 
-//--------------------------------------------------------------------
-//----------- NSMenu validation --------------------------------
-//--------------------------------------------------------------------
+#pragma mark - Menu validation
+
 /**
  \brief validate menu
  */
@@ -162,59 +160,70 @@
 	MBLOGV(MBLOG_DEBUG, @"[ModuleListViewController -validateMenuItem:] %@", [menuItem description]);
     
     BOOL ret = NO;
-    
-    // get selected item
-    // get current selected module
-    if([moduleSelection count] == 1) {
-        ModuleListObject *modObj = [moduleSelection objectAtIndex:0];
-        
-        // get menuitem tag
-        int tag = [menuItem tag];
-        
-        // if tag is install
-        if(tag == TaskInstall) {
-            // install should only be active if it is not installed
-            if(([[modObj module] status] & ModStatNew) > 0) {
-                ret = YES;
-            }
-        } else if(tag == TaskRemove) {
-            // remove only if module is installed
-            if(([[modObj module] status] & ModStatNew) == 0) {
-                ret = YES;
-            }
-        } else if(tag == TaskUpdate) {
-            // update only if module is updateable
-            if(([[modObj module] status] & ModStatUpdated) > 0) {
-                ret = YES;
-            }
-        } else if(tag == TaskNone) {
-            return YES;
-        }
-    } else if([moduleSelection count] > 1) {
-        ret = YES;
-    }
+    int selectedModuleCount = [moduleSelection count];
+	
+	//MBLOGV(MBLOG_DEBUG, @"%d module(s) selected", selectedModuleCount);
+	
+	if(selectedModuleCount > 1) {
+		ret = YES;
+	}
+	else {
+	
+		// begin fix for MACSW-172 (draymer)
+		ModuleListObject *selectedObj = nil;
+		ModuleListObject *accessedObj = nil;		
+		ModuleListObject *modObj = nil;
+		
+		// need to check to see if the module being modified is that same as the
+		// module being selected.
+		accessedObj = [self moduleObjectForClickedRow];	
+		if(selectedModuleCount == 1) {
+			selectedObj = [moduleSelection objectAtIndex:0];
+		}
+		
+		modObj = (selectedObj == accessedObj ? selectedObj : accessedObj);
+		
+		// end fix for MACSW-172
+		
+		if(modObj != nil) {
+			
+			MBLOGV(MBLOG_DEBUG, @"selected module: %xd", modObj);
+			
+			int tag = [menuItem tag];
+			
+			if(tag == TaskInstall) {
+				// install should only be active if it is not installed
+				if(([[modObj module] status] & ModStatNew) > 0) {
+					ret = YES;
+				}
+			} else if(tag == TaskRemove) {
+				// remove only if module is installed
+				if(([[modObj module] status] & ModStatNew) == 0) {
+					ret = YES;
+				}
+			} else if(tag == TaskUpdate) {
+				// update only if module is updateable
+				if(([[modObj module] status] & ModStatUpdated) > 0) {
+					ret = YES;
+				}
+			} else if(tag == TaskNone) {
+				return YES;
+			}
+		}
+    } 
     
     return ret;
 }
 
+#pragma mark - Actions
+
 // ----------------------- actions -------------------------
 - (IBAction)search:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -search:]");
 }
 
 // -------------------- module actions ---------------------
 - (IBAction)noneTask:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -noneTask:]");
-    
-    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
-        // get current selected module of clicked row
-        ModuleListObject *clicked = [self moduleObjectForClickedRow];
-        if(clicked) {
-            // replace any old selected with the clicked one
-            [moduleSelection removeAllObjects];
-            [moduleSelection addObject:clicked];
-        }
-    }
+    [self updateModuleSelection];
     
     // get current selected module
     if([moduleSelection count] > 0) {
@@ -236,17 +245,7 @@
 }
 
 - (IBAction)installModule:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -installModule:]");
-    
-    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
-        // get current selected module of clicked row
-        ModuleListObject *clicked = [self moduleObjectForClickedRow];
-        if(clicked) {
-            // replace any old selected with the clicked one
-            [moduleSelection removeAllObjects];
-            [moduleSelection addObject:clicked];
-        }
-    }
+    [self updateModuleSelection];
     
     // get current selected module
     if([moduleSelection count] > 0) {
@@ -275,17 +274,7 @@
 }
 
 - (IBAction)removeModule:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -removeModule:]");
-    
-    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
-        // get current selected module of clicked row
-        ModuleListObject *clicked = [self moduleObjectForClickedRow];
-        if(clicked) {
-            // replace any old selected with the clicked one
-            [moduleSelection removeAllObjects];
-            [moduleSelection addObject:clicked];
-        }
-    }
+    [self updateModuleSelection];
     
     // get current selected module
     if([moduleSelection count] > 0) {
@@ -314,17 +303,7 @@
 }
 
 - (IBAction)updateModule:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController -updateModule:]");
-
-    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
-        // get current selected module of clicked row
-        ModuleListObject *clicked = [self moduleObjectForClickedRow];
-        if(clicked) {
-            // replace any old selected with the clicked one
-            [moduleSelection removeAllObjects];
-            [moduleSelection addObject:clicked];
-        }
-    }
+    [self updateModuleSelection];
     
     // get current selected module
     if([moduleSelection count] > 0) {
@@ -352,9 +331,8 @@
     }
 }
 
-//--------------------------------------------------------------------
-//----------- NSTextField notifications ------------------------------
-//--------------------------------------------------------------------
+#pragma mark - Notifications
+
 - (void)controlTextDidChange:(NSNotification *)aNotification {
 
 	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController textDidChange:]");
@@ -391,9 +369,8 @@
     }
 }
 
-//--------------------------------------------------------------------
-//----------- NSOutlineView delegates ---------------------------------------
-//--------------------------------------------------------------------
+#pragma mark - NSOutlineView delegates
+
 /**
  \brief Notification is called when the selection has changed 
  */
