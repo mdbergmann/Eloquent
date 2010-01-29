@@ -33,6 +33,11 @@
 
 - (void)setupToolbar;
 
+- (void)goingToFullScreenMode;
+- (void)goneToFullScreenMode;
+- (void)leavingFullScreenMode;
+- (void)leftFullScreenMode;
+
 @end
 
 @implementation WindowHostController
@@ -829,6 +834,32 @@ typedef enum _NavigationDirectionType {
         return [contentViewController contentViewType];
     }
     return SwordBibleContentType;
+}
+
+#pragma mark - FullScreen stuff
+
+- (void)goingToFullScreenMode {
+    lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
+    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;
+}
+
+- (void)goneToFullScreenMode {
+    lsbWidth = lsbWidthFullScreen;
+    [self showLeftSideBar:[self showingLSB]];
+    rsbWidth = rsbWidthFullScreen;
+    [self showRightSideBar:[self showingRSB]];
+}
+
+- (void)leavingFullScreenMode {
+    lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
+    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;    
+}
+
+- (void)leftFullScreenMode {
+    lsbWidth = lsbWidthFullScreen;
+    [self showLeftSideBar:[self showingLSB]];
+    rsbWidth = rsbWidthFullScreen;
+    [self showRightSideBar:[self showingRSB]];
 }
 
 #pragma mark - NSSplitView delegate methods

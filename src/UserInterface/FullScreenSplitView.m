@@ -11,6 +11,13 @@
 #import "ConfirmationSheetController.h"
 #import "globals.h"
 
+@interface FullScreenSplitView ()
+
+- (void)enterFullScreenMode;
+- (void)exitFullScreenMode;
+
+@end
+
 @implementation FullScreenSplitView
 
 - (BOOL)isFullScreenMode {
@@ -33,10 +40,10 @@
             [conf setDelegate:self];
             [conf beginSheet];
         } else {
-            [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];        
+            [self enterFullScreenMode];
         }
     } else {
-        [self exitFullScreenModeWithOptions:nil];
+        [self exitFullScreenMode];
     }
 }
 
@@ -47,8 +54,28 @@
 - (void)confirmationSheetEnded {
     if(conf) {
         if([conf sheetReturnCode] == SheetDefaultButtonCode) {
-            [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];            
+            [self enterFullScreenMode];
         }
+    }
+}
+
+- (void)enterFullScreenMode {
+    if([self delegate] && [[self delegate] respondsToSelector:@selector(goingToFullScreenMode)]) {
+        [[self delegate] performSelector:@selector(goingToFullScreenMode)];
+    }
+    [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];    
+    if([self delegate] && [[self delegate] respondsToSelector:@selector(goneToFullScreenMode)]) {
+        [[self delegate] performSelector:@selector(goneToFullScreenMode)];
+    }
+}
+
+- (void)exitFullScreenMode {
+    if([self delegate] && [[self delegate] respondsToSelector:@selector(leavingFullScreenMode)]) {
+        [[self delegate] performSelector:@selector(leavingFullScreenMode)];
+    }
+    [self exitFullScreenModeWithOptions:nil];    
+    if([self delegate] && [[self delegate] respondsToSelector:@selector(leftFullScreenMode)]) {
+        [[self delegate] performSelector:@selector(leftFullScreenMode)];
     }
 }
 

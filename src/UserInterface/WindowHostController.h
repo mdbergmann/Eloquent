@@ -64,11 +64,13 @@
     // every host has a left side bar view
     LeftSideBarViewController *lsbViewController;
     float lsbWidth;
+    float lsbWidthFullScreen;
     float defaultLSBWidth;
     
     // every host has a right side bar view
     RightSideBarViewController *rsbViewController;
     float rsbWidth;
+    float rsbWidthFullScreen;
     float defaultRSBWidth;
     
     // navigation segment control
