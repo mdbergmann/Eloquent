@@ -64,33 +64,23 @@
 - (id)initWithDelegate:(id)aDelegate andInitialModule:(SwordBible *)aBible {
     self = [super init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -init] loading nib");
-        
-        // delegate
         self.delegate = aDelegate;
         searchType = ReferenceSearchType;
         progressControl = NO;
         
-        // set default display options
         [self initDefaultModDisplayOptions];
         [self initDefaultDisplayOptions];
         
-        // init bible views array
         self.parBibleViewControllers = [NSMutableArray array];
-        // init misc views array
         self.parMiscViewControllers = [NSMutableArray array];
         
-        // add initial bible view
         [self addNewBibleViewWithModule:aBible];
 
         regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
-        // check error
         if([regex errorCodeOfLastAction] != MBRegexSuccess) {
-            // set error string and return
             MBLOGV(MBLOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
         }
 
-        // load nib
         BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
@@ -101,9 +91,6 @@
 }
 
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -awakeFromNib]");
-    
-    // reset progress started counter
     progressStartedCounter = 0;
         
     [super awakeFromNib];
@@ -111,34 +98,24 @@
     defaultMiscViewHeight = 60;
     [horiSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     
-    // set menu states of display options
     [[displayOptionsMenu itemWithTag:1] setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] intValue]];
     
-    // set vertical parallel splitview
     [parBibleSplitView setVertical:YES];
     [parBibleSplitView setDividerStyle:NSSplitViewDividerStyleThin];
 
-    // set vertical parallel misc splitview
     [parMiscSplitView setVertical:YES];
     [parMiscSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     
-    // add parallel bible split view to main
     [horiSplitView addSubview:parBibleSplitView positioned:NSWindowAbove relativeTo:nil];
-    // if this is the first entry, we need to add the parallel misc view itself
-    //NSSize s = [parMiscSplitView frame].size;
     if([parMiscViewControllers count] > 0) {
         [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
     }
     
-    // if our hosted subviews also have loaded, report that
-    // else, wait until the subviews have loaded and report then
-    // loop over all subview controllers
     BOOL loaded = YES;
     for(HostableViewController *hc in parBibleViewControllers) {
         if(hc.viewLoaded == NO) {
             loaded = NO;
         } else {
-            // add the webview as contentvew to the placeholder
             [parBibleSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
             [self tileSubViews];
         }
@@ -156,7 +133,6 @@
         [self reportLoadingComplete];
     }
 
-    // loading finished
     viewLoaded = YES;
 }
 
@@ -170,7 +146,6 @@
 - (void)setHostingDelegate:(id)aDelegate {
     [super setHostingDelegate:aDelegate];
     
-    // also set it to all sub view controllers
     for(HostableViewController *hc in parBibleViewControllers) {
         [hc setHostingDelegate:hostingDelegate];
     }
@@ -195,16 +170,13 @@
     // after loading this combi view there is only one bibleview, nothing more
     BibleViewController *bvc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
     [bvc setHostingDelegate:delegate];
-    // add to array
     [parBibleViewControllers addObject:bvc];
     [self tileSubViews];
     
-    // tell views to adapt any UI components
     for(HostableViewController *hc in parBibleViewControllers) {
         [hc adaptUIToHost];
     }
     
-    // set search text
     if(hostingDelegate) {
         [bvc displayTextForReference:[(WindowHostController *)hostingDelegate searchText] searchType:searchType];
     }
@@ -227,30 +199,25 @@
     [cvc setHostingDelegate:delegate];
     
     if([parMiscViewControllers count] == 0) {
-        // add pane
         [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];        
     }
     
-    // add to array
     [parMiscViewControllers addObject:cvc];
 
-    // tell views to adapt any UI components
     for(HostableViewController *hc in parMiscViewControllers) {
         [hc adaptUIToHost];
     }
 
-    // set search text
     if(hostingDelegate) {
         [cvc displayTextForReference:[(WindowHostController *)hostingDelegate searchText] searchType:searchType];
     }
 }
 
 - (void)distributeReference:(NSString *)aRef {
-    // loop over all BibleViewControllers and set this reference
     int i = 0;
     for(BibleViewController *bvc in parBibleViewControllers) {
         if(i > 0) {
-            // the first did it which applies to all the others
+            // the first did it. that applies to all the others
             [bvc setPerformProgressCalculation:NO];
         }
         if(customFontSize > 0) {
@@ -265,9 +232,7 @@
         i++;
     }
     
-    // loop over all misc ViewControllers and set this reference
     for(CommentaryViewController *cvc in parMiscViewControllers) {
-        // set reference
         if(customFontSize > 0) {
             [cvc setCustomFontSize:customFontSize];
         }
@@ -366,7 +331,6 @@
 #pragma mark - ModuleProviding
 
 - (SwordModule *)module {
-    // return module from first controller
     if([parBibleViewControllers count] > 0) {
         return [(ModuleViewController *)[parBibleViewControllers objectAtIndex:0] module];
     }
@@ -397,18 +361,14 @@
 #pragma mark - Printing
 
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {
-    // paper size
     NSSize paperSize = [printInfo paperSize];
     
-    // set print size
     NSSize printSize = NSMakeSize(paperSize.width - ([printInfo leftMargin] + [printInfo rightMargin]), 
                                   paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
 
-    // create print view
     NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
 
     if([parBibleViewControllers count] > 0) {
-        // take the first and get the text
         [printView insertText:[[(ModuleViewController *)[parBibleViewControllers objectAtIndex:0] textView] attributedString]];
     }
     
@@ -421,7 +381,6 @@
     BOOL ret = NO;
     
     if([menuItem menu] == modDisplayOptionsMenu) {
-        // we enable an option if one of the modules has this feature
         NSMutableArray *modCs = [NSMutableArray arrayWithArray:parBibleViewControllers];
         [modCs addObjectsFromArray:parMiscViewControllers];
 
@@ -528,7 +487,6 @@
         }
     } else if([menuItem menu] == displayOptionsMenu) {
         if([menuItem action] == @selector(displayOptionShowVerseNumberOnly:)) {
-            // this option is only available with vool
             if([[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue]) {
                 ret = YES;
             }
@@ -536,7 +494,6 @@
             ret = YES;        
         }
     } else {
-        // font menu
         ret = YES;
     }
     
@@ -548,15 +505,11 @@
 - (IBAction)textContextChange:(id)sender {
     [super textContextChange:sender];
 
-    // get selected context
-    int tag = [(NSPopUpButton *)sender selectedTag];
-    
-    // distribute new context
+    int tag = [(NSPopUpButton *)sender selectedTag];    
     for(BibleViewController *bv in parBibleViewControllers) {
         [bv setTextContext:tag];
     }
     
-    // force redisplay
     forceRedisplay = YES;
     [self displayTextForReference:reference];
 }
@@ -871,11 +824,8 @@
 #pragma mark - SubviewHosting
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -contentViewInitFinished:]");
-    // get latest view
     NSView *view = nil;
     
-    // check if this view has completed loading annd also all of the subviews    
     if(viewLoaded) {
         BOOL loaded = YES;
         if([aView isKindOfClass:[BibleViewController class]]) {
@@ -904,7 +854,6 @@
         }
                 
         if(loaded) {
-            // report to super controller
             [self reportLoadingComplete];
         }
     }
@@ -1035,8 +984,6 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController -initWithCoder] loading nib");
-        
         progressControl = NO;
         searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
         

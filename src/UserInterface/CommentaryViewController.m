@@ -18,6 +18,7 @@
 #import "SwordBible.h"
 #import "SwordCommentary.h"
 #import "SwordModuleTextEntry.h"
+#import "SwordSearching.h"
 #import "NSButton+Color.h"
 #import "NSTextView+LookupAdditions.h"
 #import "ModuleListUIController.h"
@@ -378,7 +379,6 @@
     MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -toggleEdit:]");
     
     if(editEnabled == NO) {
-        // make textview editable
         [[(<TextContentProviding>)contentDisplayController textView] setEditable:YES];
         [[(<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:YES];
         [[(<TextContentProviding>)contentDisplayController textView] setAllowsUndo:YES];        
@@ -396,16 +396,12 @@
         // set the delegate back to where it belongs
         [[(<TextContentProviding>)contentDisplayController textView] setDelegate:contentDisplayController];
 
-        // store text
         [self saveCommentaryText];
 		
-		if([module respondsToSelector:@selector(recreateIndex)]) {
-			[module recreateIndex];
-		}
+        [module deleteIndex];
 		
         [editButton setTitle:NSLocalizedString(@"Edit", @"")];
         
-        // force redisplay
         forceRedisplay = YES;
         [self displayTextForReference:reference searchType:searchType];
     }
