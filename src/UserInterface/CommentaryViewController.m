@@ -437,7 +437,11 @@
     if(lineRange.location != NSNotFound) {
         NSDictionary *attrs = [[aTextView attributedString] attributesAtIndex:lineRange.location effectiveRange:nil];    
         if([[attrs allKeys] containsObject:TEXT_VERSE_MARKER]) {
+            [self setStatusText:NSLocalizedString(@"EditingNotAllowedInThisLine", @"")];
             return NO;
+        }
+        else {
+            [self setStatusText:@""];
         }
     }
 
