@@ -6,10 +6,10 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import "SwordTreeEntry.h"
+#import "SwordModuleTreeEntry.h"
 
 
-@implementation SwordTreeEntry
+@implementation SwordModuleTreeEntry
 
 @synthesize key;
 @synthesize content;

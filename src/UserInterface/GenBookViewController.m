@@ -406,7 +406,7 @@
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
 			int len = [selectedRows count];
 			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
-            SwordTreeEntry *item = nil;
+            SwordModuleTreeEntry *item = nil;
 			if(len > 0) {
 				unsigned int indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
@@ -443,10 +443,10 @@
     int count = 0;
 	
 	if(item == nil) {
-        SwordTreeEntry *root = [(SwordBook *)module treeEntryForKey:nil];
+        SwordModuleTreeEntry *root = [(SwordBook *)module treeEntryForKey:nil];
         count = [[root content] count];
 	} else {
-        SwordTreeEntry *treeEntry = (SwordTreeEntry *)item;
+        SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
         count = [[treeEntry content] count];
     }
 	
@@ -455,13 +455,13 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
     
-    SwordTreeEntry *ret = nil;
+    SwordModuleTreeEntry *ret = nil;
     if(item == nil) {
-        SwordTreeEntry *treeEntry = [(SwordBook *)module treeEntryForKey:nil];
+        SwordModuleTreeEntry *treeEntry = [(SwordBook *)module treeEntryForKey:nil];
         NSString *key = [[treeEntry content] objectAtIndex:index];
         ret = [(SwordBook *)module treeEntryForKey:key];
 	} else {
-        SwordTreeEntry *treeEntry = (SwordTreeEntry *)item;
+        SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
         NSString *key = [[treeEntry content] objectAtIndex:index];
         ret = [(SwordBook *)module treeEntryForKey:key];
     }
@@ -470,7 +470,7 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {    
-    SwordTreeEntry *treeEntry = (SwordTreeEntry *)item;    
+    SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;    
     if(treeEntry != nil) {
         return [[treeEntry key] lastPathComponent];
     }
@@ -479,7 +479,7 @@
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {    
-    SwordTreeEntry *treeEntry = (SwordTreeEntry *)item;
+    SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
     return [[treeEntry content] count] > 0;
 }
 

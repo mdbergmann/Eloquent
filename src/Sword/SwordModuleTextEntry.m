@@ -13,7 +13,6 @@
 
 @synthesize key;
 @synthesize text;
-@synthesize preverseHeading;
 
 + (SwordModuleTextEntry *)textEntryForKey:(NSString *)aKey andText:(NSString *)aText {
     return [[[SwordModuleTextEntry alloc] initWithKey:aKey andText:aText] autorelease];
@@ -36,7 +35,6 @@
 - (void)dealloc {
     [self setKey:nil];
     [self setText:nil];
-    [self setPreverseHeading:nil];
     
     [super dealloc];
 }

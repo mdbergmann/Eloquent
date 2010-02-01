@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface SwordTreeEntry : NSObject {
+@interface SwordModuleTreeEntry : NSObject {
     NSString *key;
     NSArray *content;
 }

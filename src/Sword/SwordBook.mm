@@ -13,12 +13,12 @@
 
 #import "SwordBook.h"
 #import "SwordModule.h"
-#import "SwordTreeEntry.h"
+#import "SwordModuleTreeEntry.h"
 #import "utils.h"
 
 @interface SwordBook ()
 
-- (SwordTreeEntry *)_treeEntryForKey:(sword::TreeKeyIdx *)treeKey;
+- (SwordModuleTreeEntry *)_treeEntryForKey:(sword::TreeKeyIdx *)treeKey;
 
 @end
 
@@ -50,8 +50,8 @@
  @param[in]: treekey that we should look for, nil for root
  @return: SwordTreeEntry
  */
-- (SwordTreeEntry *)treeEntryForKey:(NSString *)treeKey {
-    SwordTreeEntry * ret = nil;
+- (SwordModuleTreeEntry *)treeEntryForKey:(NSString *)treeKey {
+    SwordModuleTreeEntry * ret = nil;
     
     if(treeKey == nil) {
         ret = [contents objectForKey:@"root"];
@@ -81,8 +81,8 @@
     return ret;
 }
 
-- (SwordTreeEntry *)_treeEntryForKey:(sword::TreeKeyIdx *)treeKey {
-    SwordTreeEntry *ret = [[SwordTreeEntry alloc] init];    
+- (SwordModuleTreeEntry *)_treeEntryForKey:(sword::TreeKeyIdx *)treeKey {
+    SwordModuleTreeEntry *ret = [[SwordModuleTreeEntry alloc] init];    
     
 	char *treeNodeName = (char *)treeKey->getText();
 	NSString *nname = @"";
@@ -124,7 +124,7 @@
 }
 
 - (void)testLoop {
-    SwordTreeEntry *entry = [self treeEntryForKey:nil];
+    SwordModuleTreeEntry *entry = [self treeEntryForKey:nil];
     if([[entry content] count] > 0) {
         for(NSString *subkey in [entry content]) {
             entry = [self treeEntryForKey:subkey];

@@ -21,7 +21,7 @@
 
 #define GenBookRootKey @"root"
 
-@class SwordModule, SwordManager, SwordTreeEntry;
+@class SwordModule, SwordManager, SwordModuleTreeEntry;
 
 @interface SwordBook : SwordModule {
 	NSMutableDictionary *contents;
@@ -34,7 +34,7 @@
 - (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager;
 #endif
 
-- (SwordTreeEntry *)treeEntryForKey:(NSString *)treeKey;
+- (SwordModuleTreeEntry *)treeEntryForKey:(NSString *)treeKey;
 
 - (void)testLoop;
 

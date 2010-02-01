@@ -276,7 +276,7 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 - (void)indexContents:(NSString *)treeKey intoIndex:(Indexer *)indexer {
     
-    SwordTreeEntry *entry = [(SwordBook *)self treeEntryForKey:treeKey];
+    SwordModuleTreeEntry *entry = [(SwordBook *)self treeEntryForKey:treeKey];
     for(NSString *key in [entry content]) {
         
         // get key

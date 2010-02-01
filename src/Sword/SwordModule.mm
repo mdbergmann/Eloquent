@@ -458,13 +458,6 @@
             } else {
                 MBLOG(MBLOG_ERR, @"[SwordModule -textEntryForKey::] nil key");
             }
-            
-            if([swManager globalOption:SW_OPTION_HEADINGS] && [self hasFeature:SWMOD_FEATURE_HEADINGS]) {
-                NSString *preverseHeading = [self entryAttributeValuePreverse];
-                if(preverseHeading && [preverseHeading length] > 0) {
-                    [ret setPreverseHeading:preverseHeading];
-                }
-            }
         }
     }
     

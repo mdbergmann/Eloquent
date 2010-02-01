@@ -83,7 +83,7 @@
 		A95D5274105D49D400FE9A24 /* SwordBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940B0DF9B149006B7361 /* SwordBook.mm */; };
 		A95D5275105D49D400FE9A24 /* SwordCommentary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.mm */; };
 		A95D5276105D49D400FE9A24 /* SwordDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940F0DF9B149006B7361 /* SwordDictionary.mm */; };
-		A95D5279105D49E700FE9A24 /* SwordTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */; };
+		A95D5279105D49E700FE9A24 /* SwordModuleTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */; };
 		A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
 		A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
 		A96103BC10B03B70007A9371 /* NotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A96103BB10B03B70007A9371 /* NotesManager.m */; };
@@ -92,6 +92,7 @@
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
 		A9698C001000CAB30024CC6B /* osis2mod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9698BFF1000CAB30024CC6B /* osis2mod.cpp */; };
+		A96CE68011175DEC003D66D0 /* SwordBibleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A96CE67F11175DEC003D66D0 /* SwordBibleTextEntry.m */; };
 		A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
@@ -154,7 +155,7 @@
 		A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */; };
 		A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */; };
 		A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D9F52C0EAF17890035222E /* SenTestingKit.framework */; };
-		A9DA0B390E67F4600018ADE1 /* SwordTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */; };
+		A9DA0B390E67F4600018ADE1 /* SwordModuleTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */; };
 		A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */; };
 		A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DCB0D30E9F252C004169EB /* GenBookView.xib */; };
 		A9DFBC400EF6ECF30061BE19 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DFBC3E0EF6ECF30061BE19 /* Preferences.xib */; };
@@ -347,6 +348,8 @@
 		A96516620E06D3DA0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
 		A9698BF91000CA790024CC6B /* Osis2Mod */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Osis2Mod; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9698BFF1000CAB30024CC6B /* osis2mod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = osis2mod.cpp; path = "sword_mac_build/sword-trunk/utilities/osis2mod.cpp"; sourceTree = "<group>"; };
+		A96CE67E11175DEC003D66D0 /* SwordBibleTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBibleTextEntry.h; sourceTree = "<group>"; };
+		A96CE67F11175DEC003D66D0 /* SwordBibleTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordBibleTextEntry.m; sourceTree = "<group>"; };
 		A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextView+LookupAdditions.h"; path = "src/UserInterface/NSTextView+LookupAdditions.h"; sourceTree = "<group>"; };
 		A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+LookupAdditions.m"; path = "src/UserInterface/NSTextView+LookupAdditions.m"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
@@ -433,8 +436,8 @@
 		A9D9F5270EAF156D0035222E /* BookmarkManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManagerTest.h; path = test/BookmarkManagerTest.h; sourceTree = "<group>"; };
 		A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManagerTest.m; path = test/BookmarkManagerTest.m; sourceTree = "<group>"; };
 		A9D9F52C0EAF17890035222E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		A9DA0B370E67F4600018ADE1 /* SwordTreeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordTreeEntry.h; sourceTree = "<group>"; };
-		A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordTreeEntry.m; sourceTree = "<group>"; };
+		A9DA0B370E67F4600018ADE1 /* SwordModuleTreeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModuleTreeEntry.h; sourceTree = "<group>"; };
+		A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModuleTreeEntry.m; sourceTree = "<group>"; };
 		A9DC14E40E0AA83D00E3F944 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ExtTextView.xib; sourceTree = "<group>"; };
 		A9DCB0D40E9F252C004169EB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GenBookView.xib; sourceTree = "<group>"; };
 		A9DFBC3F0EF6ECF30061BE19 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
@@ -771,10 +774,12 @@
 				A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */,
 				A91C94180DF9B149006B7361 /* SwordSearching.h */,
 				A91C94190DF9B149006B7361 /* SwordSearching.mm */,
-				A9DA0B370E67F4600018ADE1 /* SwordTreeEntry.h */,
-				A9DA0B380E67F4600018ADE1 /* SwordTreeEntry.m */,
+				A9DA0B370E67F4600018ADE1 /* SwordModuleTreeEntry.h */,
+				A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */,
 				A9FCB0B01078193B000A5871 /* SwordModuleTextEntry.h */,
 				A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */,
+				A96CE67E11175DEC003D66D0 /* SwordBibleTextEntry.h */,
+				A96CE67F11175DEC003D66D0 /* SwordBibleTextEntry.m */,
 				A9CC334F0EB0699900810821 /* SwordModCategory.h */,
 				A9CC33500EB0699900810821 /* SwordModCategory.m */,
 				A9C5D29110DAEF5E006893E2 /* SwordKey.h */,
@@ -1250,7 +1255,7 @@
 				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
 				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,
 				A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */,
-				A9DA0B390E67F4600018ADE1 /* SwordTreeEntry.m in Sources */,
+				A9DA0B390E67F4600018ADE1 /* SwordModuleTreeEntry.m in Sources */,
 				A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */,
 				A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */,
 				A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */,
@@ -1302,6 +1307,7 @@
 				A9CFAE0B10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */,
 				A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
 				A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */,
+				A96CE68011175DEC003D66D0 /* SwordBibleTextEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1317,7 +1323,7 @@
 				A95D5274105D49D400FE9A24 /* SwordBook.mm in Sources */,
 				A95D5275105D49D400FE9A24 /* SwordCommentary.mm in Sources */,
 				A95D5276105D49D400FE9A24 /* SwordDictionary.mm in Sources */,
-				A95D5279105D49E700FE9A24 /* SwordTreeEntry.m in Sources */,
+				A95D5279105D49E700FE9A24 /* SwordModuleTreeEntry.m in Sources */,
 				A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */,
 				A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */,
 				A99A76D810B2ABB9002EFD30 /* FileItemTest.m in Sources */,

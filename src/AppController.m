@@ -15,7 +15,7 @@
 #import "BookmarkManager.h"
 #import "HUDPreviewController.h"
 #import "SwordBook.h"
-#import "SwordTreeEntry.h"
+#import "SwordModuleTreeEntry.h"
 #import "FileRepresentation.h"
 #import "NotesManager.h"
 

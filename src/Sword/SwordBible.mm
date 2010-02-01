@@ -15,9 +15,12 @@
 #import "MBPreferenceController.h"
 #import "globals.h"
 #import "utils.h"
+#import "SwordModule.h"
+#import "SwordManager.h"
 #import "SwordBibleBook.h"
 #import "SwordListKey.h"
 #import "SwordModuleTextEntry.h"
+#import "SwordBibleTextEntry.h"
 #import "SwordVerseKey.h"
 #import "SwordListKey.h"
 
@@ -318,6 +321,24 @@ NSLock *bibleLock = nil;
     return ret;    
 }
 
+- (SwordBibleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType {
+    SwordBibleTextEntry *ret = nil;
+    
+    SwordModuleTextEntry *modTextEntry = [super textEntryForKey:aKey textType:aType];
+    if(modTextEntry) {
+        ret = [SwordBibleTextEntry textEntryForKey:[modTextEntry key] andText:[modTextEntry text]];
+        
+        if([swManager globalOption:SW_OPTION_HEADINGS] && [self hasFeature:SWMOD_FEATURE_HEADINGS]) {
+            NSString *preverseHeading = [self entryAttributeValuePreverse];
+            if(preverseHeading && [preverseHeading length] > 0) {
+                [ret setPreverseHeading:preverseHeading];
+            }
+        }        
+    }
+    
+    return ret;
+}
+
 #pragma mark - SwordModuleAccess
 
 - (long)entryCount {
@@ -361,14 +382,14 @@ NSLock *bibleLock = nil;
             long highVerse = lowVerse + (context * 2);
             for(;lowVerse <= highVerse;lowVerse++) {
                 [vk setVerse:lowVerse];
-                SwordModuleTextEntry *entry = [self textEntryForKey:vk textType:textType];
+                SwordBibleTextEntry *entry = [self textEntryForKey:vk textType:textType];
                 if(entry) {
                     [ret addObject:entry];        
                 }
                 [vk increment];
             }
         } else {
-            SwordModuleTextEntry *entry = [self textEntryForKey:vk textType:textType];
+            SwordBibleTextEntry *entry = [self textEntryForKey:vk textType:textType];
             if(entry) {
                 [ret addObject:entry];
             }            

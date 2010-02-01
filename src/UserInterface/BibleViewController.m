@@ -34,6 +34,7 @@
 #import "IndexingManager.h"
 #import "ModuleListUIController.h"
 #import "SwordModuleTextEntry.h"
+#import "SwordBibleTextEntry.h"
 
 @interface BibleViewController ()
 
@@ -377,14 +378,14 @@
     NSMutableString *htmlString = [NSMutableString string];
     lastChapter = -1;
     lastBook = -1;
-    for(SwordModuleTextEntry *entry in verseData) {
+    for(SwordBibleTextEntry *entry in verseData) {
         [self applyBookmarkHighlightingOnTextEntry:entry];
         [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
     }
     return htmlString;
 }
 
-- (void)applyBookmarkHighlightingOnTextEntry:(SwordModuleTextEntry *)anEntry {
+- (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry {
     BOOL isHighlightBookmarks = [[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue];
     if(isHighlightBookmarks) {
         Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:[anEntry key] versification:[module versification]]];
@@ -406,7 +407,7 @@
     }
 }
 
-- (void)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString {
+- (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString {
     NSString *bookName = @"";
     int book = -1;
     int chapter = -1;

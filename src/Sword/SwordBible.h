@@ -14,7 +14,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SwordModule.h"
 
-@class SwordManager, SwordBibleBook, SwordModuleTextEntry;
+@class SwordManager, SwordBibleBook, SwordModuleTextEntry, SwordBibleTextEntry;
 
 typedef enum {
 	OldTestament = 1,
@@ -56,6 +56,8 @@ typedef enum {
 - (int)chaptersForBookName:(NSString *)bookName;
 - (int)versesForChapter:(int)chapter bookName:(NSString *)bookName;
 - (int)versesForBible;
+
+- (SwordBibleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType;
 
 - (NSArray *)strippedTextEntriesForRef:(NSString *)reference context:(int)context;
 - (NSArray *)renderedTextEntriesForRef:(NSString *)reference context:(int)context;
