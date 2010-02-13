@@ -80,8 +80,8 @@ typedef enum _NavigationDirectionType {
 
 - (void)awakeFromNib {
     // set default widths for sbs
-    defaultLSBWidth = 250;
-    defaultRSBWidth = 200;
+    defaultLSBWidth = [[userDefaults objectForKey:DefaultsLSBWidth] intValue];
+    defaultRSBWidth = [[userDefaults objectForKey:DefaultsRSBWidth] intValue];
     
     // set main split vertical
     [mainSplitView setVertical:YES];
@@ -937,13 +937,14 @@ typedef enum _NavigationDirectionType {
         NSSplitView *sv = [aNotification object];
         if(sv == mainSplitView) {
             NSSize s = [[lsbViewController view] frame].size;
-            if(s.width > 10) {
-                //MBLOGV(MBLOG_DEBUG, @"left width: %f", s.width);
-            }            
+            if(s.width > 20) {
+                [userDefaults setInteger:s.width forKey:DefaultsLSBWidth];
+            }
         } else if(sv == contentSplitView) {
             NSSize s = [[rsbViewController view] frame].size;
             if(s.width > 10) {
                 rsbWidth = s.width;
+                [userDefaults setInteger:rsbWidth forKey:DefaultsRSBWidth];
             }
         }        
     }

@@ -56,6 +56,8 @@
 // UI defaults
 #define DefaultsShowLSB                             @"DefaultsShowLSB"
 #define DefaultsShowRSB                             @"DefaultsShowRSB"
+#define DefaultsLSBWidth                            @"DefaultsLSBWidth"
+#define DefaultsRSBWidth                            @"DefaultsRSBWidth"
 #define DefaultsShowHUDPreview                      @"DefaultsShowHUDPreview"
 #define DefaultsShowPreviewToolTip                  @"DefaultsShowPreviewToolTip"
 

@@ -110,6 +110,8 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     // UI defaults
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSB];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSB];
+    [defaultsDict setObject:[NSNumber numberWithInt:250] forKey:DefaultsLSBWidth];
+    [defaultsDict setObject:[NSNumber numberWithInt:150] forKey:DefaultsRSBWidth];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowPreviewToolTip];
     

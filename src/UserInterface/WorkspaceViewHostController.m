@@ -33,6 +33,7 @@
 @property (retain, readwrite) NSMutableArray *searchTextObjs;
 
 - (NSString *)tabViewItemLabelForText:(NSString *)aText;
+- (NSString *)computeTabTitleForTabIndex:(int)index;
 
 @end
 
@@ -192,13 +193,23 @@
 }
 
 - (NSString *)computeTabTitle {
+    return [self computeTabTitleForTabIndex:-1];
+}
+
+- (NSString *)computeTabTitleForTabIndex:(int)index {
     NSMutableString *ret = [NSMutableString string];
     
     if(contentViewController != nil) {
         if([contentViewController isSwordModuleContentType]) {
             SwordModule *mod = [(ModuleViewController *)contentViewController module];
             if(mod != nil) {
-                [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
+                SearchTextObject *sto = nil;
+                if(index == -1) {
+                    sto = currentSearchText;
+                } else {
+                    sto = [searchTextObjs objectAtIndex:index];
+                }
+                [ret appendFormat:@"%@ - %@", [mod name], [sto searchTextForType:[self searchType]]];                    
             }            
         } else if([contentViewController isNoteContentType]) {
             [ret appendString:[(NotesViewController *)contentViewController label]];
@@ -501,7 +512,7 @@
             contentViewController = vc;
             if([vc viewLoaded]) {
                 NSTabViewItem *item = [[tabView tabViewItems] objectAtIndex:i];
-                [item setLabel:[self computeTabTitle]];
+                [item setLabel:[self computeTabTitleForTabIndex:i]];
             }
         }        
     }
