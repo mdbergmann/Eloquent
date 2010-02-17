@@ -66,6 +66,8 @@
 		A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */; };
 		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
 		A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
+		A934532E11293A1700137AB6 /* ToolbarGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A934532D11293A1700137AB6 /* ToolbarGradient.png */; };
+		A934533E11293A8200137AB6 /* BarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A934533D11293A8200137AB6 /* BarView.m */; };
 		A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
@@ -319,6 +321,9 @@
 		A9333AE40F6699A70001BD38 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProgressOverlayView.xib; sourceTree = "<group>"; };
 		A9333B5B0F66CEC90001BD38 /* ProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayView.h; path = src/ProgressOverlayView/ProgressOverlayView.h; sourceTree = "<group>"; };
 		A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayView.m; path = src/ProgressOverlayView/ProgressOverlayView.m; sourceTree = "<group>"; };
+		A934532D11293A1700137AB6 /* ToolbarGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarGradient.png; sourceTree = "<group>"; };
+		A934533C11293A8200137AB6 /* BarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BarView.h; path = src/UserInterface/BarView.h; sourceTree = "<group>"; };
+		A934533D11293A8200137AB6 /* BarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BarView.m; path = src/UserInterface/BarView.m; sourceTree = "<group>"; };
 		A937B0B40F8F9B2100948406 /* SwordListKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordListKey.h; sourceTree = "<group>"; };
 		A937B0B50F8F9B2100948406 /* SwordListKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordListKey.mm; sourceTree = "<group>"; };
 		A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordListKeyTest.h; path = test/SwordListKeyTest.h; sourceTree = "<group>"; };
@@ -670,6 +675,7 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A934532D11293A1700137AB6 /* ToolbarGradient.png */,
 				A908988E10C3C8BD0043465F /* edit_small.png */,
 				A908984510C3BF1D0043465F /* Drawer.png */,
 				A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */,
@@ -978,6 +984,8 @@
 		A9E820FE0E0B95900020A64E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A934533C11293A8200137AB6 /* BarView.h */,
+				A934533D11293A8200137AB6 /* BarView.m */,
 				A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */,
 				A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */,
 				A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */,
@@ -1173,6 +1181,7 @@
 				A99A774B10B33DE5002EFD30 /* NotesView.xib in Resources */,
 				A908984610C3BF1D0043465F /* Drawer.png in Resources */,
 				A908988F10C3C8BD0043465F /* edit_small.png in Resources */,
+				A934532E11293A1700137AB6 /* ToolbarGradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1210,7 +1219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/local/bin/macruby;
-			shellScript = "require 'HotCocoa'\n\n# the prefix is incremented for every minor/major version number increment\n# the actual number begins at 1\nprefix = \"a\"\n\nbuildstring = File.new(\"buildnumber\", \"r\").gets\nsplitnum = buildstring.split(prefix)\nnumber = splitnum[splitnum.length-1].to_i\nnumber += 1\nbuildnumber = prefix + number.to_s\nFile.new(\"buildnumber\", \"w+\").write(buildnumber)\n";
+			shellScript = "require 'rubygems'\nrequire 'hotcocoa'\n\n# the prefix is incremented for every minor/major version number increment\n# the actual number begins at 1\nprefix = \"a\"\n\nbuildstring = File.new(\"buildnumber\", \"r\").gets\nsplitnum = buildstring.split(prefix)\nnumber = splitnum[splitnum.length-1].to_i\nnumber += 1\nbuildnumber = prefix + number.to_s\nFile.new(\"buildnumber\", \"w+\").write(buildnumber)\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1308,6 +1317,7 @@
 				A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
 				A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */,
 				A96CE68011175DEC003D66D0 /* SwordBibleTextEntry.m in Sources */,
+				A934533E11293A8200137AB6 /* BarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

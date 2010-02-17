@@ -153,7 +153,8 @@ using std::list;
     if([scheme isEqualToString:@"sword"]) {
         // in this case host is the module and path the reference
         [ret setObject:[aURL host] forKey:ATTRTYPE_MODULE];
-        [ret setObject:[[[aURL path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"/" withString:@""]
+        [ret setObject:[[[aURL path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] 
+                        stringByReplacingOccurrencesOfString:@"/" withString:@""]
                 forKey:ATTRTYPE_VALUE];
         [ret setObject:@"scriptRef" forKey:ATTRTYPE_TYPE];
         [ret setObject:@"showRef" forKey:ATTRTYPE_ACTION];
