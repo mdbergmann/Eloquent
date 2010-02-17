@@ -135,6 +135,10 @@
     [self textChanged:[NSNotification notificationWithName:@"TextChangedNotification" object:textView]];
 }
 
+- (void)setString:(NSString *)aString {
+    [textView setString:aString]; 
+}
+
 - (void)textChanged:(NSNotification *)aNotification {
     [saveButton setEnabled:YES];
 }
