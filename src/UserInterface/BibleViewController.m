@@ -50,11 +50,8 @@
 - (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)aAttrString;
 - (void)applyWritingDirectionOnText:(NSMutableAttributedString *)anAttrString;
 
-- (BOOL)hasValidCacheObject;
-- (void)handleDisplayCached;
 - (void)checkPerformProgressCalculation;
-- (void)notifyUserAndCreateIndex;
-- (void)performThreadedSearch;
+- (void)updateContentCache;
 
 @end
 
@@ -593,52 +590,6 @@
 
 #pragma mark - TextDisplayable
 
-- (void)displayTextForReference:(NSString *)aReference {
-    [self displayTextForReference:aReference searchType:searchType];
-}
-
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
-    
-    searchType = aType;
-    
-    if(aReference == nil || module == nil) {
-        return;
-    }
-    
-    if([aReference length] == 0) {
-        [self setStatusText:@""];
-        [self setString:@""];
-        return;
-    }
-
-    self.reference = aReference;
-    if(![self hasValidCacheObject] || forceRedisplay) {
-        if(searchType == ReferenceSearchType) {
-            [self checkPerformProgressCalculation];
-            [self setGlobalOptionsFromModOptions];
-            [contentCache setReference:reference];
-            [contentCache setContent:[module renderedTextEntriesForRef:reference]];
-        } else if(searchType == IndexSearchType) {
-            [searchContentCache setReference:reference];
-            if(![module hasIndex]) {
-                [self notifyUserAndCreateIndex];
-            } else {
-                [self performThreadedSearch];
-            }
-        }        
-    }
-    
-    forceRedisplay = NO;
-    
-    [self handleDisplayCached];
-
-    if(aType == ReferenceSearchType) {
-        // stop indicating progress
-        // Indexing is ended in searchOperationFinished:
-        [self endIndicateProgress];            
-    }    
-}
-
 - (BOOL)hasValidCacheObject {
     if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:reference]) ||
        (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference])) {
@@ -647,21 +598,9 @@
     return NO;
 }
 
-- (void)handleDisplayCached {
-    int length = 0;
-    NSAttributedString *displayText = nil;
-    if(searchType == ReferenceSearchType) {
-        displayText = [self displayableHTMLForReferenceLookup];
-        length = [(NSArray *)[contentCache content] count];
-    } else {
-        displayText = [self displayableHTMLForIndexedSearch];
-        length = [(NSArray *)[searchContentCache content] count];
-    }
-    
-    if(displayText) {
-        [self setAttributedString:displayText];
-    }
-    [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
+- (void)handleDisplayForReference {
+    [self checkPerformProgressCalculation];
+    [self updateContentCache];    
 }
 
 - (void)checkPerformProgressCalculation {
@@ -676,10 +615,15 @@
         }
         performProgressCalculation = YES;   // next time we do
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...done");
-    }    
+    }
 }
 
-- (void)notifyUserAndCreateIndex {
+- (void)updateContentCache {
+    [contentCache setReference:reference];
+    [contentCache setContent:[module renderedTextEntriesForRef:reference]];    
+}
+
+- (void)handleDisplayIndexedNoHasIndex {
     // let the user confirm to create the index now
     NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
@@ -695,8 +639,8 @@
     
     [module createIndexThreadedWithDelegate:self];    
 }
-          
-- (void)performThreadedSearch {
+
+- (void)handleDisplayIndexedPerformSearch {
     // show progress indicator
     // progress indicator is stopped in the delegate methods of either indexing or searching
     [self beginIndicateProgress];
@@ -709,6 +653,30 @@
     } else {
         [indexer performThreadedSearchOperation:reference constrains:bookSet maxResults:maxResults delegate:self];
     }    
+}
+
+- (void)handleDisplayCached {
+    NSAttributedString *displayText = nil;
+    if(searchType == ReferenceSearchType) {
+        displayText = [self displayableHTMLForReferenceLookup];
+    } else {
+        displayText = [self displayableHTMLForIndexedSearch];
+    }
+    
+    if(displayText) {
+        [self setAttributedString:displayText];
+    }
+}
+
+- (void)handleDisplayStatusText {
+    int length = 0;
+    if(searchType == ReferenceSearchType) {
+        length = [(NSArray *)[contentCache content] count];
+    } else {
+        length = [(NSArray *)[searchContentCache content] count];
+    }
+    
+    [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
 }
 
 #pragma mark - AccessoryViewProviding

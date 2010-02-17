@@ -36,8 +36,6 @@
 - (id)initWithDelegate:(id)aDelegate;
 
 // ---------- methods --------------
-- (void)setStatusText:(NSString *)aText;
-
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
 

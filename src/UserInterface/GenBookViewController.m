@@ -25,8 +25,6 @@
 
 @property (retain, readwrite) NSMutableArray *selection;
 
-/** generates HTML for display */
-- (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray;
 @end
 
 @implementation GenBookViewController
@@ -139,21 +137,10 @@
     return @"GenBookView";
 }
 
-- (void)setStatusText:(NSString *)aText {
-    [statusLine setStringValue:aText];
-}
-
-- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
+- (NSAttributedString *)displayableHTMLForIndexedSearch {
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
-    // create out own SortDescriptors according to whome we sort
-    NSArray *sortDescriptors = [NSArray arrayWithObject:
-                                [[NSSortDescriptor alloc] initWithKey:@"documentName" 
-                                                            ascending:YES 
-                                                             selector:@selector(caseInsensitiveCompare:)]];
-    NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
-    // set number of search results for output
-    *results = [sortedSearchResults count];
+    NSArray *sortedSearchResults = (NSArray *)[searchContentCache content];
     if(sortedSearchResults) {
         // strip searchQuery
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
@@ -169,7 +156,7 @@
         NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
         NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
         // strip binary search tokens
-        searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
+        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
         // build search string
         for(SearchResultEntry *entry in sortedSearchResults) {
             NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
@@ -195,17 +182,11 @@
     return ret;
 }
 
-- (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray {
+- (NSAttributedString *)displayableHTMLForReferenceLookup {
     NSMutableAttributedString *ret = nil;
     
-    // set global display options
-    for(NSString *key in modDisplayOptions) {
-        NSString *val = [modDisplayOptions objectForKey:key];
-        [[SwordManager defaultManager] setGlobalOption:key value:val];
-    }
-    
-    // generate html string for verses
     NSMutableString *htmlString = [NSMutableString string];
+    NSArray *keyArray = (NSArray *)[contentCache content];
     for(NSString *key in keyArray) {
         NSArray *result = [self.module renderedTextEntriesForRef:key];
         NSString *text = @"";
@@ -266,72 +247,23 @@
     searchType = IndexSearchType;
 }
 
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
-    
-    searchType = aType;
-    
-    // in case the this method is called with nil reference, try taking the old one first
-    // this is esspecially needed for view search
-    if(aReference == nil) {
-        aReference = self.reference;
+- (BOOL)hasValidCacheObject {
+    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference]) {
+        return YES;
     }
     
-    if(aReference != nil) {
-        self.reference = aReference;
-        
-        if(self.module != nil) {
-            NSString *statusText = @"";
-            
-            if(searchType == ReferenceSearchType) {
+    return NO;
+}
 
-                // re-display
-                NSAttributedString *string = [self displayableHTMLForKeys:self.selection];
-                [(<TextContentProviding>)contentDisplayController setAttributedString:string];
+- (void)handleDisplayForReference {
+    [contentCache setReference:reference];
+    [contentCache setContent:selection];
+    
+    [entriesOutlineView reloadData];
+}
 
-                // refresh outlineview
-                [entriesOutlineView reloadData];
-            } else if(searchType == IndexSearchType) {
-                // search in index
-                if(![module hasIndex]) {
-                    // let the user know that we're creating the index now
-                    NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
-                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                                     defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
-                                         informativeTextWithFormat:info];
-                    [alert runModal];
-                    
-                    // show progress indicator
-                    // progress indicator is stopped in the delegate methods of either indexing or searching
-                    [self beginIndicateProgress];
-
-                    // create index first if not exists
-                    [module createIndexThreadedWithDelegate:self];
-                } else {
-                    // show progress indicator
-                    // progress indicator is stopped in the delegate methods of either indexing or searching
-                    [self beginIndicateProgress];
-
-                    // now search
-                    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
-                    if(indexer == nil) {
-                        MBLOG(MBLOG_ERR, @"[GenBookViewController -displayTextForReference::] Could not get indexer for searching!");
-                    } else {
-                        [indexer performThreadedSearchOperation:aReference constrains:nil maxResults:10000 delegate:self];
-                    }                    
-                }
-            }
-            
-            // set status
-            [self setStatusText:statusText];
-            
-            if(aType == ReferenceSearchType) {
-                // stop indicating progress
-                [self endIndicateProgress];            
-            }
-        } else {
-            MBLOG(MBLOG_WARN, @"[GenBookViewController -displayTextForReference:] no module set!");
-        }
-    }
+- (void)handleDisplayStatusText {
+    [self setStatusText:@""];
 }
 
 #pragma mark - AccessoryViewProviding protocol
@@ -374,21 +306,14 @@
 #pragma mark - Actions
 
 - (IBAction)moduleSelectionChanged:(id)sender {
-    // get selected modulename
     NSString *name = [(NSMenuItem *)sender title];
-    // if different module, then change
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
-        // get new module
         self.module = [[SwordManager defaultManager] moduleWithName:name];
         
-        // clear selection
         [selection removeAllObjects];
-        // reload tableview
         [entriesOutlineView reloadData];
         
-        // set selection
         if((self.reference != nil) && ([self.reference length] > 0)) {
-            // redisplay text
             [self displayTextForReference:self.reference searchType:searchType];
         }        
     }
@@ -413,8 +338,6 @@
 				
 				for(int i = 0;i < len;i++) {
                     item = [oview itemAtRow:indexes[i]];
-                    
-                    // add to array
                     [sel addObject:[item key]];
 				}
             }

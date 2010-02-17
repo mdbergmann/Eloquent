@@ -17,7 +17,7 @@
 
 @class SwordModule, CacheObject;
 
-@interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextContentProviding> {
+@interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextContentProviding, TextDisplayable> {
     IBOutlet NSBox *placeHolderView;
     
     CacheObject *searchContentCache;
@@ -34,6 +34,16 @@
 
 // ---------- methods ---------
 - (NSAttributedString *)displayableHTMLForIndexedSearch;
+- (NSAttributedString *)displayableHTMLForReferenceLookup;
+
+// helper methods for text display/index creation/search result display
+// methods maybe overriden to customize handling for subclasses
+- (BOOL)hasValidCacheObject;
+- (void)handleDisplayForReference;
+- (void)handleDisplayIndexedNoHasIndex;
+- (void)handleDisplayIndexedPerformSearch;
+- (void)handleDisplayCached;
+- (void)handleDisplayStatusText;
 
 /**
  populates the modules menu

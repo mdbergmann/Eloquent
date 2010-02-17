@@ -21,11 +21,13 @@
 #import "ReferenceCacheObject.h"
 #import "NSTextView+LookupAdditions.h"
 #import "CacheObject.h"
+#import "SwordSearching.h"
 
 @interface ModuleViewController () 
 
 /** notification, called when modules have changed */
 - (void)modulesListChanged:(NSNotification *)aNotification;
+- (void)updateContentCache;
 
 @end
 
@@ -99,6 +101,10 @@
     return nil;
 }
 
+- (NSAttributedString *)displayableHTMLForReferenceLookup {
+    return nil;
+}
+
 #pragma mark - Indexer delegate method
 
 - (void)searchOperationFinished:(NSArray *)results {
@@ -116,7 +122,7 @@
                                                                  selector:@selector(caseInsensitiveCompare:)]];
         [searchContentCache setContent:[results sortedArrayUsingDescriptors:sortDescriptors]];
         text = [self displayableHTMLForIndexedSearch];        
-        [self setStatusText:[NSString stringWithFormat:@"Found %i verses", resultsCount]];
+        [self setStatusText:[NSString stringWithFormat:@"Found %i results", resultsCount]];
     }
     
     if(text) {
@@ -169,6 +175,122 @@
     [printView insertText:[[self textView] attributedString]];
     
     return printView;
+}
+
+#pragma mark - TextDisplayable
+
+- (void)displayTextForReference:(NSString *)aReference {
+    [self displayTextForReference:aReference searchType:searchType];
+}
+
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {    
+    searchType = aType;
+    
+    if(aReference == nil || module == nil) {
+        return;
+    }    
+    if([aReference length] == 0) {
+        [self setStatusText:@""];
+        [self setString:@""];
+    }
+    
+    self.reference = aReference;
+    if(![self hasValidCacheObject] || forceRedisplay) {
+        if(searchType == ReferenceSearchType) {
+            [self setGlobalOptionsFromModOptions];
+            [self handleDisplayForReference];
+        } else if(searchType == IndexSearchType) {
+            [searchContentCache setReference:reference];
+            if(![module hasIndex]) {
+                [self handleDisplayIndexedNoHasIndex];
+            } else {
+                [self handleDisplayIndexedPerformSearch];
+            }
+        }        
+    }
+    
+    forceRedisplay = NO;
+    
+    [self handleDisplayCached];
+    [self handleDisplayStatusText];
+    
+    if(aType == ReferenceSearchType) {
+        // stop indicating progress
+        // Indexing is ended in searchOperationFinished:
+        [self endIndicateProgress];            
+    }    
+}
+
+- (BOOL)hasValidCacheObject {
+    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:reference]) ||
+       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference])) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)handleDisplayForReference {
+    [self updateContentCache];    
+}
+
+- (void)updateContentCache {
+    [contentCache setReference:reference];
+    [contentCache setContent:[module renderedTextEntriesForRef:reference]];    
+}
+
+- (void)handleDisplayIndexedNoHasIndex {
+    // let the user confirm to create the index now
+    NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                     defaultButton:NSLocalizedString(@"OK", @"") 
+                                   alternateButton:nil 
+                                       otherButton:nil 
+                         informativeTextWithFormat:info];
+    [alert runModal];
+    
+    // show progress indicator
+    // progress indicator is stopped in the delegate methods of either indexing or searching
+    [self beginIndicateProgress];
+    
+    [module createIndexThreadedWithDelegate:self];    
+}
+
+- (void)handleDisplayIndexedPerformSearch {
+    // show progress indicator
+    // progress indicator is stopped in the delegate methods of either indexing or searching
+    [self beginIndicateProgress];
+    
+    long maxResults = 10000;
+    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+    if(indexer == nil) {
+        MBLOG(MBLOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
+    } else {
+        [indexer performThreadedSearchOperation:reference constrains:nil maxResults:maxResults delegate:self];
+    }    
+}
+
+- (void)handleDisplayCached {
+    NSAttributedString *displayText = nil;
+    if(searchType == ReferenceSearchType) {
+        displayText = [self displayableHTMLForReferenceLookup];
+    } else {
+        displayText = [self displayableHTMLForIndexedSearch];
+    }
+    
+    if(displayText) {
+        [self setAttributedString:displayText];
+    }
+}
+
+- (void)handleDisplayStatusText {
+    int length = 0;
+    if(searchType == ReferenceSearchType) {
+        length = [(NSArray *)[contentCache content] count];
+    } else {
+        length = [(NSArray *)[searchContentCache content] count];
+    }
+    
+    [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
 }
 
 #pragma mark - Hostable delegate methods

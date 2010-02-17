@@ -26,8 +26,6 @@
 @property (retain, readwrite) NSMutableArray *selection;
 @property (retain, readwrite) NSArray *dictKeys;
 
-/** generates HTML for display */
-- (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray;
 @end
 
 @implementation DictionaryViewController
@@ -138,17 +136,18 @@
     [statusLine setStringValue:aText];
 }
 
-- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
+- (NSString *)label {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"DictView";
+}
+
+- (NSAttributedString *)displayableHTMLForIndexedSearch {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
-    // create out own SortDescriptors according to whome we sort
-    NSArray *sortDescriptors = [NSArray arrayWithObject:
-                                [[NSSortDescriptor alloc] initWithKey:@"documentName" 
-                                                            ascending:YES 
-                                                             selector:@selector(caseInsensitiveCompare:)]];
-    NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
-    // set number of search results for output
-    *results = [sortedSearchResults count];
+    NSArray *sortedSearchResults = (NSArray *)[searchContentCache content];
     if(sortedSearchResults) {
         // strip searchQuery
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
@@ -164,7 +163,7 @@
         NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
         NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
         // strip binary search tokens
-        searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
+        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
         // build search string
         for(SearchResultEntry *entry in sortedSearchResults) {
             NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
@@ -186,16 +185,11 @@
     return ret;
 }
 
-- (NSAttributedString *)displayableHTMLForKeys:(NSArray *)keyArray {
+- (NSAttributedString *)displayableHTMLForReferenceLookup {
     NSMutableAttributedString *ret = nil;
     
-    if([keyArray count] > 0) {
-        // set global display options
-        for(NSString *key in modDisplayOptions) {
-            NSString *val = [modDisplayOptions objectForKey:key];
-            [[SwordManager defaultManager] setGlobalOption:key value:val];
-        }
-        
+    NSArray *keyArray = selection;
+    if([keyArray count] > 0) {        
         // generate html string for verses
         NSMutableString *htmlString = [NSMutableString string];
         for(NSString *key in keyArray) {
@@ -208,23 +202,18 @@
             [htmlString appendFormat:@"%@<br /><br />\n", text];
         }
         
-        // create attributed string
-        // setup options
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        // set string encoding
         [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
                     forKey:NSCharacterEncodingDocumentOption];
-        // set web preferences
         WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
-        // set custom font size
         [webPrefs setDefaultFontSize:(int)customFontSize];
         [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
-        // set scroll to line height
+
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                        size:(int)customFontSize];
         [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
-        // set text
+
         NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
         ret = [[NSMutableAttributedString alloc] initWithHTML:data 
                                                       options:options
@@ -254,107 +243,47 @@
 
 #pragma mark - TextDisplayable protocol
 
-- (void)displayTextForReference:(NSString *)aReference {
-    [self displayTextForReference:aReference searchType:searchType];
+- (BOOL)hasValidCacheObject {
+    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference]) {
+        return YES;
+    }
+
+    return NO;
 }
 
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
-    searchType = aType;
-    
-    // in case the this method is called with nil reference, try taking the old one first
-    // this is esspecially needed for view search
-    if(aReference == nil) {
-        aReference = self.reference;
-    }
-    
-    if(aReference != nil) {
-        self.reference = aReference;
-        
-        if(self.module != nil) {
-            NSString *statusText = @"";
-            
-            if(searchType == ReferenceSearchType) {
-                // re-display
-                NSAttributedString *string = [self displayableHTMLForKeys:self.selection];
-                [(<TextContentProviding>)contentDisplayController setAttributedString:string];
-                
-                if([aReference length] > 0) {
-                    NSMutableArray *sel = [NSMutableArray array];
-                    // init Reg ex
-                    MBRegex *regex = [MBRegex regexWithPattern:aReference];
-                    
-                    for(NSString *key in [(SwordDictionary *)module allKeys]) {
-                        // try to match
-                        [regex setCaseSensitive:NO];
-                        if([regex matchIn:key matchResult:nil] == MBRegexMatch) {
-                            // add
-                            [sel addObject:key];
-                        }
-                    }
-                    self.dictKeys = sel;
-                } else {
-                    self.dictKeys = [(SwordDictionary *)module allKeys];
-                }
-
-                // refresh tableview
-                [entriesTableView reloadData];
-                
-                // in case only one entry is the result of filtering, show it
-                if([self.dictKeys count] == 1) {
-                    [entriesTableView selectAll:self];
-                }
-                
-                statusText = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
-            } else if(searchType == IndexSearchType) {
-                // search in index
-                if(![module hasIndex]) {
-                    // let the user know that we're creating the index now
-                    NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
-                    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                                     defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
-                                         informativeTextWithFormat:info];
-                    [alert runModal];                
-                    
-                    // show progress indicator
-                    // progress indicator is stopped in the delegate methods of either indexing or searching
-                    [self beginIndicateProgress];
-
-                    // create index first if not exists
-                    [module createIndexThreadedWithDelegate:self];
-                } else {
-                    // show progress indicator
-                    // progress indicator is stopped in the delegate methods of either indexing or searching
-                    [self beginIndicateProgress];
-
-                    // now search
-                    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
-                    if(indexer == nil) {
-                        MBLOG(MBLOG_ERR, @"[DictionaryViewController -displayTextForReference::] Could not get indexer for searching!");
-                    } else {
-                        [indexer performThreadedSearchOperation:aReference constrains:nil maxResults:10000 delegate:self];
-                    }                    
-                }                
+- (void)handleDisplayForReference {
+    if([reference length] > 0) {
+        NSMutableArray *sel = [NSMutableArray array];
+        MBRegex *regex = [MBRegex regexWithPattern:reference];
+        [regex setCaseSensitive:NO];
+        for(NSString *key in [(SwordDictionary *)module allKeys]) {
+            if([regex matchIn:key matchResult:nil] == MBRegexMatch) {
+                [sel addObject:key];
             }
-            
-            // set status
-            [self setStatusText:statusText];
-
-            if(aType == ReferenceSearchType) {
-                // stop indicating progress
-                [self endIndicateProgress];            
-            }
-        } else {
-            MBLOG(MBLOG_WARN, @"[DictionaryViewController -displayTextForReference:] no module set!");
         }
+        self.dictKeys = sel;
+    } else {
+        self.dictKeys = [(SwordDictionary *)module allKeys];
+    }
+    
+    [entriesTableView reloadData];
+    if([self.dictKeys count] == 1) {
+        [entriesTableView selectAll:self];
     }
 }
 
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
+- (void)handleDisplayStatusText {
+    int length = 0;
+    NSString *text = @"";
+    if(searchType == ReferenceSearchType) {
+        length = [(NSArray *)[contentCache content] count];
+        text = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
+    } else {
+        length = [(NSArray *)[searchContentCache content] count];
+        text = [NSString stringWithFormat:@"Found %i entries"];
     }
     
-    return @"DictView";
+    [self setStatusText:text];
 }
 
 #pragma mark - AccessoryViewProviding protocol
@@ -393,22 +322,15 @@
 #pragma mark - Actions
 
 - (IBAction)moduleSelectionChanged:(id)sender {
-    // get selected modulename
-    NSString *name = [(NSMenuItem *)sender title];
-    // if different module, then change
-    if((self.module == nil) || (![name isEqualToString:[module name]])) {
-        // get new module
-        self.module = [[SwordManager defaultManager] moduleWithName:name];
+    NSString *modName = [(NSMenuItem *)sender title];
+    if((module == nil) || (![modName isEqualToString:[module name]])) {
+        self.module = [[SwordManager defaultManager] moduleWithName:modName];
         
-        // clear selection
         [selection removeAllObjects];
-        // reload tableview
         [entriesTableView reloadData];
         
-        // set selection
         if(self.reference != nil) {
-            // redisplay text
-            [self displayTextForReference:self.reference searchType:searchType];
+            [self displayTextForReference:reference searchType:searchType];
         }        
     }
 }
@@ -432,13 +354,10 @@
 				
 				for(int i = 0;i < len;i++) {
                     item = [dictKeys objectAtIndex:indexes[i]];
-                    
-                    // add to array
                     [sel addObject:item];
 				}
             }
             
-            // sert selection
             self.selection = sel;
             [self displayTextForReference:reference];
 		} else {
