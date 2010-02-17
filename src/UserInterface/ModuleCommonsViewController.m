@@ -70,6 +70,13 @@
 
 #pragma mark - Display things
 
+- (void)setGlobalOptionsFromModOptions {
+    for(NSString *key in modDisplayOptions) {
+        NSString *val = [modDisplayOptions objectForKey:key];
+        [[SwordManager defaultManager] setGlobalOption:key value:val];
+    }    
+}
+
 - (void)initDefaultModDisplayOptions {    
     // init menu and popup button
     NSMenu *menu = [[NSMenu alloc] init];
@@ -460,7 +467,7 @@
     }
     
     // redisplay
-    forceRedisplay = YES;
+    forceRedisplay = NO;
     [self displayTextForReference:reference];
 }
 
@@ -474,7 +481,7 @@
     }
     
     // redisplay
-    forceRedisplay = YES;
+    forceRedisplay = NO;
     [self displayTextForReference:reference];    
 }
 
@@ -488,7 +495,7 @@
     }
     
     // redisplay
-    forceRedisplay = YES;
+    forceRedisplay = NO;
     [self displayTextForReference:reference];    
 }
 

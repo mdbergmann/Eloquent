@@ -23,7 +23,7 @@
 
 @class MouseTrackingScrollView;
 
-@interface ExtTextViewController : HostableViewController <MouseTracking> {
+@interface ExtTextViewController : HostableViewController <MouseTracking, TextContentProviding> {
     IBOutlet MBTextView *textView;
     IBOutlet MouseTrackingScrollView *scrollView;
 }
@@ -38,6 +38,7 @@
 - (NSMenu *)menuForEvent:(NSEvent *)event;
 
 - (void)setAttributedString:(NSAttributedString *)aString;
+- (void)setString:(NSString *)aString;
 
 // MouseTrackingScrollView delegate methods
 - (void)mouseEntered:(NSView *)theView;

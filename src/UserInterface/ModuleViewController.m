@@ -20,6 +20,7 @@
 #import "ReferenceCacheManager.h"
 #import "ReferenceCacheObject.h"
 #import "NSTextView+LookupAdditions.h"
+#import "CacheObject.h"
 
 @interface ModuleViewController () 
 
@@ -34,6 +35,7 @@
 
 @synthesize module;
 @synthesize performProgressCalculation;
+@synthesize searchContentCache;
 
 #pragma mark - Initializers
 
@@ -43,6 +45,7 @@
         performProgressCalculation = YES;
         searchType = ReferenceSearchType;
         contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
+        [self setSearchContentCache:[[CacheObject alloc] init]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(modulesListChanged:)
@@ -88,49 +91,38 @@
 }
 
 /**
- Generates NSAttributedString from search results
+ Generates NSAttributedString from cached search results
  this is an abstract method, should be overriden by subclasses
- @param[in] results array of SearchResults instances
- @param[in] searchQuery
- @param[out] number of verses found
  @return attributed string
  */
-- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
+- (NSAttributedString *)displayableHTMLForIndexedSearch {
     return nil;
 }
 
 #pragma mark - Indexer delegate method
 
 - (void)searchOperationFinished:(NSArray *)results {
-    // close indexer
     if(indexer) {
         [[IndexingManager sharedManager] closeIndexer:indexer];
     }
     
-    NSAttributedString *text = nil;    
-    int verses = 0;
+    int resultsCount = 0;
+    NSAttributedString *text = nil;
     if(results) {
-        text = [self displayableHTMLFromSearchResults:results searchQuery:reference numberOfResults:&verses];
-        
-        // set status
-        NSString *statusText = [NSString stringWithFormat:@"Found %i verses", verses];                        
-        [self setStatusText:statusText];
+        resultsCount = [results count];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:
+                                    [[NSSortDescriptor alloc] initWithKey:@"documentName" 
+                                                                ascending:YES 
+                                                                 selector:@selector(caseInsensitiveCompare:)]];
+        [searchContentCache setContent:[results sortedArrayUsingDescriptors:sortDescriptors]];
+        text = [self displayableHTMLForIndexedSearch];        
+        [self setStatusText:[NSString stringWithFormat:@"Found %i verses", resultsCount]];
     }
     
-    // display
     if(text) {
-        [(<TextContentProviding>)contentDisplayController setAttributedString:text];     
-        // add to cache
-        if([text length] > 0) {
-            ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
-                                                                              withDisplayText:text
-                                                                                numberOfFinds:verses
-                                                                                 andReference:reference];
-            [[ReferenceCacheManager defaultCacheManager] addCacheObject:o searchType:IndexSearchType];                    
-        }
+        [self setAttributedString:text];     
     }
     
-    // stop indicating progress
     [self endIndicateProgress];    
 }
 
@@ -142,9 +134,25 @@
     [self displayTextForReference:reference];
 }
 
+#pragma mark - TextContentProviding
+
 - (NSTextView *)textView {
-    return [(<TextContentProviding>)contentDisplayController textView];
+    return (NSTextView *)[(<TextContentProviding>)contentDisplayController textView];    
 }
+
+- (NSScrollView *)scrollView {
+    return (NSScrollView *)[(<TextContentProviding>)contentDisplayController scrollView];    
+}
+
+- (void)setAttributedString:(NSAttributedString *)aString {
+    [(<TextContentProviding>)contentDisplayController setAttributedString:aString];
+}
+
+- (void)setString:(NSString *)aString {
+    [(<TextContentProviding>)contentDisplayController setString:aString];
+}
+
+- (void)textChanged:(NSNotification *)aNotification {}
 
 #pragma mark - Printing
 

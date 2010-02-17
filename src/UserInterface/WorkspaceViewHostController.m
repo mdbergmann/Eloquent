@@ -223,7 +223,7 @@
 
 - (IBAction)forceReload:(id)sender {
     [(ModuleCommonsViewController *)contentViewController setForceRedisplay:YES];
-    [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[currentSearchText searchType]]];
+    [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[self searchType]]];
     [(ModuleCommonsViewController *)contentViewController setForceRedisplay:NO];
 }
 
@@ -497,7 +497,7 @@
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
         }
-                
+
         // set window frame
         NSRect frame;
         frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];
@@ -514,7 +514,7 @@
                 NSTabViewItem *item = [[tabView tabViewItems] objectAtIndex:i];
                 [item setLabel:[self computeTabTitleForTabIndex:i]];
             }
-        }        
+        }
     }
     
     return self;

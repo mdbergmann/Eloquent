@@ -113,7 +113,7 @@
 	}
 }
 
-#pragma mark - getter/setter
+#pragma mark - TextContentProviding
 
 - (MBTextView *)textView {
     return textView;
@@ -125,6 +125,16 @@
 
 - (void)setAttributedString:(NSAttributedString *)aString {
     [[textView textStorage] setAttributedString:aString];    
+}
+
+- (void)setString:(NSString *)aString {
+    [textView setString:aString];
+}
+
+- (void)textChanged:(NSNotification *)aNotification {
+    if(delegate && [delegate respondsToSelector:@selector(textChanged:)]) {
+        [delegate performSelector:@selector(textChanged:) withObject:aNotification];
+    }
 }
 
 #pragma mark - MBTextView delegates

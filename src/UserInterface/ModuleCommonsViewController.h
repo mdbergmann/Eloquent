@@ -45,6 +45,8 @@ enum GeneralMenuItemAdditions {
 @property (readonly) NSPopUpButton *displayOptionsPopUpButton;
 @property (readonly) NSPopUpButton *modDisplayOptionsPopUpButton;
 
+- (void)setGlobalOptionsFromModOptions;
+
 /** 
  default module display options dictionary 
  can be overriden by subclasses

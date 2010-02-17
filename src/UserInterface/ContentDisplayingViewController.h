@@ -31,10 +31,12 @@ enum LinkContextMenuItems {
     RemoveLink
 };
 
-@interface ContentDisplayingViewController : HostableViewController 
-    <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding, ContentSaving> {
+@class CacheObject;
+
+@interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding, ContentSaving> {
     IBOutlet NSView *topAccessoryView;
-    IBOutlet id contentDisplayController;
+    IBOutlet id contentDisplayController;    
+    CacheObject *contentCache;
     
     // content context menues
     IBOutlet NSMenu *textContextMenu;
@@ -55,6 +57,7 @@ enum LinkContextMenuItems {
 @property (readwrite) SearchType searchType;
 @property (retain, readwrite) NSString *reference;
 @property (retain, readwrite) NSEvent *lastEvent;
+@property (retain, readwrite) CacheObject *contentCache;
 
 // delegate method of ContentDisplayController, called for context menu selection
 - (NSMenu *)menuForEvent:(NSEvent *)event;

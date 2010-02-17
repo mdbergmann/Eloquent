@@ -26,7 +26,7 @@
 
 @interface CommentaryViewController ()
 /** generates HTML for display */
-- (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
+- (NSAttributedString *)displayableHTMLForReferenceLookup;
 /** stores the edited comment */
 - (void)saveCommentaryText;
 @end
@@ -138,16 +138,15 @@
     [addPopBtn setMenu:allMenu];
 }
 
-- (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {
+- (NSAttributedString *)displayableHTMLForReferenceLookup {
     NSMutableAttributedString *ret = nil;
     
     // get user defaults
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
 
-    // generate html string for verses
     NSMutableString *htmlString = [NSMutableString string];
-    for(SwordModuleTextEntry *entry in verseData) {
+    for(SwordModuleTextEntry *entry in (NSArray *)[contentCache content]) {
         NSString *verseText = [entry text];
         NSString *key = [entry key];
 

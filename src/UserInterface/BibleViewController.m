@@ -41,14 +41,20 @@
 /** selector called by menuitems */
 - (void)moduleSelectionChanged:(id)sender;
 
-- (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData;
-- (NSString *)createHTMLStringWithMarkersFromVerseData:(NSArray *)verseData;
+- (NSAttributedString *)displayableHTMLForReferenceLookup;
+- (NSString *)createHTMLStringWithMarkers;
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordModuleTextEntry *)anEntry;
 - (void)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
 - (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString;
 - (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString;
 - (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)aAttrString;
 - (void)applyWritingDirectionOnText:(NSMutableAttributedString *)anAttrString;
+
+- (BOOL)hasValidCacheObject;
+- (void)handleDisplayCached;
+- (void)checkPerformProgressCalculation;
+- (void)notifyUserAndCreateIndex;
+- (void)performThreadedSearch;
 
 @end
 
@@ -256,10 +262,6 @@
     [entriesOutlineView reloadData];
 }
 
-- (NSScrollView *)scrollView {
-    return (NSScrollView *)[(<TextContentProviding>)contentDisplayController scrollView];
-}
-
 - (void)setStatusText:(NSString *)aText {
     [statusLine setStringValue:aText];
 }
@@ -274,18 +276,11 @@
 
 #pragma mark - HTML generation from search result
 
-- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results {
+- (NSAttributedString *)displayableHTMLForIndexedSearch {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromSearchResults::] prepare search results...");
-    // create out own SortDescriptors according to whome we sort
-    NSArray *sortDescriptors = [NSArray arrayWithObject:
-                                [[NSSortDescriptor alloc] initWithKey:@"documentName" 
-                                                            ascending:YES 
-                                                             selector:@selector(caseInsensitiveCompare:)]];
-    NSArray *sortedSearchResults = [tempResults sortedArrayUsingDescriptors:sortDescriptors];
-    *results = [sortedSearchResults count];     // set output
-    if(sortedSearchResults) {
+    NSArray *searchResults = (NSArray *)[searchContentCache content];
+    if(searchResults) {
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
@@ -300,9 +295,9 @@
         NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
 
         // strip search tokens
-        searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchQuery]];
+        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
 
-        for(SearchResultEntry *searchResultEntry in sortedSearchResults) {            
+        for(SearchResultEntry *searchResultEntry in searchResults) {            
             if([searchResultEntry keyString] != nil) {
                 NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[searchResultEntry keyString] context:textContext];
                 for(SwordModuleTextEntry *textEntry in content) {
@@ -348,11 +343,11 @@
 
 #pragma mark - HTML generation from verse data
 
-- (NSAttributedString *)displayableHTMLFromVerseData:(NSArray *)verseData {
+- (NSAttributedString *)displayableHTMLForReferenceLookup {
     NSMutableAttributedString *ret = nil;
         
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...");
-    NSString *htmlString = [self createHTMLStringWithMarkersFromVerseData:verseData];
+    NSString *htmlString = [self createHTMLStringWithMarkers];
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...done");
     
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...");
@@ -374,11 +369,11 @@
     return ret;
 }
 
-- (NSString *)createHTMLStringWithMarkersFromVerseData:(NSArray *)verseData {
+- (NSString *)createHTMLStringWithMarkers {
     NSMutableString *htmlString = [NSMutableString string];
     lastChapter = -1;
     lastBook = -1;
-    for(SwordBibleTextEntry *entry in verseData) {
+    for(SwordBibleTextEntry *entry in (NSArray *)[contentCache content]) {
         [self applyBookmarkHighlightingOnTextEntry:entry];
         [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
     }
@@ -493,7 +488,7 @@
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                    size:(int)customFontSize];
-    [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
+    [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
 
     return [[NSMutableAttributedString alloc] initWithHTML:data 
@@ -606,124 +601,114 @@
     
     searchType = aType;
     
-    // in case the this method is called with nil reference, try taking the old one first
-    if(aReference == nil) {
-        aReference = self.reference;
+    if(aReference == nil || module == nil) {
+        return;
     }
     
-    if(aReference != nil && [aReference length] > 0) {
-        self.reference = aReference;
-        
-        if(self.module != nil) {
-            NSAttributedString *text = [[NSAttributedString alloc] init];
-            NSString *statusText = @"";
-            int verses = 0;
-            
-            // check cache first
-            ReferenceCacheManager *rm = [ReferenceCacheManager defaultCacheManager];
-            ReferenceCacheObject *o = [rm cacheObjectForReference:aReference forModuleName:[module name] andSearchType:aType];
-            if(forceRedisplay) {
-                o = nil;
-            }
-            
-            if(o != nil) {
-                // use cache object
-                text = o.displayText;
-                verses = o.numberOfFinds;
-            } else {
-                if(searchType == ReferenceSearchType) {
-                    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] searchtype: Reference");
-                    
-                    if(performProgressCalculation) {
-                        // in order to show a progress indicator for if the searching takes too long
-                        // we need to find out how long it will approximately take
-                        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] numberOfVerseKeys...");
-                        int len = [(SwordBible *)module numberOfVerseKeysForReference:aReference];
-                        // let's say that for more then 30 verses we show a progress indicator
-                        if(len >= 30) {
-                            [self beginIndicateProgress];
-                        }
-                        performProgressCalculation = YES;   // next time we do
-                        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayTextForReference::] numberOfVerseKeys...done");
-                    }
-                    
-                    // set global display options
-                    for(NSString *key in modDisplayOptions) {
-                        NSString *val = [modDisplayOptions objectForKey:key];
-                        [[SwordManager defaultManager] setGlobalOption:key value:val];
-                    }
-
-                    NSArray *verseData = [module renderedTextEntriesForRef:reference];
-                    if(verseData == nil) {
-                        MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference:] got nil verseData, cannot proceed!");
-                        statusText = @"Error on getting verse data!";
-                    } else {
-                        verses = [verseData count];
-                    }
-
-                    // we need html
-                    text = [self displayableHTMLFromVerseData:verseData];                        
-
-                } else if(searchType == IndexSearchType) {
-                    if(![module hasIndex]) {
-                        // let the user know that we're creating the index now
-                        NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
-                        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                                         defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
-                                             informativeTextWithFormat:info];
-                        [alert runModal];                
-                        
-                        // show progress indicator
-                        // progress indicator is stopped in the delegate methods of either indexing or searching
-                        [self beginIndicateProgress];
-
-                        [module createIndexThreadedWithDelegate:self];
-                    } else {
-                        // show progress indicator
-                        // progress indicator is stopped in the delegate methods of either indexing or searching
-                        [self beginIndicateProgress];
-
-                        SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
-                        long maxResults = 10000;
-                        indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
-                        if(indexer == nil) {
-                            MBLOG(MBLOG_ERR, @"[BibleViewController -displayTextForReference::] Could not get indexer for searching!");
-                        } else {
-                            [indexer performThreadedSearchOperation:aReference constrains:bookSet maxResults:maxResults delegate:self];
-                        }                        
-                    }
-                }
-            }
-            
-            if(forceRedisplay) {
-                forceRedisplay = NO;
-            } else {
-                // add to cache
-                if([text length] > 0) {
-                    ReferenceCacheObject *o = [ReferenceCacheObject referenceCacheObjectForModuleName:[module name] 
-                                                                                      withDisplayText:text
-                                                                                        numberOfFinds:verses
-                                                                                         andReference:aReference];
-                    [rm addCacheObject:o searchType:aType];                    
-                }
-            }
-
-            // set status
-            statusText = [NSString stringWithFormat:@"Found %i verses", verses];                        
-            [self setStatusText:statusText];
-
-            // display
-            [(<TextContentProviding>)contentDisplayController setAttributedString:text];                        
-            
-            if(aType == ReferenceSearchType) {
-                // stop indicating progress
-                // Indexing is ended in searchOperationFinished:
-                [self endIndicateProgress];            
-            }
-        } else {
-            MBLOG(MBLOG_WARN, @"[BibleViewController -displayTextForReference:] no module set!");
-        }
+    if([aReference length] == 0) {
+        [self setStatusText:@""];
+        [self setString:@""];
+        return;
     }
+
+    self.reference = aReference;
+    if(![self hasValidCacheObject] || forceRedisplay) {
+        if(searchType == ReferenceSearchType) {
+            [self checkPerformProgressCalculation];
+            [self setGlobalOptionsFromModOptions];
+            [contentCache setReference:reference];
+            [contentCache setContent:[module renderedTextEntriesForRef:reference]];
+        } else if(searchType == IndexSearchType) {
+            [searchContentCache setReference:reference];
+            if(![module hasIndex]) {
+                [self notifyUserAndCreateIndex];
+            } else {
+                [self performThreadedSearch];
+            }
+        }        
+    }
+    
+    forceRedisplay = NO;
+    
+    [self handleDisplayCached];
+
+    if(aType == ReferenceSearchType) {
+        // stop indicating progress
+        // Indexing is ended in searchOperationFinished:
+        [self endIndicateProgress];            
+    }    
+}
+
+- (BOOL)hasValidCacheObject {
+    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:reference]) ||
+       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference])) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)handleDisplayCached {
+    int length = 0;
+    NSAttributedString *displayText = nil;
+    if(searchType == ReferenceSearchType) {
+        displayText = [self displayableHTMLForReferenceLookup];
+        length = [(NSArray *)[contentCache content] count];
+    } else {
+        displayText = [self displayableHTMLForIndexedSearch];
+        length = [(NSArray *)[searchContentCache content] count];
+    }
+    
+    if(displayText) {
+        [self setAttributedString:displayText];
+    }
+    [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
+}
+
+- (void)checkPerformProgressCalculation {
+    if(performProgressCalculation) {
+        // in order to show a progress indicator for if the searching takes too long
+        // we need to find out how long it will approximately take
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...");
+        int len = [(SwordBible *)module numberOfVerseKeysForReference:reference];
+        // let's say that for more then 30 verses we show a progress indicator
+        if(len >= 30) {
+            [self beginIndicateProgress];
+        }
+        performProgressCalculation = YES;   // next time we do
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...done");
+    }    
+}
+
+- (void)notifyUserAndCreateIndex {
+    // let the user confirm to create the index now
+    NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                     defaultButton:NSLocalizedString(@"OK", @"") 
+                                   alternateButton:nil 
+                                       otherButton:nil 
+                         informativeTextWithFormat:info];
+    [alert runModal];
+    
+    // show progress indicator
+    // progress indicator is stopped in the delegate methods of either indexing or searching
+    [self beginIndicateProgress];
+    
+    [module createIndexThreadedWithDelegate:self];    
+}
+          
+- (void)performThreadedSearch {
+    // show progress indicator
+    // progress indicator is stopped in the delegate methods of either indexing or searching
+    [self beginIndicateProgress];
+    
+    SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
+    long maxResults = 10000;
+    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+    if(indexer == nil) {
+        MBLOG(MBLOG_ERR, @"[BibleViewController -performThreadedSearch::] Could not get indexer for searching!");
+    } else {
+        [indexer performThreadedSearchOperation:reference constrains:bookSet maxResults:maxResults delegate:self];
+    }    
 }
 
 #pragma mark - AccessoryViewProviding

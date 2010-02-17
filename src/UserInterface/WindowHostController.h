@@ -73,10 +73,6 @@
     float rsbWidthFullScreen;
     float defaultRSBWidth;
     
-    // navigation segment control
-    NSSegmentedControl *navigationSegControl;
-    BOOL navigationAction;
-    
     // search stuff
     NSSearchField *searchTextField;
     NSView *searchOptionsView;
@@ -153,15 +149,12 @@
 // direct connections
 - (IBAction)leftSideBottomSegChange:(id)sender;
 - (IBAction)rightSideBottomSegChange:(id)sender;
-- (IBAction)navigationAction:(id)sender;
 - (IBAction)forceReload:(id)sender;
 
 // menu first responder actions
 - (IBAction)leftSideBarHideShow:(id)sender;
 - (IBAction)rightSideBarHideShow:(id)sender;
 - (IBAction)switchLookupView:(id)sender;
-- (IBAction)navigationBack:(id)sender;
-- (IBAction)navigationForward:(id)sender;
 - (IBAction)fullScreenModeOnOff:(id)sender;
 - (IBAction)focusSearchEntry:(id)sender;
 - (IBAction)nextBook:(id)sender;

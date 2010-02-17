@@ -26,7 +26,7 @@
     
     IBOutlet NSView *sideBarView;
     IBOutlet NSOutlineView *entriesOutlineView;
-
+    
     NSMenu *biblesMenu;
     NSMenu *commentariesMenu;
     
@@ -62,9 +62,6 @@
 // ----------- methods -------------
 // searchBookSetsController
 - (SearchBookSetEditorController *)searchBookSetsController;
-
-// pass further the scrollview
-- (NSScrollView *)scrollView;
 
 - (void)setStatusText:(NSString *)aText;
 - (void)populateAddPopupMenu;

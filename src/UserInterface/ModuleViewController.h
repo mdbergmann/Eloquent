@@ -15,12 +15,13 @@
 #define TEXT_VERSE_MARKER   @"VerseMarkerAttributeName"
 #define CHAPTER_BEGINNING_MARKER @"ChapterBeginningMarker"
 
-@class SwordModule;
-@class ExtTextViewController;
+@class SwordModule, CacheObject;
 
-@interface ModuleViewController : ModuleCommonsViewController <NSCoding> {
+@interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextContentProviding> {
     IBOutlet NSBox *placeHolderView;
     
+    CacheObject *searchContentCache;
+
     SwordModule *module;
     BOOL performProgressCalculation;
     Indexer *indexer;
@@ -29,9 +30,10 @@
 // --------- properties ---------
 @property (retain, readwrite) SwordModule *module;
 @property (readwrite) BOOL performProgressCalculation;
+@property (retain, readwrite) CacheObject *searchContentCache;
 
 // ---------- methods ---------
-- (NSAttributedString *)displayableHTMLFromSearchResults:(NSArray *)tempResults searchQuery:(NSString *)searchQuery numberOfResults:(int *)results;
+- (NSAttributedString *)displayableHTMLForIndexedSearch;
 
 /**
  populates the modules menu

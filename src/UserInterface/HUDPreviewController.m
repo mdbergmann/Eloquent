@@ -97,16 +97,10 @@
 }
 
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[HUDPreviewController -awakeFromNib]");
-    
-    // set NSTextView text color
     [previewText setTextColor:[NSColor lightGrayColor]];
-    
-    // register notification 
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(showPreviewData:)
-                                                 name:NotificationShowPreviewData object:nil];
-    
+                                                 name:NotificationShowPreviewData object:nil];    
 }
 
 - (void)finalize {
@@ -114,8 +108,8 @@
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
-    // tell delegate that we are closing
+    [userDefaults setBool:NO forKey:DefaultsShowHUDPreview];
+    
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
@@ -126,7 +120,6 @@
 #pragma mark - Notifications
 
 - (void)showPreviewData:(NSNotification *)aNotification {
-    // get object
     NSDictionary *data = [aNotification object];
     NSDictionary *previewDict = [HUDPreviewController previewDataFromDict:data];
     if(previewDict) {

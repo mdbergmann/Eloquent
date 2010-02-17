@@ -59,7 +59,6 @@ typedef enum _NavigationDirectionType {
     self = [super init];
     if(self) {
         hostLoaded = NO;
-        navigationAction = NO;
         
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         
@@ -360,25 +359,18 @@ typedef enum _NavigationDirectionType {
     NSString *searchText = [sender stringValue];
     [currentSearchText setSearchText:searchText forSearchType:type];
     
-    if(!navigationAction) {
-        // add to recent searches
-        NSMutableArray *recentSearches = [currentSearchText recentSearchsForType:type];
-        if(![recentSearches containsObject:searchText] && [searchText length] > 0) {
-            [recentSearches addObject:searchText];
-            // remove everything above 10 searches
-            int len = [recentSearches count];
-            if(len > 10) {
-                [recentSearches removeObjectAtIndex:0];
-            }            
-        }
+    // add to recent searches
+    NSMutableArray *recentSearches = [currentSearchText recentSearchsForType:type];
+    if(![recentSearches containsObject:searchText] && [searchText length] > 0) {
+        [recentSearches addObject:searchText];
+        // remove everything above 10 searches
+        int len = [recentSearches count];
+        if(len > 10) {
+            [recentSearches removeObjectAtIndex:0];
+        }            
     }
-    
-    // unset
-    navigationAction = NO;
-    
     [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:type];
     
-    // change window title
     [[self window] setTitle:[self computeWindowTitle]];
 }
 
@@ -410,17 +402,6 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
-- (IBAction)navigationAction:(id)sender {
-    int clickedSegment = [sender selectedSegment];
-    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
-    
-    if(clickedSegmentTag == DirectionBackward) {
-        [self navigationBack:nil];
-    } else {
-        [self navigationForward:nil];
-    }
-}
-
 /** to be overriden by subclasses */
 - (IBAction)forceReload:(id)sender {
 }
@@ -439,46 +420,6 @@ typedef enum _NavigationDirectionType {
     } else {
         [self setSearchUIType:IndexSearchType searchString:nil];    
     }
-}
-
-- (IBAction)navigationBack:(id)sender {
-    // get recent searches
-    NSArray *rs = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
-    NSString *sstr = nil;
-    if([rs count] > 0) {
-        // find the index of the currect search text
-        int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
-        if(index > 0) {
-            // get the last
-            sstr = [rs objectAtIndex:index - 1];                
-        }
-    }
-
-    if(sstr) {
-        // this is a navigation action
-        navigationAction = YES;
-        [self setSearchText:sstr];
-    }
-}
-
-- (IBAction)navigationForward:(id)sender {
-    // get recent searches
-    NSArray *rs = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
-    NSString *sstr = nil;
-    if([rs count] > 0) {
-        // find the index of the currect search text
-        int index = [rs indexOfObject:[currentSearchText searchTextForType:[currentSearchText searchType]]];
-        if(index < [rs count] - 1) {
-            // get next
-            sstr = [rs objectAtIndex:index + 1];
-        }
-    }
-    
-    if(sstr) {
-        // this is a navigation action
-        navigationAction = YES;
-        [self setSearchText:sstr];
-    }    
 }
 
 - (IBAction)fullScreenModeOnOff:(id)sender {
@@ -766,18 +707,6 @@ typedef enum _NavigationDirectionType {
             [searchTextField setContinuous:NO];
             [[searchTextField cell] setSendsSearchStringImmediately:NO];
             [[searchTextField cell] setSendsWholeSearchString:YES];        
-        }
-        
-        // -----------------
-        // navigation
-        // -----------------
-        if([contentViewController contentViewType] == SwordBibleContentType ||
-           [contentViewController contentViewType] == SwordCommentaryContentType) {
-            [[navigationSegControl cell] setEnabled:YES forSegment:0];
-            [[navigationSegControl cell] setEnabled:YES forSegment:1];    
-        } else {
-            [[navigationSegControl cell] setEnabled:NO forSegment:0];
-            [[navigationSegControl cell] setEnabled:NO forSegment:1];        
         }
         
         // -----------------

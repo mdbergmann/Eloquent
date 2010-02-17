@@ -22,6 +22,7 @@
 #import "AppController.h"
 #import "SwordModuleTextEntry.h"
 #import "ModuleListUIController.h"
+#import "CacheObject.h"
 
 
 @interface ContentDisplayingViewController ()
@@ -41,6 +42,7 @@
 @synthesize contextMenuClickedLink;
 @synthesize clickedLinkTextRange;
 @synthesize lastEvent;
+@synthesize contentCache;
 
 
 - (id)init {
@@ -52,6 +54,7 @@
         [self setClickedLinkTextRange:NSMakeRange(NSNotFound, 0)];
         [self setForceRedisplay:NO];
         [self setLastEvent:nil];
+        [self setContentCache:[[CacheObject alloc] init]];
     }
     return self;
 }
