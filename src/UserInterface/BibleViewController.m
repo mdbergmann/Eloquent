@@ -690,7 +690,11 @@
 }
 
 - (BOOL)showsRightSideBar {
-    return [userDefaults boolForKey:DefaultsShowRSB];
+    if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+        return [userDefaults boolForKey:DefaultsShowRSBWorkspace];
+    } else {
+        return [userDefaults boolForKey:DefaultsShowRSBSingle];        
+    }
 }
 
 #pragma mark - Actions

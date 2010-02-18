@@ -67,7 +67,6 @@
 		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
 		A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
 		A934532E11293A1700137AB6 /* ToolbarGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A934532D11293A1700137AB6 /* ToolbarGradient.png */; };
-		A934533E11293A8200137AB6 /* BarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A934533D11293A8200137AB6 /* BarView.m */; };
 		A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
@@ -167,7 +166,7 @@
 		A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
 		A9E9E29C0F650544007C4AB2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A9E9E29A0F650544007C4AB2 /* Credits.rtf */; };
 		A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.mm */; };
-		A9E9E3CD0F65401C007C4AB2 /* FullScreenSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E9E3CC0F65401C007C4AB2 /* FullScreenSplitView.m */; };
+		A9E9E3CD0F65401C007C4AB2 /* FullScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */; };
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
 		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
@@ -323,8 +322,6 @@
 		A9333B5B0F66CEC90001BD38 /* ProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayView.h; path = src/ProgressOverlayView/ProgressOverlayView.h; sourceTree = "<group>"; };
 		A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayView.m; path = src/ProgressOverlayView/ProgressOverlayView.m; sourceTree = "<group>"; };
 		A934532D11293A1700137AB6 /* ToolbarGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarGradient.png; sourceTree = "<group>"; };
-		A934533C11293A8200137AB6 /* BarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BarView.h; path = src/UserInterface/BarView.h; sourceTree = "<group>"; };
-		A934533D11293A8200137AB6 /* BarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BarView.m; path = src/UserInterface/BarView.m; sourceTree = "<group>"; };
 		A937B0B40F8F9B2100948406 /* SwordListKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordListKey.h; sourceTree = "<group>"; };
 		A937B0B50F8F9B2100948406 /* SwordListKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordListKey.mm; sourceTree = "<group>"; };
 		A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordListKeyTest.h; path = test/SwordListKeyTest.h; sourceTree = "<group>"; };
@@ -456,8 +453,8 @@
 		A9E8BD2D0EADB01700E58D1E /* BookmarkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManager.h; path = src/Bookmarks/BookmarkManager.h; sourceTree = "<group>"; };
 		A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManager.m; path = src/Bookmarks/BookmarkManager.m; sourceTree = "<group>"; };
 		A9E9E29B0F650544007C4AB2 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
-		A9E9E3CB0F65401C007C4AB2 /* FullScreenSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FullScreenSplitView.h; path = src/UserInterface/FullScreenSplitView.h; sourceTree = "<group>"; };
-		A9E9E3CC0F65401C007C4AB2 /* FullScreenSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FullScreenSplitView.m; path = src/UserInterface/FullScreenSplitView.m; sourceTree = "<group>"; };
+		A9E9E3CB0F65401C007C4AB2 /* FullScreenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FullScreenView.h; path = src/UserInterface/FullScreenView.h; sourceTree = "<group>"; };
+		A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FullScreenView.m; path = src/UserInterface/FullScreenView.m; sourceTree = "<group>"; };
 		A9F184610E0811C8005F3B35 /* HostableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostableViewController.h; path = src/UserInterface/HostableViewController.h; sourceTree = "<group>"; };
 		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
 		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
@@ -987,16 +984,14 @@
 		A9E820FE0E0B95900020A64E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A934533C11293A8200137AB6 /* BarView.h */,
-				A934533D11293A8200137AB6 /* BarView.m */,
 				A9E820FF0E0B95C60020A64E /* ScrollSynchronizableView.h */,
 				A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */,
 				A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */,
 				A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */,
 				A9623E5C0F34E412000E1F53 /* MBTextView.h */,
 				A9623E5D0F34E412000E1F53 /* MBTextView.m */,
-				A9E9E3CB0F65401C007C4AB2 /* FullScreenSplitView.h */,
-				A9E9E3CC0F65401C007C4AB2 /* FullScreenSplitView.m */,
+				A9E9E3CB0F65401C007C4AB2 /* FullScreenView.h */,
+				A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */,
 				A987A34A0F6D59EC007E5EE1 /* ThickDividerSplitView.h */,
 				A987A34B0F6D59EC007E5EE1 /* ThickDividerSplitView.m */,
 				A99DB3240EF96C310065482A /* ScopeBarView.h */,
@@ -1295,7 +1290,7 @@
 				A9000E6E0F611BE700F07F3E /* GradientCell.m in Sources */,
 				A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */,
 				A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */,
-				A9E9E3CD0F65401C007C4AB2 /* FullScreenSplitView.m in Sources */,
+				A9E9E3CD0F65401C007C4AB2 /* FullScreenView.m in Sources */,
 				A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */,
 				A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */,
 				A987A34C0F6D59EC007E5EE1 /* ThickDividerSplitView.m in Sources */,
@@ -1322,7 +1317,6 @@
 				A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
 				A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */,
 				A96CE68011175DEC003D66D0 /* SwordBibleTextEntry.m in Sources */,
-				A934533E11293A8200137AB6 /* BarView.m in Sources */,
 				A965CEB3112C32C000F4E602 /* CacheObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

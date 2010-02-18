@@ -1,24 +1,26 @@
 //
-//  FullScreenSplitView.m
+//  FullScreenView.m
 //  MacSword2
 //
 //  Created by Manfred Bergmann on 09.03.09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "FullScreenSplitView.h"
+#import "FullScreenView.h"
 #import "MBPreferenceController.h"
 #import "ConfirmationSheetController.h"
 #import "globals.h"
 
-@interface FullScreenSplitView ()
+@interface FullScreenView ()
 
 - (void)enterFullScreenMode;
 - (void)exitFullScreenMode;
 
 @end
 
-@implementation FullScreenSplitView
+@implementation FullScreenView
+
+@synthesize delegate;
 
 - (BOOL)isFullScreenMode {
     return [self isInFullScreenMode];

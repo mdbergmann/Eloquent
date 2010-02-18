@@ -98,8 +98,6 @@
 }
 
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -awakeFromNib]");
-    
     [super awakeFromNib];
         
     // set font for bottombar segmented control
@@ -128,6 +126,16 @@
     [(NSBox *)placeHolderView setContentView:aView];
 }
 
+- (void)toggleLSB {
+    [super toggleLSB];
+    [userDefaults setBool:[self showingLSB] forKey:DefaultsShowLSBSingle];
+}
+
+- (void)toggleRSB {
+    [super toggleRSB];
+    [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBSingle];
+}
+
 #pragma mark - Actions
 
 - (IBAction)forceReload:(id)sender {
@@ -139,8 +147,6 @@
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -contentViewInitFinished:]");
-    
     // first let super class handle it's things
     [super contentViewInitFinished:aView];
     

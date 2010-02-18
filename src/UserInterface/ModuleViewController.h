@@ -17,7 +17,7 @@
 
 @class SwordModule, CacheObject;
 
-@interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextContentProviding, TextDisplayable> {
+@interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextContentProviding, TextDisplayable, TextDisplayableExt> {
     IBOutlet NSBox *placeHolderView;
     
     CacheObject *searchContentCache;

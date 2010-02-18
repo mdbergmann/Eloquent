@@ -54,6 +54,15 @@
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 @end
 
+@protocol TextDisplayableExt
+- (BOOL)hasValidCacheObject;
+- (void)handleDisplayForReference;
+- (void)handleDisplayIndexedNoHasIndex;
+- (void)handleDisplayIndexedPerformSearch;
+- (void)handleDisplayCached;
+- (void)handleDisplayStatusText;
+@end
+
 @protocol ModuleProviding
 - (SwordModule *)module;
 @end

@@ -48,8 +48,6 @@
 - (id)init {
     self = [super init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -init] nib loaded");
-        
         // init view controller array
         [self setViewControllers:[NSMutableArray array]];
         // init search texts
@@ -66,9 +64,6 @@
 }
 
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -awakeFromNib]");
-    
-    // super class has some things to set
     [super awakeFromNib];
     
     // tab control stuff
@@ -120,7 +115,7 @@
     }
     
     // show left side bar
-    [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSB]];
+    [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSBWorkspace]];
     
     if(contentViewController != nil) {
         [self setupContentRelatedViews];
@@ -219,15 +214,24 @@
     return ret;    
 }
 
-#pragma mark - Toolbar Actions
+- (void)toggleLSB {
+    [super toggleLSB];
+    [userDefaults setBool:[self showingLSB] forKey:DefaultsShowLSBWorkspace];
+}
+
+- (void)toggleRSB {
+    [super toggleRSB];
+    [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBWorkspace];
+}
+
+
+#pragma mark - Actions
 
 - (IBAction)forceReload:(id)sender {
     [(ModuleCommonsViewController *)contentViewController setForceRedisplay:YES];
     [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[self searchType]]];
     [(ModuleCommonsViewController *)contentViewController setForceRedisplay:NO];
 }
-
-#pragma mark - Actions
 
 - (void)searchInput:(id)sender {
     [super searchInput:sender];
@@ -236,8 +240,6 @@
 }
 
 - (IBAction)performClose:(id)sender {
-    MBLOG(MBLOG_DEBUG, @"[WorkspaceViewHostController -performClose:]");
-
     if([[tabView tabViewItems] count] == 0) {
         [self close];
     } else {
@@ -387,7 +389,7 @@
 
                 BOOL showRightSideBar = YES;
                 if([contentViewController isSwordModuleContentType]) {
-                    if([self showingRSB] && ![userDefaults boolForKey:DefaultsShowRSB]) {
+                    if([self showingRSB] && ![userDefaults boolForKey:DefaultsShowRSBWorkspace]) {
                         showRightSideBar = NO;
                     }
                 } else if([contentViewController isNoteContentType]) {
@@ -406,9 +408,6 @@
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {    
-    MBLOG(MBLOG_DEBUG, @"[WorkspaceViewHostController -contentViewInitFinished:]");
-
-    // let super class handle it's things
     [super contentViewInitFinished:aViewController];
 
     if(hostLoaded) {

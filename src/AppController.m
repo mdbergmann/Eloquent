@@ -108,8 +108,10 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsRemoveIndexOnModuleRemoval];
     
     // UI defaults
-    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSB];
-    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSB];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSBWorkspace];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSBSingle];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSBWorkspace];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSBSingle];
     [defaultsDict setObject:[NSNumber numberWithInt:250] forKey:DefaultsLSBWidth];
     [defaultsDict setObject:[NSNumber numberWithInt:150] forKey:DefaultsRSBWidth];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];

@@ -22,7 +22,7 @@
 
 @class ScopeBarView;
 @class SearchTextObject;
-@class FullScreenSplitView;
+@class FullScreenView;
 @class LeftSideBarViewController;
 @class RightSideBarViewController;
 @class SingleViewHostController;
@@ -32,9 +32,9 @@
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, ContentSaving> {
     // splitView to add and remove modules view. splitview hosts placeHolderView
-    IBOutlet FullScreenSplitView *mainSplitView;
+    IBOutlet NSSplitView *mainSplitView;
     // the contentview of the window
-    IBOutlet NSView *view;
+    IBOutlet FullScreenView *view;
     // splitView for placeholderview
     IBOutlet NSSplitView *contentSplitView;
     // placeholder for the main content view
@@ -51,6 +51,8 @@
     IBOutlet NSSegmentedControl *rightSideBottomSegControl;
     IBOutlet NSButton *addBookmarkBtn;
     IBOutlet NSButton *forceReloadBtn;
+    IBOutlet NSSearchField *searchTextField;
+    IBOutlet NSSegmentedControl *searchTypeSegControl;
     
     // the main view for placeHolderView
     ContentDisplayingViewController *contentViewController;
@@ -58,9 +60,6 @@
     // our delegate
     id delegate;
     
-	// we need a dictionary for all our toolbar identifiers
-	NSMutableDictionary *tbIdentifiers;
-
     // every host has a left side bar view
     LeftSideBarViewController *lsbViewController;
     float lsbWidth;
@@ -73,11 +72,7 @@
     float rsbWidthFullScreen;
     float defaultRSBWidth;
     
-    // search stuff
-    NSSearchField *searchTextField;
     NSView *searchOptionsView;
-    /** search type segmented control */
-    NSSegmentedControl *searchTypeSegControl;
     // the search text helper object
     SearchTextObject *currentSearchText;
     
@@ -107,7 +102,7 @@
 - (BOOL)showingLSB;
 - (BOOL)showingRSB;
 
-- (void)setupToolbar;
+//- (void)setupToolbar;
 
 /** sets the text string into the search text field */
 - (void)setSearchText:(NSString *)aString;
@@ -116,9 +111,6 @@
 /** sets the type of search to UI */
 - (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString;
 
-/** action of any input to the search text field */
-- (void)searchInput:(id)sender;
-
 /** change the module type that is currently displaying */
 - (void)adaptUIToCurrentlyDisplayingModuleType;
 
@@ -126,9 +118,6 @@
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
 
 - (ContentViewType)contentViewType;
-
-// Printing
-- (IBAction)myPrint:(id)sender;
 
 // computed window title
 - (NSString *)computeWindowTitle;
@@ -144,7 +133,11 @@
 - (void)saveContent;
 
 // actions
-- (void)clearRecents:(id)sender;
+- (IBAction)clearRecents:(id)sender;
+- (IBAction)addBookmark:(id)sender;
+- (IBAction)searchInput:(id)sender;
+- (IBAction)searchType:(id)sender;
+- (IBAction)myPrint:(id)sender;
 
 // direct connections
 - (IBAction)leftSideBottomSegChange:(id)sender;

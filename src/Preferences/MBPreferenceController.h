@@ -54,8 +54,10 @@
 #define DefaultsIndexedSearchBookSets               @"DefaultsIndexedSearchBookSets"
 
 // UI defaults
-#define DefaultsShowLSB                             @"DefaultsShowLSB"
-#define DefaultsShowRSB                             @"DefaultsShowRSB"
+#define DefaultsShowLSBWorkspace                    @"DefaultsShowLSBWorkspace"
+#define DefaultsShowLSBSingle                       @"DefaultsShowLSBSingle"
+#define DefaultsShowRSBWorkspace                    @"DefaultsShowRSBWorkspace"
+#define DefaultsShowRSBSingle                       @"DefaultsShowRSBSingle"
 #define DefaultsLSBWidth                            @"DefaultsLSBWidth"
 #define DefaultsRSBWidth                            @"DefaultsRSBWidth"
 #define DefaultsShowHUDPreview                      @"DefaultsShowHUDPreview"

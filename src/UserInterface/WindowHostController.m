@@ -16,7 +16,7 @@
 #import "SwordManager.h"
 #import "ScopeBarView.h"
 #import "NSImage+Additions.h"
-#import "FullScreenSplitView.h"
+#import "FullScreenView.h"
 #import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
@@ -30,8 +30,6 @@
 #import "NotesViewController.h"
 
 @interface WindowHostController ()
-
-- (void)setupToolbar;
 
 - (void)goingToFullScreenMode;
 - (void)goneToFullScreenMode;
@@ -78,6 +76,8 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)awakeFromNib {
+    [view setDelegate:self];
+    
     // set default widths for sbs
     defaultLSBWidth = [[userDefaults objectForKey:DefaultsLSBWidth] intValue];
     defaultRSBWidth = [[userDefaults objectForKey:DefaultsRSBWidth] intValue];
@@ -92,13 +92,13 @@ typedef enum _NavigationDirectionType {
     [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     [contentSplitView setDelegate:self];
     
-    [self setupToolbar];
-    
     // activate mouse movement in subviews
     [[self window] setAcceptsMouseMovedEvents:YES];
     // set window status bar
+    /*
 	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
-	[self.window setContentBorderThickness:35.0f forEdge:NSMinYEdge];
+	[self.window setContentBorderThickness:22.0f forEdge:NSMinYEdge];
+     */
     
     // lets show the images in sidebar seg control
     [self showingLSB];
@@ -142,218 +142,19 @@ typedef enum _NavigationDirectionType {
     }
 }
 
-#pragma mark - toolbar stuff
+#pragma mark - Actions
 
-// ============================================================
-// NSToolbar Related Methods
-// ============================================================
-/**
- \brief create a toolbar and add it to the window. Set the delegate to this object.
- */
-- (void)setupToolbar {
-    
-    MBLOG(MBLOG_DEBUG, @"[SingleViewHostController -setupToolbar]");
-    
-    // init toolbar identifiers
-    tbIdentifiers = [[NSMutableDictionary alloc] init];
-    
-    NSToolbarItem *item = nil;
-
-    float segmentControlHeight = 32.0;
-    float segmentControlWidth = (2*64.0);
-    
-    // Search Control
-    searchTypeSegControl = [[NSSegmentedControl alloc] init];
-    [searchTypeSegControl setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
-    [searchTypeSegControl setSegmentCount:2];
-    // style
-    [[searchTypeSegControl cell] setSegmentStyle:NSSegmentStyleTexturedRounded];
-    // set tracking style
-    [[searchTypeSegControl cell] setTrackingMode:NSSegmentSwitchTrackingSelectOne];
-    // insert text only segments
-    [searchTypeSegControl setFont:FontStdBold];
-    //[searchTypeSegControl setLabel:NSLocalizedString(@"Reference", @"") forSegment:0];
-    [searchTypeSegControl setImage:[NSImage imageNamed:NSImageNameListViewTemplate] forSegment:0];		
-    //[searchTypeSegControl setLabel:NSLocalizedString(@"Index", "") forSegment:1];
-    [searchTypeSegControl setImage:[NSImage imageNamed:NSImageNameRevealFreestandingTemplate] forSegment:1];
-    [[searchTypeSegControl cell] setTag:ReferenceSearchType forSegment:0];
-    [[searchTypeSegControl cell] setTag:IndexSearchType forSegment:1];
-    if([contentViewController contentViewType] == SwordGenBookContentType) {
-        [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
-        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-        [[searchTypeSegControl cell] setSelected:NO forSegment:0];
-        [[searchTypeSegControl cell] setSelected:YES forSegment:1];        
-    } else {        
-        [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
-        [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-        [[searchTypeSegControl cell] setSelected:YES forSegment:0];
-        [[searchTypeSegControl cell] setSelected:NO forSegment:1];
-    }
-    [searchTypeSegControl sizeToFit];
-    // resize the height to what we have defined
-    [searchTypeSegControl setFrameSize:NSMakeSize([searchTypeSegControl frame].size.width,segmentControlHeight)];
-    [searchTypeSegControl setTarget:self];
-    [searchTypeSegControl setAction:@selector(searchType:)];
-    // the Toolbar item
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TYPE_ITEM];
-    [item setLabel:NSLocalizedString(@"SearchTypeLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"SearchTypePalette", @"")];
-    [item setToolTip:NSLocalizedString(@"SearchTypeTooltip", @"")];
-    [item setMinSize:[searchTypeSegControl frame].size];
-    [item setMaxSize:[searchTypeSegControl frame].size];
-    // set the segmented control as the view of the toolbar item
-    [item setView:searchTypeSegControl];
-    [tbIdentifiers setObject:item forKey:TB_SEARCH_TYPE_ITEM];
-    
-    // search text
-    searchTextField = [[NSSearchField alloc] initWithFrame:NSMakeRect(0,0,350,32)];
-    [searchTextField sizeToFit];
-    [searchTextField setAutoresizingMask:NSViewWidthSizable | NSViewMaxXMargin];
-    [searchTextField setTarget:self];
-    [searchTextField setAction:@selector(searchInput:)];
-    [[searchTextField cell] setScrollable:YES];
-    if([contentViewController contentViewType] == SwordDictionaryContentType) {
-        [searchTextField setContinuous:YES];
-        [[searchTextField cell] setSendsSearchStringImmediately:YES];
-        //[[searchTextField cell] setSendsWholeSearchString:NO];
-    } else {
-        [searchTextField setContinuous:NO];
-        [[searchTextField cell] setSendsSearchStringImmediately:NO];
-        [[searchTextField cell] setSendsWholeSearchString:YES];        
-    }
-    // the item itself
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SEARCH_TEXT_ITEM];
-    [item setLabel:NSLocalizedString(@"TextSearchLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"TextSearchLabel", @"")];
-    [item setToolTip:NSLocalizedString(@"TextSearchTooltip", @"")];
-    [item setView:searchTextField];
-    [item setMinSize:NSMakeSize(100, NSHeight([searchTextField frame]))];
-    [item setMaxSize:NSMakeSize(700, NSHeight([searchTextField frame]))];
-    [tbIdentifiers setObject:item forKey:TB_SEARCH_TEXT_ITEM];
-    
-    // add button
-    segmentControlHeight = 32.0;
-    segmentControlWidth = 32.0;
-    addBookmarkBtn = [[NSButton alloc] init];
-    [addBookmarkBtn setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
-    // style
-    [addBookmarkBtn setBezelStyle:NSTexturedRoundedBezelStyle];
-    // insert text only segments
-    [addBookmarkBtn setImage:[NSImage imageNamed:NSImageNameAddTemplate]];		
-    [addBookmarkBtn sizeToFit];
-    [addBookmarkBtn setFrameSize:NSMakeSize(32.0, [addBookmarkBtn frame].size.height)];
-    // resize the height to what we have defined
-    [addBookmarkBtn setTarget:bookmarkManagerUIController];
-    [addBookmarkBtn setAction:@selector(bookmarkDialog:)];
-    // add bookmark item
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_ADDBOOKMARK_TYPE_ITEM];
-    [item setLabel:NSLocalizedString(@"AddBookmarkLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"AddBookmarkPalette", @"")];
-    [item setToolTip:NSLocalizedString(@"AddBookmarkTooltip", @"")];
-    [item setMinSize:[addBookmarkBtn frame].size];
-    [item setMaxSize:[addBookmarkBtn frame].size];
-    [item setView:addBookmarkBtn];
-    [tbIdentifiers setObject:item forKey:TB_ADDBOOKMARK_TYPE_ITEM];
-    
-    // force reload button
-    forceReloadBtn = [[NSButton alloc] init];
-    [forceReloadBtn setFrame:NSMakeRect(0.0, 0.0, segmentControlWidth, segmentControlHeight)];
-    // style
-    [forceReloadBtn setBezelStyle:NSTexturedRoundedBezelStyle];
-    // insert text only segments
-    [forceReloadBtn setImage:[NSImage imageNamed:NSImageNameRefreshTemplate]];		
-    [forceReloadBtn sizeToFit];
-    [forceReloadBtn setFrameSize:NSMakeSize(32.0, [addBookmarkBtn frame].size.height)];
-    // resize the height to what we have defined
-    [forceReloadBtn setTarget:self];
-    [forceReloadBtn setAction:@selector(forceReload:)];    
-    // add bookmark item
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_FORCERELOAD_TYPE_ITEM];
-    [item setLabel:NSLocalizedString(@"ForceReloadLabel", @"")];
-    [item setPaletteLabel:NSLocalizedString(@"ForceReloadPalette", @"")];
-    [item setToolTip:NSLocalizedString(@"ForceReloadTooltip", @"")];
-    [item setMinSize:[forceReloadBtn frame].size];
-    [item setMaxSize:[forceReloadBtn frame].size];
-    [item setView:forceReloadBtn];
-    [tbIdentifiers setObject:item forKey:TB_FORCERELOAD_TYPE_ITEM];
-    
-    // add std items
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarFlexibleSpaceItemIdentifier];
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSpaceItemIdentifier];
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSeparatorItemIdentifier];
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarPrintItemIdentifier];
-
-    
-    // Create a new toolbar instance, and attach it to our document window 
-    NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier: @"SingleViewHostToolbar"];
-    
-    // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
-    [toolbar setAllowsUserCustomization:YES];
-    [toolbar setAutosavesConfiguration:YES];
-	//[toolbar setSizeMode:NSToolbarSizeModeRegular];
-    [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
-    
-    // We are the delegate
-    [toolbar setDelegate:self];
-    
-    // Attach the toolbar to the document window 
-    [[self window] setToolbar:toolbar];
-}
-
-/**
- \brief returns array with allowed toolbar item identifiers
- */
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar  {
-	return [tbIdentifiers allKeys];
-}
-
-/**
- \brief returns array with all default toolbar item identifiers
- */
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
-	NSArray *defaultItemArray = [NSArray arrayWithObjects:
-                                 //TB_NAVIGATION_TYPE_ITEM,
-                                 NSToolbarFlexibleSpaceItemIdentifier,
-                                 TB_SEARCH_TYPE_ITEM,
-                                 TB_SEARCH_TEXT_ITEM,
-                                 TB_ADDBOOKMARK_TYPE_ITEM,
-                                 TB_FORCERELOAD_TYPE_ITEM,
-                                 NSToolbarFlexibleSpaceItemIdentifier,
-                                 //TB_MODULEINSTALLER_ITEM,
-                                 nil];
-	
-	return defaultItemArray;
-}
-
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar 
-     itemForItemIdentifier:(NSString *)itemIdentifier
- willBeInsertedIntoToolbar:(BOOL)flag {
-    NSToolbarItem *item = nil;
-    
-	item = [tbIdentifiers valueForKey:itemIdentifier];
-	
-    return item;
-}
-
-#pragma mark - toolbar actions
-
-- (void)clearRecents:(id)sender {
+- (IBAction)clearRecents:(id)sender {
     NSMutableArray *recents = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
     [recents removeAllObjects];
     [searchTextField setRecentSearches:recents];
 }
 
-- (void)toggleModulesTB:(id)sender {
-    if(![self showingLSB]) {
-        [self showLeftSideBar:YES];
-        [userDefaults setBool:YES forKey:DefaultsShowLSB];
-    } else {
-        [self showLeftSideBar:NO];
-        [userDefaults setBool:NO forKey:DefaultsShowLSB];
-    }
+- (IBAction)addBookmark:(id)sender {
+    [bookmarkManagerUIController bookmarkDialog:sender];
 }
 
-- (void)searchInput:(id)sender {
+- (IBAction)searchInput:(id)sender {
     // buffer search text string
     SearchType type = [currentSearchText searchType];
     NSString *searchText = [sender stringValue];
@@ -374,7 +175,7 @@ typedef enum _NavigationDirectionType {
     [[self window] setTitle:[self computeWindowTitle]];
 }
 
-- (void)searchType:(id)sender {
+- (IBAction)searchType:(id)sender {
     SearchType type;
     if([(NSSegmentedControl *)sender selectedSegment] == 0) {
         type = ReferenceSearchType;
@@ -383,8 +184,6 @@ typedef enum _NavigationDirectionType {
     }
     [self setSearchUIType:type searchString:nil];
 }
-
-#pragma mark - Actions
 
 - (IBAction)leftSideBottomSegChange:(id)sender {
     int clickedSegment = [sender selectedSegment];
@@ -423,7 +222,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)fullScreenModeOnOff:(id)sender {
-    [mainSplitView fullScreenModeOnOff:sender];
+    [view fullScreenModeOnOff:sender];
 }
 
 - (IBAction)focusSearchEntry:(id)sender {
@@ -488,25 +287,13 @@ typedef enum _NavigationDirectionType {
     [self close];
 }
 
-#pragma mark - Events
-
-- (void)keyDown:(NSEvent *)theEvent {
-    // Escape key?
-    if([theEvent keyCode] == '\033') {
-        // are we in full screen mode?
-        if([mainSplitView isFullScreenMode]) {
-            [mainSplitView setFullScreenMode:NO];
-        }        
-    }
-}
-
 #pragma mark - Methods
 
 - (NSView *)view {
-    return view;
+    return (NSView *)view;
 }
 
-- (void)setView:(NSView *)aView {
+- (void)setView:(FullScreenView *)aView {
     view = aView;
 }
 
@@ -541,17 +328,11 @@ typedef enum _NavigationDirectionType {
 - (void)toggleLSB {
     BOOL show = ![self showingLSB];
     [self showLeftSideBar:show];
-    
-    // store in user defaults
-    [userDefaults setBool:show forKey:DefaultsShowLSB];
 }
 
 - (void)toggleRSB {
     BOOL show = ![self showingRSB];
     [self showRightSideBar:show];
-
-    // store in user defaults
-    [userDefaults setBool:show forKey:DefaultsShowRSB];
 }
 
 - (void)showLeftSideBar:(BOOL)flag {
@@ -847,20 +628,6 @@ typedef enum _NavigationDirectionType {
     }
 }
 
-/*
-- (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview {
-    return ((subview == [lsbViewController view]) || (subview == [rsbViewController view]));
-}
-
-- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)offset {
-    return proposedMin + 60.0;
-}
-
-- (CGFloat)splitView:(NSSplitView *)sender constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)offset {
-    return proposedMax - 90.0;
-}
- */
-
 - (void)splitViewDidResizeSubviews:(NSNotification *)aNotification {
     if(hostLoaded) {
         NSSplitView *sv = [aNotification object];
@@ -896,8 +663,6 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
-    
     if([self hasUnsavedContent]) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
                                          defaultButton:NSLocalizedString(@"Yes", @"") 
@@ -952,8 +717,6 @@ typedef enum _NavigationDirectionType {
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOG(MBLOG_DEBUG, @"[WindowHostController -contentViewInitFinished:]");
-
     if([aView isKindOfClass:[LeftSideBarViewController class]]) {
         //[mainSplitView addSubview:[aView view] positioned:NSWindowBelow relativeTo:placeHolderView];
         NSSize s = [[lsbViewController view] frame].size;
@@ -978,7 +741,7 @@ typedef enum _NavigationDirectionType {
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
     if(lsbViewController == nil) {
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
-        [lsbViewController setHostingDelegate:self];    
+        [lsbViewController setHostingDelegate:self];
     }
     // load rsb view
     rsbWidth = [decoder decodeIntForKey:@"RSBWidth"];

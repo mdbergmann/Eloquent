@@ -1,5 +1,5 @@
 //
-//  FullScreenSplitView.h
+//  FullScreenView.h
 //  MacSword2
 //
 //  Created by Manfred Bergmann on 09.03.09.
@@ -11,9 +11,12 @@
 
 @class ConfirmationSheetController;
 
-@interface FullScreenSplitView : NSSplitView <FullScreenCapability> {
+@interface FullScreenView : NSView <FullScreenCapability> {
     ConfirmationSheetController *conf;
+    id delegate;
 }
+
+@property (readwrite) id delegate;
 
 - (BOOL)isFullScreenMode;
 - (void)setFullScreenMode:(BOOL)flag;
