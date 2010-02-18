@@ -170,7 +170,6 @@ enum ModuleMenu_Items{
 }
 
 - (void)awakeFromNib {
-    // this text field should send continiuously
     [moduleUnlockTextField setContinuous:YES];    
 }
 

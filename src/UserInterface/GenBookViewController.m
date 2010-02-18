@@ -314,6 +314,7 @@
         [entriesOutlineView reloadData];
         
         if((self.reference != nil) && ([self.reference length] > 0)) {
+            forceRedisplay = YES;
             [self displayTextForReference:self.reference searchType:searchType];
         }        
     }

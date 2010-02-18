@@ -37,6 +37,7 @@
 
 // methods
 - (void)bookmarkDialog:(id)sender;
+- (void)bookmarkDialogForVerseList:(NSArray *)aVerseList;
 
 // actions
 - (IBAction)bookmarkMenuClicked:(id)sender;

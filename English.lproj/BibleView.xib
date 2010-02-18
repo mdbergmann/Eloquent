@@ -414,6 +414,25 @@
 						<reference key="NSMixedImage" ref="56250480"/>
 						<int key="NSTag">301</int>
 					</object>
+					<object class="NSMenuItem" id="831830074">
+						<reference key="NSMenu" ref="650197534"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="344040759"/>
+						<reference key="NSMixedImage" ref="56250480"/>
+					</object>
+					<object class="NSMenuItem" id="383925105">
+						<reference key="NSMenu" ref="650197534"/>
+						<string key="NSTitle">Add bookmark...</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="344040759"/>
+						<reference key="NSMixedImage" ref="56250480"/>
+						<int key="NSTag">90</int>
+					</object>
 					<object class="NSMenuItem" id="689705641">
 						<reference key="NSMenu" ref="650197534"/>
 						<bool key="NSIsDisabled">YES</bool>
@@ -1173,6 +1192,14 @@
 					</object>
 					<int key="connectionID">201</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">addBookmark:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="383925105"/>
+					</object>
+					<int key="connectionID">205</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1347,6 +1374,8 @@
 							<reference ref="128486010"/>
 							<reference ref="500494246"/>
 							<reference ref="226054918"/>
+							<reference ref="831830074"/>
+							<reference ref="383925105"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1572,6 +1601,16 @@
 						<reference key="object" ref="306858578"/>
 						<reference key="parent" ref="716769177"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">203</int>
+						<reference key="object" ref="831830074"/>
+						<reference key="parent" ref="650197534"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">204</int>
+						<reference key="object" ref="383925105"/>
+						<reference key="parent" ref="650197534"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1622,6 +1661,8 @@
 					<string>196.IBPluginDependency</string>
 					<string>196.IBSegmentedControlInspectorSelectedSegmentMetadataKey</string>
 					<string>202.IBPluginDependency</string>
+					<string>203.IBPluginDependency</string>
+					<string>204.IBPluginDependency</string>
 					<string>28.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
 					<string>30.IBPluginDependency</string>
@@ -1698,6 +1739,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{392, 503}, {100, 48}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1739,7 +1782,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">202</int>
+			<int key="maxID">205</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1795,14 +1838,22 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addBookmark:</string>
+							<string>addVersesToBookmark:</string>
 							<string>lookUpInDictionary:</string>
 							<string>lookUpInDictionaryOfModule:</string>
 							<string>lookUpInIndex:</string>
 							<string>lookUpInIndexOfBible:</string>
 							<string>openLink:</string>
+							<string>removeLink:</string>
+							<string>saveDocument:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

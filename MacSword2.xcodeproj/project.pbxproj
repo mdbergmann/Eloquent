@@ -13,6 +13,9 @@
 		A9000E220F6114D300F07F3E /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = A9000E210F6114D300F07F3E /* CTGradient.m */; };
 		A9000E6E0F611BE700F07F3E /* GradientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9000E6D0F611BE700F07F3E /* GradientCell.m */; };
 		A902D8D20F6E952600F994D2 /* ModuleCommonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A902D8D10F6E952600F994D2 /* ModuleCommonsViewController.m */; };
+		A9032E43112D6823009D6A02 /* NSAttributedString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9032E42112D6823009D6A02 /* NSAttributedString+Additions.m */; };
+		A9032EB0112D7F6A009D6A02 /* NSDictionary+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9032EAF112D7F6A009D6A02 /* NSDictionary+Additions.m */; };
+		A9032ECE112D8323009D6A02 /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9032ECD112D8323009D6A02 /* NSUserDefaults+Additions.m */; };
 		A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */; };
 		A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90545B70E62F11900CF4D18 /* DictionaryView.xib */; };
 		A9061E0F0F70EA5C00F6DA1F /* SearchBookSetEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E0E0F70EA5C00F6DA1F /* SearchBookSetEditorController.m */; };
@@ -66,7 +69,6 @@
 		A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */; };
 		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
 		A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
-		A934532E11293A1700137AB6 /* ToolbarGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A934532D11293A1700137AB6 /* ToolbarGradient.png */; };
 		A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
@@ -222,6 +224,12 @@
 		A9000E6D0F611BE700F07F3E /* GradientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GradientCell.m; path = src/UserInterface/GradientCell.m; sourceTree = "<group>"; };
 		A902D8D00F6E952600F994D2 /* ModuleCommonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleCommonsViewController.h; path = src/UserInterface/ModuleCommonsViewController.h; sourceTree = "<group>"; };
 		A902D8D10F6E952600F994D2 /* ModuleCommonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleCommonsViewController.m; path = src/UserInterface/ModuleCommonsViewController.m; sourceTree = "<group>"; };
+		A9032E41112D6823009D6A02 /* NSAttributedString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Additions.h"; path = "src/UserInterface/NSAttributedString+Additions.h"; sourceTree = "<group>"; };
+		A9032E42112D6823009D6A02 /* NSAttributedString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Additions.m"; path = "src/UserInterface/NSAttributedString+Additions.m"; sourceTree = "<group>"; };
+		A9032EAE112D7F6A009D6A02 /* NSDictionary+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Additions.h"; path = "src/UserInterface/NSDictionary+Additions.h"; sourceTree = "<group>"; };
+		A9032EAF112D7F6A009D6A02 /* NSDictionary+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Additions.m"; path = "src/UserInterface/NSDictionary+Additions.m"; sourceTree = "<group>"; };
+		A9032ECC112D8323009D6A02 /* NSUserDefaults+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+Additions.h"; path = "src/UserInterface/NSUserDefaults+Additions.h"; sourceTree = "<group>"; };
+		A9032ECD112D8323009D6A02 /* NSUserDefaults+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+Additions.m"; path = "src/UserInterface/NSUserDefaults+Additions.m"; sourceTree = "<group>"; };
 		A90545B30E62EEB400CF4D18 /* DictionaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DictionaryViewController.h; path = src/UserInterface/DictionaryViewController.h; sourceTree = "<group>"; };
 		A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DictionaryViewController.m; path = src/UserInterface/DictionaryViewController.m; sourceTree = "<group>"; };
 		A90545B80E62F11900CF4D18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DictionaryView.xib; sourceTree = "<group>"; };
@@ -321,7 +329,6 @@
 		A9333AE40F6699A70001BD38 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProgressOverlayView.xib; sourceTree = "<group>"; };
 		A9333B5B0F66CEC90001BD38 /* ProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayView.h; path = src/ProgressOverlayView/ProgressOverlayView.h; sourceTree = "<group>"; };
 		A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayView.m; path = src/ProgressOverlayView/ProgressOverlayView.m; sourceTree = "<group>"; };
-		A934532D11293A1700137AB6 /* ToolbarGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarGradient.png; sourceTree = "<group>"; };
 		A937B0B40F8F9B2100948406 /* SwordListKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordListKey.h; sourceTree = "<group>"; };
 		A937B0B50F8F9B2100948406 /* SwordListKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordListKey.mm; sourceTree = "<group>"; };
 		A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordListKeyTest.h; path = test/SwordListKeyTest.h; sourceTree = "<group>"; };
@@ -675,7 +682,6 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				A934532D11293A1700137AB6 /* ToolbarGradient.png */,
 				A908988E10C3C8BD0043465F /* edit_small.png */,
 				A908984510C3BF1D0043465F /* Drawer.png */,
 				A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */,
@@ -931,6 +937,12 @@
 				A9D450C50F59884A001617B1 /* NSImage+Additions.m */,
 				A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */,
 				A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */,
+				A9032E41112D6823009D6A02 /* NSAttributedString+Additions.h */,
+				A9032E42112D6823009D6A02 /* NSAttributedString+Additions.m */,
+				A9032EAE112D7F6A009D6A02 /* NSDictionary+Additions.h */,
+				A9032EAF112D7F6A009D6A02 /* NSDictionary+Additions.m */,
+				A9032ECC112D8323009D6A02 /* NSUserDefaults+Additions.h */,
+				A9032ECD112D8323009D6A02 /* NSUserDefaults+Additions.m */,
 			);
 			name = HelperObjects;
 			sourceTree = "<group>";
@@ -1181,7 +1193,6 @@
 				A99A774B10B33DE5002EFD30 /* NotesView.xib in Resources */,
 				A908984610C3BF1D0043465F /* Drawer.png in Resources */,
 				A908988F10C3C8BD0043465F /* edit_small.png in Resources */,
-				A934532E11293A1700137AB6 /* ToolbarGradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1318,6 +1329,9 @@
 				A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */,
 				A96CE68011175DEC003D66D0 /* SwordBibleTextEntry.m in Sources */,
 				A965CEB3112C32C000F4E602 /* CacheObject.m in Sources */,
+				A9032E43112D6823009D6A02 /* NSAttributedString+Additions.m in Sources */,
+				A9032EB0112D7F6A009D6A02 /* NSDictionary+Additions.m in Sources */,
+				A9032ECE112D8323009D6A02 /* NSUserDefaults+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

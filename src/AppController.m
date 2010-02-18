@@ -18,6 +18,7 @@
 #import "SwordModuleTreeEntry.h"
 #import "FileRepresentation.h"
 #import "NotesManager.h"
+#import "NSDictionary+Additions.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err = 0;
@@ -115,7 +116,12 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithInt:250] forKey:DefaultsLSBWidth];
     [defaultsDict setObject:[NSNumber numberWithInt:150] forKey:DefaultsRSBWidth];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
-    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowPreviewToolTip];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowPreviewToolTip];
+    [defaultsDict setColor:[NSColor whiteColor] forKey:DefaultsTextBackgroundColor];
+    [defaultsDict setColor:[NSColor blackColor] forKey:DefaultsTextForegroundColor];
+    [defaultsDict setColor:[NSColor darkGrayColor] forKey:DefaultsLinkForegroundColor];
+    [defaultsDict setColor:[NSColor whiteColor] forKey:DefaultsLinkBackgroundColor];
+    [defaultsDict setObject:[NSNumber numberWithInt:NSUnderlineStyleNone] forKey:DefaultsLinkUnderlineAttribute];
     
     // cipher keys
     [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleCipherKeysKey];

@@ -480,7 +480,7 @@
     SwordModuleTextEntry *entry = [self textEntryForKey:[SwordKey swordKeyWithRef:reference] 
                                                textType:TextTypeStripped];
     if(entry) {
-        ret = [NSArray arrayWithObject:entry];    
+        ret = [NSArray arrayWithObject:entry];
     }
     
     return ret;    

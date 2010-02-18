@@ -14,10 +14,9 @@
 #import "SwordModule.h"
 #import "globals.h"
 #import "ProtocolHelper.h"
+#import "NSUserDefaults+Additions.h"
 
 @interface ExtTextViewController ()
-
-- (NSString *)processPreviewDisplay:(NSURL *)aUrl;
 
 @end
 
@@ -54,22 +53,21 @@
     // call delegate method when this view has loaded
     viewLoaded = YES;
     
-    //[[self view] setWantsLayer:YES];
-    
-    // delete any content in textview
+    NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
+    [linkAttributes setObject:[userDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
+    [linkAttributes setObject:[userDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
+    [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+    [textView setLinkTextAttributes:linkAttributes];
+    [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
+     
     [textView setString:@""];
-    
-    // set delegate for mouse tracking
     scrollView.delegate = self;
     
     [textView setHorizontallyResizable:YES];
-    //[[textView textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
     [[textView textContainer] setWidthTracksTextView:YES];
-    //[[textView textContainer] setHeightTracksTextView:YES];
     NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
                                 [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
     [textView setTextContainerInset:margins];
-    // we also observe changing of this value
     [[NSUserDefaults standardUserDefaults] addObserver:self 
                                             forKeyPath:DefaultsTextContainerVerticalMargins
                                                options:NSKeyValueObservingOptionNew context:nil];
@@ -77,19 +75,15 @@
                                             forKeyPath:DefaultsTextContainerHorizontalMargins
                                                options:NSKeyValueObservingOptionNew context:nil];
     
-    // register for frame changed notifications of mouse tracking scrollview
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollViewFrameDidChange:)
                                                  name:NSViewFrameDidChangeNotification
                                                object:scrollView];
     
     
-    // tell scrollview to post bounds notifications
     [scrollView setPostsFrameChangedNotifications:YES];    
-    // enable mouse tracking
     [scrollView updateMouseTracking];
     
-    // report view loading completed
     [self reportLoadingComplete];
 }
 
@@ -149,42 +143,24 @@
 #pragma mark - NSTextView delegates
 
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
-    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:willDisplayToolTip:]");
-
-    // create URL
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
         MBLOGV(MBLOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
     } else {
-        return [self processPreviewDisplay:url];
+        return [delegate performSelector:@selector(processPreviewDisplay:) withObject:url];
     }
     
     return @"";
 }
 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:]");
-    
-    [self processPreviewDisplay:(NSURL *)link];
-    
+    if(delegate) {
+        [delegate performSelector:@selector(linkClicked:) withObject:link];
+    }
     return YES;
 }
 
-- (NSString *)processPreviewDisplay:(NSURL *)aUrl {
-    NSDictionary *linkResult = [SwordManager linkDataForLinkURL:aUrl];
-    SendNotifyShowPreviewData(linkResult);
-    
-    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] classname: %@", [aUrl className]);    
-    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] link: %@", [aUrl description]);
-    if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
-        return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
-    }
-    
-    return @"";
-}
-
 - (void)textView:(NSTextView *)aTextView doubleClickedOnCell:(id < NSTextAttachmentCell >)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex {
-    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -textView:doubleClickedOnCell:inRect:atIndex:]");    
 }
 
 #pragma mark - mouse tracking protocol

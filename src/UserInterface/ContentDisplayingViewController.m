@@ -7,6 +7,8 @@
 //
 
 #import "ContentDisplayingViewController.h"
+#import "HUDPreviewController.h"
+#import "MBPreferenceController.h"
 #import "globals.h"
 #import "NotesViewController.h"
 #import "BibleViewController.h"
@@ -23,6 +25,7 @@
 #import "SwordModuleTextEntry.h"
 #import "ModuleListUIController.h"
 #import "CacheObject.h"
+#import "NSAttributedString+Additions.h"
 
 
 @interface ContentDisplayingViewController ()
@@ -31,6 +34,7 @@
 @property (readwrite) NSRange clickedLinkTextRange;
 
 - (NSDictionary *)textAttributesOfLastEventLocation;
+- (NSString *)processPreviewDisplay:(NSURL *)aUrl;
 
 @end
 
@@ -124,20 +128,44 @@
     
     if([event type] == NSRightMouseDown ||
        (([event type] == NSLeftMouseDown) && ([event modifierFlags] & NSControlKeyMask))) {        
-        // is link?
         [self setLastEvent:event];
         NSDictionary *attrs = [self textAttributesOfLastEventLocation];
         NSURL *link = [attrs objectForKey:NSLinkAttributeName];
-        if(link != nil) {
+        if(link) {
             ret = linkContextMenu;
-            // save the URL
-            contextMenuClickedLink = link;
+            self.contextMenuClickedLink = link;
         } else if([attrs objectForKey:NSAttachmentAttributeName] != nil) {
             ret = imageContextMenu;            
         }
     }
     
     return ret;
+}
+
+- (BOOL)linkClicked:(id)link {
+    NSDictionary *data = [SwordManager linkDataForLinkURL:contextMenuClickedLink];
+    NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+    if([attrType isEqualToString:@"n"]) {
+        [self processPreviewDisplay:link];
+    } else {
+        self.contextMenuClickedLink = link;
+        [self openLink:self];
+    }
+    
+    return YES;
+}
+
+- (NSString *)processPreviewDisplay:(NSURL *)aUrl {
+    NSDictionary *linkResult = [SwordManager linkDataForLinkURL:aUrl];
+    SendNotifyShowPreviewData(linkResult);
+    
+    MBLOGV(MBLOG_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] classname: %@", [aUrl className]);    
+    MBLOGV(MBLOG_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] link: %@", [aUrl description]);
+    if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
+        return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
+    }
+    
+    return @"";
 }
 
 - (NSDictionary *)textAttributesOfLastEventLocation {
@@ -159,9 +187,8 @@
     SEL selector = [menuItem action];
 
     if([menuItem menu] == textContextMenu) {
-        // we need the length of the selected text
-        NSString *textSelection = [[(<TextContentProviding>)contentDisplayController textView] selectedString];
-        
+        NSString *textSelection = [[(<TextContentProviding>)contentDisplayController textView] selectedString];        
+
         if(selector == @selector(lookUpInIndex:)) {
             if([textSelection length] == 0) {
                 ret = NO;
@@ -178,7 +205,17 @@
             if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0) {
                 ret = NO;
             }
-        }        
+        } else if(selector == @selector(addBookmark:)) {
+            NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+            if([selection length] == 0 || [[selection findBibleVerses] count] == 0) {
+                ret = NO;
+            }
+        } else if(selector == @selector(addVersesToBookmark:)) {
+            NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+            if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0 || [[selection findBibleVerses] count] == 0) {
+                ret = NO;
+            }
+        }
         return ret;
     } else if([menuItem menu] == linkContextMenu) {
         if(selector == @selector(openLink:)) {
@@ -195,7 +232,6 @@
                 }
             }
         } else if(selector == @selector(removeLink:)) {
-            // is link?
             NSDictionary *attrs = [self textAttributesOfLastEventLocation];
             NSURL *link = [attrs objectForKey:NSLinkAttributeName];
             if(link == nil) {
@@ -223,6 +259,18 @@
 
 
 #pragma mark - Text Context Menu actions
+
+- (IBAction)addBookmark:(id)sender {
+    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+    NSArray *verses = [selection findBibleVerses];
+    if(hostingDelegate) {
+        [hostingDelegate performSelector:@selector(addBookmarkForVerses:) withObject:verses];
+    }
+}
+
+- (IBAction)addVersesToBookmark:(id)sender {
+    
+}
 
 - (IBAction)lookUpInIndex:(id)sender {
     NSString *sel = [[(<TextContentProviding>)contentDisplayController textView] selectedString];
@@ -339,6 +387,8 @@
             modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
         } else if([attrType isEqualToString:@"Greek"]) {
             modName = [userDefaults stringForKey:DefaultsStrongsGreekModule];
+        } else if([attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
+            modName = [userDefaults stringForKey:DefaultsMorphGreekModule];
         }
     }
     

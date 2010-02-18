@@ -60,11 +60,9 @@ typedef enum _NavigationDirectionType {
         
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         
-        // load leftSideBar
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
         [lsbViewController setHostingDelegate:self];
         
-        // load rightSideBar
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
         [rsbViewController setHostingDelegate:self];
         
@@ -78,35 +76,22 @@ typedef enum _NavigationDirectionType {
 - (void)awakeFromNib {
     [view setDelegate:self];
     
-    // set default widths for sbs
     defaultLSBWidth = [[userDefaults objectForKey:DefaultsLSBWidth] intValue];
     defaultRSBWidth = [[userDefaults objectForKey:DefaultsRSBWidth] intValue];
     
-    // set main split vertical
     [mainSplitView setVertical:YES];
     [mainSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     [mainSplitView setDelegate:self];
 
-    // set content split vertical
     [contentSplitView setVertical:YES];
     [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     [contentSplitView setDelegate:self];
     
-    // activate mouse movement in subviews
     [[self window] setAcceptsMouseMovedEvents:YES];
-    // set window status bar
-    /*
-	[self.window setAutorecalculatesContentBorderThickness:NO forEdge:NSMinYEdge];
-	[self.window setContentBorderThickness:22.0f forEdge:NSMinYEdge];
-     */
     
-    // lets show the images in sidebar seg control
     [self showingLSB];
     [self showingRSB];
-    [leftSideBottomSegControl sizeToFit];
-    [rightSideBottomSegControl sizeToFit];
     
-    // prepare search text fields recents menu
     NSMenu *recentsMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")];
     [recentsMenu setAutoenablesItems:YES];
     // recent searches
@@ -183,22 +168,6 @@ typedef enum _NavigationDirectionType {
         type = IndexSearchType;
     }
     [self setSearchUIType:type searchString:nil];
-}
-
-- (IBAction)leftSideBottomSegChange:(id)sender {
-    int clickedSegment = [sender selectedSegment];
-    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
-    if(clickedSegmentTag == 0) {
-        [self toggleLSB];
-    }
-}
-
-- (IBAction)rightSideBottomSegChange:(id)sender {
-    int clickedSegment = [sender selectedSegment];
-    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
-    if(clickedSegmentTag == 0) {
-        [self toggleRSB];
-    }    
 }
 
 /** to be overriden by subclasses */
@@ -302,10 +271,10 @@ typedef enum _NavigationDirectionType {
     if([[mainSplitView subviews] containsObject:[lsbViewController view]]) {
         ret = YES;
         // show image play to right
-        [leftSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
+        [leftSideBarToggleBtn setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
     } else {
         // show image play to left
-        [leftSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
+        [leftSideBarToggleBtn setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];
     }
     
     return ret;
@@ -316,23 +285,25 @@ typedef enum _NavigationDirectionType {
     if([[contentSplitView subviews] containsObject:[rsbViewController view]]) {
         ret = YES;
         // show image play to left
-        [rightSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];    
+        [rightSideBarToggleBtn setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];    
     } else {
         // show image play to right
-        [rightSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
+        [rightSideBarToggleBtn setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
     }
     
     return ret;
 }
 
-- (void)toggleLSB {
+- (BOOL)toggleLSB {
     BOOL show = ![self showingLSB];
     [self showLeftSideBar:show];
+    return show;
 }
 
-- (void)toggleRSB {
+- (BOOL)toggleRSB {
     BOOL show = ![self showingRSB];
     [self showRightSideBar:show];
+    return show;
 }
 
 - (void)showLeftSideBar:(BOOL)flag {
@@ -347,7 +318,6 @@ typedef enum _NavigationDirectionType {
         size.width = lsbWidth;
         [mainSplitView addSubview:v positioned:NSWindowBelow relativeTo:nil];
         [[v animator] setFrameSize:size];
-        [leftSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
     } else {
         // shrink the view
         NSView *v = [lsbViewController view];
@@ -356,10 +326,9 @@ typedef enum _NavigationDirectionType {
             lsbWidth = size.width;
         }
         [[v animator] removeFromSuperview];
-        [leftSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     }
+    [self showingLSB];
     
-    // we need to redisplay
     [mainSplitView setNeedsDisplay:YES];
     [mainSplitView adjustSubviews];
 }
@@ -376,7 +345,6 @@ typedef enum _NavigationDirectionType {
         size.width = rsbWidth;
         [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
         [[v animator] setFrameSize:size];
-        [rightSideBottomSegControl setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate] forSegment:0];
     } else {
         // shrink the view
         NSView *v = [rsbViewController view];
@@ -385,10 +353,9 @@ typedef enum _NavigationDirectionType {
             rsbWidth = size.width;
         }
         [[v animator] removeFromSuperview];
-        [rightSideBottomSegControl setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically] forSegment:0];
     }
+    [self showingRSB];
     
-    // we need to redisplay
     [contentSplitView setNeedsDisplay:YES];
     [contentSplitView adjustSubviews];
 }
@@ -544,6 +511,14 @@ typedef enum _NavigationDirectionType {
         return [contentViewController contentViewType];
     }
     return SwordBibleContentType;
+}
+
+- (void)addBookmarkForVerses:(NSArray *)aVerseList {
+    [bookmarkManagerUIController bookmarkDialogForVerseList:aVerseList];
+}
+
+- (void)addVerses:(NSArray *)aVerseList toBookmark:(Bookmark *)aBookmark {
+    
 }
 
 #pragma mark - FullScreen stuff

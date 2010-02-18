@@ -170,11 +170,9 @@
 		(*swkey) = [[aKey uppercaseString] cStringUsingEncoding:NSISOLatin1StringEncoding];
     }
     
-    // error on key addressing?
 	if(swkey->Error()) {
         MBLOG(MBLOG_ERR, @"[SwordDictionary -entryForKey:] error on getting key!");
     } else {
-        // get text
         NSArray *data = [self strippedTextEntriesForRef:aKey];
         if(data && [data count] > 0) {
             ret = [(SwordModuleTextEntry *)[data objectAtIndex:0] text];

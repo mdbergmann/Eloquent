@@ -105,10 +105,6 @@
         i++;
     }
     
-    // set font for bottombar segmented control
-    [rightSideBottomSegControl setFont:FontStd];
-    [leftSideBottomSegControl setFont:FontStd];
-    
     // set currect searchText if available
     if([searchTextObjs count] > 0) {
         currentSearchText = [searchTextObjs objectAtIndex:0];
@@ -214,16 +210,17 @@
     return ret;    
 }
 
-- (void)toggleLSB {
-    [super toggleLSB];
-    [userDefaults setBool:[self showingLSB] forKey:DefaultsShowLSBWorkspace];
+- (BOOL)toggleLSB {
+    BOOL showing = [super toggleLSB];
+    [userDefaults setBool:showing forKey:DefaultsShowLSBWorkspace];
+    return showing;
 }
 
-- (void)toggleRSB {
-    [super toggleRSB];
-    [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBWorkspace];
+- (BOOL)toggleRSB {
+    BOOL showing = [super toggleRSB];
+    [userDefaults setBool:showing forKey:DefaultsShowRSBWorkspace];
+    return showing;
 }
-
 
 #pragma mark - Actions
 

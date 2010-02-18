@@ -20,6 +20,7 @@
 #define TB_FORCERELOAD_TYPE_ITEM    @"IdForceReload"
 #define TB_NAVIGATION_TYPE_ITEM     @"IdNavigation"
 
+@class Bookmark;
 @class ScopeBarView;
 @class SearchTextObject;
 @class FullScreenView;
@@ -31,57 +32,40 @@
 @class BookmarkManagerUIController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, ContentSaving> {
-    // splitView to add and remove modules view. splitview hosts placeHolderView
     IBOutlet NSSplitView *mainSplitView;
-    // the contentview of the window
     IBOutlet FullScreenView *view;
-    // splitView for placeholderview
     IBOutlet NSSplitView *contentSplitView;
-    // placeholder for the main content view
     IBOutlet NSBox *placeHolderView;
-    // placeholder for the search options
     IBOutlet NSBox *placeHolderSearchOptionsView;
-    // options bar
     IBOutlet NSView *optionsView;
-    // progress indicator
     IBOutlet NSProgressIndicator *progressIndicator;
-    /** the segmentedcontrol for left sides */
-    IBOutlet NSSegmentedControl *leftSideBottomSegControl;
-    /** the segmentedcontrol for right sides */
-    IBOutlet NSSegmentedControl *rightSideBottomSegControl;
+    IBOutlet NSButton *leftSideBarToggleBtn;
+    IBOutlet NSButton *rightSideBarToggleBtn;
     IBOutlet NSButton *addBookmarkBtn;
     IBOutlet NSButton *forceReloadBtn;
     IBOutlet NSSearchField *searchTextField;
     IBOutlet NSSegmentedControl *searchTypeSegControl;
     
-    // the main view for placeHolderView
     ContentDisplayingViewController *contentViewController;
 
-    // our delegate
     id delegate;
     
-    // every host has a left side bar view
     LeftSideBarViewController *lsbViewController;
     float lsbWidth;
     float lsbWidthFullScreen;
     float defaultLSBWidth;
     
-    // every host has a right side bar view
     RightSideBarViewController *rsbViewController;
     float rsbWidth;
     float rsbWidthFullScreen;
     float defaultRSBWidth;
     
     NSView *searchOptionsView;
-    // the search text helper object
     SearchTextObject *currentSearchText;
     
-    // for module about
     ModuleListUIController *moduleAccessoryViewController;
-    // for bookmarks adding
     BookmarkManagerUIController *bookmarkManagerUIController;
     
-    /** flag indicating that the host has fully loaded */
     BOOL hostLoaded;
 }
 
@@ -95,8 +79,8 @@
 - (void)setView:(NSView *)aView;
 
 // sidebars
-- (void)toggleLSB;
-- (void)toggleRSB;
+- (BOOL)toggleLSB;
+- (BOOL)toggleRSB;
 - (void)showLeftSideBar:(BOOL)flag;
 - (void)showRightSideBar:(BOOL)flag;
 - (BOOL)showingLSB;
@@ -116,6 +100,9 @@
 
 /** tells the lsb to open the module about window */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
+
+- (void)addBookmarkForVerses:(NSArray *)aVerseList;
+- (void)addVerses:(NSArray *)aVerseList toBookmark:(Bookmark *)aBookmark;
 
 - (ContentViewType)contentViewType;
 
@@ -138,10 +125,6 @@
 - (IBAction)searchInput:(id)sender;
 - (IBAction)searchType:(id)sender;
 - (IBAction)myPrint:(id)sender;
-
-// direct connections
-- (IBAction)leftSideBottomSegChange:(id)sender;
-- (IBAction)rightSideBottomSegChange:(id)sender;
 - (IBAction)forceReload:(id)sender;
 
 // menu first responder actions

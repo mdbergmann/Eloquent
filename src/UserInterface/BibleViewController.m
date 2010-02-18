@@ -35,6 +35,7 @@
 #import "ModuleListUIController.h"
 #import "SwordModuleTextEntry.h"
 #import "SwordBibleTextEntry.h"
+#import "NSUserDefaults+Additions.h"
 
 @interface BibleViewController ()
 
@@ -243,19 +244,15 @@
 }
 
 - (void)moduleSelectionChanged:(id)sender {
-    // get selected modulename
     NSString *name = [(NSMenuItem *)sender title];
-    // if different module, then change
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
-        // get new module
         self.module = [[SwordManager defaultManager] moduleWithName:name];
         if((self.reference != nil) && ([self.reference length] > 0)) {
-            // redisplay text
+            forceRedisplay = YES;
             [self displayTextForReference:self.reference searchType:searchType];
         }
     }
     
-    // reload book entries
     [entriesOutlineView reloadData];
 }
 
@@ -290,6 +287,7 @@
 
         NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
         NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
+        [contentAttributes setObject:[userDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
 
         // strip search tokens
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
@@ -308,7 +306,6 @@
                     
                     // add attributes
                     [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
-                    [keyAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];                
                     [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
                     
                     // prepare output
@@ -481,16 +478,19 @@
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
     [webPrefs setDefaultFontSize:(int)customFontSize];
     [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
-
+    
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                    size:(int)customFontSize];
     [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
 
-    return [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                   options:options
-                                        documentAttributes:nil];    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                                                    options:options
+                                                                         documentAttributes:nil];
+    [attrString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
+                            range:NSMakeRange(0, [attrString length])];
+    return attrString;
 }
 
 - (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString {
@@ -571,7 +571,7 @@
                     [anAttrString replaceCharactersInRange:replaceRange withString:visible];
                     [anAttrString addAttributes:markerOpts range:linkRange];
                     
-                    replaceRange.location += [visible length];   
+                    replaceRange.location += [visible length];
                 }
             }
         } else {

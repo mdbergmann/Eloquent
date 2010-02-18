@@ -100,10 +100,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
         
-    // set font for bottombar segmented control
-    [leftSideBottomSegControl setFont:FontStd];
-    [rightSideBottomSegControl setFont:FontStd];
-
     if(contentViewController != nil) {
         [self setSearchType:[contentViewController searchType]];
         [self setupContentRelatedViews];
@@ -126,15 +122,18 @@
     [(NSBox *)placeHolderView setContentView:aView];
 }
 
-- (void)toggleLSB {
-    [super toggleLSB];
-    [userDefaults setBool:[self showingLSB] forKey:DefaultsShowLSBSingle];
+- (BOOL)toggleLSB {
+    BOOL showing = [super toggleLSB];
+    [userDefaults setBool:showing forKey:DefaultsShowLSBSingle];
+    return showing;
 }
 
-- (void)toggleRSB {
-    [super toggleRSB];
-    [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBSingle];
+- (BOOL)toggleRSB {
+    BOOL showing = [super toggleRSB];
+    [userDefaults setBool:showing forKey:DefaultsShowRSBSingle];
+    return showing;
 }
+
 
 #pragma mark - Actions
 

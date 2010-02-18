@@ -62,6 +62,11 @@
 #define DefaultsRSBWidth                            @"DefaultsRSBWidth"
 #define DefaultsShowHUDPreview                      @"DefaultsShowHUDPreview"
 #define DefaultsShowPreviewToolTip                  @"DefaultsShowPreviewToolTip"
+#define DefaultsTextBackgroundColor                 @"DefaultsTextBackgroundColor"
+#define DefaultsTextForegroundColor                 @"DefaultsTextForegroundColor"
+#define DefaultsLinkUnderlineAttribute              @"DefaultsLinkUnderlineAttribute"
+#define DefaultsLinkForegroundColor                 @"DefaultsLinkForegroundColor"
+#define DefaultsLinkBackgroundColor                 @"DefaultsLinkBackgroundColor"
 
 // confirmations
 #define DefaultsShowFullScreenConfirm               @"DefaultsShowFullScreenConfirm"

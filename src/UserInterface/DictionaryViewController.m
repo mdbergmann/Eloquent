@@ -62,7 +62,6 @@
         self.delegate = aDelegate;
         
         if(aModule != nil) {
-            // set keys
             self.dictKeys = [aModule allKeys];
         }
         
@@ -83,25 +82,18 @@
     
     [super awakeFromNib];
     
-    // if our hosted subview also has loaded, report that
-    // else, wait until the subview has loaded and report then
     if([(HostableViewController *)contentDisplayController viewLoaded]) {
-        // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
         
-        // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];        
     }
     
-    // create popup button menu
     [self populateModulesMenu];
     
-    // check which delegate we have and en/disable the close button
     [self adaptUIToHost];
     
-    // loading finished
     viewLoaded = YES;
 }
 
@@ -330,6 +322,7 @@
         [entriesTableView reloadData];
         
         if(self.reference != nil) {
+            forceRedisplay = YES;
             [self displayTextForReference:reference searchType:searchType];
         }        
     }

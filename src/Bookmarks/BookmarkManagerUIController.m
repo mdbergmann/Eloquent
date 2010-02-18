@@ -84,6 +84,24 @@ enum BookmarkMenu_Items{
           contextInfo:nil];
 }
 
+- (void)bookmarkDialogForVerseList:(NSArray *)aVerseList {
+    Bookmark *new = [[Bookmark alloc] init];
+    
+    NSString *verseString = [aVerseList componentsJoinedByString:@";"];    
+    [new setReference:verseString];
+    [new setName:@""];
+    
+    [bmObjectController setContent:new];
+    
+    bookmarkAction = BookmarkMenuAddNewBM;
+    NSWindow *window = [(NSWindowController *)hostingDelegate window];
+    [NSApp beginSheet:bookmarkDetailPanel
+       modalForWindow:window
+        modalDelegate:self
+       didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
+          contextInfo:nil];
+}
+
 - (void)updateBookmarkSelection {
     Bookmark *clickedObj = (Bookmark *)[self delegateSelectedObject];
     if([bookmarkSelection count] == 0 || [bookmarkSelection count] == 1) {

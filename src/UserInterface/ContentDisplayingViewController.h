@@ -20,6 +20,8 @@ typedef enum _ContentViewType {
 }ContentViewType;
 
 enum TextContextMenuItems {
+    AddBookmark = 90,
+    AddVersesToBookmark = 91,
     LookUpInIndexDefault = 100,
     LookUpInIndexList,
     LookUpInDictionaryDefault = 300,
@@ -86,6 +88,8 @@ enum LinkContextMenuItems {
 - (IBAction)saveDocument:(id)sender;
 
 // context menu actions
+- (IBAction)addBookmark:(id)sender;
+- (IBAction)addVersesToBookmark:(id)sender;
 - (IBAction)lookUpInIndex:(id)sender;
 - (IBAction)lookUpInIndexOfBible:(id)sender;
 - (IBAction)lookUpInDictionary:(id)sender;
