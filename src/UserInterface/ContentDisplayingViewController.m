@@ -26,6 +26,8 @@
 #import "ModuleListUIController.h"
 #import "CacheObject.h"
 #import "NSAttributedString+Additions.h"
+#import "BookmarkManager.h"
+#import "BookmarkManagerUIController.h"
 
 
 @interface ContentDisplayingViewController ()
@@ -69,6 +71,7 @@
 
 - (void)awakeFromNib {
     // populate menu items with modules
+    // bibles
     NSMenu *bibleModules = [[NSMenu alloc] init];
     [ModuleListUIController generateModuleMenu:&bibleModules 
                                  forModuletype:bible 
@@ -76,6 +79,7 @@
                                 withMenuAction:@selector(lookUpInIndexOfBible:)];
     NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
     [item setSubmenu:bibleModules];
+    // dictionaries
     NSMenu *dictModules = [[NSMenu alloc] init];
     [ModuleListUIController generateModuleMenu:&dictModules 
                                  forModuletype:dictionary 
@@ -83,6 +87,12 @@
                                 withMenuAction:@selector(lookUpInDictionaryOfModule:)];
     item = [textContextMenu itemWithTag:LookUpInDictionaryList];
     [item setSubmenu:dictModules];
+    
+    // create bookmarks menu
+    NSMenu *bookmarksMenu = [[NSMenu alloc] init];
+    [BookmarkManagerUIController generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];
+    item = [textContextMenu itemWithTag:AddVersesToBookmark];
+    [item setSubmenu:bookmarksMenu];    
 }
 
 - (void)hostingDelegateShowRightSideBar:(BOOL)aFlag {
@@ -187,7 +197,7 @@
     SEL selector = [menuItem action];
 
     if([menuItem menu] == textContextMenu) {
-        NSString *textSelection = [[(<TextContentProviding>)contentDisplayController textView] selectedString];        
+        NSAttributedString *textSelection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
 
         if(selector == @selector(lookUpInIndex:)) {
             if([textSelection length] == 0) {
@@ -205,14 +215,12 @@
             if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0) {
                 ret = NO;
             }
-        } else if(selector == @selector(addBookmark:)) {
-            NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
-            if([selection length] == 0 || [[selection findBibleVerses] count] == 0) {
+        } else if(selector == @selector(addBookmark:)) {            
+            if([textSelection length] == 0 || [[textSelection findBibleVerses] count] == 0) {
                 ret = NO;
             }
         } else if(selector == @selector(addVersesToBookmark:)) {
-            NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
-            if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0 || [[selection findBibleVerses] count] == 0) {
+            if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0 || [[textSelection findBibleVerses] count] == 0) {
                 ret = NO;
             }
         }
@@ -269,7 +277,11 @@
 }
 
 - (IBAction)addVersesToBookmark:(id)sender {
-    
+    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+    NSArray *verses = [selection findBibleVerses];
+    Bookmark *bm = [(NSMenuItem *)sender representedObject];
+    [bm setReference:[NSString stringWithFormat:@"%@;%@", [bm reference], [verses componentsJoinedByString:@";"]]];
+    [[BookmarkManager defaultManager] saveBookmarks];
 }
 
 - (IBAction)lookUpInIndex:(id)sender {

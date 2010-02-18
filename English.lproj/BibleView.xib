@@ -433,6 +433,15 @@
 						<reference key="NSMixedImage" ref="56250480"/>
 						<int key="NSTag">90</int>
 					</object>
+					<object class="NSMenuItem" id="478271660">
+						<reference key="NSMenu" ref="650197534"/>
+						<string key="NSTitle">Add verses to bookmark</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="344040759"/>
+						<reference key="NSMixedImage" ref="56250480"/>
+						<int key="NSTag">91</int>
+					</object>
 					<object class="NSMenuItem" id="689705641">
 						<reference key="NSMenu" ref="650197534"/>
 						<bool key="NSIsDisabled">YES</bool>
@@ -1200,6 +1209,14 @@
 					</object>
 					<int key="connectionID">205</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">addVersesToBookmark:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="478271660"/>
+					</object>
+					<int key="connectionID">207</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1376,6 +1393,7 @@
 							<reference ref="226054918"/>
 							<reference ref="831830074"/>
 							<reference ref="383925105"/>
+							<reference ref="478271660"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1611,6 +1629,11 @@
 						<reference key="object" ref="383925105"/>
 						<reference key="parent" ref="650197534"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">206</int>
+						<reference key="object" ref="478271660"/>
+						<reference key="parent" ref="650197534"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1663,6 +1686,7 @@
 					<string>202.IBPluginDependency</string>
 					<string>203.IBPluginDependency</string>
 					<string>204.IBPluginDependency</string>
+					<string>206.IBPluginDependency</string>
 					<string>28.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
 					<string>30.IBPluginDependency</string>
@@ -1741,6 +1765,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{392, 503}, {100, 48}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1782,7 +1807,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">205</int>
+			<int key="maxID">207</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

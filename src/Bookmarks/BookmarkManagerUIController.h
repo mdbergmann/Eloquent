@@ -32,6 +32,10 @@
 
 @property (readonly) NSMenu *bookmarkMenu;
 
++ (void)generateBookmarkMenu:(NSMenu **)itemMenu 
+              withMenuTarget:(id)aTarget 
+              withMenuAction:(SEL)aSelector;
+
 // init
 - (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate;
 

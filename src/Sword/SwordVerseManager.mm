@@ -33,7 +33,6 @@
     self = [super init];
     if(self) {
         self.booksPerVersification = [NSMutableDictionary dictionary];
-        // get our verse manager
         verseMgr = sword::VerseMgr::getSystemVerseMgr();
     }
     

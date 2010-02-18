@@ -1,7 +1,5 @@
 #!/usr/bin/env macruby
 
-require 'HotCocoa'
-
 buildnumber = File.new("buildnumber", "r").gets
 infoDict = NSMutableDictionary.dictionaryWithContentsOfFile("./Info.plist")
 infoDict["CFBundleVersion"] = buildnumber

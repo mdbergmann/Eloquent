@@ -28,6 +28,7 @@ enum BookmarkMenu_Items{
 
 @interface BookmarkManagerUIController ()
 
++ (void)_createMenuStructure:(NSMenu *)menu fromBookmarkTree:(NSArray *)bookmarkList menuTarget:(id)aTarget menuSelector:(SEL)aSelector;
 - (void)updateBookmarkSelection;
 
 @end
@@ -63,6 +64,43 @@ enum BookmarkMenu_Items{
 }
 
 #pragma mark - Methods
+
+/**
+ generate a menu structure
+ 
+ @params[in|out] subMenuItem is the start of the menustructure.
+ @params[in] aTarget the target object of the created menuitem
+ @params[in] aSelector the selector of the target that should be called
+ */
++ (void)generateBookmarkMenu:(NSMenu **)itemMenu 
+              withMenuTarget:(id)aTarget 
+              withMenuAction:(SEL)aSelector {
+    [BookmarkManagerUIController _createMenuStructure:*itemMenu 
+                                     fromBookmarkTree:[[BookmarkManager defaultManager] bookmarks] 
+                                           menuTarget:aTarget
+                                         menuSelector:aSelector];
+}
+
++ (void)_createMenuStructure:(NSMenu *)menu fromBookmarkTree:(NSArray *)bookmarkList menuTarget:(id)aTarget menuSelector:(SEL)aSelector {
+    // loop over bookmarks in list
+    for(Bookmark *bm in bookmarkList) {
+        if([bm isLeaf]) {
+            NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+            [item setTitle:[bm name]];
+            [item setTarget:aTarget];
+            [item setAction:aSelector];
+            [item setEnabled:YES];
+            [item setRepresentedObject:bm];
+            [menu addItem:item];
+        } else {
+            NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+            [item setTitle:[bm name]];
+            [item setSubmenu:[[[NSMenu alloc] init] autorelease]];
+            [menu addItem:item];
+            [self _createMenuStructure:[item submenu] fromBookmarkTree:[bm subGroups] menuTarget:aTarget menuSelector:aSelector];
+        }
+    }
+}
 
 - (void)bookmarkDialog:(id)sender {    
     // create new bookmark instance
