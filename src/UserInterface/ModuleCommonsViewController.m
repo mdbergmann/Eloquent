@@ -572,47 +572,49 @@ extern char BookmarkMgrUI;
 #pragma mark - MouseTracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseEntered]");
 }
 
 - (void)mouseExited:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[ModuleViewController - mouseExited]");
 }
 
 #pragma mark - ProgressIndicating
 
 - (void)beginIndicateProgress {
-    // delegate to host if needed
-    // delegates can be:
-    // - BibleCombiViewController
-    // - SingleViewHostController
-    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)delegate beginIndicateProgress];
-    } else {
-        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-        if(![[[self view] subviews] containsObject:[pc view]]) {
-            // we need the same size
-            [[pc view] setFrame:[[self view] frame]];
-            [pc startProgressAnimation];
-            [[self view] addSubview:[pc view]];
-            [[[self view] superview] setNeedsDisplay:YES];
-        }
+    if(viewLoaded) {
+        // delegate to host if needed
+        // delegates can be:
+        // - BibleCombiViewController
+        // - SingleViewHostController
+        if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+            [(BibleCombiViewController *)delegate beginIndicateProgress];
+        } else {
+            ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+            if(![[[self view] subviews] containsObject:[pc view]]) {
+                // we need the same size
+                [[pc view] setFrame:[[self view] frame]];
+                [pc startProgressAnimation];
+                [[self view] addSubview:[pc view]];
+                [[[self view] superview] setNeedsDisplay:YES];
+            }
+        }        
     }
 }
 
 - (void)endIndicateProgress {
-    // delegate to host if needed
-    // delegates can be:
-    // - BibleCombiViewController
-    // - SingleViewHostController
-    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
-        [(BibleCombiViewController *)delegate endIndicateProgress];
-    } else {
-        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-        [pc stopProgressAnimation];
-        if([[[self view] subviews] containsObject:[pc view]]) {
-            [[pc view] removeFromSuperview];    
-        }
+    if(viewLoaded) {
+        // delegate to host if needed
+        // delegates can be:
+        // - BibleCombiViewController
+        // - SingleViewHostController
+        if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+            [(BibleCombiViewController *)delegate endIndicateProgress];
+        } else {
+            ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
+            [pc stopProgressAnimation];
+            if([[[self view] subviews] containsObject:[pc view]]) {
+                [[pc view] removeFromSuperview];    
+            }
+        }        
     }
 }
 

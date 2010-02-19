@@ -19,11 +19,7 @@
 
 /** the view of this view controller is a ScrollSynchronizableView */
 @interface DictionaryViewController : ModuleViewController <NSCoding> {
-    // module popup button
     IBOutlet NSPopUpButton *modulePopBtn;
-    // status line
-    IBOutlet NSTextField *statusLine;
-    // the table view for the dictionary items
     IBOutlet NSTableView *entriesTableView;
     
     NSMutableArray *selection;

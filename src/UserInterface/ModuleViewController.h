@@ -19,6 +19,7 @@
 
 @interface ModuleViewController : ModuleCommonsViewController <NSCoding, TextContentProviding, TextDisplayable, TextDisplayableExt> {
     IBOutlet NSBox *placeHolderView;
+    IBOutlet NSTextField *statusLine;
     
     CacheObject *searchContentCache;
 

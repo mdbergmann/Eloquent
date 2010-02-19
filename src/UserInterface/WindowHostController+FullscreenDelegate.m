@@ -36,4 +36,8 @@
     [self showRightSideBar:[self showingRSB]];
 }
 
+- (IBAction)fullScreenModeOnOff:(id)sender {
+    [view fullScreenModeOnOff:sender];
+}
+
 @end

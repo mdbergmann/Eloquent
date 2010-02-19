@@ -22,7 +22,6 @@
     IBOutlet NSButton *closeBtn;
     IBOutlet NSPopUpButton *addPopBtn;
     IBOutlet NSPopUpButton *modulePopBtn;
-    IBOutlet NSTextField *statusLine;
     
     IBOutlet NSView *sideBarView;
     IBOutlet NSOutlineView *entriesOutlineView;

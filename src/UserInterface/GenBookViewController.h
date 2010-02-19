@@ -19,11 +19,7 @@
 
 /** the view of this view controller is a ScrollSynchronizableView */
 @interface GenBookViewController : ModuleViewController <NSCoding> {
-    // module popup button
     IBOutlet NSPopUpButton *modulePopBtn;
-    // status line
-    IBOutlet NSTextField *statusLine;
-    // the outlineview view for the dictionary items
     IBOutlet NSOutlineView *entriesOutlineView;
     
     NSMutableArray *selection;

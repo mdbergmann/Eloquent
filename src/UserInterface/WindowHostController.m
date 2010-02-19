@@ -194,10 +194,6 @@ typedef enum _NavigationDirectionType {
     }
 }
 
-- (IBAction)fullScreenModeOnOff:(id)sender {
-    [view fullScreenModeOnOff:sender];
-}
-
 - (IBAction)focusSearchEntry:(id)sender {
     [[self window] makeFirstResponder:searchTextField];
 }

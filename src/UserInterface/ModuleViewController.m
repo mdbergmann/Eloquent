@@ -44,7 +44,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        performProgressCalculation = YES;
+        performProgressCalculation = NO;
         searchType = ReferenceSearchType;
         contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
         [self setSearchContentCache:[[CacheObject alloc] init]];
@@ -183,7 +183,7 @@
     [self displayTextForReference:aReference searchType:searchType];
 }
 
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {    
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     searchType = aType;
     
     if(aReference == nil || module == nil) {
@@ -218,7 +218,7 @@
         // stop indicating progress
         // Indexing is ended in searchOperationFinished:
         [self endIndicateProgress];            
-    }    
+    }            
 }
 
 - (BOOL)hasValidCacheObject {
@@ -381,7 +381,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        performProgressCalculation = YES;
+        performProgressCalculation = NO;
         searchType = ReferenceSearchType;
         NSString *moduleName = [decoder decodeObjectForKey:@"ModuleNameEncoded"];
         self.module = [[SwordManager defaultManager] moduleWithName:moduleName];

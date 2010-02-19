@@ -10,19 +10,19 @@
 #import <Cocoa/Cocoa.h>
 
 typedef struct _CTGradientElement 
-	{
+{
 	float red, green, blue, alpha;
 	float position;
 	
 	struct _CTGradientElement *nextElement;
-	} CTGradientElement;
+} CTGradientElement;
 
 typedef enum  _CTBlendingMode
-	{
+{
 	CTLinearBlendingMode,
 	CTChromaticBlendingMode,
 	CTInverseChromaticBlendingMode
-	} CTGradientBlendingMode;
+} CTGradientBlendingMode;
 
 
 @interface CTGradient : NSObject <NSCopying, NSCoding>

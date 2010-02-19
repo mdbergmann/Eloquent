@@ -110,7 +110,6 @@
 - (IBAction)leftSideBarHideShow:(id)sender;
 - (IBAction)rightSideBarHideShow:(id)sender;
 - (IBAction)switchLookupView:(id)sender;
-- (IBAction)fullScreenModeOnOff:(id)sender;
 - (IBAction)focusSearchEntry:(id)sender;
 - (IBAction)nextBook:(id)sender;
 - (IBAction)previousBook:(id)sender;

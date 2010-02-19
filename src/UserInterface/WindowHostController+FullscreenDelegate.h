@@ -16,5 +16,6 @@
 - (void)goneToFullScreenMode;
 - (void)leavingFullScreenMode;
 - (void)leftFullScreenMode;
+- (IBAction)fullScreenModeOnOff:(id)sender;
 
 @end

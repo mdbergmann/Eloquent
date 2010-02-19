@@ -96,7 +96,6 @@
         [self displayTextForReference:reference searchType:searchType];    
     }
 
-    // loading finished
     viewLoaded = YES;
 }
 

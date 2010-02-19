@@ -1,0 +1,17 @@
+//
+//  ToolbarView.h
+//  MacSword2
+//
+//  Created by Manfred Bergmann on 19.02.10.
+//  Copyright 2010 Software by MABE. All rights reserved.
+//
+
+#import <Cocoa/Cocoa.h>
+
+@class CTGradient;
+
+@interface ToolbarView : NSView {
+    CTGradient *gradient;
+}
+
+@end

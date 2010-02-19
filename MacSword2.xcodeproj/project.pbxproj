@@ -114,6 +114,10 @@
 		A98A9535112E9A4000EC8B76 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
 		A98A9536112E9A4000EC8B76 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A98A9539112E9A6100EC8B76 /* ObjectAssotiations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */; };
+		A98A9683112ED53C00EC8B76 /* BibleViewController+RightSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9682112ED53C00EC8B76 /* BibleViewController+RightSidebar.m */; };
+		A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */; };
+		A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */; };
+		A98A96BA112EE29800EC8B76 /* ToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A96B9112EE29800EC8B76 /* ToolbarView.m */; };
 		A98EDE450F4C77D000A3387D /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
 		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
 		A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = A991F4A20EE2E224009A6D08 /* ModuleManager.png */; };
@@ -389,6 +393,14 @@
 		A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectAssotiations.m; path = src/ObjectAssotiations/ObjectAssotiations.m; sourceTree = "<group>"; };
 		A98A9528112E989C00EC8B76 /* ObjectAssotiationsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectAssotiationsTest.h; path = test/ObjectAssotiationsTest.h; sourceTree = "<group>"; };
 		A98A9529112E989C00EC8B76 /* ObjectAssotiationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectAssotiationsTest.m; path = test/ObjectAssotiationsTest.m; sourceTree = "<group>"; };
+		A98A9681112ED53C00EC8B76 /* BibleViewController+RightSidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BibleViewController+RightSidebar.h"; path = "src/UserInterface/BibleViewController+RightSidebar.h"; sourceTree = "<group>"; };
+		A98A9682112ED53C00EC8B76 /* BibleViewController+RightSidebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BibleViewController+RightSidebar.m"; path = "src/UserInterface/BibleViewController+RightSidebar.m"; sourceTree = "<group>"; };
+		A98A9684112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BibleViewController+TextDisplayGeneration.h"; path = "src/UserInterface/BibleViewController+TextDisplayGeneration.h"; sourceTree = "<group>"; };
+		A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BibleViewController+TextDisplayGeneration.m"; path = "src/UserInterface/BibleViewController+TextDisplayGeneration.m"; sourceTree = "<group>"; };
+		A98A969F112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BibleCombiViewController+ViewSynchronisation.h"; path = "src/UserInterface/BibleCombiViewController+ViewSynchronisation.h"; sourceTree = "<group>"; };
+		A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BibleCombiViewController+ViewSynchronisation.m"; path = "src/UserInterface/BibleCombiViewController+ViewSynchronisation.m"; sourceTree = "<group>"; };
+		A98A96B8112EE29800EC8B76 /* ToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarView.h; path = src/UserInterface/ToolbarView.h; sourceTree = "<group>"; };
+		A98A96B9112EE29800EC8B76 /* ToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarView.m; path = src/UserInterface/ToolbarView.m; sourceTree = "<group>"; };
 		A98EDE430F4C77D000A3387D /* SwordBibleBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBibleBook.h; sourceTree = "<group>"; };
 		A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBibleBook.mm; sourceTree = "<group>"; };
 		A99055AA0E04273E00E8D7A2 /* BibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleViewController.h; path = src/UserInterface/BibleViewController.h; sourceTree = "<group>"; };
@@ -916,6 +928,10 @@
 				A916FCDE0E053910009CAA2F /* ModuleViewController.m */,
 				A99055AA0E04273E00E8D7A2 /* BibleViewController.h */,
 				A99055AB0E04273E00E8D7A2 /* BibleViewController.m */,
+				A98A9681112ED53C00EC8B76 /* BibleViewController+RightSidebar.h */,
+				A98A9682112ED53C00EC8B76 /* BibleViewController+RightSidebar.m */,
+				A98A9684112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.h */,
+				A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */,
 				A9202A280E59A0E80094F629 /* CommentaryViewController.h */,
 				A9202A290E59A0E80094F629 /* CommentaryViewController.m */,
 				A90545B30E62EEB400CF4D18 /* DictionaryViewController.h */,
@@ -924,6 +940,8 @@
 				A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */,
 				A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */,
 				A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */,
+				A98A969F112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.h */,
+				A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */,
 				A98810320EB4A6820066943B /* SideBarViewController.h */,
 				A98810330EB4A6820066943B /* SideBarViewController.m */,
 				A98810350EB4A9350066943B /* LeftSideBarViewController.h */,
@@ -1032,6 +1050,8 @@
 				A91A23010E61926800382F44 /* HeaderImageView.m */,
 				A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */,
 				A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */,
+				A98A96B8112EE29800EC8B76 /* ToolbarView.h */,
+				A98A96B9112EE29800EC8B76 /* ToolbarView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1355,6 +1375,10 @@
 				A98A9519112E8C1D00EC8B76 /* WindowHostController+SideBars.m in Sources */,
 				A98A951C112E8DA000EC8B76 /* WindowHostController+FullscreenDelegate.m in Sources */,
 				A98A951F112E8E4B00EC8B76 /* ObjectAssotiations.m in Sources */,
+				A98A9683112ED53C00EC8B76 /* BibleViewController+RightSidebar.m in Sources */,
+				A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */,
+				A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */,
+				A98A96BA112EE29800EC8B76 /* ToolbarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,30 +30,25 @@ void resolveHSV(float *color1, float *color2);
 
 @implementation CTGradient
 /////////////////////////////////////Initialization Type Stuff
-- (id)init
-{
+- (id)init {
     self = [super init];
     
-    if (self != nil)
-	{
+    if (self != nil) {
         [self _commonInit];
         [self setBlendingMode:CTLinearBlendingMode];
 	}
     return self;
 }
 
-- (void)_commonInit
-{
+- (void)_commonInit {
     elementList = nil;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     CGFunctionRelease(gradientFunction);
     
     CTGradientElement *elementToRemove = elementList;
-    while(elementList != nil)
-	{
+    while(elementList != nil) {
         elementToRemove = elementList;
         elementList = elementList->nextElement;
         free(elementToRemove);
@@ -62,8 +57,7 @@ void resolveHSV(float *color1, float *color2);
     [super dealloc];
 }
 
-- (id)copyWithZone:(NSZone *)zone
-{
+- (id)copyWithZone:(NSZone *)zone {
     CTGradient *copy = [[[self class] allocWithZone:zone] init];
     
     //now just copy my elementlist
@@ -79,14 +73,11 @@ void resolveHSV(float *color1, float *color2);
     return copy;
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-    if([coder allowsKeyedCoding])
-	{
+- (void)encodeWithCoder:(NSCoder *)coder {
+    if([coder allowsKeyedCoding]) {
         unsigned count = 0;
         CTGradientElement *currentElement = elementList;
-        while(currentElement != nil)
-		{
+        while(currentElement != nil) {
             [coder encodeValueOfObjCType:@encode(float) at:&(currentElement->red)];
             [coder encodeValueOfObjCType:@encode(float) at:&(currentElement->green)];
             [coder encodeValueOfObjCType:@encode(float) at:&(currentElement->blue)];
@@ -103,15 +94,13 @@ void resolveHSV(float *color1, float *color2);
         [NSException raise:NSInvalidArchiveOperationException format:@"Only supports NSKeyedArchiver coders"];
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder {
     [self _commonInit];
     
     [self setBlendingMode:[coder decodeIntForKey:@"CTGradientBlendingMode"]];
     unsigned count = [coder decodeIntForKey:@"CTGradientElementCount"];
     
-    while(count != 0)
-	{
+    while(count != 0) {
         CTGradientElement newElement;
         
         [coder decodeValueOfObjCType:@encode(float) at:&(newElement.red)];
@@ -132,8 +121,7 @@ void resolveHSV(float *color1, float *color2);
 
 
 #pragma mark Creation
-+ (id)gradientWithBeginningColor:(NSColor *)begin endingColor:(NSColor *)end
-{
++ (id)gradientWithBeginningColor:(NSColor *)begin endingColor:(NSColor *)end {
     id newInstance = [[[self class] alloc] init];
     
     CTGradientElement color1;
@@ -461,8 +449,7 @@ void resolveHSV(float *color1, float *color2);
     return [newInstance autorelease];
 }
 
-+ (id)hydrogenSpectrumGradient
-{
++ (id)hydrogenSpectrumGradient {
     id newInstance = [[[self class] alloc] init];
     
     struct {float hue; float position; float width;} colorBands[4];
@@ -485,8 +472,7 @@ void resolveHSV(float *color1, float *color2);
     
     int i;
     /////////////////////////////
-    for(i = 0; i < 4; i++)
-	{	
+    for(i = 0; i < 4; i++) {
         float color[4];
         color[0] = colorBands[i].hue - 180*colorBands[i].width;
         color[1] = 1;
@@ -541,15 +527,13 @@ void resolveHSV(float *color1, float *color2);
 
 
 #pragma mark Modification
-- (CTGradient *)gradientWithAlphaComponent:(float)alpha
-{
+- (CTGradient *)gradientWithAlphaComponent:(float)alpha {
     id newInstance = [[[self class] alloc] init];
     
     CTGradientElement *curElement = elementList;
     CTGradientElement tempElement;
     
-    while(curElement != nil)
-	{
+    while(curElement != nil) {
         tempElement = *curElement;
         tempElement.alpha = alpha;
         [newInstance addElement:&tempElement];
@@ -560,8 +544,7 @@ void resolveHSV(float *color1, float *color2);
     return [newInstance autorelease];
 }
 
-- (CTGradient *)gradientWithBlendingMode:(CTGradientBlendingMode)mode
-{
+- (CTGradient *)gradientWithBlendingMode:(CTGradientBlendingMode)mode {
     CTGradient *newGradient = [self copy];  
     
     [newGradient setBlendingMode:mode];
@@ -572,8 +555,7 @@ void resolveHSV(float *color1, float *color2);
 
 //Adds a color stop with <color> at <position> in elementList
 //(if two elements are at the same position then added imediatly after the one that was there already)
-- (CTGradient *)addColorStop:(NSColor *)color atPosition:(float)position
-{
+- (CTGradient *)addColorStop:(NSColor *)color atPosition:(float)position {
     CTGradient *newGradient = [self copy];
     CTGradientElement newGradientElement;
     
@@ -592,8 +574,7 @@ void resolveHSV(float *color1, float *color2);
 
 
 //Removes the color stop at <position> from elementList
-- (CTGradient *)removeColorStopAtPosition:(float)position
-{
+- (CTGradient *)removeColorStopAtPosition:(float)position {
     CTGradient *newGradient = [self copy];
     CTGradientElement removedElement = [newGradient removeElementAtPosition:position];
     
@@ -603,8 +584,7 @@ void resolveHSV(float *color1, float *color2);
     return [newGradient autorelease];
 }
 
-- (CTGradient *)removeColorStopAtIndex:(unsigned)index
-{
+- (CTGradient *)removeColorStopAtIndex:(unsigned)index {
     CTGradient *newGradient = [self copy];
     CTGradientElement removedElement = [newGradient removeElementAtIndex:index];
     
@@ -618,14 +598,12 @@ void resolveHSV(float *color1, float *color2);
 
 
 #pragma mark Information
-- (CTGradientBlendingMode)blendingMode
-{
+- (CTGradientBlendingMode)blendingMode {
     return blendingMode;
 }
 
 //Returns color at <position> in gradient
-- (NSColor *)colorStopAtIndex:(unsigned)index
-{
+- (NSColor *)colorStopAtIndex:(unsigned)index {
     CTGradientElement *element = [self elementAtIndex:index];
     
     if(element != nil)
@@ -639,12 +617,10 @@ void resolveHSV(float *color1, float *color2);
     return nil;
 }
 
-- (NSColor *)colorAtPosition:(float)position
-{
+- (NSColor *)colorAtPosition:(float)position {
     float components[4];
     
-    switch(blendingMode)
-	{
+    switch(blendingMode) {
         case CTLinearBlendingMode:
             linearEvaluation(&elementList, &position, components);			break;
         case CTChromaticBlendingMode:
@@ -664,13 +640,11 @@ void resolveHSV(float *color1, float *color2);
 
 
 #pragma mark Drawing
-- (void)drawSwatchInRect:(NSRect)rect
-{
+- (void)drawSwatchInRect:(NSRect)rect {
     [self fillRect:rect angle:45];
 }
 
-- (void)fillRect:(NSRect)rect angle:(float)angle
-{
+- (void)fillRect:(NSRect)rect angle:(float)angle {
     //First Calculate where the beginning and ending points should be
     CGPoint startPoint;
     CGPoint endPoint;
@@ -748,8 +722,7 @@ void resolveHSV(float *color1, float *color2);
     CGContextRestoreGState(currentContext);
 }
 
-- (void)radialFillRect:(NSRect)rect
-{
+- (void)radialFillRect:(NSRect)rect {
     CGPoint startPoint , endPoint;
     float startRadius, endRadius;
     
@@ -786,8 +759,7 @@ void resolveHSV(float *color1, float *color2);
 
 
 #pragma mark Private Methods
-- (void)setBlendingMode:(CTGradientBlendingMode)mode;
-{
+- (void)setBlendingMode:(CTGradientBlendingMode)mode; {
     blendingMode = mode;
     
     //Choose what blending function to use
@@ -817,10 +789,8 @@ void resolveHSV(float *color1, float *color2);
                                         &evaluationCallbackInfo);		//info for using the evaluator function
 }
 
-- (void)addElement:(CTGradientElement *)newElement
-{
-    if(elementList == nil || newElement->position < elementList->position)	//inserting at beginning of list
-	{
+- (void)addElement:(CTGradientElement *)newElement {
+    if(elementList == nil || newElement->position < elementList->position) {	//inserting at beginning of list 
         CTGradientElement *tmpNext = elementList;
         elementList = malloc(sizeof(CTGradientElement));
         *elementList = *newElement;
