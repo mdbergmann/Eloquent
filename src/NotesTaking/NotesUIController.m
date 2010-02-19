@@ -11,6 +11,7 @@
 #import "NotesManager.h"
 #import "FileRepresentation.h"
 #import "AppController.h"
+#import "ObjectAssotiations.h"
 
 #define NOTES_UI_NIBNAME @"NotesUI"
 
@@ -38,7 +39,7 @@ enum NotesMenu_Items{
     return [super init];
 }
 
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
+- (id)initWithDelegate:(id<LeftSideBarDelegate>)aDelegate hostingDelegate:(WindowHostController *)aHostingDelegate {
     self = [super initWithDelegate:aDelegate hostingDelegate:aHostingDelegate];
     if(self) {
         notesManager = [NotesManager defaultManager];
@@ -56,7 +57,6 @@ enum NotesMenu_Items{
 }
 
 - (void)awakeFromNib {
-    
 }
 
 - (BOOL)createNewNoteIn:(FileRepresentation *)aFolderRep folder:(BOOL)folder {

@@ -18,7 +18,7 @@
     return [super init];
 }
 
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {    
+- (id)initWithDelegate:(id<LeftSideBarDelegate>)aDelegate hostingDelegate:(WindowHostController *)aHostingDelegate {    
     self = [self init];
     if(self) {
         self.delegate = aDelegate;
@@ -32,22 +32,15 @@
 }
 
 - (void)delegateReload {
-    if(delegate && [delegate respondsToSelector:@selector(reload)]) {
-        [delegate performSelector:@selector(reloadForController:) withObject:self];
-    }    
+    [delegate reloadForController:self];
 }
 
 - (void)delegateDoubleClick {
-    if(delegate && [delegate respondsToSelector:@selector(doubleClick)]) {
-        [delegate performSelector:@selector(doubleClick)];
-    }    
+    [delegate doubleClick];
 }
 
 - (id)delegateSelectedObject {
-    if(delegate && [delegate respondsToSelector:@selector(objectForClickedRow)]) {
-        return [delegate performSelector:@selector(objectForClickedRow)];
-    }
-    return nil;
+    return [delegate objectForClickedRow];
 }
 
 @end

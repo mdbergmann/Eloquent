@@ -14,7 +14,6 @@
 
 @interface NotesUIController : LeftSideBarAccessoryUIController {
     IBOutlet NSMenu *notesMenu;
-    
     NotesManager *notesManager;
 }
 

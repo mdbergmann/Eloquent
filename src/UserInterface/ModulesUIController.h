@@ -12,8 +12,9 @@
 
 @class SwordManager;
 @class SwordModule;
+@class WindowHostController;
 
-@interface ModuleListUIController : LeftSideBarAccessoryUIController {
+@interface ModulesUIController : LeftSideBarAccessoryUIController {
     // module about
     IBOutlet NSWindow *moduleAboutWindow;
     IBOutlet NSTextView *moduleAboutTextView;
@@ -37,18 +38,13 @@
  @params[in] aTarget the target object of the created menuitem
  @params[in] aSelector the selector of the target that should be called
  */
-+ (void)generateModuleMenu:(NSMenu **)itemMenu 
+- (void)generateModuleMenu:(NSMenu **)itemMenu 
              forModuletype:(int)type 
             withMenuTarget:(id)aTarget 
             withMenuAction:(SEL)aSelector;
     
-// init
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate;
-
-// methods
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
 
-// actions
 - (IBAction)moduleMenuClicked:(id)sender;
 - (IBAction)moduleAboutClose:(id)sender;
 - (IBAction)moduleUnlockOk:(id)sender;

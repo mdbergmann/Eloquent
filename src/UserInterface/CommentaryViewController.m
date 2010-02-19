@@ -21,7 +21,7 @@
 #import "SwordSearching.h"
 #import "NSButton+Color.h"
 #import "NSTextView+LookupAdditions.h"
-#import "ModuleListUIController.h"
+#import "ModulesUIController.h"
 #import "SwordVerseKey.h"
 
 @interface CommentaryViewController ()
@@ -82,10 +82,10 @@
 - (void)populateModulesMenu {
     
     NSMenu *menu = [[NSMenu alloc] init];
-    [ModuleListUIController generateModuleMenu:&menu 
-                                 forModuletype:commentary 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(moduleSelectionChanged:)];
+    [[self modulesUIController] generateModuleMenu:&menu 
+                                     forModuletype:commentary 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(moduleSelectionChanged:)];
     [modulePopBtn setMenu:menu];
     
     // select module
@@ -123,10 +123,10 @@
     
     // generate commentary menu
     commentariesMenu = [[NSMenu alloc] init];
-    [ModuleListUIController generateModuleMenu:&commentariesMenu 
-                                 forModuletype:commentary 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(addModule:)];
+    [[self modulesUIController] generateModuleMenu:&commentariesMenu 
+                                     forModuletype:commentary 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(addModule:)];
 
     // overall menu
     NSMenu *allMenu = [[NSMenu alloc] init];

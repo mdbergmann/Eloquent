@@ -23,12 +23,12 @@
 #import "WorkspaceViewHostController.h"
 #import "AppController.h"
 #import "SwordModuleTextEntry.h"
-#import "ModuleListUIController.h"
+#import "ModulesUIController.h"
 #import "CacheObject.h"
 #import "NSAttributedString+Additions.h"
-#import "BookmarkManager.h"
-#import "BookmarkManagerUIController.h"
+#import "ObjectAssotiations.h"
 
+extern char ModuleListUI;
 
 @interface ContentDisplayingViewController ()
 
@@ -60,7 +60,7 @@
         [self setClickedLinkTextRange:NSMakeRange(NSNotFound, 0)];
         [self setForceRedisplay:NO];
         [self setLastEvent:nil];
-        [self setContentCache:[[CacheObject alloc] init]];
+        [self setContentCache:[[CacheObject alloc] init]];        
     }
     return self;
 }
@@ -73,26 +73,24 @@
     // populate menu items with modules
     // bibles
     NSMenu *bibleModules = [[NSMenu alloc] init];
-    [ModuleListUIController generateModuleMenu:&bibleModules 
-                                 forModuletype:bible 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(lookUpInIndexOfBible:)];
+    [[self modulesUIController] generateModuleMenu:&bibleModules
+                                     forModuletype:bible 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(lookUpInIndexOfBible:)];
     NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
     [item setSubmenu:bibleModules];
     // dictionaries
     NSMenu *dictModules = [[NSMenu alloc] init];
-    [ModuleListUIController generateModuleMenu:&dictModules 
-                                 forModuletype:dictionary 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(lookUpInDictionaryOfModule:)];
+    [[self modulesUIController] generateModuleMenu:&dictModules 
+                                     forModuletype:dictionary 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(lookUpInDictionaryOfModule:)];
     item = [textContextMenu itemWithTag:LookUpInDictionaryList];
-    [item setSubmenu:dictModules];
-    
-    // create bookmarks menu
-    NSMenu *bookmarksMenu = [[NSMenu alloc] init];
-    [BookmarkManagerUIController generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];
-    item = [textContextMenu itemWithTag:AddVersesToBookmark];
-    [item setSubmenu:bookmarksMenu];    
+    [item setSubmenu:dictModules];    
+}
+
+- (ModulesUIController *)modulesUIController {
+    return [Assotiater objectForAssotiatedObject:hostingDelegate withKey:&ModuleListUI];
 }
 
 - (void)hostingDelegateShowRightSideBar:(BOOL)aFlag {
@@ -215,14 +213,6 @@
             if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0) {
                 ret = NO;
             }
-        } else if(selector == @selector(addBookmark:)) {            
-            if([textSelection length] == 0 || [[textSelection findBibleVerses] count] == 0) {
-                ret = NO;
-            }
-        } else if(selector == @selector(addVersesToBookmark:)) {
-            if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0 || [[textSelection findBibleVerses] count] == 0) {
-                ret = NO;
-            }
         }
         return ret;
     } else if([menuItem menu] == linkContextMenu) {
@@ -267,22 +257,6 @@
 
 
 #pragma mark - Text Context Menu actions
-
-- (IBAction)addBookmark:(id)sender {
-    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
-    NSArray *verses = [selection findBibleVerses];
-    if(hostingDelegate) {
-        [hostingDelegate performSelector:@selector(addBookmarkForVerses:) withObject:verses];
-    }
-}
-
-- (IBAction)addVersesToBookmark:(id)sender {
-    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
-    NSArray *verses = [selection findBibleVerses];
-    Bookmark *bm = [(NSMenuItem *)sender representedObject];
-    [bm setReference:[NSString stringWithFormat:@"%@;%@", [bm reference], [verses componentsJoinedByString:@";"]]];
-    [[BookmarkManager defaultManager] saveBookmarks];
-}
 
 - (IBAction)lookUpInIndex:(id)sender {
     NSString *sel = [[(<TextContentProviding>)contentDisplayController textView] selectedString];

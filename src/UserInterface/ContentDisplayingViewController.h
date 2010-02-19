@@ -34,6 +34,7 @@ enum LinkContextMenuItems {
 };
 
 @class CacheObject;
+@class ModulesUIController;
 
 @interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding, ContentSaving> {
     IBOutlet NSView *topAccessoryView;
@@ -52,7 +53,7 @@ enum LinkContextMenuItems {
 
     BOOL forceRedisplay;
     SearchType searchType;
-    NSString *reference;
+    NSString *reference;    
 }
 
 @property (readwrite) BOOL forceRedisplay;
@@ -60,6 +61,8 @@ enum LinkContextMenuItems {
 @property (retain, readwrite) NSString *reference;
 @property (retain, readwrite) NSEvent *lastEvent;
 @property (retain, readwrite) CacheObject *contentCache;
+
+- (ModulesUIController *)modulesUIController;
 
 // delegate method of ContentDisplayController, called for context menu selection
 - (NSMenu *)menuForEvent:(NSEvent *)event;
@@ -88,8 +91,6 @@ enum LinkContextMenuItems {
 - (IBAction)saveDocument:(id)sender;
 
 // context menu actions
-- (IBAction)addBookmark:(id)sender;
-- (IBAction)addVersesToBookmark:(id)sender;
 - (IBAction)lookUpInIndex:(id)sender;
 - (IBAction)lookUpInIndexOfBible:(id)sender;
 - (IBAction)lookUpInDictionary:(id)sender;

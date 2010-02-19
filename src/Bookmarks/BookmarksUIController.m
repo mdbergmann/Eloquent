@@ -1,12 +1,12 @@
 //
-//  BookmarkManagerUIController.m
+//  BookmarksUIController.m
 //  MacSword2
 //
 //  Created by Manfred Bergmann on 16.11.09.
 //  Copyright 2009 Software by MABE. All rights reserved.
 //
 
-#import "BookmarkManagerUIController.h"
+#import "BookmarksUIController.h"
 #import "WindowHostController.h"
 #import "SingleViewHostController.h"
 #import "LeftSideBarViewController.h"
@@ -14,6 +14,7 @@
 #import "Bookmark.h"
 #import "BookmarkManager.h"
 #import "SearchTextObject.h"
+#import "ObjectAssotiations.h"
 
 #define BOOKMARKMANAGER_UI_NIBNAME @"BookmarkManagerUI"
 
@@ -26,14 +27,14 @@ enum BookmarkMenu_Items{
     BookmarkMenuOpenBMInCurrent,
 }BookMarkMenuItems;
 
-@interface BookmarkManagerUIController ()
+@interface BookmarksUIController ()
 
-+ (void)_createMenuStructure:(NSMenu *)menu fromBookmarkTree:(NSArray *)bookmarkList menuTarget:(id)aTarget menuSelector:(SEL)aSelector;
+- (void)_createMenuStructure:(NSMenu *)menu fromBookmarkTree:(NSArray *)bookmarkList menuTarget:(id)aTarget menuSelector:(SEL)aSelector;
 - (void)updateBookmarkSelection;
 
 @end
 
-@implementation BookmarkManagerUIController
+@implementation BookmarksUIController
 
 @synthesize bookmarkMenu;
 
@@ -41,7 +42,7 @@ enum BookmarkMenu_Items{
     return [super init];
 }
 
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
+- (id)initWithDelegate:(id<LeftSideBarDelegate>)aDelegate hostingDelegate:(WindowHostController *)aHostingDelegate {
     self = [super initWithDelegate:aDelegate hostingDelegate:aHostingDelegate];
     if(self) {
         bookmarkSelection = [[NSMutableArray alloc] init];
@@ -60,7 +61,6 @@ enum BookmarkMenu_Items{
 }
 
 - (void)awakeFromNib {
-    
 }
 
 #pragma mark - Methods
@@ -72,16 +72,16 @@ enum BookmarkMenu_Items{
  @params[in] aTarget the target object of the created menuitem
  @params[in] aSelector the selector of the target that should be called
  */
-+ (void)generateBookmarkMenu:(NSMenu **)itemMenu 
+- (void)generateBookmarkMenu:(NSMenu **)itemMenu 
               withMenuTarget:(id)aTarget 
               withMenuAction:(SEL)aSelector {
-    [BookmarkManagerUIController _createMenuStructure:*itemMenu 
-                                     fromBookmarkTree:[[BookmarkManager defaultManager] bookmarks] 
-                                           menuTarget:aTarget
-                                         menuSelector:aSelector];
+    [self _createMenuStructure:*itemMenu 
+              fromBookmarkTree:[[BookmarkManager defaultManager] bookmarks] 
+                    menuTarget:aTarget
+                  menuSelector:aSelector];
 }
 
-+ (void)_createMenuStructure:(NSMenu *)menu fromBookmarkTree:(NSArray *)bookmarkList menuTarget:(id)aTarget menuSelector:(SEL)aSelector {
+- (void)_createMenuStructure:(NSMenu *)menu fromBookmarkTree:(NSArray *)bookmarkList menuTarget:(id)aTarget menuSelector:(SEL)aSelector {
     // loop over bookmarks in list
     for(Bookmark *bm in bookmarkList) {
         if([bm isLeaf]) {

@@ -49,32 +49,4 @@
     return ret;
 }
 
-/*
-- (void)resetCursorRects {
-    // The resetCursorRects is called by the system, please see the documentation on it
-    // This implementation looks for links in the current text, and adds appropriate cursor rects
-
-    MBLOG(MBLOG_DEBUG, @"[MBTextView -resetCursorRects:]...");
-
-	NSTextStorage * contents;
-	NSRange effectiveRange;
-	NSURL * linkURL;
-	int	i = 0;
-	contents = [self textStorage];
-	while (i < [contents length]) {
-		linkURL = [contents attribute:NSLinkAttributeName atIndex:i effectiveRange:&effectiveRange];
-		if(linkURL) {
-			NSRange glyphRange;
-			NSRect	boundingRect;
-            
-			glyphRange = [[self layoutManager] glyphRangeForCharacterRange:effectiveRange actualCharacterRange:nil];
-			boundingRect = [[self layoutManager] boundingRectForGlyphRange:glyphRange inTextContainer:[self textContainer]];
-			[self addCursorRect:boundingRect cursor:[NSCursor pointingHandCursor]];
-		}
-		i += effectiveRange.length;
-	}    
-    MBLOG(MBLOG_DEBUG, @"[MBTextView -resetCursorRects:]...done");
-}
-*/
-
 @end

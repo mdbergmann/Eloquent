@@ -70,6 +70,8 @@
 - (void)moduleSelectionChanged:(id)sender;
 
 // actions
+- (IBAction)addBookmark:(id)sender;
+- (IBAction)addVersesToBookmark:(id)sender;
 - (IBAction)addModule:(id)sender;
 - (IBAction)closeButton:(id)sender;
 

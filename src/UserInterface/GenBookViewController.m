@@ -19,7 +19,7 @@
 #import "SwordModule.h"
 #import "SwordBook.h"
 #import "IndexingManager.h"
-#import "ModuleListUIController.h"
+#import "ModulesUIController.h"
 
 @interface GenBookViewController (/* class continuation */)
 
@@ -105,10 +105,10 @@
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
     // generate menu
-    [ModuleListUIController generateModuleMenu:&menu 
-                                 forModuletype:genbook 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(moduleSelectionChanged:)];
+    [[self modulesUIController] generateModuleMenu:&menu 
+                                     forModuletype:genbook 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
     

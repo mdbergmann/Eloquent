@@ -9,28 +9,23 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 
+@class WindowHostController;
+
 @interface HostableViewController : NSViewController {
-    // the delegate
     IBOutlet id delegate;
+    IBOutlet WindowHostController *hostingDelegate;
     
-    // hosting component
-    id hostingDelegate;
-    
-    // is view loaded?
-    BOOL viewLoaded;
-    
-    // has been reported loading complete already?
+    BOOL viewLoaded;    
     BOOL isLoadingComleteReported;
 }
 
 // properties
 @property (assign, readwrite) id delegate;
-@property (assign, readwrite) id hostingDelegate;
+@property (assign, readwrite) WindowHostController *hostingDelegate;
 @property (readwrite) BOOL viewLoaded;
 
 - (void)reportLoadingComplete;
 
-// host data
 - (void)removeFromSuperview;
 - (void)adaptUIToHost;
 - (NSString *)label;

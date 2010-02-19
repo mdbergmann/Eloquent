@@ -10,16 +10,22 @@
 #import <HostableViewController.h>
 #import <ProtocolHelper.h>
 
+@class ModulesUIController, BookmarksUIController, NotesUIController;
+
 @interface SideBarViewController : HostableViewController <SubviewHosting> {
     IBOutlet NSOutlineView *outlineView;
     IBOutlet NSView *sidebarResizeControl;
 }
 
 // initialitazion
-- (id)initWithDelegate:(id)aDelegate;
+- (id)initWithDelegate:(WindowHostController *)aDelegate;
 
 /** view of control rect */
 - (NSView *)resizeControl;
+
+- (ModulesUIController *)modulesUIController;
+- (BookmarksUIController *)bookmarksUIController;
+- (NotesUIController *)notesUIController;
 
 // subviewhosting
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;

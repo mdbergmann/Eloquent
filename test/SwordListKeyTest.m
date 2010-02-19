@@ -7,7 +7,8 @@
 //
 
 #import "SwordListKeyTest.h"
-
+#import "SwordListKey.h"
+#import "SwordVerseKey.h"
 
 @implementation SwordListKeyTest
 

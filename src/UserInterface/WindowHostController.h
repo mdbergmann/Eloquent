@@ -11,15 +11,6 @@
 #import <Indexer.h>
 #import <ContentDisplayingViewController.h>
 
-// toolbar identifiers
-#define TB_ADD_BIBLE_ITEM           @"IdAddBible"
-#define TB_MODULEINSTALLER_ITEM     @"IdModuleInstaller"
-#define TB_SEARCH_TYPE_ITEM         @"IdSearchType"
-#define TB_SEARCH_TEXT_ITEM         @"IdSearchText"
-#define TB_ADDBOOKMARK_TYPE_ITEM    @"IdAddBookmark"
-#define TB_FORCERELOAD_TYPE_ITEM    @"IdForceReload"
-#define TB_NAVIGATION_TYPE_ITEM     @"IdNavigation"
-
 @class Bookmark;
 @class ScopeBarView;
 @class SearchTextObject;
@@ -28,8 +19,9 @@
 @class RightSideBarViewController;
 @class SingleViewHostController;
 @class ContentDisplayingViewController;
-@class ModuleListUIController;
-@class BookmarkManagerUIController;
+@class ModulesUIController;
+@class BookmarksUIController;
+@class NotesUIController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, ContentSaving> {
     IBOutlet NSSplitView *mainSplitView;
@@ -46,9 +38,12 @@
     IBOutlet NSSearchField *searchTextField;
     IBOutlet NSSegmentedControl *searchTypeSegControl;
     
-    ContentDisplayingViewController *contentViewController;
-
     id delegate;
+    
+    NSView *searchOptionsView;
+    SearchTextObject *currentSearchText;
+
+    ContentDisplayingViewController *contentViewController;
     
     LeftSideBarViewController *lsbViewController;
     float lsbWidth;
@@ -59,12 +54,10 @@
     float rsbWidth;
     float rsbWidthFullScreen;
     float defaultRSBWidth;
-    
-    NSView *searchOptionsView;
-    SearchTextObject *currentSearchText;
-    
-    ModuleListUIController *moduleAccessoryViewController;
-    BookmarkManagerUIController *bookmarkManagerUIController;
+        
+    ModulesUIController *modulesUIController;
+    BookmarksUIController *bookmarksUIController;
+    NotesUIController *notesUIController;
     
     BOOL hostLoaded;
 }
@@ -78,16 +71,6 @@
 - (NSView *)view;
 - (void)setView:(NSView *)aView;
 
-// sidebars
-- (BOOL)toggleLSB;
-- (BOOL)toggleRSB;
-- (void)showLeftSideBar:(BOOL)flag;
-- (void)showRightSideBar:(BOOL)flag;
-- (BOOL)showingLSB;
-- (BOOL)showingRSB;
-
-//- (void)setupToolbar;
-
 /** sets the text string into the search text field */
 - (void)setSearchText:(NSString *)aString;
 - (NSString *)searchText;
@@ -95,18 +78,14 @@
 /** sets the type of search to UI */
 - (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString;
 
-/** change the module type that is currently displaying */
+/** changes UI in regards to the module type */
 - (void)adaptUIToCurrentlyDisplayingModuleType;
 
 /** tells the lsb to open the module about window */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
 
-- (void)addBookmarkForVerses:(NSArray *)aVerseList;
-- (void)addVerses:(NSArray *)aVerseList toBookmark:(Bookmark *)aBookmark;
-
 - (ContentViewType)contentViewType;
 
-// computed window title
 - (NSString *)computeWindowTitle;
 - (void)setupContentRelatedViews;
 - (void)adaptAccessoryViewComponents;

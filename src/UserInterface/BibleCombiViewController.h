@@ -19,7 +19,6 @@
 @class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
 @interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, ModuleProviding, SubviewHosting> {
-    // the lookup field
     IBOutlet NSTextField *lookupTF;
     IBOutlet NSButton *okBtn;
     

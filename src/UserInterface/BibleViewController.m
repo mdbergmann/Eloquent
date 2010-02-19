@@ -32,10 +32,13 @@
 #import "BookmarkManager.h"
 #import "SwordVerseKey.h"
 #import "IndexingManager.h"
-#import "ModuleListUIController.h"
+#import "ModulesUIController.h"
+#import "BookmarksUIController.h"
 #import "SwordModuleTextEntry.h"
 #import "SwordBibleTextEntry.h"
 #import "NSUserDefaults+Additions.h"
+#import "NSTextView+LookupAdditions.h"
+#import "NSAttributedString+Additions.h"
 
 @interface BibleViewController ()
 
@@ -150,6 +153,12 @@
     [self populateAddPopupMenu];
     
     [self adaptUIToHost];
+        
+    // create bookmarks menu
+    NSMenu *bookmarksMenu = [[NSMenu alloc] init];
+    [[self bookmarksUIController] generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];
+    NSMenuItem *item = [textContextMenu itemWithTag:AddVersesToBookmark];
+    [item setSubmenu:bookmarksMenu];
     
     // if we have areference, display it
     if(reference && [reference length] > 0) {
@@ -191,10 +200,10 @@
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
     // generate menu
-    [ModuleListUIController generateModuleMenu:&menu 
-                                 forModuletype:bible 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(moduleSelectionChanged:)];
+    [[self modulesUIController] generateModuleMenu:&menu 
+                                     forModuletype:bible 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
     [modulePopBtn setMenu:menu];
     
@@ -219,17 +228,17 @@
     // generate bibles menu
     biblesMenu = [[NSMenu alloc] init];
     [biblesMenu setAutoenablesItems:YES];
-    [ModuleListUIController generateModuleMenu:&biblesMenu 
-                                 forModuletype:bible 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(addModule:)];
+    [[self modulesUIController] generateModuleMenu:&biblesMenu 
+                                     forModuletype:bible 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(addModule:)];
     
     // generate commentary menu
     commentariesMenu = [[NSMenu alloc] init];
-    [ModuleListUIController generateModuleMenu:&commentariesMenu 
-                                 forModuletype:commentary 
-                                withMenuTarget:self 
-                                withMenuAction:@selector(addModule:)];
+    [[self modulesUIController] generateModuleMenu:&commentariesMenu 
+                                     forModuletype:commentary 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(addModule:)];
     
     // overall menu
     NSMenu *allMenu = [[NSMenu alloc] init];
@@ -266,6 +275,30 @@
     }
     
     return @"BibleView";
+}
+
+#pragma mark - Menu validation
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    BOOL ret = YES;
+    SEL selector = [menuItem action];
+    
+    if([menuItem menu] == textContextMenu) {
+        NSAttributedString *textSelection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+        
+        if(selector == @selector(addBookmark:)) {            
+            if([textSelection length] == 0 || [[textSelection findBibleVerses] count] == 0) {
+                ret = NO;
+            }
+        } else if(selector == @selector(addVersesToBookmark:)) {
+            if([[menuItem submenu] numberOfItems] == 0 || [textSelection length] == 0 || [[textSelection findBibleVerses] count] == 0) {
+                ret = NO;
+            }
+        }
+        return ret;
+    }
+    
+    return [super validateMenuItem:menuItem];
 }
 
 #pragma mark - HTML generation from search result
@@ -743,6 +776,22 @@
             [delegate performSelector:@selector(addNewBibleViewWithModule:) withObject:nil];
         }
     }
+}
+
+#pragma mark - Text Context Menu actions
+
+- (IBAction)addBookmark:(id)sender {
+    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+    NSArray *verses = [selection findBibleVerses];
+    [[self bookmarksUIController] bookmarkDialogForVerseList:verses];
+}
+
+- (IBAction)addVersesToBookmark:(id)sender {
+    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+    NSArray *verses = [selection findBibleVerses];
+    Bookmark *bm = [(NSMenuItem *)sender representedObject];
+    [bm setReference:[NSString stringWithFormat:@"%@;%@", [bm reference], [verses componentsJoinedByString:@";"]]];
+    [[BookmarkManager defaultManager] saveBookmarks];
 }
 
 #pragma mark - SubviewHosting

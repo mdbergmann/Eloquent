@@ -15,7 +15,6 @@
 #import "RightSideBarViewController.h"
 #import "SwordManager.h"
 #import "ScopeBarView.h"
-#import "NSImage+Additions.h"
 #import "FullScreenView.h"
 #import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
@@ -24,17 +23,19 @@
 #import "DictionaryViewController.h"
 #import "SwordVerseKey.h"
 #import "SingleViewHostController.h"
-#import "ModuleListUIController.h"
-#import "BookmarkManagerUIController.h"
+#import "ModulesUIController.h"
+#import "BookmarksUIController.h"
+#import "NotesUIController.h"
 #import "WorkspaceViewHostController.h"
 #import "NotesViewController.h"
+#import "WindowHostController+SideBars.h"
+#import "ObjectAssotiations.h"
+
+extern char ModuleListUI;
+extern char BookmarkMgrUI;
+extern char NotesMgrUI;
 
 @interface WindowHostController ()
-
-- (void)goingToFullScreenMode;
-- (void)goneToFullScreenMode;
-- (void)leavingFullScreenMode;
-- (void)leftFullScreenMode;
 
 @end
 
@@ -53,7 +54,6 @@ typedef enum _NavigationDirectionType {
 #pragma mark - initializers
 
 - (id)init {
-    
     self = [super init];
     if(self) {
         hostLoaded = NO;
@@ -66,8 +66,12 @@ typedef enum _NavigationDirectionType {
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
         [rsbViewController setHostingDelegate:self];
         
-        moduleAccessoryViewController = [[ModuleListUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
-        bookmarkManagerUIController = [[BookmarkManagerUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
+        modulesUIController = [[ModulesUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
+        [Assotiater registerObject:modulesUIController forAssotiatedObject:self withKey:&ModuleListUI];
+        bookmarksUIController = [[BookmarksUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
+        [Assotiater registerObject:bookmarksUIController forAssotiatedObject:self withKey:&BookmarkMgrUI];    
+        notesUIController = [[NotesUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
+        [Assotiater registerObject:notesUIController forAssotiatedObject:self withKey:&NotesMgrUI];    
     }
     
     return self;
@@ -136,7 +140,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)addBookmark:(id)sender {
-    [bookmarkManagerUIController bookmarkDialog:sender];
+    [bookmarksUIController bookmarkDialog:sender];
 }
 
 - (IBAction)searchInput:(id)sender {
@@ -254,6 +258,9 @@ typedef enum _NavigationDirectionType {
 
 - (IBAction)performClose:(id)sender {
     [self close];
+    [Assotiater unregisterForAssotiatedObject:self withKey:&NotesMgrUI];
+    [Assotiater unregisterForAssotiatedObject:self withKey:&ModuleListUI];
+    [Assotiater unregisterForAssotiatedObject:self withKey:&BookmarkMgrUI];
 }
 
 #pragma mark - Methods
@@ -264,100 +271,6 @@ typedef enum _NavigationDirectionType {
 
 - (void)setView:(FullScreenView *)aView {
     view = aView;
-}
-
-- (BOOL)showingLSB {
-    BOOL ret = NO;
-    if([[mainSplitView subviews] containsObject:[lsbViewController view]]) {
-        ret = YES;
-        // show image play to right
-        [leftSideBarToggleBtn setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
-    } else {
-        // show image play to left
-        [leftSideBarToggleBtn setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];
-    }
-    
-    return ret;
-}
-
-- (BOOL)showingRSB {
-    BOOL ret = NO;
-    if([[contentSplitView subviews] containsObject:[rsbViewController view]]) {
-        ret = YES;
-        // show image play to left
-        [rightSideBarToggleBtn setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];    
-    } else {
-        // show image play to right
-        [rightSideBarToggleBtn setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
-    }
-    
-    return ret;
-}
-
-- (BOOL)toggleLSB {
-    BOOL show = ![self showingLSB];
-    [self showLeftSideBar:show];
-    return show;
-}
-
-- (BOOL)toggleRSB {
-    BOOL show = ![self showingRSB];
-    [self showRightSideBar:show];
-    return show;
-}
-
-- (void)showLeftSideBar:(BOOL)flag {
-    if(flag) {
-        // if size is 0 set to default size
-        if(lsbWidth == 0) {
-            lsbWidth = defaultLSBWidth;
-        }        
-        // change size of view
-        NSView *v = [lsbViewController view];
-        NSSize size = [v frame].size;
-        size.width = lsbWidth;
-        [mainSplitView addSubview:v positioned:NSWindowBelow relativeTo:nil];
-        [[v animator] setFrameSize:size];
-    } else {
-        // shrink the view
-        NSView *v = [lsbViewController view];
-        NSSize size = [v frame].size;
-        if(size.width > 0) {
-            lsbWidth = size.width;
-        }
-        [[v animator] removeFromSuperview];
-    }
-    [self showingLSB];
-    
-    [mainSplitView setNeedsDisplay:YES];
-    [mainSplitView adjustSubviews];
-}
-
-- (void)showRightSideBar:(BOOL)flag {
-    if(flag) {
-        // if size is 0 set to default size
-        if(rsbWidth == 0) {
-            rsbWidth = defaultRSBWidth;
-        }
-        // change size of view
-        NSView *v = [rsbViewController view];
-        NSSize size = [v frame].size;
-        size.width = rsbWidth;
-        [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
-        [[v animator] setFrameSize:size];
-    } else {
-        // shrink the view
-        NSView *v = [rsbViewController view];
-        NSSize size = [v frame].size;
-        if(size.width > 0) {
-            rsbWidth = size.width;
-        }
-        [[v animator] removeFromSuperview];
-    }
-    [self showingRSB];
-    
-    [contentSplitView setNeedsDisplay:YES];
-    [contentSplitView adjustSubviews];
 }
 
 /** used to set text to the search field from outside */
@@ -480,7 +393,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
-    [moduleAccessoryViewController displayModuleAboutSheetForModule:aMod];
+    [modulesUIController displayModuleAboutSheetForModule:aMod];
 }
 
 - (NSString *)computeWindowTitle {
@@ -511,40 +424,6 @@ typedef enum _NavigationDirectionType {
         return [contentViewController contentViewType];
     }
     return SwordBibleContentType;
-}
-
-- (void)addBookmarkForVerses:(NSArray *)aVerseList {
-    [bookmarkManagerUIController bookmarkDialogForVerseList:aVerseList];
-}
-
-- (void)addVerses:(NSArray *)aVerseList toBookmark:(Bookmark *)aBookmark {
-    
-}
-
-#pragma mark - FullScreen stuff
-
-- (void)goingToFullScreenMode {
-    lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
-    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;
-}
-
-- (void)goneToFullScreenMode {
-    lsbWidth = lsbWidthFullScreen;
-    [self showLeftSideBar:[self showingLSB]];
-    rsbWidth = rsbWidthFullScreen;
-    [self showRightSideBar:[self showingRSB]];
-}
-
-- (void)leavingFullScreenMode {
-    lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
-    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;    
-}
-
-- (void)leftFullScreenMode {
-    lsbWidth = lsbWidthFullScreen;
-    [self showLeftSideBar:[self showingLSB]];
-    rsbWidth = rsbWidthFullScreen;
-    [self showRightSideBar:[self showingRSB]];
 }
 
 #pragma mark - NSSplitView delegate methods
@@ -712,22 +591,18 @@ typedef enum _NavigationDirectionType {
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    // load lsb view
+    [Assotiater setCurrentInitialisationHost:self];
+    
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
     if(lsbViewController == nil) {
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
         [lsbViewController setHostingDelegate:self];
     }
-    // load rsb view
     rsbWidth = [decoder decodeIntForKey:@"RSBWidth"];
     if(rsbViewController == nil) {
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
         [rsbViewController setHostingDelegate:self];    
-    }
-
-    moduleAccessoryViewController = [[ModuleListUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
-    bookmarkManagerUIController = [[BookmarkManagerUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
-    
+    }        
     return self;
 }
 

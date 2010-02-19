@@ -22,6 +22,7 @@
 #import "SearchTextObject.h"
 #import "FileRepresentation.h"
 #import "NotesViewController.h"
+#import "WindowHostController+SideBars.h"
 
 @interface SingleViewHostController ()
 
@@ -166,6 +167,8 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {        
+        [super initWithCoder:decoder];
+
         // decode contentViewController
         contentViewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
         [contentViewController setDelegate:self];
@@ -173,8 +176,6 @@
         [contentViewController adaptUIToHost];
         
         self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
-
-        [super initWithCoder:decoder];
 
         BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
         if(!stat) {

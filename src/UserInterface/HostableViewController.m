@@ -7,6 +7,8 @@
 //
 
 #import "HostableViewController.h"
+#import "WindowHostController.h"
+#import "ObjectAssotiations.h"
 
 @implementation HostableViewController
 
@@ -17,9 +19,13 @@
 - (id)init {
     self = [super init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[HostableViewController -init]");
         viewLoaded = NO;
         isLoadingComleteReported = NO;
+        
+        // while on initialisation, set the hostingDelegate from ObjectAssotiations
+        // in order to make the initialisation work
+        // the hostingDelegate might get overriden with the same instance later in the init process
+        self.hostingDelegate = [Assotiater currentInitialisationHost];
     }
     
     return self;
@@ -32,25 +38,24 @@
 - (void)setDelegate:(id)aDelegate {
     delegate = aDelegate;
     
-    // report loaded if view has loaded
     if(viewLoaded) {
         [self reportLoadingComplete];
     }
 }
 
+/** override in subclass for custom behaviour */
 - (void)adaptUIToHost {
-    // does nothing here
 }
 
 - (NSString *)label {
     return @"";
 }
 
-- (id)hostingDelegate {
+- (WindowHostController *)hostingDelegate {
     return hostingDelegate;
 }
 
-- (void)setHostingDelegate:(id)aDelegate {
+- (void)setHostingDelegate:(WindowHostController *)aDelegate {
     hostingDelegate = aDelegate;
 }
 

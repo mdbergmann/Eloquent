@@ -8,19 +8,31 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class LeftSideBarAccessoryUIController;
+
+@protocol LeftSideBarDelegate
+
+- (id)objectForClickedRow;
+- (void)doubleClick;
+- (void)reloadForController:(LeftSideBarAccessoryUIController *)aController;
+
+@end
+
+@class WindowHostController;
 
 @interface LeftSideBarAccessoryUIController : NSObject {
-    IBOutlet id delegate;
-    IBOutlet id hostingDelegate;
+    IBOutlet id<LeftSideBarDelegate> delegate;
+    IBOutlet WindowHostController *hostingDelegate;
 }
 
-@property (readwrite) id delegate;
-@property (readwrite) id hostingDelegate;
+@property (readwrite) id<LeftSideBarDelegate> delegate;
+@property (readwrite) WindowHostController *hostingDelegate;
 
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate;
+- (id)initWithDelegate:(id<LeftSideBarDelegate>)aDelegate hostingDelegate:(WindowHostController *)aHostingDelegate;
 
 - (void)delegateReload;
 - (void)delegateDoubleClick;
 - (id)delegateSelectedObject;
 
 @end
+

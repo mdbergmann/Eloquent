@@ -14,13 +14,18 @@
 #import "MBPreferenceController.h"
 #import "HUDPreviewController.h"
 #import "SwordManager.h"
+#import "ObjectAssotiations.h"
+#import "NotesUIController.h"
 
 #define NOTESVIEW_NIBNAME    @"NotesView"
+
+extern char NotesMgrUI;
 
 @interface NotesViewController ()
 
 - (NSAttributedString *)swordLinkStringFromReference:(NSString *)aReference ofModule:(NSString *)aModuleName;
 - (NSString *)processPreviewDisplay:(NSURL *)aUrl;
+- (NotesUIController *)notesUIController;
 
 @end
 
@@ -76,6 +81,10 @@
     
     viewLoaded = YES;
     [self reportLoadingComplete];
+}
+
+- (NotesUIController *)notesUIController {
+    return [Assotiater objectForAssotiatedObject:hostingDelegate withKey:&NotesMgrUI];    
 }
 
 - (NSString *)label {

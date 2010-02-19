@@ -6,7 +6,7 @@
 //  Copyright 2009 Software by MABE. All rights reserved.
 //
 
-#import "ModuleListUIController.h"
+#import "ModulesUIController.h"
 #import "BibleCombiViewController.h"
 #import "WorkspaceViewHostController.h"
 #import "LeftSideBarViewController.h"
@@ -25,13 +25,13 @@ enum ModuleMenu_Items{
     ModuleMenuUnlock
 }ModuleMenuItems;
 
-@interface ModuleListUIController ()
+@interface ModulesUIController ()
 
 - (void)modulesListChanged:(NSNotification *)notification;
 
 @end
 
-@implementation ModuleListUIController
+@implementation ModulesUIController
 
 /**
  generate a menu structure
@@ -41,7 +41,7 @@ enum ModuleMenu_Items{
  @params[in] aTarget the target object of the created menuitem
  @params[in] aSelector the selector of the target that should be called
  */
-+ (void)generateModuleMenu:(NSMenu **)itemMenu 
+- (void)generateModuleMenu:(NSMenu **)itemMenu 
              forModuletype:(int)type 
             withMenuTarget:(id)aTarget 
             withMenuAction:(SEL)aSelector {
@@ -147,12 +147,11 @@ enum ModuleMenu_Items{
     return [super init];
 }
 
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate {
+- (id)initWithDelegate:(id<LeftSideBarDelegate>)aDelegate hostingDelegate:(WindowHostController *)aHostingDelegate {
     self = [super initWithDelegate:aDelegate hostingDelegate:aHostingDelegate];
     if(self) {
         swordManager = [SwordManager defaultManager];
         
-        // register for modules changed notification
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(modulesListChanged:)
                                                      name:NotificationModulesChanged object:nil];            
@@ -196,8 +195,6 @@ enum ModuleMenu_Items{
 #pragma mark - Menu Validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	MBLOGV(MBLOG_DEBUG, @"[ModuleListUIController -validateMenuItem:] %@", [menuItem description]);
-    
     BOOL ret = YES;
     
     SwordModule *clicked = (SwordModule *)[self delegateSelectedObject];
@@ -242,8 +239,6 @@ enum ModuleMenu_Items{
 #pragma mark - Actions
 
 - (IBAction)moduleMenuClicked:(id)sender {
-	MBLOGV(MBLOG_DEBUG, @"[ModuleListUIController -moduleMenuClicked:] %@", [sender description]);
-    
     int tag = [sender tag];
     
     SwordModule *clicked = (SwordModule *)[self delegateSelectedObject];

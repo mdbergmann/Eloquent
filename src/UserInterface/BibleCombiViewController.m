@@ -23,16 +23,13 @@
 #import "SearchBookSetEditorController.h"
 
 @interface BibleCombiViewController ()
-/** private property */
+
 @property(readwrite, retain) NSMutableArray *parBibleViewControllers;
 @property(readwrite, retain) NSMutableArray *parMiscViewControllers;
 
-/** distribute the reference */
 - (void)distributeReference:(NSString *)aRef;
-/** when a subview is added we have to recalculate the subview sizes */
 - (void)tileSubViews;
 
-// for synchronization of scrollview we need the following methods
 - (void)stopScrollSynchronizationForView:(NSScrollView *)aView;
 - (void)establishScrollSynchronization:(NSScrollView *)scrollView;
 - (void)synchronizedViewContentBoundsDidChange:(NSNotification *)aNotification;
@@ -622,7 +619,6 @@
                     NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
                      */
                                     
-                    NSString *logStr;
                     NSRect destRect = [self rectForAttributeName:TEXT_VERSE_MARKER attributeValue:sourceMarker inTextView:v.textView];
                     if(destRect.origin.x != NSNotFound) {
                         // the current horizontal textcontainer inset
@@ -630,19 +626,6 @@
                         if(hasDefaultsInset && destRect.origin.y != 0) {
                             inset = defaultsInset;    
                         }
-                        
-                        // set point
-                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] current X offset: %.0f",  destRect.origin.x];
-                        MBLOG(MBLOG_DEBUG, logStr);
-                        
-                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] current Y offset: %.0f",  destRect.origin.y];
-                        MBLOG(MBLOG_DEBUG, logStr);
-                                                
-                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] current inset: %.0f",  inset];
-                        MBLOG(MBLOG_DEBUG, logStr);
-
-                        logStr = [NSString stringWithFormat:@"[BibleViewController -syncronizedViewContentBoundsDidChange:] source marker: %@",  sourceMarker];
-                        MBLOG(MBLOG_DEBUG, logStr);
                         
                         destPoint.x = destRect.origin.x;
                         destPoint.y = destRect.origin.y + inset;                                            
@@ -970,17 +953,11 @@
 #pragma mark - MouseTracking
 
 - (void)mouseEntered:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController - mouseEntered]");
-    
-    // theView should be a ScrollSynchronizableView
     currentSyncView = (ScrollSynchronizableView *)theView;
     [self establishScrollSynchronization:[(ScrollSynchronizableView *)theView syncScrollView]];
 }
 
 - (void)mouseExited:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[BibleCombiViewController - mouseExited]");
-
-    // stop synchronization
     [self stopScrollSynchronizationForView:[(ScrollSynchronizableView *)theView syncScrollView]];
 }
 

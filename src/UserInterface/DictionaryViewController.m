@@ -19,7 +19,7 @@
 #import "SwordModule.h"
 #import "SwordDictionary.h"
 #import "IndexingManager.h"
-#import "ModuleListUIController.h"
+#import "ModulesUIController.h"
 
 @interface DictionaryViewController (/* class continuation */)
 
@@ -101,10 +101,10 @@
 
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
-    [ModuleListUIController generateModuleMenu:&menu 
-                                 forModuletype:dictionary
-                                withMenuTarget:self 
-                                withMenuAction:@selector(moduleSelectionChanged:)];
+    [[self modulesUIController] generateModuleMenu:&menu 
+                                     forModuletype:dictionary
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(moduleSelectionChanged:)];
     [modulePopBtn setMenu:menu];
     
     // select module

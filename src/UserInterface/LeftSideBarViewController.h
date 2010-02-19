@@ -10,28 +10,22 @@
 #import <SideBarViewController.h>
 #import <HostableViewController.h>
 #import <ProtocolHelper.h>
+#import <LeftSideBarAccessoryUIController.h>
 
-@class BookmarkManagerUIController;
+@class BookmarksUIController;
 @class BookmarkManager;
 @class SwordManager;
-@class ModuleListUIController;
+@class ModulesUIController;
 @class NotesManager;
 @class NotesUIController;
 @class ThreeCellsCell;
-@class LeftSideBarAccessoryUIController;
 
-@interface LeftSideBarViewController : SideBarViewController <SubviewHosting> {
+@interface LeftSideBarViewController : SideBarViewController <SubviewHosting, LeftSideBarDelegate> {
         
-    BookmarkManagerUIController *bookmarksUIController;
     BookmarkManager *bookmarkManager;
-    
-    ModuleListUIController *moduleListUIController;
-    SwordManager *swordManager;
-    
-    NotesUIController *notesUIController;
+    SwordManager *swordManager;    
     NotesManager *notesManager;
     
-    // images
     NSImage *bookmarkGroupImage;
     NSImage *bookmarkImage;
     NSImage *lockedImage;
@@ -44,24 +38,20 @@
     id bookmarksRootItem;
     id notesRootItem;
     
-    // clicked module
     SwordModule *clickedMod;
     
-    // our custom cell
     ThreeCellsCell *threeCellsCell;
 }
 
-// initialitazion
-- (id)initWithDelegate:(id)aDelegate;
+- (id)initWithDelegate:(WindowHostController *)aDelegate;
 
-// OutlineView helper
+// LeftSideBarDelegate
 - (id)objectForClickedRow;
+- (void)doubleClick;
+- (void)reloadForController:(LeftSideBarAccessoryUIController *)aController;
 
 // subviewhosting
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
-
-- (void)reloadForController:(LeftSideBarAccessoryUIController *)aController;
-- (void)doubleClick;
 
 @end

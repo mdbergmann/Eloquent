@@ -23,8 +23,8 @@
 #import "ThreeCellsCell.h"
 #import "BookmarkDragItem.h"
 #import "SearchTextObject.h"
-#import "BookmarkManagerUIController.h"
-#import "ModuleListUIController.h"
+#import "BookmarksUIController.h"
+#import "ModulesUIController.h"
 #import "globals.h"
 
 #define LEFTSIDEBARVIEW_NIBNAME   @"LeftSideBarView"
@@ -43,17 +43,13 @@
 
 @implementation LeftSideBarViewController
 
-- (id)initWithDelegate:(id)aDelegate {
+- (id)initWithDelegate:(WindowHostController *)aDelegate {
     self = [super initWithDelegate:aDelegate];
     if(self) {
         swordManager = [SwordManager defaultManager];
-        moduleListUIController = [[ModuleListUIController alloc] initWithDelegate:self hostingDelegate:delegate];
         bookmarkManager = [BookmarkManager defaultManager];
-        bookmarksUIController = [[BookmarkManagerUIController alloc] initWithDelegate:self hostingDelegate:delegate];
         notesManager = [NotesManager defaultManager];
-        notesUIController = [[NotesUIController alloc] initWithDelegate:self hostingDelegate:delegate];
         
-        // prepare images
         bookmarkGroupImage = [[NSImage imageNamed:@"Drawer.png"] retain];
         bookmarkImage = [[NSImage imageNamed:@"smallbookmark.tiff"] retain];
         lockedImage = [[NSImage imageNamed:NSImageNameLockLockedTemplate] retain];
@@ -65,7 +61,6 @@
         bookmarksRootItem = NSLocalizedString(@"LSBBookmarks", @"");
         notesRootItem = NSLocalizedString(@"LSBNotes", @"");        
         
-        // load nib
         BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
         if(!stat) {
             MBLOG(MBLOG_ERR, @"[LeftSideBarViewController -init] unable to load nib!");
@@ -101,6 +96,10 @@
     [super awakeFromNib];
 }
 
+- (void)finalize {
+    [super finalize];
+}
+
 - (id)objectForClickedRow {
     id ret = nil;
     
@@ -121,9 +120,9 @@
 }
 
 - (void)reloadForController:(LeftSideBarAccessoryUIController *)aController {
-    if([aController isKindOfClass:[ModuleListUIController class]]) {
+    if([aController isKindOfClass:[ModulesUIController class]]) {
         [outlineView reloadItem:modulesRootItem reloadChildren:YES];
-    } else if([aController isKindOfClass:[BookmarkManagerUIController class]]) {
+    } else if([aController isKindOfClass:[BookmarksUIController class]]) {
         [outlineView reloadItem:bookmarksRootItem reloadChildren:YES];
     } else if([aController isKindOfClass:[NotesUIController class]]) {
         [outlineView reloadItem:notesRootItem reloadChildren:YES];        
@@ -133,11 +132,6 @@
 #pragma mark - SubviewHosting protocol
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOGV(MBLOG_DEBUG, @"[LeftSideBarViewController -contentViewInitFinished:] %@", [aView className]);
-    
-    // check if this view has completed loading annd also all of the subviews    
-    if(viewLoaded == YES) {
-    }
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -408,7 +402,6 @@
 #pragma mark - outline delegate methods
 
 - (void)doubleClick {
-    // get clicked row
     int clickedRow = [outlineView clickedRow];
     id clickedObj = [outlineView itemAtRow:clickedRow];
     
@@ -442,8 +435,6 @@
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	MBLOG(MBLOG_DEBUG,@"[LeftSideBarViewController outlineViewSelectionDidChange:]");
-	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
 		if(oview != nil) {
@@ -455,12 +446,12 @@
                 id item = [oview itemAtRow:[oview selectedRow]];
                 if([item isKindOfClass:[Bookmark class]] || 
                    (item == bookmarksRootItem)) {
-                    [oview setMenu:[bookmarksUIController bookmarkMenu]];
+                    [oview setMenu:[[self bookmarksUIController] bookmarkMenu]];
                 } else if([item isKindOfClass:[SwordModule class]]) {
-                    [oview setMenu:[moduleListUIController moduleMenu]];
+                    [oview setMenu:[[self modulesUIController] moduleMenu]];
                 } else if([item isKindOfClass:[FileRepresentation class]] ||
                           (item == notesRootItem)) {
-                    [oview setMenu:[notesUIController notesMenu]];
+                    [oview setMenu:[[self notesUIController] notesMenu]];
                 } else {
                     [oview setMenu:nil];
                 }
@@ -491,7 +482,6 @@
             return YES;
         }
     }
-    
     return NO;
 }
 
@@ -560,7 +550,6 @@
             return [b reference];
         }
     }
-    
     return @"";
 }
 

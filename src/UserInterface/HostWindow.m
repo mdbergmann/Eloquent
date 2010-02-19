@@ -19,14 +19,6 @@
     [[self delegate] performSelector:@selector(rightSideBarHideShow:) withObject:sender];
 }
 
-- (IBAction)leftSideBottomSegChange:(id)sender {
-    [[self delegate] performSelector:@selector(leftSideBottomSegChange:) withObject:sender];
-}
-
-- (IBAction)rightSideBottomSegChange:(id)sender {
-    [[self delegate] performSelector:@selector(rightSideBottomSegChange:) withObject:sender];
-}
-
 - (IBAction)switchLookupView:(id)sender {
     [[self delegate] performSelector:@selector(switchLookupView:) withObject:sender];
 }

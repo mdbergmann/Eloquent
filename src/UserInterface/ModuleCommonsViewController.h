@@ -15,6 +15,9 @@ enum GeneralMenuItemAdditions {
     ShowModuleAbout = 100000
 };
 
+@class ModulesUIController;
+@class BookmarksUIController;
+
 @interface ModuleCommonsViewController : ContentDisplayingViewController <NSCoding, TextDisplayable, MouseTracking> {
     IBOutlet NSView *referenceOptionsView;
 
@@ -33,7 +36,6 @@ enum GeneralMenuItemAdditions {
     NSMutableDictionary *modDisplayOptions;
     NSMutableDictionary *displayOptions;
     
-    // custom font size
     int customFontSize;
 }
 
@@ -46,6 +48,8 @@ enum GeneralMenuItemAdditions {
 @property (readonly) NSPopUpButton *modDisplayOptionsPopUpButton;
 
 - (void)setGlobalOptionsFromModOptions;
+
+- (BookmarksUIController *)bookmarksUIController;
 
 /** 
  default module display options dictionary 

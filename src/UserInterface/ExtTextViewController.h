@@ -30,7 +30,6 @@
 
 - (id)initWithDelegate:(id)aDelegate;
 
-// getter
 - (MBTextView *)textView;
 - (MouseTrackingScrollView *)scrollView;
 
@@ -43,9 +42,5 @@
 // MouseTrackingScrollView delegate methods
 - (void)mouseEntered:(NSView *)theView;
 - (void)mouseExited:(NSView *)theView;
-
-// delegate methods
-- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex;
-- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex;
 
 @end

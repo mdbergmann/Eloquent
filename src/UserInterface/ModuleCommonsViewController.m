@@ -16,6 +16,15 @@
 #import "BibleCombiViewController.h"
 #import "NSImage+Additions.h"
 #import "ProgressOverlayViewController.h"
+#import "ObjectAssotiations.h"
+#import "ModulesUIController.h"
+#import "BookmarksUIController.h"
+
+extern char BookmarkMgrUI;
+
+@interface ModuleCommonsViewController ()
+
+@end
 
 @implementation ModuleCommonsViewController
 
@@ -66,6 +75,10 @@
 
     // set state of menuitem representing font size
     [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
+}
+
+- (BookmarksUIController *)bookmarksUIController {
+    return [Assotiater objectForAssotiatedObject:hostingDelegate withKey:&BookmarkMgrUI];    
 }
 
 #pragma mark - Display things

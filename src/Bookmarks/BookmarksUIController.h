@@ -1,5 +1,5 @@
 //
-//  BookmarkManagerUIController.h
+//  BookmarksUIController.h
 //  MacSword2
 //
 //  Created by Manfred Bergmann on 16.11.09.
@@ -12,7 +12,7 @@
 
 @class BookmarkManager;
 
-@interface BookmarkManagerUIController : LeftSideBarAccessoryUIController {
+@interface BookmarksUIController : LeftSideBarAccessoryUIController {
     // bookmark folder window    
     IBOutlet NSWindow *bookmarkFolderWindow;
     IBOutlet NSTextField *bookmarkFolderNameTextField;
@@ -32,12 +32,9 @@
 
 @property (readonly) NSMenu *bookmarkMenu;
 
-+ (void)generateBookmarkMenu:(NSMenu **)itemMenu 
+- (void)generateBookmarkMenu:(NSMenu **)itemMenu 
               withMenuTarget:(id)aTarget 
               withMenuAction:(SEL)aSelector;
-
-// init
-- (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate;
 
 // methods
 - (void)bookmarkDialog:(id)sender;

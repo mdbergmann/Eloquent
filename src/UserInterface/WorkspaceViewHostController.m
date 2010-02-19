@@ -26,6 +26,7 @@
 #import "FakeModel.h"
 #import "FileRepresentation.h"
 #import "NotesViewController.h"
+#import "WindowHostController+SideBars.h"
 
 @interface WorkspaceViewHostController ()
 
@@ -477,6 +478,8 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {
+        [super initWithCoder:decoder];
+
         self.searchTextObjs = [decoder decodeObjectForKey:@"SearchTextObjects"];
 
         self.viewControllers = [decoder decodeObjectForKey:@"HostableViewControllerListEncoded"];
@@ -485,8 +488,6 @@
             [vc setHostingDelegate:self];
             [vc adaptUIToHost];
         }
-
-        [super initWithCoder:decoder];
 
         // load nib
         BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];

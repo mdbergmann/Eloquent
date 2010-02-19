@@ -7,6 +7,14 @@
 //
 
 #import "SideBarViewController.h"
+#import "ObjectAssotiations.h"
+#import "ModulesUIController.h"
+#import "BookmarksUIController.h"
+#import "NotesUIController.h"
+
+extern char ModuleListUI;
+extern char BookmarkMgrUI;
+extern char NotesMgrUI;
 
 @interface SideBarViewController ()
 
@@ -14,10 +22,9 @@
 
 @implementation SideBarViewController
 
-- (id)initWithDelegate:(id)aDelegate {
+- (id)initWithDelegate:(WindowHostController *)aDelegate {
     self = [super init];
     if(self) {
-        // set delegate
         self.delegate = aDelegate;        
     }
     
@@ -25,15 +32,28 @@
 }
 
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[SideBarViewController -awakeFromNib]");
-    
-    // loading finished
     viewLoaded = YES;
     [self reportLoadingComplete];
 }
 
+- (void)finalize {
+    [super finalize];
+}
+
 - (NSView *)resizeControl {
     return sidebarResizeControl;
+}
+
+- (ModulesUIController *)modulesUIController {
+    return [Assotiater objectForAssotiatedObject:self.delegate withKey:&ModuleListUI];
+}
+
+- (BookmarksUIController *)bookmarksUIController {
+    return [Assotiater objectForAssotiatedObject:self.delegate withKey:&BookmarkMgrUI];    
+}
+
+- (NotesUIController *)notesUIController {
+    return [Assotiater objectForAssotiatedObject:self.delegate withKey:&NotesMgrUI];    
 }
 
 #pragma mark - SubviewHosting protocol
@@ -42,7 +62,6 @@
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
-    // remove the view of the send controller from our hosts
     NSView *view = [aViewController view];
     [view removeFromSuperview];
 }
