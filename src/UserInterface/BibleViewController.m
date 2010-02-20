@@ -144,7 +144,7 @@
     [self populateAddPopupMenu];
     
     [self adaptUIToHost];
-        
+    
     // create bookmarks menu
     NSMenu *bookmarksMenu = [[NSMenu alloc] init];
     [[self bookmarksUIController] generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];

@@ -439,31 +439,6 @@
     return [self name];
 }
 
-- (SwordModuleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType {
-    SwordModuleTextEntry *ret = nil;
-    
-    if(aKey) {
-        [self setPositionFromKey:aKey];
-        if(![self error]) {
-            NSString *txt = @"";
-            if(aType == TextTypeRendered) {
-                txt = [self renderedText];
-            } else {
-                txt = [self strippedText];
-            }
-            
-            NSString *key = [aKey keyText];
-            if(key && txt) {
-                ret = [SwordModuleTextEntry textEntryForKey:key andText:txt];
-            } else {
-                MBLOG(MBLOG_ERR, @"[SwordModule -textEntryForKey::] nil key");
-            }
-        }
-    }
-    
-    return ret;
-}
-
 #pragma mark - SwordModuleAccess
 
 /** 
@@ -504,7 +479,85 @@
 - (void)writeEntry:(SwordModuleTextEntry *)anEntry {
 }
 
-#pragma mark - lowlevel access
+- (void)setPositionFromKeyString:(NSString *)aKeyString {
+    swModule->setKey([aKeyString UTF8String]);
+}
+
+- (void)setPositionFromKey:(SwordKey *)aKey {
+    swModule->setKey([aKey swKey]);
+}
+
+- (NSString *)renderedText {
+    NSString *ret = @"";
+    ret = [NSString stringWithUTF8String:swModule->RenderText()];
+    if(!ret) {
+        ret = [NSString stringWithCString:swModule->RenderText() encoding:NSISOLatin1StringEncoding];
+    }
+    return ret;
+}
+
+- (NSString *)renderedTextFromString:(NSString *)aString {
+    NSString *ret = @"";
+    ret = [NSString stringWithUTF8String:swModule->RenderText([aString UTF8String])];
+    if(!ret) {
+        ret = [NSString stringWithCString:swModule->RenderText([aString UTF8String]) encoding:NSISOLatin1StringEncoding];
+    }
+    return ret;
+}
+
+- (NSString *)strippedText {
+    NSString *ret = @"";
+    ret = [NSString stringWithUTF8String:swModule->StripText()];
+    if(!ret) {
+        ret = [NSString stringWithCString:swModule->StripText() encoding:NSISOLatin1StringEncoding];
+    }
+    return ret;
+}
+
+- (NSString *)strippedTextFromString:(NSString *)aString {
+    NSString *ret = @"";
+    ret = [NSString stringWithUTF8String:swModule->RenderText([aString UTF8String])];
+    if(!ret) {
+        ret = [NSString stringWithCString:swModule->RenderText([aString UTF8String]) encoding:NSISOLatin1StringEncoding];
+    }
+    return ret;
+}
+
+- (NSString *)entryAttributeValuePreverse {
+    NSString *ret = @"";
+    ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Heading"]["Preverse"]["0"].c_str()];
+    
+    return ret;
+}
+
+#pragma mark - Locking methods
+
+- (SwordModuleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType {
+    SwordModuleTextEntry *ret = nil;
+    
+    if(aKey) {
+        [moduleLock lock];
+        [self setPositionFromKey:aKey];
+        if(![self error]) {
+            NSString *txt = @"";
+            if(aType == TextTypeRendered) {
+                txt = [self renderedText];
+            } else {
+                txt = [self strippedText];
+            }
+            
+            NSString *key = [aKey keyText];
+            if(key && txt) {
+                ret = [SwordModuleTextEntry textEntryForKey:key andText:txt];
+            } else {
+                MBLOG(MBLOG_ERR, @"[SwordModule -textEntryForKey::] nil key");
+            }
+        }
+        [moduleLock unlock];
+    }
+    
+    return ret;
+}
 
 // general feature access
 - (BOOL)hasFeature:(NSString *)feature {
@@ -545,77 +598,34 @@
 	return result;
 }
 
-- (void)setPositionFromKeyString:(NSString *)aKeyString {
-    [moduleLock lock];
-    swModule->setKey([aKeyString UTF8String]);
-    [moduleLock unlock];
-}
-
-- (void)setPositionFromKey:(SwordKey *)aKey {
-    [moduleLock lock];
-    swModule->setKey([aKey swKey]);
-    [moduleLock unlock];
-}
-
-- (NSString *)renderedText {
-    NSString *ret = @"";
-    [moduleLock lock];
-    ret = [NSString stringWithUTF8String:swModule->RenderText()];
-    [moduleLock unlock];
-
-    return ret;
-}
-
-- (NSString *)renderedTextFromString:(NSString *)aString {
-    return [NSString stringWithUTF8String:swModule->RenderText([aString UTF8String])];
-}
-
-- (NSString *)strippedText {
-    NSString *ret = @"";
-    [moduleLock lock];
-    ret = [NSString stringWithUTF8String:swModule->StripText()];
-    [moduleLock unlock];    
-    
-    return ret;
-}
-
-- (NSString *)strippedTextFromString:(NSString *)aString {
-    return [NSString stringWithUTF8String:swModule->StripText([aString UTF8String])];
-}
-
-- (NSString *)entryAttributeValuePreverse {
-    NSString *ret = @"";
-    [moduleLock lock];
-    ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Heading"]["Preverse"]["0"].c_str()];
-    [moduleLock unlock];
-    
-    return ret;
-}
-
 - (NSString *)entryAttributeValuePreverseForKey:(SwordKey *)aKey {
+    [moduleLock lock];
     [self setPositionFromKey:aKey];
     swModule->RenderText(); // force processing of key
-    return [self entryAttributeValuePreverse];
+    NSString *value = [self entryAttributeValuePreverse];
+    [moduleLock unlock];
+    return value;
+}
+
+- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index forKey:(SwordKey *)aKey {
+    [moduleLock lock];
+    [self setPositionFromKey:aKey];
+    swModule->RenderText(); // force processing of key
+    NSString *value = [self entryAttributeValueFootnoteOfType:fnType indexValue:index];
+    [moduleLock unlock];
+    return value;
 }
 
 - (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index {
-    NSString *ret = @"";
-    
+    NSString *ret = @"";    
     [moduleLock lock];
     if([fnType isEqualToString:@"x"]) {
         ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["refList"].c_str()];        
     } else if([fnType isEqualToString:@"n"]) {
         ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["body"].c_str()];
     }
-    [moduleLock unlock];
-    
+    [moduleLock unlock];    
     return ret;
-}
-
-- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index forKey:(SwordKey *)aKey {
-    [self setPositionFromKey:aKey];
-    swModule->RenderText(); // force processing of key
-    return [self entryAttributeValueFootnoteOfType:fnType indexValue:index];
 }
 
 - (sword::SWModule *)swModule {

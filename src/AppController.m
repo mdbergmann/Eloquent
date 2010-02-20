@@ -117,10 +117,13 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithInt:150] forKey:DefaultsRSBWidth];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowPreviewToolTip];
-    [defaultsDict setColor:[NSColor whiteColor] forKey:DefaultsTextBackgroundColor];
-    [defaultsDict setColor:[NSColor blackColor] forKey:DefaultsTextForegroundColor];
-    [defaultsDict setColor:[NSColor darkGrayColor] forKey:DefaultsLinkForegroundColor];
-    [defaultsDict setColor:[NSColor whiteColor] forKey:DefaultsLinkBackgroundColor];
+    NSColor *bgCol = [NSColor colorWithCalibratedRed:0.9607 green:0.9607 blue:0.9607 alpha:0.9607];
+    NSColor *fgCol = [NSColor colorWithCalibratedRed:0.1176 green:0.1176 blue:0.1176 alpha:0.1176];
+    NSColor *lkCol = [NSColor colorWithCalibratedRed:0.4823 green:0.4823 blue:0.4823 alpha:0.4823];
+    [defaultsDict setColor:bgCol forKey:DefaultsTextBackgroundColor];
+    [defaultsDict setColor:fgCol forKey:DefaultsTextForegroundColor];
+    [defaultsDict setColor:lkCol forKey:DefaultsLinkForegroundColor];
+    [defaultsDict setColor:bgCol forKey:DefaultsLinkBackgroundColor];
     [defaultsDict setObject:[NSNumber numberWithInt:NSUnderlineStyleNone] forKey:DefaultsLinkUnderlineAttribute];
     
     // cipher keys

@@ -20,6 +20,7 @@
 #import "SwordDictionary.h"
 #import "IndexingManager.h"
 #import "ModulesUIController.h"
+#import "NSUserDefaults+Additions.h"
 
 @interface DictionaryViewController (/* class continuation */)
 
@@ -153,9 +154,12 @@
                                               size:(int)customFontSize];
 
         NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-        NSDictionary *contentAttributes = [NSDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
+        NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
+        [contentAttributes setObject:[userDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
+        
         // strip binary search tokens
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
+        
         // build search string
         for(SearchResultEntry *entry in sortedSearchResults) {
             NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
@@ -210,6 +214,10 @@
         ret = [[NSMutableAttributedString alloc] initWithHTML:data 
                                                       options:options
                                            documentAttributes:nil];
+
+        // set custom fore ground color
+        [ret addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
+                           range:NSMakeRange(0, [ret length])];
         
         // add pointing hand cursor to all links
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
