@@ -24,6 +24,8 @@ extern char BookmarkMgrUI;
 
 @interface ModuleCommonsViewController ()
 
+- (void)setupPopupButtonsForSearchType;
+
 @end
 
 @implementation ModuleCommonsViewController
@@ -65,16 +67,17 @@ extern char BookmarkMgrUI;
     return self;
 }
 
+- (void)commonInit {
+    [super commonInit];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // init display options
     [self initDefaultModDisplayOptions];
     [self initDefaultDisplayOptions];
     [self initFontSizeOptions];
-    [self initTextContextOptions];
-
-    // set state of menuitem representing font size
-    [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
+    [self initTextContextOptions];    
 }
 
 - (BookmarksUIController *)bookmarksUIController {
@@ -328,7 +331,7 @@ extern char BookmarkMgrUI;
     
     // force redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 /**
@@ -355,7 +358,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowMorphs:(id)sender {
@@ -369,7 +372,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowFootnotes:(id)sender {
@@ -383,7 +386,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowCrossRefs:(id)sender {
@@ -397,7 +400,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowRedLetterWords:(id)sender {
@@ -411,7 +414,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowHeadings:(id)sender {
@@ -425,7 +428,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowHebrewPoints:(id)sender {
@@ -439,7 +442,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowHebrewCantillation:(id)sender {
@@ -453,7 +456,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowGreekAccents:(id)sender {
@@ -467,7 +470,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];    
+    [self displayTextForReference:searchString];    
 }
 
 - (IBAction)displayOptionVersesOnOneLine:(id)sender {
@@ -481,7 +484,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = NO;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)displayOptionShowVerseNumberOnly:(id)sender {
@@ -495,7 +498,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = NO;
-    [self displayTextForReference:reference];    
+    [self displayTextForReference:searchString];    
 }
 
 - (IBAction)displayOptionHighlightBookmarks:(id)sender {
@@ -509,7 +512,7 @@ extern char BookmarkMgrUI;
     
     // redisplay
     forceRedisplay = NO;
-    [self displayTextForReference:reference];    
+    [self displayTextForReference:searchString];    
 }
 
 - (IBAction)bookPagerAction:(id)sender {
@@ -536,27 +539,25 @@ extern char BookmarkMgrUI;
     }    
 }
 
-#pragma mark - TextDisplayable protocol
-
-- (void)displayText {    
-}
-
-- (void)displayTextForReference:(NSString *)aReference {
-    // do nothing here, subclass will handle    
-}
-
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
-    // do nothing here, subclass will handle
-}
-
 #pragma mark - AccessoryProvidingProtocol
 
 - (NSView *)topAccessoryView {
     return referenceOptionsView;
 }
 
-- (void)adaptTopAccessoryViewComponentsForSearchType:(SearchType)aType {
-    if(aType == ReferenceSearchType) {
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
+    [self setupPopupButtonsForSearchType];
+}
+
+- (void)searchTypeChanged:(SearchType)aSearchType withSearchString:(NSString *)aSearchString {
+    [super searchTypeChanged:aSearchType withSearchString:aSearchString];
+    [self setupPopupButtonsForSearchType];
+}
+
+- (void)setupPopupButtonsForSearchType {
+    if(searchType == ReferenceSearchType) {
         [[self modDisplayOptionsPopUpButton] setEnabled:YES];
         [[self displayOptionsPopUpButton] setEnabled:YES];
         [[self fontSizePopUpButton] setEnabled:YES];
@@ -566,15 +567,7 @@ extern char BookmarkMgrUI;
         [[self displayOptionsPopUpButton] setEnabled:NO];
         [[self fontSizePopUpButton] setEnabled:YES];
         [[self textContextPopUpButton] setEnabled:YES];
-    }            
-}
-
-#pragma mark - MouseTracking protocol
-
-- (void)mouseEntered:(NSView *)theView {
-}
-
-- (void)mouseExited:(NSView *)theView {
+    }
 }
 
 #pragma mark - ProgressIndicating
@@ -611,8 +604,11 @@ extern char BookmarkMgrUI;
         } else {
             ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
             [pc stopProgressAnimation];
-            if([[[self view] subviews] containsObject:[pc view]]) {
-                [[pc view] removeFromSuperview];    
+            NSView *pcView = [self view];
+            if(pcView) {
+                if([[pcView subviews] containsObject:[pc view]]) {
+                    [[pc view] removeFromSuperview];    
+                }                
             }
         }        
     }
@@ -623,7 +619,7 @@ extern char BookmarkMgrUI;
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [self init];
     if(self) {
-        self.reference = [decoder decodeObjectForKey:@"ReferenceEncoded"];
+        self.searchString = [decoder decodeObjectForKey:@"ReferenceEncoded"];
         NSNumber *fontSize = [decoder decodeObjectForKey:@"CustomFontSizeEncoded"];
         if(fontSize) {
             self.customFontSize = [fontSize intValue];        
@@ -643,7 +639,7 @@ extern char BookmarkMgrUI;
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:[NSNumber numberWithInt:customFontSize] forKey:@"CustomFontSizeEncoded"];
-    [encoder encodeObject:reference forKey:@"ReferenceEncoded"];
+    [encoder encodeObject:searchString forKey:@"ReferenceEncoded"];
     [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
     [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
 }

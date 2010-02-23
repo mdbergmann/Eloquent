@@ -30,12 +30,15 @@
 #import "NotesViewController.h"
 #import "WindowHostController+SideBars.h"
 #import "ObjectAssotiations.h"
+#import "SearchTextFieldOptions.h"
 
 extern char ModuleListUI;
 extern char BookmarkMgrUI;
 extern char NotesMgrUI;
 
 @interface WindowHostController ()
+
+- (NSString *)computeWindowTitle;
 
 @end
 
@@ -106,29 +109,10 @@ typedef enum _NavigationDirectionType {
     [item setTag:NSSearchFieldRecentsMenuItemTag];    
     // install menu
     [[searchTextField cell] setSearchMenuTemplate:recentsMenu];
-    
-    [self setupContentRelatedViews];
-}
-
-- (void)setSearchType:(SearchType)aType {
-    [currentSearchText setSearchType:aType];
-}
-
-- (SearchType)searchType; {
-    return [currentSearchText searchType];
-}
-
-- (void)setupContentRelatedViews {
-    [placeHolderView setContentView:[contentViewController view]];        
-    [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];
-    [placeHolderSearchOptionsView setContentView:[(<AccessoryViewProviding>)contentViewController topAccessoryView]];    
-}
-
-- (void)adaptAccessoryViewComponents {
-    if(contentViewController != nil) {
-        [contentViewController adaptTopAccessoryViewComponentsForSearchType:[self searchType]];
-        [self showRightSideBar:[contentViewController showsRightSideBar]];
-    }
+    // we start with reference search type
+    [currentSearchText setSearchType:ReferenceSearchType];
+    // set search string
+    [searchTextField setStringValue:[self searchText]];
 }
 
 #pragma mark - Actions
@@ -147,7 +131,6 @@ typedef enum _NavigationDirectionType {
     // buffer search text string
     SearchType type = [currentSearchText searchType];
     NSString *searchText = [sender stringValue];
-    [currentSearchText setSearchText:searchText forSearchType:type];
     
     // add to recent searches
     NSMutableArray *recentSearches = [currentSearchText recentSearchsForType:type];
@@ -159,9 +142,7 @@ typedef enum _NavigationDirectionType {
             [recentSearches removeObjectAtIndex:0];
         }            
     }
-    [(<TextDisplayable>)contentViewController displayTextForReference:searchText searchType:type];
-    
-    [[self window] setTitle:[self computeWindowTitle]];
+    [self setSearchText:searchText];
 }
 
 - (IBAction)searchType:(id)sender {
@@ -171,11 +152,11 @@ typedef enum _NavigationDirectionType {
     } else {
         type = IndexSearchType;
     }
-    [self setSearchUIType:type searchString:nil];
+    [self setSearchType:type];
 }
 
-/** to be overriden by subclasses */
 - (IBAction)forceReload:(id)sender {
+    [contentViewController forceReload];
 }
 
 - (IBAction)leftSideBarHideShow:(id)sender {
@@ -188,9 +169,9 @@ typedef enum _NavigationDirectionType {
 
 - (IBAction)switchLookupView:(id)sender {
     if([[self currentSearchText] searchType] == IndexSearchType) {
-        [self setSearchUIType:ReferenceSearchType searchString:nil];    
+        [self setSearchTypeUI:ReferenceSearchType];
     } else {
-        [self setSearchUIType:IndexSearchType searchString:nil];    
+        [self setSearchTypeUI:IndexSearchType];
     }
 }
 
@@ -202,7 +183,7 @@ typedef enum _NavigationDirectionType {
     // get current search entry, take the first versekey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
         [contentViewController isKindOfClass:[CommentaryViewController class]]) {
-        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
         [verseKey setBook:[verseKey book] + 1];
         [verseKey setChapter:1];
                 
@@ -216,7 +197,7 @@ typedef enum _NavigationDirectionType {
     // get current search entry, take the first versekey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
-        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
         [verseKey setBook:[verseKey book] - 1];
         [verseKey setChapter:1];
         
@@ -230,7 +211,7 @@ typedef enum _NavigationDirectionType {
     // get current search entry, take the first versekey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
-        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
         [verseKey setChapter:[verseKey chapter] + 1];
         
         // get verse key text
@@ -243,7 +224,7 @@ typedef enum _NavigationDirectionType {
     // get current search entry, take the first versekey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
-        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController reference]];
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
         [verseKey setChapter:[verseKey chapter] - 1];
         
         // get verse key text
@@ -269,122 +250,79 @@ typedef enum _NavigationDirectionType {
     view = aView;
 }
 
+- (void)setSearchType:(SearchType)aType {
+    SearchType oldType = [self searchType];
+    if(oldType != aType) {
+        [currentSearchText setSearchType:aType];
+        [searchTextField setStringValue:[self searchText]];
+        [contentViewController searchTypeChanged:aType withSearchString:[self searchText]];
+        [self readaptHostUI];
+    }
+}
+
+- (SearchType)searchType; {
+    return [currentSearchText searchType];
+}
+
 /** used to set text to the search field from outside */
 - (void)setSearchText:(NSString *)aString {
-    [searchTextField setStringValue:aString];
-    [self searchInput:searchTextField];
+    if(aString != nil) {
+        [currentSearchText setSearchText:aString forSearchType:[self searchType]];
+        [searchTextField setStringValue:aString];
+        [contentViewController searchStringChanged:aString];
+    }
+    [[self window] setTitle:[self computeWindowTitle]];
 }
 
 - (NSString *)searchText {
-    return [searchTextField stringValue];
+    NSString *text = [currentSearchText searchTextForType:[self searchType]];
+    return text;
 }
 
-/** sets the type of search to UI */
-- (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString {
-    
-    SearchType oldType = [currentSearchText searchType];
-    [currentSearchText setSearchType:aType];
-    
-    // set UI
+- (void)setSearchTypeUI:(SearchType)aType {
+    [self setSearchType:aType];
     [searchTypeSegControl selectSegmentWithTag:aType];
-    
-    NSString *text = @"";
-    // if the new search type is the same, we don't need to set anything
-    if(aType != oldType) {
-        text = [currentSearchText searchTextForType:aType];    
-    }
-    if(aString != nil) {
-        text = aString;
-    }
-    [self setSearchText:text];
-    
-    [self adaptUIToCurrentlyDisplayingModuleType];
+    [self readaptHostUI];
 }
 
-- (void)adaptUIToCurrentlyDisplayingModuleType {
-    // -------------------------------
-    // search text and recent searches
-    // -------------------------------
-    SearchType stype = [currentSearchText searchType];
-    NSString *buf = [currentSearchText searchTextForType:stype];
-    [searchTextField setStringValue:buf];
-    NSArray *bufAr = [currentSearchText recentSearchsForType:stype];
-    [searchTextField setRecentSearches:bufAr];
+- (void)setupContentRelatedViews {
+    [placeHolderView setContentView:[contentViewController view]];
+    [rsbViewController setContentView:[contentViewController rightAccessoryView]];
+    [placeHolderSearchOptionsView setContentView:[contentViewController topAccessoryView]];
     
-    // -------------------------------
-    // content view controller stuff
-    // -------------------------------
-    if(contentViewController != nil) {
-        [self adaptAccessoryViewComponents];
-        [rsbViewController setContentView:[(<AccessoryViewProviding>)contentViewController rightAccessoryView]];    
+    [self showRightSideBar:[contentViewController showsRightSideBar]];
+}
 
-        // -------------------------------
-        // search segment control
-        // -------------------------------
-        if([contentViewController contentViewType] == SwordGenBookContentType ||
-           [contentViewController contentViewType] == NoteContentType) {
-            [currentSearchText setSearchType:IndexSearchType];
-            [[searchTypeSegControl cell] setEnabled:NO forSegment:0];
-            [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-            [[searchTypeSegControl cell] setSelected:NO forSegment:0];
-            [[searchTypeSegControl cell] setSelected:YES forSegment:1];        
-        } else {        
-            [[searchTypeSegControl cell] setEnabled:YES forSegment:0];
-            [[searchTypeSegControl cell] setEnabled:YES forSegment:1];
-            switch(stype) {
-                case ReferenceSearchType:
-                    [[searchTypeSegControl cell] setSelected:YES forSegment:0];
-                    [[searchTypeSegControl cell] setSelected:NO forSegment:1];
-                    break;
-                case IndexSearchType:
-                    [[searchTypeSegControl cell] setSelected:NO forSegment:0];
-                    [[searchTypeSegControl cell] setSelected:YES forSegment:1];
-                    break;
-                case ViewSearchType:
-                    break;
-            }
-        }
+- (void)readaptHostUI {
+    SearchType stype = [currentSearchText searchType];
+    [searchTextField setStringValue:[currentSearchText searchTextForType:stype]];
+    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:stype]];
+    
+    if(contentViewController != nil) {
+        // RSB
+        [self showRightSideBar:[contentViewController showsRightSideBar]];
+        [rsbViewController setContentView:[contentViewController rightAccessoryView]];
+        // TOP
+        [placeHolderSearchOptionsView setContentView:[contentViewController topAccessoryView]];
         
-        // -----------------
-        // search text field
-        // -----------------
-        if([contentViewController contentViewType] == SwordGenBookContentType ||
-           [contentViewController contentViewType] == SwordDictionaryContentType ||
-           [contentViewController contentViewType] == NoteContentType) {
-            if(stype == ReferenceSearchType) {
-                [searchTextField setContinuous:YES];
-                [[searchTextField cell] setSendsSearchStringImmediately:YES];
-                //[[searchTextField cell] setSendsWholeSearchString:NO];
-            } else {
-                [searchTextField setContinuous:NO];
-                [[searchTextField cell] setSendsSearchStringImmediately:NO];
-                [[searchTextField cell] setSendsWholeSearchString:YES];            
-            }
-        } else {
-            [searchTextField setContinuous:NO];
-            [[searchTextField cell] setSendsSearchStringImmediately:NO];
-            [[searchTextField cell] setSendsWholeSearchString:YES];        
-        }
+        // search type segmented view
+        [[searchTypeSegControl cell] setEnabled:[contentViewController enableReferenceSearch] forSegment:0];
+        [[searchTypeSegControl cell] setEnabled:[contentViewController enableIndexedSearch] forSegment:1];
+        [searchTypeSegControl selectSegmentWithTag:[contentViewController preferedSearchType]];
         
-        // -----------------
-        // bookmark button
-        // -----------------
-        if([contentViewController contentViewType] == SwordBibleContentType ||
-           [contentViewController contentViewType] == SwordCommentaryContentType) {
-            [addBookmarkBtn setEnabled:(stype == ReferenceSearchType)];
-            [forceReloadBtn setEnabled:YES];
-        } else if([contentViewController contentViewType] == NoteContentType) {
-            [addBookmarkBtn setEnabled:NO];
-            [forceReloadBtn setEnabled:YES];
-        } else {
-            [addBookmarkBtn setEnabled:NO];
-            [forceReloadBtn setEnabled:NO];    
-        }
+        // search field
+        SearchTextFieldOptions *options = [contentViewController searchFieldOptions];
+        [searchTextField setContinuous:[options continuous]];
+        [[searchTextField cell] setSendsSearchStringImmediately:[options sendsSearchStringImmediately]]; 
+        [[searchTextField cell] setSendsWholeSearchString:[options sendsWholeSearchString]]; 
+        
+        // bookmark add button
+        [addBookmarkBtn setEnabled:[contentViewController enableAddBookmarks]];
+        
+        // force reload button
+        [forceReloadBtn setEnabled:[contentViewController enableForceReload]];        
     }
     
-    // -----------------
-    // window title
-    // -----------------
     [[self window] setTitle:[self computeWindowTitle]];
 }
 
@@ -402,22 +340,15 @@ typedef enum _NavigationDirectionType {
     }
     
     if(contentViewController != nil) {
-        if([contentViewController isSwordModuleContentType]) {
-            SwordModule *mod = [(ModuleViewController *)contentViewController module];
-            if(mod != nil) {
-                [ret appendFormat:@"%@ - %@", [mod name], [searchTextField stringValue]];
-            }            
-        } else if([contentViewController isNoteContentType]) {
-            [ret appendString:[(NotesViewController *)contentViewController label]];
-        }
+        [ret appendString:[contentViewController title]];
     }    
     
     return ret;
 }
 
 - (ContentViewType)contentViewType {
-    if(contentViewController) {
-        return [contentViewController contentViewType];
+    if(contentViewController && [contentViewController respondsToSelector:@selector(contentViewType)]) {
+        return [(ContentDisplayingViewController *)contentViewController contentViewType];
     }
     return SwordBibleContentType;
 }
@@ -566,18 +497,34 @@ typedef enum _NavigationDirectionType {
 
 #pragma mark - SubviewHosting protocol
 
-- (void)contentViewInitFinished:(HostableViewController *)aView {
-    if([aView isKindOfClass:[LeftSideBarViewController class]]) {
+- (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
+    self.contentViewController = aViewController;
+    [contentViewController setDelegate:self];
+    [self setupForContentViewController];
+}
+
+- (void)contentViewInitFinished:(HostableViewController *)aViewController {
+    if([aViewController isKindOfClass:[LeftSideBarViewController class]]) {
         //[mainSplitView addSubview:[aView view] positioned:NSWindowBelow relativeTo:placeHolderView];
         NSSize s = [[lsbViewController view] frame].size;
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
-    } else if([aView isKindOfClass:[RightSideBarViewController class]]) {
+    } else if([aViewController isKindOfClass:[RightSideBarViewController class]]) {
         //[contentSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:nil];
         NSSize s = [[rsbViewController view] frame].size;
         s.width = rsbWidth;
         [[rsbViewController view] setFrameSize:s];
+    } else if([aViewController isKindOfClass:[ContentDisplayingViewController class]]) {
+        self.contentViewController = (ContentDisplayingViewController *)aViewController;
+        [self setupForContentViewController];
     }
+}
+
+- (void)setupForContentViewController {
+    [self setSearchTypeUI:[contentViewController preferedSearchType]];
+    [self setupContentRelatedViews];
+    [contentViewController prepareContentForHost:self];
+    [self readaptHostUI];
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -589,6 +536,8 @@ typedef enum _NavigationDirectionType {
 - (id)initWithCoder:(NSCoder *)decoder {
     [Assotiater setCurrentInitialisationHost:self];
     
+    self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
+
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
     if(lsbViewController == nil) {
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];

@@ -24,14 +24,14 @@ class sword::VerseMgr::Book;
     int number;
     int numberInTestament;
     int testament;
-    NSMutableArray *chapters;
+    NSArray *chapters;
 }
 
 @property (readwrite) int number;
 @property (readwrite) int numberInTestament;
 @property (readwrite) int testament;
 @property (retain, readwrite) NSString *localizedName;
-@property (retain, readwrite) NSMutableArray *chapters;
+@property (retain, readwrite) NSArray *chapters;
 
 #ifdef __cplusplus
 - (id)initWithBook:(sword::VerseMgr::Book *)aBook;

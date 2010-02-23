@@ -12,7 +12,7 @@
 
 @class ModulesUIController, BookmarksUIController, NotesUIController;
 
-@interface SideBarViewController : HostableViewController <SubviewHosting> {
+@interface SideBarViewController : HostableViewController {
     IBOutlet NSOutlineView *outlineView;
     IBOutlet NSView *sidebarResizeControl;
 }
@@ -26,9 +26,5 @@
 - (ModulesUIController *)modulesUIController;
 - (BookmarksUIController *)bookmarksUIController;
 - (NotesUIController *)notesUIController;
-
-// subviewhosting
-- (void)contentViewInitFinished:(HostableViewController *)aViewController;
-- (void)removeSubview:(HostableViewController *)aViewController;
 
 @end

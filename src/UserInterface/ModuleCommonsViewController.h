@@ -18,7 +18,7 @@ enum GeneralMenuItemAdditions {
 @class ModulesUIController;
 @class BookmarksUIController;
 
-@interface ModuleCommonsViewController : ContentDisplayingViewController <NSCoding, TextDisplayable, MouseTracking> {
+@interface ModuleCommonsViewController : ContentDisplayingViewController <NSCoding> {
     IBOutlet NSView *referenceOptionsView;
 
     IBOutlet NSPopUpButton *fontSizePopUpButton;
@@ -93,15 +93,6 @@ enum GeneralMenuItemAdditions {
 
 - (IBAction)bookPagerAction:(id)sender;
 - (IBAction)chapterPagerAction:(id)sender;
-
-// TextDisplayable
-- (void)displayText;
-- (void)displayTextForReference:(NSString *)aReference;
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
-
-// MouseTracking
-- (void)mouseEntered:(NSView *)theView;
-- (void)mouseExited:(NSView *)theView;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

@@ -39,6 +39,7 @@
 #import "globals.h"
 #import "SwordBibleBook.h"
 #import "SwordBibleChapter.h"
+#import "CommentaryViewController.h"
 
 @interface BibleViewController ()
 
@@ -47,6 +48,7 @@
 
 - (void)checkPerformProgressCalculation;
 - (void)updateContentCache;
+- (void)_loadNib;
 
 @end
 
@@ -63,17 +65,10 @@
 - (id)init {
     self = [super init];
     if(self) {
-        self.searchType = ReferenceSearchType;
-        self.module = nil;
-        self.delegate = nil;
-        self.bookSelection = [NSMutableArray array];
-        self.textContext = 0;
-        
-        // init SearchBookSetController
-        searchBookSetsController = [[SearchBookSetEditorController alloc] init];
-        [searchBookSetsController setDelegate:self];
+        if(![self isKindOfClass:[CommentaryViewController class]]) {
+            [self _loadNib];            
+        }
     }
-    
     return self;
 }
 
@@ -88,9 +83,6 @@
 - (id)initWithModule:(SwordBible *)aModule delegate:(id)aDelegate {
     self = [self init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -init]");
-        
-        // if given module is nil, choose the first found in SwordManager
         if(aModule == nil) {
             NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
             if([modArray count] > 0) {
@@ -99,14 +91,8 @@
         }
         self.module = (SwordModule *)aModule;
         self.delegate = aDelegate;
-                
-        self.nibName = BIBLEVIEW_NIBNAME;
         
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable to load nib!");            
-        }        
+        [self _loadNib];
     } else {
         MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable init!");
     }
@@ -114,9 +100,25 @@
     return self;
 }
 
+- (void)commonInit {
+    [super commonInit];
+    self.nibName = BIBLEVIEW_NIBNAME;
+    self.searchType = ReferenceSearchType;
+    self.bookSelection = [NSMutableArray array];
+    self.textContext = 0;
+
+    searchBookSetsController = [[SearchBookSetEditorController alloc] init];
+    [searchBookSetsController setDelegate:self];
+}
+
+- (void)_loadNib {
+    BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
+    if(!stat) {
+        MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable to load nib!");            
+    }    
+}
+
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -awakeFromNib]");
-    
     [super awakeFromNib];
         
     // prepare for our custom cell
@@ -126,34 +128,22 @@
     
     // set menu states of display options
     [[displayOptionsMenu itemWithTag:1] setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] intValue]];
-    
+
+    // if we have areference, display it
+    if(searchString && [searchString length] > 0) {
+        [self displayTextForReference:searchString searchType:searchType];    
+    }
+
     // if our hosted subview also has loaded, report that
-    // else, wait until the subview has loaded and report then
-    if([(HostableViewController *)contentDisplayController viewLoaded]) {
+    // else, reporting is done in -contentViewInitFinished
+    if([contentDisplayController viewLoaded]) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
         
-        // add the webview as contentvew to the placeholder    
+        // add the webview as contentview to the placeholder    
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];
-    }
-    
-    // create popup button menu
-    [self populateModulesMenu];
-    [self populateAddPopupMenu];
-    
-    [self adaptUIToHost];
-    
-    // create bookmarks menu
-    NSMenu *bookmarksMenu = [[NSMenu alloc] init];
-    [[self bookmarksUIController] generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];
-    NSMenuItem *item = [textContextMenu itemWithTag:AddVersesToBookmark];
-    [item setSubmenu:bookmarksMenu];
-    
-    // if we have areference, display it
-    if(reference && [reference length] > 0) {
-        [self displayTextForReference:reference searchType:searchType];    
     }
 
     viewLoaded = YES;
@@ -189,15 +179,12 @@
 
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
-    // generate menu
     [[self modulesUIController] generateModuleMenu:&menu 
                                      forModuletype:bible 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
-    // add menu
     [modulePopBtn setMenu:menu];
     
-    // select module
     if(self.module != nil) {
         // on change, still exists?
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
@@ -206,12 +193,19 @@
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
                 // and redisplay if needed
-                [self displayTextForReference:[self reference] searchType:searchType];
+                [self displayTextForReference:searchString searchType:searchType];
             }
         }
         
         [modulePopBtn selectItemWithTitle:[module name]];
     }
+}
+
+- (void)populateBookmarksMenu {
+    NSMenu *bookmarksMenu = [[NSMenu alloc] init];
+    [[self bookmarksUIController] generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];
+    NSMenuItem *item = [textContextMenu itemWithTag:AddVersesToBookmark];
+    [item setSubmenu:bookmarksMenu];    
 }
 
 - (void)populateAddPopupMenu {
@@ -246,9 +240,9 @@
     NSString *name = [(NSMenuItem *)sender title];
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:name];
-        if((self.reference != nil) && ([self.reference length] > 0)) {
+        if((self.searchString != nil) && ([self.searchString length] > 0)) {
             forceRedisplay = YES;
-            [self displayTextForReference:self.reference searchType:searchType];
+            [self displayTextForReference:self.searchString searchType:searchType];
         }
     }
     
@@ -259,12 +253,34 @@
     [statusLine setStringValue:aText];
 }
 
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
-    }
+#pragma mark - HostViewDelegate
+
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    [self populateModulesMenu];
+    [self populateBookmarksMenu];
+    [self populateAddPopupMenu];
     
-    return @"BibleView";
+    [self adaptUIToHost];
+}
+
+- (BOOL)enableAddBookmarks {
+    return (searchType == ReferenceSearchType);
+}
+
+- (NSString *)title {
+    if(module != nil) {
+        return [NSString stringWithFormat:@"%@ - %@", [module name], searchString];
+    }
+    return @"BibleView";    
+}
+
+- (NSView *)rightAccessoryView {
+    if(searchType == ReferenceSearchType) {
+        return [entriesOutlineView enclosingScrollView];
+    } else {
+        return [searchBookSetsController view];
+    }
 }
 
 #pragma mark - Menu validation
@@ -294,8 +310,8 @@
 #pragma mark - TextDisplayable
 
 - (BOOL)hasValidCacheObject {
-    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:reference]) ||
-       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference])) {
+    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:searchString]) ||
+       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString])) {
         return YES;
     }
     return NO;
@@ -311,7 +327,7 @@
         // in order to show a progress indicator for if the searching takes too long
         // we need to find out how long it will approximately take
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...");
-        int len = [(SwordBible *)module numberOfVerseKeysForReference:reference];
+        int len = [(SwordBible *)module numberOfVerseKeysForReference:searchString];
         // let's say that for more then 30 verses we show a progress indicator
         if(len >= 30) {
             [self beginIndicateProgress];
@@ -322,8 +338,8 @@
 }
 
 - (void)updateContentCache {
-    [contentCache setReference:reference];
-    [contentCache setContent:[module renderedTextEntriesForRef:reference]];    
+    [contentCache setReference:searchString];
+    [contentCache setContent:[module renderedTextEntriesForRef:searchString]];
 }
 
 - (void)handleDisplayIndexedNoHasIndex {
@@ -354,7 +370,7 @@
     if(indexer == nil) {
         MBLOG(MBLOG_ERR, @"[BibleViewController -performThreadedSearch::] Could not get indexer for searching!");
     } else {
-        [indexer performThreadedSearchOperation:reference constrains:bookSet maxResults:maxResults delegate:self];
+        [indexer performThreadedSearchOperation:searchString constrains:bookSet maxResults:maxResults delegate:self];
     }    
 }
 
@@ -394,7 +410,7 @@
     
     // force redisplay
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 - (IBAction)addModule:(id)sender {
@@ -449,10 +465,7 @@
 #pragma mark - SubviewHosting
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -contentViewInitFinished:]");
-    
-    // check if this view has completed loading
-    if(viewLoaded == YES) {
+    if(viewLoaded) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[(<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
@@ -461,10 +474,6 @@
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];
     }
-}
-
-- (void)removeSubview:(HostableViewController *)aViewController {
-    // does nothing
 }
 
 #pragma mark - MouseTracking protocol
@@ -488,15 +497,7 @@
     if(self) {        
         self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];        
         self.textContext = [decoder decodeIntegerForKey:@"TextContextKey"];
-        
-        searchBookSetsController = [[SearchBookSetEditorController alloc] init];
-        [searchBookSetsController setDelegate:self];
-
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[BibleViewController -initWithCoder:] unable to load nib!");
-        }
+        [self _loadNib];
     }
     
     return self;

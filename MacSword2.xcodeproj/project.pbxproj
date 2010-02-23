@@ -78,6 +78,8 @@
 		A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
 		A9582A800F701D4C0094FAF4 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
+		A95CFC5A1132951600E71D4E /* ContentDisplayingViewControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */; };
+		A95CFC791132A9A100E71D4E /* SearchTextFieldOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */; };
 		A95D51A5105D431600FE9A24 /* libsword-1.6.1-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
 		A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */; };
 		A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94150DF9B149006B7361 /* SwordManager.mm */; };
@@ -360,6 +362,10 @@
 		A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDPreviewController.m; path = src/UserInterface/HUDPreviewController.m; sourceTree = "<group>"; };
 		A9582A7E0F701D4C0094FAF4 /* SwordVerseKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordVerseKey.h; sourceTree = "<group>"; };
 		A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordVerseKey.mm; sourceTree = "<group>"; };
+		A95CFC581132951600E71D4E /* ContentDisplayingViewControllerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentDisplayingViewControllerFactory.h; path = src/UserInterface/ContentDisplayingViewControllerFactory.h; sourceTree = "<group>"; };
+		A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentDisplayingViewControllerFactory.m; path = src/UserInterface/ContentDisplayingViewControllerFactory.m; sourceTree = "<group>"; };
+		A95CFC771132A9A100E71D4E /* SearchTextFieldOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTextFieldOptions.h; path = src/UserInterface/SearchTextFieldOptions.h; sourceTree = "<group>"; };
+		A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchTextFieldOptions.m; path = src/UserInterface/SearchTextFieldOptions.m; sourceTree = "<group>"; };
 		A96103BA10B03B70007A9371 /* NotesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotesManager.h; path = src/NotesTaking/NotesManager.h; sourceTree = "<group>"; };
 		A96103BB10B03B70007A9371 /* NotesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesManager.m; path = src/NotesTaking/NotesManager.m; sourceTree = "<group>"; };
 		A9623E5C0F34E412000E1F53 /* MBTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBTextView.h; path = src/UserInterface/MBTextView.h; sourceTree = "<group>"; };
@@ -954,6 +960,8 @@
 				A9FCD80F10B1B5A1006F7A3B /* ModulesUIController.m */,
 				A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */,
 				A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */,
+				A95CFC581132951600E71D4E /* ContentDisplayingViewControllerFactory.h */,
+				A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -981,6 +989,8 @@
 				A9032ECD112D8323009D6A02 /* NSUserDefaults+Additions.m */,
 				A98A951D112E8E4B00EC8B76 /* ObjectAssotiations.h */,
 				A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */,
+				A95CFC771132A9A100E71D4E /* SearchTextFieldOptions.h */,
+				A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */,
 			);
 			name = HelperObjects;
 			sourceTree = "<group>";
@@ -1379,6 +1389,8 @@
 				A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */,
 				A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */,
 				A98A96BA112EE29800EC8B76 /* ToolbarView.m in Sources */,
+				A95CFC5A1132951600E71D4E /* ContentDisplayingViewControllerFactory.m in Sources */,
+				A95CFC791132A9A100E71D4E /* SearchTextFieldOptions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

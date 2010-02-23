@@ -27,14 +27,17 @@
 #import "FileRepresentation.h"
 #import "NotesViewController.h"
 #import "WindowHostController+SideBars.h"
+#import "ContentDisplayingViewControllerFactory.h"
 
 @interface WorkspaceViewHostController ()
 
 @property (retain, readwrite) NSMutableArray *viewControllers;
 @property (retain, readwrite) NSMutableArray *searchTextObjs;
 
+- (void)commonInit;
 - (NSString *)tabViewItemLabelForText:(NSString *)aText;
 - (NSString *)computeTabTitleForTabIndex:(int)index;
+- (void)_addContentViewController:(ContentDisplayingViewController *)aViewController;
 
 @end
 
@@ -49,19 +52,20 @@
 - (id)init {
     self = [super init];
     if(self) {
-        // init view controller array
         [self setViewControllers:[NSMutableArray array]];
-        // init search texts
         [self setSearchTextObjs:[NSMutableArray array]];
         
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
-        }
+        [self commonInit];
     }
     
     return self;
+}
+
+- (void)commonInit {
+    BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
+    if(!stat) {
+        MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
+    }    
 }
 
 - (void)awakeFromNib {
@@ -106,18 +110,10 @@
         i++;
     }
     
-    // set currect searchText if available
-    if([searchTextObjs count] > 0) {
-        currentSearchText = [searchTextObjs objectAtIndex:0];
-    }
-    
-    // show left side bar
     [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSBWorkspace]];
     
     if(contentViewController != nil) {
-        [self setupContentRelatedViews];
-        [self adaptAccessoryViewComponents];
-        [self adaptUIToCurrentlyDisplayingModuleType];
+        [self setupForContentViewController];
     }
     
     hostLoaded = YES;
@@ -125,60 +121,14 @@
 
 #pragma mark - Methods
 
-- (ContentDisplayingViewController *)contentViewController {
-    return contentViewController;
-}
-
-- (NSView *)view {
+- (NSView *)contentView {
     return [(NSBox *)placeHolderView contentView];
 }
 
-- (void)setView:(NSView *)aView {
+- (void)setContentView:(NSView *)aView {
     [(NSBox *)placeHolderView setContentView:aView];
 }
 
-- (ContentDisplayingViewController *)addTabContentForModule:(SwordModule *)aModule {
-    ContentDisplayingViewController *vc = nil;
-
-    if(aModule != nil) {
-        ModuleType moduleType = [aModule type];
-        if(moduleType == bible) {
-            vc = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
-        } else if(moduleType == commentary) {
-            vc = [[CommentaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
-        } else if(moduleType == dictionary) {
-            vc = [[DictionaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
-        } else if(moduleType == genbook) {
-            vc = [[GenBookViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
-        }
-        
-        // set hosting delegate
-        [vc setHostingDelegate:self];
-    }
-
-    return vc;
-}
-
-- (ContentDisplayingViewController *)addTabContentForModuleType:(ModuleType)aType {
-    ContentDisplayingViewController *vc = nil;
-    if(aType == bible) {
-        vc = [[BibleCombiViewController alloc] initWithDelegate:self];
-    } else if(aType == commentary) {
-        vc = [[CommentaryViewController alloc] initWithDelegate:self];
-    } else if(aType == dictionary) {
-        vc = [[DictionaryViewController alloc] initWithDelegate:self];
-    } else if(aType == genbook) {
-        vc = [[GenBookViewController alloc] initWithDelegate:self];
-    }    
-    [vc setHostingDelegate:self];
-    
-    return vc;
-}
-
-- (ContentDisplayingViewController *)addTabContentForNote:(FileRepresentation *)aFileRep {
-    NotesViewController *vc = [[NotesViewController alloc] initWithDelegate:self hostingDelegate:self fileRep:aFileRep];
-    return vc;
-}
 
 - (NSString *)tabViewItemLabelForText:(NSString *)aText {
     return [NSString stringWithFormat:@"%@ - %i", aText, [[[tabControl tabView] tabViewItems] count]];
@@ -202,9 +152,9 @@
                     sto = [searchTextObjs objectAtIndex:index];
                 }
                 [ret appendFormat:@"%@ - %@", [mod name], [sto searchTextForType:[self searchType]]];                    
-            }            
+            }
         } else if([contentViewController isNoteContentType]) {
-            [ret appendString:[(NotesViewController *)contentViewController label]];
+            [ret appendString:[(NotesViewController *)contentViewController title]];
         }
     }    
     
@@ -225,15 +175,8 @@
 
 #pragma mark - Actions
 
-- (IBAction)forceReload:(id)sender {
-    [(ModuleCommonsViewController *)contentViewController setForceRedisplay:YES];
-    [(ModuleCommonsViewController *)contentViewController displayTextForReference:[currentSearchText searchTextForType:[self searchType]]];
-    [(ModuleCommonsViewController *)contentViewController setForceRedisplay:NO];
-}
-
-- (void)searchInput:(id)sender {
-    [super searchInput:sender];
-    
+- (void)setSearchText:(NSString *)aString {
+    [super setSearchText:aString];
     [[tabView selectedTabViewItem] setLabel:[self computeTabTitle]];
 }
 
@@ -264,9 +207,9 @@
         mod = [[SwordManager defaultManager] moduleWithName:sBible];
     }
     if(mod) {
-        [self addTabContentForModule:mod];
-    } else {
-        // TODO: define a deault bible to open here
+        ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+        [hc setDelegate:self];
+        [self addContentViewController:hc];
     }
 }
 
@@ -381,67 +324,52 @@
             int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
             contentViewController = [viewControllers objectAtIndex:index];
             
-            if(contentViewController != nil) {
-                [rsbViewController setContentView:[contentViewController rightAccessoryView]];
-                [placeHolderSearchOptionsView setContentView:[contentViewController topAccessoryView]];                    
-
-                BOOL showRightSideBar = YES;
-                if([contentViewController isSwordModuleContentType]) {
-                    if([self showingRSB] && ![userDefaults boolForKey:DefaultsShowRSBWorkspace]) {
-                        showRightSideBar = NO;
-                    }
-                } else if([contentViewController isNoteContentType]) {
-                    showRightSideBar = NO;
-                }
-                [self showRightSideBar:showRightSideBar];
-            }
-            
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
-            [self adaptAccessoryViewComponents];
-            [self adaptUIToCurrentlyDisplayingModuleType];
+            [self setupForContentViewController];
         }
     }
 }
 
 #pragma mark - SubviewHosting protocol
 
+- (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
+    if(![viewControllers containsObject:aViewController]) {
+        [viewControllers addObject:aViewController];        
+    }
+    [self _addContentViewController:aViewController];
+    [super addContentViewController:aViewController];
+}
+
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {    
     [super contentViewInitFinished:aViewController];
+    [self _addContentViewController:(ContentDisplayingViewController *)aViewController];
+}
 
-    if(hostLoaded) {
-        // we are only interessted in view controllers that show information
-        if([aViewController isKindOfClass:[ContentDisplayingViewController class]]) {
-            
-            // remove initialMainView if present
-            if([[mainSplitView subviews] containsObject:[initialViewController view]]) {
-                [[initialViewController view] removeFromSuperview];
-                [mainSplitView addSubview:defaultMainView];
-            }
-            
-            [viewControllers addObject:aViewController];
-            contentViewController = (ContentDisplayingViewController *)aViewController;
-                        
-            // extend searchTexts
-            SearchType stype = [contentViewController searchType];
-            SearchTextObject *sto = [[SearchTextObject alloc] init];
-            [sto setSearchText:@"" forSearchType:stype];
-            [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
-            [sto setSearchType:stype];
-            [searchTextObjs addObject:sto];
-            [self setCurrentSearchText:sto];
-                                        
-            // add tab item
-            NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
-            [newItem setLabel:[self computeTabTitle]];
-            [newItem setView:[contentViewController view]];
-            [tabView addTabViewItem:newItem];
-            [tabView selectTabViewItem:newItem];
-
-            [self setupContentRelatedViews];
-            [self adaptAccessoryViewComponents];
-            [self adaptUIToCurrentlyDisplayingModuleType];
+- (void)_addContentViewController:(ContentDisplayingViewController *)aViewController {
+    // we are only interessted in view controllers that show information
+    if([aViewController isKindOfClass:[ContentDisplayingViewController class]]) {
+        // remove initialMainView if present
+        if([[mainSplitView subviews] containsObject:[initialViewController view]]) {
+            [[initialViewController view] removeFromSuperview];
+            [mainSplitView addSubview:defaultMainView];
         }
-    }
+        
+        // extend searchTexts
+        SearchType stype = [currentSearchText searchType];
+        SearchTextObject *sto = [[SearchTextObject alloc] init];
+        [sto setSearchText:@"" forSearchType:stype];
+        [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
+        [sto setSearchType:stype];
+        [searchTextObjs addObject:sto];
+        [self setCurrentSearchText:sto];
+        
+        // add tab item
+        NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
+        [tabView addTabViewItem:newItem];
+        [tabView selectTabViewItem:newItem];
+        [newItem setView:[aViewController view]];
+        [newItem setLabel:[self computeTabTitle]];
+    }    
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -485,15 +413,10 @@
         self.viewControllers = [decoder decodeObjectForKey:@"HostableViewControllerListEncoded"];
         for(ContentDisplayingViewController *vc in viewControllers) {
             [vc setDelegate:self];
-            [vc setHostingDelegate:self];
             [vc adaptUIToHost];
         }
 
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
-        }
+        [self commonInit];
 
         // set window frame
         NSRect frame;

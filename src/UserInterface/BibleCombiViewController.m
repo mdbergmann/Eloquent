@@ -22,6 +22,7 @@
 #import "SearchBookSet.h"
 #import "SearchBookSetEditorController.h"
 #import "BibleCombiViewController+ViewSynchronisation.h"
+#import "ContentDisplayingViewControllerFactory.h"
 
 @interface BibleCombiViewController ()
 
@@ -30,6 +31,9 @@
 
 - (void)distributeReference:(NSString *)aRef;
 - (void)tileSubViews;
+- (void)_addContentViewController:(ContentDisplayingViewController *)aViewController;
+- (void)setupForContentViewController:(ContentDisplayingViewController *)aViewController;
+- (void)_loadNib;
 
 @end
 
@@ -47,36 +51,39 @@
 }
 
 - (id)initWithDelegate:(id)aDelegate {
-    return [self initWithDelegate:aDelegate andInitialModule:nil];
+    return [self initWithModule:nil delegate:nil];
 }
 
-- (id)initWithDelegate:(id)aDelegate andInitialModule:(SwordBible *)aBible {
+- (id)initWithModule:(SwordBible *)aBible delegate:(id)aDelegate {
     self = [super init];
     if(self) {
-        self.delegate = aDelegate;
-        searchType = ReferenceSearchType;
-        progressControl = NO;
-        
-        [self initDefaultModDisplayOptions];
-        [self initDefaultDisplayOptions];
-        
-        self.parBibleViewControllers = [NSMutableArray array];
-        self.parMiscViewControllers = [NSMutableArray array];
-        
+        self.delegate = aDelegate;                
         [self addNewBibleViewWithModule:aBible];
-
-        regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
-        if([regex errorCodeOfLastAction] != MBRegexSuccess) {
-            MBLOGV(MBLOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
-        }
-
-        BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
-        }
+        
+        [self _loadNib];
     }
-    
     return self;    
+}
+
+- (void)commonInit {
+    [super commonInit];
+    searchType = ReferenceSearchType;
+
+    self.parBibleViewControllers = [NSMutableArray array];
+    self.parMiscViewControllers = [NSMutableArray array];
+
+    progressControl = NO;
+    regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
+    if([regex errorCodeOfLastAction] != MBRegexSuccess) {
+        MBLOGV(MBLOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
+    }
+}
+
+- (void)_loadNib {
+    BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
+    if(!stat) {
+        MBLOG(MBLOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
+    }    
 }
 
 - (void)awakeFromNib {
@@ -113,7 +120,6 @@
         if(hc.viewLoaded == NO) {
             loaded = NO;
         } else {
-            // add the webview as contentvew to the placeholder
             [parMiscSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
         }
     }
@@ -126,10 +132,6 @@
 }
 
 #pragma mark - Methods
-
-- (NSString *)label {
-    return @"BibleView";
-}
 
 /** we override this in order to be able to set it to all sub views */
 - (void)setHostingDelegate:(id)aDelegate {
@@ -148,26 +150,11 @@
  If nil is given, the first module found is taken.
  */
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule {
-    // if given module is nil, choose the first found in SwordManager
-    if(aModule == nil) {
-        NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
-        if([modArray count] > 0) {
-            aModule = [modArray objectAtIndex:0];
-        }
-    }
-    
-    // after loading this combi view there is only one bibleview, nothing more
-    BibleViewController *bvc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
-    [bvc setHostingDelegate:delegate];
-    [parBibleViewControllers addObject:bvc];
-    [self tileSubViews];
-    
-    for(HostableViewController *hc in parBibleViewControllers) {
-        [hc adaptUIToHost];
-    }
-    
-    if(hostingDelegate) {
-        [bvc displayTextForReference:[(WindowHostController *)hostingDelegate searchText] searchType:searchType];
+    if(aModule != nil) {
+        BibleViewController *vc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
+        [self addContentViewController:vc];        
+        [vc prepareContentForHost:delegate];
+        [vc displayTextForReference:searchString searchType:searchType];        
     }
 }
 
@@ -176,29 +163,11 @@
  If nil is given, the first module found is taken.
  */
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule {
-    // if given module is nil, choose the first found in SwordManager
-    if(aModule == nil) {
-        NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_COMMENTARIES];
-        if([modArray count] > 0) {
-            aModule = [modArray objectAtIndex:0];
-        }
-    }
-    
-    CommentaryViewController *cvc = [[CommentaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
-    [cvc setHostingDelegate:delegate];
-    
-    if([parMiscViewControllers count] == 0) {
-        [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];        
-    }
-    
-    [parMiscViewControllers addObject:cvc];
-
-    for(HostableViewController *hc in parMiscViewControllers) {
-        [hc adaptUIToHost];
-    }
-
-    if(hostingDelegate) {
-        [cvc displayTextForReference:[(WindowHostController *)hostingDelegate searchText] searchType:searchType];
+    if(aModule != nil) {
+        CommentaryViewController *vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+        [self addContentViewController:vc];
+        [vc prepareContentForHost:delegate];
+        [vc displayTextForReference:searchString searchType:searchType];        
     }
 }
 
@@ -297,13 +266,20 @@
     return ret;
 }
 
-#pragma mark - AccessoryViewDisplaying
+#pragma mark - HostViewDelegate protocol
+
+- (NSString *)title {
+    if([parBibleViewControllers count] > 0) {
+        return [(<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] title];
+    }
+    return @"BibleView";
+}
 
 - (NSView *)rightAccessoryView {
     NSView *ret = nil;
     
     if([parBibleViewControllers count] > 0) {
-        ret = [(<AccessoryViewProviding>)[parBibleViewControllers objectAtIndex:0] rightAccessoryView];
+        ret = [(<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] rightAccessoryView];
     }
     
     return ret;
@@ -314,11 +290,28 @@
 }
 
 - (BOOL)showsRightSideBar {
-    if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-        return [userDefaults boolForKey:DefaultsShowRSBWorkspace];
-    } else {
-        return [userDefaults boolForKey:DefaultsShowRSBSingle];        
+    if(hostingDelegate) {
+        if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            return [userDefaults boolForKey:DefaultsShowRSBWorkspace];
+        } else {
+            return [userDefaults boolForKey:DefaultsShowRSBSingle];        
+        }
     }
+    return YES;
+}
+
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    for(HostableViewController *hc in parBibleViewControllers) {
+        [hc prepareContentForHost:aHostController];
+    }
+    for(HostableViewController *hc in parMiscViewControllers) {
+        [hc prepareContentForHost:aHostController];
+    }
+}
+
+- (BOOL)enableAddBookmarks {
+    return (searchType == ReferenceSearchType);
 }
 
 #pragma mark - ModuleProviding
@@ -504,7 +497,7 @@
     }
     
     forceRedisplay = YES;
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 #pragma mark - SearchBookSetEditorController delegate methods
@@ -561,39 +554,42 @@
 
 #pragma mark - SubviewHosting
 
-- (void)contentViewInitFinished:(HostableViewController *)aView {
-    NSView *view = nil;
-    
-    if(viewLoaded) {
-        BOOL loaded = YES;
-        if([aView isKindOfClass:[BibleViewController class]]) {
+- (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
+    [self _addContentViewController:aViewController];
+}
 
-            if([aView isKindOfClass:[CommentaryViewController class]]) {
-                // add the webview as contentview to the placeholder
-                [parMiscSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];        
-                
-                for(HostableViewController *hc in parMiscViewControllers) {
-                    if(hc.viewLoaded == NO) {
-                        loaded = NO;
-                    }
+
+- (void)contentViewInitFinished:(HostableViewController *)aViewController {
+    if(viewLoaded) {
+        [self _addContentViewController:(ContentDisplayingViewController *)aViewController];
+    }
+}
+
+- (void)_addContentViewController:(ContentDisplayingViewController *)aViewController {
+    if(![parBibleViewControllers containsObject:aViewController] && 
+       ![parMiscViewControllers containsObject:aViewController]) {
+        
+        if([aViewController isKindOfClass:[BibleViewController class]]) {
+            
+            if([aViewController isKindOfClass:[CommentaryViewController class]]) {
+                [parMiscViewControllers addObject:aViewController];
+                [parMiscSplitView addSubview:[aViewController view] positioned:NSWindowAbove relativeTo:nil];
+                if(([parMiscViewControllers count] > 0) && (![[horiSplitView subviews] containsObject:parMiscSplitView])) {
+                    [horiSplitView addSubview:parMiscSplitView positioned:NSWindowAbove relativeTo:nil];
                 }
             } else {
-                // add the webview as contentview to the placeholder
-                [parBibleSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:view];
-                
-                [self tileSubViews];
-                
-                for(HostableViewController *hc in parBibleViewControllers) {
-                    if(hc.viewLoaded == NO) {
-                        loaded = NO;
-                    }
-                }
+                [parBibleViewControllers addObject:aViewController];
+                [parBibleSplitView addSubview:[aViewController view] positioned:NSWindowAbove relativeTo:nil];
             }
         }
-                
-        if(loaded) {
-            [self reportLoadingComplete];
-        }
+        [self setupForContentViewController:aViewController];
+    }    
+}
+
+- (void)setupForContentViewController:(ContentDisplayingViewController *)aViewController {
+    if([aViewController isKindOfClass:[BibleViewController class]]) {        
+        [self tileSubViews];
+        [aViewController adaptUIToHost];
     }
 }
 
@@ -632,7 +628,7 @@
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     searchType = aType;
     
-    self.reference = aReference;
+    self.searchString = aReference;
 
     if(aReference) {
         if([aReference length] > 0) {
@@ -716,14 +712,10 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        progressControl = NO;
         searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
         
-        // init bible views array
         self.parBibleViewControllers = [decoder decodeObjectForKey:@"ParallelBibleViewControllerEncoded"];
-        // init commentary views array
         self.parMiscViewControllers = [decoder decodeObjectForKey:@"ParallelMiscViewControllerEncoded"];
-        // loop and set delegate
         for(HostableViewController *hc in parBibleViewControllers) {
             hc.delegate = self;
             [hc adaptUIToHost];
@@ -732,19 +724,7 @@
             hc.delegate = self;
             [hc adaptUIToHost];
         }
-        
-        regex = [[MBRegex alloc] initWithPattern:@"^(.+\\d+:\\d+:).*"];
-        // check error
-        if([regex errorCodeOfLastAction] != MBRegexSuccess) {
-            // set error string and return
-            MBLOGV(MBLOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
-        }
-
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[BibleCombiViewController -initWithCoder] unable to load nib!");
-        }
+        [self _loadNib];
     }
     
     return self;

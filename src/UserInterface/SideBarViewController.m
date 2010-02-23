@@ -56,14 +56,4 @@ extern char NotesMgrUI;
     return [Assotiater objectForAssotiatedObject:self.delegate withKey:&NotesMgrUI];    
 }
 
-#pragma mark - SubviewHosting protocol
-
-- (void)contentViewInitFinished:(HostableViewController *)aView {
-}
-
-- (void)removeSubview:(HostableViewController *)aViewController {
-    NSView *view = [aViewController view];
-    [view removeFromSuperview];
-}
-
 @end

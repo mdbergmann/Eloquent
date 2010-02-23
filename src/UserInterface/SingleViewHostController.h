@@ -20,21 +20,12 @@
 @class SearchTextObject;
 @class FileRepresentation;
 
-@interface SingleViewHostController : WindowHostController <NSCoding, SubviewHosting> {
+@interface SingleViewHostController : WindowHostController <NSCoding> {
 }
 
-// initializers
-- (id)initForViewType:(ModuleType)aType;
-- (id)initWithModule:(SwordModule *)aModule;
-- (id)initWithFileRepresentation:(FileRepresentation *)aFileRep;
-
 // methods
-- (NSView *)view;
-- (void)setView:(NSView *)aView;
-
-// SubviewHosting
-- (void)contentViewInitFinished:(HostableViewController *)aView;
-- (void)removeSubview:(HostableViewController *)aViewController;
+- (NSView *)contentView;
+- (void)setContentView:(NSView *)aView;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

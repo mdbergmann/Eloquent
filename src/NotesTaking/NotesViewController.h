@@ -21,6 +21,7 @@
 
 @property (readwrite, retain) FileRepresentation *fileRep;
 
+- (id)initWithFileRepresentation:(FileRepresentation *)aFileRep;
 - (id)initWithDelegate:(id)aDelegate;
 - (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate;
 - (id)initWithDelegate:(id)aDelegate hostingDelegate:(id)aHostingDelegate fileRep:(FileRepresentation *)aFileRep;

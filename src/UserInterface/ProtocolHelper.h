@@ -11,10 +11,17 @@
 #import <Indexer.h>
 
 @class HostableViewController;
+@class ContentDisplayingViewController;
 
 @protocol SubviewHosting
+- (void)addContentViewController:(ContentDisplayingViewController *)aViewController;
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
+@end
+
+@protocol ContentSaving
+- (BOOL)hasUnsavedContent;
+- (void)saveContent;
 @end
 
 @protocol MouseTracking
@@ -28,24 +35,12 @@
 - (IBAction)fullScreenModeOnOff:(id)sender;
 @end
 
-@protocol AccessoryViewProviding
-- (NSView *)topAccessoryView;
-- (NSView *)rightAccessoryView;
-- (void)adaptTopAccessoryViewComponentsForSearchType:(SearchType)aType;
-- (BOOL)showsRightSideBar;
-@end
-
 @protocol TextContentProviding
 - (NSTextView *)textView;
 - (NSScrollView *)scrollView;
 - (void)setAttributedString:(NSAttributedString *)aString;
 - (void)setString:(NSString *)aString;
 - (void)textChanged:(NSNotification *)aNotification;
-@end
-
-@protocol ContentSaving
-- (BOOL)hasUnsavedContent;
-- (void)saveContent;
 @end
 
 @protocol TextDisplayable

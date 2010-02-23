@@ -62,8 +62,8 @@
 // searchBookSetsController
 - (SearchBookSetEditorController *)searchBookSetsController;
 
-- (void)setStatusText:(NSString *)aText;
 - (void)populateAddPopupMenu;
+- (void)populateBookmarksMenu;
 
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;

@@ -47,7 +47,7 @@
         [contentAttributes setObject:[userDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
         
         // strip search tokens
-        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
+        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
         
         for(SearchResultEntry *searchResultEntry in searchResults) {            
             if([searchResultEntry keyString] != nil) {
@@ -210,7 +210,7 @@
                 }
             }
             if(isShowVerseNumbersOnly) {
-                ///[aString appendFormat:@"<b>%@ %i:</b><br />\n", bookName, chapter];
+                [aString appendFormat:@"<br /><p><b>%@ %i:</b></p>\n", bookName, chapter];
             }
         }
         if(verse == 1 && isShowVerseNumbersOnly) {

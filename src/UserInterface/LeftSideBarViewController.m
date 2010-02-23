@@ -26,6 +26,7 @@
 #import "BookmarksUIController.h"
 #import "ModulesUIController.h"
 #import "globals.h"
+#import "ContentDisplayingViewControllerFactory.h"
 
 #define LEFTSIDEBARVIEW_NIBNAME   @"LeftSideBarView"
 
@@ -127,15 +128,6 @@
     } else if([aController isKindOfClass:[NotesUIController class]]) {
         [outlineView reloadItem:notesRootItem reloadChildren:YES];        
     }
-}
-
-#pragma mark - SubviewHosting protocol
-
-- (void)contentViewInitFinished:(HostableViewController *)aView {
-}
-
-- (void)removeSubview:(HostableViewController *)aViewController {
-    [super removeSubview:aViewController];
 }
 
 #pragma mark - outline datasource methods
@@ -407,11 +399,10 @@
     
     if([clickedObj isKindOfClass:[SwordModule class]]) {
         SwordModule *mod  = clickedObj;
-        // depending on the hosting window we open a new tab or window
         if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];        
+            ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+            [hostingDelegate addContentViewController:hc];
         } else if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-            // default action on this is open another single view host with this module
             [[AppController defaultAppController] openSingleHostWindowForModule:mod];        
         }
     } else if([clickedObj isKindOfClass:[Bookmark class]]) {
@@ -426,9 +417,9 @@
         FileRepresentation *f = clickedObj;
         // depending on the hosting window we open a new tab or window
         if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate addTabContentForNote:f];        
+            ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createNotesViewControllerForFileRep:f];
+            [hostingDelegate addContentViewController:hc];
         } else if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-            // default action on this is open another single view host with this module
             [[AppController defaultAppController] openSingleHostWindowForNote:f];        
         }
     }
@@ -456,7 +447,7 @@
                     [oview setMenu:nil];
                 }
             } else {
-                [oview setMenu:nil];            
+                [oview setMenu:nil];
             }
             
 		} else {

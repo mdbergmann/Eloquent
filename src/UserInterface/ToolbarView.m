@@ -14,9 +14,12 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        /*
         NSColor *col1 = [NSColor colorWithCalibratedRed:0.3411 green:0.4156 blue:0.4901 alpha:1.0];
         NSColor *col2 = [NSColor colorWithCalibratedRed:0.2 green:0.2235 blue:0.2470 alpha:1.0];
         gradient = [CTGradient gradientWithBeginningColor:col1 endingColor:col2];
+         */
+        gradient = [CTGradient unifiedNormalGradient];
     }
     return self;
 }

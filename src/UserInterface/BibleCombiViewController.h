@@ -45,7 +45,7 @@
 
 // initializers
 - (id)initWithDelegate:(id)aDelegate;
-- (id)initWithDelegate:(id)aDelegate andInitialModule:(SwordBible *)aBible;
+- (id)initWithModule:(SwordBible *)aBible delegate:(id)aDelegate;
 
 // methods
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule;
@@ -58,6 +58,7 @@
 - (SwordModule *)module;
 
 // SubviewHosting
+- (void)addContentViewController:(ContentDisplayingViewController *)aViewController;
 - (void)contentViewInitFinished:(HostableViewController *)aViewController;
 - (void)removeSubview:(HostableViewController *)aViewController;
 

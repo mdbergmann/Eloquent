@@ -36,7 +36,7 @@ enum LinkContextMenuItems {
 @class CacheObject;
 @class ModulesUIController;
 
-@interface ContentDisplayingViewController : HostableViewController <AccessoryViewProviding, ProgressIndicating, ContextMenuProviding, ContentSaving> {
+@interface ContentDisplayingViewController : HostableViewController <ProgressIndicating, TextDisplayable, ContextMenuProviding> {
     IBOutlet NSView *topAccessoryView;
     IBOutlet id contentDisplayController;    
     CacheObject *contentCache;
@@ -52,15 +52,13 @@ enum LinkContextMenuItems {
     NSRange clickedLinkTextRange;
 
     BOOL forceRedisplay;
-    SearchType searchType;
-    NSString *reference;    
 }
 
 @property (readwrite) BOOL forceRedisplay;
-@property (readwrite) SearchType searchType;
-@property (retain, readwrite) NSString *reference;
 @property (retain, readwrite) NSEvent *lastEvent;
 @property (retain, readwrite) CacheObject *contentCache;
+
+- (void)commonInit;
 
 - (ModulesUIController *)modulesUIController;
 
@@ -70,25 +68,21 @@ enum LinkContextMenuItems {
 // printing
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo;
 
-// AccessoryViewProviding protocol
-- (NSView *)topAccessoryView;
-- (NSView *)rightAccessoryView;
-- (void)adaptTopAccessoryViewComponentsForSearchType:(SearchType)aType;
-- (BOOL)showsRightSideBar;
-
 // ProgressIndicating
 - (void)beginIndicateProgress;
 - (void)endIndicateProgress;
+
+- (IBAction)saveDocument:(id)sender;
 
 // ContextMenuProviding
 - (NSMenu *)textContextMenu;
 - (NSMenu *)linkContextMenu;
 - (NSMenu *)imageContextMenu;
 
-// ContentSaving
-- (BOOL)hasUnsavedContent;
-- (void)saveContent;
-- (IBAction)saveDocument:(id)sender;
+// TextDisplayable
+- (void)displayText;
+- (void)displayTextForReference:(NSString *)aReference;
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
 // context menu actions
 - (IBAction)lookUpInIndex:(id)sender;

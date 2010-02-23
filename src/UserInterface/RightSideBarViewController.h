@@ -14,7 +14,7 @@
 #define RIGHTSIDEBARVIEW_NIBNAME   @"RightSideBarView"
 
 
-@interface RightSideBarViewController : SideBarViewController <SubviewHosting> {
+@interface RightSideBarViewController : SideBarViewController {
     IBOutlet NSBox *placeholderView;
 }
 
@@ -23,9 +23,5 @@
 
 - (void)setContentView:(NSView *)aView;
 - (NSView *)contentView;
-
-// subviewhosting
-- (void)contentViewInitFinished:(HostableViewController *)aViewController;
-- (void)removeSubview:(HostableViewController *)aViewController;
 
 @end

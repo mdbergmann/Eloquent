@@ -49,10 +49,6 @@
 
 - (void)awakeFromNib {
     
-    MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -awakeFromNib]");
-    // call delegate method when this view has loaded
-    viewLoaded = YES;
-    
     NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
     [linkAttributes setObject:[userDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
     [linkAttributes setObject:[userDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
@@ -84,6 +80,7 @@
     [scrollView setPostsFrameChangedNotifications:YES];    
     [scrollView updateMouseTracking];
     
+    viewLoaded = YES;
     [self reportLoadingComplete];
 }
 

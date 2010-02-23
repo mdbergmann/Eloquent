@@ -16,6 +16,8 @@
 #import "SwordManager.h"
 #import "ObjectAssotiations.h"
 #import "NotesUIController.h"
+#import "NSUserDefaults+Additions.h"
+#import "SearchTextFieldOptions.h"
 
 #define NOTESVIEW_NIBNAME    @"NotesView"
 
@@ -76,6 +78,8 @@ extern char NotesMgrUI;
 - (void)awakeFromNib {
     [super awakeFromNib];
 
+    [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
+    
     [self displayText];
     [saveButton setEnabled:NO];
     
@@ -85,13 +89,6 @@ extern char NotesMgrUI;
 
 - (NotesUIController *)notesUIController {
     return [Assotiater objectForAssotiatedObject:hostingDelegate withKey:&NotesMgrUI];    
-}
-
-- (NSString *)label {
-    if(fileRep) {
-        return [[fileRep name] stringByDeletingPathExtension];
-    }
-    return @"";
 }
 
 - (NSAttributedString *)swordLinkStringFromReference:(NSString *)aReference ofModule:(NSString *)aModuleName {
@@ -171,7 +168,7 @@ extern char NotesMgrUI;
     if(!aReference || [aReference length] == 0) {
         [self displayText];
     } else {
-        [self setReference:aReference];
+        [self setSearchString:aReference];
 
         NSRange inputRange = NSMakeRange(NSNotFound, 0);
         if(self.forceRedisplay) {
@@ -188,10 +185,31 @@ extern char NotesMgrUI;
 }
 
 
-#pragma mark - AccessoryViewProviding protocol
+#pragma mark - HostViewDelegate protocol
 
 - (BOOL)showsRightSideBar {
     return NO;
+}
+
+- (NSString *)title {
+    if(fileRep) {
+        return [[fileRep name] stringByDeletingPathExtension];
+    }
+    return @"";
+}
+
+- (SearchTextFieldOptions *)searchFieldOptions {
+    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
+    if(searchType == ReferenceSearchType) {
+        [options setContinuous:YES];
+        [options setSendsSearchStringImmediately:YES];
+        [options setSendsWholeSearchString:YES];
+    } else {
+        [options setContinuous:NO];
+        [options setSendsSearchStringImmediately:NO];
+        [options setSendsWholeSearchString:YES];        
+    }
+    return options;
 }
 
 #pragma mark - Printing

@@ -26,6 +26,8 @@
 
 @interface SingleViewHostController ()
 
+- (void)_loadNib;
+
 @end
 
 @implementation SingleViewHostController
@@ -33,93 +35,37 @@
 #pragma mark - Initializers
 
 - (id)init {
-    return [super init];
-}
-
-- (id)initForViewType:(ModuleType)aType {
-    self = [self init];
+    self = [super init];
     if(self) {
-        if(aType == bible) {
-            contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self];
-        } else if(aType == commentary) {
-            contentViewController = [[CommentaryViewController alloc] initWithDelegate:self];
-        } else if(aType == dictionary) {
-            contentViewController = [[DictionaryViewController alloc] initWithDelegate:self];
-        } else if(aType == genbook) {
-            contentViewController = [[GenBookViewController alloc] initWithDelegate:self];
-        }
-        [contentViewController setHostingDelegate:self];
-
-        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
-        }        
+        [self _loadNib];
     }
-    
     return self;
 }
 
-- (id)initWithModule:(SwordModule *)aModule {
-    self = [self init];
-    if(self) {
-        ModuleType moduleType = [aModule type];
-        if(moduleType == bible) {
-            contentViewController = [[BibleCombiViewController alloc] initWithDelegate:self andInitialModule:(SwordBible *)aModule];
-        } else if(moduleType == commentary) {
-            contentViewController = [[CommentaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
-        } else if(moduleType == dictionary) {
-            contentViewController = [[DictionaryViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
-        } else if(moduleType == genbook) {
-            contentViewController = [[GenBookViewController alloc] initWithModule:(SwordBible *)aModule delegate:self];
-        }
-        [contentViewController setHostingDelegate:self];
-        
-        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
-        }
+- (void)_loadNib {
+    BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
+    if(!stat) {
+        MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
     }
-    
-    return self;    
-}
-
-- (id)initWithFileRepresentation:(FileRepresentation *)aFileRep {
-    self = [self init];
-    if(self) {
-        contentViewController = [[NotesViewController alloc] initWithFileRepresentation:aFileRep];        
-        [contentViewController setHostingDelegate:self];
-        
-        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
-        }        
-    }
-    
-    return self;    
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-        
+
     if(contentViewController != nil) {
-        [self setSearchType:[contentViewController searchType]];
-        [self setupContentRelatedViews];
-        [self adaptAccessoryViewComponents];
-        [self adaptUIToCurrentlyDisplayingModuleType];
+        [self setupForContentViewController];
     }
-    
-    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:self.searchType]];
     
     hostLoaded = YES;
 }
 
 #pragma mark - Methods
 
-- (NSView *)view {
+- (NSView *)contentView {
     return [(NSBox *)placeHolderView contentView];
 }
 
-- (void)setView:(NSView *)aView {
+- (void)setContentView:(NSView *)aView {
     [(NSBox *)placeHolderView setContentView:aView];
 }
 
@@ -146,16 +92,12 @@
 
 #pragma mark - SubviewHosting protocol
 
+- (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
+    [super addContentViewController:aViewController];
+}
+
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    // first let super class handle it's things
-    [super contentViewInitFinished:aView];
-    
-    if([aView isKindOfClass:[ContentDisplayingViewController class]]) {
-        [self setSearchType:[contentViewController searchType]];
-        [self setupContentRelatedViews];
-        [self adaptAccessoryViewComponents];
-        [self adaptUIToCurrentlyDisplayingModuleType];
-    }
+    [super contentViewInitFinished:aView];    
 }
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -172,15 +114,10 @@
         // decode contentViewController
         contentViewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];
         [contentViewController setDelegate:self];
-        [contentViewController setHostingDelegate:self];
         [contentViewController adaptUIToHost];
+        [contentViewController prepareContentForHost:self];
         
-        self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
-
-        BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
-        }
+        [self _loadNib];
 
         NSRect frame;
         frame.origin = [decoder decodePointForKey:@"WindowOriginEncoded"];

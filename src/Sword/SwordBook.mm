@@ -53,6 +53,7 @@
 - (SwordModuleTreeEntry *)treeEntryForKey:(NSString *)treeKey {
     SwordModuleTreeEntry * ret = nil;
     
+    [moduleLock lock];
     if(treeKey == nil) {
         ret = [contents objectForKey:@"root"];
         if(ret == nil) {
@@ -77,6 +78,7 @@
             [contents setObject:ret forKey:treeKey];
         }
     }
+    [moduleLock unlock];
     
     return ret;
 }

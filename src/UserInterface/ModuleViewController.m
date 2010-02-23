@@ -44,17 +44,22 @@
 - (id)init {
     self = [super init];
     if(self) {
-        performProgressCalculation = NO;
-        searchType = ReferenceSearchType;
-        contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
-        [self setSearchContentCache:[[CacheObject alloc] init]];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(modulesListChanged:)
-                                                     name:NotificationModulesChanged object:nil];            
     }
     
     return self;
+}
+
+- (void)commonInit {
+    [super commonInit];
+    performProgressCalculation = YES;
+    forceRedisplay = NO;
+    searchType = ReferenceSearchType;
+    
+    self.searchContentCache = [[CacheObject alloc] init];
+    contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(modulesListChanged:)
+                                                 name:NotificationModulesChanged object:nil];
 }
 
 - (void)awakeFromNib {
@@ -75,7 +80,7 @@
     mi = [imageContextMenu addItemWithTitle:NSLocalizedString(@"ShowModuleAbout", @"") action:@selector(displayModuleAbout:) keyEquivalent:@""];
     [mi setTarget:self];
     [mi setTag:ShowModuleAbout];
-}
+ }
 
 #pragma mark - Methods
 
@@ -137,7 +142,7 @@
     
     // I guess the user actually wanted to search for something
     // let's do this now
-    [self displayTextForReference:reference];
+    [self displayTextForReference:searchString];
 }
 
 #pragma mark - TextContentProviding
@@ -194,13 +199,13 @@
         [self setString:@""];
     }
     
-    self.reference = aReference;
+    self.searchString = aReference;
     if(![self hasValidCacheObject] || forceRedisplay) {
         if(searchType == ReferenceSearchType) {
             [self setGlobalOptionsFromModOptions];
             [self handleDisplayForReference];
         } else if(searchType == IndexSearchType) {
-            [searchContentCache setReference:reference];
+            [searchContentCache setReference:searchString];
             if(![module hasIndex]) {
                 [self handleDisplayIndexedNoHasIndex];
             } else {
@@ -217,13 +222,13 @@
     if(aType == ReferenceSearchType) {
         // stop indicating progress
         // Indexing is ended in searchOperationFinished:
-        [self endIndicateProgress];            
-    }            
+        [self endIndicateProgress];
+    }
 }
 
 - (BOOL)hasValidCacheObject {
-    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:reference]) ||
-       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference])) {
+    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:searchString]) ||
+       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString])) {
         return YES;
     }
     return NO;
@@ -234,8 +239,8 @@
 }
 
 - (void)updateContentCache {
-    [contentCache setReference:reference];
-    [contentCache setContent:[module renderedTextEntriesForRef:reference]];    
+    [contentCache setReference:searchString];
+    [contentCache setContent:[module renderedTextEntriesForRef:searchString]];    
 }
 
 - (void)handleDisplayIndexedNoHasIndex {
@@ -265,7 +270,7 @@
     if(indexer == nil) {
         MBLOG(MBLOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
     } else {
-        [indexer performThreadedSearchOperation:reference constrains:nil maxResults:maxResults delegate:self];
+        [indexer performThreadedSearchOperation:searchString constrains:nil maxResults:maxResults delegate:self];
     }    
 }
 
@@ -291,19 +296,6 @@
     }
     
     [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
-}
-
-#pragma mark - Hostable delegate methods
-
-- (void)contentViewInitFinished:(HostableViewController *)aView {
-}
-
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
-    }
-    
-    return @"ModuleView";
 }
 
 #pragma mark - General menu
@@ -381,18 +373,8 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        performProgressCalculation = NO;
-        searchType = ReferenceSearchType;
         NSString *moduleName = [decoder decodeObjectForKey:@"ModuleNameEncoded"];
-        self.module = [[SwordManager defaultManager] moduleWithName:moduleName];
-        
-        contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(modulesListChanged:)
-                                                     name:NotificationModulesChanged object:nil];            
-
-        forceRedisplay = NO;
+        self.module = [[SwordManager defaultManager] moduleWithName:moduleName];        
     }
     
     return self;

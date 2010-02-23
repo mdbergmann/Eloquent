@@ -27,6 +27,7 @@
 #import "CacheObject.h"
 #import "NSAttributedString+Additions.h"
 #import "ObjectAssotiations.h"
+#import "ContentDisplayingViewControllerFactory.h"
 
 extern char ModuleListUI;
 
@@ -43,8 +44,6 @@ extern char ModuleListUI;
 @implementation ContentDisplayingViewController
 
 @synthesize forceRedisplay;
-@synthesize searchType;
-@synthesize reference;
 @synthesize contextMenuClickedLink;
 @synthesize clickedLinkTextRange;
 @synthesize lastEvent;
@@ -54,15 +53,18 @@ extern char ModuleListUI;
 - (id)init {
     self = [super init];
     if(self) {
-        [self setSearchType:ReferenceSearchType];
-        [self setReference:@""];
         [self setContextMenuClickedLink:nil];
         [self setClickedLinkTextRange:NSMakeRange(NSNotFound, 0)];
         [self setForceRedisplay:NO];
         [self setLastEvent:nil];
         [self setContentCache:[[CacheObject alloc] init]];        
+        
+        [self commonInit];
     }
     return self;
+}
+
+- (void)commonInit {    
 }
 
 - (void)finalize {
@@ -70,23 +72,6 @@ extern char ModuleListUI;
 }
 
 - (void)awakeFromNib {
-    // populate menu items with modules
-    // bibles
-    NSMenu *bibleModules = [[NSMenu alloc] init];
-    [[self modulesUIController] generateModuleMenu:&bibleModules
-                                     forModuletype:bible 
-                                    withMenuTarget:self 
-                                    withMenuAction:@selector(lookUpInIndexOfBible:)];
-    NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
-    [item setSubmenu:bibleModules];
-    // dictionaries
-    NSMenu *dictModules = [[NSMenu alloc] init];
-    [[self modulesUIController] generateModuleMenu:&dictModules 
-                                     forModuletype:dictionary 
-                                    withMenuTarget:self 
-                                    withMenuAction:@selector(lookUpInDictionaryOfModule:)];
-    item = [textContextMenu itemWithTag:LookUpInDictionaryList];
-    [item setSubmenu:dictModules];    
 }
 
 - (ModulesUIController *)modulesUIController {
@@ -114,12 +99,70 @@ extern char ModuleListUI;
     return SwordBibleContentType;
 }
 
+- (IBAction)saveDocument:(id)sender {
+}
+
 - (BOOL)isSwordModuleContentType {
     return [self contentViewType] < SwordModuleContentType;
 }
 
 - (BOOL)isNoteContentType {
     return ([self contentViewType] == NoteContentType);
+}
+
+#pragma mark - TextDisplayable protocol
+
+- (void)displayText {    
+}
+
+- (void)displayTextForReference:(NSString *)aReference {
+    // do nothing here, subclass will handle    
+}
+
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
+    // do nothing here, subclass will handle
+}
+
+#pragma mark - HostViewDelegate
+
+- (void)searchStringChanged:(NSString *)aSearchString {    
+    [super searchStringChanged:aSearchString];
+    [self displayTextForReference:searchString];
+}
+
+- (void)searchTypeChanged:(SearchType)aSearchType withSearchString:(NSString *)aSearchString {
+    [super searchTypeChanged:aSearchType withSearchString:aSearchString];
+}
+
+- (void)forceReload {
+    forceRedisplay = YES;
+    [self displayTextForReference:searchString];
+    forceRedisplay = NO;
+}
+
+- (NSView *)topAccessoryView {
+    return topAccessoryView;
+}
+
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    // populate menu items with modules
+    // bibles
+    NSMenu *bibleModules = [[NSMenu alloc] init];
+    [[self modulesUIController] generateModuleMenu:&bibleModules
+                                     forModuletype:bible 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(lookUpInIndexOfBible:)];
+    NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
+    [item setSubmenu:bibleModules];
+    // dictionaries
+    NSMenu *dictModules = [[NSMenu alloc] init];
+    [[self modulesUIController] generateModuleMenu:&dictModules 
+                                     forModuletype:dictionary 
+                                    withMenuTarget:self 
+                                    withMenuAction:@selector(lookUpInDictionaryOfModule:)];
+    item = [textContextMenu itemWithTag:LookUpInDictionaryList];
+    [item setSubmenu:dictModules];
 }
 
 #pragma mark - Printing
@@ -242,19 +285,6 @@ extern char ModuleListUI;
     return YES;
 }
 
-#pragma mark - ContentSaving
-
-/** all three methods shuld be overriden by subclasses if there is content they have to save */
-- (BOOL)hasUnsavedContent {
-    return NO;
-}
-
-- (void)saveContent {
-}
-
-- (IBAction)saveDocument:(id)sender {
-}
-
 
 #pragma mark - Text Context Menu actions
 
@@ -265,9 +295,11 @@ extern char ModuleListUI;
             // we have a module to lookup
             // if the host is a single view, switch to index and search for the given word
             if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-                [(SingleViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
+                [hostingDelegate setSearchTypeUI:IndexSearchType];
+                [hostingDelegate setSearchText:sel];
             } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-                [(WorkspaceViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
+                [hostingDelegate setSearchTypeUI:IndexSearchType];
+                [hostingDelegate setSearchText:sel];
             }
         } else {
             // otherwise use the default bible for lookup
@@ -284,10 +316,14 @@ extern char ModuleListUI;
                 SwordModule *bib = [[SwordManager defaultManager] moduleWithName:defBibleName];
                 if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
                     SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:bib];
-                    [host setSearchUIType:IndexSearchType searchString:sel];
+                    [host setSearchTypeUI:IndexSearchType];
+                    [hostingDelegate setSearchText:sel];
                 } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-                    [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:bib];
-                    [(WorkspaceViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];        
+                    ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:bib];
+                    [hc setDelegate:hostingDelegate];
+                    [hostingDelegate addContentViewController:hc];
+                    [hostingDelegate setSearchTypeUI:IndexSearchType];
+                    [hostingDelegate setSearchText:sel];
                 }            
             }            
         }
@@ -306,10 +342,14 @@ extern char ModuleListUI;
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             // create new single host
             SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-            [host setSearchUIType:IndexSearchType searchString:sel];
+            [host setSearchTypeUI:IndexSearchType];
+            [hostingDelegate setSearchText:sel];
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchUIType:IndexSearchType searchString:sel];
+            ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+            [hc setDelegate:hostingDelegate];
+            [hostingDelegate addContentViewController:hc];
+            [hostingDelegate setSearchTypeUI:IndexSearchType];
+            [hostingDelegate setSearchText:sel];
         }
     }
 }
@@ -333,8 +373,10 @@ extern char ModuleListUI;
                 SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:dict];
                 [host setSearchText:sel];
             } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-                [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:dict];
-                [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+                ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:dict];
+                [hc setDelegate:hostingDelegate];
+                [hostingDelegate addContentViewController:hc];
+                [hostingDelegate setSearchText:sel];        
             }            
         }        
     }
@@ -353,8 +395,10 @@ extern char ModuleListUI;
             SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
             [host setSearchText:sel];
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchText:sel];        
+            ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+            [hc setDelegate:hostingDelegate];
+            [hostingDelegate addContentViewController:hc];
+            [hostingDelegate setSearchText:sel];        
         }            
     }    
 }
@@ -401,8 +445,10 @@ extern char ModuleListUI;
             SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
             [host setSearchText:key];
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            [(WorkspaceViewHostController *)hostingDelegate addTabContentForModule:mod];
-            [(WorkspaceViewHostController *)hostingDelegate setSearchText:key];        
+            ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+            [hc setDelegate:hostingDelegate];
+            [hostingDelegate addContentViewController:hc];
+            [hostingDelegate setSearchText:key];        
         }            
     }
 }
@@ -415,27 +461,6 @@ extern char ModuleListUI;
         [textStorage removeAttribute:TEXT_VERSE_MARKER range:clickedLinkTextRange];
         [(<TextContentProviding>)contentDisplayController textChanged:[NSNotification notificationWithName:@"TextChangedNotification" object:textView]];
     }
-}
-
-#pragma mark - AccessoryViewProviding
-
-/** subclasses should provide real view */
-- (NSView *)topAccessoryView {
-    return topAccessoryView;
-}
-
-/** subclasses should provide real view */
-- (NSView *)rightAccessoryView {
-    return nil;
-}
-
-/** subclasses should override */
-- (void)adaptTopAccessoryViewComponentsForSearchType:(SearchType)aType {
-}
-
-/** subclasses should override */
-- (BOOL)showsRightSideBar {
-    return NO;
 }
 
 #pragma mark - ProgressIndicating

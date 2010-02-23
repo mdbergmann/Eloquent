@@ -19,6 +19,7 @@
 #import "FileRepresentation.h"
 #import "NotesManager.h"
 #import "NSDictionary+Additions.h"
+#import "ContentDisplayingViewControllerFactory.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err = 0;
@@ -277,11 +278,22 @@ static AppController *singleton;
     [super finalize];
 }
 
+- (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType {
+    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
+    
+    ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModuleType:aModuleType];
+    [svh addContentViewController:hc];
+    
+    [svh showWindow:self];
+    
+    return svh;
+}
+
 /** opens a new single host window for the given module */
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod {
-    // if module is nil, we open with default bible module
     if(mod == nil) {
-        // get default bible
         NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
         if(sBible == nil) {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
@@ -295,34 +307,33 @@ static AppController *singleton;
         }
     }
     
-    // open a default view
-    SingleViewHostController *svh = nil;
-    if(([mod type] == bible) ||
-       ([mod type] == commentary) ||
-       ([mod type] == dictionary) ||
-       ([mod type] == genbook)) {
-        svh = [[SingleViewHostController alloc] initWithModule:mod];
-        [windowHosts addObject:svh];
-        svh.delegate = self;
-        [svh showWindow:self];    
-    }
+    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
+    [windowHosts addObject:svh];
+    svh.delegate = self;
     
+    ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+    [svh addContentViewController:hc];
+
+    [svh showWindow:self];
+
     return svh;
 }
 
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep {
-    SingleViewHostController *svh = [[SingleViewHostController alloc] initWithFileRepresentation:fileRep];
+    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
     [windowHosts addObject:svh];
     svh.delegate = self;
+    
+    ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createNotesViewControllerForFileRep:fileRep];
+    [svh addContentViewController:hc];    
+    
     [svh showWindow:self];
 
     return svh;
 }
 
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod {
-    // if module is nil, we open with default bible module
     if(mod == nil) {
-        // get default bible
         NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
         if(sBible == nil) {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
@@ -336,11 +347,13 @@ static AppController *singleton;
         }
     }
     
-    // open a default view
     WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
-    [svh addTabContentForModule:mod];
     [windowHosts addObject:svh];
     svh.delegate = self;
+    
+    ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+    [svh addContentViewController:hc];
+    
     [svh showWindow:self];    
     
     return svh;    
@@ -356,45 +369,24 @@ static AppController *singleton;
 #pragma mark - Actions
 
 - (IBAction)openNewSingleBibleHostWindow:(id)sender {
-    // get default bible
     NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
     SwordModule *mod = nil;
     if(sBible != nil) {
         mod = [[SwordManager defaultManager] moduleWithName:sBible];
     }
-    SingleViewHostController *svh = nil;
-    if(mod) {
-        svh = [[SingleViewHostController alloc] initWithModule:mod];
-    } else {
-        svh = [[SingleViewHostController alloc] initForViewType:bible];    
-    }
-    [windowHosts addObject:svh];
-    svh.delegate = self;
-    [svh showWindow:self];
+    [self openSingleHostWindowForModule:mod];
 }
 
 - (IBAction)openNewSingleCommentaryHostWindow:(id)sender {
-    // open a default view
-    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:commentary];
-    [windowHosts addObject:svh];
-    svh.delegate = self;
-    [svh showWindow:self];    
+    [self openSingleHostWindowForModuleType:commentary];
 }
 
 - (IBAction)openNewSingleDictionaryHostWindow:(id)sender {
-    // open a default view
-    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:dictionary];
-    [windowHosts addObject:svh];
-    svh.delegate = self;
-    [svh showWindow:self];    
+    [self openSingleHostWindowForModuleType:dictionary];
 }
 
 - (IBAction)openNewSingleGenBookHostWindow:(id)sender {
-    // open a default view
-    SingleViewHostController *svh = [[SingleViewHostController alloc] initForViewType:genbook];
-    [windowHosts addObject:svh];
-    svh.delegate = self;
-    [svh showWindow:self];    
+    [self openSingleHostWindowForModuleType:genbook];
 }
 
 - (IBAction)openNewWorkspaceHostWindow:(id)sender {

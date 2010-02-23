@@ -141,7 +141,6 @@ NSString *MacSwordIndexVersion = @"2.6";
 - (void)createIndexThreadedWithDelegate:(id)aDelegate {
 	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexThreadedWithDelegate:]");
     
-    // start indexing threaded
     delegate = aDelegate;
     [NSThread detachNewThreadSelector:@selector(createIndex) toTarget:self withObject:nil];
 }

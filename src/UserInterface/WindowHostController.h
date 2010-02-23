@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ProtocolHelper.h>
-#import <Indexer.h>
 #import <ContentDisplayingViewController.h>
+#import <Indexer.h>
 
 @class Bookmark;
 @class ScopeBarView;
@@ -18,7 +18,7 @@
 @class LeftSideBarViewController;
 @class RightSideBarViewController;
 @class SingleViewHostController;
-@class ContentDisplayingViewController;
+@class HostableViewController;
 @class ModulesUIController;
 @class BookmarksUIController;
 @class NotesUIController;
@@ -76,21 +76,18 @@
 - (NSString *)searchText;
 
 /** sets the type of search to UI */
-- (void)setSearchUIType:(SearchType)aType searchString:(NSString *)aString;
-
-/** changes UI in regards to the module type */
-- (void)adaptUIToCurrentlyDisplayingModuleType;
+- (void)setSearchTypeUI:(SearchType)aType;
 
 /** tells the lsb to open the module about window */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
 
 - (ContentViewType)contentViewType;
-
-- (NSString *)computeWindowTitle;
+- (void)readaptHostUI;
 - (void)setupContentRelatedViews;
-- (void)adaptAccessoryViewComponents;
+- (void)setupForContentViewController;
 
 // SubviewHosting
+- (void)addContentViewController:(ContentDisplayingViewController *)aViewController;
 - (void)contentViewInitFinished:(HostableViewController *)aView;
 - (void)removeSubview:(HostableViewController *)aViewController;
 

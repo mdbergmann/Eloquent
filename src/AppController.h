@@ -54,6 +54,7 @@ typedef enum AppErrorCodes {
 
 + (AppController *)defaultAppController;
 
+- (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType;
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod;
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep;
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod;

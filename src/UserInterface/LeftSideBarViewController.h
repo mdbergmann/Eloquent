@@ -20,7 +20,7 @@
 @class NotesUIController;
 @class ThreeCellsCell;
 
-@interface LeftSideBarViewController : SideBarViewController <SubviewHosting, LeftSideBarDelegate> {
+@interface LeftSideBarViewController : SideBarViewController <LeftSideBarDelegate> {
         
     BookmarkManager *bookmarkManager;
     SwordManager *swordManager;    
@@ -49,9 +49,5 @@
 - (id)objectForClickedRow;
 - (void)doubleClick;
 - (void)reloadForController:(LeftSideBarAccessoryUIController *)aController;
-
-// subviewhosting
-- (void)contentViewInitFinished:(HostableViewController *)aViewController;
-- (void)removeSubview:(HostableViewController *)aViewController;
 
 @end

@@ -29,32 +29,33 @@
 - (NSAttributedString *)displayableHTMLForReferenceLookup;
 /** stores the edited comment */
 - (void)saveCommentaryText;
+- (void)_loadNib;
 @end
 
 @implementation CommentaryViewController
+
+- (id)init {
+    self = [super init];
+    if(self) {
+        [self _loadNib];
+    }
+    return self;
+}
 
 - (id)initWithModule:(SwordCommentary *)aModule {
     return [self initWithModule:aModule delegate:nil];
 }
 
 - (id)initWithModule:(SwordCommentary *)aModule delegate:(id)aDelegate {
-    self = [self init];
+    self = [super init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -init]");
         self.module = (SwordCommentary *)aModule;
         self.delegate = aDelegate;
         editEnabled = NO;
         
-        // create textview controller
-        contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
-        
         self.nibName = COMMENTARYVIEW_NIBNAME;
         
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[CommentaryViewController -init] unable to load nib!");
-        }
+        [self _loadNib];
     } else {
         MBLOG(MBLOG_ERR, @"[CommentaryViewController -init] unable init!");
     }
@@ -62,9 +63,19 @@
     return self;    
 }
 
+- (void)commonInit {
+    [super commonInit];
+    self.nibName = COMMENTARYVIEW_NIBNAME;    
+}
+
+- (void)_loadNib {
+    BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
+    if(!stat) {
+        MBLOG(MBLOG_ERR, @"[CommentaryViewController -init] unable to load nib!");
+    }
+}
+
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -awakeFromNib]");
-    
     [super awakeFromNib];
     
     // check whether this module is editable
@@ -79,8 +90,7 @@
 
 #pragma mark - Methods
 
-- (void)populateModulesMenu {
-    
+- (void)populateModulesMenu {    
     NSMenu *menu = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&menu 
                                      forModuletype:commentary 
@@ -88,19 +98,14 @@
                                     withMenuAction:@selector(moduleSelectionChanged:)];
     [modulePopBtn setMenu:menu];
     
-    // select module
     if(self.module != nil) {
-        // on change, still exists?
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
-            // select the first one found
             NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_COMMENTARIES];
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
-                // and redisplay if needed
-                [self displayTextForReference:[self reference] searchType:searchType];
+                [self displayTextForReference:searchString searchType:searchType];
             }
         }
-        
         [modulePopBtn selectItemWithTitle:[module name]];
     }
 }
@@ -120,21 +125,17 @@
 }
 
 - (void)populateAddPopupMenu {
-    
-    // generate commentary menu
     commentariesMenu = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&commentariesMenu 
                                      forModuletype:commentary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
 
-    // overall menu
     NSMenu *allMenu = [[NSMenu alloc] init];
     [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
     NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Commentary", @"") action:nil keyEquivalent:@""];
     [mi setSubmenu:commentariesMenu];
     
-    // add menu
     [addPopBtn setMenu:allMenu];
 }
 
@@ -336,14 +337,6 @@
     }
 }
 
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
-    }
-    
-    return @"CommentView";
-}
-
 #pragma mark - Actions
 
 - (IBAction)closeButton:(id)sender {
@@ -375,8 +368,6 @@
 }
 
 - (IBAction)toggleEdit:(id)sender {
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -toggleEdit:]");
-    
     if(editEnabled == NO) {
         [[(<TextContentProviding>)contentDisplayController textView] setEditable:YES];
         [[(<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:YES];
@@ -402,7 +393,7 @@
         [editButton setTitle:NSLocalizedString(@"Edit", @"")];
         
         forceRedisplay = YES;
-        [self displayTextForReference:reference searchType:searchType];
+        [self displayTextForReference:searchString searchType:searchType];
     }
     
     editEnabled = !editEnabled;
@@ -418,7 +409,17 @@
     [self saveDocument:self];
 }
 
-#pragma mark - Actions
+#pragma mark - HostViewDelegate protocol
+
+- (NSString *)title {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"CommentView";
+}
+
+#pragma mark - ContentSaving protocol
 
 - (IBAction)saveDocument:(id)sender {
     [self saveCommentaryText];

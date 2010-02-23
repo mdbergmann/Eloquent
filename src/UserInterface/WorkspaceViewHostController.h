@@ -20,7 +20,7 @@
 @class SwordModule;
 @class FileRepresentation;
 
-@interface WorkspaceViewHostController : WindowHostController <NSCoding, SubviewHosting> {
+@interface WorkspaceViewHostController : WindowHostController <NSCoding> {
 
     /** the view switcher */
     //IBOutlet NSSegmentedControl *tabControl;
@@ -41,21 +41,14 @@
 }
 
 // methods
-- (NSView *)view;
-- (void)setView:(NSView *)aView;
-- (ContentDisplayingViewController *)addTabContentForModule:(SwordModule *)aModule;
-- (ContentDisplayingViewController *)addTabContentForModuleType:(ModuleType)aType;
-- (ContentDisplayingViewController *)addTabContentForNote:(FileRepresentation *)aFileRep;
+- (NSView *)contentView;
+- (void)setContentView:(NSView *)aView;
 - (NSString *)computeTabTitle;
 
 // actions
 - (IBAction)addTab:(id)sender;
 - (IBAction)menuItemSelected:(id)sender;
 - (IBAction)openModuleInstaller:(id)sender;
-
-// SubviewHosting
-- (void)contentViewInitFinished:(HostableViewController *)aView;
-- (void)removeSubview:(HostableViewController *)aViewController;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;

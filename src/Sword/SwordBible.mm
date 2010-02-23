@@ -384,7 +384,7 @@ NSLock *bibleLock = nil;
                 [vk setVerse:lowVerse];
                 SwordBibleTextEntry *entry = [self textEntryForKey:vk textType:textType];
                 if(entry) {
-                    [ret addObject:entry];        
+                    [ret addObject:entry];
                 }
                 [vk increment];
             }

@@ -16,7 +16,7 @@
 @synthesize numberInTestament;
 @synthesize testament;
 @synthesize localizedName;
-@synthesize chapters;
+@dynamic chapters;
 
 - (id)init {
     self = [super init];
@@ -25,7 +25,7 @@
         self.numberInTestament = 0;
         self.testament = 0;        
         self.localizedName = @"";
-        self.chapters = [NSMutableArray array];
+        self.chapters = nil;
     }
     
     return self;
@@ -42,12 +42,7 @@
         
         // get system localemgr to be able to translate the english bookname
         sword::LocaleMgr *lmgr = sword::LocaleMgr::getSystemLocaleMgr();
-        self.localizedName = [NSString stringWithUTF8String:lmgr->translate(swBook->getLongName())];
-        
-        // create chapters
-        for(int i = 0;i < swBook->getChapterMax();i++) {
-            [chapters addObject:[[SwordBibleChapter alloc] initWithBook:self andChapter:i+1]];
-        }
+        self.localizedName = [NSString stringWithUTF8String:lmgr->translate(swBook->getLongName())];        
     }
     
     return self;
@@ -67,6 +62,23 @@
 
 - (int)numberOfVersesForChapter:(int)chapter {
     return swBook->getVerseMax(chapter);
+}
+
+- (void)setChapters:(NSArray *)anArray {
+    [anArray retain];
+    [chapters release];
+    chapters = anArray;
+}
+
+- (NSArray *)chapters {
+    if(chapters == nil) {
+        NSMutableArray *temp = [NSMutableArray array];
+        for(int i = 0;i < swBook->getChapterMax();i++) {
+            [temp addObject:[[SwordBibleChapter alloc] initWithBook:self andChapter:i+1]];
+        }
+        [self setChapters:[NSArray arrayWithArray:temp]];
+    }
+    return chapters;
 }
 
 /**

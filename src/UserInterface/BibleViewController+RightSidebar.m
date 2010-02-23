@@ -90,7 +90,8 @@
             
             // send the reference to delegate
             if(hostingDelegate) {
-                [(WindowHostController *)hostingDelegate setSearchUIType:ReferenceSearchType searchString:selRef];
+                [hostingDelegate setSearchTypeUI:ReferenceSearchType];
+                [hostingDelegate setSearchText:selRef];
             }
 		} else {
 			MBLOG(MBLOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");

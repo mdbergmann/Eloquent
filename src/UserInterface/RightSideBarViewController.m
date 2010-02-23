@@ -39,18 +39,4 @@
     return [placeholderView contentView];
 }
 
-#pragma mark - SubviewHosting protocol
-
-- (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOGV(MBLOG_DEBUG, @"[RightSideBarViewController -contentViewInitFinished:] %@", [aView className]);
-    
-    // check if this view has completed loading annd also all of the subviews    
-    if(viewLoaded == YES) {
-    }
-}
-
-- (void)removeSubview:(HostableViewController *)aViewController {
-    [super removeSubview:aViewController];
-}
-
 @end

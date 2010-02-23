@@ -21,11 +21,15 @@
 #import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
+#import "SearchTextFieldOptions.h"
+#import "CacheObject.h"
 
 @interface DictionaryViewController (/* class continuation */)
 
 @property (retain, readwrite) NSMutableArray *selection;
 @property (retain, readwrite) NSArray *dictKeys;
+
+- (void)commonInit;
 
 @end
 
@@ -40,8 +44,8 @@
         self.searchType = ReferenceSearchType;
         self.module = nil;
         self.delegate = nil;
-        self.selection = [NSMutableArray array];
         self.dictKeys = [NSArray array];
+        self.selection = [NSMutableArray array];        
     }
     
     return self;
@@ -58,29 +62,30 @@
 - (id)initWithModule:(SwordDictionary *)aModule delegate:(id)aDelegate {
     self = [self init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[DictionaryViewController -init]");
         self.module = (SwordDictionary *)aModule;
         self.delegate = aDelegate;
-        
-        if(aModule != nil) {
-            self.dictKeys = [aModule allKeys];
-        }
-        
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[DictionaryViewController -init] unable to load nib!");
-        }        
+        [self commonInit];
     } else {
         MBLOG(MBLOG_ERR, @"[DictionaryViewController -init] unable init!");
     }
     
-    return self;    
+    return self;
+}
+
+- (void)commonInit {
+    [super commonInit];
+    if(module != nil) {
+        self.dictKeys = [(SwordDictionary *)module allKeys];
+    }
+    self.selection = [NSMutableArray array];
+    
+    BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
+    if(!stat) {
+        MBLOG(MBLOG_ERR, @"[DictionaryViewController -init] unable to load nib!");
+    }
 }
 
 - (void)awakeFromNib {
-    MBLOG(MBLOG_DEBUG, @"[DictionaryViewController -awakeFromNib]");
-    
     [super awakeFromNib];
     
     if([(HostableViewController *)contentDisplayController viewLoaded]) {
@@ -90,11 +95,7 @@
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];        
     }
-    
-    [self populateModulesMenu];
-    
-    [self adaptUIToHost];
-    
+        
     viewLoaded = YES;
 }
 
@@ -117,7 +118,7 @@
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
                 // and redisplay if needed
-                [self displayTextForReference:[self reference] searchType:searchType];
+                [self displayTextForReference:searchString searchType:searchType];
             }
         }
         
@@ -127,14 +128,6 @@
 
 - (void)setStatusText:(NSString *)aText {
     [statusLine setStringValue:aText];
-}
-
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
-    }
-    
-    return @"DictView";
 }
 
 - (NSAttributedString *)displayableHTMLForIndexedSearch {
@@ -158,7 +151,7 @@
         [contentAttributes setObject:[userDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
         
         // strip binary search tokens
-        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
+        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
         
         // build search string
         for(SearchResultEntry *entry in sortedSearchResults) {
@@ -244,7 +237,7 @@
 #pragma mark - TextDisplayable protocol
 
 - (BOOL)hasValidCacheObject {
-    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference]) {
+    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString]) {
         return YES;
     }
 
@@ -252,9 +245,9 @@
 }
 
 - (void)handleDisplayForReference {
-    if([reference length] > 0) {
+    if([searchString length] > 0) {
         NSMutableArray *sel = [NSMutableArray array];
-        MBRegex *regex = [MBRegex regexWithPattern:reference];
+        MBRegex *regex = [MBRegex regexWithPattern:searchString];
         [regex setCaseSensitive:NO];
         for(NSString *key in [(SwordDictionary *)module allKeys]) {
             if([regex matchIn:key matchResult:nil] == MBRegexMatch) {
@@ -286,7 +279,21 @@
     [self setStatusText:text];
 }
 
-#pragma mark - AccessoryViewProviding protocol
+#pragma mark - HostViewDelegate protocol
+
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    [self populateModulesMenu];
+    [self adaptUIToHost];
+}
+
+- (NSString *)title {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"DictView";
+}
 
 - (NSView *)rightAccessoryView {
     return [entriesTableView enclosingScrollView];
@@ -296,6 +303,20 @@
     return YES;
 }
 
+- (SearchTextFieldOptions *)searchFieldOptions {
+    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
+    if(searchType == ReferenceSearchType) {
+        [options setContinuous:YES];
+        [options setSendsSearchStringImmediately:YES];
+        [options setSendsWholeSearchString:NO];
+    } else {
+        [options setContinuous:NO];
+        [options setSendsSearchStringImmediately:NO];
+        [options setSendsWholeSearchString:YES];        
+    }
+    return options;
+}
+
 #pragma mark - SubviewHosting
 
 - (void)removeSubview:(HostableViewController *)aViewController {
@@ -303,9 +324,6 @@
 }
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOG(MBLOG_DEBUG, @"[DictionaryViewController -contentViewInitFinished:]");
-    
-    // check if this view has completed loading
     if(viewLoaded == YES) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
@@ -329,9 +347,9 @@
         [selection removeAllObjects];
         [entriesTableView reloadData];
         
-        if(self.reference != nil) {
+        if(self.searchString != nil) {
             forceRedisplay = YES;
-            [self displayTextForReference:reference searchType:searchType];
+            [self displayTextForReference:searchString searchType:searchType];
         }        
     }
 }
@@ -339,8 +357,6 @@
 #pragma mark - NSTableView delegate methods
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-	MBLOG(MBLOG_DEBUG,@"[DictionaryViewController outlineViewSelectionDidChange:]");
-	
 	if(aNotification != nil) {
 		NSTableView *oview = [aNotification object];
 		if(oview != nil) {
@@ -360,7 +376,7 @@
             }
             
             self.selection = sel;
-            [self displayTextForReference:reference];
+            [self displayTextForReference:searchString];
 		} else {
 			MBLOG(MBLOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
@@ -405,14 +421,8 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        self.selection = [NSMutableArray array];
         self.dictKeys = [(SwordDictionary *)module allKeys];
-
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[DictionaryViewController -initWithCoder:] unable to load nib!");
-        }
+        [self commonInit];
     }
         
     return self;

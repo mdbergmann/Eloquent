@@ -21,10 +21,14 @@
 #import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
+#import "SearchTextFieldOptions.h"
+#import "CacheObject.h"
 
 @interface GenBookViewController (/* class continuation */)
 
 @property (retain, readwrite) NSMutableArray *selection;
+
+- (void)commonInit;
 
 @end
 
@@ -38,7 +42,7 @@
         self.searchType = IndexSearchType;
         self.module = nil;
         self.delegate = nil;
-        self.selection = [NSMutableArray array];
+        self.selection = [NSMutableArray array];        
     }
     
     return self;
@@ -55,20 +59,25 @@
 - (id)initWithModule:(SwordBook *)aModule delegate:(id)aDelegate {
     self = [self init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[GenBookViewController -init]");
         self.module = aModule;
         self.delegate = aDelegate;
-                
-        // load nib
-        BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[GenBookViewController -init] unable to load nib!");
-        }        
+
+        [self commonInit];
     } else {
         MBLOG(MBLOG_ERR, @"[GenBookViewController -init] unable init!");
     }
     
     return self;    
+}
+
+- (void)commonInit {
+    [super commonInit];
+    self.selection = [NSMutableArray array];
+    
+    BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
+    if(!stat) {
+        MBLOG(MBLOG_ERR, @"[GenBookViewController -initWithCoder:] unable to load nib!");
+    }    
 }
 
 - (void)awakeFromNib {
@@ -77,24 +86,15 @@
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
     if([(HostableViewController *)contentDisplayController viewLoaded]) {
-        // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
         
-        // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];        
     }
     
-    // create popup button menu
-    [self populateModulesMenu];
-    
-    // check which delegate we have and en/disable the close button
-    [self adaptUIToHost];
-
-    // if we have a reference, display it
-    if(reference && [reference length] > 0) {
-        [self displayTextForReference:reference searchType:searchType];    
+    if(searchString && [searchString length] > 0) {
+        [self displayTextForReference:searchString searchType:searchType];    
     }
 
     viewLoaded = YES;
@@ -121,20 +121,12 @@
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
                 // and redisplay if needed
-                [self displayTextForReference:[self reference] searchType:searchType];
+                [self displayTextForReference:searchString searchType:searchType];
             }
         }
         
         [modulePopBtn selectItemWithTitle:[module name]];
     }
-}
-
-- (NSString *)label {
-    if(module != nil) {
-        return [module name];
-    }
-    
-    return @"GenBookView";
 }
 
 - (NSAttributedString *)displayableHTMLForIndexedSearch {
@@ -158,7 +150,7 @@
         [contentAttributes setObject:[userDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];        
         
         // strip binary search tokens
-        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:reference]];
+        NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
         
         // build search string
         for(SearchResultEntry *entry in sortedSearchResults) {
@@ -255,8 +247,17 @@
     searchType = IndexSearchType;
 }
 
+- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
+    // for index mode the reference must not be an empty string
+    // for reference mode we let through everything
+    if((aReference && ([aReference length] > 0) && (aType == IndexSearchType)) || 
+       aType == ReferenceSearchType) {
+        [super displayTextForReference:aReference searchType:aType];
+    }
+}
+
 - (BOOL)hasValidCacheObject {
-    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:reference]) {
+    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString]) {
         return YES;
     }
     
@@ -264,7 +265,7 @@
 }
 
 - (void)handleDisplayForReference {
-    [contentCache setReference:reference];
+    [contentCache setReference:searchString];
     [contentCache setContent:selection];
     
     [entriesOutlineView reloadData];
@@ -274,13 +275,52 @@
     [self setStatusText:@""];
 }
 
-#pragma mark - AccessoryViewProviding protocol
+#pragma mark - HostViewDelegate protocol
+
+- (void)searchStringChanged:(NSString *)aSearchString {    
+    self.searchString = aSearchString;
+    [self displayTextForReference:searchString searchType:IndexSearchType];
+}
+
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    [self populateModulesMenu];
+    [self adaptUIToHost];
+}
+
+- (NSString *)title {
+    if(module != nil) {
+        return [module name];
+    }
+    
+    return @"GenBookView";
+}
 
 - (NSView *)rightAccessoryView {
     return [entriesOutlineView enclosingScrollView];
 }
 
 - (BOOL)showsRightSideBar {
+    return YES;
+}
+
+- (SearchType)preferedSearchType {
+    return IndexSearchType;
+}
+
+- (SearchTextFieldOptions *)searchFieldOptions {
+    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
+    [options setContinuous:YES];
+    [options setSendsSearchStringImmediately:YES];
+    [options setSendsWholeSearchString:YES];
+    return options;
+}
+
+- (BOOL)enableReferenceSearch {
+    return NO;
+}
+
+- (BOOL)enableIndexedSearch {
     return YES;
 }
 
@@ -291,9 +331,6 @@
 }
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    MBLOG(MBLOG_DEBUG, @"[GenBookViewController -contentViewInitFinished:]");
-    
-    // check if this view has completed loading
     if(viewLoaded == YES) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
@@ -321,9 +358,9 @@
         [selection removeAllObjects];
         [entriesOutlineView reloadData];
         
-        if((self.reference != nil) && ([self.reference length] > 0)) {
+        if((self.searchString != nil) && ([self.searchString length] > 0)) {
             forceRedisplay = YES;
-            [self displayTextForReference:self.reference searchType:searchType];
+            [self displayTextForReference:self.searchString searchType:searchType];
         }        
     }
 }
@@ -331,8 +368,6 @@
 #pragma mark - NSOutlineView delegate methods
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	MBLOG(MBLOG_DEBUG,@"[GenBookViewController outlineViewSelectionDidChange:]");
-	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
 		if(oview != nil) {
@@ -352,7 +387,7 @@
             }
             
             self.selection = sel;
-            [self displayTextForReference:reference];
+            [self displayTextForReference:searchString];
 		} else {
 			MBLOG(MBLOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
@@ -428,12 +463,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        self.selection = [NSMutableArray array];
-
-        BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
-        if(!stat) {
-            MBLOG(MBLOG_ERR, @"[GenBookViewController -initWithCoder:] unable to load nib!");
-        }
+        [self commonInit];
     }
         
     return self;
