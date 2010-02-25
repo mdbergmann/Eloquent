@@ -27,6 +27,10 @@
     return [[[SwordVerseKey alloc] initWithRef:aRef versification:scheme] autorelease];
 }
 
++ (id)verseKeyWithSWVerseKey:(sword::VerseKey *)aVk {
+    return [[[SwordVerseKey alloc] initWithSWVerseKey:aVk] autorelease];
+}
+
 - (id)init {
     return [self initWithRef:nil];
 }
@@ -36,7 +40,11 @@
 }
 
 - (id)initWithSWVerseKey:(sword::VerseKey *)aVk {
-    return [super initWithSWKey:aVk];
+    self = [super initWithSWKey:aVk];
+    if(self) {
+        [self swVerseKey]->setVersificationSystem(aVk->getVersificationSystem());
+    }
+    return self;
 }
 
 - (id)initWithRef:(NSString *)aRef {
@@ -66,6 +74,10 @@
 
 - (void)dealloc {
     [super dealloc];    
+}
+
+- (id)clone {
+    return [SwordVerseKey verseKeyWithSWVerseKey:(sword::VerseKey *)sk];
 }
 
 - (BOOL)headings {

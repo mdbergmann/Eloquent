@@ -14,21 +14,28 @@
 #include <listkey.h>
 #endif
 
-@class SwordBible;
+@class SwordBible, VerseEnumerator;
 
 @interface SwordListKey : SwordKey {
 }
 
 + (id)listKeyWithRef:(NSString *)aRef;
-+ (id)listKeyWithRef:(NSString *)aRef versification:(NSString *)scheme;
++ (id)listKeyWithRef:(NSString *)aRef v11n:(NSString *)scheme;
++ (id)listKeyWithRef:(NSString *)aRef headings:(BOOL)headings v11n:(NSString *)scheme;
 
 #ifdef __cplusplus
++ (id)listKeyWithSWListKey:(sword::ListKey *)aLk;
 - (id)initWithSWListKey:(sword::ListKey *)aLk;
 - (sword::ListKey *)swListKey;
 #endif
 
 - (id)initWithRef:(NSString *)aRef;
-- (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme;
+- (id)initWithRef:(NSString *)aRef v11n:(NSString *)scheme;
+- (id)initWithRef:(NSString *)aRef headings:(BOOL)headings v11n:(NSString *)scheme;
+
+- (void)parse;
+- (void)parseWithHeaders;
+- (VerseEnumerator *)verseEnumerator;
 
 - (NSInteger)numberOfVerses;
 - (BOOL)containsKey:(SwordKey *)aVerseKey;

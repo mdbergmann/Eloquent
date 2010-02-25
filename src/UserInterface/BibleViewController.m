@@ -47,7 +47,6 @@
 - (void)moduleSelectionChanged:(id)sender;
 
 - (void)checkPerformProgressCalculation;
-- (void)updateContentCache;
 - (void)_loadNib;
 
 @end
@@ -309,17 +308,9 @@
 
 #pragma mark - TextDisplayable
 
-- (BOOL)hasValidCacheObject {
-    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:searchString]) ||
-       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString])) {
-        return YES;
-    }
-    return NO;
-}
-
 - (void)handleDisplayForReference {
     [self checkPerformProgressCalculation];
-    [self updateContentCache];    
+    [super handleDisplayForReference];
 }
 
 - (void)checkPerformProgressCalculation {
@@ -337,65 +328,21 @@
     }
 }
 
-- (void)updateContentCache {
-    [contentCache setReference:searchString];
-    [contentCache setContent:[module renderedTextEntriesForRef:searchString]];
-}
-
-- (void)handleDisplayIndexedNoHasIndex {
-    // let the user confirm to create the index now
-    NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
-    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                     defaultButton:NSLocalizedString(@"OK", @"") 
-                                   alternateButton:nil 
-                                       otherButton:nil 
-                         informativeTextWithFormat:info];
-    [alert runModal];
-    
-    // show progress indicator
-    // progress indicator is stopped in the delegate methods of either indexing or searching
-    [self beginIndicateProgress];
-    
-    [module createIndexThreadedWithDelegate:self];    
-}
-
 - (void)handleDisplayIndexedPerformSearch {
-    // show progress indicator
-    // progress indicator is stopped in the delegate methods of either indexing or searching
-    [self beginIndicateProgress];
-    
-    SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
-    long maxResults = 10000;
-    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
-    if(indexer == nil) {
-        MBLOG(MBLOG_ERR, @"[BibleViewController -performThreadedSearch::] Could not get indexer for searching!");
-    } else {
-        [indexer performThreadedSearchOperation:searchString constrains:bookSet maxResults:maxResults delegate:self];
-    }    
-}
-
-- (void)handleDisplayCached {
-    NSAttributedString *displayText = nil;
-    if(searchType == ReferenceSearchType) {
-        displayText = [self displayableHTMLForReferenceLookup];
-    } else {
-        displayText = [self displayableHTMLForIndexedSearch];
+    if([searchString length] > 0) {
+        // show progress indicator
+        // progress indicator is stopped in the delegate methods of either indexing or searching
+        [self beginIndicateProgress];
+        
+        SearchBookSet *bookSet = [searchBookSetsController selectedBookSet];
+        long maxResults = 10000;
+        indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+        if(indexer == nil) {
+            MBLOG(MBLOG_ERR, @"[BibleViewController -performThreadedSearch::] Could not get indexer for searching!");
+        } else {
+            [indexer performThreadedSearchOperation:searchString constrains:bookSet maxResults:maxResults delegate:self];
+        }        
     }
-    
-    if(displayText) {
-        [self setAttributedString:displayText];
-    }
-}
-
-- (void)handleDisplayStatusText {
-    int length = 0;
-    if(searchType == ReferenceSearchType) {
-        length = [(NSArray *)[contentCache content] count];
-    } else {
-        length = [(NSArray *)[searchContentCache content] count];
-    }
-    
-    [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
 }
 
 #pragma mark - Actions

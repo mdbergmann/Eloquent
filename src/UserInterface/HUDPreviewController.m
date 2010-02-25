@@ -11,6 +11,7 @@
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SwordModuleTextEntry.h"
+#import "SwordKey.h"
 #import "globals.h"
 
 

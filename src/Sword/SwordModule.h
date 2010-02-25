@@ -145,8 +145,12 @@ typedef enum {
 - (BOOL)hasFeature:(NSString *)feature;
 - (NSString *)configFileEntryForConfigKey:(NSString *)entryKey;
 
+- (void)incKeyPosition;
+- (void)decKeyPosition;
 - (void)setPositionFromKeyString:(NSString *)aKeyString;
 - (void)setPositionFromKey:(SwordKey *)aKey;
+
+- (SwordKey *)createKey;
 
 - (NSString *)renderedText;
 - (NSString *)renderedTextFromString:(NSString *)aString;

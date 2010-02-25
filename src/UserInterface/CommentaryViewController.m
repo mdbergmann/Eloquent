@@ -192,7 +192,7 @@
                                        documentAttributes:nil];
     
     // add pointing hand cursor to all links
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
     NSRange effectiveRange;
 	int	i = 0;
 	while (i < [ret length]) {
@@ -205,9 +205,9 @@
 		}
 		i += effectiveRange.length;
 	}
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
 
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLFromVerseData:] start replacing markers...");
+    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
     // go through the attributed string and set attributes
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
@@ -259,7 +259,7 @@
             found = NO;
         }
     }
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLFromVerseData:] start replacing markers...done");    
+    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");    
     
     // set write direction
     if([module isRTL]) {
@@ -296,7 +296,8 @@
                         [currentText replaceCharactersInRange:NSMakeRange([currentText length]-1, 1) withString:@""];
                     }
                     [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
-                    [module writeEntry:[SwordModuleTextEntry textEntryForKey:currentVerse andText:currentText]];
+                    [module writeEntry:[SwordModuleTextEntry textEntryForKey:[SwordVerseKey verseKeyWithRef:currentVerse versification:[module versification]] 
+                                                                     andText:currentText]];
 
                     // reset currentText
                     currentText = [NSMutableString string];
@@ -318,7 +319,8 @@
                 }
                 // replace all '\n' characters with <br/>
                 [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
-                [module writeEntry:[SwordModuleTextEntry textEntryForKey:currentVerse andText:currentText]];
+                [module writeEntry:[SwordModuleTextEntry textEntryForKey:[SwordVerseKey verseKeyWithRef:currentVerse versification:[module versification]] 
+                                                                 andText:currentText]];
             }
         }
     }    

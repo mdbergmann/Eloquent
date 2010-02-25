@@ -19,6 +19,10 @@
     return [[[SwordKey alloc] initWithRef:aRef] autorelease];
 }
 
++ (id)swordKeyWithSWKey:(sword::SWKey *)aSk {
+    return [[[SwordKey alloc] initWithSWKey:aSk] autorelease];
+}
+
 - (id)init {
     return [self initWithRef:nil];
 }
@@ -26,8 +30,8 @@
 - (id)initWithSWKey:(sword::SWKey *)aSk {
     self = [super init];
     if(self) {
-        sk = aSk;
-        created = NO;
+        sk = aSk->clone();
+        created = YES;
     }
     
     return self;
@@ -36,12 +40,8 @@
 - (id)initWithRef:(NSString *)aRef {
     self = [super init];
     if(self) {
-        sk = new sword::SWKey();
+        sk = new sword::SWKey([aRef UTF8String]);
         created = YES;
-        
-        if(aRef) {
-            [self setKeyText:aRef];
-        }
     }
     
     return self;    
@@ -63,7 +63,23 @@
     [super dealloc];    
 }
 
+- (id)clone {
+    return [SwordKey swordKeyWithSWKey:sk];
+}
+
 #pragma mark - Methods
+
+- (void)setPersist:(BOOL)flag {
+    sk->Persist((int)flag);
+}
+
+- (BOOL)persist {
+    return (BOOL)sk->Persist();
+}
+
+- (int)error {
+    return sk->Error();
+}
 
 - (void)setPosition:(int)aPosition {
     sk->setPosition(sword::SW_POSITION((char)aPosition));

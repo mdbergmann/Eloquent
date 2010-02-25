@@ -31,7 +31,7 @@
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
     NSArray *searchResults = (NSArray *)[searchContentCache content];
-    if(searchResults) {
+    if(searchResults && [searchResults count] > 0) {
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
@@ -82,13 +82,13 @@
                 }
             }                
         }
+
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...");
+        [self applyWritingDirectionOnText:ret];
+        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...done");
     }
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -searchResultStringForQuery::] prepare search results...done");
-    
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...");
-    [self applyWritingDirectionOnText:ret];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...done");
-    
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch::] prepare search results...done");
+        
     return ret;
 }
 
@@ -97,31 +97,45 @@
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
     NSMutableAttributedString *ret = nil;
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...");
     NSString *htmlString = [self createHTMLStringWithMarkers];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start creating HTML string...done");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...");
     ret = [self convertToAttributedStringFromString:htmlString];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start generating attr string...done");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
     [self applyLinkCursorToLinksInAttributedString:ret];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
     [self replaceVerseMarkersInAttributedString:ret];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] start replacing markers...done");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...");
     [self applyWritingDirectionOnText:ret];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] apply writing direction...done");
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...done");
     
     return ret;
 }
 
 - (NSString *)createHTMLStringWithMarkers {
     NSMutableString *htmlString = [NSMutableString string];
+    
+    // background color cannot be set this way
+    float fr, fg, fb = 0.0;
+    NSColor *fCol = [userDefaults colorForKey:DefaultsTextForegroundColor];
+    [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
+    [htmlString appendFormat:@"\
+     <style>\
+     body {\
+        color:rgb(%i%%, %i%%, %i%%);\
+     }\
+     </style>\n", 
+     (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
+     
+    
     lastChapter = -1;
     lastBook = -1;
     for(SwordBibleTextEntry *entry in (NSArray *)[contentCache content]) {
@@ -134,7 +148,7 @@
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry {
     BOOL isHighlightBookmarks = [[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue];
     if(isHighlightBookmarks) {
-        Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:[anEntry key] versification:[module versification]]];
+        Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:[anEntry key]]];
         if(bm && [bm highlight]) {
             float br = 1.0, bg = 1.0, bb = 1.0;
             float fr, fg, fb = 0.0;
@@ -239,14 +253,16 @@
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                    size:(int)customFontSize];
-    [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
+
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
-    
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTML:data 
                                                                                     options:options
                                                                          documentAttributes:nil];
-    [attrString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
-                       range:NSMakeRange(0, [attrString length])];
+
+    [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
+
+    //[attrString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
+    //                   range:NSMakeRange(0, [attrString length])];
     return attrString;
 }
 

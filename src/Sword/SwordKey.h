@@ -23,11 +23,18 @@
 + (id)swordKeyWithRef:(NSString *)aRef;
 
 #ifdef __cplusplus
++ (id)swordKeyWithSWKey:(sword::SWKey *)aSk;
 - (id)initWithSWKey:(sword::SWKey *)aSk;
 - (sword::SWKey *)swKey;
 #endif
 
 - (id)initWithRef:(NSString *)aRef;
+
+- (id)clone;
+- (void)setPersist:(BOOL)flag;
+- (BOOL)persist;
+
+- (int)error;
 
 - (void)setPosition:(int)aPosition;
 - (void)decrement;

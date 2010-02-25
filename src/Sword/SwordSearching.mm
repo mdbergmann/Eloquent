@@ -18,6 +18,8 @@
 #import "SwordBook.h"
 #import "SwordBibleBook.h"
 #import "SwordModuleTextEntry.h"
+#import "SwordBibleTextEntry.h"
+#import "SwordVerseKey.h"
 
 NSString *MacSwordIndexVersion = @"2.6";
 
@@ -26,15 +28,13 @@ NSString *MacSwordIndexVersion = @"2.6";
 /**
  generates a path index for the given VerseKey
  */
-+ (NSString *)indexOfVerseKey:(sword::VerseKey *)vk {
-    
-    // we need this sequence for sorting and narrowing the search result
-    NSString *index = [NSString stringWithFormat:@"%003i/%003i/%003i/%003i/%s", 
-                       vk->Testament(),
-                       vk->Book(),
-                       vk->Chapter(),
-                       vk->Verse(),
-                       vk->getOSISBookName()];
+- (NSString *)indexOfVerseKey:(SwordVerseKey *)vk {
+    NSString *index = [NSString stringWithFormat:@"%003i/%003i/%003i/%003i/%@", 
+                       [vk testament],
+                       [vk book],
+                       [vk chapter],
+                       [vk verse],
+                       [vk osisBookName]];
     
     return index;
 }
@@ -176,7 +176,7 @@ NSString *MacSwordIndexVersion = @"2.6";
             NSString *txt = @"";
             key = [NSString stringWithUTF8String:keyCStr];
             txt = [NSString stringWithUTF8String:txtCStr];
-            NSString *keyIndex = [SwordModule indexOfVerseKey:(sword::VerseKey *)swModule->getKey()];
+            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithSWVerseKey:(sword::VerseKey *)swModule->getKey()]];
             
             NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
             if(key == nil) {
@@ -188,8 +188,7 @@ NSString *MacSwordIndexVersion = @"2.6";
                 txt = @"";
             }
             
-            // additionally save content and key string
-            //[propDict setObject:txt forKey:IndexPropSwordKeyContent];
+            // store key
             [propDict setObject:key forKey:IndexPropSwordKeyString];                
             
             // build "strong" field
@@ -236,6 +235,30 @@ NSString *MacSwordIndexVersion = @"2.6";
     }
 
 	swModule->processEntryAttributes(savePEA);	
+}
+
+@end
+
+@implementation SwordCommentary(Searching)
+
+- (void)indexContentsIntoIndex:(Indexer *)indexer {
+    
+    for(SwordBibleBook *bb in [self bookList]) {
+        
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        
+        for(SwordBibleTextEntry *entry in [self strippedTextEntriesForRef:[bb osisName]]) {
+            NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
+            [propDict setObject:[entry key] forKey:IndexPropSwordKeyString];                
+            
+            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:[entry key] versification:[self versification]]];
+            if([entry text] && [[entry text] length] > 0) {
+                [indexer addDocument:keyIndex text:[entry text] textType:ContentTextType storeDict:propDict];                
+            }            
+        }
+        
+		[pool drain];        
+    }
 }
 
 @end

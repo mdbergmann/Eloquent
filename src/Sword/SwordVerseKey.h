@@ -22,6 +22,7 @@
 + (id)verseKeyWithRef:(NSString *)aRef versification:(NSString *)scheme;
 
 #ifdef __cplusplus
++ (id)verseKeyWithSWVerseKey:(sword::VerseKey *)aVk;
 - (id)initWithSWVerseKey:(sword::VerseKey *)aVk;
 - (sword::VerseKey *)swVerseKey;
 #endif

@@ -102,6 +102,9 @@
 		A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
+		A9871570113668FE00DB94D2 /* VerseEnumerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = A987156F113668FE00DB94D2 /* VerseEnumerator.mm */; };
+		A98715861136701200DB94D2 /* VerseEnumerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = A987156F113668FE00DB94D2 /* VerseEnumerator.mm */; };
+		A98715931136724100DB94D2 /* SwordListKeyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */; };
 		A987A3480F6D5970007E5EE1 /* SplitViewDividerBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */; };
 		A987A3490F6D5970007E5EE1 /* SplitViewDividerDimple.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */; };
 		A987A34C0F6D59EC007E5EE1 /* ThickDividerSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = A987A34B0F6D59EC007E5EE1 /* ThickDividerSplitView.m */; };
@@ -383,6 +386,8 @@
 		A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextView+LookupAdditions.h"; path = "src/UserInterface/NSTextView+LookupAdditions.h"; sourceTree = "<group>"; };
 		A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+LookupAdditions.m"; path = "src/UserInterface/NSTextView+LookupAdditions.m"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
+		A987156E113668FE00DB94D2 /* VerseEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerseEnumerator.h; sourceTree = "<group>"; };
+		A987156F113668FE00DB94D2 /* VerseEnumerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VerseEnumerator.mm; sourceTree = "<group>"; };
 		A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerBar.tiff; sourceTree = "<group>"; };
 		A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerDimple.tiff; sourceTree = "<group>"; };
 		A987A34A0F6D59EC007E5EE1 /* ThickDividerSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThickDividerSplitView.h; path = src/UserInterface/ThickDividerSplitView.h; sourceTree = "<group>"; };
@@ -836,6 +841,8 @@
 				A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */,
 				A92480BF0F4D99630048A603 /* SwordBibleChapter.h */,
 				A92480C00F4D99630048A603 /* SwordBibleChapter.m */,
+				A987156E113668FE00DB94D2 /* VerseEnumerator.h */,
+				A987156F113668FE00DB94D2 /* VerseEnumerator.mm */,
 			);
 			name = Sword;
 			path = src/Sword;
@@ -1391,6 +1398,7 @@
 				A98A96BA112EE29800EC8B76 /* ToolbarView.m in Sources */,
 				A95CFC5A1132951600E71D4E /* ContentDisplayingViewControllerFactory.m in Sources */,
 				A95CFC791132A9A100E71D4E /* SearchTextFieldOptions.m in Sources */,
+				A9871570113668FE00DB94D2 /* VerseEnumerator.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1398,6 +1406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A98715861136701200DB94D2 /* VerseEnumerator.mm in Sources */,
 				A99D31E110A223B600305A57 /* SwordModuleTextEntry.m in Sources */,
 				A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */,
 				A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */,
@@ -1413,6 +1422,7 @@
 				A98A9534112E9A4000EC8B76 /* SwordKey.mm in Sources */,
 				A98A9535112E9A4000EC8B76 /* SwordVerseKey.mm in Sources */,
 				A98A9536112E9A4000EC8B76 /* SwordListKey.mm in Sources */,
+				A98715931136724100DB94D2 /* SwordListKeyTest.m in Sources */,
 				A98A9539112E9A6100EC8B76 /* ObjectAssotiations.m in Sources */,
 				A98A952A112E989C00EC8B76 /* ObjectAssotiationsTest.m in Sources */,
 			);

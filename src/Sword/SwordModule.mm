@@ -322,6 +322,7 @@
     // if still nil, use KJV versification
     if(versification == nil) {
         versification = @"KJV";
+        [configEntries setObject:versification forKey:SWMOD_CONFENTRY_VERSIFICATION];
     }
     
     return versification;
@@ -473,6 +474,14 @@
     return ret;
 }
 
+- (void)incKeyPosition {
+    swModule->increment(1);
+}
+
+- (void)decKeyPosition {
+    swModule->decrement(1);
+}
+
 /**
  subclasses need to implement this
  */
@@ -485,6 +494,10 @@
 
 - (void)setPositionFromKey:(SwordKey *)aKey {
     swModule->setKey([aKey swKey]);
+}
+
+- (SwordKey *)createKey {
+    return [SwordKey swordKeyWithSWKey:swModule->getKey()];
 }
 
 - (NSString *)renderedText {
@@ -530,6 +543,16 @@
     return ret;
 }
 
+- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index {
+    NSString *ret = @"";    
+    if([fnType isEqualToString:@"x"]) {
+        ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["refList"].c_str()];        
+    } else if([fnType isEqualToString:@"n"]) {
+        ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["body"].c_str()];
+    }
+    return ret;
+}
+
 #pragma mark - Locking methods
 
 - (SwordModuleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType {
@@ -546,9 +569,8 @@
                 txt = [self strippedText];
             }
             
-            NSString *key = [aKey keyText];
-            if(key && txt) {
-                ret = [SwordModuleTextEntry textEntryForKey:key andText:txt];
+            if(txt) {
+                ret = [SwordModuleTextEntry textEntryForKey:[aKey keyText] andText:txt];
             } else {
                 MBLOG(MBLOG_ERR, @"[SwordModule -textEntryForKey::] nil key");
             }
@@ -614,18 +636,6 @@
     NSString *value = [self entryAttributeValueFootnoteOfType:fnType indexValue:index];
     [moduleLock unlock];
     return value;
-}
-
-- (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index {
-    NSString *ret = @"";    
-    [moduleLock lock];
-    if([fnType isEqualToString:@"x"]) {
-        ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["refList"].c_str()];        
-    } else if([fnType isEqualToString:@"n"]) {
-        ret = [NSString stringWithUTF8String:swModule->getEntryAttributes()["Footnote"][[index UTF8String]]["body"].c_str()];
-    }
-    [moduleLock unlock];    
-    return ret;
 }
 
 - (sword::SWModule *)swModule {

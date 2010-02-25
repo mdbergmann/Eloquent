@@ -240,38 +240,42 @@
 
 - (void)updateContentCache {
     [contentCache setReference:searchString];
-    [contentCache setContent:[module renderedTextEntriesForRef:searchString]];    
+    [contentCache setContent:[module renderedTextEntriesForRef:searchString]];
 }
 
 - (void)handleDisplayIndexedNoHasIndex {
-    // let the user confirm to create the index now
-    NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
-    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
-                                     defaultButton:NSLocalizedString(@"OK", @"") 
-                                   alternateButton:nil 
-                                       otherButton:nil 
-                         informativeTextWithFormat:info];
-    [alert runModal];
-    
-    // show progress indicator
-    // progress indicator is stopped in the delegate methods of either indexing or searching
-    [self beginIndicateProgress];
-    
-    [module createIndexThreadedWithDelegate:self];    
+    // only start creating the index if there actually is a something we are searching for
+    if([searchString length] > 0) {
+        NSString *info = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"IndexBeingCreatedForModule", @""), [module name]];
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil 
+                                           otherButton:nil 
+                             informativeTextWithFormat:info];
+        [alert runModal];
+        
+        // show progress indicator
+        // progress indicator is stopped in the delegate methods of either indexing or searching
+        [self beginIndicateProgress];
+        
+        [module createIndexThreadedWithDelegate:self];
+    }
 }
 
 - (void)handleDisplayIndexedPerformSearch {
-    // show progress indicator
-    // progress indicator is stopped in the delegate methods of either indexing or searching
-    [self beginIndicateProgress];
-    
-    long maxResults = 10000;
-    indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
-    if(indexer == nil) {
-        MBLOG(MBLOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
-    } else {
-        [indexer performThreadedSearchOperation:searchString constrains:nil maxResults:maxResults delegate:self];
-    }    
+    if([searchString length] > 0) {
+        // show progress indicator
+        // progress indicator is stopped in the delegate methods of either indexing or searching
+        [self beginIndicateProgress];
+        
+        long maxResults = 10000;
+        indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
+        if(indexer == nil) {
+            MBLOG(MBLOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
+        } else {
+            [indexer performThreadedSearchOperation:searchString constrains:nil maxResults:maxResults delegate:self];
+        }    
+    }
 }
 
 - (void)handleDisplayCached {

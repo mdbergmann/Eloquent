@@ -154,7 +154,7 @@
     for(Bookmark *bm in bookmarkList) {
         if([bm isLeaf]) {
             if([[bm reference] length] > 0) {
-                SwordListKey *lk = [SwordListKey listKeyWithRef:[bm reference] versification:[aVerseKey versification]];
+                SwordListKey *lk = [SwordListKey listKeyWithRef:[bm reference] v11n:[aVerseKey versification]];
                 if([lk containsKey:aVerseKey]) {
                     return bm;
                 }                

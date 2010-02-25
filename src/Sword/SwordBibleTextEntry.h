@@ -9,14 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import <SwordModuleTextEntry.h>
 
-
 @interface SwordBibleTextEntry : SwordModuleTextEntry {
     NSString *preverseHeading;
 }
 
 @property (readwrite, retain) NSString *preverseHeading;
 
-+ (SwordBibleTextEntry *)textEntryForKey:(NSString *)aKey andText:(NSString *)aText;
++ (id)textEntryForKey:(NSString *)aKey andText:(NSString *)aText;
 - (id)initWithKey:(NSString *)aKey andText:(NSString *)aText;
 
 @end

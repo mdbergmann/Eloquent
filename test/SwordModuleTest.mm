@@ -9,6 +9,9 @@
 #import "SwordModuleTest.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
+#import "SwordBible.h"
+#import "SwordListKey.h"
+#import "SwordVerseKey.h"
 
 #ifdef __cplusplus
 #include <swtext.h>
@@ -27,12 +30,104 @@ using namespace sword;
 
 @implementation SwordModuleTest
 
+- (void)setUp {
+    mod = [[SwordManager defaultManager] moduleWithName:@"GerNeUe"];    
+}
+
+- (void)testRenderedTextEntriesForRef {
+    NSArray *entries = [(SwordBible *)mod renderedTextEntriesForRef:@"gen"];
+    int i = 0;
+    for(SwordBibleTextEntry *entry in entries) {
+        i++;
+    }
+}
+
+- (void)testRenderedWithEnumerator {
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen"];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    VerseEnumerator *iter = [lk verseEnumerator];
+    while((ref = [iter nextObject])) {
+        [(SwordBible *)mod setPositionFromKeyString:ref];
+        rendered = [mod renderedText];
+    }
+}
+
+- (void)testLoopWithModulePos {
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen" v11n:[mod versification]];
+    [lk setPersist:YES];
+    [mod setPositionFromKey:lk];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    while(![mod error]) {
+        ref = [lk keyText];
+        rendered = [mod renderedText];
+        [mod incKeyPosition];
+    }
+}
+
+- (void)testLoopWithModulePosWithHeadings {
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen" headings:YES v11n:[mod versification]];
+    [lk setPersist:YES];
+    [mod setPositionFromKey:lk];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    while(![mod error]) {
+        ref = [lk keyText];
+        rendered = [mod renderedText];
+        [mod incKeyPosition];
+    }
+}
+
+- (void)testLoopWithModulePosWithDiverseReference {
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen 1:1;4:5-8" v11n:[mod versification]];
+    [lk setPersist:YES];
+    [mod setPositionFromKey:lk];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    while(![mod error]) {
+        ref = [lk keyText];
+        rendered = [mod renderedText];
+        NSLog(@"%@:%@", ref, rendered);
+        [mod incKeyPosition];
+    }
+}
+
+- (void)testLoopWithModulePosWithDiverseReferenceAndContext {
+    int context = 1;
+    SwordVerseKey *vk = [SwordVerseKey verseKeyWithVersification:[mod versification]];
+    [vk setPersist:YES];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen 1:1;4:5;8:4;10:2-5" v11n:[mod versification]];
+    [lk setPersist:YES];
+    [mod setPositionFromKey:lk];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    while(![mod error]) {
+        if(context > 0) {
+            [vk setKeyText:[lk keyText]];
+            long lowVerse = [vk verse] - context;
+            long highVerse = lowVerse + (context * 2);
+            [vk setVerse:lowVerse];
+            [mod setPositionFromKey:vk];
+            for(;lowVerse <= highVerse;lowVerse++) {
+                ref = [vk keyText];
+                rendered = [mod renderedText];                
+                NSLog(@"%@:%@", ref, rendered);
+                [mod incKeyPosition];
+            }
+            // set back list key
+            [mod setPositionFromKey:lk];
+            [mod incKeyPosition];
+        } else {
+            ref = [lk keyText];
+            rendered = [mod renderedText];
+            NSLog(@"%@:%@", ref, rendered);
+            [mod incKeyPosition];            
+        }
+    }
+}
+ 
 - (void)testStrippedTextForRef {
-    SwordModule *mod = [[SwordManager defaultManager] moduleWithName:@"GerSch"];
-    //NSArray *refs = [mod stripedTextForRef:@"1. Mose 2:2"];
-    //STAssertNotNil(refs, @"no refs");
-    
-    sword::SWModule *swmod = [mod swModule];
     sword::VerseKey vk = sword::VerseKey("1Mo 1:2");
     NSLog(@"start position: %s", vk.getText());
     vk.decrement();
@@ -42,7 +137,7 @@ using namespace sword;
 }
 
 - (void)testHeadings {
-    SwordModule *mod = [[SwordManager defaultManager] moduleWithName:@"ESV"];
+    mod = [[SwordManager defaultManager] moduleWithName:@"ESV"];
     STAssertNotNil(mod, @"No Mod");
     
     // enable headings

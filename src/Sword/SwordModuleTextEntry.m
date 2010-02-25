@@ -7,14 +7,14 @@
 //
 
 #import "SwordModuleTextEntry.h"
-
+#import "SwordKey.h"
 
 @implementation SwordModuleTextEntry
 
 @synthesize key;
 @synthesize text;
 
-+ (SwordModuleTextEntry *)textEntryForKey:(NSString *)aKey andText:(NSString *)aText {
++ (id)textEntryForKey:(NSString *)aKey andText:(NSString *)aText {
     return [[[SwordModuleTextEntry alloc] initWithKey:aKey andText:aText] autorelease];
 }
 

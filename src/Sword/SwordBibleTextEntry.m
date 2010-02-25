@@ -8,17 +8,21 @@
 
 #import "SwordBibleTextEntry.h"
 
-
 @implementation SwordBibleTextEntry
 
 @synthesize preverseHeading;
 
-+ (SwordBibleTextEntry *)textEntryForKey:(NSString *)aKey andText:(NSString *)aText {
++ (id)textEntryForKey:(NSString *)aKey andText:(NSString *)aText {
     return [[[SwordBibleTextEntry alloc] initWithKey:aKey andText:aText] autorelease];
 }
 
 - (id)initWithKey:(NSString *)aKey andText:(NSString *)aText {
-    return [super initWithKey:aKey andText:aText];
+    self = [super init];
+    if(self) {
+        self.key = aKey;
+        self.text = aText;
+    }    
+    return self;
 }
 
 - (void)finalize {

@@ -70,6 +70,9 @@
     [[NSUserDefaults standardUserDefaults] addObserver:self 
                                             forKeyPath:DefaultsTextContainerHorizontalMargins
                                                options:NSKeyValueObservingOptionNew context:nil];
+    [[NSUserDefaults standardUserDefaults] addObserver:self 
+                                            forKeyPath:DefaultsTextBackgroundColor
+                                               options:NSKeyValueObservingOptionNew context:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollViewFrameDidChange:)
@@ -101,6 +104,8 @@
         NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
                                     [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
         [textView setTextContainerInset:margins];
+	} else if([keyPath isEqualToString:DefaultsTextBackgroundColor]) {
+        [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];        
 	}
 }
 

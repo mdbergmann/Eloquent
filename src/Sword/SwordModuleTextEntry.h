@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class SwordKey;
 
 @interface SwordModuleTextEntry : NSObject {
     NSString *key;
@@ -17,7 +18,7 @@
 @property (readwrite, retain) NSString *key;
 @property (readwrite, retain) NSString *text;
 
-+ (SwordModuleTextEntry *)textEntryForKey:(NSString *)aKey andText:(NSString *)aText;
++ (id)textEntryForKey:(NSString *)aKey andText:(NSString *)aText;
 - (id)initWithKey:(NSString *)aKey andText:(NSString *)aText;
 
 @end

@@ -19,6 +19,7 @@
 #import "NSTextView+LookupAdditions.h"
 #import "MBPreferenceController.h"
 #import "SwordManager.h"
+#import "SwordKey.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "AppController.h"

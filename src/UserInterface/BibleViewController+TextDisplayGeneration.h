@@ -9,13 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import <BibleViewController.h>
 
+@class SwordBibleTextEntry;
 
 @interface BibleViewController (TextDisplayGeneration)
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup;
 - (NSString *)createHTMLStringWithMarkers;
-- (void)applyBookmarkHighlightingOnTextEntry:(SwordModuleTextEntry *)anEntry;
-- (void)appendHTMLFromTextEntry:(SwordModuleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
+- (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry;
+- (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
 - (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString;
 - (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString;
 - (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)aAttrString;

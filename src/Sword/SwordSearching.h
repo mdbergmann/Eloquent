@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <SwordModule.h>
 #import <SwordBible.h>
+#import <SwordCommentary.h>
 #import <SwordDictionary.h>
 #import <SwordBook.h>
 
@@ -18,9 +19,11 @@
 #endif
 
 @class Indexer;
+@class SwordVerseKey;
 
 @interface SwordModule(Searching)
 
+- (NSString *)indexOfVerseKey:(SwordVerseKey *)vk;
 - (BOOL)hasIndex;
 - (void)createIndex;
 - (void)deleteIndex;
@@ -31,6 +34,12 @@
 @end
 
 @interface SwordBible(Searching)
+
+- (void)indexContentsIntoIndex:(Indexer *)indexer;
+
+@end
+
+@interface SwordCommentary(Searching)
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer;
 
