@@ -20,6 +20,8 @@
 #import "SwordModuleTextEntry.h"
 #import "SwordBibleTextEntry.h"
 #import "SwordVerseKey.h"
+#import "SwordListKey.h"
+#import "SwordManager.h"
 
 NSString *MacSwordIndexVersion = @"2.6";
 
@@ -108,12 +110,10 @@ NSString *MacSwordIndexVersion = @"2.6";
     } else {
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] start indexing...");
 
-        [moduleLock lock];
         [self indexContentsIntoIndex:indexer];
-        [moduleLock unlock];
-
         [indexer flushIndex];
         [[IndexingManager sharedManager] closeIndexer:indexer];
+        
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
 
         //save version info
@@ -155,84 +155,73 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
     
-	bool savePEA = swModule->isProcessEntryAttributes();
-	swModule->processEntryAttributes(true);
+    BOOL savePEA = swModule->isProcessEntryAttributes();
+
+    if([self hasFeature:SWMOD_FEATURE_STRONGS] || [self hasFeature:SWMOD_FEATURE_LEMMA]) {
+        swModule->processEntryAttributes(YES);
+    }
 	
-    // loop over all books
+    [moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
-        const char *cref = [[bb osisName] UTF8String];
-        sword::VerseKey	vk;
-        vk.setVersificationSystem([[self versification] UTF8String]);
-        sword::ListKey lk = vk.ParseVerseList(cref, vk, true);
-        // iterate through keys
-        for(lk = sword::TOP; !lk.Error(); lk++) {
-            swModule->setKey(lk);
-            const char *keyCStr = swModule->getKeyText();
-            const char *txtCStr = swModule->StripText();
-            NSString *key = @"";
-            NSString *txt = @"";
-            key = [NSString stringWithUTF8String:keyCStr];
-            txt = [NSString stringWithUTF8String:txtCStr];
-            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithSWVerseKey:(sword::VerseKey *)swModule->getKey()]];
+        SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
+        [lk setPersist:YES];
+        [self setPositionFromKey:lk];
+        NSString *ref = nil;
+        NSString *stripped = nil;
+        while(![self error]) {
+            ref = [lk keyText];
+            stripped = [self strippedText];
             
-            NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
-            if(key == nil) {
-                MBLOG(MBLOG_WARN, @"[SwordBible -indexContentsIntoIndex:] key = nil!");
-                key = @"";
-            }
-            if(txt == nil) {
-                MBLOG(MBLOG_WARN, @"[SwordBible -indexContentsIntoIndex:] txt = nil!");
-                txt = @"";
-            }
+            NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
+            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref versification:[self versification]]];
             
-            // store key
-            [propDict setObject:key forKey:IndexPropSwordKeyString];                
-            
-            // build "strong" field
-            sword::SWBuf strong;
-            sword::AttributeTypeList::iterator words;
-            sword::AttributeList::iterator word;
-            sword::AttributeValue::iterator strongVal;        
-            // what the heck is going on here
-            words = swModule->getEntryAttributes().find("Word");
-            if (words != swModule->getEntryAttributes().end()) {
-                for (word = words->second.begin();word != words->second.end(); word++) {
-                    strongVal = word->second.find("Lemma");
-                    if (strongVal != word->second.end()) {
-                        // cheeze.  skip empty article tags that weren't assigned to any text
-                        if (strongVal->second == "G3588") {
-                            if (word->second.find("Text") == word->second.end())
-                                continue;	// no text? let's skip
+            NSMutableString *strongStr = nil;
+            if(swModule->isProcessEntryAttributes()) {
+                // parse entry attributes and look for Lemma (String's numbers)
+                sword::SWBuf strong;
+                sword::AttributeTypeList::iterator words;
+                sword::AttributeList::iterator word;
+                sword::AttributeValue::iterator strongVal;
+                words = swModule->getEntryAttributes().find("Word");
+                if(words != swModule->getEntryAttributes().end()) {
+                    for(word = words->second.begin();word != words->second.end(); word++) {
+                        strongVal = word->second.find("Lemma");
+                        if(strongVal != word->second.end()) {
+                            // pass empty "Text" entries
+                            if(strongVal->second == "G3588") {
+                                if (word->second.find("Text") == word->second.end())
+                                    continue;	// no text? let's skip
+                            }
+                            strong.append(strongVal->second);
+                            strong.append(' ');
                         }
-                        strong.append(strongVal->second);
-                        strong.append(' ');
                     }
                 }
+                
+                strongStr = [NSMutableString string];
+                if(strong.length() > 0) {
+                    [strongStr appendString:[NSString stringWithUTF8String:strong.c_str()]];
+                    [strongStr replaceOccurrencesOfString:@"|x-Strongs:" withString:@" " options:0 range:NSMakeRange(0, [strongStr length])];
+                    // also add to dictionary
+                    [properties setObject:strongStr forKey:IndexPropSwordStrongString];
+                }                
             }
             
-            NSMutableString *strongStr = [NSMutableString string];
-            if(strong.length() > 0) {
-                [strongStr appendString:[NSString stringWithUTF8String:strong.c_str()]];
-                [strongStr replaceOccurrencesOfString:@"|x-Strongs:" withString:@" " options:0 range:NSMakeRange(0, [strongStr length])];
-                
-                // also add to dictionary
-                [propDict setObject:strongStr forKey:IndexPropSwordStrongString];
-            }
-                
-            if([txt length] > 0 || [strongStr length] > 0) {
-                // index combined with strongs
-                NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", txt, strongStr];
-                
+            if((stripped && [stripped length] > 0) || (strongStr && [strongStr length] > 0)) {
+                NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", stripped, strongStr];                
                 // add to index
-                [indexer addDocument:keyIndex text:indexContent textType:ContentTextType storeDict:propDict];                
+                [indexer addDocument:keyIndex text:indexContent textType:ContentTextType storeDict:properties];                
             }
+            
+            [self incKeyPosition];
         }
         
 		[pool drain];        
     }
+    [moduleLock unlock];
 
 	swModule->processEntryAttributes(savePEA);	
 }
@@ -243,48 +232,54 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
     
+    [moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
-        for(SwordBibleTextEntry *entry in [self strippedTextEntriesForRef:[bb osisName]]) {
-            NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
-            [propDict setObject:[entry key] forKey:IndexPropSwordKeyString];                
+        SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
+        [lk setPersist:YES];
+        [self setPositionFromKey:lk];
+        NSString *ref = nil;
+        NSString *stripped = nil;
+        while(![self error]) {
+            ref = [lk keyText];
+            stripped = [self strippedText];
             
-            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:[entry key] versification:[self versification]]];
-            if([entry text] && [[entry text] length] > 0) {
-                [indexer addDocument:keyIndex text:[entry text] textType:ContentTextType storeDict:propDict];                
-            }            
+            NSDictionary *properties = [NSDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
+            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref versification:[self versification]]];
+            if(stripped && [stripped length] > 0) {
+                [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
+            }
+            
+            [self incKeyPosition];
         }
-        
+
 		[pool drain];        
     }
+    [moduleLock unlock];
 }
 
 @end
 
 @implementation SwordDictionary(Searching)
 
-- (void)indexContentsIntoIndex:(Indexer *)indexer {
-    
-    // get all dict entries
+- (void)indexContentsIntoIndex:(Indexer *)indexer {    
+
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     for(NSString *key in [self allKeys]) {
+        // entryForKey does lock
         NSString *entry = [self entryForKey:key];
         
         if(entry != nil) {
-            NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
-            // additionally save content
-            //[propDict setObject:entry forKey:IndexPropSwordKeyContent];
-            [propDict setObject:key forKey:IndexPropSwordKeyString];
-            
+            NSDictionary *properties = [NSDictionary dictionaryWithObject:key forKey:IndexPropSwordKeyString];            
             if([entry length] > 0) {
-                // let's add the key also into the searchable content
                 NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", key, entry];
-                // add content
-                [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:propDict];                
+                [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:properties];                
             }
         }
     }
+    [pool drain];        
 }
 
 @end

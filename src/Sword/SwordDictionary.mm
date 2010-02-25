@@ -131,30 +131,6 @@
 	return ret;    
 }
 
-- (NSString *)fullRefName:(NSString *)ref {
-	[moduleLock lock];
-	
-	sword::SWKey *key = swModule->CreateKey();	
-	if([self isUnicode]) {
-		(*key) = toUTF8([ref uppercaseString]);
-    } else {
-		(*key) = toLatin1([ref uppercaseString]);
-    }
-	
-	swModule->setKey(key);
-	swModule->getRawEntry();
-	
-	NSString *result;
-	if([self isUnicode]) {
-		result = fromUTF8(swModule->KeyText());
-    } else {
-		result = fromLatin1(swModule->KeyText());
-    }
-	[moduleLock unlock];
-	
-	return result;
-}
-
 /**
  returns stripped text for key.
  nil if the key does not exist.
@@ -163,20 +139,11 @@
     NSString *ret = nil;
     
 	[moduleLock lock];	
-	sword::SWKey *swkey = swModule->CreateKey();
-	if([self isUnicode]) {
-		(*swkey) = [[aKey uppercaseString] UTF8String];
+    [self setPositionFromKeyString:aKey];    
+	if([self error]) {
+        MBLOG(MBLOG_ERR, @"[SwordDictionary -entryForKey:] error on setting key!");
     } else {
-		(*swkey) = [[aKey uppercaseString] cStringUsingEncoding:NSISOLatin1StringEncoding];
-    }
-    
-	if(swkey->Error()) {
-        MBLOG(MBLOG_ERR, @"[SwordDictionary -entryForKey:] error on getting key!");
-    } else {
-        NSArray *data = [self strippedTextEntriesForRef:aKey];
-        if(data && [data count] > 0) {
-            ret = [(SwordModuleTextEntry *)[data objectAtIndex:0] text];
-        }
+        ret = [self strippedText];
     }
 	[moduleLock unlock];
 	

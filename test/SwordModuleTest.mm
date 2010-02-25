@@ -137,7 +137,7 @@ using namespace sword;
 }
 
 - (void)testHeadings {
-    mod = [[SwordManager defaultManager] moduleWithName:@"ESV"];
+    mod = [[SwordManager defaultManager] moduleWithName:@"KJV"];
     STAssertNotNil(mod, @"No Mod");
     
     // enable headings

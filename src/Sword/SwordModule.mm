@@ -497,7 +497,11 @@
 }
 
 - (SwordKey *)createKey {
-    return [SwordKey swordKeyWithSWKey:swModule->getKey()];
+    sword::SWKey *sk = swModule->CreateKey();
+    SwordKey *newKey = [SwordKey swordKeyWithSWKey:sk];
+    delete sk;
+
+    return newKey;
 }
 
 - (NSString *)renderedText {
@@ -585,7 +589,6 @@
 - (BOOL)hasFeature:(NSString *)feature {
 	BOOL has = NO;
 	
-	[moduleLock lock];
 	if(swModule->getConfig().has("Feature", [feature UTF8String])) {
 		has = YES;
     } else if (swModule->getConfig().has("GlobalOptionFilter", [[NSString stringWithFormat:@"GBF%@", feature] UTF8String])) {
@@ -599,7 +602,6 @@
     } else if (swModule->getConfig().has("GlobalOptionFilter", [feature UTF8String])) {
  		has = YES;
     }
-	[moduleLock unlock];
 	
 	return has;
 }
