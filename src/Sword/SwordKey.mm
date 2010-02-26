@@ -23,18 +23,34 @@
     return [[[SwordKey alloc] initWithSWKey:aSk] autorelease];
 }
 
++ (id)swordKeyWithSWKey:(sword::SWKey *)aSk makeCopy:(BOOL)copy {
+    return [[[SwordKey alloc] initWithSWKey:aSk makeCopy:copy] autorelease];    
+}
+
 - (id)init {
     return [self initWithRef:nil];
 }
 
 - (id)initWithSWKey:(sword::SWKey *)aSk {
+    return [self initWithSWKey:aSk makeCopy:NO];
+}
+
+- (id)initWithSWKey:(sword::SWKey *)aSk makeCopy:(BOOL)copy {
     self = [super init];
     if(self) {
-        sk = aSk->clone();
-        created = YES;
-    }
-    
-    return self;
+        if(copy) {
+            if(aSk) {
+                sk = aSk->clone();            
+                created = YES;                
+            } else {
+                created = NO;
+            }
+        } else {
+            sk = aSk;
+            created = NO;
+        }
+    }    
+    return self;    
 }
 
 - (id)initWithRef:(NSString *)aRef {

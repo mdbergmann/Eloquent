@@ -73,6 +73,9 @@
     [[NSUserDefaults standardUserDefaults] addObserver:self 
                                             forKeyPath:DefaultsTextBackgroundColor
                                                options:NSKeyValueObservingOptionNew context:nil];
+    [[NSUserDefaults standardUserDefaults] addObserver:self 
+                                            forKeyPath:DefaultsLinkForegroundColor
+                                               options:NSKeyValueObservingOptionNew context:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollViewFrameDidChange:)
@@ -106,6 +109,12 @@
         [textView setTextContainerInset:margins];
 	} else if([keyPath isEqualToString:DefaultsTextBackgroundColor]) {
         [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];        
+	} else if([keyPath isEqualToString:DefaultsLinkForegroundColor]) {
+        NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
+        [linkAttributes setObject:[userDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
+        [linkAttributes setObject:[userDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
+        [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+        [textView setLinkTextAttributes:linkAttributes];
 	}
 }
 

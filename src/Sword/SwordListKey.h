@@ -25,7 +25,9 @@
 
 #ifdef __cplusplus
 + (id)listKeyWithSWListKey:(sword::ListKey *)aLk;
++ (id)listKeyWithSWListKey:(sword::ListKey *)aLk makeCopy:(BOOL)copy;
 - (id)initWithSWListKey:(sword::ListKey *)aLk;
+- (id)initWithSWListKey:(sword::ListKey *)aLk makeCopy:(BOOL)copy;
 - (sword::ListKey *)swListKey;
 #endif
 

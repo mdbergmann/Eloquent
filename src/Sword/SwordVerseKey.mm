@@ -23,12 +23,16 @@
     return [[[SwordVerseKey alloc] initWithRef:aRef] autorelease];
 }
 
-+ (id)verseKeyWithRef:(NSString *)aRef versification:(NSString *)scheme {
-    return [[[SwordVerseKey alloc] initWithRef:aRef versification:scheme] autorelease];
++ (id)verseKeyWithRef:(NSString *)aRef v11n:(NSString *)scheme {
+    return [[[SwordVerseKey alloc] initWithRef:aRef v11n:scheme] autorelease];
 }
 
 + (id)verseKeyWithSWVerseKey:(sword::VerseKey *)aVk {
     return [[[SwordVerseKey alloc] initWithSWVerseKey:aVk] autorelease];
+}
+
++ (id)verseKeyWithSWVerseKey:(sword::VerseKey *)aVk makeCopy:(BOOL)copy {
+    return [[[SwordVerseKey alloc] initWithSWVerseKey:aVk makeCopy:copy] autorelease];    
 }
 
 - (id)init {
@@ -36,22 +40,26 @@
 }
 
 - (id)initWithVersification:(NSString *)scheme {
-    return [self initWithRef:nil versification:scheme];
+    return [self initWithRef:nil v11n:scheme];
 }
 
 - (id)initWithSWVerseKey:(sword::VerseKey *)aVk {
-    self = [super initWithSWKey:aVk];
+    return [self initWithSWVerseKey:aVk makeCopy:NO];
+}
+
+- (id)initWithSWVerseKey:(sword::VerseKey *)aVk makeCopy:(BOOL)copy {
+    self = [super initWithSWKey:aVk makeCopy:copy];
     if(self) {
         [self swVerseKey]->setVersificationSystem(aVk->getVersificationSystem());
     }
-    return self;
+    return self;    
 }
 
 - (id)initWithRef:(NSString *)aRef {
-    return [self initWithRef:aRef versification:nil];
+    return [self initWithRef:aRef v11n:nil];
 }
 
-- (id)initWithRef:(NSString *)aRef versification:(NSString *)scheme {
+- (id)initWithRef:(NSString *)aRef v11n:(NSString *)scheme {
     sword::VerseKey *vk = new sword::VerseKey();            
     self = [super initWithSWKey:vk];
     if(self) {
@@ -78,6 +86,10 @@
 
 - (id)clone {
     return [SwordVerseKey verseKeyWithSWVerseKey:(sword::VerseKey *)sk];
+}
+
+- (int)index {
+    return sk->Index();
 }
 
 - (BOOL)headings {

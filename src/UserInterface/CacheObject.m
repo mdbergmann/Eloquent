@@ -13,5 +13,6 @@
 
 @synthesize reference;
 @synthesize content;
+@synthesize count;
 
 @end

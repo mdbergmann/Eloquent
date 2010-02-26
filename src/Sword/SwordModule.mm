@@ -488,20 +488,28 @@
 - (void)writeEntry:(SwordModuleTextEntry *)anEntry {
 }
 
-- (void)setPositionFromKeyString:(NSString *)aKeyString {
+- (void)setKeyString:(NSString *)aKeyString {
     swModule->setKey([aKeyString UTF8String]);
 }
 
-- (void)setPositionFromKey:(SwordKey *)aKey {
+- (void)setKey:(SwordKey *)aKey {
     swModule->setKey([aKey swKey]);
 }
 
-- (SwordKey *)createKey {
+- (id)createKey {
     sword::SWKey *sk = swModule->CreateKey();
-    SwordKey *newKey = [SwordKey swordKeyWithSWKey:sk];
+    SwordKey *newKey = [SwordKey swordKeyWithSWKey:sk makeCopy:YES];
     delete sk;
 
     return newKey;
+}
+
+- (id)getKey {
+    return [SwordKey swordKeyWithSWKey:swModule->getKey()];
+}
+
+- (id)getKeyCopy {
+    return [SwordKey swordKeyWithSWKey:swModule->getKey() makeCopy:YES];
 }
 
 - (NSString *)renderedText {
@@ -564,7 +572,7 @@
     
     if(aKey) {
         [moduleLock lock];
-        [self setPositionFromKey:aKey];
+        [self setKey:aKey];
         if(![self error]) {
             NSString *txt = @"";
             if(aType == TextTypeRendered) {
@@ -624,7 +632,7 @@
 
 - (NSString *)entryAttributeValuePreverseForKey:(SwordKey *)aKey {
     [moduleLock lock];
-    [self setPositionFromKey:aKey];
+    [self setKey:aKey];
     swModule->RenderText(); // force processing of key
     NSString *value = [self entryAttributeValuePreverse];
     [moduleLock unlock];
@@ -633,7 +641,7 @@
 
 - (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index forKey:(SwordKey *)aKey {
     [moduleLock lock];
-    [self setPositionFromKey:aKey];
+    [self setKey:aKey];
     swModule->RenderText(); // force processing of key
     NSString *value = [self entryAttributeValueFootnoteOfType:fnType indexValue:index];
     [moduleLock unlock];

@@ -67,6 +67,9 @@
 #define DefaultsLinkUnderlineAttribute              @"DefaultsLinkUnderlineAttribute"
 #define DefaultsLinkForegroundColor                 @"DefaultsLinkForegroundColor"
 #define DefaultsLinkBackgroundColor                 @"DefaultsLinkBackgroundColor"
+#define DefaultsHeadingsForegroundColor             @"DefaultsHeadingsForegroundColor"
+#define DefaultsHeadingsBackgroundColor             @"DefaultsHeadingsBackgroundColor"
+
 
 // confirmations
 #define DefaultsShowFullScreenConfirm               @"DefaultsShowFullScreenConfirm"

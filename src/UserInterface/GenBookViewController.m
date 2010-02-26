@@ -129,11 +129,10 @@
     }
 }
 
-- (NSAttributedString *)displayableHTMLForIndexedSearch {
+- (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
     NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
-    NSArray *sortedSearchResults = (NSArray *)[searchContentCache content];
-    if(sortedSearchResults) {
+    if(searchResults) {
         // strip searchQuery
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
 
@@ -153,7 +152,7 @@
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
         
         // build search string
-        for(SearchResultEntry *entry in sortedSearchResults) {
+        for(SearchResultEntry *entry in searchResults) {
             NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
             
             NSString *contentStr = @"";
@@ -178,10 +177,9 @@
 }
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
-    NSMutableAttributedString *ret = nil;
-    
     NSMutableString *htmlString = [NSMutableString string];
-    NSArray *keyArray = (NSArray *)[contentCache content];
+    NSArray *keyArray = selection;
+    [contentCache setCount:[keyArray count]];
     for(NSString *key in keyArray) {
         NSArray *result = [self.module renderedTextEntriesForRef:key];
         NSString *text = @"";
@@ -212,30 +210,30 @@
 
     // create text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    ret = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                  options:options
-                                       documentAttributes:nil];
+    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                                options:options
+                                                     documentAttributes:nil];
     // set custom fore ground color
-    [ret addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
-                range:NSMakeRange(0, [ret length])];
+    [tempDisplayString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
+                              range:NSMakeRange(0, [tempDisplayString length])];
     
     // add pointing hand cursor to all links
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
     NSRange effectiveRange;
 	int	i = 0;
-	while (i < [ret length]) {
-        NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
+	while (i < [tempDisplayString length]) {
+        NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if([attrs objectForKey:NSLinkAttributeName] != nil) {
             // add pointing hand cursor
             attrs = [attrs mutableCopy];
             [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-            [ret setAttributes:attrs range:effectiveRange];
+            [tempDisplayString setAttributes:attrs range:effectiveRange];
 		}
 		i += effectiveRange.length;
 	}
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
     
-    return ret;
+    return tempDisplayString;
 }
 
 #pragma mark - TextDisplayable protocol
@@ -266,7 +264,7 @@
 
 - (void)handleDisplayForReference {
     [contentCache setReference:searchString];
-    [contentCache setContent:selection];
+    [contentCache setContent:[self displayableHTMLForReferenceLookup]];
     
     [entriesOutlineView reloadData];
 }

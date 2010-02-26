@@ -31,6 +31,10 @@ class sword::SWModule;
 #define ATTRTYPE_ACTION     @"action"
 #define ATTRTYPE_VALUE      @"value"
 
+// positions
+#define SWPOS_BOTTOM   2
+#define SWPOS_TOP      1
+
 @class SwordManager, SwordModuleTextEntry, SwordKey;
 
 typedef enum {
@@ -147,10 +151,12 @@ typedef enum {
 
 - (void)incKeyPosition;
 - (void)decKeyPosition;
-- (void)setPositionFromKeyString:(NSString *)aKeyString;
-- (void)setPositionFromKey:(SwordKey *)aKey;
+- (void)setKeyString:(NSString *)aKeyString;
+- (void)setKey:(SwordKey *)aKey;
 
-- (SwordKey *)createKey;
+- (id)createKey;
+- (id)getKey;
+- (id)getKeyCopy;
 
 - (NSString *)renderedText;
 - (NSString *)renderedTextFromString:(NSString *)aString;

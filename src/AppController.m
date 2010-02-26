@@ -112,19 +112,21 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     // UI defaults
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSBWorkspace];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSBSingle];
-    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSBWorkspace];
-    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSBSingle];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowRSBWorkspace];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowRSBSingle];
     [defaultsDict setObject:[NSNumber numberWithInt:250] forKey:DefaultsLSBWidth];
     [defaultsDict setObject:[NSNumber numberWithInt:150] forKey:DefaultsRSBWidth];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowPreviewToolTip];
-    NSColor *bgCol = [NSColor colorWithCalibratedRed:0.9607 green:0.9607 blue:0.9607 alpha:0.9607];
-    NSColor *fgCol = [NSColor colorWithCalibratedRed:0.1176 green:0.1176 blue:0.1176 alpha:0.1176];
-    NSColor *lkCol = [NSColor colorWithCalibratedRed:0.4823 green:0.4823 blue:0.4823 alpha:0.4823];
+    NSColor *bgCol = [NSColor colorWithCalibratedRed:0.6980 green:0.7176 blue:0.6156 alpha:1.0];
+    NSColor *fgCol = [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+    NSColor *lkCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
+    NSColor *hfCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
     [defaultsDict setColor:bgCol forKey:DefaultsTextBackgroundColor];
     [defaultsDict setColor:fgCol forKey:DefaultsTextForegroundColor];
     [defaultsDict setColor:lkCol forKey:DefaultsLinkForegroundColor];
     [defaultsDict setColor:bgCol forKey:DefaultsLinkBackgroundColor];
+    [defaultsDict setColor:hfCol forKey:DefaultsHeadingsForegroundColor];
     [defaultsDict setObject:[NSNumber numberWithInt:NSUnderlineStyleNone] forKey:DefaultsLinkUnderlineAttribute];
     
     // cipher keys

@@ -27,7 +27,6 @@
 
 /** notification, called when modules have changed */
 - (void)modulesListChanged:(NSNotification *)aNotification;
-- (void)updateContentCache;
 
 @end
 
@@ -51,6 +50,7 @@
 
 - (void)commonInit {
     [super commonInit];
+    tempDisplayString = nil;
     performProgressCalculation = YES;
     forceRedisplay = NO;
     searchType = ReferenceSearchType;
@@ -102,7 +102,7 @@
  this is an abstract method, should be overriden by subclasses
  @return attributed string
  */
-- (NSAttributedString *)displayableHTMLForIndexedSearch {
+- (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)results {
     return nil;
 }
 
@@ -117,23 +117,19 @@
         [[IndexingManager sharedManager] closeIndexer:indexer];
     }
     
-    int resultsCount = 0;
-    NSAttributedString *text = nil;
     if(results) {
-        resultsCount = [results count];
+        [searchContentCache setCount:[results count]];
         NSArray *sortDescriptors = [NSArray arrayWithObject:
                                     [[NSSortDescriptor alloc] initWithKey:@"documentName" 
                                                                 ascending:YES 
-                                                                 selector:@selector(caseInsensitiveCompare:)]];
-        [searchContentCache setContent:[results sortedArrayUsingDescriptors:sortDescriptors]];
-        text = [self displayableHTMLForIndexedSearch];        
-        [self setStatusText:[NSString stringWithFormat:@"Found %i results", resultsCount]];
+                                                                 selector:@selector(caseInsensitiveCompare:)]];       
+        NSArray *sortedResults = [results sortedArrayUsingDescriptors:sortDescriptors];
+        [searchContentCache setContent:[self displayableHTMLForIndexedSearchResults:sortedResults]];
+        
+        [self handleDisplayStatusText];
+        [self handleDisplayCached];
     }
-    
-    if(text) {
-        [self setAttributedString:text];     
-    }
-    
+        
     [self endIndicateProgress];    
 }
 
@@ -227,20 +223,20 @@
 }
 
 - (BOOL)hasValidCacheObject {
-    if((searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:searchString]) ||
-       (searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString])) {
+    if((searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString]) ||
+       (searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:searchString])) {
         return YES;
     }
     return NO;
 }
 
 - (void)handleDisplayForReference {
-    [self updateContentCache];    
-}
-
-- (void)updateContentCache {
     [contentCache setReference:searchString];
-    [contentCache setContent:[module renderedTextEntriesForRef:searchString]];
+    if([searchString length] > 0) {
+        [contentCache setContent:[self displayableHTMLForReferenceLookup]];        
+    } else {
+        [contentCache setContent:[[NSAttributedString alloc] initWithString:@""]];
+    }
 }
 
 - (void)handleDisplayIndexedNoHasIndex {
@@ -281,25 +277,26 @@
 - (void)handleDisplayCached {
     NSAttributedString *displayText = nil;
     if(searchType == ReferenceSearchType) {
-        displayText = [self displayableHTMLForReferenceLookup];
+        displayText = [contentCache content];
     } else {
-        displayText = [self displayableHTMLForIndexedSearch];
+        displayText = [searchContentCache content];
     }
     
     if(displayText) {
         [self setAttributedString:displayText];
+        displayText = nil;
     }
 }
 
 - (void)handleDisplayStatusText {
     int length = 0;
     if(searchType == ReferenceSearchType) {
-        length = [(NSArray *)[contentCache content] count];
+        length = [contentCache count];
+        [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
     } else {
-        length = [(NSArray *)[searchContentCache content] count];
-    }
-    
-    [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
+        length = [searchContentCache count];
+        [self setStatusText:[NSString stringWithFormat:@"Found %i results", length]];
+    }    
 }
 
 #pragma mark - General menu

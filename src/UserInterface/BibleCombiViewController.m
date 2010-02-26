@@ -712,7 +712,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
+        //searchType = [decoder decodeIntForKey:@"SearchTypeEncoded"];
         
         self.parBibleViewControllers = [decoder decodeObjectForKey:@"ParallelBibleViewControllerEncoded"];
         self.parMiscViewControllers = [decoder decodeObjectForKey:@"ParallelMiscViewControllerEncoded"];

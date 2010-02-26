@@ -167,16 +167,19 @@ NSString *MacSwordIndexVersion = @"2.6";
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
         SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
-        [lk setPersist:YES];
-        [self setPositionFromKey:lk];
+        [lk setPersist:NO];
+        [lk setPosition:BOTTOM];
+        SwordVerseKey *last = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[self versification]];
+        [lk setPosition:TOP];        
+        [self setKey:lk];
         NSString *ref = nil;
         NSString *stripped = nil;
-        while(![self error]) {
-            ref = [lk keyText];
+        while(![self error] && ([(SwordVerseKey *)[self getKey] index] <= [last index])) {
+            ref = [[self getKey] keyText];
             stripped = [self strippedText];
             
             NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
-            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref versification:[self versification]]];
+            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
             
             NSMutableString *strongStr = nil;
             if(swModule->isProcessEntryAttributes()) {
@@ -236,18 +239,22 @@ NSString *MacSwordIndexVersion = @"2.6";
     for(SwordBibleBook *bb in [self bookList]) {
         
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
         
         SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
-        [lk setPersist:YES];
-        [self setPositionFromKey:lk];
+        [lk setPersist:NO];
+        [lk setPosition:BOTTOM];
+        SwordVerseKey *last = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[self versification]];
+        [lk setPosition:TOP];        
+        [self setKey:lk];
         NSString *ref = nil;
         NSString *stripped = nil;
-        while(![self error]) {
-            ref = [lk keyText];
+        while(![self error] && ([(SwordVerseKey *)[self getKey] index] <= [last index])) {
+            ref = [[self getKey] keyText];
             stripped = [self strippedText];
             
             NSDictionary *properties = [NSDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
-            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref versification:[self versification]]];
+            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
             if(stripped && [stripped length] > 0) {
                 [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
             }

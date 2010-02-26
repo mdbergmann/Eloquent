@@ -13,13 +13,12 @@
 
 @interface BibleViewController (TextDisplayGeneration)
 
-- (NSAttributedString *)displayableHTMLForReferenceLookup;
 - (NSString *)createHTMLStringWithMarkers;
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry;
 - (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
-- (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString;
-- (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString;
-- (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)aAttrString;
-- (void)applyWritingDirectionOnText:(NSMutableAttributedString *)anAttrString;
+- (void)applyString:(NSString *)aString;
+- (void)applyLinkCursorToLinks;
+- (void)replaceVerseMarkers;
+- (void)applyWritingDirection;
 
 @end

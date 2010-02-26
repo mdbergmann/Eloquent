@@ -270,13 +270,17 @@ NSLock *bibleLock = nil;
 - (NSString *)moduleIntroduction {
     NSString *ret = @"";
     
+    // save key
+    SwordVerseKey *save = [self getKeyCopy];
+    
     SwordVerseKey *key = [SwordVerseKey verseKeyWithVersification:[self versification]];
-    BOOL headings = [key headings];
     [key setHeadings:YES];
     [key setPosition:0];
-    [self setPositionFromKey:key];
+    [self setKey:key];
     ret = [self renderedText];
-    [key setHeadings:headings];
+    
+    // restore old key
+    [self setKey:save];
     
     return ret;
 }
@@ -284,40 +288,44 @@ NSLock *bibleLock = nil;
 - (NSString *)bookIntroductionFor:(SwordBibleBook *)aBook {
     NSString *ret = @"";
     
+    // save key
+    SwordVerseKey *save = [self getKeyCopy];
+
     SwordVerseKey *key = [SwordVerseKey verseKeyWithVersification:[self versification]];
-    BOOL headings = [key headings];
-    BOOL autoNorm = [key autoNormalize];
     [key setHeadings:YES];
     [key setAutoNormalize:NO];
     [key setTestament:[aBook testament]];
     [key setBook:[aBook numberInTestament]];
     [key setChapter:0];
     [key setVerse:0];
-    [self setPositionFromKey:key];
+    [self setKey:key];
     ret = [self renderedText];
-    [key setHeadings:headings];
-    [key setAutoNormalize:autoNorm];
     
+    // restore old key
+    [self setKey:save];
+
     return ret;
 }
 
 - (NSString *)chapterIntroductionFor:(SwordBibleBook *)aBook chapter:(int)chapter {
     NSString *ret = @"";
     
+    // save key
+    SwordVerseKey *save = [self getKeyCopy];
+
     SwordVerseKey *key = [SwordVerseKey verseKeyWithVersification:[self versification]];
-    BOOL headings = [key headings];
-    BOOL autoNorm = [key autoNormalize];
     [key setHeadings:YES];
     [key setAutoNormalize:NO];
     [key setTestament:[aBook testament]];
     [key setBook:[aBook numberInTestament]];
     [key setChapter:chapter];
     [key setVerse:0];
-    [self setPositionFromKey:key];
+    [self setKey:key];
     ret = [self renderedText];
-    [key setHeadings:headings];
-    [key setAutoNormalize:autoNorm];
     
+    // restore old key
+    [self setKey:save];
+
     return ret;    
 }
 
@@ -326,7 +334,7 @@ NSLock *bibleLock = nil;
     
     if(aKey) {
         [moduleLock lock];
-        [self setPositionFromKey:aKey];
+        [self setKey:aKey];
         if(![self error]) {
             NSString *txt = @"";
             if(aType == TextTypeRendered) {
@@ -356,8 +364,20 @@ NSLock *bibleLock = nil;
 
 #pragma mark - SwordModuleAccess
 
-- (SwordKey *)createKey {
+- (id)createKey {
+    sword::VerseKey *vk = (sword::VerseKey *)swModule->CreateKey();
+    SwordVerseKey *newKey = [SwordVerseKey verseKeyWithSWVerseKey:vk makeCopy:YES];
+    delete vk;
+    
+    return newKey;
+}
+
+- (id)getKey {
     return [SwordVerseKey verseKeyWithSWVerseKey:(sword::VerseKey *)swModule->getKey()];
+}
+
+- (id)getKeyCopy {
+    return [SwordVerseKey verseKeyWithSWVerseKey:(sword::VerseKey *)swModule->getKey() makeCopy:YES];
 }
 
 - (long)entryCount {
@@ -422,7 +442,7 @@ NSLock *bibleLock = nil;
     int dLen = strlen(data);
 
 	[moduleLock lock];
-    [self setPositionFromKeyString:[anEntry key]];
+    [self setKeyString:[anEntry key]];
     if(![self error]) {
         swModule->setEntry(data, dLen);	// save text to module at current position    
     } else {

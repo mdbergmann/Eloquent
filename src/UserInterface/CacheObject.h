@@ -12,10 +12,11 @@
 @interface CacheObject : NSObject {
     NSString *reference;
     id content;
+    NSInteger count;
 }
 
 @property (retain, readwrite) NSString *reference;
 @property (retain, readwrite) id content;
-
+@property (readwrite) NSInteger count;
 
 @end

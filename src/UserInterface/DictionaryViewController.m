@@ -95,7 +95,9 @@
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];        
     }
-        
+    
+    [self displayTextForReference:@""];
+
     viewLoaded = YES;
 }
 
@@ -110,7 +112,7 @@
     [modulePopBtn setMenu:menu];
     
     // select module
-    if(self.module != nil) {
+    if(module != nil) {
         // on change, still exists?
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
             // select the first one found
@@ -130,16 +132,15 @@
     [statusLine setStringValue:aText];
 }
 
-- (NSAttributedString *)displayableHTMLForIndexedSearch {
+- (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
-    NSArray *sortedSearchResults = (NSArray *)[searchContentCache content];
-    if(sortedSearchResults) {
+    if(searchResults) {
         // strip searchQuery
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
-        NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
-        NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
+        NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[module name]];
+        NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[module name]];
         
         NSFont *keyFont = [NSFont fontWithName:[boldDisplayFont familyName]
                                           size:(int)customFontSize];
@@ -154,7 +155,7 @@
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
         
         // build search string
-        for(SearchResultEntry *entry in sortedSearchResults) {
+        for(SearchResultEntry *entry in searchResults) {
             NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
             
             NSString *contentStr = @"";
@@ -175,14 +176,13 @@
 }
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
-    NSMutableAttributedString *ret = nil;
-    
     NSArray *keyArray = selection;
+    [contentCache setCount:[keyArray count]];
     if([keyArray count] > 0) {        
         // generate html string for verses
         NSMutableString *htmlString = [NSMutableString string];
         for(NSString *key in keyArray) {
-            NSArray *result = [self.module renderedTextEntriesForRef:key];
+            NSArray *result = [module renderedTextEntriesForRef:key];
             NSString *text = @"";
             if([result count] > 0) {
                 text = [[result objectAtIndex:0] text];
@@ -204,34 +204,34 @@
         [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
 
         NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-        ret = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                      options:options
-                                           documentAttributes:nil];
+        tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                                    options:options
+                                                         documentAttributes:nil];
 
         // set custom fore ground color
-        [ret addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
-                           range:NSMakeRange(0, [ret length])];
+        [tempDisplayString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
+                                  range:NSMakeRange(0, [tempDisplayString length])];
         
         // add pointing hand cursor to all links
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
         NSRange effectiveRange;
         int	i = 0;
-        while (i < [ret length]) {
-            NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
+        while (i < [tempDisplayString length]) {
+            NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
             if([attrs objectForKey:NSLinkAttributeName] != nil) {
                 // add pointing hand cursor
                 attrs = [attrs mutableCopy];
                 [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-                [ret setAttributes:attrs range:effectiveRange];
+                [tempDisplayString setAttributes:attrs range:effectiveRange];
             }
             i += effectiveRange.length;
         }
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");        
     } else {
-        ret = [[NSMutableAttributedString alloc] init];
+        tempDisplayString = [[NSMutableAttributedString alloc] init];
     }
     
-    return ret;
+    return tempDisplayString;
 }
 
 #pragma mark - TextDisplayable protocol
@@ -240,7 +240,6 @@
     if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString]) {
         return YES;
     }
-
     return NO;
 }
 
@@ -263,16 +262,18 @@
     if([self.dictKeys count] == 1) {
         [entriesTableView selectAll:self];
     }
+    
+    [contentCache setContent:[self displayableHTMLForReferenceLookup]];
 }
 
 - (void)handleDisplayStatusText {
     int length = 0;
     NSString *text = @"";
     if(searchType == ReferenceSearchType) {
-        length = [(NSArray *)[contentCache content] count];
+        length = [contentCache count];
         text = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
     } else {
-        length = [(NSArray *)[searchContentCache content] count];
+        length = [searchContentCache count];
         text = [NSString stringWithFormat:@"Found %i entries"];
     }
     
@@ -284,6 +285,7 @@
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
     [self populateModulesMenu];
+    [self displayTextForReference:@""];
     [self adaptUIToHost];
 }
 

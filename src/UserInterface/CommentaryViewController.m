@@ -23,12 +23,16 @@
 #import "NSTextView+LookupAdditions.h"
 #import "ModulesUIController.h"
 #import "SwordVerseKey.h"
+#import "SwordListKey.h"
+#import "NSUserDefaults+Additions.h"
+#import "BibleViewController+TextDisplayGeneration.h"
 
 @interface CommentaryViewController ()
 /** generates HTML for display */
 - (NSAttributedString *)displayableHTMLForReferenceLookup;
 /** stores the edited comment */
 - (void)saveCommentaryText;
+- (void)applyModuleEditability;
 - (void)_loadNib;
 @end
 
@@ -78,17 +82,20 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    // check whether this module is editable
+    [self applyModuleEditability];
+}
+
+#pragma mark - Methods
+
+- (void)applyModuleEditability {
     BOOL editable = NO;
     if(module) {
         if([module isEditable]) {
             editable = YES;
         }
     }
-    [editButton setEnabled:editable];
+    [editButton setEnabled:editable];    
 }
-
-#pragma mark - Methods
 
 - (void)populateModulesMenu {    
     NSMenu *menu = [[NSMenu alloc] init];
@@ -140,23 +147,45 @@
 }
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
-    NSMutableAttributedString *ret = nil;
-    
     // get user defaults
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
 
     NSMutableString *htmlString = [NSMutableString string];
-    for(SwordModuleTextEntry *entry in (NSArray *)[contentCache content]) {
-        NSString *verseText = [entry text];
-        NSString *key = [entry key];
-
+    
+    // background color cannot be set this way
+    float fr, fg, fb = 0.0;
+    NSColor *fCol = [userDefaults colorForKey:DefaultsTextForegroundColor];
+    [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
+    [htmlString appendFormat:@"\
+     <style>\
+     body {\
+     color:rgb(%i%%, %i%%, %i%%);\
+     }\
+     </style>\n", 
+     (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
+    
+    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];
+    [lk setPersist:NO];
+    [lk setPosition:SWPOS_BOTTOM];
+    SwordVerseKey *last = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[module versification]];    
+    [lk setPosition:SWPOS_TOP];        
+    
+    [module aquireModuleLock];
+    [module setKey:lk];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    int numberOfVerses = 0;
+    while(![module error] && ([(SwordVerseKey *)[module getKey] index] <= [last index])) {
+        ref = [[module getKey] keyText];
+        rendered = [module renderedText];
+        
         NSString *bookName = @"";
         int book = -1;
         int chapter = -1;
         int verse = -1;
 
-        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:key versification:[module versification]];
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:ref v11n:[module versification]];
         bookName = [verseKey bookName];
         book = [verseKey book];
         chapter = [verseKey chapter];
@@ -167,17 +196,20 @@
 
         // generate text according to userdefaults
         [htmlString appendFormat:@";;;%@;;;", verseInfo];
-        [htmlString appendFormat:@"%@<br />\n", verseText];
+        [htmlString appendFormat:@"%@<br />\n", rendered];
+
+        [module incKeyPosition];
+        numberOfVerses++;
     }
+    [module releaseModuleLock];
+    [contentCache setCount:numberOfVerses];
     
     // create attributed string
     // setup options
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
-    // set string encoding
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
     // set web preferences
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
-    // set custom font size
     [webPrefs setDefaultFontSize:(int)customFontSize];
     [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     // set scroll to line height
@@ -187,31 +219,20 @@
     [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    ret = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                  options:options
-                                       documentAttributes:nil];
+    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                                options:options
+                                                     documentAttributes:nil];
     
     // add pointing hand cursor to all links
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
-    NSRange effectiveRange;
-	int	i = 0;
-	while (i < [ret length]) {
-        NSDictionary *attrs = [ret attributesAtIndex:i effectiveRange:&effectiveRange];
-		if([attrs objectForKey:NSLinkAttributeName] != nil) {
-            // add pointing hand cursor
-            attrs = [attrs mutableCopy];
-            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-            [ret setAttributes:attrs range:effectiveRange];
-		}
-		i += effectiveRange.length;
-	}
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
+    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
+    [self applyLinkCursorToLinks];
+    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
 
     MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
     // go through the attributed string and set attributes
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
-    NSString *text = [ret string];
+    NSString *text = [tempDisplayString string];
     while(found) {
         int tLen = [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, tLen-replaceRange.location)];
@@ -248,9 +269,9 @@
                 [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
                 
                 // replace string
-                [ret replaceCharactersInRange:replaceRange withString:visible];
+                [tempDisplayString replaceCharactersInRange:replaceRange withString:visible];
                 // set attributes
-                [ret addAttributes:markerOpts range:linkRange];
+                [tempDisplayString addAttributes:markerOpts range:linkRange];
                 
                 // adjust replaceRange
                 replaceRange.location += [visible length];
@@ -261,14 +282,9 @@
     }
     MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");    
     
-    // set write direction
-    if([module isRTL]) {
-        [ret setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [ret length])];
-    } else {
-        [ret setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [ret length])];
-    }    
+    [self applyWritingDirection];
     
-    return ret;
+    return tempDisplayString;
 }
 
 - (void)saveCommentaryText {
@@ -296,8 +312,7 @@
                         [currentText replaceCharactersInRange:NSMakeRange([currentText length]-1, 1) withString:@""];
                     }
                     [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
-                    [module writeEntry:[SwordModuleTextEntry textEntryForKey:[SwordVerseKey verseKeyWithRef:currentVerse versification:[module versification]] 
-                                                                     andText:currentText]];
+                    [module writeEntry:[SwordModuleTextEntry textEntryForKey:currentVerse andText:currentText]];
 
                     // reset currentText
                     currentText = [NSMutableString string];
@@ -319,8 +334,7 @@
                 }
                 // replace all '\n' characters with <br/>
                 [currentText replaceOccurrencesOfString:@"\n" withString:@"<BR/>" options:0 range:NSMakeRange(0, [currentText length])];
-                [module writeEntry:[SwordModuleTextEntry textEntryForKey:[SwordVerseKey verseKeyWithRef:currentVerse versification:[module versification]] 
-                                                                 andText:currentText]];
+                [module writeEntry:[SwordModuleTextEntry textEntryForKey:currentVerse andText:currentText]];
             }
         }
     }    
@@ -413,12 +427,9 @@
 
 #pragma mark - HostViewDelegate protocol
 
-- (NSString *)title {
-    if(module != nil) {
-        return [module name];
-    }
-    
-    return @"CommentView";
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    [self applyModuleEditability];    
 }
 
 #pragma mark - ContentSaving protocol

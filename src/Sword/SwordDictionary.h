@@ -28,7 +28,6 @@
 
 - (NSArray *)allKeys;
 - (NSString *)entryForKey:(NSString *)aKey;
-- (NSString *)fullRefName:(NSString *)ref;
 
 
 @end

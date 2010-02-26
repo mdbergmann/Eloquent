@@ -139,7 +139,7 @@
     NSString *ret = nil;
     
 	[moduleLock lock];	
-    [self setPositionFromKeyString:aKey];    
+    [self setKeyString:aKey];    
 	if([self error]) {
         MBLOG(MBLOG_ERR, @"[SwordDictionary -entryForKey:] error on setting key!");
     } else {

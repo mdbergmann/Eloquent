@@ -21,22 +21,20 @@
 #import "Bookmark.h"
 #import "BookmarkManager.h"
 #import "SwordVerseKey.h"
-
+#import "SwordListKey.h"
 
 @implementation BibleViewController (TextDisplayGeneration)
 
 #pragma mark - HTML generation from search result
 
-- (NSAttributedString *)displayableHTMLForIndexedSearch {
+- (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
-    NSArray *searchResults = (NSArray *)[searchContentCache content];
     if(searchResults && [searchResults count] > 0) {
         NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
-        
         NSFont *keyFont = [NSFont fontWithName:[boldDisplayFont familyName]
                                           size:(int)customFontSize];
         NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
@@ -84,7 +82,7 @@
         }
 
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...");
-        [self applyWritingDirectionOnText:ret];
+        [self applyWritingDirection];
         MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...done");
     }
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch::] prepare search results...done");
@@ -95,34 +93,33 @@
 #pragma mark - HTML generation from verse data
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
-    NSMutableAttributedString *ret = nil;
-    
+
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...");
     NSString *htmlString = [self createHTMLStringWithMarkers];
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...done");
     
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...");
-    ret = [self convertToAttributedStringFromString:htmlString];
+    [self applyString:htmlString];
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...done");
     
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
-    [self applyLinkCursorToLinksInAttributedString:ret];
+    [self applyLinkCursorToLinks];
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
     
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
-    [self replaceVerseMarkersInAttributedString:ret];
+    [self replaceVerseMarkers];
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");
     
     MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...");
-    [self applyWritingDirectionOnText:ret];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...done");
+    [self applyWritingDirection];
+    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...done");        
     
-    return ret;
+    return tempDisplayString;
 }
 
 - (NSString *)createHTMLStringWithMarkers {
-    NSMutableString *htmlString = [NSMutableString string];
     
+    NSMutableString *htmlString = [NSMutableString string];
     // background color cannot be set this way
     float fr, fg, fb = 0.0;
     NSColor *fCol = [userDefaults colorForKey:DefaultsTextForegroundColor];
@@ -134,14 +131,47 @@
      }\
      </style>\n", 
      (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
-     
-    
+         
+
     lastChapter = -1;
     lastBook = -1;
-    for(SwordBibleTextEntry *entry in (NSArray *)[contentCache content]) {
+    
+    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];
+    [lk setPersist:NO];
+    [lk setPosition:SWPOS_BOTTOM];
+    SwordVerseKey *last = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[module versification]];    
+    [lk setPosition:SWPOS_TOP];        
+    
+    [module aquireModuleLock];
+    SwordManager *swManager = [SwordManager defaultManager];
+    BOOL collectPreverseHeading = ([swManager globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
+    
+    [module setKey:lk];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    SwordBibleTextEntry *entry = nil;
+    int numberOfVerses = 0;
+    while(![module error] && ([(SwordVerseKey *)[module getKey] index] <= [last index])) {
+        ref = [[module getKey] keyText];
+        rendered = [module renderedText];
+        entry = [SwordBibleTextEntry textEntryForKey:ref andText:rendered];
+
+        if(collectPreverseHeading) {
+            NSString *preverseHeading = [module entryAttributeValuePreverse];
+            if(preverseHeading && [preverseHeading length] > 0) {
+                [entry setPreverseHeading:preverseHeading];
+            }
+        }        
+        
         [self applyBookmarkHighlightingOnTextEntry:entry];
         [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
+        
+        [module incKeyPosition];
+        numberOfVerses++;
     }
+    [module releaseModuleLock];
+    [contentCache setCount:numberOfVerses];
+    
     return htmlString;
 }
 
@@ -173,7 +203,7 @@
     int chapter = -1;
     int verse = -1;
     
-    SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[anEntry key] versification:[module versification]];
+    SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[anEntry key] v11n:[module versification]];
     bookName = [verseKey bookName];
     book = [verseKey book];
     chapter = [verseKey chapter];
@@ -184,58 +214,64 @@
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
     
+    // headings fg color
+    float hr, hg, hb = 0.0;
+    NSColor *hfCol = [userDefaults colorForKey:DefaultsHeadingsForegroundColor];
+    [hfCol getRed:&hr green:&hg blue:&hb alpha:NULL];    
+    NSString *headingsFGColorStyle = [NSString stringWithFormat:@"color:rgb(%i%%, %i%%, %i%%);",
+      (int)(hr * 100.0), (int)(hg * 100.0), (int)(hb * 100.0)];
+    
     // book introductions
     SwordBibleBook *bibleBook = (SwordBibleBook *)[(SwordBible *)module bookForLocalizedName:bookName];
     if(book != lastBook) {
         if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
             NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:bibleBook];
             if(bookIntro && [bookIntro length] > 0) {
-                [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", bookIntro];
+                [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, bookIntro];
             }
         }        
     }
     
     // pre-verse heading ?
     if([anEntry preverseHeading]) {
-        [aString appendFormat:@"<br /><p><i><span style=\"color:darkGray\">%@</span></i></p>", [anEntry preverseHeading]];
+        [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, [anEntry preverseHeading]];
     }
     
     // text get marked with ";;;<verseMarkerInfo>;;;" which is replaced later on with a marker
     if(!isVersesOnOneLine) {
-        // mark new chapter
-        if(chapter != lastChapter) {
+        // new chapter or same chapter in another book
+        if((chapter != lastChapter) || (book != lastBook)) {
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:bibleBook 
                                                                            chapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
-                    [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", chapIntro];                    
+                    [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
                 }
             }
             [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
         }
         [aString appendFormat:@";;;%@;;; %@\n", verseMarkerInfo, [anEntry text]];   // verse marker
     } else {
-        if(chapter != lastChapter) {
+        // new chapter or same chapter in another book
+        if((chapter != lastChapter) || (book != lastBook)) {
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:bibleBook 
                                                                            chapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
-                    [aString appendFormat:@"<p><i><span style=\"color:darkGray\">%@</span></i></p>", chapIntro];                    
+                    [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
                 }
             }
             if(isShowVerseNumbersOnly) {
-                [aString appendFormat:@"<br /><p><b>%@ %i:</b></p>\n", bookName, chapter];
+                //[aString appendFormat:@"<br /><p><b>%@ %i:</b></p>\n", bookName, chapter];
+                if(chapter == 1) {
+                    [aString appendFormat:@"<b>;;;%@|%i;;;:</b><br />\n", bookName, chapter, verseMarkerInfo];    // verse marker
+                } else {
+                    [aString appendFormat:@"<br /><b>;;;%@|%i;;;:</b><br />\n", bookName, chapter, verseMarkerInfo];    // verse marker
+                }
             }
         }
-        if(verse == 1 && isShowVerseNumbersOnly) {
-            if(chapter == 1) {
-                [aString appendFormat:@"<b>;;;%@|%i;;;:</b><br />\n<b>;;;%@;;;</b>", bookName, chapter, verseMarkerInfo];    // verse marker
-            } else {
-                [aString appendFormat:@"<br /><b>;;;%@|%i;;;:</b><br />\n<b>;;;%@;;;</b>", bookName, chapter, verseMarkerInfo];    // verse marker
-            }
-        } else {
-            [aString appendFormat:@"<b>;;;%@;;;</b>", verseMarkerInfo];    // verse marker
-        }
+        [aString appendFormat:@"<b>;;;%@;;;</b>", verseMarkerInfo];    // verse marker
+        // the actual verse text
         [aString appendFormat:@"%@<br />\n", [anEntry text]];
     }
     
@@ -243,7 +279,7 @@
     lastBook = book;
 }
 
-- (NSMutableAttributedString *)convertToAttributedStringFromString:(NSString *)aString {
+- (void)applyString:(NSString *)aString {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
@@ -255,39 +291,35 @@
                                    size:(int)customFontSize];
 
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                                                    options:options
-                                                                         documentAttributes:nil];
+    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                                options:options
+                                                     documentAttributes:nil];
 
     [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
-
-    //[attrString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
-    //                   range:NSMakeRange(0, [attrString length])];
-    return attrString;
 }
 
-- (void)applyLinkCursorToLinksInAttributedString:(NSMutableAttributedString *)anString {
+- (void)applyLinkCursorToLinks {    
     NSRange effectiveRange;
 	int	i = 0;
-	while (i < [anString length]) {
-        NSDictionary *attrs = [anString attributesAtIndex:i effectiveRange:&effectiveRange];
+	while (i < [tempDisplayString length]) {
+        NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if([attrs objectForKey:NSLinkAttributeName] != nil) {
             attrs = [attrs mutableCopy];
             [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-            [anString setAttributes:attrs range:effectiveRange];
+            [tempDisplayString setAttributes:attrs range:effectiveRange];
 		}
 		i += effectiveRange.length;
 	}
 }
 
-- (void)replaceVerseMarkersInAttributedString:(NSMutableAttributedString *)anAttrString {
+- (void)replaceVerseMarkers {    
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
-    NSString *text = [anAttrString string];
+    NSString *text = [tempDisplayString string];
     while(found) {
         int tLen = [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, tLen-replaceRange.location)];
@@ -311,8 +343,8 @@
                     NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:3];
                     [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
                     
-                    [anAttrString replaceCharactersInRange:replaceRange withString: verseMarker];
-                    [anAttrString addAttributes:markerOpts range:linkRange];   
+                    [tempDisplayString replaceCharactersInRange:replaceRange withString:verseMarker];
+                    [tempDisplayString addAttributes:markerOpts range:linkRange];   
                 } else {
                     NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
                     
@@ -341,8 +373,8 @@
                     [markerOpts setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
                     [markerOpts setObject:verseURL forKey:NSLinkAttributeName];
                     
-                    [anAttrString replaceCharactersInRange:replaceRange withString:visible];
-                    [anAttrString addAttributes:markerOpts range:linkRange];
+                    [tempDisplayString replaceCharactersInRange:replaceRange withString:visible];
+                    [tempDisplayString addAttributes:markerOpts range:linkRange];
                     
                     replaceRange.location += [visible length];
                 }
@@ -353,11 +385,11 @@
     }    
 }
 
-- (void)applyWritingDirectionOnText:(NSMutableAttributedString *)anAttrString {
+- (void)applyWritingDirection {
     if([module isRTL]) {
-        [anAttrString setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [anAttrString length])];
+        [tempDisplayString setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [tempDisplayString length])];
     } else {
-        [anAttrString setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [anAttrString length])];
+        [tempDisplayString setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [tempDisplayString length])];
     }    
 }
 

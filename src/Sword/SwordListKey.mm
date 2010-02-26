@@ -32,12 +32,20 @@
     return [[[SwordListKey alloc] initWithSWListKey:aLk] autorelease];
 }
 
++ (id)listKeyWithSWListKey:(sword::ListKey *)aLk makeCopy:(BOOL)copy {
+    return [[[SwordListKey alloc] initWithSWListKey:aLk makeCopy:copy] autorelease];    
+}
+
 - (id)init {
     return [super init];
 }
 
 - (id)initWithSWListKey:(sword::ListKey *)aLk {
     return [super initWithSWKey:aLk];
+}
+
+- (id)initWithSWListKey:(sword::ListKey *)aLk makeCopy:(BOOL)copy {
+    return [super initWithSWKey:aLk makeCopy:copy];
 }
 
 - (id)initWithRef:(NSString *)aRef {

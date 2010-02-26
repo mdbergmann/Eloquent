@@ -26,6 +26,8 @@
     SwordModule *module;
     BOOL performProgressCalculation;
     Indexer *indexer;
+
+    NSMutableAttributedString *tempDisplayString;
 }
 
 // --------- properties ---------
@@ -34,7 +36,7 @@
 @property (retain, readwrite) CacheObject *searchContentCache;
 
 // ---------- methods ---------
-- (NSAttributedString *)displayableHTMLForIndexedSearch;
+- (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)results;
 - (NSAttributedString *)displayableHTMLForReferenceLookup;
 
 // helper methods for text display/index creation/search result display

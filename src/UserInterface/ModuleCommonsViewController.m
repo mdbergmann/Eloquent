@@ -483,7 +483,7 @@ extern char BookmarkMgrUI;
     }
     
     // redisplay
-    forceRedisplay = NO;
+    forceRedisplay = YES;
     [self displayTextForReference:searchString];
 }
 
@@ -497,7 +497,7 @@ extern char BookmarkMgrUI;
     }
     
     // redisplay
-    forceRedisplay = NO;
+    forceRedisplay = YES;
     [self displayTextForReference:searchString];    
 }
 
@@ -511,7 +511,7 @@ extern char BookmarkMgrUI;
     }
     
     // redisplay
-    forceRedisplay = NO;
+    forceRedisplay = YES;
     [self displayTextForReference:searchString];    
 }
 

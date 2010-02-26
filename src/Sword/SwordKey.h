@@ -24,7 +24,9 @@
 
 #ifdef __cplusplus
 + (id)swordKeyWithSWKey:(sword::SWKey *)aSk;
++ (id)swordKeyWithSWKey:(sword::SWKey *)aSk makeCopy:(BOOL)copy;
 - (id)initWithSWKey:(sword::SWKey *)aSk;
+- (id)initWithSWKey:(sword::SWKey *)aSk makeCopy:(BOOL)copy;
 - (sword::SWKey *)swKey;
 #endif
 

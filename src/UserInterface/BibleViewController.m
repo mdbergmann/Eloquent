@@ -43,7 +43,6 @@
 
 @interface BibleViewController ()
 
-/** selector called by menuitems */
 - (void)moduleSelectionChanged:(id)sender;
 
 - (void)checkPerformProgressCalculation;
@@ -309,7 +308,9 @@
 #pragma mark - TextDisplayable
 
 - (void)handleDisplayForReference {
-    [self checkPerformProgressCalculation];
+    if([searchString length] > 0) {
+        [self checkPerformProgressCalculation];
+    }
     [super handleDisplayForReference];
 }
 

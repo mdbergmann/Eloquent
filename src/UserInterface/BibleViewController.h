@@ -25,7 +25,7 @@
     
     IBOutlet NSView *sideBarView;
     IBOutlet NSOutlineView *entriesOutlineView;
-    
+        
     NSMenu *biblesMenu;
     NSMenu *commentariesMenu;
     
