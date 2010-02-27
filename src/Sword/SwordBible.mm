@@ -408,10 +408,11 @@ NSLock *bibleLock = nil;
 - (NSArray *)textEntriesForReference:(NSString *)aReference context:(int)context textType:(TextPullType)textType {
     NSMutableArray *ret = [NSMutableArray array];
     
-    SwordVerseKey *vk = (SwordVerseKey *)[self createKey];
-    [vk setHeadings:YES];
-    SwordListKey *lk = [SwordListKey listKeyWithRef:aReference v11n:[vk versification]];
-    for (*[lk swListKey] = sword::TOP; ![lk swListKey]->Error(); *[lk swListKey] += 1) {
+    SwordListKey *lk = [SwordListKey listKeyWithRef:aReference v11n:[self versification]];
+    [lk setPosition:SWPOS_TOP];
+    [lk setPersist:NO];
+    SwordVerseKey *vk = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[self versification]];
+    while(![lk error]) {
         // set current key to vk
         [vk setKeyText:[lk keyText]];
         if(context != 0) {
@@ -431,6 +432,7 @@ NSLock *bibleLock = nil;
                 [ret addObject:entry];
             }            
         }
+        [lk increment];
     }
     
     return ret;    

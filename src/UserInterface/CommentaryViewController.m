@@ -164,20 +164,17 @@
      }\
      </style>\n", 
      (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
-    
-    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];
-    [lk setPersist:NO];
-    [lk setPosition:SWPOS_BOTTOM];
-    SwordVerseKey *last = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[module versification]];    
-    [lk setPosition:SWPOS_TOP];        
-    
+
     [module aquireModuleLock];
-    [module setKey:lk];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
+    [lk setPersist:NO];
+    [lk setPosition:SWPOS_TOP];
+    int numberOfVerses = 0;
     NSString *ref = nil;
     NSString *rendered = nil;
-    int numberOfVerses = 0;
-    while(![module error] && ([(SwordVerseKey *)[module getKey] index] <= [last index])) {
-        ref = [[module getKey] keyText];
+    while(![lk error]) {
+        ref = [lk keyText];
+        [module setKey:lk];
         rendered = [module renderedText];
         
         NSString *bookName = @"";
@@ -198,7 +195,7 @@
         [htmlString appendFormat:@";;;%@;;;", verseInfo];
         [htmlString appendFormat:@"%@<br />\n", rendered];
 
-        [module incKeyPosition];
+        [lk increment];
         numberOfVerses++;
     }
     [module releaseModuleLock];

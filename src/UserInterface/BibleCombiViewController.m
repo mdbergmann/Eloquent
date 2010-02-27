@@ -154,6 +154,11 @@
         BibleViewController *vc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
         [self addContentViewController:vc];        
         [vc prepareContentForHost:delegate];
+        if(customFontSize > 0) {
+            [vc setCustomFontSize:customFontSize];
+        }
+        [vc setDisplayOptions:displayOptions];
+        [vc setModDisplayOptions:modDisplayOptions];
         [vc displayTextForReference:searchString searchType:searchType];        
     }
 }
@@ -167,6 +172,11 @@
         CommentaryViewController *vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
         [self addContentViewController:vc];
         [vc prepareContentForHost:delegate];
+        if(customFontSize > 0) {
+            [vc setCustomFontSize:customFontSize];
+        }
+        [vc setDisplayOptions:displayOptions];
+        [vc setModDisplayOptions:modDisplayOptions];
         [vc displayTextForReference:searchString searchType:searchType];        
     }
 }
@@ -583,7 +593,7 @@
             }
         }
         [self setupForContentViewController:aViewController];
-    }    
+    }
 }
 
 - (void)setupForContentViewController:(ContentDisplayingViewController *)aViewController {

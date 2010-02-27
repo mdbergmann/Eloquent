@@ -135,24 +135,21 @@
 
     lastChapter = -1;
     lastBook = -1;
-    
-    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];
-    [lk setPersist:NO];
-    [lk setPosition:SWPOS_BOTTOM];
-    SwordVerseKey *last = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[module versification]];    
-    [lk setPosition:SWPOS_TOP];        
-    
+        
     [module aquireModuleLock];
     SwordManager *swManager = [SwordManager defaultManager];
     BOOL collectPreverseHeading = ([swManager globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
     
-    [module setKey:lk];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
+    [lk setPersist:NO];
+    [lk setPosition:SWPOS_TOP];
     NSString *ref = nil;
     NSString *rendered = nil;
     SwordBibleTextEntry *entry = nil;
     int numberOfVerses = 0;
-    while(![module error] && ([(SwordVerseKey *)[module getKey] index] <= [last index])) {
-        ref = [[module getKey] keyText];
+    while(![lk error]) {
+        ref = [lk keyText];
+        [module setKey:lk];
         rendered = [module renderedText];
         entry = [SwordBibleTextEntry textEntryForKey:ref andText:rendered];
 
@@ -166,7 +163,7 @@
         [self applyBookmarkHighlightingOnTextEntry:entry];
         [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
         
-        [module incKeyPosition];
+        [lk increment];
         numberOfVerses++;
     }
     [module releaseModuleLock];
@@ -264,9 +261,9 @@
             if(isShowVerseNumbersOnly) {
                 //[aString appendFormat:@"<br /><p><b>%@ %i:</b></p>\n", bookName, chapter];
                 if(chapter == 1) {
-                    [aString appendFormat:@"<b>;;;%@|%i;;;:</b><br />\n", bookName, chapter, verseMarkerInfo];    // verse marker
+                    [aString appendFormat:@"<b>%@ %i:</b><br />\n", bookName, chapter];
                 } else {
-                    [aString appendFormat:@"<br /><b>;;;%@|%i;;;:</b><br />\n", bookName, chapter, verseMarkerInfo];    // verse marker
+                    [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
                 }
             }
         }

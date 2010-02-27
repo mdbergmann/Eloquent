@@ -83,38 +83,44 @@
             BOOL updateScroll = YES;
             if(searchType == ReferenceSearchType) {
                 
-                // get the verseMarker of this syncview
-                NSString *marker = [self verseMarkerOfFirstLineOfTextView:v];
-                
-                // the sender is the rightest scrollview
-                if((sourceMarker != nil) && ([sourceMarker length] > 0) && ![marker isEqualToString:sourceMarker]) {
-                    /*
-                     // get all text
-                     NSAttributedString *allText = [[v textView] textStorage];
-                     // get index of match
-                     NSRange destRange = [[allText string] rangeOfString:match];
-                     
-                     // now get glyph range for these character range
-                     NSRange glyphRange = [[[v textView] layoutManager] glyphRangeForCharacterRange:destRange actualCharacterRange:nil];
-                     // get view rect of this glyph range
-                     NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
-                     */
-                    
-                    NSRect destRect = [self rectForAttributeName:TEXT_VERSE_MARKER attributeValue:sourceMarker inTextView:v.textView];
-                    if(destRect.origin.x != NSNotFound) {
-                        // the current horizontal textcontainer inset
-                        float inset = 0.0;
-                        if(hasDefaultsInset && destRect.origin.y != 0) {
-                            inset = defaultsInset;    
-                        }
-                        
-                        destPoint.x = destRect.origin.x;
-                        destPoint.y = destRect.origin.y + inset;                                            
-                    } else {
-                        updateScroll = NO;                        
-                    }
+                if(newOffset.y == 0.0) {
+                    // scroll to top
+                    destPoint.x = 0.0;
+                    destPoint.y = 0.0;
                 } else {
-                    updateScroll = NO;
+                    // get the verseMarker of this syncview
+                    NSString *marker = [self verseMarkerOfFirstLineOfTextView:v];
+                    
+                    // the sender is the rightest scrollview
+                    if((sourceMarker != nil) && ([sourceMarker length] > 0) && ![marker isEqualToString:sourceMarker]) {
+                        /*
+                         // get all text
+                         NSAttributedString *allText = [[v textView] textStorage];
+                         // get index of match
+                         NSRange destRange = [[allText string] rangeOfString:match];
+                         
+                         // now get glyph range for these character range
+                         NSRange glyphRange = [[[v textView] layoutManager] glyphRangeForCharacterRange:destRange actualCharacterRange:nil];
+                         // get view rect of this glyph range
+                         NSRect destRect = [[[v textView] layoutManager] lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
+                         */
+                        
+                        NSRect destRect = [self rectForAttributeName:TEXT_VERSE_MARKER attributeValue:sourceMarker inTextView:v.textView];
+                        if(destRect.origin.x != NSNotFound) {
+                            // the current horizontal textcontainer inset
+                            float inset = 0.0;
+                            if(hasDefaultsInset && destRect.origin.y != 0) {
+                                inset = defaultsInset;    
+                            }
+                            
+                            destPoint.x = destRect.origin.x;
+                            destPoint.y = destRect.origin.y + inset;                                            
+                        } else {
+                            updateScroll = NO;                        
+                        }
+                    } else {
+                        updateScroll = NO;
+                    }                    
                 }
             } else {
                 // for all others we can't garantie that all view have the verse key

@@ -35,15 +35,17 @@ using namespace sword;
 }
 
 - (void)testRenderedTextEntriesForRef {
-    NSArray *entries = [(SwordBible *)mod renderedTextEntriesForRef:@"gen"];
-    int i = 0;
+    NSArray *entries = [(SwordBible *)mod renderedTextEntriesForRef:@"gen1-rev22"];
+    NSString *ref = nil;
+    NSString *rendered = nil;
     for(SwordBibleTextEntry *entry in entries) {
-        i++;
+        ref = [entry key];
+        rendered = [entry text];
     }
 }
 
 - (void)testRenderedWithEnumerator {
-    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen"];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen1-rev22"];
     NSString *ref = nil;
     NSString *rendered = nil;
     VerseEnumerator *iter = [lk verseEnumerator];
@@ -54,7 +56,7 @@ using namespace sword;
 }
 
 - (void)testLoopWithModulePos {
-    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen" v11n:[mod versification]];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen1-rev22" v11n:[mod versification]];
     [lk setPersist:YES];
     [mod setKey:lk];
     NSString *ref = nil;
@@ -67,20 +69,17 @@ using namespace sword;
 }
 
 - (void)testLoopWithModulePosNoPersist {
-    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen" v11n:[mod versification]];
-    [lk setPosition:BOTTOM];
-    SwordVerseKey *bot = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[mod versification]];
-    [lk setPosition:TOP];
-    
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen1-rev22" v11n:[mod versification]];    
     [lk setPersist:NO];
-    [mod setKey:lk];
+    [lk setPosition:SWPOS_TOP];
     NSString *ref = nil;
     NSString *rendered = nil;
-    while(![mod error] && ([(SwordVerseKey *)[mod getKey] index] <= [bot index])) {
-        ref = [[mod getKey] keyText];
+    while(![lk error]) {
+        ref = [lk keyText];
+        [mod setKey:lk];
         rendered = [mod renderedText];
         //NSLog(@"%@:%@", ref, rendered);
-        [mod incKeyPosition];
+        [lk increment];
     }
 }
 
@@ -113,19 +112,16 @@ using namespace sword;
 
 - (void)testLoopWithModulePosNoPersistWithDiverseReference {
     SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen 1:1;4:5-8" v11n:[mod versification]];
-    [lk setPosition:BOTTOM];
-    SwordVerseKey *bot = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[mod versification]];
-    [lk setPosition:TOP];
-
     [lk setPersist:NO];
-    [mod setKey:lk];
+    [lk setPosition:SWPOS_TOP];
     NSString *ref = nil;
     NSString *rendered = nil;
-    while(![mod error] && ([(SwordVerseKey *)[mod getKey] index] <= [bot index])) {
-        ref = [[mod getKey] keyText];
+    while(![lk error]) {
+        ref = [lk keyText];
+        [mod setKey:lk];
         rendered = [mod renderedText];
         NSLog(@"%@:%@", ref, rendered);
-        [mod incKeyPosition];
+        [lk increment];
     }
 }
 
