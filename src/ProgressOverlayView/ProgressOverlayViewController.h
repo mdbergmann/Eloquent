@@ -8,16 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <SwordSearching.h>
 
-@interface ProgressOverlayViewController : NSViewController {
+@interface ProgressOverlayViewController : NSViewController <IndexCreationProgressing> {
     // Progress overlay view
     IBOutlet NSProgressIndicator *progressIndicator;
+    IBOutlet NSProgressIndicator *barProgressIndicator;
     IBOutlet id delegate;
+    IBOutlet NSView *barProgressView;
 }
 
 @property (readwrite) id delegate;
+@property (readonly) NSView *barProgressView;
 
-+ (ProgressOverlayViewController *) defaultController;
++ (ProgressOverlayViewController *)defaultController;
 
 /**
  when using this initializer, the delegate should implement -contentViewInitFinished:
@@ -27,5 +31,11 @@
 
 - (void)startProgressAnimation;
 - (void)stopProgressAnimation;
+
+- (void)addToMaxProgressValue:(double)val;
+- (void)setProgressMaxValue:(double)max;
+- (void)setProgressCurrentValue:(double)val;
+- (void)setProgressIndeterminate:(BOOL)flag;
+- (void)incrementProgressBy:(double)increment;
 
 @end

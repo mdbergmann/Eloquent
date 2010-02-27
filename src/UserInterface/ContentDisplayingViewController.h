@@ -33,13 +33,23 @@ enum LinkContextMenuItems {
     RemoveLink
 };
 
+typedef enum _ProgressActionType {
+    ReferenceLookupAction,
+    IndexSearchAction,
+    IndexCreateAction
+}ProgressActionType;
+
 @class CacheObject;
 @class ModulesUIController;
+@class ProgressOverlayViewController;
 
 @interface ContentDisplayingViewController : HostableViewController <ProgressIndicating, TextDisplayable, ContextMenuProviding> {
     IBOutlet NSView *topAccessoryView;
     IBOutlet id contentDisplayController;    
     CacheObject *contentCache;
+    
+    ProgressOverlayViewController *progressController;
+    ProgressActionType progressActionType;
     
     // content context menues
     IBOutlet NSMenu *textContextMenu;
@@ -57,6 +67,8 @@ enum LinkContextMenuItems {
 @property (readwrite) BOOL forceRedisplay;
 @property (retain, readwrite) NSEvent *lastEvent;
 @property (retain, readwrite) CacheObject *contentCache;
+@property (readonly) ProgressOverlayViewController *progressController;
+@property (readonly) ProgressActionType progressActionType;
 
 - (void)commonInit;
 
@@ -71,6 +83,12 @@ enum LinkContextMenuItems {
 // ProgressIndicating
 - (void)beginIndicateProgress;
 - (void)endIndicateProgress;
+
+- (id)progressIndicator;
+- (void)setProgressActionType:(ProgressActionType)aType;
+- (ProgressActionType)progressActionType;
+- (void)putProgressOverlayView;
+- (void)removeProgressOverlayView;
 
 - (IBAction)saveDocument:(id)sender;
 

@@ -12,6 +12,7 @@
 @implementation ProgressOverlayViewController
 
 @synthesize delegate;
+@synthesize barProgressView;
 
 + (ProgressOverlayViewController *)defaultController {
 	static ProgressOverlayViewController *singleton;
@@ -31,12 +32,9 @@
 	self = [super init];
 	if(self == nil) {
 		MBLOG(MBLOG_ERR,@"[ProgressOverlayViewController -init]");
-	} else {
-        
-        // set delegate
+	} else {        
         delegate = aDelegate;
         
-        // load nib
         BOOL success = [NSBundle loadNibNamed:@"ProgressOverlayView" owner:self];
         if(success == NO) {
             MBLOG(MBLOG_WARN, @"[ProgressOverlayViewController init] could not load nib");
@@ -47,12 +45,11 @@
 }
 
 - (void)awakeFromNib {
-    
     // set some view things
     [progressIndicator setUsesThreadedAnimation:YES];
+    [barProgressIndicator setUsesThreadedAnimation:YES];
     //[progressIndicator scaleUnitSquareToSize:NSMakeSize(0.5, 0.5)];
     
-    // calls delegate to notify when loading is finished
     if(delegate) {
         if([delegate respondsToSelector:@selector(contentViewInitFinished:)]) {
             [delegate performSelector:@selector(contentViewInitFinished:) withObject:self];
@@ -66,10 +63,32 @@
 
 - (void)startProgressAnimation {
     [progressIndicator startAnimation:self];
+    [barProgressIndicator startAnimation:self];
 }
 
 - (void)stopProgressAnimation {
     [progressIndicator stopAnimation:self];
+    [barProgressIndicator stopAnimation:self];
+}
+
+- (void)addToMaxProgressValue:(double)val {
+    [barProgressIndicator setMaxValue:[barProgressIndicator maxValue] + val];
+}
+
+- (void)setProgressMaxValue:(double)max {
+    [barProgressIndicator setMaxValue:max];
+}
+
+- (void)setProgressCurrentValue:(double)val {
+    [barProgressIndicator setDoubleValue:val];
+}
+
+- (void)setProgressIndeterminate:(BOOL)flag {
+    [barProgressIndicator setIndeterminate:flag];
+}
+
+- (void)incrementProgressBy:(double)increment {
+    [barProgressIndicator incrementBy:increment];
 }
 
 @end

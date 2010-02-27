@@ -21,14 +21,25 @@
 @class Indexer;
 @class SwordVerseKey;
 
+@protocol IndexCreationProgressing
+
+- (void)addToMaxProgressValue:(double)val;
+- (void)setProgressMaxValue:(double)max;
+- (void)setProgressCurrentValue:(double)val;
+- (void)setProgressIndeterminate:(BOOL)flag;
+- (void)incrementProgressBy:(double)increment;
+
+@end
+
 @interface SwordModule(Searching)
 
 - (NSString *)indexOfVerseKey:(SwordVerseKey *)vk;
 - (BOOL)hasIndex;
 - (void)createIndex;
+- (void)createIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator;
 - (void)deleteIndex;
 - (void)recreateIndex;
-- (void)createIndexThreadedWithDelegate:(id)aDelegate;
+- (void)createIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator;
 - (void)indexContentsIntoIndex:(Indexer *)indexer;
 
 @end

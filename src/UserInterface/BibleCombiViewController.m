@@ -529,16 +529,9 @@
 
 - (void)beginIndicateProgress {
     if(viewLoaded) {
-        ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-        if(![[[self view] subviews] containsObject:[pc view]]) {
-            // we need the same size
-            [[pc view] setFrame:[[self view] frame]];        
-            [pc startProgressAnimation];
-            [[self view] addSubview:[pc view]];
-            [[[self view] superview] setNeedsDisplay:YES];
-        }
+        [self putProgressOverlayView];
         
-        progressStartedCounter++;        
+        progressStartedCounter++;
     }
 }
 
@@ -551,11 +544,11 @@
         // subviews create the progress indicator view but shouldn't be able to remove it if we distribute a new reference ourselfs
         if(progressControl == NO) {
             if(progressStartedCounter == 0) {
-                ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-                [pc stopProgressAnimation];
-                if([[[self view] subviews] containsObject:[pc view]]) {
-                    [[pc view] removeFromSuperview];
-                }            
+                [self removeProgressOverlayView];
+                
+                // reset progress indicator values
+                [progressController setProgressMaxValue:0.0];
+                [progressController setProgressCurrentValue:0.0];
             }
         }        
     }    

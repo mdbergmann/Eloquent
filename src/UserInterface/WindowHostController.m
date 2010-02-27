@@ -524,6 +524,7 @@ typedef enum _NavigationDirectionType {
     [self setSearchTypeUI:[contentViewController preferedSearchType]];
     [self setupContentRelatedViews];
     [contentViewController prepareContentForHost:self];
+    [contentViewController searchStringChanged:[self searchText]];
     [self readaptHostUI];
 }
 

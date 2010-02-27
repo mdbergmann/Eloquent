@@ -37,7 +37,7 @@
     
     // the regex that will find out the versekey
     MBRegex *regex;
-        
+    
     // progressAction
     BOOL progressControl;
     int progressStartedCounter;

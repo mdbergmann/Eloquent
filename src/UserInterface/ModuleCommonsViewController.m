@@ -581,14 +581,7 @@ extern char BookmarkMgrUI;
         if([delegate isKindOfClass:[BibleCombiViewController class]]) {
             [(BibleCombiViewController *)delegate beginIndicateProgress];
         } else {
-            ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-            if(![[[self view] subviews] containsObject:[pc view]]) {
-                // we need the same size
-                [[pc view] setFrame:[[self view] frame]];
-                [pc startProgressAnimation];
-                [[self view] addSubview:[pc view]];
-                [[[self view] superview] setNeedsDisplay:YES];
-            }
+            [self putProgressOverlayView];
         }        
     }
 }
@@ -602,15 +595,11 @@ extern char BookmarkMgrUI;
         if([delegate isKindOfClass:[BibleCombiViewController class]]) {
             [(BibleCombiViewController *)delegate endIndicateProgress];
         } else {
-            ProgressOverlayViewController *pc = [ProgressOverlayViewController defaultController];
-            [pc stopProgressAnimation];
-            NSView *pcView = [self view];
-            if(pcView) {
-                if([[pcView subviews] containsObject:[pc view]]) {
-                    [[pc view] removeFromSuperview];    
-                }                
-            }
-        }        
+            [self removeProgressOverlayView];
+        }
+        // reset progress indicator values
+        [progressController setProgressMaxValue:0.0];
+        [progressController setProgressCurrentValue:0.0];
     }
 }
 
@@ -619,7 +608,6 @@ extern char BookmarkMgrUI;
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [self init];
     if(self) {
-        self.searchString = [decoder decodeObjectForKey:@"ReferenceEncoded"];
         NSNumber *fontSize = [decoder decodeObjectForKey:@"CustomFontSizeEncoded"];
         if(fontSize) {
             self.customFontSize = [fontSize intValue];        
@@ -639,7 +627,6 @@ extern char BookmarkMgrUI;
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:[NSNumber numberWithInt:customFontSize] forKey:@"CustomFontSizeEncoded"];
-    [encoder encodeObject:searchString forKey:@"ReferenceEncoded"];
     [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
     [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
 }

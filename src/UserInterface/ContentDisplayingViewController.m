@@ -29,6 +29,7 @@
 #import "NSAttributedString+Additions.h"
 #import "ObjectAssotiations.h"
 #import "ContentDisplayingViewControllerFactory.h"
+#import "ProgressOverlayViewController.h"
 
 extern char ModuleListUI;
 
@@ -49,6 +50,8 @@ extern char ModuleListUI;
 @synthesize clickedLinkTextRange;
 @synthesize lastEvent;
 @synthesize contentCache;
+@synthesize progressController;
+@dynamic progressActionType;
 
 
 - (id)init {
@@ -59,13 +62,15 @@ extern char ModuleListUI;
         [self setForceRedisplay:NO];
         [self setLastEvent:nil];
         [self setContentCache:[[CacheObject alloc] init]];        
+        progressActionType = ReferenceLookupAction;
         
         [self commonInit];
     }
     return self;
 }
 
-- (void)commonInit {    
+- (void)commonInit {
+    progressController = [[ProgressOverlayViewController alloc] init];
 }
 
 - (void)finalize {
@@ -470,6 +475,60 @@ extern char ModuleListUI;
 }
 
 - (void)endIndicateProgress {
+}
+
+- (id)progressIndicator {
+    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+        return [(BibleCombiViewController *)delegate progressController];
+    } else {
+        return [self progressController];
+    }
+}
+
+- (void)setProgressActionType:(ProgressActionType)aType {
+    progressActionType = aType;
+    if([delegate isKindOfClass:[BibleCombiViewController class]]) {
+        [(BibleCombiViewController *)delegate setProgressActionType:aType];
+    }
+}
+
+- (ProgressActionType)progressActionType {
+    return progressActionType;
+}
+
+- (void)putProgressOverlayView {
+    NSView *progressView = [progressController view];
+    NSView *barProgressView = [progressController barProgressView];
+    
+    if(![[[self view] subviews] containsObject:progressView] &&
+       ![[[self view] subviews] containsObject:barProgressView]) {
+        
+        NSView *pView = progressView;
+        if(progressActionType == IndexCreateAction) {
+            pView = barProgressView;
+        }
+        // we need the same size
+        [pView setFrame:[[self view] frame]];
+        [progressController startProgressAnimation];
+        [[self view] addSubview:pView];
+        [[[self view] superview] setNeedsDisplay:YES];
+    }    
+}
+
+- (void)removeProgressOverlayView {
+    NSView *progressView = [progressController view];
+    NSView *barProgressView = [progressController barProgressView];
+    
+    [progressController stopProgressAnimation];
+    NSView *pcView = [self view];
+    if(pcView) {
+        if([[pcView subviews] containsObject:progressView]) {
+            [progressView removeFromSuperview];
+        }
+        if([[pcView subviews] containsObject:barProgressView]) {
+            [barProgressView removeFromSuperview];
+        }
+    }    
 }
 
 #pragma mark - ContextMenuProviding protocol

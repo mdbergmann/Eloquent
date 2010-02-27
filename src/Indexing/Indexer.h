@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import <CocoLogger/CocoLogger.h>
 #import <SwordModule.h>
+#import <SwordSearching.h>
 #import <AppKit/NSApplication.h>
 #import <CoreServices/CoreServices.h>
 
@@ -35,6 +36,8 @@ typedef enum {
     
     NSLock *accessLock;
     NSInteger accessCounter;
+    
+    id<IndexCreationProgressing> progressIndicator;
 }
 
 @property (readwrite) ModuleType modType;
@@ -42,6 +45,7 @@ typedef enum {
 @property (retain, readwrite) NSString *modName;
 @property (retain, readwrite) NSLock *accessLock;
 @property (readwrite) NSInteger accessCounter;
+@property (readwrite) id<IndexCreationProgressing> progressIndicator;
 
 /**
  \brief convenient allocator for this class cluster

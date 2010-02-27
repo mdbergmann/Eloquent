@@ -98,6 +98,10 @@ NSString *MacSwordIndexVersion = @"2.6";
 }
 
 - (void)createIndex {
+    [self createIndexWithProgressIndicator:nil];
+}
+
+- (void)createIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator {
 	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndex]");
 	
     [indexLock lock];
@@ -109,13 +113,23 @@ NSString *MacSwordIndexVersion = @"2.6";
         MBLOG(MBLOG_ERR, @"Could not create Indexer for this module!");
     } else {
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] start indexing...");
-
+        
+        // add one step for the flush operation
+        if(progressIndicator) {
+            [progressIndicator addToMaxProgressValue:10.0];
+        }
+        
+        [indexer setProgressIndicator:progressIndicator];
         [self indexContentsIntoIndex:indexer];
         [indexer flushIndex];
         [[IndexingManager sharedManager] closeIndexer:indexer];
         
+        if(progressIndicator) {
+            [progressIndicator incrementProgressBy:10.0];
+        }
+        
         MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
-
+        
         //save version info
         NSString *path = [(IndexingManager *)[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];        
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -126,23 +140,20 @@ NSString *MacSwordIndexVersion = @"2.6";
         [d writeToFile:[path stringByAppendingPathComponent:@"version.plist"] atomically:NO];
     }
     
-    // notify delegate
     if(delegate) {
         if([delegate respondsToSelector:@selector(indexCreationFinished:)]) {
             [delegate performSelectorOnMainThread:@selector(indexCreationFinished:) withObject:self waitUntilDone:YES];
         }
-        
-        // remove delegate
         delegate = nil;
     }
     [indexLock unlock];
 }
 
-- (void)createIndexThreadedWithDelegate:(id)aDelegate {
+- (void)createIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator {
 	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexThreadedWithDelegate:]");
     
     delegate = aDelegate;
-    [NSThread detachNewThreadSelector:@selector(createIndex) toTarget:self withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(createIndexWithProgressIndicator:) toTarget:self withObject:progressIndicator];
 }
 
 /** abstract method */
@@ -161,6 +172,11 @@ NSString *MacSwordIndexVersion = @"2.6";
         swModule->processEntryAttributes(YES);
     }
 	
+    if([indexer progressIndicator] != nil) {
+        [[indexer progressIndicator] addToMaxProgressValue:(double)[[self bookList] count]];
+        [[indexer progressIndicator] setProgressIndeterminate:NO];
+    }
+    
     [moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
@@ -220,7 +236,11 @@ NSString *MacSwordIndexVersion = @"2.6";
             [lk increment];
         }
         
-		[pool drain];        
+		[pool drain];
+        
+        if([indexer progressIndicator] != nil) {
+            [[indexer progressIndicator] incrementProgressBy:1.0];
+        }
     }
     [moduleLock unlock];
 
@@ -233,6 +253,11 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
     
+    if([indexer progressIndicator] != nil) {
+        [[indexer progressIndicator] addToMaxProgressValue:(double)[[self bookList] count]];
+        [[indexer progressIndicator] setProgressIndeterminate:NO];
+    }
+
     [moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
@@ -258,7 +283,11 @@ NSString *MacSwordIndexVersion = @"2.6";
             [self incKeyPosition];
         }
 
-		[pool drain];        
+		[pool drain];
+
+        if([indexer progressIndicator] != nil) {
+            [[indexer progressIndicator] incrementProgressBy:1.0];
+        }
     }
     // reset key
     [self setKeyString:@"gen"];
@@ -272,6 +301,11 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {    
 
+    if([indexer progressIndicator] != nil) {
+        [[indexer progressIndicator] addToMaxProgressValue:(double)[[self allKeys] count]];
+        [[indexer progressIndicator] setProgressIndeterminate:NO];
+    }
+
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     for(NSString *key in [self allKeys]) {
         // entryForKey does lock
@@ -283,6 +317,10 @@ NSString *MacSwordIndexVersion = @"2.6";
                 NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", key, entry];
                 [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:properties];                
             }
+        }
+
+        if([indexer progressIndicator] != nil) {
+            [[indexer progressIndicator] incrementProgressBy:1.0];
         }
     }
     [pool drain];        
@@ -300,9 +338,13 @@ NSString *MacSwordIndexVersion = @"2.6";
 - (void)indexContents:(NSString *)treeKey intoIndex:(Indexer *)indexer {
     
     SwordModuleTreeEntry *entry = [(SwordBook *)self treeEntryForKey:treeKey];
+
+    if([indexer progressIndicator] != nil) {
+        [[indexer progressIndicator] addToMaxProgressValue:(double)[[entry content] count]];
+        [[indexer progressIndicator] setProgressIndeterminate:NO];
+    }
+
     for(NSString *key in [entry content]) {
-        
-        // get key
         NSArray *strippedArray = [self strippedTextEntriesForRef:key];
         if(strippedArray != nil) {
             // get content
@@ -324,6 +366,10 @@ NSString *MacSwordIndexVersion = @"2.6";
 
         // go deeper
         [self indexContents:key intoIndex:indexer];
+        
+        if([indexer progressIndicator] != nil) {
+            [[indexer progressIndicator] incrementProgressBy:1.0];
+        }        
 	}
 }
 

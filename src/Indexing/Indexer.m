@@ -28,6 +28,7 @@
 @synthesize modName;
 @synthesize accessLock;
 @synthesize accessCounter;
+@synthesize progressIndicator;
 
 /**
 \brief convenient allocator for this class cluster

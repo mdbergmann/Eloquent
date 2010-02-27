@@ -127,7 +127,7 @@
 
     // if we have areference, display it
     if(searchString && [searchString length] > 0) {
-        [self displayTextForReference:searchString searchType:searchType];    
+        [self displayTextForReference:searchString searchType:ReferenceSearchType];    
     }
 
     // if our hosted subview also has loaded, report that

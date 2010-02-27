@@ -136,6 +136,7 @@
     
     // I guess the user actually wanted to search for something
     // let's do this now
+    forceRedisplay = YES;
     [self displayTextForReference:searchString];
 }
 
@@ -196,13 +197,16 @@
     self.searchString = aReference;
     if(![self hasValidCacheObject] || forceRedisplay) {
         if(searchType == ReferenceSearchType) {
+            [self setProgressActionType:ReferenceLookupAction];
             [self setGlobalOptionsFromModOptions];
             [self handleDisplayForReference];
         } else if(searchType == IndexSearchType) {
             [searchContentCache setReference:searchString];
             if(![module hasIndex]) {
+                [self setProgressActionType:IndexCreateAction];
                 [self handleDisplayIndexedNoHasIndex];
             } else {
+                [self setProgressActionType:IndexSearchAction];
                 [self handleDisplayIndexedPerformSearch];
             }
         }        
@@ -252,7 +256,7 @@
         // progress indicator is stopped in the delegate methods of either indexing or searching
         [self beginIndicateProgress];
         
-        [module createIndexThreadedWithDelegate:self];
+        [module createIndexThreadedWithDelegate:self progressIndicator:[self progressIndicator]];
     }
 }
 
@@ -268,7 +272,7 @@
             MBLOG(MBLOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
         } else {
             [indexer performThreadedSearchOperation:searchString constrains:nil maxResults:maxResults delegate:self];
-        }    
+        }
     }
 }
 
