@@ -153,6 +153,7 @@
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
 		A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */; };
 		A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9C5D29210DAEF5E006893E2 /* SwordKey.mm */; };
+		A9C6C5AA11394B6300A3850A /* BookmarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C6C5A911394B6300A3850A /* BookmarkCell.m */; };
 		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
 		A9CDDDD10F738E0500C907B9 /* SearchBookSetEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */; };
@@ -189,8 +190,6 @@
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
 		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
-		A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */; };
-		A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */; };
 		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
 		A9F61C640E01028700C3A0EF /* locales.d in Resources */ = {isa = PBXBuildFile; fileRef = A9F61C210E01028700C3A0EF /* locales.d */; };
@@ -450,6 +449,8 @@
 		A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmationSheetController.m; sourceTree = "<group>"; };
 		A9C5D29110DAEF5E006893E2 /* SwordKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordKey.h; sourceTree = "<group>"; };
 		A9C5D29210DAEF5E006893E2 /* SwordKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordKey.mm; sourceTree = "<group>"; };
+		A9C6C5A811394B6300A3850A /* BookmarkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkCell.h; path = src/UserInterface/BookmarkCell.h; sourceTree = "<group>"; };
+		A9C6C5A911394B6300A3850A /* BookmarkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkCell.m; path = src/UserInterface/BookmarkCell.m; sourceTree = "<group>"; };
 		A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
 		A9CC33500EB0699900810821 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
@@ -503,10 +504,6 @@
 		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
 		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
 		A9F1856A0E0833F9005F3B35 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
-		A9F4E3510E1DF0D800B0148E /* ReferenceCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheManager.h; path = src/UserInterface/ReferenceCacheManager.h; sourceTree = "<group>"; };
-		A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheManager.m; path = src/UserInterface/ReferenceCacheManager.m; sourceTree = "<group>"; };
-		A9F4E3550E1DF16F00B0148E /* ReferenceCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceCacheObject.h; path = src/UserInterface/ReferenceCacheObject.h; sourceTree = "<group>"; };
-		A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceCacheObject.m; path = src/UserInterface/ReferenceCacheObject.m; sourceTree = "<group>"; };
 		A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoLogger.framework; path = Resources/CocoLogger.framework; sourceTree = "<group>"; };
 		A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoPCRE.framework; path = Resources/CocoPCRE.framework; sourceTree = "<group>"; };
 		A9F61C210E01028700C3A0EF /* locales.d */ = {isa = PBXFileReference; lastKnownFileType = folder; name = locales.d; path = sword_mac_build/build/result_inst/locales.d; sourceTree = "<group>"; };
@@ -1029,6 +1026,8 @@
 				A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */,
 				A9000E6C0F611BE700F07F3E /* GradientCell.h */,
 				A9000E6D0F611BE700F07F3E /* GradientCell.m */,
+				A9C6C5A811394B6300A3850A /* BookmarkCell.h */,
+				A9C6C5A911394B6300A3850A /* BookmarkCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1089,10 +1088,6 @@
 		A9F4E3540E1DF0E000B0148E /* Caching */ = {
 			isa = PBXGroup;
 			children = (
-				A9F4E3510E1DF0D800B0148E /* ReferenceCacheManager.h */,
-				A9F4E3520E1DF0D800B0148E /* ReferenceCacheManager.m */,
-				A9F4E3550E1DF16F00B0148E /* ReferenceCacheObject.h */,
-				A9F4E3560E1DF16F00B0148E /* ReferenceCacheObject.m */,
 				A965CEB1112C32C000F4E602 /* CacheObject.h */,
 				A965CEB2112C32C000F4E602 /* CacheObject.m */,
 			);
@@ -1326,8 +1321,6 @@
 				A9E821010E0B95C70020A64E /* ScrollSynchronizableView.m in Sources */,
 				A92819980E100F240007B767 /* Highlighter.m in Sources */,
 				A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */,
-				A9F4E3530E1DF0D800B0148E /* ReferenceCacheManager.m in Sources */,
-				A9F4E3570E1DF16F00B0148E /* ReferenceCacheObject.m in Sources */,
 				A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */,
 				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
 				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,
@@ -1399,6 +1392,7 @@
 				A95CFC5A1132951600E71D4E /* ContentDisplayingViewControllerFactory.m in Sources */,
 				A95CFC791132A9A100E71D4E /* SearchTextFieldOptions.m in Sources */,
 				A9871570113668FE00DB94D2 /* VerseEnumerator.mm in Sources */,
+				A9C6C5AA11394B6300A3850A /* BookmarkCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

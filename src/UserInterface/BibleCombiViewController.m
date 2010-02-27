@@ -15,7 +15,6 @@
 #import "WindowHostController.h"
 #import "SwordManager.h"
 #import "SwordSearching.h"
-#import "ReferenceCacheManager.h"
 #import "NSButton+Color.h"
 #import "globals.h"
 #import "ProgressOverlayViewController.h"

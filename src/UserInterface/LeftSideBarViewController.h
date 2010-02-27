@@ -19,6 +19,7 @@
 @class NotesManager;
 @class NotesUIController;
 @class ThreeCellsCell;
+@class BookmarkCell;
 
 @interface LeftSideBarViewController : SideBarViewController <LeftSideBarDelegate> {
         
@@ -41,6 +42,7 @@
     SwordModule *clickedMod;
     
     ThreeCellsCell *threeCellsCell;
+    BookmarkCell *bookmarkCell;
 }
 
 - (id)initWithDelegate:(WindowHostController *)aDelegate;

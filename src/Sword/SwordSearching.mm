@@ -238,14 +238,15 @@ NSString *MacSwordIndexVersion = @"2.6";
         
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
+        // we want to skip consecutive links. Commentary module does this by default.
         SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
-        [lk setPersist:NO];
+        [lk setPersist:YES];
         [lk setPosition:SWPOS_TOP];
+        [self setKey:lk];
         NSString *ref = nil;
         NSString *stripped = nil;
-        while(![lk error]) {
+        while(![self error]) {
             ref = [lk keyText];
-            [self setKey:lk];
             stripped = [self strippedText];
             
             NSDictionary *properties = [NSDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
@@ -254,11 +255,14 @@ NSString *MacSwordIndexVersion = @"2.6";
                 [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
             }
             
-            [lk increment];
+            [self incKeyPosition];
         }
 
 		[pool drain];        
     }
+    // reset key
+    [self setKeyString:@"gen"];
+
     [moduleLock unlock];
 }
 

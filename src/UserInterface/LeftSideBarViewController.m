@@ -27,6 +27,7 @@
 #import "ModulesUIController.h"
 #import "globals.h"
 #import "ContentDisplayingViewControllerFactory.h"
+#import "BookmarkCell.h"
 
 #define LEFTSIDEBARVIEW_NIBNAME   @"LeftSideBarView"
 
@@ -82,7 +83,9 @@
     [threeCellsCell setTruncatesLastVisibleLine:YES];
     [threeCellsCell setLineBreakMode:NSLineBreakByTruncatingTail];
     NSTableColumn *tableColumn = [outlineView tableColumnWithIdentifier:@"common"];
-    [tableColumn setDataCell:threeCellsCell];
+    [tableColumn setDataCell:threeCellsCell];    
+
+    bookmarkCell = [[BookmarkCell alloc] init];
         
     // set drag & drop types
     [outlineView registerForDraggedTypes:[NSArray arrayWithObjects:DD_BOOKMARK_TYPE, DD_NOTE_TYPE, nil]];
@@ -476,39 +479,51 @@
     return NO;
 }
 
+- (NSCell *)outlineView:(NSOutlineView *)outlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    if(item != nil) {
+        if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
+            return bookmarkCell;
+        } else {
+            return [tableColumn dataCell];
+        }        
+    }
+    return nil;
+}
+
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
+    if(item != nil) {
+        if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
+            return 34.0;
+        } else {
+            return 20.0;
+        }
+    }
+    return 0.0;
+}
+
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 
-    [(ThreeCellsCell *)cell setImage:nil];
-    [(ThreeCellsCell *)cell setRightImage:nil];
-    [(ThreeCellsCell *)cell setRightCounter:0];
-    [(ThreeCellsCell *)cell setLeftCounter:0];
-    [(ThreeCellsCell *)cell setEditable:NO];    
+    if([cell isKindOfClass:[ThreeCellsCell class]]) {
+        [(ThreeCellsCell *)cell setImage:nil];
+        [(ThreeCellsCell *)cell setRightImage:nil];
+        [(ThreeCellsCell *)cell setRightCounter:0];
+        [(ThreeCellsCell *)cell setLeftCounter:0];
+        [(ThreeCellsCell *)cell setEditable:NO];
+    }
 
     if(item != nil) {        
         if([item isKindOfClass:[NSString class]]) {
-            NSFont *font = FontStdBold;
-            //float pointSize = [font pointSize];
-            //[aOutlineView setRowHeight:pointSize + 6];
-            
-            [cell setFont:font];
-            //[cell setTextColor:[NSColor grayColor]];
-            //float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
+            [cell setFont:FontStdBold];
         } else {
-            NSFont *font = FontStd;
-            //float pointSize = [font pointSize];
-            //[aOutlineView setRowHeight:pointSize + 6];
-            
-            [cell setFont:font];
-            //[cell setTextColor:[NSColor blackColor]];
-            
+            [cell setFont:FontStd];
             if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
-                [(ThreeCellsCell *)cell setImage:bookmarkImage];
+                [(BookmarkCell *)cell setImage:bookmarkImage];
+                [(BookmarkCell *)cell setBookmark:item];                
             } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
                 [(ThreeCellsCell *)cell setLeftCounter:[(Bookmark *)item childCount]];
                 [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];
             } else if([item isKindOfClass:[SwordModCategory class]]) {
                 ;
-                //[(ThreeCellsCell *)cell setRightCounter:[[[SwordManager defaultManager] modulesForType:[(SwordModCategory *)item name]] count]];                
             } else if([item isKindOfClass:[SwordModule class]]) {
                 [(ThreeCellsCell *)cell setImage:nil];
                 SwordModule *mod = item;

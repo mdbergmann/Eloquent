@@ -45,7 +45,7 @@ using namespace sword;
 }
 
 - (void)testRenderedWithEnumerator {
-    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen1-rev22"];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen"];
     NSString *ref = nil;
     NSString *rendered = nil;
     VerseEnumerator *iter = [lk verseEnumerator];
@@ -56,7 +56,7 @@ using namespace sword;
 }
 
 - (void)testLoopWithModulePos {
-    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen1-rev22" v11n:[mod versification]];
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen" v11n:[mod versification]];
     [lk setPersist:YES];
     [mod setKey:lk];
     NSString *ref = nil;
@@ -69,7 +69,7 @@ using namespace sword;
 }
 
 - (void)testLoopWithModulePosNoPersist {
-    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen1-rev22" v11n:[mod versification]];    
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen" v11n:[mod versification]];    
     [lk setPersist:NO];
     [lk setPosition:SWPOS_TOP];
     NSString *ref = nil;
@@ -159,6 +159,45 @@ using namespace sword;
     }
 }
  
+- (void)testCommentarySkipLinksPersist {
+    SwordModule *com = [[SwordManager defaultManager] moduleWithName:@"MHC"];
+
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen 1:1-2"];
+    [lk setPersist:YES];
+    [com setKey:lk];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    int count = 0;
+    while(![com error]) {
+        ref = [lk keyText];
+        rendered = [com renderedText];
+        NSLog(@"%@:%@", ref, rendered);
+        [com incKeyPosition];
+        count++;
+    }
+    STAssertTrue((count == 1), @"");
+}
+
+- (void)testCommentarySkipLinksNoPersist {
+    SwordModule *com = [[SwordManager defaultManager] moduleWithName:@"MHC"];
+    
+    SwordListKey *lk = [SwordListKey listKeyWithRef:@"gen 1:1-2"];
+    [lk setPersist:NO];
+    [lk setPosition:SWPOS_TOP];
+    NSString *ref = nil;
+    NSString *rendered = nil;
+    int count = 0;
+    while(![lk error]) {
+        ref = [lk keyText];
+        [com setKey:lk];
+        rendered = [com renderedText];
+        NSLog(@"%@:%@", ref, rendered);
+        [lk increment];
+        count++;
+    }
+    STAssertTrue((count == 1), @"");
+}
+
 - (void)testStrippedTextForRef {
     sword::VerseKey vk = sword::VerseKey("1Mo 1:2");
     NSLog(@"start position: %s", vk.getText());

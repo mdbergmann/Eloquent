@@ -166,15 +166,16 @@
      (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
 
     [module aquireModuleLock];
+    // we skip consective links. Commentary module does that by default.
     SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
-    [lk setPersist:NO];
+    [lk setPersist:YES];
     [lk setPosition:SWPOS_TOP];
+    [module setKey:lk];
     int numberOfVerses = 0;
     NSString *ref = nil;
     NSString *rendered = nil;
-    while(![lk error]) {
+    while(![module error]) {
         ref = [lk keyText];
-        [module setKey:lk];
         rendered = [module renderedText];
         
         NSString *bookName = @"";
@@ -195,9 +196,11 @@
         [htmlString appendFormat:@";;;%@;;;", verseInfo];
         [htmlString appendFormat:@"%@<br />\n", rendered];
 
-        [lk increment];
+        [module incKeyPosition];
         numberOfVerses++;
     }
+    // reset key
+    [module setKeyString:@"gen1.1"];
     [module releaseModuleLock];
     [contentCache setCount:numberOfVerses];
     

@@ -13,8 +13,6 @@
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
-#import "ReferenceCacheManager.h"
-#import "ReferenceCacheObject.h"
 #import "SwordManager.h"
 #import "SwordModule.h"
 #import "SwordBible.h"

@@ -117,26 +117,6 @@
     return result;
 }
 
-/*
-- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-	[controlView lockFocus];
-    
-    NSRect drawRect = NSMakeRect(0.0, cellFrame.origin.y - 0.5, cellFrame.size.width + cellFrame.origin.x + 3, cellFrame.size.height + 1.0);
-	if ([self isHighlighted]) {
-		if ([[controlView window] isMainWindow] &&
-            [[controlView window] isKeyWindow]) {
-			[[CTGradient mailActiveGradient] fillRect:drawRect angle:270];
-            [self setTextColor:[NSColor whiteColor]];
-		} else {
-			[[CTGradient mailInactiveGradient] fillRect:drawRect angle:270];
-            [self setTextColor:[NSColor blackColor]];
-		}
-	}
-    
-	[controlView unlockFocus];
-}
-*/
- 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     
 	// backup title
@@ -311,20 +291,6 @@
     textFrame.origin.y += 1.0;
     textFrame.size.height -= 2.0;
 	textFrame.size.width -= (imageFrame.size.width + rightFrame.size.width + 8.0);
-    
-    /*
-	// text cell
-	NSTextFieldCell *textCell = [[NSTextFieldCell alloc] initTextCell:title];
-    [textCell setEditable:YES];
-    [textCell setFocusRingType:NSFocusRingTypeDefault];
-    [textCell setWraps:[self wraps]];
-    if([textCell respondsToSelector:@selector(setTruncatesLastVisibleLine:)]) {
-        [textCell setTruncatesLastVisibleLine:[self truncatesLastVisibleLine]];
-    }
-    [textCell setLineBreakMode:[self lineBreakMode]];
-	[textCell setTextColor:[self textColor]];
-    [textCell setFont:[self font]];
-     */
     
     // draw cells
     if(imageCell) {

@@ -17,8 +17,6 @@
 #import "BibleCombiViewController.h"
 #import "IndexingManager.h"
 #import "SwordModuleTextEntry.h"
-#import "ReferenceCacheManager.h"
-#import "ReferenceCacheObject.h"
 #import "NSTextView+LookupAdditions.h"
 #import "CacheObject.h"
 #import "SwordSearching.h"
