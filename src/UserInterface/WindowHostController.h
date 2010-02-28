@@ -49,11 +49,13 @@
     float lsbWidth;
     float lsbWidthFullScreen;
     float defaultLSBWidth;
+    BOOL lsbShowing;
     
     RightSideBarViewController *rsbViewController;
     float rsbWidth;
     float rsbWidthFullScreen;
     float defaultRSBWidth;
+    BOOL rsbShowing;
         
     ModulesUIController *modulesUIController;
     BookmarksUIController *bookmarksUIController;

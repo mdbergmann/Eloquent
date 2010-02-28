@@ -96,8 +96,8 @@ typedef enum _NavigationDirectionType {
     
     [[self window] setAcceptsMouseMovedEvents:YES];
     
-    [self showingLSB];
-    [self showingRSB];
+    [self showLeftSideBar:lsbShowing];
+    [self showRightSideBar:rsbShowing];
     
     NSMenu *recentsMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")];
     [recentsMenu setAutoenablesItems:YES];
@@ -540,11 +540,13 @@ typedef enum _NavigationDirectionType {
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
 
     lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
+    lsbShowing = [decoder decodeBoolForKey:@"LSBShowing"];
     if(lsbViewController == nil) {
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
         [lsbViewController setHostingDelegate:self];
     }
     rsbWidth = [decoder decodeIntForKey:@"RSBWidth"];
+    rsbShowing = [decoder decodeBoolForKey:@"RSBShowing"];
     if(rsbViewController == nil) {
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
         [rsbViewController setHostingDelegate:self];    
@@ -554,16 +556,20 @@ typedef enum _NavigationDirectionType {
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     // encode LSB and RSB width
+    lsbShowing = [self showingLSB];
     int w = lsbWidth;
-    if([self showingLSB]) {
+    if(lsbShowing) {
         w = [[lsbViewController view] frame].size.width;
     }
     [encoder encodeInt:w forKey:@"LSBWidth"];
+    [encoder encodeBool:lsbShowing forKey:@"LSBShowing"];
+    rsbShowing = [self showingRSB];
     w = rsbWidth;
-    if([self showingRSB]) {
+    if(rsbShowing) {
         w = [[rsbViewController view] frame].size.width;
     }
     [encoder encodeInt:w forKey:@"RSBWidth"];
+    [encoder encodeBool:rsbShowing forKey:@"RSBShowing"];
     
     // encode searchQuery
     [encoder encodeObject:currentSearchText forKey:@"SearchTextObject"];

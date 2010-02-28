@@ -52,6 +52,9 @@
 - (id)init {
     self = [super init];
     if(self) {
+        lsbShowing = [userDefaults boolForKey:DefaultsShowLSBWorkspace];
+        rsbShowing = [userDefaults boolForKey:DefaultsShowRSBWorkspace];
+
         [self setViewControllers:[NSMutableArray array]];
         [self setSearchTextObjs:[NSMutableArray array]];
         
@@ -109,9 +112,7 @@
         }
         i++;
     }
-    
-    [self showLeftSideBar:[userDefaults boolForKey:DefaultsShowLSBWorkspace]];
-    
+        
     if(contentViewController != nil) {
         [self setupForContentViewController];
     }
@@ -159,18 +160,6 @@
     }    
     
     return ret;    
-}
-
-- (BOOL)toggleLSB {
-    BOOL showing = [super toggleLSB];
-    [userDefaults setBool:showing forKey:DefaultsShowLSBWorkspace];
-    return showing;
-}
-
-- (BOOL)toggleRSB {
-    BOOL showing = [super toggleRSB];
-    [userDefaults setBool:showing forKey:DefaultsShowRSBWorkspace];
-    return showing;
 }
 
 #pragma mark - Actions

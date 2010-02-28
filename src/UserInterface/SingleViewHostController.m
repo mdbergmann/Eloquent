@@ -37,6 +37,8 @@
 - (id)init {
     self = [super init];
     if(self) {
+        lsbShowing = [userDefaults boolForKey:DefaultsShowLSBSingle];
+        rsbShowing = [userDefaults boolForKey:DefaultsShowRSBSingle];
         [self _loadNib];
     }
     return self;
@@ -68,19 +70,6 @@
 - (void)setContentView:(NSView *)aView {
     [(NSBox *)placeHolderView setContentView:aView];
 }
-
-- (BOOL)toggleLSB {
-    BOOL showing = [super toggleLSB];
-    [userDefaults setBool:showing forKey:DefaultsShowLSBSingle];
-    return showing;
-}
-
-- (BOOL)toggleRSB {
-    BOOL showing = [super toggleRSB];
-    [userDefaults setBool:showing forKey:DefaultsShowRSBSingle];
-    return showing;
-}
-
 
 #pragma mark - Actions
 
