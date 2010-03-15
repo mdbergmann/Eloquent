@@ -31,6 +31,7 @@
 #import "WindowHostController+SideBars.h"
 #import "ObjectAssotiations.h"
 #import "SearchTextFieldOptions.h"
+#import "ToolbarController.h"
 
 extern char ModuleListUI;
 extern char BookmarkMgrUI;
@@ -75,6 +76,8 @@ typedef enum _NavigationDirectionType {
         [Assotiater registerObject:bookmarksUIController forAssotiatedObject:self withKey:&BookmarkMgrUI];    
         notesUIController = [[NotesUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
         [Assotiater registerObject:notesUIController forAssotiatedObject:self withKey:&NotesMgrUI];    
+        
+        toolbarController = [[ToolbarController alloc] initWithDelegate:self];
     }
     
     return self;
@@ -82,6 +85,8 @@ typedef enum _NavigationDirectionType {
 
 - (void)awakeFromNib {
     [view setDelegate:self];
+    
+    [view setToolbarController:toolbarController];
     
     defaultLSBWidth = [[userDefaults objectForKey:DefaultsLSBWidth] intValue];
     defaultRSBWidth = [[userDefaults objectForKey:DefaultsRSBWidth] intValue];
@@ -94,10 +99,12 @@ typedef enum _NavigationDirectionType {
     [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     [contentSplitView setDelegate:self];
     
-    [[self window] setAcceptsMouseMovedEvents:YES];
+    //[[self window] setAcceptsMouseMovedEvents:YES];
     
     [self showLeftSideBar:lsbShowing];
     [self showRightSideBar:rsbShowing];
+
+    [[self window] setToolbar:[toolbarController toolbar]];
     
     NSMenu *recentsMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")];
     [recentsMenu setAutoenablesItems:YES];
@@ -108,11 +115,11 @@ typedef enum _NavigationDirectionType {
     item = [recentsMenu addItemWithTitle:NSLocalizedString(@"Recents", @"") action:nil keyEquivalent:@""];
     [item setTag:NSSearchFieldRecentsMenuItemTag];    
     // install menu
-    [[searchTextField cell] setSearchMenuTemplate:recentsMenu];
+    [toolbarController setSearchTextFieldRecentsMenu:recentsMenu];
     // we start with reference search type
     [currentSearchText setSearchType:ReferenceSearchType];
     // set search string
-    [searchTextField setStringValue:[self searchText]];
+    [toolbarController setSearchTextFieldString:[self searchText]];
 }
 
 #pragma mark - Actions
@@ -120,7 +127,7 @@ typedef enum _NavigationDirectionType {
 - (IBAction)clearRecents:(id)sender {
     NSMutableArray *recents = [currentSearchText recentSearchsForType:[currentSearchText searchType]];
     [recents removeAllObjects];
-    [searchTextField setRecentSearches:recents];
+    [toolbarController setSearchTextFieldRecents:recents];
 }
 
 - (IBAction)addBookmark:(id)sender {
@@ -176,7 +183,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)focusSearchEntry:(id)sender {
-    [[self window] makeFirstResponder:searchTextField];
+    [toolbarController focusSearchTextField];
 }
 
 - (IBAction)nextBook:(id)sender {
@@ -254,7 +261,7 @@ typedef enum _NavigationDirectionType {
     SearchType oldType = [self searchType];
     if(oldType != aType) {
         [currentSearchText setSearchType:aType];
-        [searchTextField setStringValue:[self searchText]];
+        [toolbarController setSearchTextFieldString:[self searchText]];
         [contentViewController searchTypeChanged:aType withSearchString:[self searchText]];
         [self readaptHostUI];
     }
@@ -268,7 +275,7 @@ typedef enum _NavigationDirectionType {
 - (void)setSearchText:(NSString *)aString {
     if(aString != nil) {
         [currentSearchText setSearchText:aString forSearchType:[self searchType]];
-        [searchTextField setStringValue:aString];
+        [toolbarController setSearchTextFieldString:aString];
         [contentViewController searchStringChanged:aString];
     }
     [[self window] setTitle:[self computeWindowTitle]];
@@ -281,7 +288,7 @@ typedef enum _NavigationDirectionType {
 
 - (void)setSearchTypeUI:(SearchType)aType {
     [self setSearchType:aType];
-    [searchTypeSegControl selectSegmentWithTag:aType];
+    [toolbarController setActiveSearchTypeSegElement:aType];
     [self readaptHostUI];
 }
 
@@ -295,8 +302,8 @@ typedef enum _NavigationDirectionType {
 
 - (void)readaptHostUI {
     SearchType stype = [currentSearchText searchType];
-    [searchTextField setStringValue:[currentSearchText searchTextForType:stype]];
-    [searchTextField setRecentSearches:[currentSearchText recentSearchsForType:stype]];
+    [toolbarController setSearchTextFieldString:[currentSearchText searchTextForType:stype]];
+    [toolbarController setSearchTextFieldRecents:[currentSearchText recentSearchsForType:stype]];
     
     if(contentViewController != nil) {
         // RSB
@@ -306,21 +313,18 @@ typedef enum _NavigationDirectionType {
         [placeHolderSearchOptionsView setContentView:[contentViewController topAccessoryView]];
         
         // search type segmented view
-        [[searchTypeSegControl cell] setEnabled:[contentViewController enableReferenceSearch] forSegment:0];
-        [[searchTypeSegControl cell] setEnabled:[contentViewController enableIndexedSearch] forSegment:1];
-        [searchTypeSegControl selectSegmentWithTag:[contentViewController preferedSearchType]];
+        [toolbarController setEnabled:[contentViewController enableReferenceSearch] searchTypeSegElement:ReferenceSearchType];
+        [toolbarController setEnabled:[contentViewController enableIndexedSearch] searchTypeSegElement:IndexSearchType];
+        [toolbarController setActiveSearchTypeSegElement:[contentViewController preferedSearchType]];
         
         // search field
-        SearchTextFieldOptions *options = [contentViewController searchFieldOptions];
-        [searchTextField setContinuous:[options continuous]];
-        [[searchTextField cell] setSendsSearchStringImmediately:[options sendsSearchStringImmediately]]; 
-        [[searchTextField cell] setSendsWholeSearchString:[options sendsWholeSearchString]]; 
+        [toolbarController setSearchTextFieldOptions:[contentViewController searchFieldOptions]];
         
         // bookmark add button
-        [addBookmarkBtn setEnabled:[contentViewController enableAddBookmarks]];
+        [toolbarController setBookmarkButtonEnabled:[contentViewController enableAddBookmarks]];
         
         // force reload button
-        [forceReloadBtn setEnabled:[contentViewController enableForceReload]];        
+        [toolbarController setForceReloadButtonEnabled:[contentViewController enableForceReload]];
     }
     
     [[self window] setTitle:[self computeWindowTitle]];
@@ -514,6 +518,8 @@ typedef enum _NavigationDirectionType {
         NSSize s = [[rsbViewController view] frame].size;
         s.width = rsbWidth;
         [[rsbViewController view] setFrameSize:s];
+    } else if([aViewController isKindOfClass:[toolbarController class]]) {
+        [[self window] setToolbar:[toolbarController toolbar]];
     } else if([aViewController isKindOfClass:[ContentDisplayingViewController class]]) {
         self.contentViewController = (ContentDisplayingViewController *)aViewController;
         [self setupForContentViewController];

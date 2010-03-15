@@ -9,18 +9,25 @@
 #import "FullScreenView.h"
 #import "MBPreferenceController.h"
 #import "ConfirmationSheetController.h"
+#import "ToolbarController.h"
 #import "globals.h"
 
 @interface FullScreenView ()
 
+@property (retain, readwrite) NSDictionary *trackingData;
+
 - (void)enterFullScreenMode;
 - (void)exitFullScreenMode;
+
+- (void)updateTrackingRectForViewRect:(NSRect)aRect;
 
 @end
 
 @implementation FullScreenView
 
 @synthesize delegate;
+@synthesize toolbarController;
+@synthesize trackingData;
 
 - (BOOL)isFullScreenMode {
     return [self isInFullScreenMode];
@@ -79,6 +86,79 @@
     if([self delegate] && [[self delegate] respondsToSelector:@selector(leftFullScreenMode)]) {
         [[self delegate] performSelector:@selector(leftFullScreenMode)];
     }
+}
+
+#pragma mark - Mouse tracking
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+    
+    if(theEvent) {
+        if([theEvent userData] == trackingData) {
+            MBLOG(MBLOG_DEBUG, @"[FullscreenView -mouseEntered:]");
+            if([self isInFullScreenMode]) {
+                NSView *hudView = [toolbarController toolbarHUDView];
+                CGFloat x = [self frame].size.width / 2.0 - [hudView frame].size.width / 2.0;
+                CGFloat y = [self frame].size.height - [hudView frame].size.height - 5.0;
+                
+                [hudView setFrameOrigin:NSMakePoint(x, y)];            
+                [[self animator] addSubview:hudView positioned:NSWindowAbove relativeTo:nil];
+                
+                [self updateTrackingRectForViewRect:NSMakeRect(x, y, [hudView frame].size.width, [hudView frame].size.height + 5.0)];
+            }
+        }
+    }
+        
+    //[super mouseEntered:theEvent];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent {
+    if(theEvent) {
+        if([theEvent userData] == trackingData) {
+            MBLOG(MBLOG_DEBUG, @"[FullscreenView -mouseExited:]");
+            if([self isInFullScreenMode]) {
+                BOOL setupDefaultTracking = [[self subviews] containsObject:[toolbarController toolbarHUDView]];
+                [[[toolbarController toolbarHUDView] animator] removeFromSuperview];
+                if(setupDefaultTracking) {
+                    [self updateTrackingAreas];        
+                }
+            }
+        }
+    }
+    
+    //[super mouseExited:theEvent];
+}
+
+- (void)updateTrackingRectForViewRect:(NSRect)aRect {
+    MBLOG(MBLOG_DEBUG, @"[FullscreenView -updateTrackingRectForSubview:]");
+    
+    while(self.trackingAreas.count > 0) {
+		[self removeTrackingArea:[self.trackingAreas lastObject]];
+	}
+    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:aRect
+                                                                options:(NSTrackingMouseEnteredAndExited | 
+                                                                         NSTrackingActiveInKeyWindow |
+                                                                         NSTrackingAssumeInside) 
+                                                                  owner:self 
+                                                               userInfo:trackingData];
+    [self addTrackingArea:trackingArea];
+}
+
+- (void)updateTrackingAreas {
+    MBLOG(MBLOG_DEBUG, @"[FullscreenView -updateMouseTracking]");
+    
+    if(!trackingData) {
+        [self setTrackingData:[NSDictionary dictionary]];
+    }
+
+    while(self.trackingAreas.count > 0) {
+		[self removeTrackingArea:[self.trackingAreas lastObject]];
+	}
+    NSRect trackingRect = NSMakeRect(0.0, [self frame].size.height-10.0, [self frame].size.width, 10.0);
+    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect
+                                                                options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow) 
+                                                                  owner:self 
+                                                               userInfo:trackingData];
+    [self addTrackingArea:trackingArea];
 }
 
 @end

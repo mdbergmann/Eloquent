@@ -220,7 +220,7 @@
                 // open in single
 
                 // save search reference
-                NSString *searchRef = [searchTextField stringValue];
+                NSString *searchRef = [self searchText];// [searchTextField stringValue];
                 
                 NSTabViewItem *tvi = [[tabView tabViewItems] objectAtIndex:index];
                 [searchTextObjs removeObjectAtIndex:index];

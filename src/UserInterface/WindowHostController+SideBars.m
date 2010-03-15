@@ -7,6 +7,7 @@
 //
 
 #import "WindowHostController+SideBars.h"
+#import "ToolbarController.h"
 #import "NSImage+Additions.h"
 
 @implementation WindowHostController (SideBars)
@@ -16,10 +17,10 @@
     if([[mainSplitView subviews] containsObject:[lsbViewController view]]) {
         ret = YES;
         // show image play to right
-        [leftSideBarToggleBtn setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
+        [toolbarController setLSBToggleButtonImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
     } else {
         // show image play to left
-        [leftSideBarToggleBtn setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];
+        [toolbarController setLSBToggleButtonImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];
     }
     
     return ret;
@@ -30,10 +31,10 @@
     if([[contentSplitView subviews] containsObject:[rsbViewController view]]) {
         ret = YES;
         // show image play to left
-        [rightSideBarToggleBtn setImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];    
+        [toolbarController setRSBToggleButtonImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];    
     } else {
         // show image play to right
-        [rightSideBarToggleBtn setImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
+        [toolbarController setRSBToggleButtonImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
     }
     
     return ret;

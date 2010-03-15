@@ -26,19 +26,21 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
+    MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView -mouseEntered:]");
     if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
         [delegate performSelector:@selector(mouseEntered:) withObject:self];
     }
     
-    [super mouseEntered:theEvent];
+    //[super mouseEntered:theEvent];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
+    MBLOG(MBLOG_DEBUG, @"[MouseTrackingScrollView -mouseExited:]");
     if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
         [delegate performSelector:@selector(mouseExited:) withObject:self];
     }
     
-    [super mouseExited:theEvent];
+    //[super mouseExited:theEvent];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {

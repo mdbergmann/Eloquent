@@ -22,6 +22,7 @@
 @class ModulesUIController;
 @class BookmarksUIController;
 @class NotesUIController;
+@class ToolbarController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, ContentSaving> {
     IBOutlet NSSplitView *mainSplitView;
@@ -31,19 +32,15 @@
     IBOutlet NSBox *placeHolderSearchOptionsView;
     IBOutlet NSView *optionsView;
     IBOutlet NSProgressIndicator *progressIndicator;
-    IBOutlet NSButton *leftSideBarToggleBtn;
-    IBOutlet NSButton *rightSideBarToggleBtn;
-    IBOutlet NSButton *addBookmarkBtn;
-    IBOutlet NSButton *forceReloadBtn;
-    IBOutlet NSSearchField *searchTextField;
-    IBOutlet NSSegmentedControl *searchTypeSegControl;
-    
+
     id delegate;
     
     NSView *searchOptionsView;
     SearchTextObject *currentSearchText;
 
     ContentDisplayingViewController *contentViewController;
+    
+    ToolbarController *toolbarController;
     
     LeftSideBarViewController *lsbViewController;
     float lsbWidth;
@@ -98,11 +95,11 @@
 - (void)saveContent;
 
 // actions
+- (IBAction)myPrint:(id)sender;
 - (IBAction)clearRecents:(id)sender;
 - (IBAction)addBookmark:(id)sender;
 - (IBAction)searchInput:(id)sender;
 - (IBAction)searchType:(id)sender;
-- (IBAction)myPrint:(id)sender;
 - (IBAction)forceReload:(id)sender;
 
 // menu first responder actions
