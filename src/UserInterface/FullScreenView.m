@@ -100,8 +100,12 @@
                 CGFloat x = [self frame].size.width / 2.0 - [hudView frame].size.width / 2.0;
                 CGFloat y = [self frame].size.height - [hudView frame].size.height - 5.0;
                 
-                [hudView setFrameOrigin:NSMakePoint(x, y)];            
+                [hudView setFrameOrigin:NSMakePoint(x, y)];
+                
+                [NSAnimationContext beginGrouping];
+                [[NSAnimationContext currentContext] setDuration:1.0];
                 [[self animator] addSubview:hudView positioned:NSWindowAbove relativeTo:nil];
+                [NSAnimationContext endGrouping];
                 
                 [self updateTrackingRectForViewRect:NSMakeRect(x, y, [hudView frame].size.width, [hudView frame].size.height + 5.0)];
             }
@@ -117,7 +121,12 @@
             MBLOG(MBLOG_DEBUG, @"[FullscreenView -mouseExited:]");
             if([self isInFullScreenMode]) {
                 BOOL setupDefaultTracking = [[self subviews] containsObject:[toolbarController toolbarHUDView]];
+
+                [NSAnimationContext beginGrouping];
+                [[NSAnimationContext currentContext] setDuration:1.0];
                 [[[toolbarController toolbarHUDView] animator] removeFromSuperview];
+                [NSAnimationContext endGrouping];
+
                 if(setupDefaultTracking) {
                     [self updateTrackingAreas];        
                 }

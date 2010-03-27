@@ -54,56 +54,44 @@
 
 - (void)showLeftSideBar:(BOOL)flag {
     if(flag) {
-        // if size is 0 set to default size
         if(lsbWidth == 0) {
             lsbWidth = defaultLSBWidth;
         }        
-        // change size of view
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
         size.width = lsbWidth;
-        [mainSplitView addSubview:v positioned:NSWindowBelow relativeTo:nil];
         [[v animator] setFrameSize:size];
+        [mainSplitView addSubview:v positioned:NSWindowBelow relativeTo:nil];
     } else {
-        // shrink the view
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
         if(size.width > 0) {
             lsbWidth = size.width;
         }
-        [[v animator] removeFromSuperview];
+        [v removeFromSuperview];
     }
     [self showingLSB];
-    
-    [mainSplitView setNeedsDisplay:YES];
-    [mainSplitView adjustSubviews];
 }
 
 - (void)showRightSideBar:(BOOL)flag {
     if(flag) {
-        // if size is 0 set to default size
         if(rsbWidth == 0) {
             rsbWidth = defaultRSBWidth;
         }
-        // change size of view
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
         size.width = rsbWidth;
-        [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
         [[v animator] setFrameSize:size];
+        [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
     } else {
-        // shrink the view
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
         if(size.width > 0) {
             rsbWidth = size.width;
         }
-        [[v animator] removeFromSuperview];
+        [v removeFromSuperview];
     }
     [self showingRSB];
-    
-    [contentSplitView setNeedsDisplay:YES];
-    [contentSplitView adjustSubviews];
 }
 
 @end

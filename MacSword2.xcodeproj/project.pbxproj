@@ -189,6 +189,8 @@
 		A9E9E29C0F650544007C4AB2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A9E9E29A0F650544007C4AB2 /* Credits.rtf */; };
 		A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.mm */; };
 		A9E9E3CD0F65401C007C4AB2 /* FullScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */; };
+		A9EDA11B1150E1F5004EC005 /* PrintAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9EDA1191150E1F5004EC005 /* PrintAccessory.xib */; };
+		A9EDA1201150E24E004EC005 /* PrintAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9EDA11F1150E24E004EC005 /* PrintAccessoryViewController.m */; };
 		A9F184630E0811C8005F3B35 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
 		A9F1854A0E083117005F3B35 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F185480E083117005F3B35 /* WebView.xib */; };
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
@@ -505,6 +507,9 @@
 		A9E9E29B0F650544007C4AB2 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		A9E9E3CB0F65401C007C4AB2 /* FullScreenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FullScreenView.h; path = src/UserInterface/FullScreenView.h; sourceTree = "<group>"; };
 		A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FullScreenView.m; path = src/UserInterface/FullScreenView.m; sourceTree = "<group>"; };
+		A9EDA11A1150E1F5004EC005 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrintAccessory.xib; sourceTree = "<group>"; };
+		A9EDA11E1150E24E004EC005 /* PrintAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrintAccessoryViewController.h; path = src/UserInterface/PrintAccessoryViewController.h; sourceTree = "<group>"; };
+		A9EDA11F1150E24E004EC005 /* PrintAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrintAccessoryViewController.m; path = src/UserInterface/PrintAccessoryViewController.m; sourceTree = "<group>"; };
 		A9F184610E0811C8005F3B35 /* HostableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostableViewController.h; path = src/UserInterface/HostableViewController.h; sourceTree = "<group>"; };
 		A9F184620E0811C8005F3B35 /* HostableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostableViewController.m; path = src/UserInterface/HostableViewController.m; sourceTree = "<group>"; };
 		A9F185490E083117005F3B35 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
@@ -685,6 +690,7 @@
 				A99A774910B33DE5002EFD30 /* NotesView.xib */,
 				A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */,
 				A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */,
+				A9EDA1191150E1F5004EC005 /* PrintAccessory.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -922,6 +928,7 @@
 		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				A9EDA11D1150E221004EC005 /* PrintAccessory */,
 				A9061E0C0F70EA0600F6DA1F /* SearchBookSetEditor */,
 				A9333AE20F6699280001BD38 /* ProgressOverlayView */,
 				A9000E1F0F6114D300F07F3E /* CTGradient */,
@@ -1093,6 +1100,15 @@
 			name = Bookmarks;
 			sourceTree = "<group>";
 		};
+		A9EDA11D1150E221004EC005 /* PrintAccessory */ = {
+			isa = PBXGroup;
+			children = (
+				A9EDA11E1150E24E004EC005 /* PrintAccessoryViewController.h */,
+				A9EDA11F1150E24E004EC005 /* PrintAccessoryViewController.m */,
+			);
+			name = PrintAccessory;
+			sourceTree = "<group>";
+		};
 		A9F4E3540E1DF0E000B0148E /* Caching */ = {
 			isa = PBXGroup;
 			children = (
@@ -1254,6 +1270,7 @@
 				A908984610C3BF1D0043465F /* Drawer.png in Resources */,
 				A908988F10C3C8BD0043465F /* edit_small.png in Resources */,
 				A98423541145031D0001EED1 /* WindowHostToolbar.xib in Resources */,
+				A9EDA11B1150E1F5004EC005 /* PrintAccessory.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1403,6 +1420,7 @@
 				A9C6C5AA11394B6300A3850A /* BookmarkCell.m in Sources */,
 				A98422E21144EF640001EED1 /* ToolbarController.m in Sources */,
 				A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */,
+				A9EDA1201150E24E004EC005 /* PrintAccessoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1649,6 +1667,14 @@
 				A9E9E29B0F650544007C4AB2 /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		A9EDA1191150E1F5004EC005 /* PrintAccessory.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9EDA11A1150E1F5004EC005 /* English */,
+			);
+			name = PrintAccessory.xib;
 			sourceTree = "<group>";
 		};
 		A9F185480E083117005F3B35 /* WebView.xib */ = {

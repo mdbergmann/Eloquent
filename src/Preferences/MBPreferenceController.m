@@ -151,6 +151,7 @@ static MBPreferenceController *instance;
     generalViewRect = [generalView frame];
     bibleDisplayViewRect = [bibleDisplayView frame];
     moduleFontsViewRect = [moduleFontsView frame];
+    printPrefsViewRect = [printPrefsView frame];
     
     [moduleFontsTableView setTarget:self];
     [moduleFontsTableView setDoubleAction:@selector(moduleFontsTableViewDoubleClick:)];
@@ -259,6 +260,10 @@ static MBPreferenceController *instance;
 		// set view
 		viewframe = moduleFontsViewRect;
 		prefsView = moduleFontsView;
+	} else if([[tabViewItem identifier] isEqualToString:@"printing"]) {
+		// set view
+		viewframe = printPrefsViewRect;
+		prefsView = printPrefsView;
     }
 	
 	// calculate the difference in size

@@ -7,17 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <CocoLogger/CocoLogger.h>
 
 
 @interface ScopeBarView : NSView {
-    // the image
-    NSImage *bgImageActive;
-    NSImage *bgImageNoneActive;
+    NSColor *activeTopLine;
+    NSColor *activeFill;
+    NSColor *inactiveTopLine;
+    NSColor *inactiveFill;
     BOOL windowActive;
 }
 
-@property (retain, readwrite) NSImage *bgImageActive;
-@property (retain, readwrite) NSImage *bgImageNoneActive;
 @property (readwrite) BOOL windowActive;
 
 @end

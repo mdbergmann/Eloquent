@@ -11,16 +11,15 @@
 
 @implementation ScopeBarView
 
-@synthesize bgImageActive;
-@synthesize bgImageNoneActive;
-@dynamic windowActive;
+@synthesize windowActive;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
-        self.bgImageActive = [NSImage imageNamed:@"scopebar-active.png"];
-        self.bgImageNoneActive = [NSImage imageNamed:@"scopebar-notactive.png"];
+        activeTopLine = [NSColor colorWithCalibratedWhite:0.7450 alpha:1.0];
+        activeFill = [NSColor colorWithCalibratedWhite:0.5843 alpha:1.0];
+        inactiveTopLine = [NSColor colorWithCalibratedWhite:0.8980 alpha:1.0];
+        inactiveFill = [NSColor colorWithCalibratedWhite:0.8313 alpha:1.0];
         windowActive = YES;
     }
     
@@ -28,27 +27,22 @@
 }
 
 - (void)drawRect:(NSRect)rect {
-    // Drawing code here.
-    
-    NSImage *currImg = bgImageActive;
+    MBLOGV(MBLOG_DEBUG, @"[ScopeBarView -drawRect:] x:%f, y:%f, w:%f, h:%f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
     if(!windowActive) {
-        currImg = bgImageNoneActive;
+        MBLOG(MBLOG_DEBUG, @"[ScopeBarView -drawRect:] inactive");
+        [inactiveFill set];
+    } else {
+        MBLOG(MBLOG_DEBUG, @"[ScopeBarView -drawRect:] active");
+        [activeFill set];
     }
-    
-    NSRect tmp = [self bounds];
-    int repeat = (tmp.size.width / 5) + 1;
-    for(int i = 0;i < repeat;i++) {
-        [currImg drawInRect:tmp fromRect:[self bounds] operation:NSCompositeSourceOver fraction:1.0];
-        tmp.origin.x += 5;
+    [NSBezierPath fillRect:rect];
+
+    if(!windowActive) {
+        [inactiveTopLine set];
+    } else {
+        [activeTopLine set];
     }
-}
-
-- (BOOL)windowActive {
-    return windowActive;
-}
-
-- (void)setWindowActive:(BOOL)flag {
-    windowActive = flag;
+    [NSBezierPath strokeRect:NSMakeRect(rect.origin.x, rect.size.height-0.5, rect.size.width, 0.5)];
 }
 
 @end

@@ -36,18 +36,17 @@
 
     IBOutlet NSToolbar *toolbar;
     IBOutlet NSToolbarItem *toolbarViewItem;
-    IBOutlet NSView *toolbarView;
     IBOutlet NSView *toolbarHUDView;
-
+    
+    IBOutlet NSBox *scopebarPlaceholder;
+    
     NSMutableDictionary *tbIdentifiers;
 }
 
 - (NSToolbar *)toolbar;
-- (NSView *)toolbarView;
 - (NSView *)toolbarHUDView;
-- (NSView *)detachedToolbarView;
 
-- (void)attachToolbarView;
+- (void)setScopebarView:(NSView *)aView;
 
 - (void)setSearchTextFieldRecents:(NSArray *)recents;
 - (void)setSearchTextFieldRecentsMenu:(NSMenu *)aMenu;

@@ -356,15 +356,10 @@
 #pragma mark - Printing
 
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {
-    NSSize paperSize = [printInfo paperSize];
-    
-    NSSize printSize = NSMakeSize(paperSize.width - ([printInfo leftMargin] + [printInfo rightMargin]), 
-                                  paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
 
-    NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
-
+    NSView *printView = nil;
     if([parBibleViewControllers count] > 0) {
-        [printView insertText:[[(ModuleViewController *)[parBibleViewControllers objectAtIndex:0] textView] attributedString]];
+        printView = [(ModuleViewController *)[parBibleViewControllers objectAtIndex:0] printViewForInfo:printInfo];
     }
     
     return printView;

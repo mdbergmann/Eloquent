@@ -8,6 +8,7 @@
 
 #import "WindowHostController+FullscreenDelegate.h"
 #import "WindowHostController+SideBars.h"
+#import "ToolbarController.h"
 
 
 @implementation WindowHostController (FullscreenDelegate)
@@ -15,6 +16,10 @@
 - (void)goingToFullScreenMode {
     lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
     rsbWidthFullScreen = [[rsbViewController view] frame].size.width;
+    
+    NSView *topView = [contentViewController topAccessoryView];
+    [topView removeFromSuperview];
+    [toolbarController setScopebarView:topView];
 }
 
 - (void)goneToFullScreenMode {
@@ -26,7 +31,11 @@
 
 - (void)leavingFullScreenMode {
     lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
-    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;    
+    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;
+    
+    NSView *topView = [contentViewController topAccessoryView];
+    [topView removeFromSuperview];
+    [scopebarViewPlaceholder setContentView:topView];
 }
 
 - (void)leftFullScreenMode {

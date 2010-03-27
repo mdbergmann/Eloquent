@@ -14,9 +14,10 @@
 @class ToolbarController;
 
 @interface FullScreenView : NSView <FullScreenCapability> {
+    IBOutlet ToolbarController *toolbarController;
+    IBOutlet id delegate;
+
     ConfirmationSheetController *conf;
-    ToolbarController *toolbarController;
-    id delegate;
     
     NSDictionary *trackingData;
 }

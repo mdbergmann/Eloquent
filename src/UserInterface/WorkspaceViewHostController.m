@@ -232,7 +232,7 @@
                     [tabView selectTabViewItemAtIndex:0];
                 } else {
                     [self setView:nil];
-                    [placeHolderSearchOptionsView setContentView:nil];
+                    [scopebarViewPlaceholder setContentView:nil];
                     [self showRightSideBar:NO];
                 }
                 

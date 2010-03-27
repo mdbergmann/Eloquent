@@ -9,7 +9,6 @@
 #import "ToolbarController.h"
 #import "SearchTextFieldOptions.h"
 
-
 @interface ToolbarController ()
 
 - (void)_loadNib;
@@ -37,7 +36,7 @@
 }
 
 - (void)awakeFromNib {
-    [toolbar setAllowsUserCustomization:NO];
+    [toolbar setAllowsUserCustomization:YES];
     //[self reportLoadingComplete];
 }
 
@@ -45,22 +44,12 @@
     return toolbar;
 }
 
-- (NSView *)toolbarView {
-    return toolbarView;
-}
-
 - (NSView *)toolbarHUDView {
     return toolbarHUDView;
 }
 
-- (NSView *)detachedToolbarView {
-    [toolbarView removeFromSuperview];
-    return toolbarView;
-}
-
-- (void)attachToolbarView {
-    [toolbarView removeFromSuperview];
-    [toolbarViewItem setView:toolbarView];
+- (void)setScopebarView:(NSView *)aView {
+    [scopebarPlaceholder setContentView:aView];
 }
 
 - (void)setSearchTextFieldRecents:(NSArray *)recents {
@@ -123,7 +112,14 @@
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
-                                 @"MainToolbarViewItem",
+                                 @"LeftSidebarButton",
+                                 NSToolbarSpaceItemIdentifier,
+                                 @"SearchTypeSegmentButton",
+                                 @"ReferenceTextField",
+                                 @"AddBookmarkButton",
+                                 @"RefreshButton",
+                                 NSToolbarSpaceItemIdentifier,
+                                 @"RightSidebarButton",
                                  nil];
 	
 	return defaultItemArray;

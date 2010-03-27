@@ -12,6 +12,14 @@
 #define DefaultsTextContainerVerticalMargins        @"DefaultsTextContainerVerticalMargins"
 #define DefaultsTextContainerHorizontalMargins      @"DefaultsTextContainerHorizontalMargins"
 
+// printing
+#define DefaultsPrintLeftMargin                     @"DefaultsPrintLeftMargin"
+#define DefaultsPrintRightMargin                    @"DefaultsPrintRightMargin"
+#define DefaultsPrintTopMargin                      @"DefaultsPrintTopMargin"
+#define DefaultsPrintBottomMargin                   @"DefaultsPrintBottomMargin"
+#define DefaultsPrintCenterHorizontally             @"DefaultsPrintCenterHorizontally"
+#define DefaultsPrintCenterVertically               @"DefaultsPrintCenterVertically"
+
 // bible display
 #define DefaultsBibleTextShowBookNameKey            @"DefaultsBibleTextShowBookNameKey"
 #define DefaultsBibleTextShowBookAbbrKey            @"DefaultsBibleTextShowBookAbbrKey"
@@ -88,13 +96,18 @@
 	// the views
 	IBOutlet NSView *generalView;
     NSRect generalViewRect;
+
 	IBOutlet NSView *bibleDisplayView;
     NSRect bibleDisplayViewRect;
+
     IBOutlet NSView *moduleFontsView;
     IBOutlet NSTableView *moduleFontsTableView;
     NSRect moduleFontsViewRect;
     NSString *currentModuleName;
 	BOOL moduleFontAction;
+    
+    IBOutlet NSView *printPrefsView;
+    NSRect printPrefsViewRect;
     
 	// the window the sheet shall come up
 	NSWindow *sheetWindow;

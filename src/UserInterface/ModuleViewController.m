@@ -163,14 +163,10 @@
 #pragma mark - Printing
 
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo {
-    // paper size
     NSSize paperSize = [printInfo paperSize];
-    
-    // set print size
     NSSize printSize = NSMakeSize(paperSize.width - ([printInfo leftMargin] + [printInfo rightMargin]), 
                                   paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
     
-    // create print view
     NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
     [printView insertText:[[self textView] attributedString]];
     

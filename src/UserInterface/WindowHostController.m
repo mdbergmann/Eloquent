@@ -32,6 +32,7 @@
 #import "ObjectAssotiations.h"
 #import "SearchTextFieldOptions.h"
 #import "ToolbarController.h"
+#import "PrintAccessoryViewController.h"
 
 extern char ModuleListUI;
 extern char BookmarkMgrUI;
@@ -78,6 +79,7 @@ typedef enum _NavigationDirectionType {
         [Assotiater registerObject:notesUIController forAssotiatedObject:self withKey:&NotesMgrUI];    
         
         toolbarController = [[ToolbarController alloc] initWithDelegate:self];
+        printAccessoryController = [[PrintAccessoryViewController alloc] initWithPrintInfo:[[NSPrintInfo alloc] init]];
     }
     
     return self;
@@ -98,8 +100,6 @@ typedef enum _NavigationDirectionType {
     [contentSplitView setVertical:YES];
     [contentSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     [contentSplitView setDelegate:self];
-    
-    //[[self window] setAcceptsMouseMovedEvents:YES];
     
     [self showLeftSideBar:lsbShowing];
     [self showRightSideBar:rsbShowing];
@@ -295,7 +295,7 @@ typedef enum _NavigationDirectionType {
 - (void)setupContentRelatedViews {
     [placeHolderView setContentView:[contentViewController view]];
     [rsbViewController setContentView:[contentViewController rightAccessoryView]];
-    [placeHolderSearchOptionsView setContentView:[contentViewController topAccessoryView]];
+    [scopebarViewPlaceholder setContentView:[contentViewController topAccessoryView]];
     
     [self showRightSideBar:[contentViewController showsRightSideBar]];
 }
@@ -310,7 +310,12 @@ typedef enum _NavigationDirectionType {
         [self showRightSideBar:[contentViewController showsRightSideBar]];
         [rsbViewController setContentView:[contentViewController rightAccessoryView]];
         // TOP
-        [placeHolderSearchOptionsView setContentView:[contentViewController topAccessoryView]];
+        NSView *topView = [contentViewController topAccessoryView];
+        if([self isFullScreenMode]) {
+            [toolbarController setScopebarView:topView];
+        } else {
+            [scopebarViewPlaceholder setContentView:topView];            
+        }
         
         // search type segmented view
         [toolbarController setEnabled:[contentViewController enableReferenceSearch] searchTypeSegElement:ReferenceSearchType];
@@ -328,6 +333,10 @@ typedef enum _NavigationDirectionType {
     }
     
     [[self window] setTitle:[self computeWindowTitle]];
+}
+
+- (BOOL)isFullScreenMode {
+    return [view isFullScreenMode];
 }
 
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
@@ -442,9 +451,11 @@ typedef enum _NavigationDirectionType {
 #pragma mark - NSWindow delegate methods
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
+    [scopebarView setWindowActive:YES];
 }
 
 - (void)windowDidResignMain:(NSNotification *)notification {
+    [scopebarView setWindowActive:NO];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -471,20 +482,26 @@ typedef enum _NavigationDirectionType {
 #pragma mark - Printing
 
 - (IBAction)myPrint:(id)sender {
-    // get print info
-    NSPrintInfo *printInfo = [NSPrintInfo sharedPrintInfo];
+    NSPrintInfo *printInfo = [printAccessoryController printInfo];
     
     // set margins
-    [printInfo setLeftMargin:1.5 * (72.0 / 2.54)];
-    [printInfo setRightMargin:1 * (72.0 / 2.54)];
-    [printInfo setTopMargin:1.5 * (72.0 / 2.54)];
-    [printInfo setBottomMargin:2.0 * (72.0 / 2.54)];
+    CGFloat factor = 72.0 / 2.54;
+    
+    [printInfo setLeftMargin:[userDefaults floatForKey:DefaultsPrintLeftMargin] * factor];
+    [printInfo setRightMargin:[userDefaults floatForKey:DefaultsPrintRightMargin] * factor];
+    [printInfo setTopMargin:[userDefaults floatForKey:DefaultsPrintTopMargin] * factor];
+    [printInfo setBottomMargin:[userDefaults floatForKey:DefaultsPrintBottomMargin] * factor];
+    
+    [printInfo setHorizontallyCentered:[userDefaults boolForKey:DefaultsPrintCenterHorizontally]];
+    [printInfo setVerticallyCentered:[userDefaults boolForKey:DefaultsPrintCenterVertically]];
     
     // get print view
     if(contentViewController) {
         NSView *printView = [(ModuleCommonsViewController *)contentViewController printViewForInfo:printInfo];
         if(printView) {
-            [printView print:self];
+            
+            NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
+            [printOp runOperation];
         }
     }
 }

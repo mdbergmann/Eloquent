@@ -23,14 +23,16 @@
 @class BookmarksUIController;
 @class NotesUIController;
 @class ToolbarController;
+@class PrintAccessoryViewController;
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, ContentSaving> {
     IBOutlet NSSplitView *mainSplitView;
     IBOutlet FullScreenView *view;
     IBOutlet NSSplitView *contentSplitView;
     IBOutlet NSBox *placeHolderView;
-    IBOutlet NSBox *placeHolderSearchOptionsView;
     IBOutlet NSView *optionsView;
+    IBOutlet ScopeBarView *scopebarView;
+    IBOutlet NSBox *scopebarViewPlaceholder;
     IBOutlet NSProgressIndicator *progressIndicator;
 
     id delegate;
@@ -58,6 +60,8 @@
     BookmarksUIController *bookmarksUIController;
     NotesUIController *notesUIController;
     
+    PrintAccessoryViewController *printAccessoryController;
+    
     BOOL hostLoaded;
 }
 
@@ -79,6 +83,8 @@
 
 /** tells the lsb to open the module about window */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
+
+- (BOOL)isFullScreenMode;
 
 - (ContentViewType)contentViewType;
 - (void)readaptHostUI;

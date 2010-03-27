@@ -82,6 +82,14 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithFloat:5.0] forKey:DefaultsTextContainerVerticalMargins];
     [defaultsDict setObject:[NSNumber numberWithFloat:5.0] forKey:DefaultsTextContainerHorizontalMargins];
     
+    // printing
+    [defaultsDict setObject:[NSNumber numberWithFloat:1.5] forKey:DefaultsPrintLeftMargin];
+    [defaultsDict setObject:[NSNumber numberWithFloat:1.0] forKey:DefaultsPrintRightMargin];
+    [defaultsDict setObject:[NSNumber numberWithFloat:1.5] forKey:DefaultsPrintTopMargin];
+    [defaultsDict setObject:[NSNumber numberWithFloat:2.0] forKey:DefaultsPrintBottomMargin];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsPrintCenterHorizontally];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsPrintCenterVertically];
+    
     // defaults for BibleText display
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowBookNameKey];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
