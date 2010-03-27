@@ -36,6 +36,8 @@ enum GeneralMenuItemAdditions {
     NSMutableDictionary *modDisplayOptions;
     NSMutableDictionary *displayOptions;
     
+    NSMenu *verseNumberingMenu;
+    
     int customFontSize;
 }
 
@@ -86,6 +88,7 @@ enum GeneralMenuItemAdditions {
 - (IBAction)displayOptionShowGreekAccents:(id)sender;
 
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
+- (IBAction)displayOptionShowFullVerseNumbering:(id)sender;
 - (IBAction)displayOptionShowVerseNumberOnly:(id)sender;
 - (IBAction)displayOptionHighlightBookmarks:(id)sender;
 

@@ -210,6 +210,8 @@
     
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
+    BOOL isShowFullVerseNumbering = [[displayOptions objectForKey:DefaultsBibleTextShowFullVerseNumberingKey] boolValue];
+    BOOL isShowVerseNumbering = (isShowFullVerseNumbering & isShowVerseNumbersOnly);
     
     // headings fg color
     float hr, hg, hb = 0.0;
@@ -259,7 +261,6 @@
                 }
             }
             if(isShowVerseNumbersOnly) {
-                //[aString appendFormat:@"<br /><p><b>%@ %i:</b></p>\n", bookName, chapter];
                 if(chapter == 1) {
                     [aString appendFormat:@"<b>%@ %i:</b><br />\n", bookName, chapter];
                 } else {
@@ -314,6 +315,9 @@
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
+    BOOL isShowFullVerseNumbering = [[displayOptions objectForKey:DefaultsBibleTextShowFullVerseNumberingKey] boolValue];
+    BOOL isShowVerseNumbering = (isShowFullVerseNumbering & isShowVerseNumbersOnly);
+
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
     NSString *text = [tempDisplayString string];
@@ -350,11 +354,11 @@
                     linkRange.length = 0;
                     linkRange.location = NSNotFound;
                     if(showBookNames) {
-                        if(isVersesOnOneLine && !isShowVerseNumbersOnly) {
+                        if(isVersesOnOneLine && isShowFullVerseNumbering) {
                             visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
                             linkRange.location = replaceRange.location;
                             linkRange.length = [visible length] - 2;                            
-                        } else {
+                        } else if((isVersesOnOneLine && isShowVerseNumbersOnly) || isShowVerseNumbersOnly) {
                             visible = [NSString stringWithFormat:@"%@ ", [comps objectAtIndex:2]];
                             linkRange.location = replaceRange.location;
                             linkRange.length = [visible length] - 1;

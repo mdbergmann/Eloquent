@@ -24,6 +24,7 @@
 #define DefaultsBibleTextShowBookNameKey            @"DefaultsBibleTextShowBookNameKey"
 #define DefaultsBibleTextShowBookAbbrKey            @"DefaultsBibleTextShowBookAbbrKey"
 #define DefaultsBibleTextVersesOnOneLineKey         @"DefaultsBibleTextVersesOnOneLineKey"
+#define DefaultsBibleTextShowFullVerseNumberingKey  @"DefaultsBibleTextShowFullVerseNumberingKey"
 #define DefaultsBibleTextShowVerseNumberOnlyKey     @"DefaultsBibleTextShowVerseNumberOnlyKey"
 #define DefaultsBibleTextHighlightBookmarksKey      @"DefaultsBibleTextHighlightBookmarksKey"
 
