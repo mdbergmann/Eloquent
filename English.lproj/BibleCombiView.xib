@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="195"/>
+			<integer value="45"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -85,14 +85,14 @@
 								<object class="NSPopUpButtonCell" key="NSCell" id="483240999">
 									<int key="NSCellFlags">-2076049856</int>
 									<int key="NSCellFlags2">134350848</int>
-									<object class="NSFont" key="NSSupport" id="26">
-										<string key="NSName">LucidaGrande</string>
-										<double key="NSSize">11</double>
-										<int key="NSfFlags">3100</int>
+									<object class="NSFont" key="NSSupport" id="29">
+										<string key="NSName">LucidaGrande-Bold</string>
+										<double key="NSSize">12</double>
+										<int key="NSfFlags">16</int>
 									</object>
 									<reference key="NSControlView" ref="1057979576"/>
-									<int key="NSButtonFlags">-2038284033</int>
-									<int key="NSButtonFlags2">163</int>
+									<int key="NSButtonFlags">-1232977665</int>
+									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
@@ -221,16 +221,16 @@
 							<object class="NSPopUpButton" id="423373293">
 								<reference key="NSNextResponder" ref="981649292"/>
 								<int key="NSvFlags">269</int>
-								<string key="NSFrame">{{138, -2}, {124, 25}}</string>
+								<string key="NSFrame">{{129, -2}, {124, 25}}</string>
 								<reference key="NSSuperview" ref="981649292"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSPopUpButtonCell" key="NSCell" id="593098228">
 									<int key="NSCellFlags">-2076049856</int>
 									<int key="NSCellFlags2">134350848</int>
-									<reference key="NSSupport" ref="26"/>
+									<reference key="NSSupport" ref="29"/>
 									<reference key="NSControlView" ref="423373293"/>
-									<int key="NSButtonFlags">-2038284033</int>
-									<int key="NSButtonFlags2">163</int>
+									<int key="NSButtonFlags">-1232977665</int>
+									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
@@ -277,16 +277,16 @@
 							<object class="NSPopUpButton" id="51781005">
 								<reference key="NSNextResponder" ref="981649292"/>
 								<int key="NSvFlags">269</int>
-								<string key="NSFrame">{{270, -2}, {87, 25}}</string>
+								<string key="NSFrame">{{252, -2}, {87, 25}}</string>
 								<reference key="NSSuperview" ref="981649292"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSPopUpButtonCell" key="NSCell" id="567589816">
 									<int key="NSCellFlags">-2076049856</int>
 									<int key="NSCellFlags2">134350848</int>
-									<reference key="NSSupport" ref="26"/>
+									<reference key="NSSupport" ref="29"/>
 									<reference key="NSControlView" ref="51781005"/>
-									<int key="NSButtonFlags">-2038415105</int>
-									<int key="NSButtonFlags2">163</int>
+									<int key="NSButtonFlags">-1233108737</int>
+									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
@@ -397,16 +397,16 @@
 							<object class="NSPopUpButton" id="687381646">
 								<reference key="NSNextResponder" ref="981649292"/>
 								<int key="NSvFlags">269</int>
-								<string key="NSFrame">{{365, -2}, {107, 25}}</string>
+								<string key="NSFrame">{{338, -2}, {107, 25}}</string>
 								<reference key="NSSuperview" ref="981649292"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSPopUpButtonCell" key="NSCell" id="1018085798">
 									<int key="NSCellFlags">-2076049856</int>
 									<int key="NSCellFlags2">134350848</int>
-									<reference key="NSSupport" ref="26"/>
+									<reference key="NSSupport" ref="29"/>
 									<reference key="NSControlView" ref="687381646"/>
-									<int key="NSButtonFlags">-2038284033</int>
-									<int key="NSButtonFlags2">163</int>
+									<int key="NSButtonFlags">-1232977665</int>
+									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
@@ -515,7 +515,7 @@
 								</object>
 							</object>
 						</object>
-						<string key="NSFrame">{{82, 0}, {492, 24}}</string>
+						<string key="NSFrame">{{95, 0}, {465, 24}}</string>
 						<reference key="NSSuperview" ref="870439869"/>
 						<string key="NSClassName">NSView</string>
 					</object>
@@ -1139,7 +1139,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{295, 606}, {576, 361}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{298, 574}, {656, 24}}</string>
+					<string>{{339, 681}, {656, 24}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1333,6 +1333,7 @@
 							<string>displayOptionHighlightBookmarks:</string>
 							<string>displayOptionShowCrossRefs:</string>
 							<string>displayOptionShowFootnotes:</string>
+							<string>displayOptionShowFullVerseNumbering:</string>
 							<string>displayOptionShowGreekAccents:</string>
 							<string>displayOptionShowHeadings:</string>
 							<string>displayOptionShowHebrewCantillation:</string>
@@ -1347,6 +1348,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1457,6 +1459,7 @@
 							<string>hudSearchTypeSegControl</string>
 							<string>leftSideBarToggleBtn</string>
 							<string>rightSideBarToggleBtn</string>
+							<string>scopebarPlaceholder</string>
 							<string>searchTextField</string>
 							<string>searchTypeSegControl</string>
 							<string>toolbar</string>
@@ -1472,6 +1475,7 @@
 							<string>NSSegmentedControl</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>NSBox</string>
 							<string>NSSearchField</string>
 							<string>NSSegmentedControl</string>
 							<string>NSToolbar</string>

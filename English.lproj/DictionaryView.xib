@@ -386,10 +386,14 @@
 								<object class="NSPopUpButtonCell" key="NSCell" id="419979946">
 									<int key="NSCellFlags">-2076049856</int>
 									<int key="NSCellFlags2">134350848</int>
-									<reference key="NSSupport" ref="26"/>
+									<object class="NSFont" key="NSSupport" id="29">
+										<string key="NSName">LucidaGrande-Bold</string>
+										<double key="NSSize">12</double>
+										<int key="NSfFlags">16</int>
+									</object>
 									<reference key="NSControlView" ref="82994816"/>
-									<int key="NSButtonFlags">-2038284033</int>
-									<int key="NSButtonFlags2">163</int>
+									<int key="NSButtonFlags">-1232977665</int>
+									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
@@ -512,16 +516,16 @@
 							<object class="NSPopUpButton" id="673615103">
 								<reference key="NSNextResponder" ref="203035406"/>
 								<int key="NSvFlags">269</int>
-								<string key="NSFrame">{{138, -2}, {87, 25}}</string>
+								<string key="NSFrame">{{129, -2}, {87, 25}}</string>
 								<reference key="NSSuperview" ref="203035406"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSPopUpButtonCell" key="NSCell" id="987902252">
 									<int key="NSCellFlags">-2076049856</int>
 									<int key="NSCellFlags2">134350848</int>
-									<reference key="NSSupport" ref="26"/>
+									<reference key="NSSupport" ref="29"/>
 									<reference key="NSControlView" ref="673615103"/>
-									<int key="NSButtonFlags">-2038415105</int>
-									<int key="NSButtonFlags2">163</int>
+									<int key="NSButtonFlags">-1233108737</int>
+									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
@@ -630,7 +634,7 @@
 								</object>
 							</object>
 						</object>
-						<string key="NSFrame">{{153, 0}, {245, 24}}</string>
+						<string key="NSFrame">{{160, 0}, {236, 24}}</string>
 						<reference key="NSSuperview" ref="1006951350"/>
 						<string key="NSClassName">NSView</string>
 					</object>
@@ -1819,6 +1823,7 @@
 							<string>displayOptionHighlightBookmarks:</string>
 							<string>displayOptionShowCrossRefs:</string>
 							<string>displayOptionShowFootnotes:</string>
+							<string>displayOptionShowFullVerseNumbering:</string>
 							<string>displayOptionShowGreekAccents:</string>
 							<string>displayOptionShowHeadings:</string>
 							<string>displayOptionShowHebrewCantillation:</string>
@@ -1833,6 +1838,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -2046,6 +2052,7 @@
 							<string>hudSearchTypeSegControl</string>
 							<string>leftSideBarToggleBtn</string>
 							<string>rightSideBarToggleBtn</string>
+							<string>scopebarPlaceholder</string>
 							<string>searchTextField</string>
 							<string>searchTypeSegControl</string>
 							<string>toolbar</string>
@@ -2061,6 +2068,7 @@
 							<string>NSSegmentedControl</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>NSBox</string>
 							<string>NSSearchField</string>
 							<string>NSSegmentedControl</string>
 							<string>NSToolbar</string>

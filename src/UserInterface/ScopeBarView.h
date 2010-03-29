@@ -11,13 +11,13 @@
 
 
 @interface ScopeBarView : NSView {
-    NSColor *activeTopLine;
-    NSColor *activeFill;
-    NSColor *inactiveTopLine;
-    NSColor *inactiveFill;
+    NSImage *bgImageActive;
+    NSImage *bgImageInactive;
     BOOL windowActive;
 }
 
 @property (readwrite) BOOL windowActive;
+@property (retain, readwrite) NSImage *bgImageActive;
+@property (retain, readwrite) NSImage *bgImageInactive;
 
 @end

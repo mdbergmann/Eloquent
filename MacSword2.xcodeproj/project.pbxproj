@@ -148,6 +148,8 @@
 		A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A533FF114E62A300B015C5 /* HUDToolbarView.m */; };
 		A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ABF335107A2934005D6156 /* InitialInfoViewController.m */; };
 		A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9ABF338107A2A65005D6156 /* InitialInfoView.xib */; };
+		A9B0067F115F819400C07A22 /* scopebar_active.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B0067D115F819400C07A22 /* scopebar_active.png */; };
+		A9B00680115F819400C07A22 /* scopebar_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B0067E115F819400C07A22 /* scopebar_inactive.png */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
@@ -444,6 +446,8 @@
 		A9ABF334107A2934005D6156 /* InitialInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialInfoViewController.h; path = src/UserInterface/InitialInfoViewController.h; sourceTree = "<group>"; };
 		A9ABF335107A2934005D6156 /* InitialInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialInfoViewController.m; path = src/UserInterface/InitialInfoViewController.m; sourceTree = "<group>"; };
 		A9ABF339107A2A65005D6156 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/InitialInfoView.xib; sourceTree = "<group>"; };
+		A9B0067D115F819400C07A22 /* scopebar_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_active.png; sourceTree = "<group>"; };
+		A9B0067E115F819400C07A22 /* scopebar_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_inactive.png; sourceTree = "<group>"; };
 		A9B45CE40EF5B4CF00B63848 /* SwordModuleTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordModuleTest.h; path = test/SwordModuleTest.h; sourceTree = "<group>"; };
 		A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SwordModuleTest.mm; path = test/SwordModuleTest.mm; sourceTree = "<group>"; };
 		A9B7441B0F646223001960B0 /* MBAboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAboutWindowController.h; sourceTree = "<group>"; };
@@ -728,6 +732,8 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A9B0067D115F819400C07A22 /* scopebar_active.png */,
+				A9B0067E115F819400C07A22 /* scopebar_inactive.png */,
 				A908988E10C3C8BD0043465F /* edit_small.png */,
 				A908984510C3BF1D0043465F /* Drawer.png */,
 				A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */,
@@ -1271,6 +1277,8 @@
 				A908988F10C3C8BD0043465F /* edit_small.png in Resources */,
 				A98423541145031D0001EED1 /* WindowHostToolbar.xib in Resources */,
 				A9EDA11B1150E1F5004EC005 /* PrintAccessory.xib in Resources */,
+				A9B0067F115F819400C07A22 /* scopebar_active.png in Resources */,
+				A9B00680115F819400C07A22 /* scopebar_inactive.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

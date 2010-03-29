@@ -7,6 +7,7 @@
 //
 
 #import "HUDToolbarView.h"
+#import "CTGradient.h"
 
 
 @implementation HUDToolbarView
@@ -14,15 +15,11 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
     }
     return self;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    // Drawing code here.
-    //[super drawRect:dirtyRect];
-    
     NSRect rect = [self bounds];
     NSRect newRect = NSMakeRect(rect.origin.x+2, rect.origin.y+2, rect.size.width-3, rect.size.height-3);
     
@@ -30,8 +27,10 @@
     [viewSurround setLineWidth:2.0];
     [[NSColor lightGrayColor] set];
     [viewSurround stroke];
-    [[NSColor colorWithCalibratedWhite:0.25 alpha:0.95] set];
-    [viewSurround fill];
+    
+    NSColor *startCol = [NSColor colorWithCalibratedWhite:0.40 alpha:0.95];
+    [startCol set];
+    [viewSurround fill];    
 }
 
 @end
