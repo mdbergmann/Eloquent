@@ -146,6 +146,7 @@
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A533FF114E62A300B015C5 /* HUDToolbarView.m */; };
+		A9A73AF211609C8500A4099D /* WindowHostController+SplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A73AF111609C8500A4099D /* WindowHostController+SplitViewDelegate.m */; };
 		A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ABF335107A2934005D6156 /* InitialInfoViewController.m */; };
 		A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9ABF338107A2A65005D6156 /* InitialInfoView.xib */; };
 		A9B0067F115F819400C07A22 /* scopebar_active.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B0067D115F819400C07A22 /* scopebar_active.png */; };
@@ -443,6 +444,8 @@
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
 		A9A533FE114E62A300B015C5 /* HUDToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDToolbarView.h; path = src/UserInterface/HUDToolbarView.h; sourceTree = "<group>"; };
 		A9A533FF114E62A300B015C5 /* HUDToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDToolbarView.m; path = src/UserInterface/HUDToolbarView.m; sourceTree = "<group>"; };
+		A9A73AF011609C8500A4099D /* WindowHostController+SplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WindowHostController+SplitViewDelegate.h"; path = "src/UserInterface/WindowHostController+SplitViewDelegate.h"; sourceTree = "<group>"; };
+		A9A73AF111609C8500A4099D /* WindowHostController+SplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "WindowHostController+SplitViewDelegate.m"; path = "src/UserInterface/WindowHostController+SplitViewDelegate.m"; sourceTree = "<group>"; };
 		A9ABF334107A2934005D6156 /* InitialInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialInfoViewController.h; path = src/UserInterface/InitialInfoViewController.h; sourceTree = "<group>"; };
 		A9ABF335107A2934005D6156 /* InitialInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialInfoViewController.m; path = src/UserInterface/InitialInfoViewController.m; sourceTree = "<group>"; };
 		A9ABF339107A2A65005D6156 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/InitialInfoView.xib; sourceTree = "<group>"; };
@@ -910,6 +913,8 @@
 				A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */,
 				A9D102570EC1ED0A0023FF23 /* WindowHostController.h */,
 				A9D102580EC1ED0A0023FF23 /* WindowHostController.m */,
+				A9A73AF011609C8500A4099D /* WindowHostController+SplitViewDelegate.h */,
+				A9A73AF111609C8500A4099D /* WindowHostController+SplitViewDelegate.m */,
 				A98A9517112E8C1D00EC8B76 /* WindowHostController+SideBars.h */,
 				A98A9518112E8C1D00EC8B76 /* WindowHostController+SideBars.m */,
 				A98A951A112E8DA000EC8B76 /* WindowHostController+FullscreenDelegate.h */,
@@ -1429,6 +1434,7 @@
 				A98422E21144EF640001EED1 /* ToolbarController.m in Sources */,
 				A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */,
 				A9EDA1201150E24E004EC005 /* PrintAccessoryViewController.m in Sources */,
+				A9A73AF211609C8500A4099D /* WindowHostController+SplitViewDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

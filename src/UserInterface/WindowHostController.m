@@ -62,6 +62,7 @@ typedef enum _NavigationDirectionType {
     self = [super init];
     if(self) {
         hostLoaded = NO;
+        inFullScreenTransition = NO;
         
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         

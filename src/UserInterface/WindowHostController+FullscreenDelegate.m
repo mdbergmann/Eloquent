@@ -14,8 +14,8 @@
 @implementation WindowHostController (FullscreenDelegate)
 
 - (void)goingToFullScreenMode {
-    lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
-    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;
+    inFullScreenTransition = YES;
+    MBLOG(MBLOG_DEBUG, @"going to fullscreen");
     
     NSView *topView = [contentViewController topAccessoryView];
     [topView removeFromSuperview];
@@ -23,15 +23,13 @@
 }
 
 - (void)goneToFullScreenMode {
-    lsbWidth = lsbWidthFullScreen;
-    [self showLeftSideBar:[self showingLSB]];
-    rsbWidth = rsbWidthFullScreen;
-    [self showRightSideBar:[self showingRSB]];
+    MBLOG(MBLOG_DEBUG, @"gone to fullscreen");
+    inFullScreenTransition = NO;
 }
 
 - (void)leavingFullScreenMode {
-    lsbWidthFullScreen = [[lsbViewController view] frame].size.width;
-    rsbWidthFullScreen = [[rsbViewController view] frame].size.width;
+    inFullScreenTransition = YES;
+    MBLOG(MBLOG_DEBUG, @"leaving fullscreen");
     
     NSView *topView = [contentViewController topAccessoryView];
     [topView removeFromSuperview];
@@ -39,10 +37,8 @@
 }
 
 - (void)leftFullScreenMode {
-    lsbWidth = lsbWidthFullScreen;
-    [self showLeftSideBar:[self showingLSB]];
-    rsbWidth = rsbWidthFullScreen;
-    [self showRightSideBar:[self showingRSB]];
+    MBLOG(MBLOG_DEBUG, @"left fullscreen");
+    inFullScreenTransition = NO;
 }
 
 - (IBAction)fullScreenModeOnOff:(id)sender {
