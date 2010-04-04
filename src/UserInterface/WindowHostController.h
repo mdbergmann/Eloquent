@@ -27,12 +27,15 @@
 
 @interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, ContentSaving> {
     IBOutlet NSSplitView *mainSplitView;
+    IBOutlet NSBox *contentPlaceHolderView;
     IBOutlet FullScreenView *view;
+
     IBOutlet NSSplitView *contentSplitView;
     IBOutlet NSBox *placeHolderView;
-    IBOutlet NSView *optionsView;
+
     IBOutlet ScopeBarView *scopebarView;
     IBOutlet NSBox *scopebarViewPlaceholder;
+    
     IBOutlet NSProgressIndicator *progressIndicator;
 
     id delegate;
@@ -47,11 +50,13 @@
     LeftSideBarViewController *lsbViewController;
     float lsbWidth;
     float defaultLSBWidth;
+    float loadedLSBWidth;
     BOOL lsbShowing;
     
     RightSideBarViewController *rsbViewController;
     float rsbWidth;
     float defaultRSBWidth;
+    float loadedRSBWidth;
     BOOL rsbShowing;
 
     ModulesUIController *modulesUIController;

@@ -34,6 +34,7 @@
     NSView *topView = [contentViewController topAccessoryView];
     [topView removeFromSuperview];
     [scopebarViewPlaceholder setContentView:topView];
+    [[toolbarController toolbarHUDView] removeFromSuperview];
 }
 
 - (void)leftFullScreenMode {

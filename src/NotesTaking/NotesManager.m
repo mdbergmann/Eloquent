@@ -37,8 +37,16 @@ static NotesManager *singleton = nil;
 - (id)initWithRootPath:(NSString *)aPath {
     self = [super init];
     if(self) {
-        self.rootPath = aPath;
-        self.rootPathRep = [[FileRepresentation alloc] initWithPath:aPath];
+        
+        NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:aPath];
+        if([wrapper isSymbolicLink]) {
+            self.rootPath = [wrapper symbolicLinkDestination];
+            self.rootPathRep = [[FileRepresentation alloc] initWithPath:rootPath];
+        } else {
+            self.rootPath = aPath;
+            self.rootPathRep = [[FileRepresentation alloc] initWithPath:aPath];            
+        }
+        
         [rootPathRep buildTree];
     }
     

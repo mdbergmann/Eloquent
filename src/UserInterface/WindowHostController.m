@@ -527,7 +527,7 @@ typedef enum _NavigationDirectionType {
 
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {
     if([aViewController isKindOfClass:[LeftSideBarViewController class]]) {
-        //[mainSplitView addSubview:[aView view] positioned:NSWindowBelow relativeTo:placeHolderView];
+        //[mainSplitView addSubview:[aViewController view] positioned:NSWindowBelow relativeTo:nil];
         NSSize s = [[lsbViewController view] frame].size;
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
@@ -563,13 +563,13 @@ typedef enum _NavigationDirectionType {
     
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
 
-    lsbWidth = [decoder decodeIntForKey:@"LSBWidth"];
+    lsbWidth = loadedLSBWidth = [decoder decodeIntForKey:@"LSBWidth"];
     lsbShowing = [decoder decodeBoolForKey:@"LSBShowing"];
     if(lsbViewController == nil) {
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
         [lsbViewController setHostingDelegate:self];
     }
-    rsbWidth = [decoder decodeIntForKey:@"RSBWidth"];
+    rsbWidth = loadedRSBWidth = [decoder decodeIntForKey:@"RSBWidth"];
     rsbShowing = [decoder decodeBoolForKey:@"RSBShowing"];
     if(rsbViewController == nil) {
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];

@@ -17,5 +17,7 @@
 - (void)showRightSideBar:(BOOL)flag;
 - (BOOL)showingLSB;
 - (BOOL)showingRSB;
+- (void)restoreLeftSideBarWithWidth:(float)width;
+- (void)restoreRightSideBarWithWidth:(float)width;
 
 @end

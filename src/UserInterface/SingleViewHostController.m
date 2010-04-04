@@ -114,6 +114,14 @@
         if(frame.size.width > 0 && frame.size.height > 0) {
             [[self window] setFrame:frame display:YES];
         }
+
+        // restore sidebar widths
+        if(lsbShowing) {
+            [self restoreLeftSideBarWithWidth:loadedLSBWidth];
+        }
+        if(rsbShowing) {
+            [self restoreRightSideBarWithWidth:loadedRSBWidth];
+        }
     }
     
     return self;

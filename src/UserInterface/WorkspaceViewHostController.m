@@ -90,9 +90,9 @@
     
     // for a clean new workspace we display the initialMainView
     if([viewControllers count] == 0) {
-        [mainSplitView addSubview:[initialViewController view]];
+        [contentPlaceHolderView setContentView:[initialViewController view]];
     } else {
-        [mainSplitView addSubview:defaultMainView];
+        [contentPlaceHolderView setContentView:defaultMainView];
     }
     
     // re-set already loaded tabview items
@@ -160,6 +160,17 @@
     }    
     
     return ret;    
+}
+
+- (void)restoreRightSideBarWithWidth:(float)width {
+    NSView *rv = [rsbViewController view];
+    NSRect rvRect = [rv frame];
+    rvRect.size.width = width;
+    [rv setFrameSize:rvRect.size];
+    
+    NSRect lvRect = [tabView frame];
+    lvRect.size.width = [contentSplitView frame].size.width - (rvRect.size.width + [contentSplitView dividerThickness]);
+    [tabView setFrameSize:lvRect.size];
 }
 
 #pragma mark - Actions
@@ -338,9 +349,9 @@
     // we are only interessted in view controllers that show information
     if([aViewController isKindOfClass:[ContentDisplayingViewController class]]) {
         // remove initialMainView if present
-        if([[mainSplitView subviews] containsObject:[initialViewController view]]) {
+        if([contentPlaceHolderView contentView] == [initialViewController view]) {
             [[initialViewController view] removeFromSuperview];
-            [mainSplitView addSubview:defaultMainView];
+            [contentPlaceHolderView setContentView:defaultMainView];
         }
         
         // extend searchTexts
@@ -423,6 +434,14 @@
                 NSTabViewItem *item = [[tabView tabViewItems] objectAtIndex:i];
                 [item setLabel:[self computeTabTitleForTabIndex:i]];
             }
+        }
+        
+        // restore sidebar widths
+        if(lsbShowing) {
+            [self restoreLeftSideBarWithWidth:loadedLSBWidth];
+        }
+        if(rsbShowing) {
+            [self restoreRightSideBarWithWidth:loadedRSBWidth];
         }
     }
     

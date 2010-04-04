@@ -25,6 +25,7 @@ enum BookmarkMenu_Items{
     BookmarkMenuRemoveBM,
     BookmarkMenuOpenBMInNew,
     BookmarkMenuOpenBMInCurrent,
+    BookmarkMenuEditBMFolder,    
 }BookMarkMenuItems;
 
 @interface BookmarksUIController ()
@@ -229,17 +230,31 @@ enum BookmarkMenu_Items{
         }
         case BookmarkMenuEditBM:
         {
-            // set as content
-            [bmObjectController setContent:clickedObj];
-            // bring up bookmark panel
-            [bookmarkDetailPanel makeFirstResponder:bookmarkNameTextField];
-            [bookmarkOkButton setEnabled:YES];
-            NSWindow *window = [(NSWindowController *)hostingDelegate window];
-            [NSApp beginSheet:bookmarkDetailPanel 
-               modalForWindow:window 
-                modalDelegate:self 
-               didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
-                  contextInfo:nil];
+            Bookmark *bm = clickedObj;
+            if([bm isLeaf]) {
+                // set as content
+                [bmObjectController setContent:clickedObj];
+                // bring up bookmark panel
+                [bookmarkDetailPanel makeFirstResponder:bookmarkNameTextField];
+                [bookmarkOkButton setEnabled:YES];
+                NSWindow *window = [(NSWindowController *)hostingDelegate window];
+                [NSApp beginSheet:bookmarkDetailPanel 
+                   modalForWindow:window 
+                    modalDelegate:self 
+                   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
+                      contextInfo:nil];                
+            } else {
+                bookmarkAction = BookmarkMenuEditBMFolder;
+                [bookmarkFolderWindow makeFirstResponder:bookmarkFolderNameTextField];
+                [bookmarkFolderNameTextField setStringValue:[bm name]];
+                [bookmarkOkButton setEnabled:NO];
+                NSWindow *window = [(NSWindowController *)hostingDelegate window];
+                [NSApp beginSheet:bookmarkFolderWindow
+                   modalForWindow:window
+                    modalDelegate:self
+                   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
+                      contextInfo:nil];                
+            }
             break;
         }
         case BookmarkMenuRemoveBM:
@@ -320,23 +335,32 @@ enum BookmarkMenu_Items{
     
     [self updateBookmarkSelection];
 
-    // create new bookmark folder
-    Bookmark *bm = [[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]];
-    [bm setSubGroups:[NSMutableArray array]];   // this will get a folder 
-    
-    if([bookmarkSelection count] > 0) {
-        Bookmark *selected = [bookmarkSelection objectAtIndex:0];
-        if(selected == nil) {
-            [[bookmarkManager bookmarks] addObject:bm];
-        } else {
-            if(![selected isLeaf]) {
-                [[selected subGroups] addObject:bm];            
+    if(bookmarkAction == BookmarkMenuAddNewBMFolder) {
+        // create new bookmark folder
+        Bookmark *bm = [[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]];
+        [bm setSubGroups:[NSMutableArray array]];   // this will get a folder 
+        
+        if([bookmarkSelection count] > 0) {
+            Bookmark *selected = [bookmarkSelection objectAtIndex:0];
+            if(selected == nil) {
+                [[bookmarkManager bookmarks] addObject:bm];
             } else {
-                [[bookmarkManager bookmarks] addObject:bm];            
+                if(![selected isLeaf]) {
+                    [[selected subGroups] addObject:bm];            
+                } else {
+                    [[bookmarkManager bookmarks] addObject:bm];            
+                }
+            }
+        } else {
+            [[bookmarkManager bookmarks] addObject:bm];
+        }        
+    } else {
+        if([bookmarkSelection count] > 0) {
+            Bookmark *selected = [bookmarkSelection objectAtIndex:0];
+            if(selected != nil) {
+                [selected setName:[bookmarkFolderNameTextField stringValue]];
             }
         }
-    } else {
-        [[bookmarkManager bookmarks] addObject:bm];
     }
     
     [bookmarkManager saveBookmarks];

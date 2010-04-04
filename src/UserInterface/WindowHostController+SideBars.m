@@ -56,12 +56,9 @@
     if(flag) {
         if(lsbWidth == 0) {
             lsbWidth = defaultLSBWidth;
-        }        
-        NSView *v = [lsbViewController view];
-        NSSize size = [v frame].size;
-        size.width = lsbWidth;
-        [[v animator] setFrameSize:size];
-        [mainSplitView addSubview:v positioned:NSWindowBelow relativeTo:nil];
+        }
+        [mainSplitView addSubview:[lsbViewController view] positioned:NSWindowBelow relativeTo:nil];
+        [self restoreLeftSideBarWithWidth:lsbWidth];
     } else {
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
@@ -79,10 +76,8 @@
             rsbWidth = defaultRSBWidth;
         }
         NSView *v = [rsbViewController view];
-        NSSize size = [v frame].size;
-        size.width = rsbWidth;
-        [[v animator] setFrameSize:size];
         [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
+        [self restoreRightSideBarWithWidth:rsbWidth];
     } else {
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
@@ -92,6 +87,28 @@
         [v removeFromSuperview];
     }
     [self showingRSB];
+}
+
+- (void)restoreLeftSideBarWithWidth:(float)width {
+    NSView *lv = [lsbViewController view];
+    NSRect lvRect = [lv frame];
+    lvRect.size.width = width;
+    [lv setFrameSize:lvRect.size];
+    
+    NSRect rvRect = [contentPlaceHolderView frame];
+    rvRect.size.width = [mainSplitView frame].size.width - (lvRect.size.width + [mainSplitView dividerThickness]);
+    [contentPlaceHolderView setFrameSize:rvRect.size];    
+}
+
+- (void)restoreRightSideBarWithWidth:(float)width {
+    NSView *rv = [rsbViewController view];
+    NSRect rvRect = [rv frame];
+    rvRect.size.width = width;
+    [rv setFrameSize:rvRect.size];
+    
+    NSRect lvRect = [placeHolderView frame];
+    lvRect.size.width = [contentSplitView frame].size.width - (rvRect.size.width + [contentSplitView dividerThickness]);
+    [placeHolderView setFrameSize:lvRect.size];
 }
 
 @end
