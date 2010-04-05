@@ -155,7 +155,7 @@ extern char NotesMgrUI;
     if(fileRep) {
         NSData *textData = [fileRep fileContent];
         if([textData length] > 0) {
-            [textView insertText:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL]];            
+            [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL]];
         }
     }
 }
@@ -165,9 +165,7 @@ extern char NotesMgrUI;
 }
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
-    if(!aReference || [aReference length] == 0) {
-        [self displayText];
-    } else {
+    if(aReference && [aReference length] > 0) {
         [self setSearchString:aReference];
 
         NSRange inputRange = NSMakeRange(NSNotFound, 0);
@@ -181,6 +179,8 @@ extern char NotesMgrUI;
             [[textView enclosingScrollView] scrollRectToVisible:foundRect];
             [textView showFindIndicatorForRange:foundRange];
         }
+    } else if(([aReference length] == 0) && forceRedisplay) {
+        [self displayText];
     }
 }
 
