@@ -122,7 +122,7 @@
     NSTableColumn *tableColumn = [entriesOutlineView tableColumnWithIdentifier:@"common"];
     [tableColumn setDataCell:gradientCell];    
     
-    // if we have areference, display it
+    // if we have a reference, display it
     if(searchString && [searchString length] > 0) {
         [self displayTextForReference:searchString searchType:ReferenceSearchType];    
     }
@@ -138,7 +138,7 @@
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];
     }
-
+    
     viewLoaded = YES;
 }
 
@@ -255,6 +255,11 @@
     [self populateAddPopupMenu];
     
     [self adaptUIToHost];
+    
+    if(searchString == nil || [searchString length] == 0) {
+        [self setSearchString:@"Gen 1"];
+        [self displayText];
+    }
 }
 
 - (BOOL)enableAddBookmarks {

@@ -152,7 +152,7 @@
     if(aModule != nil) {
         BibleViewController *vc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
         [self addContentViewController:vc];        
-        [vc prepareContentForHost:delegate];
+        //[vc prepareContentForHost:delegate];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
         }
@@ -170,7 +170,7 @@
     if(aModule != nil) {
         CommentaryViewController *vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
         [self addContentViewController:vc];
-        [vc prepareContentForHost:delegate];
+        //[vc prepareContentForHost:delegate];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
         }

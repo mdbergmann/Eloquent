@@ -201,6 +201,10 @@
 
 #pragma mark - TextDisplayable
 
+- (void)displayText {
+    [self displayTextForReference:searchString];
+}
+
 - (void)displayTextForReference:(NSString *)aReference {
     [self displayTextForReference:aReference searchType:searchType];
 }
