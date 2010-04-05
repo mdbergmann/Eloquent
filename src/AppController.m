@@ -94,8 +94,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowBookNameKey];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
-    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowFullVerseNumberingKey];
-    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:FullVerseNumbering] forKey:DefaultsBibleTextVerseNumberingTypeKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextHighlightBookmarksKey];
     
     [defaultsDict setObject:@"Helvetica Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
@@ -679,10 +678,12 @@ static AppController *singleton;
     [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
     [im setSwordManager:sm];        
 
+    /*
     // start background indexer if enabled
     if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
     }    
+     */
 }
 
 /**

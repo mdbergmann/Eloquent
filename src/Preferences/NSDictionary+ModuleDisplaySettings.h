@@ -16,5 +16,6 @@
 
 - (NSFont *)displayFont;
 - (NSFont *)displayFontBold;
+- (NSInteger)displayFontSize;
 
 @end

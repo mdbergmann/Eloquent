@@ -20,6 +20,7 @@
 #import "NSTextView+LookupAdditions.h"
 #import "CacheObject.h"
 #import "SwordSearching.h"
+#import "NSDictionary+ModuleDisplaySettings.h"
 
 @interface ModuleViewController () 
 
@@ -32,7 +33,7 @@
 
 #pragma mark - getter/setter
 
-@synthesize module;
+@dynamic module;
 @synthesize performProgressCalculation;
 @synthesize searchContentCache;
 
@@ -41,6 +42,7 @@
 - (id)init {
     self = [super init];
     if(self) {
+        
     }
     
     return self;
@@ -81,6 +83,30 @@
  }
 
 #pragma mark - Methods
+
+- (SwordModule *)module {
+    return module;
+}
+
+- (void)setModule:(SwordModule *)aModule {
+    if(module != aModule) {
+        [aModule retain];
+        [module release];
+        module = aModule;
+
+        if(module != nil) {
+            // override customFontSize if there is a specific one for module
+            if(customFontSize == -1) {
+                NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[module name]];
+                if(settings) {
+                    customFontSize = [settings displayFontSize];                    
+                } else {
+                    customFontSize = [[userDefaults objectForKey:DefaultsBibleTextDisplayFontSizeKey] intValue];
+                }
+            }
+        }
+    }
+}
 
 /** notification, called when modules have changed */
 - (void)modulesListChanged:(NSNotification *)aNotification {
@@ -127,7 +153,7 @@
         [self handleDisplayStatusText];
         [self handleDisplayCached];
     }
-        
+
     [self endIndicateProgress];    
 }
 

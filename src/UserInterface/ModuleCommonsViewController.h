@@ -90,6 +90,7 @@ enum GeneralMenuItemAdditions {
 - (IBAction)displayOptionVersesOnOneLine:(id)sender;
 - (IBAction)displayOptionShowFullVerseNumbering:(id)sender;
 - (IBAction)displayOptionShowVerseNumberOnly:(id)sender;
+- (IBAction)displayOptionHideVerseNumbering:(id)sender;
 - (IBAction)displayOptionHighlightBookmarks:(id)sender;
 
 - (IBAction)textContextChange:(id)sender;

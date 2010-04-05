@@ -122,9 +122,6 @@
     NSTableColumn *tableColumn = [entriesOutlineView tableColumnWithIdentifier:@"common"];
     [tableColumn setDataCell:gradientCell];    
     
-    // set menu states of display options
-    [[displayOptionsMenu itemWithTag:1] setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] intValue]];
-
     // if we have areference, display it
     if(searchString && [searchString length] > 0) {
         [self displayTextForReference:searchString searchType:ReferenceSearchType];    

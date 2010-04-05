@@ -6,6 +6,12 @@
 
 #define PREFERENCE_CONTROLLER_NIB_NAME              @"Preferences"
 
+typedef enum _VerseNumberingType {
+    FullVerseNumbering = 0,
+    VerseNumbersOnly = 1,
+    NoVerseNumbering = 2
+}VerseNumberingType;
+
 // UserDefault defines
 
 // text view margins
@@ -24,8 +30,7 @@
 #define DefaultsBibleTextShowBookNameKey            @"DefaultsBibleTextShowBookNameKey"
 #define DefaultsBibleTextShowBookAbbrKey            @"DefaultsBibleTextShowBookAbbrKey"
 #define DefaultsBibleTextVersesOnOneLineKey         @"DefaultsBibleTextVersesOnOneLineKey"
-#define DefaultsBibleTextShowFullVerseNumberingKey  @"DefaultsBibleTextShowFullVerseNumberingKey"
-#define DefaultsBibleTextShowVerseNumberOnlyKey     @"DefaultsBibleTextShowVerseNumberOnlyKey"
+#define DefaultsBibleTextVerseNumberingTypeKey      @"DefaultsBibleTextVerseNumberingTypeKey"
 #define DefaultsBibleTextHighlightBookmarksKey      @"DefaultsBibleTextHighlightBookmarksKey"
 
 #define DefaultsBibleTextDisplayFontFamilyKey       @"DefaultsBibleTextDisplayFontFamilyKey"

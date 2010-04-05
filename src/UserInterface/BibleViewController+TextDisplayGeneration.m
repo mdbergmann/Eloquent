@@ -209,9 +209,10 @@
     NSString *verseMarkerInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
     
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
-    BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
-    BOOL isShowFullVerseNumbering = [[displayOptions objectForKey:DefaultsBibleTextShowFullVerseNumberingKey] boolValue];
-    BOOL isShowVerseNumbering = (isShowFullVerseNumbering & isShowVerseNumbersOnly);
+    VerseNumberingType verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
+    BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
+    BOOL isShowFullVerseNumbering = (verseNumbering == FullVerseNumbering);
+    BOOL isShowVerseNumbering = (verseNumbering == NoVerseNumbering);
     
     // headings fg color
     float hr, hg, hb = 0.0;
@@ -314,10 +315,11 @@
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
-    BOOL isShowVerseNumbersOnly = [[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue];
-    BOOL isShowFullVerseNumbering = [[displayOptions objectForKey:DefaultsBibleTextShowFullVerseNumberingKey] boolValue];
-    BOOL isShowVerseNumbering = (isShowFullVerseNumbering & isShowVerseNumbersOnly);
-
+    VerseNumberingType verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
+    BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
+    BOOL isShowFullVerseNumbering = (verseNumbering == FullVerseNumbering);
+    BOOL isShowVerseNumbering = (verseNumbering == NoVerseNumbering);
+    
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
     NSString *text = [tempDisplayString string];

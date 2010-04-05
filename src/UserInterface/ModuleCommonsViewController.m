@@ -43,7 +43,7 @@ extern char BookmarkMgrUI;
 - (id)init {
     self = [super init];
     if(self) {
-        customFontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+        customFontSize = -1;
 
         // init modDisplayOptions Dictionary
         self.modDisplayOptions = [NSMutableDictionary dictionary];
@@ -60,8 +60,7 @@ extern char BookmarkMgrUI;
         // init displayOptions dictionary        
         self.displayOptions = [NSMutableDictionary dictionary];
         [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
-        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] forKey:DefaultsBibleTextShowFullVerseNumberingKey];
-        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
+        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextVerseNumberingTypeKey] forKey:DefaultsBibleTextVerseNumberingTypeKey];
         [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextHighlightBookmarksKey] forKey:DefaultsBibleTextHighlightBookmarksKey];
     }
     
@@ -158,15 +157,19 @@ extern char BookmarkMgrUI;
     [item setTitle:NSLocalizedString(@"DisplayOptionVerseNumbering", @"")];
     [item setSubmenu:verseNumberingMenu];
     [menu addItem:item];
-    // ShowVerseNumberOnly
+    // Full
     item = [verseNumberingMenu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowFullVerseNumbering", @"") action:@selector(displayOptionShowFullVerseNumbering:) keyEquivalent:@""];
     [item setTarget:self];
-    [item setState:[[displayOptions objectForKey:DefaultsBibleTextShowFullVerseNumberingKey] boolValue] == YES ? 1 : 0];
-    [item setTag:1];
+    [item setState:[[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue] == FullVerseNumbering ? 1 : 0];
+    [item setTag:FullVerseNumbering];
     item = [verseNumberingMenu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowVerseNumberOnly", @"") action:@selector(displayOptionShowVerseNumberOnly:) keyEquivalent:@""];
     [item setTarget:self];
-    [item setState:[[displayOptions objectForKey:DefaultsBibleTextShowVerseNumberOnlyKey] boolValue] == YES ? 1 : 0];    
-    [item setTag:2];
+    [item setState:[[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue] == VerseNumbersOnly ? 1 : 0];    
+    [item setTag:VerseNumbersOnly];
+    item = [verseNumberingMenu addItemWithTitle:NSLocalizedString(@"DisplayOptionHideVerseNumbering", @"") action:@selector(displayOptionHideVerseNumbering:) keyEquivalent:@""];
+    [item setTarget:self];
+    [item setState:[[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue] == NoVerseNumbering ? 1 : 0];    
+    [item setTag:NoVerseNumbering];
     
     // Highlight bookmarks
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionHighlightBookmarks", @"") action:@selector(displayOptionHighlightBookmarks:) keyEquivalent:@""];
@@ -268,6 +271,24 @@ extern char BookmarkMgrUI;
     [item setTag:28];
     [item setState:0];
     
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"30"];
+    [item setTag:30];
+    [item setState:0];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"34"];
+    [item setTag:34];
+    [item setState:0];
+
+    item = [[NSMenuItem alloc] init];
+    [menu addItem:item];    
+    [item setTitle:@"38"];
+    [item setTag:38];
+    [item setState:0];
+
     // set menu to poup
     [fontSizePopUpButton setMenu:menu];
     [fontSizePopUpButton setTarget:self];
@@ -500,34 +521,34 @@ extern char BookmarkMgrUI;
 }
 
 - (IBAction)displayOptionShowFullVerseNumbering:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowFullVerseNumberingKey];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowFullVerseNumberingKey];
-        [(NSMenuItem *)sender setState:NSOnState];
-        
-        // disable ShowVerseNumbersOnly. The two are exclusive.
-        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
-        [[verseNumberingMenu itemWithTag:2] setState:NSOffState];
-    }
+    [displayOptions setObject:[NSNumber numberWithInt:FullVerseNumbering] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+    [(NSMenuItem *)sender setState:NSOnState];
+    // disable all other options
+    [[verseNumberingMenu itemWithTag:1] setState:NSOffState];
+    [[verseNumberingMenu itemWithTag:2] setState:NSOffState];
+    
     
     forceRedisplay = YES;
     [self displayTextForReference:searchString];    
 }
 
 - (IBAction)displayOptionShowVerseNumberOnly:(id)sender {
-    if([(NSMenuItem *)sender state] == NSOnState) {
-        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
-        [(NSMenuItem *)sender setState:NSOffState];
-    } else {
-        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowVerseNumberOnlyKey];
-        [(NSMenuItem *)sender setState:NSOnState];
+    [displayOptions setObject:[NSNumber numberWithInt:VerseNumbersOnly] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+    [(NSMenuItem *)sender setState:NSOnState];
+    // disable all other options
+    [[verseNumberingMenu itemWithTag:0] setState:NSOffState];
+    [[verseNumberingMenu itemWithTag:2] setState:NSOffState];
+    
+    forceRedisplay = YES;
+    [self displayTextForReference:searchString];    
+}
 
-        // disable ShowFullVerseNumbering. The two are exclusive.
-        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowFullVerseNumberingKey];
-        [[verseNumberingMenu itemWithTag:1] setState:NSOffState];
-    }
+- (IBAction)displayOptionHideVerseNumbering:(id)sender {
+    [displayOptions setObject:[NSNumber numberWithInt:NoVerseNumbering] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+    [(NSMenuItem *)sender setState:NSOnState];
+    // disable all other options
+    [[verseNumberingMenu itemWithTag:0] setState:NSOffState];
+    [[verseNumberingMenu itemWithTag:1] setState:NSOffState];
     
     forceRedisplay = YES;
     [self displayTextForReference:searchString];    
@@ -641,7 +662,7 @@ extern char BookmarkMgrUI;
     if(self) {
         NSNumber *fontSize = [decoder decodeObjectForKey:@"CustomFontSizeEncoded"];
         if(fontSize) {
-            self.customFontSize = [fontSize intValue];        
+            self.customFontSize = [fontSize intValue];
         }
         NSDictionary *dOpts = [decoder decodeObjectForKey:@"ReferenceModDisplayOptions"];
         if(dOpts) {

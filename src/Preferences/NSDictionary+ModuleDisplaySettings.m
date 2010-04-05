@@ -25,4 +25,8 @@
     return [NSFont fontWithName:fontFamily size:(float)fontSize];
 }
 
+- (NSInteger)displayFontSize {
+    return [[self objectForKey:DisplayFontSizeKey] integerValue];
+}
+
 @end
