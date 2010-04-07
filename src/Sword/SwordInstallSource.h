@@ -49,6 +49,8 @@ class sword::SWModule;
 - (NSString *)directory;
 - (void)setDirectory:(NSString *)aDir;
 
+- (BOOL)isLocalSource;
+
 // get config entry
 - (NSString *)configEntry;
 

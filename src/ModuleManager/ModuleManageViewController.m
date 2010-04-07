@@ -22,6 +22,8 @@
 - (void)batchProcessTasks:(NSNumber *)actions;
 - (void)refreshInstallSourceListObjects;
 
+- (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText;
+
 @end
 
 @implementation ModuleManageViewController (PrivateAPI)
@@ -75,7 +77,7 @@
                               waitUntilDone:YES];
         [pSheet performSelectorOnMainThread:@selector(setMaxProgressValue:)
                                  withObject:actions 
-                              waitUntilDone:YES];		
+                              waitUntilDone:YES];
     }
     
     // begin sheet
@@ -153,9 +155,12 @@
                                          withObject:[[modObj module] name] 
                                       waitUntilDone:YES];
                 // install
-                int stat = [sis installModule:[modObj module] fromSource:[modObj installSource] withManager:sm];
-                if(stat != 0) {
-                    error++;
+                SwordInstallSource *is = [modObj installSource];
+                if([is isLocalSource] || [sis userDisclaimerConfirmed]) {
+                    int stat = [sis installModule:[modObj module] fromSource:is withManager:sm];
+                    if(stat != 0) {
+                        error++;
+                    }
                 }
             }
         }
@@ -219,24 +224,19 @@
     }
 }
 
-// ---------------------------------------------------------------------
-// Notifications
-// ---------------------------------------------------------------------
-/*
-- (void)threadWillExit:(NSNotification *)notify {
-	MBLOG(MBLOG_DEBUG,@"[ModuleManageViewController -threadWillExit:]");
-
-    // send a notification that modules were added or removed
-    //SendNotifyModulesChanged(nil);
-
-	// do some cleanup here
-    // reload module data
-    //[[SwordManager defaultManager] reInit];
-    
-    // refresh the outline view
-    //[modListViewController refreshModulesList];
+- (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText {
+    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+    BOOL confirmed = [sis userDisclaimerConfirmed];
+    if(!confirmed) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil
+                                           otherButton:nil 
+                             informativeTextWithFormat:aText];
+        [alert runModal];
+    }
+    return confirmed;
 }
-*/
 
 @end
 
@@ -351,29 +351,6 @@
         [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];
     }
     
-    /*
-    // check first start
-    NSString *firstStartStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"FirstStartModInstaller"];
-    if(firstStartStr == nil) {
-        // first start
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
-                                         defaultButton:NSLocalizedString(@"Yes", @"") 
-                                       alternateButton:NSLocalizedString(@"No", @"")
-                                           otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"FirstStart", @"")];
-        if([alert runModal] == NSAlertDefaultReturn) {
-            SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
-            InstallSourceListObject *ilo = [[[InstallSourceListObject alloc] initWithType:TypeInstallSource] autorelease];
-            [ilo setInstallSource:[[sis installSources] objectForKey:@"CrossWire"]];
-            [self setSelectedInstallSources:[NSArray arrayWithObject:ilo]];
-            // refresh
-            [self refreshInstallSource:self];
-        }
-        // set user default object
-        [[NSUserDefaults standardUserDefaults] setObject:@"started" forKey:@"FirstStartModInstaller"];
-    }
-     */
-    
     initialized = YES;    
 }
 
@@ -419,12 +396,12 @@
     int actions = 0;
     actions += [removeDict count];
     actions += [installDict count];
-            
+
     // start actions
     if(actions > 0) {
-        
+        [self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"OnlyRemoveAndInstallForLocalSources", @"")];
         // start on new thread
-        [NSThread detachNewThreadSelector:@selector(batchProcessTasks:) toTarget:self withObject:[NSNumber numberWithInt:actions]];        
+        [NSThread detachNewThreadSelector:@selector(batchProcessTasks:) toTarget:self withObject:[NSNumber numberWithInt:actions]];
     } else {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"") 
@@ -436,7 +413,6 @@
 }
 
 - (IBAction)showDisclaimer {
-    
     if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil || [userDefaults boolForKey:DefaultsUserDisplaimerConfirmed] == NO) {
         if(disclaimerWindow) {
             [[NSApplication sharedApplication] beginSheet:disclaimerWindow 
@@ -462,28 +438,30 @@
 #pragma mark - Actions
 
 - (IBAction)syncInstallSourcesFromMasterList:(id)sender {
-    MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
-    [ps setSheetWindow:parentWindow];
-    [ps reset];
-    [ps setSheetTitle:NSLocalizedString(@"WindowTitle_Progress", @"")];
-    [ps setActionMessage:NSLocalizedString(@"Action_SynchingInstallSources", @"")];
-    [ps setCurrentStepMessage:NSLocalizedString(@"ActionStep_Refreshing", @"")];
-    [ps setIsThreaded:[NSNumber numberWithBool:YES]];
-    [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
-    
-    // start progress bar
-    [ps beginSheet];
-    [ps startProgressAnimation];
-    
-    // refresh master remote install source list
-    if([[SwordInstallSourceController defaultController] refreshMasterRemoteInstallSourceList] == 0) {
-        [[SwordInstallSourceController defaultController] reinitialize];
-        [self refreshInstallSourceListObjects];
-        [categoryOutlineView reloadData];
+    if([self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"UnavailableOptionDueToNoDisclaimerComfirm", @"")]) {
+        MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
+        [ps setSheetWindow:parentWindow];
+        [ps reset];
+        [ps setSheetTitle:NSLocalizedString(@"WindowTitle_Progress", @"")];
+        [ps setActionMessage:NSLocalizedString(@"Action_SynchingInstallSources", @"")];
+        [ps setCurrentStepMessage:NSLocalizedString(@"ActionStep_Refreshing", @"")];
+        [ps setIsThreaded:[NSNumber numberWithBool:YES]];
+        [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
+        
+        // start progress bar
+        [ps beginSheet];
+        [ps startProgressAnimation];
+        
+        // refresh master remote install source list
+        if([[SwordInstallSourceController defaultController] refreshMasterRemoteInstallSourceList] == 0) {
+            [[SwordInstallSourceController defaultController] reinitialize];
+            [self refreshInstallSourceListObjects];
+            [categoryOutlineView reloadData];
+        }    
+        
+        [ps stopProgressAnimation];
+        [ps endSheet];        
     }    
-
-    [ps stopProgressAnimation];
-    [ps endSheet];        
 }
 
 - (IBAction)addInstallSource:(id)sender {
@@ -580,58 +558,60 @@
                              informativeTextWithFormat:NSLocalizedString(@"PleaseMakeSelection", @"")];
         [alert runModal];
     } else {
-        // get ThreadedProgressSheet
-        MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
-        [ps setSheetWindow:parentWindow];
-        [ps setSheetTitle:NSLocalizedString(@"WindowTitle_Progress", @"")];
-        [ps setActionMessage:NSLocalizedString(@"Action_RefreshingInstallSourceAction", @"")];
-        [ps setCurrentStepMessage:NSLocalizedString(@"ActionStep_Refreshing", @"")];
-        [ps setIsThreaded:[NSNumber numberWithBool:YES]];
-        [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
+        if([self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"UnavailableOptionDueToNoDisclaimerComfirm", @"")]) {
+            // get ThreadedProgressSheet
+            MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
+            [ps setSheetWindow:parentWindow];
+            [ps setSheetTitle:NSLocalizedString(@"WindowTitle_Progress", @"")];
+            [ps setActionMessage:NSLocalizedString(@"Action_RefreshingInstallSourceAction", @"")];
+            [ps setCurrentStepMessage:NSLocalizedString(@"ActionStep_Refreshing", @"")];
+            [ps setIsThreaded:[NSNumber numberWithBool:YES]];
+            [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
 
-        // the controller
-        SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
-        
-        // start progress bar
-        [ps beginSheet];
-        [ps startProgressAnimation];
-        
-        int stat = 0;
-        for(InstallSourceListObject *source in selectedInstallSources) {
-            stat = [sis refreshInstallSource:[source installSource]];
-            if(stat != 0) {
-                MBLOG(MBLOG_ERR, @"[ModuleManageViewController -refreshInstallSource:] error on refreshing install source!");
-                break;
+            // the controller
+            SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+            
+            // start progress bar
+            [ps beginSheet];
+            [ps startProgressAnimation];
+            
+            int stat = 0;
+            for(InstallSourceListObject *source in selectedInstallSources) {
+                stat = [sis refreshInstallSource:[source installSource]];
+                if(stat != 0) {
+                    MBLOG(MBLOG_ERR, @"[ModuleManageViewController -refreshInstallSource:] error on refreshing install source!");
+                    break;
+                }
             }
-        }
 
-        if(stat != 0) {
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
-                                             defaultButton:NSLocalizedString(@"OK", @"") 
-                                           alternateButton:nil
-                                               otherButton:nil 
-                                 informativeTextWithFormat:NSLocalizedString(@"ErrorOnRefreshingModules", @"")];
-            [alert runModal];            
-        } else {
-            // re initialize sis
-            //[[SwordManager defaultManager] reInit];
-            [sis reinitialize];
-        }
-        
-        // set selection to none and reload
-        [modListViewController setInstallSources:[NSArray array]];
-        [modListViewController refreshModulesList];
+            if(stat != 0) {
+                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                                 defaultButton:NSLocalizedString(@"OK", @"") 
+                                               alternateButton:nil
+                                                   otherButton:nil 
+                                     informativeTextWithFormat:NSLocalizedString(@"ErrorOnRefreshingModules", @"")];
+                [alert runModal];            
+            } else {
+                // re initialize sis
+                //[[SwordManager defaultManager] reInit];
+                [sis reinitialize];
+            }
+            
+            // set selection to none and reload
+            [modListViewController setInstallSources:[NSArray array]];
+            [modListViewController refreshModulesList];
 
-        [self setSelectedInstallSources:[NSArray array]];
-        [categoryOutlineView deselectAll:self];
-        [categoryOutlineView reloadData];
-        
-        // refresh install source list and reload
-        [self refreshInstallSourceListObjects];
-        [categoryOutlineView reloadData];
-                
-        [ps stopProgressAnimation];
-        [ps endSheet];                
+            [self setSelectedInstallSources:[NSArray array]];
+            [categoryOutlineView deselectAll:self];
+            [categoryOutlineView reloadData];
+            
+            // refresh install source list and reload
+            [self refreshInstallSourceListObjects];
+            [categoryOutlineView reloadData];
+                    
+            [ps stopProgressAnimation];
+            [ps endSheet];
+        }
     }
 }
 
@@ -715,12 +695,15 @@
             data = [NSData data];
         }
     } else {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, dir]];
-        
-        NSURLResponse *response = [[NSURLResponse alloc] init];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        data = [NSURLConnection sendSynchronousRequest:request 
-                                             returningResponse:&response error:nil];        
+        if([self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"UnavailableOptionDueToNoDisclaimerComfirm", @"")]) {        
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, dir]];
+            
+            NSURLResponse *response = [[NSURLResponse alloc] init];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            data = [NSURLConnection sendSynchronousRequest:request 
+                                                 returningResponse:&response error:nil];
+        }
+        data = nil;
     }
     
     // if data is not nil, this URL is valid

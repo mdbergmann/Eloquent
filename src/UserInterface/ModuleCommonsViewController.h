@@ -75,6 +75,9 @@ enum GeneralMenuItemAdditions {
  */
 - (void)initFontSizeOptions;
 
+/** add menu item for custom font size */
+- (void)checkAndAddFontSizeMenuItemIfNotExists;
+
 // Actions to be overriden by subclasses
 - (IBAction)fontSizeChange:(id)sender;
 - (IBAction)displayOptionShowStrongs:(id)sender;

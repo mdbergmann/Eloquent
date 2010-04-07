@@ -599,8 +599,24 @@ extern char BookmarkMgrUI;
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
+    [self checkAndAddFontSizeMenuItemIfNotExists];
     [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
     [self setupPopupButtonsForSearchType];
+}
+
+- (void)checkAndAddFontSizeMenuItemIfNotExists {
+    if(customFontSize > -1) {
+        NSMenu *m = [fontSizePopUpButton menu];
+        if(m && ![m itemWithTag:customFontSize]) {
+            NSMenuItem *item = [[NSMenuItem alloc] init];
+            [item setTitle:[[NSNumber numberWithInt:customFontSize] stringValue]];
+            [item setTag:customFontSize];
+            [item setState:0];
+            
+            [m addItem:[NSMenuItem separatorItem]];
+            [m addItem:item];            
+        }
+    }
 }
 
 - (void)searchTypeChanged:(SearchType)aSearchType withSearchString:(NSString *)aSearchString {

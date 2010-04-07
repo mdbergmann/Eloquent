@@ -38,6 +38,8 @@ then type yes at the prompt!";
 "ISValidInformation" = "Install source information is valid";
 "FirstStart" = "This is the first use of the module installer. Do you want to refresh the default install source now?";
 "AwakeCheckInstallSources" = "Do you want the remote install sources to be checked for availablility? This process can take one or two minutes if you have a slow internet connection.";
+"UnavailableOptionDueToNoDisclaimerComfirm" = "This function will not work because you said \"No\" at the disclaimer dialog.";
+"OnlyRemoveAndInstallForLocalSources" = "Modules will only be removed or installed from a local source because you did not confirm the disclaimer with \"Yes\"!";
 
 // mod status strings
 "ModStatSameVersion" = "Installed";

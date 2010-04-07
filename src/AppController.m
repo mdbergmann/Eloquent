@@ -262,7 +262,6 @@ static AppController *singleton;
         // set singleton
         singleton = self;
 
-        isModuleManagerShowing = NO;
         isContentShowing = NO;
 
         // init window Hosts array
@@ -443,24 +442,8 @@ static AppController *singleton;
  init module manager window controller
  */
 - (IBAction)showModuleManager:(id)sender {
-    if(moduleManager == nil) {
-        moduleManager = [[ModuleManager alloc] initWithDelegate:self]; 
-    }
-    
-    // show window
-    if(!isModuleManagerShowing) {
-        [moduleManager showWindow:self];
-        isModuleManagerShowing = YES;
-        
-        // we stall the background indexer here
-        [[IndexingManager sharedManager] setStalled:YES];
-    } else {
-        [moduleManager close];    
-        isModuleManagerShowing = NO;
-        
-        // it may run again
-        [[IndexingManager sharedManager] setStalled:NO];
-    }
+    ModuleManager *mm = [[ModuleManager alloc] initWithDelegate:self]; 
+    [mm showWindow:self];
 }
 
 - (IBAction)showPreviewPanel:(id)sender {
@@ -598,11 +581,7 @@ static AppController *singleton;
 }
 
 - (void)auxWindowClosing:(NSWindowController *)aController {
-    if([aController isKindOfClass:[ModuleManager class]]) {
-        isModuleManagerShowing = NO;
-        // it may run again
-        [[IndexingManager sharedManager] setStalled:NO];
-    } else if([aController isKindOfClass:[MBPreferenceController class]]) {
+    if([aController isKindOfClass:[MBPreferenceController class]]) {
         isPreferencesShowing = NO;
     } else if([aController isKindOfClass:[HUDPreviewController class]]) {
         isPreviewShowing = NO;

@@ -257,8 +257,7 @@
     [self adaptUIToHost];
     
     if(searchString == nil || [searchString length] == 0) {
-        [self setSearchString:@"Gen 1"];
-        [self displayText];
+        [hostingDelegate setSearchText:@"Gen 1"];
     }
 }
 

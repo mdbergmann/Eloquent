@@ -121,6 +121,10 @@
     swInstallSource->directory = [aDir cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
+- (BOOL)isLocalSource {
+    return [[self source] isEqualToString:@"localhost"];
+}
+
 // get config entry
 - (NSString *)configEntry {
     return [NSString stringWithFormat:@"%@|%@|%@", [self caption], [self source], [self directory]];

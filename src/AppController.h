@@ -24,10 +24,6 @@ typedef enum AppErrorCodes {
 	// our preference controller
 	MBPreferenceController *preferenceController;
     BOOL isPreferencesShowing;
-
-    // module installer
-    ModuleManager *moduleManager;
-    BOOL isModuleManagerShowing;
     
     // HUD preview
     IBOutlet HUDPreviewController *previewController;

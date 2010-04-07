@@ -93,8 +93,6 @@
     defaultMiscViewHeight = 60;
     [horiSplitView setDividerStyle:NSSplitViewDividerStyleThin];
     
-    [[displayOptionsMenu itemWithTag:1] setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] intValue]];
-    
     [parBibleSplitView setVertical:YES];
     [parBibleSplitView setDividerStyle:NSSplitViewDividerStyleThin];
 
@@ -310,13 +308,17 @@
 }
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
-    [super prepareContentForHost:aHostController];
     for(HostableViewController *hc in parBibleViewControllers) {
+        customFontSize = [(ModuleCommonsViewController *)hc customFontSize];
+        [self checkAndAddFontSizeMenuItemIfNotExists];
         [hc prepareContentForHost:aHostController];
     }
     for(HostableViewController *hc in parMiscViewControllers) {
+        customFontSize = [(ModuleCommonsViewController *)hc customFontSize];
+        [self checkAndAddFontSizeMenuItemIfNotExists];
         [hc prepareContentForHost:aHostController];
     }
+    [super prepareContentForHost:aHostController];
 }
 
 - (BOOL)enableAddBookmarks {
