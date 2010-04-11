@@ -1205,6 +1205,9 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = CrossWire;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MacSword2" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
@@ -1321,7 +1324,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/local/bin/macruby;
-			shellScript = "require 'rubygems'\nrequire 'hotcocoa'\n\n# the prefix is incremented for every minor/major version number increment\n# the actual number begins at 1\nprefix = \"a\"\n\nbuildstring = File.new(\"buildnumber\", \"r\").gets\nsplitnum = buildstring.split(prefix)\nnumber = splitnum[splitnum.length-1].to_i\nnumber += 1\nbuildnumber = prefix + number.to_s\nFile.new(\"buildnumber\", \"w+\").write(buildnumber)\n";
+			shellScript = "buildstring = File.new(\"buildnumber\", \"r\").gets\nnumber = buildstring.to_i\nnumber += 1\nFile.new(\"buildnumber\", \"w+\").write(number.to_s)\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
