@@ -80,6 +80,10 @@ typedef enum _ProgressActionType {
 // printing
 - (NSView *)printViewForInfo:(NSPrintInfo *)printInfo;
 
+// Clicked links
+- (BOOL)linkClicked:(id)link;
+- (NSString *)processPreviewDisplay:(NSURL *)aUrl;
+
 // ProgressIndicating
 - (void)beginIndicateProgress;
 - (void)endIndicateProgress;

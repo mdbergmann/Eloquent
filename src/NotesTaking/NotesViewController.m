@@ -26,7 +26,6 @@ extern char NotesMgrUI;
 @interface NotesViewController ()
 
 - (NSAttributedString *)swordLinkStringFromReference:(NSString *)aReference ofModule:(NSString *)aModuleName;
-- (NSString *)processPreviewDisplay:(NSURL *)aUrl;
 - (NotesUIController *)notesUIController;
 
 @end
@@ -294,21 +293,8 @@ extern char NotesMgrUI;
 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
     [self processPreviewDisplay:(NSURL *)link];
-    
+    [self linkClicked:link];
     return YES;
-}
-
-- (NSString *)processPreviewDisplay:(NSURL *)aUrl {
-    NSDictionary *linkResult = [SwordManager linkDataForLinkURL:aUrl];
-    SendNotifyShowPreviewData(linkResult);
-    
-    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] classname: %@", [aUrl className]);    
-    MBLOGV(MBLOG_DEBUG, @"[ExtTextViewController -textView:clickedOnLink:] link: %@", [aUrl description]);
-    if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
-        return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
-    }
-    
-    return @"";
 }
 
 #pragma mark - NSCoding protocol

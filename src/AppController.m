@@ -518,9 +518,13 @@ static AppController *singleton;
     if(status != errAuthorizationSuccess) {
         MBLOGV(MBLOG_ERR, @"Failed to create the authref: %ld", status);
     } else {
-        NSString *cmd = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin/link_tools.sh"];
+        NSString *binFolder = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin"];
+        NSString *cmd = [NSString stringWithFormat:@"%@/%@", binFolder, @"link_tools.sh"];
         
-        int err = AuthorizationExecuteWithPrivileges(authorizationRef, [cmd UTF8String], 0, NULL, NULL);
+        char *args[2];
+        args[0] = (char *)[binFolder UTF8String];
+        args[1] = NULL;
+        int err = AuthorizationExecuteWithPrivileges(authorizationRef, [cmd UTF8String], 0, args, NULL);
         if(err != 0) {
             MBLOG(MBLOG_ERR, @"Error at executeWithPrivileges!");
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")

@@ -1,7 +1,7 @@
 /******************************************************************************
  *	versekey.h - code for class 'versekey'- a standard Biblical verse key
  *
- * $Id: versekey.h 2377 2009-05-04 08:04:55Z scribe $
+ * $Id: versekey.h 2508 2010-03-23 09:19:15Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -93,7 +93,7 @@ class SWDLLEXPORT VerseKey : public SWKey {
 	mutable long lowerBound, upperBound;	// if autonorms is on
 	mutable VerseKey *tmpClone;
 
-	typedef struct { int test; int book; int chap; int verse; } VerseComponents;
+	typedef struct { int test; int book; int chap; int verse; char suffix; } VerseComponents;
 
 	mutable VerseComponents lowerBoundComponents, upperBoundComponents;	// if autonorms is off, we can't optimize with index
 
