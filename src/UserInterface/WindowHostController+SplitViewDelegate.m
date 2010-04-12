@@ -90,9 +90,10 @@
         } else if(sv == contentSplitView) {
             NSSize s = [[rsbViewController view] frame].size;
             if(s.width > 10) {
+                rsbWidth = s.width;
                 [userDefaults setInteger:s.width forKey:DefaultsRSBWidth];
             }
-        }        
+        }
     }
 }
 

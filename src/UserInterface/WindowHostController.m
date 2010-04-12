@@ -308,8 +308,8 @@ typedef enum _NavigationDirectionType {
     
     if(contentViewController != nil) {
         // RSB
-        [self showRightSideBar:[contentViewController showsRightSideBar]];
         [rsbViewController setContentView:[contentViewController rightAccessoryView]];
+        [self showRightSideBar:[contentViewController showsRightSideBar]];
         // TOP
         NSView *topView = [contentViewController topAccessoryView];
         if([self isFullScreenMode]) {
