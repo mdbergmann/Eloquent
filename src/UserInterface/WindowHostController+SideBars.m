@@ -72,12 +72,14 @@
 
 - (void)showRightSideBar:(BOOL)flag {
     if(flag) {
-        if(rsbWidth == 0) {
-            rsbWidth = defaultRSBWidth;
+        if(![self showingRSB]) {
+            if(rsbWidth == 0) {
+                rsbWidth = defaultRSBWidth;
+            }
+            NSView *v = [rsbViewController view];
+            [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
+            [self restoreRightSideBarWithWidth:rsbWidth];            
         }
-        NSView *v = [rsbViewController view];
-        [contentSplitView addSubview:v positioned:NSWindowAbove relativeTo:nil];
-        [self restoreRightSideBarWithWidth:rsbWidth];
     } else {
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
