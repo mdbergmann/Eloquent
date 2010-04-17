@@ -241,6 +241,14 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
+- (IBAction)quitFullscreenMode:(id)sender {
+    [view setFullScreenMode:NO];
+}
+
+- (IBAction)enterFullscreenMode:(id)sender {
+    [view setFullScreenMode:YES];    
+}
+
 - (IBAction)performClose:(id)sender {
     [self close];
     [Assotiater unregisterForAssotiatedObject:self withKey:&NotesMgrUI];

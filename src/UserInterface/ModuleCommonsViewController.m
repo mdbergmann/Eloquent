@@ -187,107 +187,21 @@ extern char BookmarkMgrUI;
     NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"FontSize", @"") action:nil keyEquivalent:@""];
     [item setHidden:YES];
     
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"8"];
-    [item setTag:8];
-    [item setState:0];
+    for(int i = 8;i <= 11;i++) {
+        item = [[NSMenuItem alloc] init];
+        [menu addItem:item];    
+        [item setTitle:[NSString stringWithFormat:@"%d", i]];
+        [item setTag:i];
+        [item setState:0];        
+    }
     
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"9"];
-    [item setTag:9];
-    [item setState:0];
-    
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"10"];
-    [item setTag:10];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"11"];
-    [item setTag:11];
-    [item setState:0];
-    
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"12"];
-    [item setTag:12];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"13"];
-    [item setTag:13];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"14"];
-    [item setTag:14];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"16"];
-    [item setTag:16];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"18"];
-    [item setTag:18];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"20"];
-    [item setTag:20];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"22"];
-    [item setTag:22];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"24"];
-    [item setTag:24];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"26"];
-    [item setTag:26];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"28"];
-    [item setTag:28];
-    [item setState:0];
-    
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"30"];
-    [item setTag:30];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"34"];
-    [item setTag:34];
-    [item setState:0];
-
-    item = [[NSMenuItem alloc] init];
-    [menu addItem:item];    
-    [item setTitle:@"38"];
-    [item setTag:38];
-    [item setState:0];
+    for(int i = 12;i <= 78;i+=2) {
+        item = [[NSMenuItem alloc] init];
+        [menu addItem:item];    
+        [item setTitle:[NSString stringWithFormat:@"%d", i]];
+        [item setTag:i];
+        [item setState:0];        
+    }
 
     // set menu to poup
     [fontSizePopUpButton setMenu:menu];

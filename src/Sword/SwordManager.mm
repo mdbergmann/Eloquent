@@ -51,32 +51,34 @@ using std::list;
 	for(ModMap::iterator it = swManager->Modules.begin(); it != swManager->Modules.end(); it++) {
 		mod = it->second;
         
-        // create module instances
-        NSString *type;
-        NSString *name;
-        if(mod->isUnicode()) {
-            type = [NSString stringWithUTF8String:mod->Type()];
-            name = [NSString stringWithUTF8String:mod->Name()];
-        } else {
-            type = [NSString stringWithCString:mod->Type() encoding:NSISOLatin1StringEncoding];
-            name = [NSString stringWithCString:mod->Name() encoding:NSISOLatin1StringEncoding];
+        if(mod) {
+            // create module instances
+            NSString *type;
+            NSString *name;
+            if(mod->isUnicode()) {
+                type = [NSString stringWithUTF8String:mod->Type()];
+                name = [NSString stringWithUTF8String:mod->Name()];
+            } else {
+                type = [NSString stringWithCString:mod->Type() encoding:NSISOLatin1StringEncoding];
+                name = [NSString stringWithCString:mod->Name() encoding:NSISOLatin1StringEncoding];
+            }
+            
+            SwordModule *sm = nil;
+            if([type isEqualToString:SWMOD_CATEGORY_BIBLES]) {
+                sm = [[SwordBible alloc] initWithSWModule:mod swordManager:self];
+            } else if([type isEqualToString:SWMOD_CATEGORY_COMMENTARIES]) {
+                sm = [[SwordCommentary alloc] initWithSWModule:mod swordManager:self];
+            } else if([type isEqualToString:SWMOD_CATEGORY_DICTIONARIES]) {
+                sm = [[SwordDictionary alloc] initWithSWModule:mod swordManager:self];
+            } else if([type isEqualToString:SWMOD_CATEGORY_GENBOOKS]) {
+                sm = [[SwordBook alloc] initWithSWModule:mod swordManager:self];
+            } else {
+                sm = [[SwordModule alloc] initWithSWModule:mod swordManager:self];
+            }
+            [dict setObject:sm forKey:[sm name]];
+            
+            [self addFiltersToModule:mod];            
         }
-        
-        SwordModule *sm = nil;
-        if([type isEqualToString:SWMOD_CATEGORY_BIBLES]) {
-            sm = [[SwordBible alloc] initWithSWModule:mod swordManager:self];
-        } else if([type isEqualToString:SWMOD_CATEGORY_COMMENTARIES]) {
-            sm = [[SwordCommentary alloc] initWithSWModule:mod swordManager:self];
-        } else if([type isEqualToString:SWMOD_CATEGORY_DICTIONARIES]) {
-            sm = [[SwordDictionary alloc] initWithSWModule:mod swordManager:self];
-        } else if([type isEqualToString:SWMOD_CATEGORY_GENBOOKS]) {
-            sm = [[SwordBook alloc] initWithSWModule:mod swordManager:self];
-        } else {
-            sm = [[SwordModule alloc] initWithSWModule:mod swordManager:self];
-        }
-        [dict setObject:sm forKey:[sm name]];
-        
-        [self addFiltersToModule:mod];
 	}
     
     // set modules

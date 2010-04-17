@@ -22,7 +22,7 @@
             MBLOG(MBLOG_ERR,@"[InitialInfoViewController]: cannot load ConfirmationSheetControllerNib!");
         }        
     }
-    
+
     return self;
 }
 

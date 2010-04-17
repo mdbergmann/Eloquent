@@ -44,6 +44,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 
 - (void)registerDefaults;
 - (BOOL)setupFolders;
+- (void)addInternalModules;
 
 @end
 
@@ -239,6 +240,31 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	}
     
     return ret;
+}
+
+- (void)addInternalModules {
+    NSString *modulesFolder = [[[NSBundle mainBundle] resourcePath]stringByAppendingPathComponent:@"Modules"];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSArray *subDirs = [fm directoryContentsAtPath:modulesFolder];
+    // for all sub directories add module
+    BOOL directory;
+    NSString *fullSubDir = nil;
+    NSString *subDir = nil;
+    for(subDir in subDirs) {
+        if([subDir hasSuffix:@"swd"]) {
+            fullSubDir = [modulesFolder stringByAppendingPathComponent:subDir];
+            
+            //if its a directory
+            if([fm fileExistsAtPath:fullSubDir isDirectory:&directory]) {
+                if(directory) {
+                    MBLOGV(MBLOG_DEBUG, @"[SwordManager -reInit] augmenting folder: %@", fullSubDir);
+                    [[SwordManager defaultManager] addPath:fullSubDir];
+                    MBLOG(MBLOG_DEBUG, @"[SwordManager -reInit] augmenting folder done");
+                }
+            }
+        }
+    }
 }
 
 @end
@@ -644,6 +670,11 @@ static AppController *singleton;
     
     // init default SwordManager
     SwordManager *sm = [SwordManager defaultManager];
+    
+    // check for installed modules, if there are none add our internal module path so that th user at least has one module (ESV)
+    if([[sm modules] count] == 0) {
+        [self addInternalModules];
+    }
     
     // init install manager
     SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];

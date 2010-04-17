@@ -27,6 +27,7 @@
 #define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/MacSword/DefaultSession.plist" stringByExpandingTildeInPath]
 #define DEFAULT_SEARCHBOOKSET_PATH  [@"~/Library/Application Support/MacSword/DefaultSearchBookSets.plist" stringByExpandingTildeInPath]
 #define SWINSTALLMGR_NAME           @"InstallMgr"
+#define DEFAULT_MODULE_PATH         [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
 #define LOGFILE                     [@"~/Library/Logs/MacSword2.log" stringByExpandingTildeInPath]
 #define TMPFOLDER                   [@"~/Library/Caches/MacSword" stringByExpandingTildeInPath]
 

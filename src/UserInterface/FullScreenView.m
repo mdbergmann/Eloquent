@@ -73,6 +73,15 @@
         [[self delegate] performSelector:@selector(goingToFullScreenMode)];
     }
     [self enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];    
+    
+    // stretch toolbar view to take up 3/4 of the main view width    
+    NSView *hudView = [toolbarController toolbarHUDView];
+    CGFloat mainViewWidth = [self frame].size.width;
+    MBLOGV(MBLOG_DEBUG, @"fsview width: %f", mainViewWidth);
+    CGFloat newHUDViewWidth = mainViewWidth * (3.0/4.0);
+    MBLOGV(MBLOG_DEBUG, @"hudview width: %f", newHUDViewWidth);
+    [hudView setFrameSize:NSMakeSize(newHUDViewWidth, [hudView frame].size.height)];
+    
     if([self delegate] && [[self delegate] respondsToSelector:@selector(goneToFullScreenMode)]) {
         [[self delegate] performSelector:@selector(goneToFullScreenMode)];
     }
@@ -97,9 +106,10 @@
             MBLOG(MBLOG_DEBUG, @"[FullscreenView -mouseEntered:]");
             if([self isInFullScreenMode]) {
                 NSView *hudView = [toolbarController toolbarHUDView];
+                                
+                // center position                
                 CGFloat x = [self frame].size.width / 2.0 - [hudView frame].size.width / 2.0;
-                CGFloat y = [self frame].size.height - [hudView frame].size.height - 5.0;
-                
+                CGFloat y = [self frame].size.height - [hudView frame].size.height - 5.0;                
                 [hudView setFrameOrigin:NSMakePoint(x, y)];
                 
                 [NSAnimationContext beginGrouping];

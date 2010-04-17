@@ -25,7 +25,9 @@
 
 @interface ToolbarController : HostableViewController {
     IBOutlet NSButton *leftSideBarToggleBtn;
+    IBOutlet NSButton *hudLeftSideBarToggleBtn;
     IBOutlet NSButton *rightSideBarToggleBtn;
+    IBOutlet NSButton *hudRightSideBarToggleBtn;
     IBOutlet NSButton *addBookmarkBtn;
     IBOutlet NSButton *forceReloadBtn;
     IBOutlet NSButton *hudForceReloadBtn;
@@ -33,6 +35,8 @@
     IBOutlet NSSearchField *hudSearchTextField;
     IBOutlet NSSegmentedControl *searchTypeSegControl;
     IBOutlet NSSegmentedControl *hudSearchTypeSegControl;
+    IBOutlet NSButton *enterFullscreenModeBtn;
+    IBOutlet NSButton *quitFullscreenModeBtn;
 
     IBOutlet NSToolbar *toolbar;
     IBOutlet NSToolbarItem *toolbarViewItem;
@@ -70,5 +74,7 @@
 - (IBAction)forceReload:(id)sender;
 - (IBAction)leftSideBarHideShow:(id)sender;
 - (IBAction)rightSideBarHideShow:(id)sender;
+- (IBAction)enterFullscreenMode:(id)sender;
+- (IBAction)quitFullscreenMode:(id)sender;
 
 @end

@@ -101,11 +101,13 @@
 }
 
 - (void)setLSBToggleButtonImage:(NSImage *)anImage {
-    [leftSideBarToggleBtn setImage:anImage];    
+    [leftSideBarToggleBtn setImage:anImage];
+    [hudLeftSideBarToggleBtn setImage:anImage];
 }
 
 - (void)setRSBToggleButtonImage:(NSImage *)anImage {
     [rightSideBarToggleBtn setImage:anImage];    
+    [hudRightSideBarToggleBtn setImage:anImage];
 }
 
 # pragma mark - NSToolbarDelegate
@@ -118,6 +120,7 @@
                                  @"ReferenceTextField",
                                  @"AddBookmarkButton",
                                  @"RefreshButton",
+                                 @"FullscreenButton",
                                  NSToolbarSpaceItemIdentifier,
                                  @"RightSidebarButton",
                                  nil];
@@ -132,7 +135,7 @@
 	return [tbIdentifiers valueForKey:itemIdentifier];
 }
 */
- 
+
 #pragma mark - Actions
 
 - (IBAction)clearRecents:(id)sender {
@@ -161,6 +164,14 @@
 
 - (IBAction)rightSideBarHideShow:(id)sender {
     [delegate rightSideBarHideShow:sender];
+}
+
+- (IBAction)quitFullscreenMode:(id)sender {
+    [delegate quitFullscreenMode:sender];
+}
+
+- (IBAction)enterFullscreenMode:(id)sender {
+    [delegate enterFullscreenMode:sender];
 }
 
 @end
