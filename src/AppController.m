@@ -131,8 +131,10 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     NSColor *fgCol = [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0];
     NSColor *lkCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
     NSColor *hfCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
+    NSColor *thCol = [NSColor colorWithCalibratedRed:0.7764 green:0.3176 blue:0.0 alpha:1.0];
     [defaultsDict setColor:bgCol forKey:DefaultsTextBackgroundColor];
     [defaultsDict setColor:fgCol forKey:DefaultsTextForegroundColor];
+    [defaultsDict setColor:thCol forKey:DefaultsTextHighlightColor];
     [defaultsDict setColor:lkCol forKey:DefaultsLinkForegroundColor];
     [defaultsDict setColor:bgCol forKey:DefaultsLinkBackgroundColor];
     [defaultsDict setColor:hfCol forKey:DefaultsHeadingsForegroundColor];

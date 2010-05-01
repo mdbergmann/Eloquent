@@ -78,6 +78,7 @@ typedef enum _VerseNumberingType {
 #define DefaultsShowPreviewToolTip                  @"DefaultsShowPreviewToolTip"
 #define DefaultsTextBackgroundColor                 @"DefaultsTextBackgroundColor"
 #define DefaultsTextForegroundColor                 @"DefaultsTextForegroundColor"
+#define DefaultsTextHighlightColor                  @"DefaultsTextHighlightColor"
 #define DefaultsLinkUnderlineAttribute              @"DefaultsLinkUnderlineAttribute"
 #define DefaultsLinkForegroundColor                 @"DefaultsLinkForegroundColor"
 #define DefaultsLinkBackgroundColor                 @"DefaultsLinkBackgroundColor"

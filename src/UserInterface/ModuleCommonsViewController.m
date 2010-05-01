@@ -602,6 +602,10 @@ extern char BookmarkMgrUI;
         if(dOpts) {
             self.displayOptions = [NSMutableDictionary dictionaryWithDictionary:dOpts];
         }
+        NSNumber *showingRSB = [decoder decodeObjectForKey:@"ShowingRSBPreferred"];
+        if(showingRSB) {
+            [self setShowingRSBPreferred:[showingRSB boolValue]];
+        }
     }
     
     return self;
@@ -611,6 +615,7 @@ extern char BookmarkMgrUI;
     [encoder encodeObject:[NSNumber numberWithInt:customFontSize] forKey:@"CustomFontSizeEncoded"];
     [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
     [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
+    [encoder encodeObject:[NSNumber numberWithBool:showingRSBPreferred] forKey:@"ShowingRSBPreferred"];
 }
 
 @end

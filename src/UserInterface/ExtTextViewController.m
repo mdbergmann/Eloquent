@@ -54,7 +54,12 @@
     [linkAttributes setObject:[userDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
     [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
     [textView setLinkTextAttributes:linkAttributes];
+
     [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
+
+    NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
+    [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
+    [textView setSelectedTextAttributes:selectionAttributes];
      
     [textView setString:@""];
     scrollView.delegate = self;
@@ -72,6 +77,9 @@
                                                options:NSKeyValueObservingOptionNew context:nil];
     [[NSUserDefaults standardUserDefaults] addObserver:self 
                                             forKeyPath:DefaultsTextBackgroundColor
+                                               options:NSKeyValueObservingOptionNew context:nil];
+    [[NSUserDefaults standardUserDefaults] addObserver:self 
+                                            forKeyPath:DefaultsTextHighlightColor
                                                options:NSKeyValueObservingOptionNew context:nil];
     [[NSUserDefaults standardUserDefaults] addObserver:self 
                                             forKeyPath:DefaultsLinkForegroundColor
@@ -109,6 +117,10 @@
         [textView setTextContainerInset:margins];
 	} else if([keyPath isEqualToString:DefaultsTextBackgroundColor]) {
         [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];        
+	} else if([keyPath isEqualToString:DefaultsTextHighlightColor]) {
+        NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
+        [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
+        [textView setSelectedTextAttributes:selectionAttributes];
 	} else if([keyPath isEqualToString:DefaultsLinkForegroundColor]) {
         NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
         [linkAttributes setObject:[userDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
