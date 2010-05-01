@@ -149,14 +149,14 @@
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule {
     if(aModule != nil) {
         BibleViewController *vc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
-        [self addContentViewController:vc];        
-        //[vc prepareContentForHost:delegate];
+        [self addContentViewController:vc];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
         }
         [vc setDisplayOptions:displayOptions];
         [vc setModDisplayOptions:modDisplayOptions];
-        [vc displayTextForReference:searchString searchType:searchType];        
+        [vc displayTextForReference:searchString searchType:searchType];
+        [vc prepareContentForHost:hostingDelegate];
     }
 }
 
@@ -168,13 +168,13 @@
     if(aModule != nil) {
         CommentaryViewController *vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
         [self addContentViewController:vc];
-        //[vc prepareContentForHost:delegate];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
         }
         [vc setDisplayOptions:displayOptions];
         [vc setModDisplayOptions:modDisplayOptions];
         [vc displayTextForReference:searchString searchType:searchType];        
+        [vc prepareContentForHost:hostingDelegate];
     }
 }
 

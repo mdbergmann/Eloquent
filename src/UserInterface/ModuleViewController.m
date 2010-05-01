@@ -199,6 +199,16 @@
     return printView;
 }
 
+#pragma mark - HostViewDelegate
+
+- (void)prepareContentForHost:(WindowHostController *)aHostController {
+    [super prepareContentForHost:aHostController];
+    [self populateModulesMenu];
+    [self populateAddPopupMenu];
+    
+    [self adaptUIToHost];
+}
+
 #pragma mark - TextDisplayable
 
 - (void)displayText {

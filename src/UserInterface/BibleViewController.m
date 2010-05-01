@@ -250,11 +250,7 @@
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
-    [self populateModulesMenu];
     [self populateBookmarksMenu];
-    [self populateAddPopupMenu];
-    
-    [self adaptUIToHost];
     
     if(searchString == nil || [searchString length] == 0) {
         [hostingDelegate setSearchText:@"Gen 1"];
