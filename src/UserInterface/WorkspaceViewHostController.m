@@ -334,7 +334,8 @@
 
 - (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
     if(![viewControllers containsObject:aViewController]) {
-        [viewControllers addObject:aViewController];        
+        [viewControllers addObject:aViewController];
+        [aViewController setShowingRSBPreferred:[userDefaults boolForKey:DefaultsShowRSBWorkspace]];
     }
     [self _addContentViewController:aViewController];
     [super addContentViewController:aViewController];

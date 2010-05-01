@@ -23,18 +23,21 @@
 
 - (NSView *)rightAccessoryView {
     if(searchType == ReferenceSearchType) {
-        return sideBarView;// [entriesOutlineView enclosingScrollView];    
+        return sideBarView;
     } else {
         return [searchBookSetsController view];
     }
 }
 
 - (BOOL)showsRightSideBar {
+    return [super showsRightSideBar];
+    /*
     if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
         return [userDefaults boolForKey:DefaultsShowRSBWorkspace];
     } else {
         return [userDefaults boolForKey:DefaultsShowRSBSingle];        
     }
+     */
 }
 
 #pragma mark - SearchBookSetEditorController delegate methods

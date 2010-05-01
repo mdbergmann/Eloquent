@@ -18,6 +18,7 @@
 @synthesize viewLoaded;
 @synthesize searchType;
 @synthesize searchString;
+@synthesize showingRSBPreferred;
 
 - (id)init {
     self = [super init];
@@ -95,7 +96,7 @@
 }
 
 - (BOOL)showsRightSideBar {
-    return NO;
+    return showingRSBPreferred;
 }
 
 - (void)searchTypeChanged:(SearchType)aSearchType withSearchString:(NSString *)aSearchString {

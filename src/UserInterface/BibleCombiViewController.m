@@ -297,6 +297,8 @@
 }
 
 - (BOOL)showsRightSideBar {
+    return [super showsRightSideBar];
+    /*
     if(hostingDelegate) {
         if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             return [userDefaults boolForKey:DefaultsShowRSBWorkspace];
@@ -305,6 +307,7 @@
         }
     }
     return YES;
+     */
 }
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {

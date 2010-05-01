@@ -82,6 +82,7 @@
 #pragma mark - SubviewHosting protocol
 
 - (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
+    [aViewController setShowingRSBPreferred:[userDefaults boolForKey:DefaultsShowRSBSingle]];
     [super addContentViewController:aViewController];
 }
 

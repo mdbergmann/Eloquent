@@ -9,6 +9,15 @@
 #import "WindowHostController+SideBars.h"
 #import "ToolbarController.h"
 #import "NSImage+Additions.h"
+#import "WorkspaceViewHostController.h"
+#import "globals.h"
+#import "MBPreferenceController.h"
+
+@interface WindowHostController ()
+
+- (void)storeRSBUserDefaults;
+
+@end
 
 @implementation WindowHostController (SideBars)
 
@@ -89,6 +98,8 @@
         [v removeFromSuperview];
     }
     [self showingRSB];
+    [self storeRSBUserDefaults];
+    [contentViewController setShowingRSBPreferred:flag];
 }
 
 - (void)restoreLeftSideBarWithWidth:(float)width {
@@ -96,7 +107,7 @@
     NSRect lvRect = [lv frame];
     lvRect.size.width = width;
     [lv setFrameSize:lvRect.size];
-    
+
     NSRect rvRect = [contentPlaceHolderView frame];
     rvRect.size.width = [mainSplitView frame].size.width - (lvRect.size.width + [mainSplitView dividerThickness]);
     [contentPlaceHolderView setFrameSize:rvRect.size];    
@@ -111,6 +122,14 @@
     NSRect lvRect = [placeHolderView frame];
     lvRect.size.width = [contentSplitView frame].size.width - (rvRect.size.width + [contentSplitView dividerThickness]);
     [placeHolderView setFrameSize:lvRect.size];
+}
+
+- (void)storeRSBUserDefaults {
+    if([self isKindOfClass:[WorkspaceViewHostController class]]) {
+        [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBWorkspace];
+    } else {
+        [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBSingle];
+    }    
 }
 
 @end

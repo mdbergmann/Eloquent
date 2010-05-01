@@ -22,7 +22,7 @@
 - (NSView *)topAccessoryView;
 - (NSView *)rightAccessoryView;
 - (BOOL)showsRightSideBar;
-
+- (void)setShowingRSBPreferred:(BOOL)preferred;
 - (void)searchTypeChanged:(SearchType)aSearchType withSearchString:(NSString *)aSearchString;
 - (void)searchStringChanged:(NSString *)aSearchString;
 - (void)forceReload;
@@ -41,6 +41,7 @@
     
     BOOL viewLoaded;    
     BOOL isLoadingComleteReported;
+    BOOL showingRSBPreferred;
     
     SearchType searchType;
     NSString *searchString;
@@ -51,6 +52,7 @@
 @property (readwrite) BOOL viewLoaded;
 @property (readwrite) SearchType searchType;
 @property (retain, readwrite) NSString *searchString;
+@property (readwrite) BOOL showingRSBPreferred;
 
 - (void)reportLoadingComplete;
 - (void)removeFromSuperview;
@@ -70,6 +72,7 @@
 - (NSView *)topAccessoryView;
 - (NSView *)rightAccessoryView;
 - (BOOL)showsRightSideBar;
+- (void)setShowingRSBPreferred:(BOOL)preferred;
 - (void)searchTypeChanged:(SearchType)aSearchType withSearchString:(NSString *)aSearchString;
 - (void)searchStringChanged:(NSString *)aSearchString;
 - (void)forceReload;
