@@ -286,18 +286,45 @@ static AppController *singleton;
 	if(self == nil) {
 		MBLOG(MBLOG_ERR,@"cannot alloc AppController!");		
     } else {
-                
+
+        // first thing we do is check for system version
+        if([(NSString *)OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
+            NSLog(@"[MacSword] can't run here, you need Mac OSX Leopard to run!");
+            // we can't run here
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                             defaultButton:NSLocalizedString(@"OK", @"") 
+                                           alternateButton:nil 
+                                               otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"MacSwordNeedsLeopard", @"")];
+            [alert runModal];
+            [[NSApplication sharedApplication] terminate:nil];
+        }
+
         // set singleton
         singleton = self;
 
         isContentShowing = NO;
 
         // init window Hosts array
-        windowHosts = [[NSMutableArray alloc] init];
-        
-		// register user defaults
-		[self registerDefaults];
+        windowHosts = [[NSMutableArray alloc] init];        
 
+        NSFileManager *fm = [NSFileManager defaultManager];
+        // check whether this is the first start of MacSword2
+        NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.MacSword.plist" stringByExpandingTildeInPath];
+        if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:DEFAULT_MODULE_PATH]) {
+            // show Alert
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"") 
+                                             defaultButton:NSLocalizedString(@"Yes", @"") 
+                                           alternateButton:NSLocalizedString(@"No", @"") 
+                                               otherButton:nil informativeTextWithFormat:@"A MacSword 1 module database has been detected. This can cause a crash when used with MacSword 2. Do you want me to delete this database? You will then start with a fresh database but need to download your modules possibly again."];
+            if([alert runModal] == NSAlertDefaultReturn) {
+                [fm removeItemAtPath:DEFAULT_MODULE_PATH error:nil];
+            }
+        }
+        
+        // register user defaults
+        [self registerDefaults];
+        
         // init AppSupportFolder
         [self setupFolders];
         
@@ -306,6 +333,36 @@ static AppController *singleton;
         if(!sessionPath) {
             sessionPath = @"";
         }
+        
+        // initialize ThreadedProgressSheet
+        [MBThreadedProgressSheetController standardProgressSheetController];
+        
+        // init default progressoverlay controller
+        [ProgressOverlayViewController defaultController];
+        
+        // init default SwordManager
+        SwordManager *sm = [SwordManager defaultManager];
+        
+        // check for installed modules, if there are none add our internal module path so that th user at least has one module (ESV)
+        if([[sm modules] count] == 0) {
+            [self addInternalModules];
+        }
+        
+        // init install manager
+        SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
+        [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
+        
+        // make available all cipher keys to SwordManager
+        NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
+        for(NSString *modName in cipherKeys) {
+            NSString *key = [cipherKeys objectForKey:modName];
+            [sm setCipherKey:key forModuleNamed:modName];
+        }
+        
+        // init indexingmanager, set base index path
+        IndexingManager *im = [IndexingManager sharedManager];
+        [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
+        [im setSwordManager:sm];        
     }
     
     return self;
@@ -628,18 +685,6 @@ static AppController *singleton;
 - (void)awakeFromNib {
     MBLOG(MBLOG_DEBUG, @"[AppController -awakeFromNib]");
     
-    // first thing we do is check for system version
-    if([(NSString *)OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
-        NSLog(@"[MacSword] can't run here, you need Mac OSX Leopard to run!");
-        // we can't run here
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
-                                         defaultButton:NSLocalizedString(@"OK", @"") 
-                                       alternateButton:nil 
-                                           otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"MacSwordNeedsLeopard", @"")];
-        [alert runModal];
-        [[NSApplication sharedApplication] terminate:nil];
-    }
     
     // check for session to load
     if([sessionPath length] == 0) {
@@ -664,36 +709,6 @@ static AppController *singleton;
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     MBLOG(MBLOG_DEBUG, @"[AppController -applicationWillFinishLaunching:]");
     
-    // initialize ThreadedProgressSheet
-    [MBThreadedProgressSheetController standardProgressSheetController];
-    
-    // init default progressoverlay controller
-    [ProgressOverlayViewController defaultController];
-    
-    // init default SwordManager
-    SwordManager *sm = [SwordManager defaultManager];
-    
-    // check for installed modules, if there are none add our internal module path so that th user at least has one module (ESV)
-    if([[sm modules] count] == 0) {
-        [self addInternalModules];
-    }
-    
-    // init install manager
-    SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
-    [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
-    
-    // make available all cipher keys to SwordManager
-    NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
-    for(NSString *modName in cipherKeys) {
-        NSString *key = [cipherKeys objectForKey:modName];
-        [sm setCipherKey:key forModuleNamed:modName];
-    }
-    
-    // init indexingmanager, set base index path
-    IndexingManager *im = [IndexingManager sharedManager];
-    [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
-    [im setSwordManager:sm];        
-
     /*
     // start background indexer if enabled
     if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
