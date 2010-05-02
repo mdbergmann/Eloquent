@@ -441,7 +441,7 @@
         if(lsbShowing) {
             [self restoreLeftSideBarWithWidth:loadedLSBWidth];
         }
-        if(rsbShowing) {
+        if([self showingRSB]) {
             [self restoreRightSideBarWithWidth:loadedRSBWidth];
         }
     }

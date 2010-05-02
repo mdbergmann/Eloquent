@@ -103,7 +103,7 @@ typedef enum _NavigationDirectionType {
     [contentSplitView setDelegate:self];
     
     [self showLeftSideBar:lsbShowing];
-    [self showRightSideBar:rsbShowing];
+    //[self showRightSideBar:rsbShowing];
 
     [[self window] setToolbar:[toolbarController toolbar]];
     
