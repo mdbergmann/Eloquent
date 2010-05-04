@@ -204,7 +204,6 @@
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
     [self populateModulesMenu];
-    [self populateAddPopupMenu];
     
     [self adaptUIToHost];
 }

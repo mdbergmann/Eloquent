@@ -250,6 +250,7 @@
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
+    [self populateAddPopupMenu];
     [self populateBookmarksMenu];
     
     if(searchString == nil || [searchString length] == 0) {
