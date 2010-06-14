@@ -784,7 +784,7 @@
 			NSMutableArray *selection = [NSMutableArray arrayWithCapacity:len];
             NSDictionary *item = nil;
 			if(len > 0) {
-				unsigned int indexes[len];
+				NSUInteger indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
 				
 				for(int i = 0;i < len;i++) {
@@ -811,7 +811,7 @@
 	}
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     int count = 0;
 	
     // cast object
@@ -827,7 +827,7 @@
 	return count;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
 
     // we only hace install Sources here
     InstallSourceListObject *ret = nil;

@@ -412,7 +412,8 @@
     self = [super initWithCoder:decoder];
     if(self) {
         NSString *moduleName = [decoder decodeObjectForKey:@"ModuleNameEncoded"];
-        self.module = [[SwordManager defaultManager] moduleWithName:moduleName];        
+        [self setModule:[[SwordManager defaultManager] moduleWithName:moduleName]];
+        [self setSearchString:[decoder decodeObjectForKey:@"SearchStringEncoded"]];
     }
     
     return self;
@@ -421,6 +422,7 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [super encodeWithCoder:encoder];
     [encoder encodeObject:[module name] forKey:@"ModuleNameEncoded"];
+    [encoder encodeObject:searchString forKey:@"SearchStringEncoded"];
 }
 
 @end

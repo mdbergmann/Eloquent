@@ -17,8 +17,6 @@
 
 @implementation ToolbarController
 
-@synthesize delegate;
-
 - (id)initWithDelegate:(WindowHostController *)aDelegate {
     self = [super init];
     if(self) {

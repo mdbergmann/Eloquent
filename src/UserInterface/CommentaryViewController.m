@@ -154,7 +154,7 @@
     NSMutableString *htmlString = [NSMutableString string];
     
     // background color cannot be set this way
-    float fr, fg, fb = 0.0;
+    CGFloat fr, fg, fb = 0.0;
     NSColor *fCol = [userDefaults colorForKey:DefaultsTextForegroundColor];
     [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
     [htmlString appendFormat:@"\
@@ -171,7 +171,7 @@
     [lk setPersist:YES];
     [lk setPosition:SWPOS_TOP];
     [module setKey:lk];
-    int numberOfVerses = 0;
+    NSInteger numberOfVerses = 0;
     NSString *ref = nil;
     NSString *rendered = nil;
     while(![module error]) {
@@ -489,11 +489,11 @@
     [super outlineView:aOutlineView willDisplayCell:cell forTableColumn:tableColumn item:item];
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     return [super outlineView:outlineView numberOfChildrenOfItem:item];
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     return [super outlineView:outlineView child:index ofItem:item];
 }
 

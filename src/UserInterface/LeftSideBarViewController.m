@@ -302,11 +302,11 @@
     // make sure we drop only with in bookmarks
     if([self isDropSectionBookmarksForItem:item] ||
        [self isDropSectionNotesForItem:item]) {
-        int mask = [info draggingSourceOperationMask];
+        NSInteger mask = [info draggingSourceOperationMask];
         if(mask == NSDragOperationAll_Obsolete) {
             mask = NSDragOperationEvery;
         }
-        int op = NSDragOperationNone;
+        NSInteger op = NSDragOperationNone;
         if(mask == NSDragOperationCopy) {
             op = NSDragOperationCopy;
         } else if(mask & NSDragOperationMove) {

@@ -19,8 +19,8 @@
 	[grip setFlipped:YES];
 }
 
-- (float)dividerThickness {
-	return (10);
+- (CGFloat)dividerThickness {
+	return (10.0);
 }
 
 - (void)drawDividerInRect:(NSRect)aRect {	

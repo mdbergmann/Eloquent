@@ -121,7 +121,7 @@
     
     NSMutableString *htmlString = [NSMutableString string];
     // background color cannot be set this way
-    float fr, fg, fb = 0.0;
+    CGFloat fr, fg, fb = 0.0;
     NSColor *fCol = [userDefaults colorForKey:DefaultsTextForegroundColor];
     [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
     [htmlString appendFormat:@"\
@@ -177,8 +177,8 @@
     if(isHighlightBookmarks) {
         Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:[anEntry key]]];
         if(bm && [bm highlight]) {
-            float br = 1.0, bg = 1.0, bb = 1.0;
-            float fr, fg, fb = 0.0;
+            CGFloat br = 1.0, bg = 1.0, bb = 1.0;
+            CGFloat fr, fg, fb = 0.0;
             NSColor *bCol = [[bm backgroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
             NSColor *fCol = [[bm foregroundColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
             [bCol getRed:&br green:&bg blue:&bb alpha:NULL];
@@ -215,7 +215,7 @@
     BOOL isShowVerseNumbering = (verseNumbering == NoVerseNumbering);
     
     // headings fg color
-    float hr, hg, hb = 0.0;
+    CGFloat hr, hg, hb = 0.0;
     NSColor *hfCol = [userDefaults colorForKey:DefaultsHeadingsForegroundColor];
     [hfCol getRed:&hr green:&hg blue:&hb alpha:NULL];    
     NSString *headingsFGColorStyle = [NSString stringWithFormat:@"color:rgb(%i%%, %i%%, %i%%);",

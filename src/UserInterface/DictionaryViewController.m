@@ -366,7 +366,7 @@
 			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
             NSString *item = nil;
 			if(len > 0) {
-				unsigned int indexes[len];
+				NSUInteger indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
 				
 				for(int i = 0;i < len;i++) {

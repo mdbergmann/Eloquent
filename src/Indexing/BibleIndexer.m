@@ -177,7 +177,7 @@ SearchBookSet *searchBookSet;
                 NSString *docName = (NSString *)SKDocumentGetName(hit);
                 // check for an existing range
                 BOOL addDoc = YES;
-                if([constrains count] > 0) {
+                if([searchBookSet count] > 0) {
                     // get document name
                     NSString *docName = (NSString *)SKDocumentGetName(hit);
                     
@@ -188,7 +188,7 @@ SearchBookSet *searchBookSet;
                         // get book osis name
                         NSString *osisName = (NSString *)[verseKeyInfo objectAtIndex:4];
                         if([osisName length] > 0) {
-                            if([constrains containsBook:osisName]) {
+                            if([searchBookSet containsBook:osisName]) {
                                 addDoc = YES;
                             }
                         }
