@@ -362,7 +362,11 @@ typedef enum _NavigationDirectionType {
     }
     
     if(contentViewController != nil) {
-        [ret appendString:[contentViewController title]];
+        NSString *title = @"";
+        if(contentViewController != nil) {
+            title = [contentViewController title];
+        }
+        [ret appendString:title];
     }    
     
     return ret;
