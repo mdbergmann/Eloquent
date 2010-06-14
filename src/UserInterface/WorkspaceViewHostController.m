@@ -231,7 +231,7 @@
                 // open in single
 
                 // save search reference
-                NSString *searchRef = [self searchText];// [searchTextField stringValue];
+                NSString *searchRef = [self searchText];
                 
                 NSTabViewItem *tvi = [[tabView tabViewItems] objectAtIndex:index];
                 [searchTextObjs removeObjectAtIndex:index];
@@ -255,11 +255,14 @@
                 } else if([vc isKindOfClass:[BibleCombiViewController class]]) {                    
                     // open single host window
                     svc = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
-                    [svc setView:[tvi view]];
+                    //[svc setView:[tvi view]];
+                    [vc setDelegate:svc];
+                    [vc setHostingDelegate:svc];
                     [svc setContentViewController:vc];
+                    //[svc setupForContentViewController];
                 }
-                [svc setSearchText:searchRef];
                 [vc setHostingDelegate:svc];
+                [svc setSearchText:searchRef];
                 break;
             }
         }
