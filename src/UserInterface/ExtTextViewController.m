@@ -7,11 +7,12 @@
 //
 
 #import "ExtTextViewController.h"
+#import "ObjCSword/Logger.h"
 #import "MouseTrackingScrollView.h"
 #import "MBPreferenceController.h"
 #import "HUDPreviewController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
 #import "globals.h"
 #import "ProtocolHelper.h"
 #import "NSUserDefaults+Additions.h"
@@ -31,7 +32,7 @@
 - (id)initWithDelegate:(id)aDelegate {
     self = [super init];
     if(self) {
-        MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -init] loading nib");
+        LogL(LOG_DEBUG, @"[ExtTextViewController -init] loading nib");
         
         // init values
         viewLoaded = NO;
@@ -40,7 +41,7 @@
         // load nib
         BOOL stat = [NSBundle loadNibNamed:EXTTEXTVIEW_NIBNAME owner:self];
         if(!stat) {
-            MBLOG(MBLOG_ERR, @"[ExtTextViewController -init] unable to load nib!");
+            LogL(LOG_ERR, @"[ExtTextViewController -init] unable to load nib!");
         }
     }
     
@@ -168,7 +169,7 @@
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
-        MBLOGV(MBLOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
+        LogLV(LOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
     } else {
         return [delegate performSelector:@selector(processPreviewDisplay:) withObject:url];
     }
@@ -189,21 +190,21 @@
 #pragma mark - mouse tracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - mouseEntered]");
+    //LogL(LOG_DEBUG, @"[ExtTextViewController - mouseEntered]");
     if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
         [delegate performSelector:@selector(mouseEntered:) withObject:[self view]];
     }
 }
 
 - (void)mouseExited:(NSView *)theView {
-    //MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - mouseExited]");
+    //LogL(LOG_DEBUG, @"[ExtTextViewController - mouseExited]");
     if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
         [delegate performSelector:@selector(mouseExited:) withObject:[self view]];
     }
 }
 
 - (void)scrollViewFrameDidChange:(NSNotification *)n {
-    //MBLOG(MBLOG_DEBUG, @"[ExtTextViewController - scrollViewFrameDidChange]");
+    //LogL(LOG_DEBUG, @"[ExtTextViewController - scrollViewFrameDidChange]");
     
     [scrollView updateMouseTracking];
 }

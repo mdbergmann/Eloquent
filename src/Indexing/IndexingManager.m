@@ -7,13 +7,13 @@
 //
 
 #import "IndexingManager.h"
+#import "ObjCSword/Logger.h"
 #import "MBPreferenceController.h"
 #import "globals.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
-#import "SwordSearching.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
 #import "SearchBookSet.h"
-#import "SwordVerseKey.h"
+#import "ObjCSword/SwordVerseKey.h"
 
 #define INDEXTYPE kSKIndexInverted
 
@@ -77,11 +77,11 @@
         // make copy of array
         NSArray *modNames = [NSArray arrayWithArray:[swordManager moduleNames]];
         for(NSString *name in modNames) {
-            MBLOGV(MBLOG_DEBUG, @"[IndexingManager -runIndexCheck] checking index for module: %@", name);
+            LogLV(LOG_DEBUG, @"[IndexingManager -runIndexCheck] checking index for module: %@", name);
             SwordModule *mod = [swordManager moduleWithName:name];
-            if(![mod hasIndex]) {
-                MBLOGV(MBLOG_DEBUG, @"[IndexingManager -runIndexCheck] creating index for module: %@", name);
-                [mod createIndex];
+            if(![mod hasSKSearchIndex]) {
+                LogLV(LOG_DEBUG, @"[IndexingManager -runIndexCheck] creating index for module: %@", name);
+                [mod createSKSearchIndex];
             }
         }
         
@@ -108,11 +108,11 @@
  @returns initialized not nil object
  */
 - (id)init {
-	MBLOG(MBLOG_DEBUG,@"init of IndexingManager");
+	LogL(LOG_DEBUG,@"init of IndexingManager");
 	
 	self = [super init];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR,@"cannot alloc IndexingManager!");
+		LogL(LOG_ERR,@"cannot alloc IndexingManager!");
 	}
 	else {
 		[self setBaseIndexPath:@""];
@@ -231,7 +231,7 @@
 \brief dealloc of this class is called on closing this document
  */
 - (void)finalize {
-    MBLOG(MBLOG_DEBUG, @"[IndexingManager -finalize]");
+    LogL(LOG_DEBUG, @"[IndexingManager -finalize]");
     
     [super finalize];
 }
@@ -320,14 +320,14 @@
     
     // check for swordManager
     if(swordManager == nil) {    
-        MBLOG(MBLOG_ERR, @"[IndexingManager -triggerBackgroundIndexCheck] no SwordManager instance available!");
+        LogL(LOG_ERR, @"[IndexingManager -triggerBackgroundIndexCheck] no SwordManager instance available!");
         return;
     }
     
 	// run every $interval seconds
-    MBLOG(MBLOG_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
+    LogL(MBLOG_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
     if(![timer isValid] || timer == nil) {
-        MBLOG(MBLOG_DEBUG, @"[IndexingManager -triggerBackgroundIndexCheck] starting new timer");
+        LogL(LOG_DEBUG, @"[IndexingManager -triggerBackgroundIndexCheck] starting new timer");
         NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:(float)interval
                                                       target:self 
                                                     selector:@selector(runIndexCheck) 
@@ -335,7 +335,7 @@
                                                      repeats:YES];
         [self setTimer:t];
     } else {
-        MBLOG(MBLOG_WARN, @"[IndexingManager -triggerBackgroundIndexCheck] timer still valid!");
+        LogL(LOG_WARN, @"[IndexingManager -triggerBackgroundIndexCheck] timer still valid!");
     }
 }
 
@@ -359,7 +359,7 @@
     if(folderPath != nil) {
         ret = [folderPath stringByAppendingPathComponent:aModType];
     } else {
-        MBLOG(MBLOG_ERR, @"[IndexingManager -indexPathForModuleName:] Cannot get index folder path!");
+        LogL(LOG_ERR, @"[IndexingManager -indexPathForModuleName:] Cannot get index folder path!");
     }
     
     return ret;
@@ -405,7 +405,7 @@
         ret = [fm removeFileAtPath:indexPath handler:nil];
     
 		if(!ret) {
-            MBLOGV(MBLOG_ERR, @"[IndexingManager -removeIndexForModuleName:] could not remove index for module: %@", modName);
+            LogLV(LOG_ERR, @"[IndexingManager -removeIndexForModuleName:] could not remove index for module: %@", modName);
         }
     }
     

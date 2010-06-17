@@ -30,6 +30,8 @@
 		A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A916FCE50E05483F009CAA2F /* BibleView.xib */; };
 		A916FD6E0E0555EB009CAA2F /* BibleCombiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */; };
 		A9188E7610E0F401006DA14B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9188E7510E0F401006DA14B /* Security.framework */; };
+		A918BA4311C67AF700024D84 /* SwordModule+SearchKitIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = A918BA4211C67AF700024D84 /* SwordModule+SearchKitIndex.mm */; };
+		A918BA6311C68E4400024D84 /* LoggingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A918BA6211C68E4400024D84 /* LoggingProvider.m */; };
 		A91A23020E61926800382F44 /* HeaderImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A91A23010E61926800382F44 /* HeaderImageView.m */; };
 		A91A23440E61955000382F44 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23380E61955000382F44 /* add.png */; };
 		A91A23450E61955000382F44 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23390E61955000382F44 /* edit.png */; };
@@ -43,7 +45,6 @@
 		A91A234E0E61955000382F44 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23420E61955000382F44 /* reload.png */; };
 		A91A234F0E61955000382F44 /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = A91A23430E61955000382F44 /* remove.png */; };
 		A91C93DF0DF9B0E9006B7361 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93DC0DF9B0E9006B7361 /* AppController.m */; };
-		A91C93E00DF9B0E9006B7361 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93DE0DF9B0E9006B7361 /* Application.m */; };
 		A91C94200DF9B149006B7361 /* Indexer.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F30DF9B149006B7361 /* Indexer.m */; };
 		A91C94210DF9B149006B7361 /* IndexingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F50DF9B149006B7361 /* IndexingManager.m */; };
 		A91C94220DF9B149006B7361 /* SearchResultEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F70DF9B149006B7361 /* SearchResultEntry.m */; };
@@ -52,24 +53,14 @@
 		A91C94260DF9B149006B7361 /* ModuleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94000DF9B149006B7361 /* ModuleListViewController.m */; };
 		A91C94270DF9B149006B7361 /* ModuleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94020DF9B149006B7361 /* ModuleManager.m */; };
 		A91C94280DF9B149006B7361 /* ModuleManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94040DF9B149006B7361 /* ModuleManageViewController.m */; };
-		A91C942A0DF9B149006B7361 /* SwordBible.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94090DF9B149006B7361 /* SwordBible.mm */; };
-		A91C942B0DF9B149006B7361 /* SwordBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940B0DF9B149006B7361 /* SwordBook.mm */; };
-		A91C942D0DF9B149006B7361 /* SwordDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940F0DF9B149006B7361 /* SwordDictionary.mm */; };
-		A91C942E0DF9B149006B7361 /* SwordInstallSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94110DF9B149006B7361 /* SwordInstallSource.mm */; };
-		A91C942F0DF9B149006B7361 /* SwordInstallSourceController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */; };
-		A91C94300DF9B149006B7361 /* SwordManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94150DF9B149006B7361 /* SwordManager.mm */; };
-		A91C94310DF9B149006B7361 /* SwordModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94170DF9B149006B7361 /* SwordModule.mm */; };
-		A91C94320DF9B149006B7361 /* SwordSearching.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94190DF9B149006B7361 /* SwordSearching.mm */; };
 		A91C94330DF9B149006B7361 /* MBThreadedProgressSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */; };
 		A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */; };
 		A9202A2D0E59A2650094F629 /* CommentaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9202A2B0E59A2650094F629 /* CommentaryView.xib */; };
-		A92480C10F4D99630048A603 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
 		A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A9266CFC0F882BC800BA1731 /* HostWindow.m */; };
 		A92819980E100F240007B767 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
 		A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */; };
 		A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9333AE30F6699A70001BD38 /* ProgressOverlayView.xib */; };
 		A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
-		A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
@@ -77,20 +68,9 @@
 		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
 		A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
-		A9582A800F701D4C0094FAF4 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
 		A95CFC5A1132951600E71D4E /* ContentDisplayingViewControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */; };
 		A95CFC791132A9A100E71D4E /* SearchTextFieldOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */; };
-		A95D51A5105D431600FE9A24 /* libsword-1.6.1-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
 		A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9B45CE50EF5B4CF00B63848 /* SwordModuleTest.mm */; };
-		A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94150DF9B149006B7361 /* SwordManager.mm */; };
-		A95D5272105D49D400FE9A24 /* SwordModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94170DF9B149006B7361 /* SwordModule.mm */; };
-		A95D5273105D49D400FE9A24 /* SwordBible.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C94090DF9B149006B7361 /* SwordBible.mm */; };
-		A95D5274105D49D400FE9A24 /* SwordBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940B0DF9B149006B7361 /* SwordBook.mm */; };
-		A95D5275105D49D400FE9A24 /* SwordCommentary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.mm */; };
-		A95D5276105D49D400FE9A24 /* SwordDictionary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940F0DF9B149006B7361 /* SwordDictionary.mm */; };
-		A95D5279105D49E700FE9A24 /* SwordModuleTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */; };
-		A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
-		A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92480C00F4D99630048A603 /* SwordBibleChapter.m */; };
 		A96103BC10B03B70007A9371 /* NotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A96103BB10B03B70007A9371 /* NotesManager.m */; };
 		A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9623E5D0F34E412000E1F53 /* MBTextView.m */; };
 		A9629CB31179CB6F00E375AA /* Modules in Resources */ = {isa = PBXBuildFile; fileRef = A9629C9E1179CB6E00E375AA /* Modules */; };
@@ -98,15 +78,13 @@
 		A965162C0E06D0BD0058AA91 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
 		A965CEB3112C32C000F4E602 /* CacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A965CEB2112C32C000F4E602 /* CacheObject.m */; };
-		A9698C001000CAB30024CC6B /* osis2mod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9698BFF1000CAB30024CC6B /* osis2mod.cpp */; };
-		A96CE68011175DEC003D66D0 /* SwordBibleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A96CE67F11175DEC003D66D0 /* SwordBibleTextEntry.m */; };
 		A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
+		A975EC3511C7885B007C1532 /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A975EA5311C7721D007C1532 /* ObjCSword.framework */; };
+		A975EC8A11C78B52007C1532 /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A975EA5311C7721D007C1532 /* ObjCSword.framework */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A98422E21144EF640001EED1 /* ToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98422E11144EF640001EED1 /* ToolbarController.m */; };
 		A98423541145031D0001EED1 /* WindowHostToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A98423521145031D0001EED1 /* WindowHostToolbar.xib */; };
-		A9871570113668FE00DB94D2 /* VerseEnumerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = A987156F113668FE00DB94D2 /* VerseEnumerator.mm */; };
-		A98715861136701200DB94D2 /* VerseEnumerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = A987156F113668FE00DB94D2 /* VerseEnumerator.mm */; };
 		A98715931136724100DB94D2 /* SwordListKeyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */; };
 		A987A3480F6D5970007E5EE1 /* SplitViewDividerBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */; };
 		A987A3490F6D5970007E5EE1 /* SplitViewDividerDimple.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */; };
@@ -117,15 +95,10 @@
 		A98A951C112E8DA000EC8B76 /* WindowHostController+FullscreenDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951B112E8DA000EC8B76 /* WindowHostController+FullscreenDelegate.m */; };
 		A98A951F112E8E4B00EC8B76 /* ObjectAssotiations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */; };
 		A98A952A112E989C00EC8B76 /* ObjectAssotiationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9529112E989C00EC8B76 /* ObjectAssotiationsTest.m */; };
-		A98A9533112E9A4000EC8B76 /* SwordBibleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A96CE67F11175DEC003D66D0 /* SwordBibleTextEntry.m */; };
-		A98A9534112E9A4000EC8B76 /* SwordKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9C5D29210DAEF5E006893E2 /* SwordKey.mm */; };
-		A98A9535112E9A4000EC8B76 /* SwordVerseKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */; };
-		A98A9536112E9A4000EC8B76 /* SwordListKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A937B0B50F8F9B2100948406 /* SwordListKey.mm */; };
 		A98A9539112E9A6100EC8B76 /* ObjectAssotiations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */; };
 		A98A9683112ED53C00EC8B76 /* BibleViewController+RightSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9682112ED53C00EC8B76 /* BibleViewController+RightSidebar.m */; };
 		A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */; };
 		A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */; };
-		A98EDE450F4C77D000A3387D /* SwordBibleBook.mm in Sources */ = {isa = PBXBuildFile; fileRef = A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */; };
 		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
 		A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = A991F4A20EE2E224009A6D08 /* ModuleManager.png */; };
 		A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A992B52A0DF9AD6E00207967 /* Localizable.strings */; };
@@ -133,9 +106,6 @@
 		A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52E0DF9AD6E00207967 /* ModuleManager.xib */; };
 		A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5300DF9AD6E00207967 /* ModuleManageView.xib */; };
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
-		A993E8B51053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
-		A993E8B61053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
-		A993E8B7105311A000680650 /* libsword-1.6.1-svn-fat.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */; };
 		A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A99A76D510B2A4C4002EFD30 /* FileRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */; };
@@ -143,7 +113,6 @@
 		A99A773710B33802002EFD30 /* NotesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A773610B33802002EFD30 /* NotesUIController.m */; };
 		A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A774310B33C7D002EFD30 /* NotesViewController.m */; };
 		A99A774B10B33DE5002EFD30 /* NotesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A99A774910B33DE5002EFD30 /* NotesView.xib */; };
-		A99D31E110A223B600305A57 /* SwordModuleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */; };
 		A99DB3230EF96ABF0065482A /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = A99DB3220EF96ABF0065482A /* scopebar_gradient.png */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A533FF114E62A300B015C5 /* HUDToolbarView.m */; };
@@ -158,9 +127,7 @@
 		A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
 		A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */; };
-		A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9C5D29210DAEF5E006893E2 /* SwordKey.mm */; };
 		A9C6C5AA11394B6300A3850A /* BookmarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C6C5A911394B6300A3850A /* BookmarkCell.m */; };
-		A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CC33500EB0699900810821 /* SwordModCategory.m */; };
 		A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = A9CDC4570E652FD700BDA30F /* fifteenpieces.png */; };
 		A9CDDDD10F738E0500C907B9 /* SearchBookSetEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9CDDDCF0F738E0500C907B9 /* SearchBookSetEditor.xib */; };
 		A9CFAE0B10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CFAE0A10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m */; };
@@ -183,7 +150,6 @@
 		A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */; };
 		A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */; };
 		A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D9F52C0EAF17890035222E /* SenTestingKit.framework */; };
-		A9DA0B390E67F4600018ADE1 /* SwordModuleTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */; };
 		A9DC14E50E0AA83D00E3F944 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DC14E30E0AA83D00E3F944 /* ExtTextView.xib */; };
 		A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DCB0D30E9F252C004169EB /* GenBookView.xib */; };
 		A9DFBC400EF6ECF30061BE19 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9DFBC3E0EF6ECF30061BE19 /* Preferences.xib */; };
@@ -191,7 +157,6 @@
 		A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
 		A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
 		A9E9E29C0F650544007C4AB2 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = A9E9E29A0F650544007C4AB2 /* Credits.rtf */; };
-		A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91C940D0DF9B149006B7361 /* SwordCommentary.mm */; };
 		A9E9E3CD0F65401C007C4AB2 /* FullScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */; };
 		A9EDA11B1150E1F5004EC005 /* PrintAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9EDA1191150E1F5004EC005 /* PrintAccessory.xib */; };
 		A9EDA1201150E24E004EC005 /* PrintAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9EDA11F1150E24E004EC005 /* PrintAccessoryViewController.m */; };
@@ -200,19 +165,54 @@
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
 		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
-		A9F61C640E01028700C3A0EF /* locales.d in Resources */ = {isa = PBXBuildFile; fileRef = A9F61C210E01028700C3A0EF /* locales.d */; };
 		A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
 		A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */; };
-		A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9F8428F0F724B8800F64FCA /* SwordVerseManager.mm */; };
 		A9FCB09910777187000A5871 /* bin in Resources */ = {isa = PBXBuildFile; fileRef = A9FCB08910777187000A5871 /* bin */; };
-		A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */; };
 		A9FCD75B10B1484C006F7A3B /* BookmarksUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD75A10B1484C006F7A3B /* BookmarksUIController.m */; };
 		A9FCD76010B1562D006F7A3B /* BookmarkManagerUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */; };
 		A9FCD81010B1B5A1006F7A3B /* ModulesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD80F10B1B5A1006F7A3B /* ModulesUIController.m */; };
 		A9FCD81C10B1B919006F7A3B /* ModuleListUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */; };
 		A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A975EA1511C77052007C1532 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = ObjCSword;
+		};
+		A975EA1711C77052007C1532 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A9C2819611C43C4900803CB5;
+			remoteInfo = Tests;
+		};
+		A975EA1911C77052007C1532 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A9377FD011C7612300552507;
+			remoteInfo = Sword;
+		};
+		A975EA4711C770FD007C1532 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = ObjCSword;
+		};
+		A975EEDC11C792BA007C1532 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A975EED911C792B9007C1532;
+			remoteInfo = mod2osis;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		A9F61C8A0E0102D900C3A0EF /* CopyFiles */ = {
@@ -221,8 +221,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A975EC3511C7885B007C1532 /* ObjCSword.framework in CopyFiles */,
 				A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */,
-				A993E8B7105311A000680650 /* libsword-1.6.1-svn-fat.a in CopyFiles */,
 				A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
@@ -277,6 +277,10 @@
 		A916FD6C0E0555EB009CAA2F /* BibleCombiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleCombiViewController.h; path = src/UserInterface/BibleCombiViewController.h; sourceTree = "<group>"; };
 		A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleCombiViewController.m; path = src/UserInterface/BibleCombiViewController.m; sourceTree = "<group>"; };
 		A9188E7510E0F401006DA14B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A918BA4111C67AF700024D84 /* SwordModule+SearchKitIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwordModule+SearchKitIndex.h"; sourceTree = "<group>"; };
+		A918BA4211C67AF700024D84 /* SwordModule+SearchKitIndex.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "SwordModule+SearchKitIndex.mm"; sourceTree = "<group>"; };
+		A918BA6111C68E4400024D84 /* LoggingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggingProvider.h; sourceTree = "<group>"; };
+		A918BA6211C68E4400024D84 /* LoggingProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggingProvider.m; sourceTree = "<group>"; };
 		A91A23000E61926800382F44 /* HeaderImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeaderImageView.h; path = src/UserInterface/HeaderImageView.h; sourceTree = "<group>"; };
 		A91A23010E61926800382F44 /* HeaderImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeaderImageView.m; path = src/UserInterface/HeaderImageView.m; sourceTree = "<group>"; };
 		A91A23380E61955000382F44 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
@@ -292,8 +296,6 @@
 		A91A23430E61955000382F44 /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
 		A91C93DB0DF9B0E9006B7361 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = src/AppController.h; sourceTree = "<group>"; };
 		A91C93DC0DF9B0E9006B7361 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = src/AppController.m; sourceTree = "<group>"; };
-		A91C93DD0DF9B0E9006B7361 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = src/Application.h; sourceTree = "<group>"; };
-		A91C93DE0DF9B0E9006B7361 /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Application.m; path = src/Application.m; sourceTree = "<group>"; };
 		A91C93E10DF9B0F8006B7361 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globals.h; path = src/globals.h; sourceTree = "<group>"; };
 		A91C93E20DF9B0F8006B7361 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utils.h; path = src/utils.h; sourceTree = "<group>"; };
 		A91C93EC0DF9B149006B7361 /* BibleIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleIndexer.h; sourceTree = "<group>"; };
@@ -319,31 +321,11 @@
 		A91C94020DF9B149006B7361 /* ModuleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleManager.m; sourceTree = "<group>"; };
 		A91C94030DF9B149006B7361 /* ModuleManageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleManageViewController.h; sourceTree = "<group>"; };
 		A91C94040DF9B149006B7361 /* ModuleManageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleManageViewController.m; sourceTree = "<group>"; };
-		A91C94080DF9B149006B7361 /* SwordBible.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBible.h; sourceTree = "<group>"; };
-		A91C94090DF9B149006B7361 /* SwordBible.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBible.mm; sourceTree = "<group>"; };
-		A91C940A0DF9B149006B7361 /* SwordBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBook.h; sourceTree = "<group>"; };
-		A91C940B0DF9B149006B7361 /* SwordBook.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBook.mm; sourceTree = "<group>"; };
-		A91C940C0DF9B149006B7361 /* SwordCommentary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordCommentary.h; sourceTree = "<group>"; };
-		A91C940D0DF9B149006B7361 /* SwordCommentary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordCommentary.mm; sourceTree = "<group>"; };
-		A91C940E0DF9B149006B7361 /* SwordDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordDictionary.h; sourceTree = "<group>"; };
-		A91C940F0DF9B149006B7361 /* SwordDictionary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordDictionary.mm; sourceTree = "<group>"; };
-		A91C94100DF9B149006B7361 /* SwordInstallSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordInstallSource.h; sourceTree = "<group>"; };
-		A91C94110DF9B149006B7361 /* SwordInstallSource.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordInstallSource.mm; sourceTree = "<group>"; };
-		A91C94120DF9B149006B7361 /* SwordInstallSourceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordInstallSourceController.h; sourceTree = "<group>"; };
-		A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordInstallSourceController.mm; sourceTree = "<group>"; };
-		A91C94140DF9B149006B7361 /* SwordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordManager.h; sourceTree = "<group>"; };
-		A91C94150DF9B149006B7361 /* SwordManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordManager.mm; sourceTree = "<group>"; };
-		A91C94160DF9B149006B7361 /* SwordModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModule.h; sourceTree = "<group>"; };
-		A91C94170DF9B149006B7361 /* SwordModule.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordModule.mm; sourceTree = "<group>"; };
-		A91C94180DF9B149006B7361 /* SwordSearching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordSearching.h; sourceTree = "<group>"; };
-		A91C94190DF9B149006B7361 /* SwordSearching.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordSearching.mm; sourceTree = "<group>"; };
 		A91C941B0DF9B149006B7361 /* MBThreadedProgressSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBThreadedProgressSheetController.h; sourceTree = "<group>"; };
 		A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBThreadedProgressSheetController.m; sourceTree = "<group>"; };
 		A9202A280E59A0E80094F629 /* CommentaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentaryViewController.h; path = src/UserInterface/CommentaryViewController.h; sourceTree = "<group>"; };
 		A9202A290E59A0E80094F629 /* CommentaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentaryViewController.m; path = src/UserInterface/CommentaryViewController.m; sourceTree = "<group>"; };
 		A9202A2C0E59A2650094F629 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CommentaryView.xib; sourceTree = "<group>"; };
-		A92480BF0F4D99630048A603 /* SwordBibleChapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBibleChapter.h; sourceTree = "<group>"; };
-		A92480C00F4D99630048A603 /* SwordBibleChapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordBibleChapter.m; sourceTree = "<group>"; };
 		A9266CFB0F882BC800BA1731 /* HostWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostWindow.h; path = src/UserInterface/HostWindow.h; sourceTree = "<group>"; };
 		A9266CFC0F882BC800BA1731 /* HostWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostWindow.m; path = src/UserInterface/HostWindow.m; sourceTree = "<group>"; };
 		A92819960E100F240007B767 /* Highlighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Highlighter.h; sourceTree = "<group>"; };
@@ -353,8 +335,6 @@
 		A9333AE40F6699A70001BD38 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProgressOverlayView.xib; sourceTree = "<group>"; };
 		A9333B5B0F66CEC90001BD38 /* ProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayView.h; path = src/ProgressOverlayView/ProgressOverlayView.h; sourceTree = "<group>"; };
 		A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayView.m; path = src/ProgressOverlayView/ProgressOverlayView.m; sourceTree = "<group>"; };
-		A937B0B40F8F9B2100948406 /* SwordListKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordListKey.h; sourceTree = "<group>"; };
-		A937B0B50F8F9B2100948406 /* SwordListKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordListKey.mm; sourceTree = "<group>"; };
 		A937B33C0F8FAD2A00948406 /* SwordListKeyTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordListKeyTest.h; path = test/SwordListKeyTest.h; sourceTree = "<group>"; };
 		A937B33D0F8FAD2A00948406 /* SwordListKeyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordListKeyTest.m; path = test/SwordListKeyTest.m; sourceTree = "<group>"; };
 		A939B7E00E9DCED000A0A8F9 /* GenBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenBookViewController.h; path = src/UserInterface/GenBookViewController.h; sourceTree = "<group>"; };
@@ -370,8 +350,6 @@
 		A94D66D20EC2D175006A84CB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
 		A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDPreviewController.h; path = src/UserInterface/HUDPreviewController.h; sourceTree = "<group>"; };
 		A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDPreviewController.m; path = src/UserInterface/HUDPreviewController.m; sourceTree = "<group>"; };
-		A9582A7E0F701D4C0094FAF4 /* SwordVerseKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordVerseKey.h; sourceTree = "<group>"; };
-		A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordVerseKey.mm; sourceTree = "<group>"; };
 		A95CFC581132951600E71D4E /* ContentDisplayingViewControllerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentDisplayingViewControllerFactory.h; path = src/UserInterface/ContentDisplayingViewControllerFactory.h; sourceTree = "<group>"; };
 		A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentDisplayingViewControllerFactory.m; path = src/UserInterface/ContentDisplayingViewControllerFactory.m; sourceTree = "<group>"; };
 		A95CFC771132A9A100E71D4E /* SearchTextFieldOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTextFieldOptions.h; path = src/UserInterface/SearchTextFieldOptions.h; sourceTree = "<group>"; };
@@ -387,18 +365,14 @@
 		A96516620E06D3DA0058AA91 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
 		A965CEB1112C32C000F4E602 /* CacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CacheObject.h; path = src/UserInterface/CacheObject.h; sourceTree = "<group>"; };
 		A965CEB2112C32C000F4E602 /* CacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CacheObject.m; path = src/UserInterface/CacheObject.m; sourceTree = "<group>"; };
-		A9698BF91000CA790024CC6B /* Osis2Mod */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Osis2Mod; sourceTree = BUILT_PRODUCTS_DIR; };
-		A9698BFF1000CAB30024CC6B /* osis2mod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = osis2mod.cpp; path = "sword_mac_build/sword-trunk/utilities/osis2mod.cpp"; sourceTree = "<group>"; };
-		A96CE67E11175DEC003D66D0 /* SwordBibleTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBibleTextEntry.h; sourceTree = "<group>"; };
-		A96CE67F11175DEC003D66D0 /* SwordBibleTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordBibleTextEntry.m; sourceTree = "<group>"; };
 		A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextView+LookupAdditions.h"; path = "src/UserInterface/NSTextView+LookupAdditions.h"; sourceTree = "<group>"; };
 		A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+LookupAdditions.m"; path = "src/UserInterface/NSTextView+LookupAdditions.m"; sourceTree = "<group>"; };
+		A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjCSword.xcodeproj; path = "sword_src/sword-trunk/bindings/objc/ObjCSword.xcodeproj"; sourceTree = "<group>"; };
+		A975EA5311C7721D007C1532 /* ObjCSword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjCSword.framework; path = "sword_src/sword-trunk/bindings/objc/build/Debug/ObjCSword.framework"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
 		A98422E01144EF640001EED1 /* ToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarController.h; path = src/UserInterface/ToolbarController.h; sourceTree = "<group>"; };
 		A98422E11144EF640001EED1 /* ToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarController.m; path = src/UserInterface/ToolbarController.m; sourceTree = "<group>"; };
 		A98423531145031D0001EED1 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WindowHostToolbar.xib; sourceTree = "<group>"; };
-		A987156E113668FE00DB94D2 /* VerseEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerseEnumerator.h; sourceTree = "<group>"; };
-		A987156F113668FE00DB94D2 /* VerseEnumerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VerseEnumerator.mm; sourceTree = "<group>"; };
 		A987A3460F6D5970007E5EE1 /* SplitViewDividerBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerBar.tiff; sourceTree = "<group>"; };
 		A987A3470F6D5970007E5EE1 /* SplitViewDividerDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerDimple.tiff; sourceTree = "<group>"; };
 		A987A34A0F6D59EC007E5EE1 /* ThickDividerSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThickDividerSplitView.h; path = src/UserInterface/ThickDividerSplitView.h; sourceTree = "<group>"; };
@@ -421,8 +395,6 @@
 		A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BibleViewController+TextDisplayGeneration.m"; path = "src/UserInterface/BibleViewController+TextDisplayGeneration.m"; sourceTree = "<group>"; };
 		A98A969F112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BibleCombiViewController+ViewSynchronisation.h"; path = "src/UserInterface/BibleCombiViewController+ViewSynchronisation.h"; sourceTree = "<group>"; };
 		A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BibleCombiViewController+ViewSynchronisation.m"; path = "src/UserInterface/BibleCombiViewController+ViewSynchronisation.m"; sourceTree = "<group>"; };
-		A98EDE430F4C77D000A3387D /* SwordBibleBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordBibleBook.h; sourceTree = "<group>"; };
-		A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordBibleBook.mm; sourceTree = "<group>"; };
 		A99055AA0E04273E00E8D7A2 /* BibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleViewController.h; path = src/UserInterface/BibleViewController.h; sourceTree = "<group>"; };
 		A99055AB0E04273E00E8D7A2 /* BibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleViewController.m; path = src/UserInterface/BibleViewController.m; sourceTree = "<group>"; };
 		A991F4A20EE2E224009A6D08 /* ModuleManager.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ModuleManager.png; sourceTree = "<group>"; };
@@ -431,7 +403,6 @@
 		A992B52F0DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManager.xib; sourceTree = "<group>"; };
 		A992B5310DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleManageView.xib; sourceTree = "<group>"; };
 		A992B5330DF9AD6E00207967 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
-		A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsword-1.6.1-svn-fat.a"; path = "sword_mac_build/build/result_inst/lib/libsword-1.6.1-svn-fat.a"; sourceTree = "<group>"; };
 		A993E8CE1053137C00680650 /* BGHUDAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BGHUDAppKit.framework; path = Resources/BGHUDAppKit.framework; sourceTree = "<group>"; };
 		A99A76D310B2A4C4002EFD30 /* FileRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileRepresentation.h; path = src/NotesTaking/FileRepresentation.h; sourceTree = "<group>"; };
 		A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileRepresentation.m; path = src/NotesTaking/FileRepresentation.m; sourceTree = "<group>"; };
@@ -463,12 +434,8 @@
 		A9C0F4060EFD67DA00CFDF06 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
 		A9C0F4210EFD67F700CFDF06 /* ConfirmationSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationSheetController.h; sourceTree = "<group>"; };
 		A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmationSheetController.m; sourceTree = "<group>"; };
-		A9C5D29110DAEF5E006893E2 /* SwordKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordKey.h; sourceTree = "<group>"; };
-		A9C5D29210DAEF5E006893E2 /* SwordKey.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordKey.mm; sourceTree = "<group>"; };
 		A9C6C5A811394B6300A3850A /* BookmarkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkCell.h; path = src/UserInterface/BookmarkCell.h; sourceTree = "<group>"; };
 		A9C6C5A911394B6300A3850A /* BookmarkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkCell.m; path = src/UserInterface/BookmarkCell.m; sourceTree = "<group>"; };
-		A9CC334F0EB0699900810821 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
-		A9CC33500EB0699900810821 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A9CDC4570E652FD700BDA30F /* fifteenpieces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fifteenpieces.png; sourceTree = "<group>"; };
 		A9CDDDD00F738E0500C907B9 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SearchBookSetEditor.xib; sourceTree = "<group>"; };
 		A9CFAE0910D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+ModuleDisplaySettings.h"; sourceTree = "<group>"; };
@@ -502,8 +469,6 @@
 		A9D9F5270EAF156D0035222E /* BookmarkManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkManagerTest.h; path = test/BookmarkManagerTest.h; sourceTree = "<group>"; };
 		A9D9F5280EAF156D0035222E /* BookmarkManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkManagerTest.m; path = test/BookmarkManagerTest.m; sourceTree = "<group>"; };
 		A9D9F52C0EAF17890035222E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		A9DA0B370E67F4600018ADE1 /* SwordModuleTreeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModuleTreeEntry.h; sourceTree = "<group>"; };
-		A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModuleTreeEntry.m; sourceTree = "<group>"; };
 		A9DC14E40E0AA83D00E3F944 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ExtTextView.xib; sourceTree = "<group>"; };
 		A9DCB0D40E9F252C004169EB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GenBookView.xib; sourceTree = "<group>"; };
 		A9DFBC3F0EF6ECF30061BE19 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
@@ -525,14 +490,9 @@
 		A9F1856A0E0833F9005F3B35 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoLogger.framework; path = Resources/CocoLogger.framework; sourceTree = "<group>"; };
 		A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoPCRE.framework; path = Resources/CocoPCRE.framework; sourceTree = "<group>"; };
-		A9F61C210E01028700C3A0EF /* locales.d */ = {isa = PBXFileReference; lastKnownFileType = folder; name = locales.d; path = sword_mac_build/build/result_inst/locales.d; sourceTree = "<group>"; };
 		A9F74DD30F1BA9A3000D3F3E /* NSButton+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSButton+Color.h"; path = "src/UserInterface/NSButton+Color.h"; sourceTree = "<group>"; };
 		A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSButton+Color.m"; path = "src/UserInterface/NSButton+Color.m"; sourceTree = "<group>"; };
-		A9F8428E0F724B8800F64FCA /* SwordVerseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordVerseManager.h; sourceTree = "<group>"; };
-		A9F8428F0F724B8800F64FCA /* SwordVerseManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SwordVerseManager.mm; sourceTree = "<group>"; };
-		A9FCB08910777187000A5871 /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bin; path = sword_mac_build/build/result_inst/bin; sourceTree = "<group>"; };
-		A9FCB0B01078193B000A5871 /* SwordModuleTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModuleTextEntry.h; sourceTree = "<group>"; };
-		A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModuleTextEntry.m; sourceTree = "<group>"; };
+		A9FCB08910777187000A5871 /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bin; path = sword_src/build/result_inst/bin; sourceTree = SOURCE_ROOT; };
 		A9FCD75910B1484C006F7A3B /* BookmarksUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarksUIController.h; path = src/Bookmarks/BookmarksUIController.h; sourceTree = "<group>"; };
 		A9FCD75A10B1484C006F7A3B /* BookmarksUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarksUIController.m; path = src/Bookmarks/BookmarksUIController.m; sourceTree = "<group>"; };
 		A9FCD75F10B1562D006F7A3B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BookmarkManagerUI.xib; sourceTree = "<group>"; };
@@ -548,7 +508,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A993E8B51053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */,
+				A975EC8A11C78B52007C1532 /* ObjCSword.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */,
 				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
@@ -560,19 +520,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A9698BF71000CA790024CC6B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A993E8B61053119700680650 /* libsword-1.6.1-svn-fat.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A9D9F5170EAF151E0035222E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A95D51A5105D431600FE9A24 /* libsword-1.6.1-svn-fat.a in Frameworks */,
 				A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */,
 				A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */,
 			);
@@ -586,8 +537,6 @@
 			children = (
 				A91C93DB0DF9B0E9006B7361 /* AppController.h */,
 				A91C93DC0DF9B0E9006B7361 /* AppController.m */,
-				A91C93DD0DF9B0E9006B7361 /* Application.h */,
-				A91C93DE0DF9B0E9006B7361 /* Application.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -595,8 +544,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A975EA5311C7721D007C1532 /* ObjCSword.framework */,
 				A993E8CE1053137C00680650 /* BGHUDAppKit.framework */,
-				A993E8B41053119700680650 /* libsword-1.6.1-svn-fat.a */,
 				A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */,
 				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
 				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,
@@ -624,7 +573,6 @@
 			children = (
 				8D1107320486CEB800E47090 /* MacSword.app */,
 				A9D9F51A0EAF151E0035222E /* Tests.octest */,
-				A9698BF91000CA790024CC6B /* Osis2Mod */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -632,17 +580,18 @@
 		29B97314FDCFA39411CA2CEA /* MacSword2 */ = {
 			isa = PBXGroup;
 			children = (
+				A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */,
 				A9D9F5260EAF15410035222E /* Tests */,
 				A91C93F80DF9B149006B7361 /* InstallerConsole */,
 				A9B7441A0F646223001960B0 /* About */,
+				A918BA6011C68E1000024D84 /* Logging */,
 				A9FD341C0E0A70F6001287DD /* Preferences */,
 				A91C93EB0DF9B149006B7361 /* Indexing */,
 				A91C93FA0DF9B149006B7361 /* ModuleManager */,
 				A96103B910B03A2E007A9371 /* NotesTaking */,
 				A9E8BD290EADADD000E58D1E /* Bookmarks */,
 				A99055A90E041C3400E8D7A2 /* UserInterface */,
-				A91C94050DF9B149006B7361 /* Sword */,
-				A9698BF51000CA070024CC6B /* Sword-utils */,
+				A918BA4011C67AF700024D84 /* Sword */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -669,7 +618,6 @@
 			children = (
 				A9629C9E1179CB6E00E375AA /* Modules */,
 				A9FCB08910777187000A5871 /* bin */,
-				A9F61C210E01028700C3A0EF /* locales.d */,
 				A9E9E29A0F650544007C4AB2 /* Credits.rtf */,
 				A9D3EB740EF6E28E00B3C993 /* dsa_pub.pem */,
 				A91A23370E61955000382F44 /* Icons */,
@@ -733,6 +681,26 @@
 				A9061E0E0F70EA5C00F6DA1F /* SearchBookSetEditorController.m */,
 			);
 			name = SearchBookSetEditor;
+			sourceTree = "<group>";
+		};
+		A918BA4011C67AF700024D84 /* Sword */ = {
+			isa = PBXGroup;
+			children = (
+				A918BA4111C67AF700024D84 /* SwordModule+SearchKitIndex.h */,
+				A918BA4211C67AF700024D84 /* SwordModule+SearchKitIndex.mm */,
+			);
+			name = Sword;
+			path = src/Sword;
+			sourceTree = "<group>";
+		};
+		A918BA6011C68E1000024D84 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				A918BA6111C68E4400024D84 /* LoggingProvider.h */,
+				A918BA6211C68E4400024D84 /* LoggingProvider.m */,
+			);
+			name = Logging;
+			path = src/Logging;
 			sourceTree = "<group>";
 		};
 		A91A23370E61955000382F44 /* Icons */ = {
@@ -821,54 +789,6 @@
 			path = src/ModuleManager;
 			sourceTree = "<group>";
 		};
-		A91C94050DF9B149006B7361 /* Sword */ = {
-			isa = PBXGroup;
-			children = (
-				A91C94140DF9B149006B7361 /* SwordManager.h */,
-				A91C94150DF9B149006B7361 /* SwordManager.mm */,
-				A9F8428E0F724B8800F64FCA /* SwordVerseManager.h */,
-				A9F8428F0F724B8800F64FCA /* SwordVerseManager.mm */,
-				A91C94160DF9B149006B7361 /* SwordModule.h */,
-				A91C94170DF9B149006B7361 /* SwordModule.mm */,
-				A91C94080DF9B149006B7361 /* SwordBible.h */,
-				A91C94090DF9B149006B7361 /* SwordBible.mm */,
-				A91C940A0DF9B149006B7361 /* SwordBook.h */,
-				A91C940B0DF9B149006B7361 /* SwordBook.mm */,
-				A91C940C0DF9B149006B7361 /* SwordCommentary.h */,
-				A91C940D0DF9B149006B7361 /* SwordCommentary.mm */,
-				A91C940E0DF9B149006B7361 /* SwordDictionary.h */,
-				A91C940F0DF9B149006B7361 /* SwordDictionary.mm */,
-				A91C94100DF9B149006B7361 /* SwordInstallSource.h */,
-				A91C94110DF9B149006B7361 /* SwordInstallSource.mm */,
-				A91C94120DF9B149006B7361 /* SwordInstallSourceController.h */,
-				A91C94130DF9B149006B7361 /* SwordInstallSourceController.mm */,
-				A91C94180DF9B149006B7361 /* SwordSearching.h */,
-				A91C94190DF9B149006B7361 /* SwordSearching.mm */,
-				A9DA0B370E67F4600018ADE1 /* SwordModuleTreeEntry.h */,
-				A9DA0B380E67F4600018ADE1 /* SwordModuleTreeEntry.m */,
-				A9FCB0B01078193B000A5871 /* SwordModuleTextEntry.h */,
-				A9FCB0B11078193B000A5871 /* SwordModuleTextEntry.m */,
-				A96CE67E11175DEC003D66D0 /* SwordBibleTextEntry.h */,
-				A96CE67F11175DEC003D66D0 /* SwordBibleTextEntry.m */,
-				A9CC334F0EB0699900810821 /* SwordModCategory.h */,
-				A9CC33500EB0699900810821 /* SwordModCategory.m */,
-				A9C5D29110DAEF5E006893E2 /* SwordKey.h */,
-				A9C5D29210DAEF5E006893E2 /* SwordKey.mm */,
-				A9582A7E0F701D4C0094FAF4 /* SwordVerseKey.h */,
-				A9582A7F0F701D4C0094FAF4 /* SwordVerseKey.mm */,
-				A937B0B40F8F9B2100948406 /* SwordListKey.h */,
-				A937B0B50F8F9B2100948406 /* SwordListKey.mm */,
-				A98EDE430F4C77D000A3387D /* SwordBibleBook.h */,
-				A98EDE440F4C77D000A3387D /* SwordBibleBook.mm */,
-				A92480BF0F4D99630048A603 /* SwordBibleChapter.h */,
-				A92480C00F4D99630048A603 /* SwordBibleChapter.m */,
-				A987156E113668FE00DB94D2 /* VerseEnumerator.h */,
-				A987156F113668FE00DB94D2 /* VerseEnumerator.mm */,
-			);
-			name = Sword;
-			path = src/Sword;
-			sourceTree = "<group>";
-		};
 		A91C941A0DF9B149006B7361 /* ThreadedProgressSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -931,12 +851,15 @@
 			name = Hosts;
 			sourceTree = "<group>";
 		};
-		A9698BF51000CA070024CC6B /* Sword-utils */ = {
+		A975EA1011C77052007C1532 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A9698BFF1000CAB30024CC6B /* osis2mod.cpp */,
+				A975EA1611C77052007C1532 /* ObjCSword.framework */,
+				A975EA1811C77052007C1532 /* Tests.octest */,
+				A975EA1A11C77052007C1532 /* libSword.dylib */,
+				A975EEDD11C792BA007C1532 /* mod2osis */,
 			);
-			name = "Sword-utils";
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
@@ -1162,28 +1085,13 @@
 			buildRules = (
 			);
 			dependencies = (
+				A975EA4811C770FD007C1532 /* PBXTargetDependency */,
 			);
 			name = MacSword;
 			productInstallPath = "$(HOME)/Applications";
 			productName = MacSword2;
 			productReference = 8D1107320486CEB800E47090 /* MacSword.app */;
 			productType = "com.apple.product-type.application";
-		};
-		A9698BF81000CA790024CC6B /* Osis2Mod */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A9698BFD1000CA980024CC6B /* Build configuration list for PBXNativeTarget "Osis2Mod" */;
-			buildPhases = (
-				A9698BF61000CA790024CC6B /* Sources */,
-				A9698BF71000CA790024CC6B /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Osis2Mod;
-			productName = Osis2Mod;
-			productReference = A9698BF91000CA790024CC6B /* Osis2Mod */;
-			productType = "com.apple.product-type.tool";
 		};
 		A9D9F5190EAF151E0035222E /* Tests */ = {
 			isa = PBXNativeTarget;
@@ -1216,14 +1124,50 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MacSword2 */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A975EA1011C77052007C1532 /* Products */;
+					ProjectRef = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* MacSword */,
 				A9D9F5190EAF151E0035222E /* Tests */,
-				A9698BF81000CA790024CC6B /* Osis2Mod */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A975EA1611C77052007C1532 /* ObjCSword.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ObjCSword.framework;
+			remoteRef = A975EA1511C77052007C1532 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A975EA1811C77052007C1532 /* Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Tests.octest;
+			remoteRef = A975EA1711C77052007C1532 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A975EA1A11C77052007C1532 /* libSword.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libSword.dylib;
+			remoteRef = A975EA1911C77052007C1532 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A975EEDD11C792BA007C1532 /* mod2osis */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = mod2osis;
+			remoteRef = A975EEDC11C792BA007C1532 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -1231,7 +1175,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9FCB09910777187000A5871 /* bin in Resources */,
-				A9F61C640E01028700C3A0EF /* locales.d in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */,
 				A992B5350DF9AD6E00207967 /* MainMenu.xib in Resources */,
@@ -1339,7 +1282,6 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				A91C93DF0DF9B0E9006B7361 /* AppController.m in Sources */,
-				A91C93E00DF9B0E9006B7361 /* Application.m in Sources */,
 				A91C94200DF9B149006B7361 /* Indexer.m in Sources */,
 				A91C94210DF9B149006B7361 /* IndexingManager.m in Sources */,
 				A91C94220DF9B149006B7361 /* SearchResultEntry.m in Sources */,
@@ -1348,14 +1290,6 @@
 				A91C94260DF9B149006B7361 /* ModuleListViewController.m in Sources */,
 				A91C94270DF9B149006B7361 /* ModuleManager.m in Sources */,
 				A91C94280DF9B149006B7361 /* ModuleManageViewController.m in Sources */,
-				A91C942A0DF9B149006B7361 /* SwordBible.mm in Sources */,
-				A91C942B0DF9B149006B7361 /* SwordBook.mm in Sources */,
-				A91C942D0DF9B149006B7361 /* SwordDictionary.mm in Sources */,
-				A91C942E0DF9B149006B7361 /* SwordInstallSource.mm in Sources */,
-				A91C942F0DF9B149006B7361 /* SwordInstallSourceController.mm in Sources */,
-				A91C94300DF9B149006B7361 /* SwordManager.mm in Sources */,
-				A91C94310DF9B149006B7361 /* SwordModule.mm in Sources */,
-				A91C94320DF9B149006B7361 /* SwordSearching.mm in Sources */,
 				A91C94330DF9B149006B7361 /* MBThreadedProgressSheetController.m in Sources */,
 				A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */,
 				A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */,
@@ -1371,11 +1305,9 @@
 				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
 				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,
 				A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */,
-				A9DA0B390E67F4600018ADE1 /* SwordModuleTreeEntry.m in Sources */,
 				A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */,
 				A9E8BD2C0EADAE2800E58D1E /* Bookmark.m in Sources */,
 				A9E8BD2F0EADB01700E58D1E /* BookmarkManager.m in Sources */,
-				A9CC33510EB0699900810821 /* SwordModCategory.m in Sources */,
 				A98810340EB4A6820066943B /* SideBarViewController.m in Sources */,
 				A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */,
 				A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */,
@@ -1390,26 +1322,19 @@
 				A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */,
 				A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */,
 				A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */,
-				A98EDE450F4C77D000A3387D /* SwordBibleBook.mm in Sources */,
-				A92480C10F4D99630048A603 /* SwordBibleChapter.m in Sources */,
 				A9D450C60F59884A001617B1 /* NSImage+Additions.m in Sources */,
 				A9000E220F6114D300F07F3E /* CTGradient.m in Sources */,
 				A9000E6E0F611BE700F07F3E /* GradientCell.m in Sources */,
 				A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */,
-				A9E9E3320F651B36007C4AB2 /* SwordCommentary.mm in Sources */,
 				A9E9E3CD0F65401C007C4AB2 /* FullScreenView.m in Sources */,
 				A9333AE10F6699110001BD38 /* ProgressOverlayViewController.m in Sources */,
 				A9333B5D0F66CEC90001BD38 /* ProgressOverlayView.m in Sources */,
 				A987A34C0F6D59EC007E5EE1 /* ThickDividerSplitView.m in Sources */,
 				A902D8D20F6E952600F994D2 /* ModuleCommonsViewController.m in Sources */,
-				A9582A800F701D4C0094FAF4 /* SwordVerseKey.mm in Sources */,
 				A9061E0F0F70EA5C00F6DA1F /* SearchBookSetEditorController.m in Sources */,
 				A9061E510F71364A00F6DA1F /* SearchBookSet.m in Sources */,
-				A9F842900F724B8800F64FCA /* SwordVerseManager.mm in Sources */,
 				A9266CFD0F882BC800BA1731 /* HostWindow.m in Sources */,
-				A937B0B60F8F9B2100948406 /* SwordListKey.mm in Sources */,
 				A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */,
-				A9FCB0B21078193B000A5871 /* SwordModuleTextEntry.m in Sources */,
 				A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */,
 				A96103BC10B03B70007A9371 /* NotesManager.m in Sources */,
 				A9FCD75B10B1484C006F7A3B /* BookmarksUIController.m in Sources */,
@@ -1422,8 +1347,6 @@
 				A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */,
 				A9CFAE0B10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */,
 				A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
-				A9C5D29310DAEF5E006893E2 /* SwordKey.mm in Sources */,
-				A96CE68011175DEC003D66D0 /* SwordBibleTextEntry.m in Sources */,
 				A965CEB3112C32C000F4E602 /* CacheObject.m in Sources */,
 				A9032E43112D6823009D6A02 /* NSAttributedString+Additions.m in Sources */,
 				A9032EB0112D7F6A009D6A02 /* NSDictionary+Additions.m in Sources */,
@@ -1436,12 +1359,13 @@
 				A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */,
 				A95CFC5A1132951600E71D4E /* ContentDisplayingViewControllerFactory.m in Sources */,
 				A95CFC791132A9A100E71D4E /* SearchTextFieldOptions.m in Sources */,
-				A9871570113668FE00DB94D2 /* VerseEnumerator.mm in Sources */,
 				A9C6C5AA11394B6300A3850A /* BookmarkCell.m in Sources */,
 				A98422E21144EF640001EED1 /* ToolbarController.m in Sources */,
 				A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */,
 				A9EDA1201150E24E004EC005 /* PrintAccessoryViewController.m in Sources */,
 				A9A73AF211609C8500A4099D /* WindowHostController+SplitViewDelegate.m in Sources */,
+				A918BA4311C67AF700024D84 /* SwordModule+SearchKitIndex.mm in Sources */,
+				A918BA6311C68E4400024D84 /* LoggingProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1449,37 +1373,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A98715861136701200DB94D2 /* VerseEnumerator.mm in Sources */,
-				A99D31E110A223B600305A57 /* SwordModuleTextEntry.m in Sources */,
 				A95D523B105D47B100FE9A24 /* SwordModuleTest.mm in Sources */,
-				A95D523E105D47BE00FE9A24 /* SwordManager.mm in Sources */,
-				A95D5272105D49D400FE9A24 /* SwordModule.mm in Sources */,
-				A95D5273105D49D400FE9A24 /* SwordBible.mm in Sources */,
-				A95D5274105D49D400FE9A24 /* SwordBook.mm in Sources */,
-				A95D5275105D49D400FE9A24 /* SwordCommentary.mm in Sources */,
-				A95D5276105D49D400FE9A24 /* SwordDictionary.mm in Sources */,
-				A95D5279105D49E700FE9A24 /* SwordModuleTreeEntry.m in Sources */,
-				A95D527A105D49E700FE9A24 /* SwordBibleBook.mm in Sources */,
-				A95D527D105D49F600FE9A24 /* SwordBibleChapter.m in Sources */,
-				A98A9533112E9A4000EC8B76 /* SwordBibleTextEntry.m in Sources */,
-				A98A9534112E9A4000EC8B76 /* SwordKey.mm in Sources */,
-				A98A9535112E9A4000EC8B76 /* SwordVerseKey.mm in Sources */,
-				A98A9536112E9A4000EC8B76 /* SwordListKey.mm in Sources */,
 				A98715931136724100DB94D2 /* SwordListKeyTest.m in Sources */,
 				A98A9539112E9A6100EC8B76 /* ObjectAssotiations.m in Sources */,
 				A98A952A112E989C00EC8B76 /* ObjectAssotiationsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A9698BF61000CA790024CC6B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A9698C001000CAB30024CC6B /* osis2mod.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A975EA4811C770FD007C1532 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ObjCSword;
+			targetProxy = A975EA4711C770FD007C1532 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
@@ -1725,60 +1634,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		A9698BFB1000CA7A0024CC6B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Resources\"",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
-				INSTALL_PATH = /usr/local/bin;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
-				);
-				MACH_O_TYPE = mh_execute;
-				OTHER_LDFLAGS = (
-					"-lz",
-					"-licucore",
-					"-lcurl",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = Osis2Mod;
-			};
-			name = Debug;
-		};
-		A9698BFC1000CA7A0024CC6B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Resources\"",
-				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/bin;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = Osis2Mod;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		A9D9F51C0EAF151F0035222E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1862,14 +1717,17 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Resources\"",
+					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Debug\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1878,14 +1736,12 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_OPENMP_FLAGS = "-fopenmp";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
 				OTHER_LDFLAGS = (
 					"-lcurl",
@@ -1900,29 +1756,28 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					"$(ARCHS_STANDARD_32_BIT)",
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Resources\"",
+					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
+					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Debug\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MacSword_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_mac_build/build/result_inst/include\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
@@ -1976,15 +1831,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A9698BFD1000CA980024CC6B /* Build configuration list for PBXNativeTarget "Osis2Mod" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A9698BFB1000CA7A0024CC6B /* Debug */,
-				A9698BFC1000CA7A0024CC6B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A9D9F51E0EAF151F0035222E /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

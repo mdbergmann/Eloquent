@@ -9,7 +9,7 @@
 #import "ModuleCommonsViewController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
-#import "SwordManager.h"
+#import "ObjCSword/SwordManager.h"
 #import "AppController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"

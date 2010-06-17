@@ -22,7 +22,7 @@
     IBOutlet id delegate;
 }
 
-@property (readwrite) id delegate;
+@property (assign, readwrite) id delegate;
 
 + (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData;
 

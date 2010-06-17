@@ -7,11 +7,12 @@
 //
 
 #import "HUDPreviewController.h"
+#import "ObjCSword/Logger.h"
 #import "MBPreferenceController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
-#import "SwordModuleTextEntry.h"
-#import "SwordKey.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordModuleTextEntry.h"
+#import "ObjCSword/SwordKey.h"
 #import "globals.h"
 
 
@@ -114,7 +115,7 @@
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
-        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        LogL(LOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
     }
 }
 

@@ -1,8 +1,9 @@
 
 #import "ModuleListViewController.h"
-#import <ModuleListObject.h>
-#import <InstallSourceListObject.h>
-#import <SwordManager.h>
+#import "ModuleListObject.h"
+#import "InstallSourceListObject.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/Logger.h"
 
 // table column identifiers
 #define TABLECOL_IDENTIFIER_MODNAME @"modname"
@@ -157,12 +158,12 @@
  \brief validate menu
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	MBLOGV(MBLOG_DEBUG, @"[ModuleListViewController -validateMenuItem:] %@", [menuItem description]);
+	LogLV(LOG_DEBUG, @"[ModuleListViewController -validateMenuItem:] %@", [menuItem description]);
     
     BOOL ret = NO;
     int selectedModuleCount = [moduleSelection count];
 	
-	//MBLOGV(MBLOG_DEBUG, @"%d module(s) selected", selectedModuleCount);
+	//LogLV(LOG_DEBUG, @"%d module(s) selected", selectedModuleCount);
 	
 	if(selectedModuleCount > 1) {
 		ret = YES;
@@ -187,7 +188,7 @@
 		
 		if(modObj != nil) {
 			
-			MBLOGV(MBLOG_DEBUG, @"selected module: %xd", modObj);
+			LogLV(LOG_DEBUG, @"selected module: %xd", modObj);
 			
 			int tag = [menuItem tag];
 			
@@ -240,7 +241,7 @@
         }                
         [moduleOutlineView reloadData];
     } else {
-        MBLOG(MBLOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
+        LogL(LOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
     }    
 }
 
@@ -264,12 +265,12 @@
                     }
                 }
             } else {
-                MBLOG(MBLOG_WARN, @"[ModuleListViewController -installModule:] module is already installed!");
+                LogL(LOG_WARN, @"[ModuleListViewController -installModule:] module is already installed!");
             }
         }
         [moduleOutlineView reloadData];
     } else {
-        MBLOG(MBLOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
+        LogL(LOG_ERR, @"[ModuleListViewController -installModule:] no module selected!");
     }    
 }
 
@@ -293,12 +294,12 @@
                     }
                 }
             } else {
-                MBLOG(MBLOG_WARN, @"[ModuleListViewController -removeModule:] module is not installed!");
+                LogL(LOG_WARN, @"[ModuleListViewController -removeModule:] module is not installed!");
             }
         }
         [moduleOutlineView reloadData];
     } else {
-        MBLOG(MBLOG_ERR, @"[ModuleListViewController -removeModule:] no module selected!");
+        LogL(LOG_ERR, @"[ModuleListViewController -removeModule:] no module selected!");
     }
 }
 
@@ -322,12 +323,12 @@
                     }
                 }
             } else {
-                MBLOG(MBLOG_INFO, @"[ModuleListViewController -updateModule:] current version of module installed!");
+                LogL(LOG_INFO, @"[ModuleListViewController -updateModule:] current version of module installed!");
             }
         }        
         [moduleOutlineView reloadData];
     } else {
-        MBLOG(MBLOG_ERR, @"[ModuleListViewController -updateModule:] no module selected!");
+        LogL(LOG_ERR, @"[ModuleListViewController -updateModule:] no module selected!");
     }
 }
 
@@ -335,7 +336,7 @@
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
 
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController textDidChange:]");
+	LogL(LOG_DEBUG,@"[ModuleListViewController textDidChange:]");
     if(aNotification != nil) {
         NSSearchField *sf = [aNotification object];
         
@@ -375,7 +376,7 @@
  \brief Notification is called when the selection has changed 
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	MBLOG(MBLOG_DEBUG,@"[ModuleListViewController outlineViewSelectionDidChange:]");
+	LogL(LOG_DEBUG,@"[ModuleListViewController outlineViewSelectionDidChange:]");
 	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
@@ -399,10 +400,10 @@
 				}				
             }
 		} else {
-			MBLOG(MBLOG_WARN,@"[ModuleListViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			LogL(LOG_WARN,@"[ModuleListViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		MBLOG(MBLOG_WARN,@"[ModuleListViewController outlineViewSelectionDidChange:] have a nil notification!");
+		LogL(LOG_WARN,@"[ModuleListViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 
@@ -499,7 +500,7 @@
 
 - (void)outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
 
-    MBLOG(MBLOG_DEBUG, @"[ModuleListViewController -sortDescriptorsDidChange:]");
+    LogL(LOG_DEBUG, @"[ModuleListViewController -sortDescriptorsDidChange:]");
 
     NSArray *newDescriptors = [outlineView sortDescriptors];
     // keep them

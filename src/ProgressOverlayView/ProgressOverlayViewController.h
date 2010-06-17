@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <SwordSearching.h>
+#import <SwordModule+SearchKitIndex.h>
 
 @interface ProgressOverlayViewController : NSViewController <IndexCreationProgressing> {
     // Progress overlay view
@@ -18,7 +18,7 @@
     IBOutlet NSView *barProgressView;
 }
 
-@property (readwrite) id delegate;
+@property (assign, readwrite) id delegate;
 @property (readonly) NSView *barProgressView;
 
 + (ProgressOverlayViewController *)defaultController;

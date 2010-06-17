@@ -7,6 +7,7 @@
 //
 
 #import "WindowHostController+FullscreenDelegate.h"
+#import "ObjCSword/Logger.h"
 #import "WindowHostController+SideBars.h"
 #import "ToolbarController.h"
 
@@ -15,7 +16,7 @@
 
 - (void)goingToFullScreenMode {
     inFullScreenTransition = YES;
-    MBLOG(MBLOG_DEBUG, @"going to fullscreen");
+    LogL(LOG_DEBUG, @"going to fullscreen");
     
     NSView *topView = [contentViewController topAccessoryView];
     [topView removeFromSuperview];
@@ -23,13 +24,13 @@
 }
 
 - (void)goneToFullScreenMode {
-    MBLOG(MBLOG_DEBUG, @"gone to fullscreen");
+    LogL(LOG_DEBUG, @"gone to fullscreen");
     inFullScreenTransition = NO;
 }
 
 - (void)leavingFullScreenMode {
     inFullScreenTransition = YES;
-    MBLOG(MBLOG_DEBUG, @"leaving fullscreen");
+    LogL(LOG_DEBUG, @"leaving fullscreen");
     
     NSView *topView = [contentViewController topAccessoryView];
     [topView removeFromSuperview];
@@ -38,7 +39,7 @@
 }
 
 - (void)leftFullScreenMode {
-    MBLOG(MBLOG_DEBUG, @"left fullscreen");
+    LogL(LOG_DEBUG, @"left fullscreen");
     inFullScreenTransition = NO;
 }
 

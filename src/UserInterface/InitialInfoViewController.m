@@ -7,8 +7,9 @@
 //
 
 #import "InitialInfoViewController.h"
+#import "ObjCSword/Logger.h"
 #import "AppController.h"
-#import "SwordManager.h"
+#import "ObjCSword/SwordManager.h"
 
 
 @implementation InitialInfoViewController
@@ -19,7 +20,7 @@
         BOOL success = [NSBundle loadNibNamed:@"InitialInfoView" owner:self];
         if(success) {
         } else {
-            MBLOG(MBLOG_ERR,@"[InitialInfoViewController]: cannot load ConfirmationSheetControllerNib!");
+            LogL(LOG_ERR,@"[InitialInfoViewController]: cannot load ConfirmationSheetControllerNib!");
         }        
     }
 

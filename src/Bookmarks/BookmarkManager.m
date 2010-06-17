@@ -9,8 +9,8 @@
 #import "BookmarkManager.h"
 #import "globals.h"
 #import "Bookmark.h"
-#import "SwordListKey.h"
-#import "SwordVerseKey.h"
+#import "ObjCSword/SwordListKey.h"
+#import "ObjCSword/SwordVerseKey.h"
 
 @interface BookmarkManager ()
 

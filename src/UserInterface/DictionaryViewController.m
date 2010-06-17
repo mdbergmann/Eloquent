@@ -7,6 +7,7 @@
 //
 
 #import "DictionaryViewController.h"
+#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
@@ -14,10 +15,9 @@
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "globals.h"
-#import "SwordManager.h"
-#import "SwordSearching.h"
-#import "SwordModule.h"
-#import "SwordDictionary.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordDictionary.h"
 #import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
@@ -66,7 +66,7 @@
         self.delegate = aDelegate;
         [self commonInit];
     } else {
-        MBLOG(MBLOG_ERR, @"[DictionaryViewController -init] unable init!");
+        LogL(LOG_ERR, @"[DictionaryViewController -init] unable init!");
     }
     
     return self;
@@ -81,7 +81,7 @@
     
     BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
     if(!stat) {
-        MBLOG(MBLOG_ERR, @"[DictionaryViewController -init] unable to load nib!");
+        LogL(LOG_ERR, @"[DictionaryViewController -init] unable to load nib!");
     }
 }
 
@@ -213,7 +213,7 @@
                                   range:NSMakeRange(0, [tempDisplayString length])];
         
         // add pointing hand cursor to all links
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+        LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
         NSRange effectiveRange;
         int	i = 0;
         while (i < [tempDisplayString length]) {
@@ -226,7 +226,7 @@
             }
             i += effectiveRange.length;
         }
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");        
+        LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");        
     } else {
         tempDisplayString = [[NSMutableAttributedString alloc] init];
     }
@@ -378,10 +378,10 @@
             self.selection = sel;
             [self displayTextForReference:searchString];
 		} else {
-			MBLOG(MBLOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			LogL(LOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		MBLOG(MBLOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification!");
+		LogL(LOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

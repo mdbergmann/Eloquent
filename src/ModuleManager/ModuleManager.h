@@ -22,7 +22,7 @@
 	NSMutableDictionary *tbIdentifiers;
 }
 
-@property (readwrite) id delegate;
+@property (assign, readwrite) id delegate;
 
 - (id)initWithDelegate:(id)aDelegate;
 

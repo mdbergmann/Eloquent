@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <SwordModule.h>
+//#import "ObjCSword/SwordModule.h"
 #import <Indexer.h>
 
-@class SwordManager;
+@class SwordModule, SwordManager;
 
 @interface IndexingManager : NSObject {
 	NSString *baseIndexPath;

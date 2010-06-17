@@ -7,6 +7,7 @@
 //
 
 #import "ContentDisplayingViewController.h"
+#import "ObjCSword/Logger.h"
 #import "HUDPreviewController.h"
 #import "MBPreferenceController.h"
 #import "globals.h"
@@ -18,12 +19,12 @@
 #import "DictionaryViewController.h"
 #import "NSTextView+LookupAdditions.h"
 #import "MBPreferenceController.h"
-#import "SwordManager.h"
-#import "SwordKey.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordKey.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "AppController.h"
-#import "SwordModuleTextEntry.h"
+#import "ObjCSword/SwordModuleTextEntry.h"
 #import "ModulesUIController.h"
 #import "CacheObject.h"
 #import "NSAttributedString+Additions.h"
@@ -216,8 +217,8 @@ extern char ModuleListUI;
     NSDictionary *linkResult = [SwordManager linkDataForLinkURL:aUrl];
     SendNotifyShowPreviewData(linkResult);
     
-    MBLOGV(MBLOG_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] classname: %@", [aUrl className]);    
-    MBLOGV(MBLOG_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] link: %@", [aUrl description]);
+    LogLV(LOG_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] classname: %@", [aUrl className]);    
+    LogLV(LOG_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] link: %@", [aUrl description]);
     if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
         return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
     }

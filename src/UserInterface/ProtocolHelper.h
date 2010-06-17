@@ -7,7 +7,7 @@
  *
  */
 
-#import <SwordModule.h>
+#import <ObjCSword/SwordModule.h>
 #import <Indexer.h>
 
 @class HostableViewController;

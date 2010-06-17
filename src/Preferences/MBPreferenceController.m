@@ -1,5 +1,7 @@
+
 #import "MBPreferenceController.h"
-#import "SwordManager.h"
+#import "ObjCSword/Logger.h"
+#import "ObjCSword/SwordManager.h"
 #import "IndexingManager.h"
 #import "globals.h"
 #import "NSDictionary+ModuleDisplaySettings.h"
@@ -34,11 +36,11 @@ static MBPreferenceController *instance;
 }
 
 - (id)initWithDelegate:(id)aDelegate {
-	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -init]");
+	LogL(LOG_DEBUG,@"[MBPreferenceController -init]");
 	
 	self = [super initWithWindowNibName:@"Preferences" owner:self];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR, @"[MBPreferenceController -init] cannot init!");		
+		LogL(LOG_ERR, @"[MBPreferenceController -init] cannot init!");		
 	} else {
         instance = self;
         delegate = aDelegate;
@@ -50,12 +52,12 @@ static MBPreferenceController *instance;
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    MBLOG(MBLOG_DEBUG, @"[WindowHostController -windowWillClose:]");
+    LogL(LOG_DEBUG, @"[WindowHostController -windowWillClose:]");
     // tell delegate that we are closing
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
-        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        LogL(LOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
     }
 }
 
@@ -146,7 +148,7 @@ static MBPreferenceController *instance;
 //----------- bundle delegates ---------------------------------------
 //--------------------------------------------------------------------
 - (void)awakeFromNib {
-	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -awakeFromNib]");
+	LogL(LOG_DEBUG,@"[MBPreferenceController -awakeFromNib]");
 	
     generalViewRect = [generalView frame];
     bibleDisplayViewRect = [bibleDisplayView frame];
@@ -175,7 +177,7 @@ static MBPreferenceController *instance;
 }
 
 - (void)changeFont:(id)sender {
-	MBLOG(MBLOG_DEBUG,@"[MBPreferenceController -changeFont]");
+	LogL(LOG_DEBUG,@"[MBPreferenceController -changeFont]");
     
     NSFont *newFont = [sender convertFont:bibleDisplayFont];
     // get font data

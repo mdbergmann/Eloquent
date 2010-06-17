@@ -7,6 +7,7 @@
 //
 
 #import "SingleViewHostController.h"
+#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "BibleCombiViewController.h"
@@ -17,8 +18,8 @@
 #import "BibleSearchOptionsViewController.h"
 #import "LeftSideBarViewController.h"
 #import "RightSideBarViewController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
 #import "SearchTextObject.h"
 #import "FileRepresentation.h"
 #import "NotesViewController.h"
@@ -47,7 +48,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
     if(!stat) {
-        MBLOG(MBLOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
+        LogL(LOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
     }
 }
 

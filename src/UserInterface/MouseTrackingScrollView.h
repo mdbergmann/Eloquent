@@ -13,7 +13,7 @@
     id delegate;
 }
 
-@property (readwrite) id delegate;
+@property (assign, readwrite) id delegate;
 
 - (void)updateMouseTracking;
 

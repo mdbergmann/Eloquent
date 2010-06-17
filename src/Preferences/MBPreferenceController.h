@@ -85,9 +85,9 @@ typedef enum _VerseNumberingType {
 #define DefaultsHeadingsForegroundColor             @"DefaultsHeadingsForegroundColor"
 #define DefaultsHeadingsBackgroundColor             @"DefaultsHeadingsBackgroundColor"
 
-
 // confirmations
 #define DefaultsShowFullScreenConfirm               @"DefaultsShowFullScreenConfirm"
+#define DefaultsCreateCluceneConfirm                @"DefaultsCreateCluceneConfirm"
 
 @class SwordManager;
 
@@ -132,8 +132,8 @@ typedef enum _VerseNumberingType {
 	int topTabViewMargin;
 }
 
-@property (readwrite) id delegate;
-@property (readwrite) NSWindow *sheetWindow;
+@property (assign, readwrite) id delegate;
+@property (retain, readwrite) NSWindow *sheetWindow;
 
 // the default prefs controller
 + (MBPreferenceController *)defaultPrefsController;

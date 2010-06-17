@@ -28,7 +28,7 @@
 }
 
 @property (retain, readwrite) SearchBookSet *selectedBookSet;
-@property (readwrite) id delegate;
+@property (assign, readwrite) id delegate;
 
 - (NSMenu *)bookSetsMenu;
 

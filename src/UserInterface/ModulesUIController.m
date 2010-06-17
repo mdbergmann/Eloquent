@@ -7,12 +7,18 @@
 //
 
 #import "ModulesUIController.h"
+#import "ObjCSword/Logger.h"
 #import "BibleCombiViewController.h"
 #import "WorkspaceViewHostController.h"
 #import "LeftSideBarViewController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/Notifications.h"
+#import "ObjCSword/SwordModule+Index.h"
 #import "AppController.h"
+#import "MBThreadedProgressSheetController.h"
+#import "ConfirmationSheetController.h"
+#import "MBPreferenceController.h"
 #import "globals.h"
 
 #define MODULELIST_UI_NIBNAME @"ModuleListUI"
@@ -22,12 +28,15 @@ enum ModuleMenu_Items{
     ModuleMenuOpenWorkspace,
     ModuleMenuOpenCurrent,
     ModuleMenuShowAbout = 120,
-    ModuleMenuUnlock
+    ModuleMenuUnlock,
+    ModuleMenuCreateCluceneIndex
 }ModuleMenuItems;
 
 @interface ModulesUIController ()
 
 - (void)modulesListChanged:(NSNotification *)notification;
+- (void)createCluceneIndex;
+- (void)_createCluceneIndex;
 
 @end
 
@@ -158,7 +167,7 @@ enum ModuleMenu_Items{
         
         BOOL stat = [NSBundle loadNibNamed:MODULELIST_UI_NIBNAME owner:self];
         if(!stat) {
-            MBLOG(MBLOG_ERR, @"[ModuleListUIController -init] unable to load nib!");
+            LogL(LOG_ERR, @"[ModuleListUIController -init] unable to load nib!");
         }        
     }
     return self;
@@ -220,7 +229,7 @@ enum ModuleMenu_Items{
         if(![hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             ret = NO;
         }
-    } else if(tag == ModuleMenuShowAbout) {
+    } else if(tag == ModuleMenuShowAbout || tag == ModuleMenuCreateCluceneIndex) {
         if(![clicked isKindOfClass:[SwordModule class]]) {
             ret = NO;
         }
@@ -275,6 +284,50 @@ enum ModuleMenu_Items{
                   contextInfo:nil];
             break;
         }
+        case ModuleMenuCreateCluceneIndex:
+        {
+            [self createCluceneIndex];
+            break;
+        }
+    }
+}
+
+- (void)createCluceneIndex {
+    if([userDefaults objectForKey:DefaultsCreateCluceneConfirm] == nil || 
+       [userDefaults boolForKey:DefaultsCreateCluceneConfirm] == NO) {
+        confirmSheet = [[ConfirmationSheetController alloc] initWithSheetTitle:NSLocalizedString(@"ConfirmCreateCluceneIndex", @"") 
+                                                               message:NSLocalizedString(@"ConfirmCreateCluceneIndexText", @"") 
+                                                         defaultButton:NSLocalizedString(@"Yes", @"") 
+                                                       alternateButton:NSLocalizedString(@"No", @"") 
+                                                           otherButton:nil 
+                                                        askAgainButton:NSLocalizedString(@"DoNotAskAgain", @"") 
+                                                   defaultsAskAgainKey:DefaultsCreateCluceneConfirm 
+                                                           contextInfo:nil 
+                                                             docWindow:[hostingDelegate window]];
+        [confirmSheet setDelegate:self];
+        [confirmSheet beginSheet];
+    } else {
+        [self _createCluceneIndex];
+    }
+}
+
+- (void)_createCluceneIndex {
+    SwordModule *mod = (SwordModule *)[self delegateSelectedObject];
+    if(mod) {
+        MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
+        [ps reset];
+        [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
+        [ps setIsThreaded:[NSNumber numberWithBool:YES]];
+        [ps setActionMessage:NSLocalizedString(@"CreatingCluceneIndex", @"")];
+        [ps setCurrentStepMessage:NSLocalizedString(@"Indexing", @"")];
+        
+        [ps startProgressAnimation];
+        [ps beginSheetForWindow:[hostingDelegate window]];
+        LogLV(LOG_INFO, @"Creating Clucene index for module: %@", [mod name]);
+        [mod createSearchIndex];
+        LogL(LOG_INFO, @"Creating Clucene index...done");
+        [ps endSheet];
+        [ps stopProgressAnimation];        
     }
 }
 
@@ -303,6 +356,15 @@ enum ModuleMenu_Items{
     [moduleUnlockWindow close];
     [NSApp endSheet:moduleUnlockWindow];
     [moduleUnlockTextField setStringValue:@""];    
+}
+
+// Confirm sheet callback
+- (void)confirmationSheetEnded {
+    if(confirmSheet) {
+        if([confirmSheet sheetReturnCode] == SheetDefaultButtonCode) {
+            [self _createCluceneIndex];
+        }
+    }
 }
 
 // end sheet callback

@@ -1,8 +1,9 @@
+
 #import <Cocoa/Cocoa.h>
 #import <CocoPCRE/CocoPCRE.h>
-#import <SwordInstallSourceController.h>
-#import <SwordInstallSource.h>
-#import <SwordModule.h>
+#import <ObjCSword/SwordInstallSourceController.h>
+#import <ObjCSword/SwordInstallSource.h>
+#import <ObjCSword/SwordModule.h>
 #import <globals.h>
 
 @interface ModuleListViewController : NSObject {

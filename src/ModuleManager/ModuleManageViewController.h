@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <ModuleListViewController.h>
-#import <SwordInstallSourceController.h>
+#import <ObjCSword/SwordInstallSourceController.h>
 
 @class ModuleListObject;
 @class InstallSourceListObject;

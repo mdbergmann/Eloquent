@@ -7,6 +7,7 @@
 //
 
 #import "FullScreenView.h"
+#import "ObjCSword/Logger.h"
 #import "MBPreferenceController.h"
 #import "ConfirmationSheetController.h"
 #import "ToolbarController.h"
@@ -77,9 +78,9 @@
     // stretch toolbar view to take up 3/4 of the main view width    
     NSView *hudView = [toolbarController toolbarHUDView];
     CGFloat mainViewWidth = [self frame].size.width;
-    MBLOGV(MBLOG_DEBUG, @"fsview width: %f", mainViewWidth);
+    LogLV(LOG_DEBUG, @"fsview width: %f", mainViewWidth);
     CGFloat newHUDViewWidth = mainViewWidth * (3.0/4.0);
-    MBLOGV(MBLOG_DEBUG, @"hudview width: %f", newHUDViewWidth);
+    LogLV(LOG_DEBUG, @"hudview width: %f", newHUDViewWidth);
     [hudView setFrameSize:NSMakeSize(newHUDViewWidth, [hudView frame].size.height)];
     
     if([self delegate] && [[self delegate] respondsToSelector:@selector(goneToFullScreenMode)]) {
@@ -103,7 +104,7 @@
     
     if(theEvent) {
         if([theEvent userData] == trackingData) {
-            MBLOG(MBLOG_DEBUG, @"[FullscreenView -mouseEntered:]");
+            LogL(LOG_DEBUG, @"[FullscreenView -mouseEntered:]");
             if([self isInFullScreenMode]) {
                 NSView *hudView = [toolbarController toolbarHUDView];
                                 
@@ -128,7 +129,7 @@
 - (void)mouseExited:(NSEvent *)theEvent {
     if(theEvent) {
         if([theEvent userData] == trackingData) {
-            MBLOG(MBLOG_DEBUG, @"[FullscreenView -mouseExited:]");
+            LogL(LOG_DEBUG, @"[FullscreenView -mouseExited:]");
             if([self isInFullScreenMode]) {
                 BOOL setupDefaultTracking = [[self subviews] containsObject:[toolbarController toolbarHUDView]];
 
@@ -148,7 +149,7 @@
 }
 
 - (void)updateTrackingRectForViewRect:(NSRect)aRect {
-    MBLOG(MBLOG_DEBUG, @"[FullscreenView -updateTrackingRectForSubview:]");
+    LogL(LOG_DEBUG, @"[FullscreenView -updateTrackingRectForSubview:]");
     
     while(self.trackingAreas.count > 0) {
 		[self removeTrackingArea:[self.trackingAreas lastObject]];
@@ -163,7 +164,7 @@
 }
 
 - (void)updateTrackingAreas {
-    MBLOG(MBLOG_DEBUG, @"[FullscreenView -updateMouseTracking]");
+    LogL(LOG_DEBUG, @"[FullscreenView -updateMouseTracking]");
     
     if(!trackingData) {
         [self setTrackingData:[NSDictionary dictionary]];

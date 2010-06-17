@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SwordModule.h>
+#import <ObjCSword/SwordModule.h>
 
 @class FileRepresentation;
 @class ContentDisplayingViewController;

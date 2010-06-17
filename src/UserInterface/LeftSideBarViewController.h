@@ -39,10 +39,10 @@
     id bookmarksRootItem;
     id notesRootItem;
     
-    SwordModule *clickedMod;
-    
     ThreeCellsCell *threeCellsCell;
     BookmarkCell *bookmarkCell;
+    
+    NSMutableArray *selectedItems;
 }
 
 - (id)initWithDelegate:(WindowHostController *)aDelegate;

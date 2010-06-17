@@ -7,16 +7,16 @@
 //
 
 #import "BibleViewController.h"
+#import "ObjCSword/Logger.h"
 #import "AppController.h"
 #import "SingleViewHostController.h"
 #import "BibleCombiViewController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
-#import "SwordBible.h"
-#import "SwordSearching.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordBible.h"
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "GradientCell.h"
@@ -24,19 +24,19 @@
 #import "SearchBookSet.h"
 #import "Bookmark.h"
 #import "BookmarkManager.h"
-#import "SwordVerseKey.h"
+#import "ObjCSword/SwordVerseKey.h"
 #import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "BookmarksUIController.h"
-#import "SwordModuleTextEntry.h"
-#import "SwordBibleTextEntry.h"
+#import "ObjCSword/SwordModuleTextEntry.h"
+#import "ObjCSword/SwordBibleTextEntry.h"
 #import "NSUserDefaults+Additions.h"
 #import "NSTextView+LookupAdditions.h"
 #import "NSAttributedString+Additions.h"
 #import "WorkspaceViewHostController.h"
 #import "globals.h"
-#import "SwordBibleBook.h"
-#import "SwordBibleChapter.h"
+#import "ObjCSword/SwordBibleBook.h"
+#import "ObjCSword/SwordBibleChapter.h"
 #import "CommentaryViewController.h"
 
 @interface BibleViewController ()
@@ -90,7 +90,7 @@
         
         [self _loadNib];
     } else {
-        MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable init!");
+        LogL(LOG_ERR, @"[BibleViewController -init] unable init!");
     }
     
     return self;
@@ -110,7 +110,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
     if(!stat) {
-        MBLOG(MBLOG_ERR, @"[BibleViewController -init] unable to load nib!");            
+        LogL(LOG_ERR, @"[BibleViewController -init] unable to load nib!");            
     }    
 }
 
@@ -314,14 +314,14 @@
     if(performProgressCalculation) {
         // in order to show a progress indicator for if the searching takes too long
         // we need to find out how long it will approximately take
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...");
+        LogL(LOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...");
         int len = [(SwordBible *)module numberOfVerseKeysForReference:searchString];
         // let's say that for more then 30 verses we show a progress indicator
         if(len >= 30) {
             [self beginIndicateProgress];
         }
         performProgressCalculation = YES;   // next time we do
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...done");
+        LogL(LOG_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...done");
     }
 }
 
@@ -335,7 +335,7 @@
         long maxResults = 10000;
         indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
         if(indexer == nil) {
-            MBLOG(MBLOG_ERR, @"[BibleViewController -performThreadedSearch::] Could not get indexer for searching!");
+            LogL(LOG_ERR, @"[BibleViewController -performThreadedSearch::] Could not get indexer for searching!");
         } else {
             [indexer performThreadedSearchOperation:searchString constrains:bookSet maxResults:maxResults delegate:self];
         }        

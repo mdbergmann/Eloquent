@@ -18,10 +18,10 @@
 - (void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize {
     //detect if it's a window resize
     if([sender inLiveResize]) {
-        //MBLOG(MBLOG_DEBUG, @"splitView live resize");
+        //LogL(LOG_DEBUG, @"splitView live resize");
         [self resizeSplitView:sender];
     } else {
-        //MBLOG(MBLOG_DEBUG, @"splitView no live resize");
+        //LogL(LOG_DEBUG, @"splitView no live resize");
         if(inFullScreenTransition) {
             [self resizeSplitView:sender];            
         } else {

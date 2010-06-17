@@ -13,7 +13,7 @@
     IBOutlet NSTextView *textView;
 }
 
-@property (readwrite) NSScrollView *syncScrollView;
-@property (readwrite) NSTextView *textView;
+@property (retain, readwrite) NSScrollView *syncScrollView;
+@property (retain, readwrite) NSTextView *textView;
 
 @end

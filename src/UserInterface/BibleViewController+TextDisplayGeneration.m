@@ -7,21 +7,21 @@
 //
 
 #import "BibleViewController+TextDisplayGeneration.h"
+#import "ObjCSword/Logger.h"
 #import "MBPreferenceController.h"
 #import "globals.h"
-#import "SwordModuleTextEntry.h"
-#import "SwordBibleTextEntry.h"
+#import "ObjCSword/SwordModuleTextEntry.h"
+#import "ObjCSword/SwordBibleTextEntry.h"
 #import "NSUserDefaults+Additions.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
-#import "SwordBible.h"
-#import "SwordSearching.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordBible.h"
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "Bookmark.h"
 #import "BookmarkManager.h"
-#import "SwordVerseKey.h"
-#import "SwordListKey.h"
+#import "ObjCSword/SwordVerseKey.h"
+#import "ObjCSword/SwordListKey.h"
 
 @implementation BibleViewController (TextDisplayGeneration)
 
@@ -81,11 +81,11 @@
             }                
         }
 
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...");
+        LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...");
         [self applyWritingDirection];
-        MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...done");
+        LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...done");
     }
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch::] prepare search results...done");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch::] prepare search results...done");
         
     return ret;
 }
@@ -94,25 +94,25 @@
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
 
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...");
     NSString *htmlString = [self createHTMLStringWithMarkers];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...done");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...");
     [self applyString:htmlString];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...done");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
     [self applyLinkCursorToLinks];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
     [self replaceVerseMarkers];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");
     
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...");
     [self applyWritingDirection];
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...done");        
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...done");        
     
     return tempDisplayString;
 }

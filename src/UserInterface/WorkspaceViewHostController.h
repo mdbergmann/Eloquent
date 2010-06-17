@@ -11,7 +11,7 @@
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <WindowHostController.h>
 #import <Indexer.h>
-#import <SwordModule.h>
+#import <ObjCSword/SwordModule.h>
 #import <ProtocolHelper.h>
 
 #define WORKSPACEVIEWHOST_NIBNAME   @"WorkspaceViewHost"

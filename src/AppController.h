@@ -1,7 +1,6 @@
 /* AppController */
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
 #import <ModuleManager.h>
 
 @class SingleViewHostController;

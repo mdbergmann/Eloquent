@@ -7,14 +7,15 @@
 //
 
 #import "LeftSideBarViewController.h"
+#import "ObjCSword/Logger.h"
 #import "AppController.h"
 #import "BibleCombiViewController.h"
 #import "HostableViewController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
-#import "SwordModCategory.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordModCategory.h"
 #import "BookmarkManager.h"
 #import "Bookmark.h"
 #import "NotesManager.h"
@@ -37,6 +38,8 @@
 
 @interface LeftSideBarViewController ()
 
+@property (retain, readwrite) NSMutableArray *selectedItems;
+
 - (void)reload;
 - (BOOL)isDropSectionBookmarksForItem:(id)anItem;
 - (BOOL)isDropSectionNotesForItem:(id)anItem;
@@ -44,6 +47,8 @@
 @end
 
 @implementation LeftSideBarViewController
+
+@synthesize selectedItems;
 
 - (id)initWithDelegate:(WindowHostController *)aDelegate {
     self = [super initWithDelegate:aDelegate];
@@ -61,11 +66,13 @@
 
         modulesRootItem = NSLocalizedString(@"LSBModules", @"");
         bookmarksRootItem = NSLocalizedString(@"LSBBookmarks", @"");
-        notesRootItem = NSLocalizedString(@"LSBNotes", @"");        
+        notesRootItem = NSLocalizedString(@"LSBNotes", @"");
+        
+        [self setSelectedItems:[NSMutableArray array]];
         
         BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
         if(!stat) {
-            MBLOG(MBLOG_ERR, @"[LeftSideBarViewController -init] unable to load nib!");
+            LogL(LOG_ERR, @"[LeftSideBarViewController -init] unable to load nib!");
         }
     }
     
@@ -111,6 +118,10 @@
     if(clickedRow >= 0) {
         // get row
         ret = [outlineView itemAtRow:clickedRow];
+    } else {
+        if([selectedItems count] > 0) {
+            ret = [selectedItems objectAtIndex:0];
+        }
     }
     
     return ret;
@@ -432,12 +443,15 @@
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
 		if(oview != nil) {
-            
-			NSIndexSet *selectedRows = [oview selectedRowIndexes];
+                        
+            [selectedItems removeAllObjects];            
+			
+            NSIndexSet *selectedRows = [oview selectedRowIndexes];
 			int len = [selectedRows count];
-            
             if(len == 1) {
                 id item = [oview itemAtRow:[oview selectedRow]];
+                [selectedItems addObject:item];
+                
                 if([item isKindOfClass:[Bookmark class]] || 
                    (item == bookmarksRootItem)) {
                     [oview setMenu:[[self bookmarksUIController] bookmarkMenu]];
@@ -454,10 +468,10 @@
             }
             
 		} else {
-			MBLOG(MBLOG_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			LogL(LOG_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		MBLOG(MBLOG_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification!");
+		LogL(LOG_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

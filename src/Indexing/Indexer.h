@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
 #import <CocoLogger/CocoLogger.h>
-#import <SwordModule.h>
-#import <SwordSearching.h>
+#import <ObjCSword/SwordModule.h>
 #import <AppKit/NSApplication.h>
 #import <CoreServices/CoreServices.h>
+#import <SwordModule+SearchKitIndex.h>
 
 #define kMaxSearchResults 1000
 
@@ -45,7 +45,7 @@ typedef enum {
 @property (retain, readwrite) NSString *modName;
 @property (retain, readwrite) NSLock *accessLock;
 @property (readwrite) NSInteger accessCounter;
-@property (readwrite) id<IndexCreationProgressing> progressIndicator;
+@property (assign, readwrite) id<IndexCreationProgressing> progressIndicator;
 
 /**
  \brief convenient allocator for this class cluster

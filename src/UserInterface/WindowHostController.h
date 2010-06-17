@@ -70,7 +70,7 @@
     BOOL hostLoaded;
 }
 
-@property (readwrite) id delegate;
+@property (assign, readwrite) id delegate;
 @property (readwrite) SearchType searchType;
 @property (retain, readwrite) SearchTextObject *currentSearchText;
 @property (retain, readwrite) ContentDisplayingViewController *contentViewController;

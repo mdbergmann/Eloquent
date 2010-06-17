@@ -7,8 +7,8 @@
 //
 
 #import "ModuleListObject.h"
-#import <SwordInstallSource.h>
-#import <SwordModule.h>
+#import "ObjCSword/SwordInstallSource.h"
+#import "ObjCSword/SwordModule.h"
 
 @implementation ModuleListObject
 

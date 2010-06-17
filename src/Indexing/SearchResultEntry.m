@@ -7,6 +7,7 @@
 //
 
 #import "SearchResultEntry.h"
+#import "ObjCSword/Logger.h"
 
 
 @interface SearchResultEntry (PrivateAPI)
@@ -37,7 +38,7 @@
 - (id)initWithDictionary:(NSDictionary *)aDict {
 	self = [super init];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR,@"cannot alloc SearchResultEntry!");
+		LogL(LOG_ERR,@"cannot alloc SearchResultEntry!");
 	} else {
         [self setProperties:[NSMutableDictionary dictionaryWithDictionary:aDict]];
 	}
@@ -58,7 +59,7 @@
 // general methods for adding and getting properties
 - (void)addObject:(NSObject *)object forKey:(NSObject *)key {
     if((object == nil) || (key == nil)) {
-        MBLOG(MBLOG_ERR, @"object or key = nil!");
+        LogL(LOG_ERR, @"object or key = nil!");
     } else {
         [properties setObject:object forKey:key];
     }
@@ -68,7 +69,7 @@
     NSObject *ret = nil;
     
     if(key == nil) {
-        MBLOG(MBLOG_ERR, @"key = nil!");
+        LogL(LOG_ERR, @"key = nil!");
     } else {
         ret = [properties objectForKey:key];
     }

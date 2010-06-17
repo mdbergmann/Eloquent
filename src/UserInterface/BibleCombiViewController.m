@@ -7,14 +7,14 @@
 //
 
 #import "BibleCombiViewController.h"
+#import "ObjCSword/Logger.h"
 #import "WorkspaceViewHostController.h"
 #import "MBPreferenceController.h"
 #import "BibleViewController.h"
 #import "CommentaryViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "WindowHostController.h"
-#import "SwordManager.h"
-#import "SwordSearching.h"
+#import "ObjCSword/SwordManager.h"
 #import "NSButton+Color.h"
 #import "globals.h"
 #import "ProgressOverlayViewController.h"
@@ -74,14 +74,14 @@
     progressControl = NO;
     regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
     if([regex errorCodeOfLastAction] != MBRegexSuccess) {
-        MBLOGV(MBLOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
+        LogLV(LOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
     }
 }
 
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
     if(!stat) {
-        MBLOG(MBLOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
+        LogL(LOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
     }    
 }
 
@@ -643,7 +643,7 @@
                 for(BibleViewController *bvc in parBibleViewControllers) {
                     SwordModule *mod = [bvc module];
                     if(mod != nil) {
-                        if(![mod hasIndex]) {
+                        if(![mod hasSKSearchIndex]) {
                             validIndex = NO;
                             break;
                         }
@@ -656,7 +656,7 @@
                     for(CommentaryViewController *cvc in parMiscViewControllers) {
                         SwordModule *mod = [cvc module];
                         if(mod != nil) {
-                            if(![mod hasIndex]) {
+                            if(![mod hasSKSearchIndex]) {
                                 validIndex = NO;
                                 break;
                             }

@@ -7,6 +7,7 @@
 //
 
 #import "NSTextView+LookupAdditions.h"
+#import "ObjCSword/Logger.h"
 
 
 @implementation NSTextView (LookupAdditions)
@@ -27,15 +28,15 @@
         
         NSRange glyphRange = [layoutManager glyphRangeForBoundingRect:visibleRect inTextContainer:[self textContainer]];
         //NSRange glyphRange = [layoutManager glyphRangeForBoundingRectWithoutAdditionalLayout:visibleRect inTextContainer:[theTextView textContainer]];
-        //MBLOGV(MBLOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
+        //LogLV(LOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
         
         // get line rect
         *lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
-        //MBLOGV(MBLOG_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
+        //LogLV(LOG_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
         
         // get range
         NSRange lineRange = [layoutManager glyphRangeForBoundingRect:*lineRect inTextContainer:[self textContainer]];
-        //MBLOGV(MBLOG_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
+        //LogLV(LOG_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
         
         return lineRange;
     }
@@ -95,7 +96,7 @@
         visibleRect.origin.y -= containerOrigin.y;
         
         NSRange glyphRange = [layoutManager glyphRangeForBoundingRectWithoutAdditionalLayout:visibleRect inTextContainer:[self textContainer]];
-        //MBLOGV(MBLOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
+        //LogLV(LOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
         return glyphRange;
     }
     
@@ -151,7 +152,7 @@
         id val = [text attribute:attrName atIndex:i effectiveRange:&foundRange];
         if(val != nil) {
             if([val isKindOfClass:[NSString class]] && [(NSString *)val isEqualToString:(NSString *)attrValue]) {
-                MBLOG(MBLOG_DEBUG, @"[ExtTextViewController -rectForAttributeName::] found attribute");
+                LogL(LOG_DEBUG, @"[ExtTextViewController -rectForAttributeName::] found attribute");
                 break;
             } else {
                 i += foundRange.location + foundRange.length;

@@ -7,6 +7,7 @@
 //
 
 #import "BibleCombiViewController+ViewSynchronisation.h"
+#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "ScrollSynchronizableView.h"
@@ -152,14 +153,14 @@
         
         NSRange glyphRange = [layoutManager glyphRangeForBoundingRect:visibleRect inTextContainer:[theTextView textContainer]];
         //NSRange glyphRange = [layoutManager glyphRangeForBoundingRectWithoutAdditionalLayout:visibleRect inTextContainer:[theTextView textContainer]];
-        //MBLOGV(MBLOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
+        //LogLV(LOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
         
         // get line range
         *lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
-        //MBLOGV(MBLOG_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
+        //LogLV(LOG_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
         
         NSRange lineRange = [layoutManager glyphRangeForBoundingRect:*lineRect inTextContainer:[theTextView textContainer]];
-        //MBLOGV(MBLOG_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
+        //LogLV(LOG_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
         
         return lineRange;
     }
@@ -191,7 +192,7 @@
             NSString *key = [text substringToIndex:index];
             ret = key;
         } else if(stat == MBRegexMatchError) {
-            MBLOGV(MBLOG_ERR, @"error matching: %@", [regex errorMessageOfLastAction]);
+            LogLV(LOG_ERR, @"error matching: %@", [regex errorMessageOfLastAction]);
         }
     }
     

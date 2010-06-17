@@ -17,11 +17,11 @@
 @implementation BookIndexer
 
 - (id)init {
-	MBLOG(MBLOG_DEBUG,@"init of BookIndexer");
+	LogL(LOG_DEBUG,@"init of BookIndexer");
 	
 	self = [super init];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR,@"cannot alloc BookIndexer!");
+		LogL(LOG_ERR,@"cannot alloc BookIndexer!");
 	}
 	
 	return self;
@@ -33,11 +33,11 @@
  */
 - (id)initWithModuleName:(NSString *)aModName {
 	
-	MBLOG(MBLOG_DEBUG,@"[BookIndexer -initWithModuleName]");
+	LogL(LOG_DEBUG,@"[BookIndexer -initWithModuleName]");
 	
 	self = [self init];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR,@"[BookIndexer -initWithModuleName] cannot alloc BookIndexer!");
+		LogL(LOG_ERR,@"[BookIndexer -initWithModuleName] cannot alloc BookIndexer!");
 	} else {
 		[self setModName:aModName];
 		[self setModType:genbook];
@@ -47,7 +47,7 @@
         contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
-            MBLOG(MBLOG_ERR, @"[BookIndexer -initWithModuleName] Error on creating content index!");
+            LogL(LOG_ERR, @"[BookIndexer -initWithModuleName] Error on creating content index!");
         }
 	}
 	
@@ -58,7 +58,7 @@
 \brief dealloc of this class is called on closing this document
  */
 - (void)dealloc {
-	MBLOG(MBLOG_DEBUG,@"[BookIndexer -dealloc]");
+	LogL(LOG_DEBUG,@"[BookIndexer -dealloc]");
 	
 	// dealloc object
 	[super dealloc];
@@ -85,17 +85,17 @@
 	if(indexRef != NULL) {
 		// create doc name
 		NSString *docName = [NSString stringWithFormat:@"%@", aKey];
-		//MBLOGV(MBLOG_DEBUG, @"creating document with name: %@", docName);
+		//LogLV(LOG_DEBUG, @"creating document with name: %@", docName);
         
 		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
 		if(docRef == NULL) {
-			MBLOG(MBLOG_ERR, @"[BookIndexer -addDocument] could nor create document!");
+			LogL(LOG_ERR, @"[BookIndexer -addDocument] could nor create document!");
 		} else {			
 			// add Document
-			//MBLOGV(MBLOG_DEBUG, @"adding doc with text: %@", aText);
+			//LogLV(LOG_DEBUG, @"adding doc with text: %@", aText);
 			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (CFStringRef)aText, YES);
 			if(!success) {
-				MBLOG(MBLOG_ERR, @"[BookIndexer -addDocument] Could not add document!");
+				LogL(LOG_ERR, @"[BookIndexer -addDocument] Could not add document!");
 			} else {
                 if(aDict != nil) {
                     // set document properties for this document
@@ -200,7 +200,7 @@
             // release Search object
             CFRelease(searchRef);
         } else {
-            MBLOG(MBLOG_ERR, @"[BookIndexer -performSearchOperation] Could not create SearchRef!");
+            LogL(LOG_ERR, @"[BookIndexer -performSearchOperation] Could not create SearchRef!");
         }
     }
     [accessLock unlock];

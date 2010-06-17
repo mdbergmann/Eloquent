@@ -7,10 +7,11 @@
 //
 
 #import "SearchBookSetEditorController.h"
-#import "SwordVerseManager.h"
+#import "ObjCSword/Logger.h"
+#import "ObjCSword/SwordVerseManager.h"
 #import "SearchBookSet.h"
 #import "IndexingManager.h"
-#import "SwordBibleBook.h"
+#import "ObjCSword/SwordBibleBook.h"
 
 // name of the nib
 #define NIB_NAME     @"SearchBookSetEditor"
@@ -38,7 +39,7 @@
             self.selectedBookSet = [self temporaryBookSet];
             
 		} else {
-			MBLOG(MBLOG_ERR,@"[SearchBookSetEditorController -init]: cannot load Nib!");
+			LogL(LOG_ERR,@"[SearchBookSetEditorController -init]: cannot load Nib!");
 		}
 	}
 	

@@ -7,19 +7,20 @@
 //
 
 #import "ModuleViewController.h"
+#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
-#import "SwordManager.h"
+#import "ObjCSword/SwordManager.h"
 #import "AppController.h"
 #import "ExtTextViewController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
 #import "IndexingManager.h"
-#import "SwordModuleTextEntry.h"
+#import "ObjCSword/SwordModuleTextEntry.h"
+#import "ObjCSword/Notifications.h"
 #import "NSTextView+LookupAdditions.h"
 #import "CacheObject.h"
-#import "SwordSearching.h"
 #import "NSDictionary+ModuleDisplaySettings.h"
 
 @interface ModuleViewController () 
@@ -237,7 +238,7 @@
             [self handleDisplayForReference];
         } else if(searchType == IndexSearchType) {
             [searchContentCache setReference:searchString];
-            if(![module hasIndex]) {
+            if(![module hasSKSearchIndex]) {
                 [self setProgressActionType:IndexCreateAction];
                 [self handleDisplayIndexedNoHasIndex];
             } else {
@@ -291,7 +292,7 @@
         // progress indicator is stopped in the delegate methods of either indexing or searching
         [self beginIndicateProgress];
         
-        [module createIndexThreadedWithDelegate:self progressIndicator:[self progressIndicator]];
+        [module createSKSearchIndexThreadedWithDelegate:self progressIndicator:[self progressIndicator]];
     }
 }
 
@@ -304,7 +305,7 @@
         long maxResults = 10000;
         indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
         if(indexer == nil) {
-            MBLOG(MBLOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
+            LogL(LOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
         } else {
             [indexer performThreadedSearchOperation:searchString constrains:nil maxResults:maxResults delegate:self];
         }

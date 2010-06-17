@@ -7,8 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Application.h>
-#import <globals.h>
 
 int main(int argc, char *argv[]) {
         

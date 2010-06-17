@@ -7,6 +7,7 @@
 //
 
 #import "BibleIndexer.h"
+#import "ObjCSword/Logger.h"
 #import "SearchResultEntry.h"
 #import "SearchBookSet.h"
 #import <AppKit/NSApplication.h>
@@ -22,11 +23,11 @@ SearchBookSet *searchBookSet;
 @implementation BibleIndexer
 
 - (id)init {
-	MBLOG(MBLOG_DEBUG,@"init of BibleIndexer");
+	LogL(LOG_DEBUG,@"init of BibleIndexer");
 	
 	self = [super init];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR,@"cannot alloc BibleIndexer!");
+		LogL(LOG_ERR,@"cannot alloc BibleIndexer!");
 	}
 	
 	return self;
@@ -35,7 +36,7 @@ SearchBookSet *searchBookSet;
 - (id)initWithModuleName:(NSString *)aModName {	
 	self = [self init];
 	if(self == nil) {
-		MBLOG(MBLOG_ERR,@"cannot alloc BibleIndexer!");
+		LogL(LOG_ERR,@"cannot alloc BibleIndexer!");
 	} else {
 		[self setModName:aModName];
 		[self setModType:bible];
@@ -49,7 +50,7 @@ SearchBookSet *searchBookSet;
         contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];				
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
-            MBLOG(MBLOG_ERR, @"Error on creating or opening content index!");
+            LogL(LOG_ERR, @"Error on creating or opening content index!");
         }
 	}
 	
@@ -81,17 +82,17 @@ SearchBookSet *searchBookSet;
 	if(indexRef != NULL) {
 		// create doc name
 		NSString *docName = [NSString stringWithFormat:@"%@", aKey];
-		//MBLOGV(MBLOG_DEBUG, @"creating document with name: %@", docName);
+		//LogLV(LOG_DEBUG, @"creating document with name: %@", docName);
         
 		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
 		if(docRef == NULL) {
-			MBLOG(MBLOG_ERR, @"could nor create document!");
+			LogL(LOG_ERR, @"could nor create document!");
 		} else {			
 			// add Document
-			//MBLOGV(MBLOG_DEBUG, @"adding doc with text: %@", aText);
+			//LogLV(LOG_DEBUG, @"adding doc with text: %@", aText);
 			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (CFStringRef)aText, YES);
 			if(!success) {
-				MBLOG(MBLOG_ERR, @"Could not add document!");
+				LogL(LOG_ERR, @"Could not add document!");
 			} else {
                 if(aDict != nil) {
                     // set document properties for this document
@@ -193,7 +194,7 @@ SearchBookSet *searchBookSet;
                             }
                         }
                     } else {
-                        MBLOG(MBLOG_ERR, @"have no valid document name!"); 
+                        LogL(LOG_ERR, @"have no valid document name!"); 
                     }
                 }
                 
@@ -221,7 +222,7 @@ SearchBookSet *searchBookSet;
             // release Search object
             CFRelease(searchRef);
         } else {
-            MBLOG(MBLOG_ERR, @"Could not create SearchRef!");
+            LogL(LOG_ERR, @"Could not create SearchRef!");
         }
     }
     [accessLock unlock];

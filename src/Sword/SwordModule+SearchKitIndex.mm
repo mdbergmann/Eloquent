@@ -6,26 +6,49 @@
 // Based on code by Will Thimbleby
 //
 
-#import "SwordSearching.h"
 #import "CocoLogger/CocoLogger.h"
 #import "IndexingManager.h"
 #import "Indexer.h"
 #import "SearchResultEntry.h"
 #import "utils.h"
-#import "SwordModule.h"
-#import "SwordBible.h"
-#import "SwordDictionary.h"
-#import "SwordBook.h"
-#import "SwordBibleBook.h"
-#import "SwordModuleTextEntry.h"
-#import "SwordBibleTextEntry.h"
-#import "SwordVerseKey.h"
-#import "SwordListKey.h"
-#import "SwordManager.h"
+#import "ObjCSword/Logger.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordBible.h"
+#import "ObjCSword/SwordDictionary.h"
+#import "ObjCSword/SwordBook.h"
+#import "ObjCSword/SwordBibleBook.h"
+#import "ObjCSword/SwordModuleTextEntry.h"
+#import "ObjCSword/SwordBibleTextEntry.h"
+#import "ObjCSword/SwordVerseKey.h"
+#import "ObjCSword/SwordListKey.h"
+#import "ObjCSword/SwordManager.h"
 
 NSString *MacSwordIndexVersion = @"2.6";
 
-@implementation SwordModule(Searching)
+@interface SwordModule()
+- (NSString *)indexOfVerseKey:(SwordVerseKey *)vk;
+- (void)indexContentsIntoIndex:(Indexer *)indexer;
+@end
+
+@interface SwordBible(SearchKitIndex)
+- (void)indexContentsIntoIndex:(Indexer *)indexer;
+@end
+
+@interface SwordCommentary(SearchKitIndex)
+- (void)indexContentsIntoIndex:(Indexer *)indexer;
+@end
+
+@interface SwordDictionary(SearchKitIndex)
+- (void)indexContentsIntoIndex:(Indexer *)indexer;
+@end
+
+@interface SwordBook(SearchKitIndex)
+- (void)indexContentsIntoIndex:(Indexer *)indexer;
+- (void)indexContents:(NSString *)treeKey intoIndex:(Indexer *)indexer;
+@end
+
+
+@implementation SwordModule(SearchKitIndex)
 
 /**
  generates a path index for the given VerseKey
@@ -41,7 +64,7 @@ NSString *MacSwordIndexVersion = @"2.6";
     return index;
 }
 
-- (BOOL)hasIndex {
+- (BOOL)hasSKSearchIndex {
     IndexingManager *im	= [IndexingManager sharedManager]; 
 	NSString *modName = [self name];
     NSString *path = [im indexFolderPathForModuleName:modName];
@@ -53,27 +76,27 @@ NSString *MacSwordIndexVersion = @"2.6";
             if([[d objectForKey:@"MacSword Index Version"] isEqualToString:MacSwordIndexVersion]) {
                 if(([d objectForKey:@"Sword Module Version"] == NULL) ||
                     ([[d objectForKey:@"Sword Module Version"] isEqualToString:[self version]])) {
-                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has valid index", modName);
+                    LogLV(LOG_INFO, @"[SwordSearching -hasSearchIndex] module %@ has valid index", modName);
                     ret = YES;
                 } 
 				else {
                     //index out of date remove it
-                    MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", modName);
+                    LogLV(LOG_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
                     [im removeIndexForModuleName:modName];
                 }
             } 
 			else {
                 //index out of date remove it
-                MBLOGV(MBLOG_INFO, @"[SwordSearching -hasIndex] module %@ has no valid index!", modName);
+                LogLV(LOG_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
 				[im removeIndexForModuleName:modName];
             }
         }
 		else {
-			MBLOGV( MBLOG_DEBUG, @"[SwordSearching -hasIndex] version.plist for module %@ was not found.", modName);			
+			LogLV(LOG_DEBUG, @"[SwordSearching -hasSearchIndex] version.plist for module %@ was not found.", modName);			
 		}
     }
 	else {
-		MBLOGV( MBLOG_DEBUG, @"[SwordSearching -hasIndex] index for module %@ was not found.", modName);
+		LogLV(LOG_DEBUG, @"[SwordSearching -hasSearchIndex] index for module %@ was not found.", modName);
 	}
     
 	return ret;
@@ -82,27 +105,25 @@ NSString *MacSwordIndexVersion = @"2.6";
 /**
  \brief This message is used to force an index rebuild.
  */
-- (void)recreateIndex {
-	MBLOGV(MBLOG_DEBUG, @"ENTERING -- [SwordSearching -recreateIndex] for module %@", [self name]);
-	[self deleteIndex];
+- (void)recreateSKSearchIndex {
+	[self deleteSKSearchIndex];
 	//[self createIndex];
-	MBLOG(MBLOG_DEBUG, @"LEAVING  -- [SwordSearching -recreateIndex]");
 }
 
-- (void)deleteIndex {
+- (void)deleteSKSearchIndex {
     [indexLock lock];
-	if([self hasIndex]) {
+	if([self hasSKSearchIndex]) {
 		[[IndexingManager sharedManager] removeIndexForModuleName:[self name]];
 	}    
     [indexLock unlock];
 }
 
-- (void)createIndex {
-    [self createIndexWithProgressIndicator:nil];
+- (void)createSKSearchIndex {
+    [self createSKSearchIndexWithProgressIndicator:nil];
 }
 
-- (void)createIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndex]");
+- (void)createSKSearchIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator {
+	LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator]");
 	
     [indexLock lock];
     
@@ -110,9 +131,9 @@ NSString *MacSwordIndexVersion = @"2.6";
     Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] 
                                                                   moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
     if(indexer == nil) {
-        MBLOG(MBLOG_ERR, @"Could not create Indexer for this module!");
+        LogL(LOG_ERR, @"Could not create Indexer for this module!");
     } else {
-        MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] start indexing...");
+        LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] start indexing...");
         
         // add one step for the flush operation
         if(progressIndicator) {
@@ -128,7 +149,7 @@ NSString *MacSwordIndexVersion = @"2.6";
             [progressIndicator incrementProgressBy:10.0];
         }
         
-        MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexAndReportTo:] stopped indexing");
+        LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] stopped indexing");
         
         //save version info
         NSString *path = [(IndexingManager *)[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];        
@@ -149,27 +170,38 @@ NSString *MacSwordIndexVersion = @"2.6";
     [indexLock unlock];
 }
 
-- (void)createIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-	MBLOG(MBLOG_DEBUG, @"[SwordSearching -createIndexThreadedWithDelegate:]");
+- (void)createSKSearchIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator {
+	LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexThreadedWithDelegate::]");
     
     delegate = aDelegate;
-    [NSThread detachNewThreadSelector:@selector(createIndexWithProgressIndicator:) toTarget:self withObject:progressIndicator];
+    [NSThread detachNewThreadSelector:@selector(createSearchIndexWithProgressIndicator:) toTarget:self withObject:progressIndicator];
 }
 
 /** abstract method */
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
 }
 
+- (NSArray *)performSKIndexSearch:(NSString *)searchString {
+    return [NSArray array];
+}
+
+- (NSArray *)performSKIndexSearch:(NSString *)searchString constrains:(id)constrains maxResults:(int)maxResults {
+	// get Indexer
+    Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] 
+                                                                  moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
+    return [indexer performSearchOperation:searchString constrains:constrains maxResults:maxResults];
+}
+
 @end
 
-@implementation SwordBible(Searching)
+@implementation SwordBible(SearchKitIndex)
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
     
-    BOOL savePEA = swModule->isProcessEntryAttributes();
+    BOOL savePEA = [self processEntryAttributes];
 
     if([self hasFeature:SWMOD_FEATURE_STRONGS] || [self hasFeature:SWMOD_FEATURE_LEMMA]) {
-        swModule->processEntryAttributes(YES);
+        [self setProcessEntryAttributes:YES];
     }
 	
     if([indexer progressIndicator] != nil) {
@@ -195,36 +227,14 @@ NSString *MacSwordIndexVersion = @"2.6";
             NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
             NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
             
-            NSMutableString *strongStr = nil;
-            if(swModule->isProcessEntryAttributes()) {
-                // parse entry attributes and look for Lemma (String's numbers)
-                sword::SWBuf strong;
-                sword::AttributeTypeList::iterator words;
-                sword::AttributeList::iterator word;
-                sword::AttributeValue::iterator strongVal;
-                words = swModule->getEntryAttributes().find("Word");
-                if(words != swModule->getEntryAttributes().end()) {
-                    for(word = words->second.begin();word != words->second.end(); word++) {
-                        strongVal = word->second.find("Lemma");
-                        if(strongVal != word->second.end()) {
-                            // pass empty "Text" entries
-                            if(strongVal->second == "G3588") {
-                                if (word->second.find("Text") == word->second.end())
-                                    continue;	// no text? let's skip
-                            }
-                            strong.append(strongVal->second);
-                            strong.append(' ');
-                        }
-                    }
-                }
-                
-                strongStr = [NSMutableString string];
-                if(strong.length() > 0) {
-                    [strongStr appendString:[NSString stringWithUTF8String:strong.c_str()]];
-                    [strongStr replaceOccurrencesOfString:@"|x-Strongs:" withString:@" " options:0 range:NSMakeRange(0, [strongStr length])];
+            NSString *strongStr = @"";
+            if([self processEntryAttributes]) {
+                NSArray *strongNumbers = [self entryAttributeValuesLemma];
+                if(strongNumbers && [strongNumbers count] > 0) {
+                    strongStr = [strongNumbers componentsJoinedByString:@" "];
                     // also add to dictionary
                     [properties setObject:strongStr forKey:IndexPropSwordStrongString];
-                }                
+                }
             }
             
             if((stripped && [stripped length] > 0) || (strongStr && [strongStr length] > 0)) {
@@ -244,12 +254,12 @@ NSString *MacSwordIndexVersion = @"2.6";
     }
     [moduleLock unlock];
 
-	swModule->processEntryAttributes(savePEA);	
+	[self setProcessEntryAttributes:savePEA];
 }
 
 @end
 
-@implementation SwordCommentary(Searching)
+@implementation SwordCommentary(SearchKitIndex)
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
     
@@ -297,7 +307,7 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 @end
 
-@implementation SwordDictionary(Searching)
+@implementation SwordDictionary(SearchKitIndex)
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {    
 
@@ -328,7 +338,7 @@ NSString *MacSwordIndexVersion = @"2.6";
 
 @end
 
-@implementation SwordBook(Searching)
+@implementation SwordBook(SearchKitIndex)
 
 - (void)indexContentsIntoIndex:(Indexer *)indexer {
     // we start at root

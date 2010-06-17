@@ -7,6 +7,7 @@
 //
 
 #import "WorkspaceViewHostController.h"
+#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
@@ -20,8 +21,8 @@
 #import "BibleSearchOptionsViewController.h"
 #import "LeftSideBarViewController.h"
 #import "RightSideBarViewController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
 #import "SearchTextObject.h"
 #import "FakeModel.h"
 #import "FileRepresentation.h"
@@ -67,7 +68,7 @@
 - (void)commonInit {
     BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
     if(!stat) {
-        MBLOG(MBLOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
+        LogL(LOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
     }    
 }
 
@@ -255,11 +256,9 @@
                 } else if([vc isKindOfClass:[BibleCombiViewController class]]) {                    
                     // open single host window
                     svc = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
-                    //[svc setView:[tvi view]];
                     [vc setDelegate:svc];
                     [vc setHostingDelegate:svc];
-                    [svc setContentViewController:vc];
-                    //[svc setupForContentViewController];
+                    [svc addContentViewController:vc];
                 }
                 [vc setHostingDelegate:svc];
                 [svc setSearchText:searchRef];

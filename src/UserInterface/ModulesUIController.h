@@ -13,6 +13,7 @@
 @class SwordManager;
 @class SwordModule;
 @class WindowHostController;
+@class ConfirmationSheetController;
 
 @interface ModulesUIController : LeftSideBarAccessoryUIController {
     // module about
@@ -23,6 +24,8 @@
     IBOutlet NSTextField *moduleUnlockTextField;
     IBOutlet NSButton *moduleUnlockOKButton;
     IBOutlet NSMenu *moduleMenu;
+    
+    ConfirmationSheetController *confirmSheet;
     
     SwordManager *swordManager;
     SwordModule *clickedMod;

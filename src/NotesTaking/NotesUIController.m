@@ -7,6 +7,7 @@
 //
 
 #import "NotesUIController.h"
+#import "ObjCSword/Logger.h"
 #import "LeftSideBarViewController.h"
 #import "NotesManager.h"
 #import "FileRepresentation.h"
@@ -46,7 +47,7 @@ enum NotesMenu_Items{
         
         BOOL stat = [NSBundle loadNibNamed:NOTES_UI_NIBNAME owner:self];
         if(!stat) {
-            MBLOG(MBLOG_ERR, @"[NotesUIController -init] unable to load nib!");
+            LogL(LOG_ERR, @"[NotesUIController -init] unable to load nib!");
         }        
     }
     return self;
@@ -70,7 +71,7 @@ enum NotesMenu_Items{
         return YES;
     }
     @catch (NSException * e) {
-        MBLOGV(MBLOG_ERR, @"[NotesUIController -createNewNoteIn:] %@", [e reason]);
+        LogLV(LOG_ERR, @"[NotesUIController -createNewNoteIn:] %@", [e reason]);
         
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Error", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
@@ -83,7 +84,7 @@ enum NotesMenu_Items{
 #pragma mark - Menu Validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	MBLOGV(MBLOG_DEBUG, @"[NotesUIController -validateMenuItem:] %@", [menuItem description]);
+	LogLV(LOG_DEBUG, @"[NotesUIController -validateMenuItem:] %@", [menuItem description]);
     
     BOOL ret = NO;
     
@@ -111,7 +112,7 @@ enum NotesMenu_Items{
 #pragma mark - Actions
 
 - (IBAction)notesMenuClicked:(id)sender {
-	MBLOGV(MBLOG_DEBUG, @"[NotesUIController -menuClicked:] %@", [sender description]);
+	LogLV(LOG_DEBUG, @"[NotesUIController -menuClicked:] %@", [sender description]);
     
     FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
     if([clickedObj isKindOfClass:[NSString class]] && [(NSString *)clickedObj isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {

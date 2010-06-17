@@ -7,6 +7,7 @@
 //
 
 #import "GenBookViewController.h"
+#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
@@ -14,10 +15,9 @@
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "globals.h"
-#import "SwordManager.h"
-#import "SwordSearching.h"
-#import "SwordModule.h"
-#import "SwordBook.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordBook.h"
 #import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
@@ -64,7 +64,7 @@
 
         [self commonInit];
     } else {
-        MBLOG(MBLOG_ERR, @"[GenBookViewController -init] unable init!");
+        LogL(LOG_ERR, @"[GenBookViewController -init] unable init!");
     }
     
     return self;    
@@ -76,7 +76,7 @@
     
     BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
     if(!stat) {
-        MBLOG(MBLOG_ERR, @"[GenBookViewController -initWithCoder:] unable to load nib!");
+        LogL(LOG_ERR, @"[GenBookViewController -initWithCoder:] unable to load nib!");
     }    
 }
 
@@ -218,7 +218,7 @@
                               range:NSMakeRange(0, [tempDisplayString length])];
     
     // add pointing hand cursor to all links
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
     NSRange effectiveRange;
 	int	i = 0;
 	while (i < [tempDisplayString length]) {
@@ -231,7 +231,7 @@
 		}
 		i += effectiveRange.length;
 	}
-    MBLOG(MBLOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
+    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
     
     return tempDisplayString;
 }
@@ -385,10 +385,10 @@
             self.selection = sel;
             [self displayTextForReference:searchString];
 		} else {
-			MBLOG(MBLOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			LogL(LOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		MBLOG(MBLOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification!");
+		LogL(LOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

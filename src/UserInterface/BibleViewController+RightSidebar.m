@@ -7,11 +7,12 @@
 //
 
 #import "BibleViewController+RightSidebar.h"
+#import "ObjCSword/Logger.h"
 #import "WorkspaceViewHostController.h"
 #import "globals.h"
-#import "SwordBible.h"
-#import "SwordBibleBook.h"
-#import "SwordBibleChapter.h"
+#import "ObjCSword/SwordBible.h"
+#import "ObjCSword/SwordBibleBook.h"
+#import "ObjCSword/SwordBibleChapter.h"
 #import "MBPreferenceController.h"
 #import "globals.h"
 #import "BibleCombiViewController.h"
@@ -51,7 +52,7 @@
 #pragma mark - NSOutlineView delegate methods
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	MBLOG(MBLOG_DEBUG,@"[BibleViewController outlineViewSelectionDidChange:]");
+	LogL(LOG_DEBUG,@"[BibleViewController outlineViewSelectionDidChange:]");
 	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
@@ -97,10 +98,10 @@
                 [hostingDelegate setSearchText:selRef];
             }
 		} else {
-			MBLOG(MBLOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			LogL(LOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		MBLOG(MBLOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification!");
+		LogL(LOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 
@@ -113,7 +114,7 @@
 	[aOutlineView setRowHeight:pointSize+4];
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     int ret = 0;
     
     if(item == nil) {
@@ -128,7 +129,7 @@
     return ret;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     id ret = nil;
     
     if(item == nil) {

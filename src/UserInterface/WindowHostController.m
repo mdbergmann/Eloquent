@@ -7,13 +7,14 @@
 //
 
 #import "WindowHostController.h"
+#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "AppController.h"
 #import "SearchTextObject.h"
 #import "LeftSideBarViewController.h"
 #import "RightSideBarViewController.h"
-#import "SwordManager.h"
+#import "ObjCSword/SwordManager.h"
 #import "ScopeBarView.h"
 #import "FullScreenView.h"
 #import "ModuleCommonsViewController.h"
@@ -21,7 +22,7 @@
 #import "CommentaryViewController.h"
 #import "GenBookViewController.h"
 #import "DictionaryViewController.h"
-#import "SwordVerseKey.h"
+#import "ObjCSword/SwordVerseKey.h"
 #import "SingleViewHostController.h"
 #import "ModulesUIController.h"
 #import "BookmarksUIController.h"
@@ -406,7 +407,7 @@ typedef enum _NavigationDirectionType {
     if(delegate && [delegate respondsToSelector:@selector(hostClosing:)]) {
         [delegate performSelector:@selector(hostClosing:) withObject:self];
     } else {
-        MBLOG(MBLOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        LogL(LOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
     }
 }
 

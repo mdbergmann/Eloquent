@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
 #import <CocoPCRE/CocoPCRE.h>
 #import <HostableViewController.h>
 #import <ModuleViewController.h>

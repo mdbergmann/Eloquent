@@ -7,23 +7,23 @@
 //
 
 #import "CommentaryViewController.h"
+#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
 #import "ExtTextViewController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
-#import "SwordManager.h"
-#import "SwordModule.h"
-#import "SwordBible.h"
-#import "SwordCommentary.h"
-#import "SwordModuleTextEntry.h"
-#import "SwordSearching.h"
+#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/SwordModule.h"
+#import "ObjCSword/SwordBible.h"
+#import "ObjCSword/SwordCommentary.h"
+#import "ObjCSword/SwordModuleTextEntry.h"
 #import "NSButton+Color.h"
 #import "NSTextView+LookupAdditions.h"
 #import "ModulesUIController.h"
-#import "SwordVerseKey.h"
-#import "SwordListKey.h"
+#import "ObjCSword/SwordVerseKey.h"
+#import "ObjCSword/SwordListKey.h"
 #import "NSUserDefaults+Additions.h"
 #import "BibleViewController+TextDisplayGeneration.h"
 
@@ -61,7 +61,7 @@
         
         [self _loadNib];
     } else {
-        MBLOG(MBLOG_ERR, @"[CommentaryViewController -init] unable init!");
+        LogL(LOG_ERR, @"[CommentaryViewController -init] unable init!");
     }
     
     return self;    
@@ -75,7 +75,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
     if(!stat) {
-        MBLOG(MBLOG_ERR, @"[CommentaryViewController -init] unable to load nib!");
+        LogL(LOG_ERR, @"[CommentaryViewController -init] unable to load nib!");
     }
 }
 
@@ -224,11 +224,11 @@
                                                      documentAttributes:nil];
     
     // add pointing hand cursor to all links
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
+    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
     [self applyLinkCursorToLinks];
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
+    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
 
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
+    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
     // go through the attributed string and set attributes
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
@@ -280,7 +280,7 @@
             found = NO;
         }
     }
-    MBLOG(MBLOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");    
+    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");    
     
     [self applyWritingDirection];
     
@@ -404,7 +404,7 @@
 
         [self saveCommentaryText];
 		
-        [module deleteIndex];
+        [module deleteSKSearchIndex];
 		
         [editButton setTitle:NSLocalizedString(@"Edit", @"")];
         
