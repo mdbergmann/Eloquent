@@ -79,7 +79,7 @@
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
 		A965CEB3112C32C000F4E602 /* CacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A965CEB2112C32C000F4E602 /* CacheObject.m */; };
 		A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
-		A975EC3511C7885B007C1532 /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A975EA5311C7721D007C1532 /* ObjCSword.framework */; };
+		A974D1FA11CCCD32009BEF68 /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A975EA1611C77052007C1532 /* ObjCSword.framework */; };
 		A975EC8A11C78B52007C1532 /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A975EA5311C7721D007C1532 /* ObjCSword.framework */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
@@ -221,7 +221,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A975EC3511C7885B007C1532 /* ObjCSword.framework in CopyFiles */,
+				A974D1FA11CCCD32009BEF68 /* ObjCSword.framework in CopyFiles */,
 				A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */,
 				A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
@@ -368,7 +368,7 @@
 		A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextView+LookupAdditions.h"; path = "src/UserInterface/NSTextView+LookupAdditions.h"; sourceTree = "<group>"; };
 		A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+LookupAdditions.m"; path = "src/UserInterface/NSTextView+LookupAdditions.m"; sourceTree = "<group>"; };
 		A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjCSword.xcodeproj; path = "sword_src/sword-trunk/bindings/objc/ObjCSword.xcodeproj"; sourceTree = "<group>"; };
-		A975EA5311C7721D007C1532 /* ObjCSword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjCSword.framework; path = "sword_src/sword-trunk/bindings/objc/build/Debug/ObjCSword.framework"; sourceTree = "<group>"; };
+		A975EA5311C7721D007C1532 /* ObjCSword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjCSword.framework; path = "sword_src/sword-trunk/bindings/objc/build/Release/ObjCSword.framework"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
 		A98422E01144EF640001EED1 /* ToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarController.h; path = src/UserInterface/ToolbarController.h; sourceTree = "<group>"; };
 		A98422E11144EF640001EED1 /* ToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarController.m; path = src/UserInterface/ToolbarController.m; sourceTree = "<group>"; };
@@ -1763,7 +1763,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Resources\"",
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
-					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Debug\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_GC = required;
