@@ -173,7 +173,7 @@ NSString *MacSwordIndexVersion = @"2.6";
 	CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexThreadedWithDelegate::]");
     
     delegate = aDelegate;
-    [NSThread detachNewThreadSelector:@selector(createSearchIndexWithProgressIndicator:) toTarget:self withObject:progressIndicator];
+    [NSThread detachNewThreadSelector:@selector(createSKSearchIndexWithProgressIndicator:) toTarget:self withObject:progressIndicator];
 }
 
 /** abstract method */
