@@ -7,7 +7,6 @@
 //
 
 #import "MouseTrackingScrollView.h"
-#import "ObjCSword/Logger.h"
 
 
 @implementation MouseTrackingScrollView
@@ -27,7 +26,7 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-    LogL(LOG_DEBUG, @"[MouseTrackingScrollView -mouseEntered:]");
+    CocoLog(LEVEL_DEBUG, @"[MouseTrackingScrollView -mouseEntered:]");
     if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
         [delegate performSelector:@selector(mouseEntered:) withObject:self];
     }
@@ -36,7 +35,7 @@
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-    LogL(LOG_DEBUG, @"[MouseTrackingScrollView -mouseExited:]");
+    CocoLog(LEVEL_DEBUG, @"[MouseTrackingScrollView -mouseExited:]");
     if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
         [delegate performSelector:@selector(mouseExited:) withObject:self];
     }

@@ -7,7 +7,6 @@
 //
 
 #import "BibleIndexer.h"
-#import "ObjCSword/Logger.h"
 #import "SearchResultEntry.h"
 #import "SearchBookSet.h"
 #import <AppKit/NSApplication.h>
@@ -23,11 +22,11 @@ SearchBookSet *searchBookSet;
 @implementation BibleIndexer
 
 - (id)init {
-	LogL(LOG_DEBUG,@"init of BibleIndexer");
+	CocoLog(LEVEL_DEBUG,@"init of BibleIndexer");
 	
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc BibleIndexer!");
+		CocoLog(LEVEL_ERR,@"cannot alloc BibleIndexer!");
 	}
 	
 	return self;
@@ -36,7 +35,7 @@ SearchBookSet *searchBookSet;
 - (id)initWithModuleName:(NSString *)aModName {	
 	self = [self init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc BibleIndexer!");
+		CocoLog(LEVEL_ERR,@"cannot alloc BibleIndexer!");
 	} else {
 		[self setModName:aModName];
 		[self setModType:bible];
@@ -50,7 +49,7 @@ SearchBookSet *searchBookSet;
         contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];				
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
-            LogL(LOG_ERR, @"Error on creating or opening content index!");
+            CocoLog(LEVEL_ERR, @"Error on creating or opening content index!");
         }
 	}
 	
@@ -82,17 +81,17 @@ SearchBookSet *searchBookSet;
 	if(indexRef != NULL) {
 		// create doc name
 		NSString *docName = [NSString stringWithFormat:@"%@", aKey];
-		//LogLV(LOG_DEBUG, @"creating document with name: %@", docName);
+		//CocoLog(LEVEL_DEBUG, @"creating document with name: %@", docName);
         
 		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
 		if(docRef == NULL) {
-			LogL(LOG_ERR, @"could nor create document!");
+			CocoLog(LEVEL_ERR, @"could nor create document!");
 		} else {			
 			// add Document
-			//LogLV(LOG_DEBUG, @"adding doc with text: %@", aText);
+			//CocoLog(LEVEL_DEBUG, @"adding doc with text: %@", aText);
 			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (CFStringRef)aText, YES);
 			if(!success) {
-				LogL(LOG_ERR, @"Could not add document!");
+				CocoLog(LEVEL_ERR, @"Could not add document!");
 			} else {
                 if(aDict != nil) {
                     // set document properties for this document
@@ -194,7 +193,7 @@ SearchBookSet *searchBookSet;
                             }
                         }
                     } else {
-                        LogL(LOG_ERR, @"have no valid document name!"); 
+                        CocoLog(LEVEL_ERR, @"have no valid document name!"); 
                     }
                 }
                 
@@ -222,7 +221,7 @@ SearchBookSet *searchBookSet;
             // release Search object
             CFRelease(searchRef);
         } else {
-            LogL(LOG_ERR, @"Could not create SearchRef!");
+            CocoLog(LEVEL_ERR, @"Could not create SearchRef!");
         }
     }
     [accessLock unlock];

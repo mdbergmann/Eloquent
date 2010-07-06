@@ -7,12 +7,5 @@
  *
  */
 
-#import <CocoPCRE/MBRegEx.h>
-
-#ifdef DEBUG
-#define CLOG1(X)	NSLog(X)
-#define CLOG2(X,Y)	NSLog(X,Y)
-#else
-#define CLOG1(X)	;
-#define CLOG2(X,Y)	;
-#endif
+#import <CocoPCRE/Regex.h>
+#import <CocoPCRE/MatchResult.h>

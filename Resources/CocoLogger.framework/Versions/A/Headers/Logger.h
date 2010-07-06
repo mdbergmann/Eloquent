@@ -1,26 +1,17 @@
 //
-//  MBLogger.h
+//  CocoLogger.h
 //  CocoLogger
 //
 //  Created by Manfred Bergmann on 02.06.05.
 //  Copyright 2005 mabe. All rights reserved.
 //
 
-// $Author: mbergmann $
-// $HeadURL: file:///REPOSITORY/private/cocoa/CocoLogger/trunk/src/MBLogger.h $
-// $LastChangedBy: mbergmann $
-// $LastChangedDate: 2006-12-01 19:13:49 +0100 (Fri, 01 Dec 2006) $
-// $Rev: 578 $
-
 #import <Cocoa/Cocoa.h>
 
 // define for logging
-#define MBLOG(LEVEL,MSG)			[MBLogger log:MSG level:LEVEL]
-#define MBLOGV(LEVEL,MSG,ARGS...)	[MBLogger log:[NSString stringWithFormat:MSG,ARGS] level:LEVEL]
+#define CocoLog(LEVEL,...)			[CocoLogger log:[NSString stringWithFormat:@"%s %@", __PRETTY_FUNCTION__, [NSString stringWithFormat:__VA_ARGS__]] level:LEVEL]
 
-@interface MBLogger : NSObject 
-{
-	
+@interface CocoLogger : NSObject {
 }
 
 // init or close the logger

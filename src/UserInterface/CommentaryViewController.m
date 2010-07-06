@@ -7,7 +7,6 @@
 //
 
 #import "CommentaryViewController.h"
-#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
@@ -61,7 +60,7 @@
         
         [self _loadNib];
     } else {
-        LogL(LOG_ERR, @"[CommentaryViewController -init] unable init!");
+        CocoLog(LEVEL_ERR, @"[CommentaryViewController -init] unable init!");
     }
     
     return self;    
@@ -75,7 +74,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
     if(!stat) {
-        LogL(LOG_ERR, @"[CommentaryViewController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"[CommentaryViewController -init] unable to load nib!");
     }
 }
 
@@ -224,11 +223,11 @@
                                                      documentAttributes:nil];
     
     // add pointing hand cursor to all links
-    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
+    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
     [self applyLinkCursorToLinks];
-    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
+    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
 
-    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
+    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
     // go through the attributed string and set attributes
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
@@ -280,7 +279,7 @@
             found = NO;
         }
     }
-    LogL(LOG_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");    
+    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");    
     
     [self applyWritingDirection];
     

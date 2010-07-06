@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoPCRE/CocoPCRE.h>
 #import <ModuleCommonsViewController.h>
 #import <ModuleViewController.h>
 #import <ProtocolHelper.h>
@@ -15,6 +14,7 @@
 
 #define BIBLECOMBIVIEW_NIBNAME   @"BibleCombiView"
 
+@class Regex;
 @class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
 @interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, ModuleProviding, SubviewHosting> {
@@ -35,7 +35,7 @@
     ScrollSynchronizableView *currentSyncView;
     
     // the regex that will find out the versekey
-    MBRegex *regex;
+    Regex *regex;
     
     // progressAction
     BOOL progressControl;

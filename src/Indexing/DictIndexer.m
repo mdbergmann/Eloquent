@@ -17,11 +17,11 @@
 @implementation DictIndexer
 
 - (id)init {
-	LogL(LOG_DEBUG,@"init of DictIndexer");
+	CocoLog(LEVEL_DEBUG,@"init of DictIndexer");
 	
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc DictIndexer!");
+		CocoLog(LEVEL_ERR,@"cannot alloc DictIndexer!");
 	}
 	
 	return self;
@@ -32,11 +32,11 @@
  if there is no existing index available a new one is created
  */
 - (id)initWithModuleName:(NSString *)aModName {
-	LogL(LOG_DEBUG,@"init of DictIndexer");
+	CocoLog(LEVEL_DEBUG,@"init of DictIndexer");
 	
 	self = [self init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc DictIndexer!");
+		CocoLog(LEVEL_ERR,@"cannot alloc DictIndexer!");
 	} else {
 		[self setModName:aModName];
 		[self setModType:dictionary];
@@ -46,7 +46,7 @@
         contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
-            LogL(LOG_ERR, @"Error on creating content index!");
+            CocoLog(LEVEL_ERR, @"Error on creating content index!");
         }
 	}
 	
@@ -57,7 +57,7 @@
 \brief dealloc of this class is called on closing this document
  */
 - (void)dealloc {
-	LogL(LOG_DEBUG,@"dealloc of DictIndexer");
+	CocoLog(LEVEL_DEBUG,@"dealloc of DictIndexer");
 	
 	// dealloc object
 	[super dealloc];
@@ -84,17 +84,17 @@
 	if(indexRef != NULL) {
 		// create doc name
 		NSString *docName = [NSString stringWithFormat:@"%@", aKey];
-		//LogLV(LOG_DEBUG, @"creating document with name: %@", docName);
+		//CocoLog(LEVEL_DEBUG, @"creating document with name: %@", docName);
         
 		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
 		if(docRef == NULL) {
-			LogL(LOG_ERR, @"could nor create document!");
+			CocoLog(LEVEL_ERR, @"could nor create document!");
 		} else {			
 			// add Document
-			//LogLV(LOG_DEBUG, @"adding doc with text: %@", aText);
+			//CocoLog(LEVEL_DEBUG, @"adding doc with text: %@", aText);
 			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (CFStringRef)aText, YES);
 			if(!success) {
-				LogL(LOG_ERR, @"Could not add document!");
+				CocoLog(LEVEL_ERR, @"Could not add document!");
 			} else {
                 if(aDict != nil) {
                     // set document properties for this document
@@ -196,7 +196,7 @@
             // release Search object
             CFRelease(searchRef);
         } else {
-            LogL(LOG_ERR, @"Could not create SearchRef!");
+            CocoLog(LEVEL_ERR, @"Could not create SearchRef!");
         }
     }
     [accessLock unlock];

@@ -7,7 +7,7 @@
 //
 
 #import "ModuleManager.h"
-#import "ObjCSword/Logger.h"
+#import "ModuleManageViewController.h"
 
 // toolbar identifiers
 #define TB_SYNC_ISLIST_ITEM             @"ISSyncFromMaster"
@@ -29,7 +29,7 @@
 - (id)initWithDelegate:(id)aDelegate {
 	self = [super initWithWindowNibName:@"ModuleManager" owner:self];
 	if(self == nil) {
-		LogL(LOG_ERR,@"[ModuleManager -init]");		
+		CocoLog(LEVEL_ERR,@"[ModuleManager -init]");		
 	}
 	else {
         delegate = aDelegate;
@@ -150,12 +150,12 @@
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    LogL(LOG_DEBUG, @"[WindowHostController -windowWillClose:]");
+    CocoLog(LEVEL_DEBUG, @"[WindowHostController -windowWillClose:]");
     // tell delegate that we are closing
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
-        LogL(LOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        CocoLog(LEVEL_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
     }
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "NotesViewController.h"
-#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "FileRepresentation.h"
 #import "NSTextView+LookupAdditions.h"
@@ -65,7 +64,7 @@ extern char NotesMgrUI;
         
         BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];
         if(!stat) {
-            LogL(LOG_ERR, @"[NotesViewController -init] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"[NotesViewController -init] unable to load nib!");
         }        
     }
     return self;
@@ -284,7 +283,7 @@ extern char NotesMgrUI;
     // create URL
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
-        LogLV(LOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
+        CocoLog(LEVEL_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
     } else {
         return [self processPreviewDisplay:url];
     }
@@ -310,7 +309,7 @@ extern char NotesMgrUI;
         // load nib
         BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];
         if(!stat) {
-            LogL(LOG_ERR, @"[NotesViewController -initWithCoder:] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"[NotesViewController -initWithCoder:] unable to load nib!");
         }
     }
     

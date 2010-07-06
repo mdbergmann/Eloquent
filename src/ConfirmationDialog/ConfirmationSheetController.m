@@ -1,6 +1,5 @@
 
 #import "ConfirmationSheetController.h"
-#import "ObjCSword/Logger.h"
 
 @interface ConfirmationSheetController (privateAPI)
 
@@ -23,7 +22,7 @@
 		if([delegate respondsToSelector:@selector(confirmationSheetEnded)] == YES) {
 			[delegate performSelector:@selector(confirmationSheetEnded)];
 		} else {
-			LogL(LOG_WARN,@"[ConfirmationSheetController -sheetDidEnd:] delegate does not respond to selector!");
+			CocoLog(LEVEL_WARN,@"[ConfirmationSheetController -sheetDidEnd:] delegate does not respond to selector!");
 		}
 	}
 }
@@ -70,7 +69,7 @@
 		BOOL success = [NSBundle loadNibNamed:CONFIRMATION_SHEET_NIB_NAME owner:self];
 		if(success) {
 		} else {
-			LogL(LOG_ERR,@"[ConfirmationSheetController]: cannot load ConfirmationSheetControllerNib!");
+			CocoLog(LEVEL_ERR,@"[ConfirmationSheetController]: cannot load ConfirmationSheetControllerNib!");
 		}
 	}
 	

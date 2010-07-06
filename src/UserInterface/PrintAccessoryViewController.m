@@ -7,7 +7,6 @@
 //
 
 #import "PrintAccessoryViewController.h"
-#import "ObjCSword/Logger.h"
 
 
 @implementation PrintAccessoryViewController
@@ -26,7 +25,7 @@
         
         BOOL success = [NSBundle loadNibNamed:@"PrintAccessory" owner:self];
         if(success == NO) {
-            LogL(LOG_WARN, @"[PrintAccessoryViewController init] could not load nib");
+            CocoLog(LEVEL_WARN, @"[PrintAccessoryViewController init] could not load nib");
         }
     }
     return self;

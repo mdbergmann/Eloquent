@@ -7,7 +7,6 @@
 //
 
 #import "MBTextView.h"
-#import "ObjCSword/Logger.h"
 
 
 @implementation MBTextView
@@ -40,7 +39,7 @@
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)event {
-    LogLV(LOG_DEBUG, @"[MBTextView -menuForEvent:] %@\n", [event description]);
+    CocoLog(LEVEL_DEBUG, @"[MBTextView -menuForEvent:] %@\n", [event description]);
     
     NSMenu *ret = [[self delegate] menuForEvent:event];
     if(!ret) {

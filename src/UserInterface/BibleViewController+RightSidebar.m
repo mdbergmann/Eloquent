@@ -7,7 +7,6 @@
 //
 
 #import "BibleViewController+RightSidebar.h"
-#import "ObjCSword/Logger.h"
 #import "WorkspaceViewHostController.h"
 #import "globals.h"
 #import "ObjCSword/SwordBible.h"
@@ -52,7 +51,7 @@
 #pragma mark - NSOutlineView delegate methods
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	LogL(LOG_DEBUG,@"[BibleViewController outlineViewSelectionDidChange:]");
+	CocoLog(LEVEL_DEBUG,@"[BibleViewController outlineViewSelectionDidChange:]");
 	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
@@ -98,10 +97,10 @@
                 [hostingDelegate setSearchText:selRef];
             }
 		} else {
-			LogL(LOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		LogL(LOG_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

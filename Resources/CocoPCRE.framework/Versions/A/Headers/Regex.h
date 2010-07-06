@@ -1,48 +1,40 @@
 //
-//  MBRegEx.h
-//  iKnowAndManage
+//  Regex.h
+//  CocoPCRE
 //
 //  Created by Manfred Bergmann on 20.03.06.
 //  Copyright 2006 mabe. All rights reserved.
 //
 
-// $Author: asrael $
-// $HeadURL: file:///REPOSITORY/private/cocoa/iKnowAndManage/trunk/src/RegEx/MBRegEx.h $
-// $LastChangedBy: asrael $
-// $LastChangedDate: 2006-05-27 13:47:09 +0200 (Sat, 27 May 2006) $
-// $Rev: 538 $
-
 #import <Cocoa/Cocoa.h>
-#import <CocoPCRE/CocoPCRE.h>
-#import <CocoPCRE/pcre.h>						// Perl Compatible RegEx
-#import <CocoPCRE/MBMatchResult.h>
+#import <CocoPCRE/MatchResult.h>
+#import <CocoPCRE/pcre.h>						// Perl Compatible Regex
 
-typedef enum RegexResult
-{
-	MBRegexNoMatch = 0,
-	MBRegexMatch,
-	MBRegexMatchError
-}MBRegExResultType;
+typedef enum _RegexResult {
+	RegexNoMatch = 0,
+	RegexMatch,
+	RegexMatchError
+}RegexResultType;
 
-typedef enum RegexOptions
-{
-	MBRegexCaseSensitive = PCRE_CASELESS,
-	MBRegexMultiline = PCRE_MULTILINE,
-	MBRegexExtended = PCRE_EXTENDED
-}MBRegexOptionsType;
+typedef enum _RegexOptions {
+	RegexCaseSensitive = PCRE_CASELESS,
+	RegexMultiline = PCRE_MULTILINE,
+	RegexExtended = PCRE_EXTENDED
+}RegexOptionsType;
 
 /**
-\brief Error codes for Regex
+ \brief Error codes for Regex
  */
-typedef enum MBRegexErrorCodes
-{
-	MBRegexSuccess = 0,				/** On success */
-	MBRegexCompileError,			/** Error on compiling pattern */
-	MBRegexError					/** General, unknown error */
-}MBRegexErrorCodeType;
+typedef enum _RegexErrorCodes {
+	RegexSuccess = 0,				/** On success */
+	RegexCompileError,			/** Error on compiling pattern */
+	RegexError					/** General, unknown error */
+}RegexErrorCodeType;
 
-@interface MBRegex : NSObject 
-{
+
+@class MatchResult;
+
+@interface Regex : NSObject  {
 	pcre *re;				// pointer to pcre structure
 	pcre_extra *pe;			// pointer for study information
 	
@@ -89,7 +81,10 @@ typedef enum MBRegexErrorCodes
 - (BOOL)findAll;
 
 // simple string matching
-- (MBRegExResultType)matchIn:(NSString *)string matchResult:(MBMatchResult **)mResult;
+- (RegexResultType)matchIn:(NSString *)string matchResult:(MatchResult **)mResult;
+
+// get number of captures in pattern
+- (int)numberOfCapturingSubpatterns;
 
 // error handling
 - (NSString *)errorMessageOfLastAction;

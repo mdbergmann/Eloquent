@@ -7,7 +7,6 @@
 //
 
 #import "ModuleViewController.h"
-#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
@@ -305,7 +304,7 @@
         long maxResults = 10000;
         indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
         if(indexer == nil) {
-            LogL(LOG_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
+            CocoLog(LEVEL_ERR, @"[ModuleViewController -performThreadedSearch::] Could not get indexer for searching!");
         } else {
             [indexer performThreadedSearchOperation:searchString constrains:nil maxResults:maxResults delegate:self];
         }

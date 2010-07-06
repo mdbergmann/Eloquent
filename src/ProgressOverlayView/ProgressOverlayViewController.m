@@ -7,7 +7,6 @@
 //
 
 #import "ProgressOverlayViewController.h"
-#import "ObjCSword/Logger.h"
 
 
 @implementation ProgressOverlayViewController
@@ -32,13 +31,13 @@
 - (id)initWithDelegate:(id)aDelegate {
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"[ProgressOverlayViewController -init]");
+		CocoLog(LEVEL_ERR,@"[ProgressOverlayViewController -init]");
 	} else {        
         delegate = aDelegate;
         
         BOOL success = [NSBundle loadNibNamed:@"ProgressOverlayView" owner:self];
         if(success == NO) {
-            LogL(LOG_WARN, @"[ProgressOverlayViewController init] could not load nib");
+            CocoLog(LEVEL_WARN, @"[ProgressOverlayViewController init] could not load nib");
         }
 	}
 	

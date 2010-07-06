@@ -7,7 +7,6 @@
 //
 
 #import "BookmarksUIController.h"
-#import "ObjCSword/Logger.h"
 #import "WindowHostController.h"
 #import "SingleViewHostController.h"
 #import "LeftSideBarViewController.h"
@@ -52,7 +51,7 @@ enum BookmarkMenu_Items{
         
         BOOL stat = [NSBundle loadNibNamed:BOOKMARKMANAGER_UI_NIBNAME owner:self];
         if(!stat) {
-            LogL(LOG_ERR, @"[BookmarkManagerUIController -init] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"[BookmarkManagerUIController -init] unable to load nib!");
         }        
     }
     return self;
@@ -157,7 +156,7 @@ enum BookmarkMenu_Items{
 #pragma mark - Menu Validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	LogLV(LOG_DEBUG, @"[BookmarkManagerUIController -validateMenuItem:] %@", [menuItem description]);
+	CocoLog(LEVEL_DEBUG, @"[BookmarkManagerUIController -validateMenuItem:] %@", [menuItem description]);
     
     BOOL ret = NO;
     
@@ -186,7 +185,7 @@ enum BookmarkMenu_Items{
                 break;
         }
     } else {
-        LogL(LOG_ERR, @"[BookmarkManagerUIController -validateMenuItem:] delegate and hostingDelegate are not available!");
+        CocoLog(LEVEL_ERR, @"[BookmarkManagerUIController -validateMenuItem:] delegate and hostingDelegate are not available!");
     }
     
     return ret;
@@ -195,7 +194,7 @@ enum BookmarkMenu_Items{
 #pragma mark - Actions
 
 - (IBAction)bookmarkMenuClicked:(id)sender {
-	LogLV(LOG_DEBUG, @"[BookmarkManagerUIController -menuClicked:] %@", [sender description]);
+	CocoLog(LEVEL_DEBUG, @"[BookmarkManagerUIController -menuClicked:] %@", [sender description]);
         
     Bookmark *clickedObj = (Bookmark *)[self delegateSelectedObject];
     int tag = [sender tag];

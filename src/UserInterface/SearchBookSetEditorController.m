@@ -7,7 +7,6 @@
 //
 
 #import "SearchBookSetEditorController.h"
-#import "ObjCSword/Logger.h"
 #import "ObjCSword/SwordVerseManager.h"
 #import "SearchBookSet.h"
 #import "IndexingManager.h"
@@ -39,7 +38,7 @@
             self.selectedBookSet = [self temporaryBookSet];
             
 		} else {
-			LogL(LOG_ERR,@"[SearchBookSetEditorController -init]: cannot load Nib!");
+			CocoLog(LEVEL_ERR,@"[SearchBookSetEditorController -init]: cannot load Nib!");
 		}
 	}
 	

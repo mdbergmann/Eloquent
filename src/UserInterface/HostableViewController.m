@@ -7,7 +7,6 @@
 //
 
 #import "HostableViewController.h"
-#import "ObjCSword/Logger.h"
 #import "WindowHostController.h"
 #import "SearchTextFieldOptions.h"
 #import "ObjectAssotiations.h"
@@ -51,10 +50,10 @@
             [delegate performSelector:@selector(contentViewInitFinished:) withObject:self];
             isLoadingComleteReported = YES;
         } else {
-            LogL(LOG_WARN, @"[HostableViewController -reportLoadingComplete] delegate does not respond to selector!");
+            CocoLog(LEVEL_WARN, @"[HostableViewController -reportLoadingComplete] delegate does not respond to selector!");
         }
     } else {
-        LogL(LOG_WARN, @"[HostableViewController -reportLoadingComplete] no delegate set!");        
+        CocoLog(LEVEL_WARN, @"[HostableViewController -reportLoadingComplete] no delegate set!");        
     }
 }
 
@@ -63,10 +62,10 @@
         if([delegate respondsToSelector:@selector(removeSubview:)]) {
             [delegate performSelector:@selector(removeSubview:) withObject:self];
         } else {
-            LogL(LOG_WARN, @"[HostableViewController -removeSubview] delegate does not respond to selector!");
+            CocoLog(LEVEL_WARN, @"[HostableViewController -removeSubview] delegate does not respond to selector!");
         }
     } else {
-        LogL(LOG_WARN, @"[HostableViewController -removeSubview] no delegate set!");        
+        CocoLog(LEVEL_WARN, @"[HostableViewController -removeSubview] no delegate set!");        
     }    
 }
 

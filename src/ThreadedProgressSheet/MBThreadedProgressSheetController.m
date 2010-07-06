@@ -6,7 +6,6 @@
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 #import "MBThreadedProgressSheetController.h"
-#import "ObjCSword/Logger.h"
 
 @implementation MBThreadedProgressSheetController
 
@@ -21,16 +20,16 @@
 }
 
 - (id)init {
-	LogL(LOG_DEBUG,@"init of MBThreadedProgressSheetController");
+	CocoLog(LEVEL_DEBUG,@"init of MBThreadedProgressSheetController");
 	
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc MBThreadedProgressSheetController!");
+		CocoLog(LEVEL_ERR,@"cannot alloc MBThreadedProgressSheetController!");
 	} else {
         // load nib
         BOOL success = [NSBundle loadNibNamed:THREADED_PROGRESS_SHEET_NIB_NAME owner:self];
         if(success == NO) {
-            LogL(LOG_WARN, @"[MBThreadedProgressSheetController init] could not load nib");
+            CocoLog(LEVEL_WARN, @"[MBThreadedProgressSheetController init] could not load nib");
         }
 	}
 	
@@ -38,14 +37,14 @@
 }
 
 - (void)awakeFromNib {
-	LogL(LOG_DEBUG,@"[MBThreadedProgressSheetController awakeFromNib]");    
+	CocoLog(LEVEL_DEBUG,@"[MBThreadedProgressSheetController awakeFromNib]");    
 }
 
 /**
  \brief dealloc of this class is called on closing this document
  */
 - (void)dealloc {
-	LogL(LOG_DEBUG,@"dealloc of MBThreadedProgressSheetController");
+	CocoLog(LEVEL_DEBUG,@"dealloc of MBThreadedProgressSheetController");
 	
 	// dealloc object
 	[super dealloc];

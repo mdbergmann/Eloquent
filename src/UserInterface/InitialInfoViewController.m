@@ -7,7 +7,6 @@
 //
 
 #import "InitialInfoViewController.h"
-#import "ObjCSword/Logger.h"
 #import "AppController.h"
 #import "ObjCSword/SwordManager.h"
 
@@ -20,7 +19,7 @@
         BOOL success = [NSBundle loadNibNamed:@"InitialInfoView" owner:self];
         if(success) {
         } else {
-            LogL(LOG_ERR,@"[InitialInfoViewController]: cannot load ConfirmationSheetControllerNib!");
+            CocoLog(LEVEL_ERR,@"[InitialInfoViewController]: cannot load ConfirmationSheetControllerNib!");
         }        
     }
 

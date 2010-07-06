@@ -7,7 +7,6 @@
 //
 
 #import "WindowHostController.h"
-#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "AppController.h"
@@ -407,7 +406,7 @@ typedef enum _NavigationDirectionType {
     if(delegate && [delegate respondsToSelector:@selector(hostClosing:)]) {
         [delegate performSelector:@selector(hostClosing:) withObject:self];
     } else {
-        LogL(LOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        CocoLog(LEVEL_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
     }
 }
 

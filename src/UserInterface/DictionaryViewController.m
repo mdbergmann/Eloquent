@@ -7,7 +7,6 @@
 //
 
 #import "DictionaryViewController.h"
-#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
@@ -66,7 +65,7 @@
         self.delegate = aDelegate;
         [self commonInit];
     } else {
-        LogL(LOG_ERR, @"[DictionaryViewController -init] unable init!");
+        CocoLog(LEVEL_ERR, @"[DictionaryViewController -init] unable init!");
     }
     
     return self;
@@ -81,7 +80,7 @@
     
     BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
     if(!stat) {
-        LogL(LOG_ERR, @"[DictionaryViewController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"[DictionaryViewController -init] unable to load nib!");
     }
 }
 
@@ -213,7 +212,7 @@
                                   range:NSMakeRange(0, [tempDisplayString length])];
         
         // add pointing hand cursor to all links
-        LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+        CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
         NSRange effectiveRange;
         int	i = 0;
         while (i < [tempDisplayString length]) {
@@ -226,7 +225,7 @@
             }
             i += effectiveRange.length;
         }
-        LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");        
+        CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");        
     } else {
         tempDisplayString = [[NSMutableAttributedString alloc] init];
     }
@@ -246,10 +245,10 @@
 - (void)handleDisplayForReference {
     if([searchString length] > 0) {
         NSMutableArray *sel = [NSMutableArray array];
-        MBRegex *regex = [MBRegex regexWithPattern:searchString];
+        Regex *regex = [Regex regexWithPattern:searchString];
         [regex setCaseSensitive:NO];
         for(NSString *key in [(SwordDictionary *)module allKeys]) {
-            if([regex matchIn:key matchResult:nil] == MBRegexMatch) {
+            if([regex matchIn:key matchResult:nil] == RegexMatch) {
                 [sel addObject:key];
             }
         }
@@ -378,10 +377,10 @@
             self.selection = sel;
             [self displayTextForReference:searchString];
 		} else {
-			LogL(LOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		LogL(LOG_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "ModulesUIController.h"
-#import "ObjCSword/Logger.h"
 #import "BibleCombiViewController.h"
 #import "WorkspaceViewHostController.h"
 #import "LeftSideBarViewController.h"
@@ -167,7 +166,7 @@ enum ModuleMenu_Items{
         
         BOOL stat = [NSBundle loadNibNamed:MODULELIST_UI_NIBNAME owner:self];
         if(!stat) {
-            LogL(LOG_ERR, @"[ModuleListUIController -init] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"[ModuleListUIController -init] unable to load nib!");
         }        
     }
     return self;
@@ -323,9 +322,9 @@ enum ModuleMenu_Items{
         
         [ps startProgressAnimation];
         [ps beginSheetForWindow:[hostingDelegate window]];
-        LogLV(LOG_INFO, @"Creating Clucene index for module: %@", [mod name]);
+        CocoLog(LEVEL_INFO, @"Creating Clucene index for module: %@", [mod name]);
         [mod createSearchIndex];
-        LogL(LOG_INFO, @"Creating Clucene index...done");
+        CocoLog(LEVEL_INFO, @"Creating Clucene index...done");
         [ps endSheet];
         [ps stopProgressAnimation];        
     }

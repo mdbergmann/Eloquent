@@ -7,7 +7,6 @@
 //
 
 #import "WorkspaceViewHostController.h"
-#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
@@ -68,7 +67,7 @@
 - (void)commonInit {
     BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
     if(!stat) {
-        LogL(LOG_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
     }    
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "ExtTextViewController.h"
-#import "ObjCSword/Logger.h"
 #import "MouseTrackingScrollView.h"
 #import "MBPreferenceController.h"
 #import "HUDPreviewController.h"
@@ -32,7 +31,7 @@
 - (id)initWithDelegate:(id)aDelegate {
     self = [super init];
     if(self) {
-        LogL(LOG_DEBUG, @"[ExtTextViewController -init] loading nib");
+        CocoLog(LEVEL_DEBUG, @"[ExtTextViewController -init] loading nib");
         
         // init values
         viewLoaded = NO;
@@ -41,7 +40,7 @@
         // load nib
         BOOL stat = [NSBundle loadNibNamed:EXTTEXTVIEW_NIBNAME owner:self];
         if(!stat) {
-            LogL(LOG_ERR, @"[ExtTextViewController -init] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"[ExtTextViewController -init] unable to load nib!");
         }
     }
     
@@ -169,7 +168,7 @@
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
-        LogLV(LOG_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
+        CocoLog(LEVEL_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
     } else {
         return [delegate performSelector:@selector(processPreviewDisplay:) withObject:url];
     }
@@ -190,21 +189,21 @@
 #pragma mark - mouse tracking protocol
 
 - (void)mouseEntered:(NSView *)theView {
-    //LogL(LOG_DEBUG, @"[ExtTextViewController - mouseEntered]");
+    //CocoLog(LEVEL_DEBUG, @"[ExtTextViewController - mouseEntered]");
     if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
         [delegate performSelector:@selector(mouseEntered:) withObject:[self view]];
     }
 }
 
 - (void)mouseExited:(NSView *)theView {
-    //LogL(LOG_DEBUG, @"[ExtTextViewController - mouseExited]");
+    //CocoLog(LEVEL_DEBUG, @"[ExtTextViewController - mouseExited]");
     if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
         [delegate performSelector:@selector(mouseExited:) withObject:[self view]];
     }
 }
 
 - (void)scrollViewFrameDidChange:(NSNotification *)n {
-    //LogL(LOG_DEBUG, @"[ExtTextViewController - scrollViewFrameDidChange]");
+    //CocoLog(LEVEL_DEBUG, @"[ExtTextViewController - scrollViewFrameDidChange]");
     
     [scrollView updateMouseTracking];
 }

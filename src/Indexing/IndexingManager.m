@@ -7,7 +7,6 @@
 //
 
 #import "IndexingManager.h"
-#import "ObjCSword/Logger.h"
 #import "MBPreferenceController.h"
 #import "globals.h"
 #import "ObjCSword/SwordManager.h"
@@ -77,10 +76,10 @@
         // make copy of array
         NSArray *modNames = [NSArray arrayWithArray:[swordManager moduleNames]];
         for(NSString *name in modNames) {
-            LogLV(LOG_DEBUG, @"[IndexingManager -runIndexCheck] checking index for module: %@", name);
+            CocoLog(LEVEL_DEBUG, @"[IndexingManager -runIndexCheck] checking index for module: %@", name);
             SwordModule *mod = [swordManager moduleWithName:name];
             if(![mod hasSKSearchIndex]) {
-                LogLV(LOG_DEBUG, @"[IndexingManager -runIndexCheck] creating index for module: %@", name);
+                CocoLog(LEVEL_DEBUG, @"[IndexingManager -runIndexCheck] creating index for module: %@", name);
                 [mod createSKSearchIndex];
             }
         }
@@ -108,11 +107,11 @@
  @returns initialized not nil object
  */
 - (id)init {
-	LogL(LOG_DEBUG,@"init of IndexingManager");
+	CocoLog(LEVEL_DEBUG,@"init of IndexingManager");
 	
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc IndexingManager!");
+		CocoLog(LEVEL_ERR,@"cannot alloc IndexingManager!");
 	}
 	else {
 		[self setBaseIndexPath:@""];
@@ -231,7 +230,7 @@
 \brief dealloc of this class is called on closing this document
  */
 - (void)finalize {
-    LogL(LOG_DEBUG, @"[IndexingManager -finalize]");
+    CocoLog(LEVEL_DEBUG, @"[IndexingManager -finalize]");
     
     [super finalize];
 }
@@ -320,14 +319,14 @@
     
     // check for swordManager
     if(swordManager == nil) {    
-        LogL(LOG_ERR, @"[IndexingManager -triggerBackgroundIndexCheck] no SwordManager instance available!");
+        CocoLog(LEVEL_ERR, @"[IndexingManager -triggerBackgroundIndexCheck] no SwordManager instance available!");
         return;
     }
     
 	// run every $interval seconds
-    LogL(MBLOG_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
+    CocoLog(LEVEL_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
     if(![timer isValid] || timer == nil) {
-        LogL(LOG_DEBUG, @"[IndexingManager -triggerBackgroundIndexCheck] starting new timer");
+        CocoLog(LEVEL_DEBUG, @"[IndexingManager -triggerBackgroundIndexCheck] starting new timer");
         NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:(float)interval
                                                       target:self 
                                                     selector:@selector(runIndexCheck) 
@@ -335,7 +334,7 @@
                                                      repeats:YES];
         [self setTimer:t];
     } else {
-        LogL(LOG_WARN, @"[IndexingManager -triggerBackgroundIndexCheck] timer still valid!");
+        CocoLog(LEVEL_WARN, @"[IndexingManager -triggerBackgroundIndexCheck] timer still valid!");
     }
 }
 
@@ -359,7 +358,7 @@
     if(folderPath != nil) {
         ret = [folderPath stringByAppendingPathComponent:aModType];
     } else {
-        LogL(LOG_ERR, @"[IndexingManager -indexPathForModuleName:] Cannot get index folder path!");
+        CocoLog(LEVEL_ERR, @"[IndexingManager -indexPathForModuleName:] Cannot get index folder path!");
     }
     
     return ret;
@@ -405,7 +404,7 @@
         ret = [fm removeFileAtPath:indexPath handler:nil];
     
 		if(!ret) {
-            LogLV(LOG_ERR, @"[IndexingManager -removeIndexForModuleName:] could not remove index for module: %@", modName);
+            CocoLog(LEVEL_ERR, @"[IndexingManager -removeIndexForModuleName:] could not remove index for module: %@", modName);
         }
     }
     

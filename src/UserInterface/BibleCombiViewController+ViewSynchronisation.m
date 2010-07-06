@@ -7,7 +7,6 @@
 //
 
 #import "BibleCombiViewController+ViewSynchronisation.h"
-#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "ScrollSynchronizableView.h"
@@ -153,14 +152,14 @@
         
         NSRange glyphRange = [layoutManager glyphRangeForBoundingRect:visibleRect inTextContainer:[theTextView textContainer]];
         //NSRange glyphRange = [layoutManager glyphRangeForBoundingRectWithoutAdditionalLayout:visibleRect inTextContainer:[theTextView textContainer]];
-        //LogLV(LOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
+        //CocoLog(LEVEL_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
         
         // get line range
         *lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
-        //LogLV(LOG_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
+        //CocoLog(LEVEL_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
         
         NSRange lineRange = [layoutManager glyphRangeForBoundingRect:*lineRect inTextContainer:[theTextView textContainer]];
-        //LogLV(LOG_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
+        //CocoLog(LEVEL_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
         
         return lineRange;
     }
@@ -173,9 +172,9 @@
     
     if(regex) {
         //[regex setCaptureSubstrings:YES];
-        MBMatchResult *result = [MBMatchResult matchResult];
-        MBRegExResultType stat = [regex matchIn:text matchResult:&result];
-        if(stat == MBRegexMatch) {
+        MatchResult *result = [MatchResult matchResult];
+        RegexResultType stat = [regex matchIn:text matchResult:&result];
+        if(stat == RegexMatch) {
             // get match
             int index = 0;
             BOOL haveFirst = NO;
@@ -191,8 +190,8 @@
             }
             NSString *key = [text substringToIndex:index];
             ret = key;
-        } else if(stat == MBRegexMatchError) {
-            LogLV(LOG_ERR, @"error matching: %@", [regex errorMessageOfLastAction]);
+        } else if(stat == RegexMatchError) {
+            CocoLog(LEVEL_ERR, @"error matching: %@", [regex errorMessageOfLastAction]);
         }
     }
     

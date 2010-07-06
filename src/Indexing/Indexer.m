@@ -42,7 +42,7 @@
 - (id)init {
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc Indexer!");
+		CocoLog(LEVEL_ERR,@"cannot alloc Indexer!");
 	} else {
         [self setModName:@""];
         [self setAccessLock:[[NSLock alloc] init]];
@@ -176,7 +176,7 @@
     if(contentIndexRef) {
         content = SKIndexFlush(contentIndexRef);
         if(!content) {
-            LogL(LOG_ERR, @"could not flush content index!");
+            CocoLog(LEVEL_ERR, @"could not flush content index!");
         }        
     }
     [accessLock unlock];

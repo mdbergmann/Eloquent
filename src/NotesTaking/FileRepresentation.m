@@ -7,7 +7,6 @@
 //
 
 #import "FileRepresentation.h"
-#import "ObjCSword/Logger.h"
 
 
 @interface FileRepresentation ()
@@ -48,7 +47,7 @@
 
 + (FileRepresentation *)createWithName:(NSString *)aName isFolder:(BOOL)isFolder destinationDirectoryRep:(FileRepresentation *)aFolderRep {
     if(![aFolderRep isDirectory]) {
-        LogL(LOG_WARN, @"[FileRepresentation +createWithName::] destination is no directory!");
+        CocoLog(LEVEL_WARN, @"[FileRepresentation +createWithName::] destination is no directory!");
         [NSException raise:@"NoDirectory" format:@"Given inFolder FileRepresentation is no folder!"];
     }
     
@@ -71,7 +70,7 @@
 
 + (BOOL)copyComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep {
     if(![destDirectoryRep isDirectory]) {
-        LogL(LOG_WARN, @"[FileRepresentation +moveComplete::] destination is no directory!");
+        CocoLog(LEVEL_WARN, @"[FileRepresentation +moveComplete::] destination is no directory!");
         return NO;
     }
     
@@ -81,7 +80,7 @@
     NSString *fileName = [FileRepresentation findFileNameForPreferredName:[source name] atFolder:[destDirectoryRep filePath]];    
     NSString *destinationPath = [[destDirectoryRep filePath] stringByAppendingPathComponent:fileName];
     if(![fm copyItemAtPath:[source filePath] toPath:destinationPath error:NULL]) {
-        LogLV(LOG_ERR, @"[FileRepresentation +copyComplete::] unable to copy file %@ to path %@", [source filePath], destinationPath);
+        CocoLog(LEVEL_ERR, @"[FileRepresentation +copyComplete::] unable to copy file %@ to path %@", [source filePath], destinationPath);
         return NO;
     }
     FileRepresentation *destinationFileRep = [[FileRepresentation alloc] initWithPath:destinationPath];
@@ -95,7 +94,7 @@
 
 + (BOOL)moveComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep {
     if(![destDirectoryRep isDirectory]) {
-        LogL(LOG_WARN, @"[FileRepresentation +moveComplete::] destination is no directory!");
+        CocoLog(LEVEL_WARN, @"[FileRepresentation +moveComplete::] destination is no directory!");
         return NO;
     }
 
@@ -106,7 +105,7 @@
     
     // delete source
     if(![FileRepresentation deleteComplete:source]) {
-        LogLV(LOG_ERR, @"[FileRepresentation +moveComplete::] unable to delete file %@", [source filePath]);        
+        CocoLog(LEVEL_ERR, @"[FileRepresentation +moveComplete::] unable to delete file %@", [source filePath]);        
         return NO;
     }
         

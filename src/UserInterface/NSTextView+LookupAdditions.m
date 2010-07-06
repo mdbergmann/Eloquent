@@ -7,7 +7,6 @@
 //
 
 #import "NSTextView+LookupAdditions.h"
-#import "ObjCSword/Logger.h"
 
 
 @implementation NSTextView (LookupAdditions)
@@ -28,15 +27,15 @@
         
         NSRange glyphRange = [layoutManager glyphRangeForBoundingRect:visibleRect inTextContainer:[self textContainer]];
         //NSRange glyphRange = [layoutManager glyphRangeForBoundingRectWithoutAdditionalLayout:visibleRect inTextContainer:[theTextView textContainer]];
-        //LogLV(LOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
+        //CocoLog(LEVEL_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
         
         // get line rect
         *lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
-        //LogLV(LOG_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
+        //CocoLog(LEVEL_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
         
         // get range
         NSRange lineRange = [layoutManager glyphRangeForBoundingRect:*lineRect inTextContainer:[self textContainer]];
-        //LogLV(LOG_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
+        //CocoLog(LEVEL_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
         
         return lineRange;
     }
@@ -96,7 +95,7 @@
         visibleRect.origin.y -= containerOrigin.y;
         
         NSRange glyphRange = [layoutManager glyphRangeForBoundingRectWithoutAdditionalLayout:visibleRect inTextContainer:[self textContainer]];
-        //LogLV(LOG_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
+        //CocoLog(LEVEL_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
         return glyphRange;
     }
     
@@ -152,7 +151,7 @@
         id val = [text attribute:attrName atIndex:i effectiveRange:&foundRange];
         if(val != nil) {
             if([val isKindOfClass:[NSString class]] && [(NSString *)val isEqualToString:(NSString *)attrValue]) {
-                LogL(LOG_DEBUG, @"[ExtTextViewController -rectForAttributeName::] found attribute");
+                CocoLog(LEVEL_DEBUG, @"[ExtTextViewController -rectForAttributeName::] found attribute");
                 break;
             } else {
                 i += foundRange.location + foundRange.length;

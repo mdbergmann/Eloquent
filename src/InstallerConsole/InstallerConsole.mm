@@ -41,7 +41,7 @@ int main (int argc, const char * argv[]) {
 	printf("Version: %s\n", VERSION);
     printf("Type help for commands\n\n");
     
-    sword::SWLog::getSystemLog()->setLogLevel(sword::SWLog::LOG_DEBUG);
+    sword::SWLog::getSystemLog()->setLogLevel(sword::SWLog::LEVEL_DEBUG);
 
     /* call command prompt */
     cmdProcessor();

@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <CocoPCRE/CocoPCRE.h>
 #import <BibleCombiViewController.h>
 
 

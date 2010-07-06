@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
-#import <ModuleManageViewController.h>
+
+@class ModuleManageViewController;
 
 @interface ModuleManager : NSWindowController {
     

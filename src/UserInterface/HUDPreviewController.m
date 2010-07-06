@@ -7,7 +7,6 @@
 //
 
 #import "HUDPreviewController.h"
-#import "ObjCSword/Logger.h"
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
 #import "ObjCSword/SwordModule.h"
@@ -115,7 +114,7 @@
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
-        LogL(LOG_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        CocoLog(LEVEL_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
     }
 }
 

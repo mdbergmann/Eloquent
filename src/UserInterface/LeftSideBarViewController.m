@@ -7,7 +7,6 @@
 //
 
 #import "LeftSideBarViewController.h"
-#import "ObjCSword/Logger.h"
 #import "AppController.h"
 #import "BibleCombiViewController.h"
 #import "HostableViewController.h"
@@ -72,7 +71,7 @@
         
         BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
         if(!stat) {
-            LogL(LOG_ERR, @"[LeftSideBarViewController -init] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"[LeftSideBarViewController -init] unable to load nib!");
         }
     }
     
@@ -468,10 +467,10 @@
             }
             
 		} else {
-			LogL(LOG_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		LogL(LOG_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

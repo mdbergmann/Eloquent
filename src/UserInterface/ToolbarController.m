@@ -7,7 +7,6 @@
 //
 
 #import "ToolbarController.h"
-#import "ObjCSword/Logger.h"
 #import "SearchTextFieldOptions.h"
 
 @interface ToolbarController ()
@@ -30,7 +29,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:@"WindowHostToolbar" owner:self];
     if(!stat) {
-        LogL(LOG_ERR, @"[ToolbarController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"[ToolbarController -init] unable to load nib!");
     }
 }
 

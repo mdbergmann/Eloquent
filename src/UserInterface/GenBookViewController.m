@@ -7,7 +7,6 @@
 //
 
 #import "GenBookViewController.h"
-#import "ObjCSword/Logger.h"
 #import "SingleViewHostController.h"
 #import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
@@ -64,7 +63,7 @@
 
         [self commonInit];
     } else {
-        LogL(LOG_ERR, @"[GenBookViewController -init] unable init!");
+        CocoLog(LEVEL_ERR, @"[GenBookViewController -init] unable init!");
     }
     
     return self;    
@@ -76,7 +75,7 @@
     
     BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
     if(!stat) {
-        LogL(LOG_ERR, @"[GenBookViewController -initWithCoder:] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"[GenBookViewController -initWithCoder:] unable to load nib!");
     }    
 }
 
@@ -218,7 +217,7 @@
                               range:NSMakeRange(0, [tempDisplayString length])];
     
     // add pointing hand cursor to all links
-    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
     NSRange effectiveRange;
 	int	i = 0;
 	while (i < [tempDisplayString length]) {
@@ -231,7 +230,7 @@
 		}
 		i += effectiveRange.length;
 	}
-    LogL(LOG_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
+    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");
     
     return tempDisplayString;
 }
@@ -385,10 +384,10 @@
             self.selection = sel;
             [self displayTextForReference:searchString];
 		} else {
-			LogL(LOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		LogL(LOG_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"[GenBookViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

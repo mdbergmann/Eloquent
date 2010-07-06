@@ -7,7 +7,6 @@
 //
 
 #import "RightSideBarViewController.h"
-#import "ObjCSword/Logger.h"
 
 
 @implementation RightSideBarViewController
@@ -18,7 +17,7 @@
         // load nib
         BOOL stat = [NSBundle loadNibNamed:RIGHTSIDEBARVIEW_NIBNAME owner:self];
         if(!stat) {
-            LogL(LOG_ERR, @"[RightSideBarViewController -init] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"[RightSideBarViewController -init] unable to load nib!");
         } else {
         }            
     }
@@ -27,7 +26,7 @@
 }
 
 - (void)awakeFromNib {
-    LogL(LOG_DEBUG, @"[LeftSideBarViewController -awakeFromNib]");
+    CocoLog(LEVEL_DEBUG, @"[LeftSideBarViewController -awakeFromNib]");
     
     [super awakeFromNib];
 }

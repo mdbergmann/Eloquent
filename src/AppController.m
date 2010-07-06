@@ -1,12 +1,12 @@
 
 #import "AppController.h"
+#import "CocoLogger/CocoLogger.h"
 #import "MBPreferenceController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "MBAboutWindowController.h"
 #import "ObjCSword/Configuration.h"
 #import "ObjCSword/OSXConfiguration.h"
-#import "ObjCSword/Logger.h"
 #import "ObjCSword/SwordManager.h"
 #import "ObjCSword/SwordCommentary.h"
 #import "ObjCSword/SwordInstallSourceController.h"
@@ -57,28 +57,27 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     
     // set configuration to OSX
     [[Configuration config] setClass:[OSXConfiguration class]];
-/*    
+
 	// get path to "Logs" folder of current user
 	NSString *logPath = LOGFILE;
 	
 #ifdef DEBUG
 	// init the logging facility in first place
-	[MBLogger initLogger:logPath 
-			   logPrefix:@"[MacSword]" 
-		  logFilterLevel:LOG_DEBUG 
-			appendToFile:YES 
-			logToConsole:YES];
+	[CocoLogger initLogger:logPath 
+                 logPrefix:@"[MacSword]" 
+            logFilterLevel:LEVEL_DEBUG 
+              appendToFile:YES 
+              logToConsole:YES];
 #endif
 #ifdef RELEASE
 	// init the logging facility in first place
-	[MBLogger initLogger:logPath 
-			   logPrefix:@"[MacSword]" 
-		  logFilterLevel:LOG_DEBUG 
-			appendToFile:YES 
-			logToConsole:NO];	
+	[CocoLogger initLogger:logPath 
+                 logPrefix:@"[MacSword]" 
+            logFilterLevel:LEVEL_DEBUG 
+              appendToFile:YES 
+              logToConsole:NO];	
 #endif
- */
-	LogL(LOG_DEBUG,@"initLogging: logging initialized");    
+	CocoLog(LEVEL_DEBUG, @"logging initialized");    
 }
 
 - (void)registerDefaults {
@@ -166,19 +165,19 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     // get app support path
 	NSString *path = pathForFolderType(kApplicationSupportFolderType, kUserDomain, true);
 	if(path == nil) {
-		LogL(LOG_ERR, @"Cannot get path to Application Support!");
+		CocoLog(LEVEL_ERR, @"Cannot get path to Application Support!");
 	} else {
-        LogL(MBLOG_INFO, @"Have path to AppSupport, ok.");
+        CocoLog(LEVEL_INFO, @"Have path to AppSupport, ok.");
         
         // add path for application path in Application Support
         path = [path stringByAppendingPathComponent:APPNAME];
         // check if dir for application exists
         NSFileManager *manager = [NSFileManager defaultManager];
         if([manager fileExistsAtPath:path] == NO) {
-            LogL(MBLOG_INFO, @"path to MacSword does not exist, creating it!");
+            CocoLog(LEVEL_INFO, @"path to MacSword does not exist, creating it!");
             // create APP dir
             if([manager createDirectoryAtPath:path attributes:nil] == NO) {
-                LogL(LOG_ERR,@"Cannot create MacSword folder in Application Support!");
+                CocoLog(LEVEL_ERR,@"Cannot create MacSword folder in Application Support!");
                 ret = NO;
             }
         }
@@ -188,9 +187,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             // create IndexFolder folder
             NSString *indexPath = [path stringByAppendingPathComponent:@"Index"];
             if([manager fileExistsAtPath:indexPath] == NO) {
-                LogL(MBLOG_INFO, @"path to IndexFolder does not exist, creating it!");
+                CocoLog(LEVEL_INFO, @"path to IndexFolder does not exist, creating it!");
                 if([manager createDirectoryAtPath:indexPath attributes:nil] == NO) {
-                    LogL(LOG_ERR,@"Cannot create index folder in Application Support!");
+                    CocoLog(LEVEL_ERR,@"Cannot create index folder in Application Support!");
                 }
             }
             // put to defaults
@@ -200,9 +199,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             // create default modules folder which is Sword
             path = DEFAULT_NOTES_PATH;
             if([manager fileExistsAtPath:path] == NO) {
-                LogL(MBLOG_INFO, @"path to notes does not exist, creating it!");
+                CocoLog(LEVEL_INFO, @"path to notes does not exist, creating it!");
                 if([manager createDirectoryAtPath:path attributes:nil] == NO) {
-                    LogL(LOG_ERR,@"Cannot create notes folder in Application Support!");
+                    CocoLog(LEVEL_ERR,@"Cannot create notes folder in Application Support!");
                 }
             }
             // put to defaults
@@ -213,9 +212,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         // create default modules folder which is Sword
         path = DEFAULT_MODULE_PATH;
         if([manager fileExistsAtPath:path] == NO) {
-            LogL(MBLOG_INFO, @"path to swmodules does not exist, creating it!");
+            CocoLog(LEVEL_INFO, @"path to swmodules does not exist, creating it!");
             if([manager createDirectoryAtPath:path attributes:nil] == NO) {
-                LogL(LOG_ERR,@"Cannot create swmodules folder in Application Support!");
+                CocoLog(LEVEL_ERR,@"Cannot create swmodules folder in Application Support!");
                 ret = NO;
             }
             
@@ -224,7 +223,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             if([manager fileExistsAtPath:modsFolder] == NO) {
                 // create it
                 if([manager createDirectoryAtPath:modsFolder attributes:nil] == NO) {
-                    LogL(LOG_ERR, @"Could not create mods.d folder!");
+                    CocoLog(LEVEL_ERR, @"Could not create mods.d folder!");
                 }
             }            
         }
@@ -237,9 +236,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             // create InstallMgr folder
             NSString *installMgrPath = [path stringByAppendingPathComponent:SWINSTALLMGR_NAME];
             if([manager fileExistsAtPath:installMgrPath] == NO) {
-                LogL(MBLOG_INFO, @"path to imstallmgr does not exist, creating it!");
+                CocoLog(LEVEL_INFO, @"path to imstallmgr does not exist, creating it!");
                 if([manager createDirectoryAtPath:installMgrPath attributes:nil] == NO) {
-                    LogL(LOG_ERR,@"Cannot create installmgr folder in Application Support!");
+                    CocoLog(LEVEL_ERR,@"Cannot create installmgr folder in Application Support!");
                     ret = NO;
                 }                
             }
@@ -268,9 +267,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             //if its a directory
             if([fm fileExistsAtPath:fullSubDir isDirectory:&directory]) {
                 if(directory) {
-                    LogLV(LOG_DEBUG, @"[SwordManager -reInit] augmenting folder: %@", fullSubDir);
+                    CocoLog(LEVEL_DEBUG, @"[SwordManager -reInit] augmenting folder: %@", fullSubDir);
                     [[SwordManager defaultManager] addPath:fullSubDir];
-                    LogL(LOG_DEBUG, @"[SwordManager -reInit] augmenting folder done");
+                    CocoLog(LEVEL_DEBUG, @"[SwordManager -reInit] augmenting folder done");
                 }
             }
         }
@@ -292,7 +291,7 @@ static AppController *singleton;
 - (id)init {
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"cannot alloc AppController!");		
+		CocoLog(LEVEL_ERR,@"cannot alloc AppController!");		
     } else {
 
         // first thing we do is check for system version
@@ -609,7 +608,7 @@ static AppController *singleton;
                                  kAuthorizationFlagDefaults, &authorizationRef);
     
     if(status != errAuthorizationSuccess) {
-        LogLV(LOG_ERR, @"Failed to create the authref: %ld", status);
+        CocoLog(LEVEL_ERR, @"Failed to create the authref: %ld", status);
     } else {
         NSString *binFolder = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin"];
         NSString *cmd = [NSString stringWithFormat:@"%@/%@", binFolder, @"link_tools.sh"];
@@ -619,7 +618,7 @@ static AppController *singleton;
         args[1] = NULL;
         int err = AuthorizationExecuteWithPrivileges(authorizationRef, [cmd UTF8String], 0, args, NULL);
         if(err != 0) {
-            LogL(LOG_ERR, @"Error at executeWithPrivileges!");
+            CocoLog(LEVEL_ERR, @"Error at executeWithPrivileges!");
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
                                              defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
                                  informativeTextWithFormat:NSLocalizedString(@"ErrorSWORDToolsInstallation", @"")];
@@ -642,13 +641,13 @@ static AppController *singleton;
                                  kAuthorizationFlagDefaults, &authorizationRef);
     
     if(status != errAuthorizationSuccess) {
-        LogLV(LOG_ERR, @"Failed to create the authref: %ld", status);
+        CocoLog(LEVEL_ERR, @"Failed to create the authref: %ld", status);
     } else {
         NSString *cmd = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin/unlink_tools.sh"];
         
         int err = AuthorizationExecuteWithPrivileges(authorizationRef, [cmd UTF8String], 0, NULL, NULL);
         if(err != 0) {
-            LogL(LOG_ERR, @"Error at executeWithPrivileges!");
+            CocoLog(LEVEL_ERR, @"Error at executeWithPrivileges!");
         } else {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                              defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
@@ -691,7 +690,7 @@ static AppController *singleton;
  \brief gets called if the nib file has been loaded. all gfx objacts are available now.
  */
 - (void)awakeFromNib {
-    LogL(LOG_DEBUG, @"[AppController -awakeFromNib]");
+    CocoLog(LEVEL_DEBUG, @"[AppController -awakeFromNib]");
     
     
     // check for session to load
@@ -715,7 +714,7 @@ static AppController *singleton;
  \brief is called when application loading is nearly finished
  */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-    LogL(LOG_DEBUG, @"[AppController -applicationWillFinishLaunching:]");
+    CocoLog(LEVEL_DEBUG, @"[AppController -applicationWillFinishLaunching:]");
     
     /*
     // start background indexer if enabled
@@ -921,7 +920,7 @@ static AppController *singleton;
     [[IndexingManager sharedManager] storeSearchBookSets];
     
     // close logger
-	[MBLogger closeLogger];
+	[CocoLogger closeLogger];
 	
 	// we want to terminate NOW
 	return NSTerminateNow;

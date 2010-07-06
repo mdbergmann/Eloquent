@@ -7,7 +7,6 @@
 //
 
 #import "FullScreenView.h"
-#import "ObjCSword/Logger.h"
 #import "MBPreferenceController.h"
 #import "ConfirmationSheetController.h"
 #import "ToolbarController.h"
@@ -78,9 +77,9 @@
     // stretch toolbar view to take up 3/4 of the main view width    
     NSView *hudView = [toolbarController toolbarHUDView];
     CGFloat mainViewWidth = [self frame].size.width;
-    LogLV(LOG_DEBUG, @"fsview width: %f", mainViewWidth);
+    CocoLog(LEVEL_DEBUG, @"fsview width: %f", mainViewWidth);
     CGFloat newHUDViewWidth = mainViewWidth * (3.0/4.0);
-    LogLV(LOG_DEBUG, @"hudview width: %f", newHUDViewWidth);
+    CocoLog(LEVEL_DEBUG, @"hudview width: %f", newHUDViewWidth);
     [hudView setFrameSize:NSMakeSize(newHUDViewWidth, [hudView frame].size.height)];
     
     if([self delegate] && [[self delegate] respondsToSelector:@selector(goneToFullScreenMode)]) {
@@ -104,7 +103,7 @@
     
     if(theEvent) {
         if([theEvent userData] == trackingData) {
-            LogL(LOG_DEBUG, @"[FullscreenView -mouseEntered:]");
+            CocoLog(LEVEL_DEBUG, @"[FullscreenView -mouseEntered:]");
             if([self isInFullScreenMode]) {
                 NSView *hudView = [toolbarController toolbarHUDView];
                                 
@@ -129,7 +128,7 @@
 - (void)mouseExited:(NSEvent *)theEvent {
     if(theEvent) {
         if([theEvent userData] == trackingData) {
-            LogL(LOG_DEBUG, @"[FullscreenView -mouseExited:]");
+            CocoLog(LEVEL_DEBUG, @"[FullscreenView -mouseExited:]");
             if([self isInFullScreenMode]) {
                 BOOL setupDefaultTracking = [[self subviews] containsObject:[toolbarController toolbarHUDView]];
 
@@ -149,7 +148,7 @@
 }
 
 - (void)updateTrackingRectForViewRect:(NSRect)aRect {
-    LogL(LOG_DEBUG, @"[FullscreenView -updateTrackingRectForSubview:]");
+    CocoLog(LEVEL_DEBUG, @"[FullscreenView -updateTrackingRectForSubview:]");
     
     while(self.trackingAreas.count > 0) {
 		[self removeTrackingArea:[self.trackingAreas lastObject]];
@@ -164,7 +163,7 @@
 }
 
 - (void)updateTrackingAreas {
-    LogL(LOG_DEBUG, @"[FullscreenView -updateMouseTracking]");
+    CocoLog(LEVEL_DEBUG, @"[FullscreenView -updateMouseTracking]");
     
     if(!trackingData) {
         [self setTrackingData:[NSDictionary dictionary]];

@@ -7,7 +7,7 @@
 //
 
 #import "BibleCombiViewController.h"
-#import "ObjCSword/Logger.h"
+#import "CocoPCRE/CocoPCRE.h"
 #import "WorkspaceViewHostController.h"
 #import "MBPreferenceController.h"
 #import "BibleViewController.h"
@@ -72,16 +72,16 @@
     self.parMiscViewControllers = [NSMutableArray array];
 
     progressControl = NO;
-    regex = [[MBRegex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
-    if([regex errorCodeOfLastAction] != MBRegexSuccess) {
-        LogLV(LOG_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
+    regex = [[Regex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
+    if([regex errorCodeOfLastAction] != RegexSuccess) {
+        CocoLog(LEVEL_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
     }
 }
 
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
     if(!stat) {
-        LogL(LOG_ERR, @"[BibleCombiViewController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"[BibleCombiViewController -init] unable to load nib!");
     }    
 }
 

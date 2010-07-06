@@ -7,7 +7,6 @@
 //
 
 #import "SingleViewHostController.h"
-#import "ObjCSword/Logger.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "BibleCombiViewController.h"
@@ -48,7 +47,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
     if(!stat) {
-        LogL(LOG_ERR, @"[SingleViewHostController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"[SingleViewHostController -init] unable to load nib!");
     }
 }
 

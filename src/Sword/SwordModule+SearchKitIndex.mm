@@ -11,7 +11,6 @@
 #import "Indexer.h"
 #import "SearchResultEntry.h"
 #import "utils.h"
-#import "ObjCSword/Logger.h"
 #import "ObjCSword/SwordModule.h"
 #import "ObjCSword/SwordBible.h"
 #import "ObjCSword/SwordDictionary.h"
@@ -76,27 +75,27 @@ NSString *MacSwordIndexVersion = @"2.6";
             if([[d objectForKey:@"MacSword Index Version"] isEqualToString:MacSwordIndexVersion]) {
                 if(([d objectForKey:@"Sword Module Version"] == NULL) ||
                     ([[d objectForKey:@"Sword Module Version"] isEqualToString:[self version]])) {
-                    LogLV(LOG_INFO, @"[SwordSearching -hasSearchIndex] module %@ has valid index", modName);
+                    CocoLog(LEVEL_INFO, @"[SwordSearching -hasSearchIndex] module %@ has valid index", modName);
                     ret = YES;
                 } 
 				else {
                     //index out of date remove it
-                    LogLV(LOG_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
+                    CocoLog(LEVEL_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
                     [im removeIndexForModuleName:modName];
                 }
             } 
 			else {
                 //index out of date remove it
-                LogLV(LOG_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
+                CocoLog(LEVEL_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
 				[im removeIndexForModuleName:modName];
             }
         }
 		else {
-			LogLV(LOG_DEBUG, @"[SwordSearching -hasSearchIndex] version.plist for module %@ was not found.", modName);			
+			CocoLog(LEVEL_DEBUG, @"[SwordSearching -hasSearchIndex] version.plist for module %@ was not found.", modName);			
 		}
     }
 	else {
-		LogLV(LOG_DEBUG, @"[SwordSearching -hasSearchIndex] index for module %@ was not found.", modName);
+		CocoLog(LEVEL_DEBUG, @"[SwordSearching -hasSearchIndex] index for module %@ was not found.", modName);
 	}
     
 	return ret;
@@ -123,7 +122,7 @@ NSString *MacSwordIndexVersion = @"2.6";
 }
 
 - (void)createSKSearchIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-	LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator]");
+	CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator]");
 	
     [indexLock lock];
     
@@ -131,9 +130,9 @@ NSString *MacSwordIndexVersion = @"2.6";
     Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] 
                                                                   moduleType:[SwordModule moduleTypeForModuleTypeString:[self typeString]]];
     if(indexer == nil) {
-        LogL(LOG_ERR, @"Could not create Indexer for this module!");
+        CocoLog(LEVEL_ERR, @"Could not create Indexer for this module!");
     } else {
-        LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] start indexing...");
+        CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] start indexing...");
         
         // add one step for the flush operation
         if(progressIndicator) {
@@ -149,7 +148,7 @@ NSString *MacSwordIndexVersion = @"2.6";
             [progressIndicator incrementProgressBy:10.0];
         }
         
-        LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] stopped indexing");
+        CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] stopped indexing");
         
         //save version info
         NSString *path = [(IndexingManager *)[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];        
@@ -171,7 +170,7 @@ NSString *MacSwordIndexVersion = @"2.6";
 }
 
 - (void)createSKSearchIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-	LogL(LOG_DEBUG, @"[SwordSearching -createSearchIndexThreadedWithDelegate::]");
+	CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexThreadedWithDelegate::]");
     
     delegate = aDelegate;
     [NSThread detachNewThreadSelector:@selector(createSearchIndexWithProgressIndicator:) toTarget:self withObject:progressIndicator];

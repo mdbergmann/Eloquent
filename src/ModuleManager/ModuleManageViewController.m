@@ -1,6 +1,5 @@
 
 #import "ModuleManageViewController.h"
-#import "ObjCSword/Logger.h"
 #import "ObjCSword/SwordManager.h"
 #import "MBThreadedProgressSheetController.h"
 #import "ObjCSword/SwordInstallSource.h"
@@ -256,7 +255,7 @@
         NSString *fileToOpen = [oPanel filename];
 		return fileToOpen;
     } else {
-		LogL(LOG_DEBUG,@"Cancel Button!");
+		CocoLog(LEVEL_DEBUG,@"Cancel Button!");
 		return nil;
 	}
 }
@@ -306,7 +305,7 @@
 
 	self = [super init];
 	if(self == nil) {
-		LogL(LOG_ERR,@"[ModuleManageViewController -init]");		
+		CocoLog(LEVEL_ERR,@"[ModuleManageViewController -init]");		
 	} else {
         
         initialized = NO;
@@ -326,7 +325,7 @@
             
             [categoryOutlineView reloadData];            
         } else {
-			LogL(LOG_ERR,@"[ModuleManageViewController]: cannot load ModuleManagerView.nib!");
+			CocoLog(LEVEL_ERR,@"[ModuleManageViewController]: cannot load ModuleManagerView.nib!");
 		}		
 	}
 	
@@ -580,7 +579,7 @@
             for(InstallSourceListObject *source in selectedInstallSources) {
                 stat = [sis refreshInstallSource:[source installSource]];
                 if(stat != 0) {
-                    LogL(LOG_ERR, @"[ModuleManageViewController -refreshInstallSource:] error on refreshing install source!");
+                    CocoLog(LEVEL_ERR, @"[ModuleManageViewController -refreshInstallSource:] error on refreshing install source!");
                     break;
                 }
             }
@@ -652,7 +651,7 @@
                 // we will create anew one and add it below
                 
             } else {
-                LogL(LOG_ERR, @"[ModuleManageViewController editISOKButton:] no selected install source!");
+                CocoLog(LEVEL_ERR, @"[ModuleManageViewController editISOKButton:] no selected install source!");
                 error = YES;
             }
         }
@@ -726,7 +725,7 @@
 }
 
 - (IBAction)editISDirSelectButton:(id)sender {
-    LogL(LOG_DEBUG, @"[ModuleManageViewController -editISDirSelectButton:]");
+    CocoLog(LEVEL_DEBUG, @"[ModuleManageViewController -editISDirSelectButton:]");
 
     NSString *filePath = [ModuleManageViewController fileOpenDialog];
     if(filePath != nil) {
@@ -735,7 +734,7 @@
 }
 
 - (IBAction)editISTypeSelect:(id)sender {
-    LogL(LOG_DEBUG, @"[ModuleManageViewController -editISTypeSelect:]");
+    CocoLog(LEVEL_DEBUG, @"[ModuleManageViewController -editISTypeSelect:]");
     
     // check selected tag
     int tag = [[editISType selectedCell] tag];
@@ -774,7 +773,7 @@
  \brief Notification is called when the selection has changed 
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	LogL(LOG_DEBUG,@"[ModuleManageViewController outlineViewSelectionDidChange:]");
+	CocoLog(LEVEL_DEBUG,@"[ModuleManageViewController outlineViewSelectionDidChange:]");
 	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
@@ -805,10 +804,10 @@
             [modListViewController setInstallSources:selected];
             [modListViewController refreshModulesList];
 		} else {
-			LogL(LOG_WARN,@"[ModuleManageViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"[ModuleManageViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
 	} else {
-		LogL(LOG_WARN,@"[ModuleManageViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"[ModuleManageViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <CocoLogger/CocoLogger.h>
 
 
 @interface InitialInfoViewController : NSViewController {

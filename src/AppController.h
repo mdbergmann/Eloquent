@@ -2,6 +2,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ModuleManager.h>
+#import <ObjCSword/SwordModule.h>
 
 @class SingleViewHostController;
 @class WorkspaceViewHostController;
