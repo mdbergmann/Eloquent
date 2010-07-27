@@ -20,7 +20,7 @@
     ContentDisplayingViewController *vc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModuleType:[aModule type]];
     if(vc) {
         if([vc isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)vc addNewBibleViewWithModule:aModule];
+            [(BibleCombiViewController *)vc addNewBibleViewWithModule:(SwordBible *)aModule];
         } else {
             [(ModuleViewController *)vc setModule:aModule];
         }        

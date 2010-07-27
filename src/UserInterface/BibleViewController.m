@@ -130,8 +130,8 @@
     // else, reporting is done in -contentViewInitFinished
     if([contentDisplayController viewLoaded]) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
         // add the webview as contentview to the placeholder    
         [placeHolderView setContentView:[contentDisplayController view]];
@@ -283,7 +283,7 @@
     SEL selector = [menuItem action];
     
     if([menuItem menu] == textContextMenu) {
-        NSAttributedString *textSelection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+        NSAttributedString *textSelection = [[(id<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
         
         if(selector == @selector(addBookmark:)) {            
             if([textSelection length] == 0 || [[textSelection findBibleVerses] count] == 0) {
@@ -392,13 +392,13 @@
 #pragma mark - Text Context Menu actions
 
 - (IBAction)addBookmark:(id)sender {
-    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+    NSAttributedString *selection = [[(id<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
     NSArray *verses = [selection findBibleVerses];
     [[self bookmarksUIController] bookmarkDialogForVerseList:verses];
 }
 
 - (IBAction)addVersesToBookmark:(id)sender {
-    NSAttributedString *selection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+    NSAttributedString *selection = [[(id<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
     NSArray *verses = [selection findBibleVerses];
     Bookmark *bm = [(NSMenuItem *)sender representedObject];
     [bm setReference:[NSString stringWithFormat:@"%@;%@", [bm reference], [verses componentsJoinedByString:@";"]]];
@@ -410,8 +410,8 @@
 - (void)contentViewInitFinished:(HostableViewController *)aView {
     if(viewLoaded) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[(<TextContentProviding>)contentDisplayController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[(id<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
         // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[aView view]];

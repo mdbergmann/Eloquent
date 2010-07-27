@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+
 @class SwordInstallSource;
 
 typedef enum _InstallSourceListObjectType {
@@ -41,6 +42,6 @@ typedef enum _InstallSourceListObjectType {
 /** convenient allocator */
 + (InstallSourceListObject *)installSourceListObjectForType:(InstallSourceListObjectType)type;
 
-- (id)initWithType:(InstallSourceListObjectType)type;
+- (id)initWithListObjectType:(InstallSourceListObjectType)type;
 
 @end

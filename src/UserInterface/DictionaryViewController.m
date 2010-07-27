@@ -88,8 +88,8 @@
     [super awakeFromNib];
     
     if([(HostableViewController *)contentDisplayController viewLoaded]) {
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];        
@@ -200,7 +200,7 @@
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                        size:(int)customFontSize];
-        [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
+        [[(id<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(id<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
 
         NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
         tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
@@ -325,8 +325,8 @@
 - (void)contentViewInitFinished:(HostableViewController *)aView {
     if(viewLoaded == YES) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(<TextContentProviding>)contentDisplayController scrollView]];
-        [(ScrollSynchronizableView *)[self view] setTextView:[(<TextContentProviding>)contentDisplayController textView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
         // add the webview as contentvew to the placeholder    
         [placeHolderView setContentView:[aView view]];

@@ -12,6 +12,7 @@
 #import "BibleCombiViewController.h"
 #import "ExtTextViewController.h"
 #import "globals.h"
+#import "CacheObject.h"
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
 #import "ObjCSword/SwordModule.h"
@@ -215,7 +216,7 @@
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
                                    size:(int)customFontSize];
-    [[(<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
+    [[(id<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(id<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
     tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
@@ -288,8 +289,8 @@
 
 - (void)saveCommentaryText {
     // go through the text and store it
-    NSAttributedString *attrString = [[(<TextContentProviding>)contentDisplayController textView] attributedString];
-    NSString *text = [[(<TextContentProviding>)contentDisplayController textView] string];
+    NSAttributedString *attrString = [[(id<TextContentProviding>)contentDisplayController textView] attributedString];
+    NSString *text = [[(id<TextContentProviding>)contentDisplayController textView] string];
     NSArray *lines = [text componentsSeparatedByString:@"\n"];
     long lineStartIndex = 0;
     NSString *currentVerse = nil;
@@ -384,22 +385,22 @@
 
 - (IBAction)toggleEdit:(id)sender {
     if(editEnabled == NO) {
-        [[(<TextContentProviding>)contentDisplayController textView] setEditable:YES];
-        [[(<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:YES];
-        [[(<TextContentProviding>)contentDisplayController textView] setAllowsUndo:YES];        
+        [[(id<TextContentProviding>)contentDisplayController textView] setEditable:YES];
+        [[(id<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:YES];
+        [[(id<TextContentProviding>)contentDisplayController textView] setAllowsUndo:YES];        
         [editButton setTextColor:[NSColor redColor]];
         
         // set the delegate to be us temporarily
-        [[(<TextContentProviding>)contentDisplayController textView] setDelegate:self];
+        [[(id<TextContentProviding>)contentDisplayController textView] setDelegate:self];
         
     } else {
-        [[(<TextContentProviding>)contentDisplayController textView] setEditable:NO];
-        [[(<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:NO];
-        [[(<TextContentProviding>)contentDisplayController textView] setAllowsUndo:NO];
+        [[(id<TextContentProviding>)contentDisplayController textView] setEditable:NO];
+        [[(id<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:NO];
+        [[(id<TextContentProviding>)contentDisplayController textView] setAllowsUndo:NO];
         [editButton setTextColor:[NSColor blackColor]];
         
         // set the delegate back to where it belongs
-        [[(<TextContentProviding>)contentDisplayController textView] setDelegate:contentDisplayController];
+        [[(id<TextContentProviding>)contentDisplayController textView] setDelegate:contentDisplayController];
 
         [self saveCommentaryText];
 		
@@ -468,14 +469,14 @@
  for as long as we are delegate, forward to text controller
  */
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
-    return [(<TextContentProviding>)contentDisplayController textView:textView willDisplayToolTip:tooltip forCharacterAtIndex:characterIndex];
+    return [(id<TextContentProviding>)contentDisplayController textView:textView willDisplayToolTip:tooltip forCharacterAtIndex:characterIndex];
 }
 
 /** 
  for as long as we are delegate, forward to text controller
  */
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-    return [(<TextContentProviding>)contentDisplayController textView:aTextView clickedOnLink:link atIndex:charIndex];
+    return [(id<TextContentProviding>)contentDisplayController textView:aTextView clickedOnLink:link atIndex:charIndex];
 }
 
 #pragma mark - NSOutlineView delegate methods

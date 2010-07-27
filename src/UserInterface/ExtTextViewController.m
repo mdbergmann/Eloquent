@@ -84,16 +84,15 @@
     [[NSUserDefaults standardUserDefaults] addObserver:self 
                                             forKeyPath:DefaultsLinkForegroundColor
                                                options:NSKeyValueObservingOptionNew context:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollViewFrameDidChange:)
                                                  name:NSViewFrameDidChangeNotification
                                                object:scrollView];
     
-    
     [scrollView setPostsFrameChangedNotifications:YES];    
     [scrollView updateMouseTracking];
-    
+
     viewLoaded = YES;
     [self reportLoadingComplete];
 }

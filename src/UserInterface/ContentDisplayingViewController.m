@@ -226,7 +226,7 @@ extern char ModuleListUI;
 }
 
 - (NSDictionary *)textAttributesOfLastEventLocation {
-    NSTextView *textView = [(<TextContentProviding>)contentDisplayController textView];
+    NSTextView *textView = [(id<TextContentProviding>)contentDisplayController textView];
     
     // get mouse cursor location
     NSPoint eventLocation = [lastEvent locationInWindow];
@@ -244,7 +244,7 @@ extern char ModuleListUI;
     SEL selector = [menuItem action];
 
     if([menuItem menu] == textContextMenu) {
-        NSAttributedString *textSelection = [[(<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
+        NSAttributedString *textSelection = [[(id<TextContentProviding>)contentDisplayController textView] selectedAttributedString];
 
         if(selector == @selector(lookUpInIndex:)) {
             if([textSelection length] == 0) {
@@ -295,7 +295,7 @@ extern char ModuleListUI;
 #pragma mark - Text Context Menu actions
 
 - (IBAction)lookUpInIndex:(id)sender {
-    NSString *sel = [[(<TextContentProviding>)contentDisplayController textView] selectedString];
+    NSString *sel = [[(id<TextContentProviding>)contentDisplayController textView] selectedString];
     if(sel != nil) {
         if([self isSwordModuleContentType]) {
             // we have a module to lookup
@@ -343,7 +343,7 @@ extern char ModuleListUI;
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
     
     // get selection
-    NSString *sel = [[(<TextContentProviding>)contentDisplayController textView] selectedString];
+    NSString *sel = [[(id<TextContentProviding>)contentDisplayController textView] selectedString];
     if(sel != nil) {
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             // create new single host
@@ -361,7 +361,7 @@ extern char ModuleListUI;
 }
 
 - (IBAction)lookUpInDictionary:(id)sender {
-    NSString *sel = [[(<TextContentProviding>)contentDisplayController textView] selectedString];
+    NSString *sel = [[(id<TextContentProviding>)contentDisplayController textView] selectedString];
     if(sel != nil) {
         // get default dictionary module
         NSString *defDictName = [userDefaults stringForKey:DefaultsDictionaryModule];
@@ -395,7 +395,7 @@ extern char ModuleListUI;
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
     
     // get selection
-    NSString *sel = [[(<TextContentProviding>)contentDisplayController textView] selectedString];
+    NSString *sel = [[(id<TextContentProviding>)contentDisplayController textView] selectedString];
     if(sel != nil) {
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
@@ -461,11 +461,11 @@ extern char ModuleListUI;
 
 - (IBAction)removeLink:(id)sender {
     if(clickedLinkTextRange.location != NSNotFound) {
-        NSTextView *textView = [(<TextContentProviding>)contentDisplayController textView];
+        NSTextView *textView = [(id<TextContentProviding>)contentDisplayController textView];
         NSMutableAttributedString *textStorage = [textView textStorage];
         [textStorage removeAttribute:NSLinkAttributeName range:clickedLinkTextRange];
         [textStorage removeAttribute:TEXT_VERSE_MARKER range:clickedLinkTextRange];
-        [(<TextContentProviding>)contentDisplayController textChanged:[NSNotification notificationWithName:@"TextChangedNotification" object:textView]];
+        [(id<TextContentProviding>)contentDisplayController textChanged:[NSNotification notificationWithName:@"TextChangedNotification" object:textView]];
     }
 }
 

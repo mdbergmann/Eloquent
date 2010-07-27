@@ -267,9 +267,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             //if its a directory
             if([fm fileExistsAtPath:fullSubDir isDirectory:&directory]) {
                 if(directory) {
-                    CocoLog(LEVEL_DEBUG, @"[SwordManager -reInit] augmenting folder: %@", fullSubDir);
+                    CocoLog(LEVEL_DEBUG, @"augmenting folder: %@", fullSubDir);
                     [[SwordManager defaultManager] addPath:fullSubDir];
-                    CocoLog(LEVEL_DEBUG, @"[SwordManager -reInit] augmenting folder done");
+                    CocoLog(LEVEL_DEBUG, @"augmenting folder done");
                 }
             }
         }
@@ -700,12 +700,17 @@ static AppController *singleton;
     // load saved windows
     NSData *data = [NSData dataWithContentsOfFile:sessionPath];
     if(data != nil) {
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
-        for(NSWindowController *wc in windowHosts) {
-            if([wc isKindOfClass:[WindowHostController class]]) {
-                [(WindowHostController *)wc setDelegate:self];
-            }
+        @try {
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
+            for(NSWindowController *wc in windowHosts) {
+                if([wc isKindOfClass:[WindowHostController class]]) {
+                    [(WindowHostController *)wc setDelegate:self];
+                }
+            }            
+        }
+        @catch (NSException *e) {
+            CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
         }
     }
 }
@@ -764,20 +769,25 @@ static AppController *singleton;
 - (void)loadSessionFromFile:(NSString *)sessionFile {
     NSData *data = [NSData dataWithContentsOfFile:sessionFile];
     if(data != nil) {
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
-        for(NSWindowController *wc in windowHosts) {
-            if([wc isKindOfClass:[WindowHostController class]]) {
-                [(WindowHostController *)wc setDelegate:self];
+        @try {
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
+            for(NSWindowController *wc in windowHosts) {
+                if([wc isKindOfClass:[WindowHostController class]]) {
+                    [(WindowHostController *)wc setDelegate:self];
+                }
+            }
+            
+            // show svh
+            for(id entry in windowHosts) {
+                if([entry isKindOfClass:[WindowHostController class]]) {
+                    [(WindowHostController *)entry showWindow:self];
+                }
             }
         }
-        
-        // show svh
-        for(id entry in windowHosts) {
-            if([entry isKindOfClass:[WindowHostController class]]) {
-                [(WindowHostController *)entry showWindow:self];
-            }
-        }        
+        @catch (NSException *e) {
+            CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
+        }
     }
 }
 

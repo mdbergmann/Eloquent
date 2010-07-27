@@ -54,11 +54,11 @@
 
 /** convenient allocator */
 + (InstallSourceListObject *)installSourceListObjectForType:(InstallSourceListObjectType)type {
-    InstallSourceListObject *object = [[InstallSourceListObject alloc] initWithType:type];
+    InstallSourceListObject *object = [[InstallSourceListObject alloc] initWithListObjectType:type];
     return [object autorelease];
 }
 
-- (id)initWithType:(InstallSourceListObjectType)type {
+- (id)initWithListObjectType:(InstallSourceListObjectType)type {
     self = [super init];
     
     if(self) {

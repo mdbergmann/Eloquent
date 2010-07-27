@@ -169,19 +169,19 @@
 #pragma mark - TextContentProviding
 
 - (NSTextView *)textView {
-    return (NSTextView *)[(<TextContentProviding>)contentDisplayController textView];    
+    return (NSTextView *)[(id<TextContentProviding>)contentDisplayController textView];    
 }
 
 - (NSScrollView *)scrollView {
-    return (NSScrollView *)[(<TextContentProviding>)contentDisplayController scrollView];    
+    return (NSScrollView *)[(id<TextContentProviding>)contentDisplayController scrollView];    
 }
 
 - (void)setAttributedString:(NSAttributedString *)aString {
-    [(<TextContentProviding>)contentDisplayController setAttributedString:aString];
+    [(id<TextContentProviding>)contentDisplayController setAttributedString:aString];
 }
 
 - (void)setString:(NSString *)aString {
-    [(<TextContentProviding>)contentDisplayController setString:aString];
+    [(id<TextContentProviding>)contentDisplayController setString:aString];
 }
 
 - (void)textChanged:(NSNotification *)aNotification {}

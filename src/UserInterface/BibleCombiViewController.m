@@ -243,7 +243,6 @@
                 [sView setHasVerticalScroller:NO];
             }
             
-            // tell scrollview to post bounds notifications
             [sView setPostsBoundsChangedNotifications:NO];
         }
     }
@@ -277,7 +276,7 @@
 
 - (NSString *)title {
     if([parBibleViewControllers count] > 0) {
-        return [(<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] title];
+        return [(id<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] title];
     }
     return @"BibleView";
 }
@@ -286,7 +285,7 @@
     NSView *ret = nil;
     
     if([parBibleViewControllers count] > 0) {
-        ret = [(<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] rightAccessoryView];
+        ret = [(id<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] rightAccessoryView];
     }
     
     return ret;
@@ -590,8 +589,8 @@
 
 - (void)setupForContentViewController:(ContentDisplayingViewController *)aViewController {
     if([aViewController isKindOfClass:[BibleViewController class]]) {        
-        [self tileSubViews];
         [aViewController adaptUIToHost];
+        [self tileSubViews];
     }
 }
 
