@@ -55,6 +55,8 @@ typedef enum AppErrorCodes {
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep;
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod;
 
+/** loads a session from the given file */
+- (void)loadSessionFromFile:(NSString *)sessionFile;
 /** stores the session to file */
 - (IBAction)saveSessionAs:(id)sender;
 /** stores as default session */

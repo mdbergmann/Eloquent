@@ -697,6 +697,7 @@ static AppController *singleton;
     if([sessionPath length] == 0) {
         sessionPath = DEFAULT_SESSION_PATH;
     }
+    /*
     // load saved windows
     NSData *data = [NSData dataWithContentsOfFile:sessionPath];
     if(data != nil) {
@@ -713,6 +714,8 @@ static AppController *singleton;
             CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
         }
     }
+     */
+    
 }
 
 /**
@@ -734,19 +737,16 @@ static AppController *singleton;
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
+    [self loadSessionFromFile:sessionPath];
+
     // if there is no window in the session open add a new workspace
     if([windowHosts count] == 0) {
         // open a default view
         WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
         svh.delegate = self;
-        [windowHosts addObject:svh];        
-    }
-    
-    // show svh
-    for(id entry in windowHosts) {
-        if([entry isKindOfClass:[WindowHostController class]]) {
-            [(WindowHostController *)entry showWindow:self];
-        }
+        [windowHosts addObject:svh];
+
+        [svh showWindow:self];
     }
     
     // show HUD preview if set
@@ -787,6 +787,13 @@ static AppController *singleton;
         }
         @catch (NSException *e) {
             CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
+            
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionLoadError", @"")
+                                             defaultButton:NSLocalizedString(@"Ok", @"") 
+                                           alternateButton:nil
+                                               otherButton:nil 
+                                 informativeTextWithFormat:NSLocalizedString(@"SessionLoadErrorText", @"")];
+            [alert runModal];
         }
     }
 }
