@@ -167,37 +167,6 @@
     return NSMakeRange(NSNotFound, 0);
 }
 
-- (NSString *)verseKeyInTextLine:(NSString *)text {
-    NSString *ret = nil;
-    
-    if(regex) {
-        //[regex setCaptureSubstrings:YES];
-        MatchResult *result = [MatchResult matchResult];
-        RegexResultType stat = [regex matchIn:text matchResult:&result];
-        if(stat == RegexMatch) {
-            // get match
-            int index = 0;
-            BOOL haveFirst = NO;
-            for(int i = 0;i < [text length];i++) {
-                unichar c = [text characterAtIndex:i];
-                if(c == ':') {
-                    if(haveFirst == YES) {
-                        index = i;
-                        break;
-                    }
-                    haveFirst = YES;
-                }
-            }
-            NSString *key = [text substringToIndex:index];
-            ret = key;
-        } else if(stat == RegexMatchError) {
-            CocoLog(LEVEL_ERR, @"error matching: %@", [regex errorMessageOfLastAction]);
-        }
-    }
-    
-    return ret;
-}
-
 - (NSString *)verseMarkerInTextLine:(NSAttributedString *)text {
     NSString *ret = nil;
     

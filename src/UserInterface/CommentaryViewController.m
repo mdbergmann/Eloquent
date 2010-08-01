@@ -165,7 +165,7 @@
      </style>\n", 
      (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
 
-    [module aquireModuleLock];
+    [module lockModuleAccess];
     // we skip consective links. Commentary module does that by default.
     SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
     [lk setPersist:YES];
@@ -201,7 +201,7 @@
     }
     // reset key
     [module setKeyString:@"gen1.1"];
-    [module releaseModuleLock];
+    [module unlockModuleAccess];
     [contentCache setCount:numberOfVerses];
     
     // create attributed string

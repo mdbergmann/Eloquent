@@ -135,7 +135,7 @@
     lastChapter = -1;
     lastBook = -1;
         
-    [module aquireModuleLock];
+    [module lockModuleAccess];
     SwordManager *swManager = [SwordManager defaultManager];
     BOOL collectPreverseHeading = ([swManager globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
     
@@ -165,7 +165,7 @@
         [lk increment];
         numberOfVerses++;
     }
-    [module releaseModuleLock];
+    [module unlockModuleAccess];
     [contentCache setCount:numberOfVerses];
     
     return htmlString;

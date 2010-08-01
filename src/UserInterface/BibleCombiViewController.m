@@ -72,10 +72,6 @@
     self.parMiscViewControllers = [NSMutableArray array];
 
     progressControl = NO;
-    regex = [[Regex alloc] initWithPattern:@".*\"sword://.+\/.+\/\\d+\/\\d+\".*"];
-    if([regex errorCodeOfLastAction] != RegexSuccess) {
-        CocoLog(LEVEL_ERR, @"error creating regex: %@", [regex errorMessageOfLastAction]);
-    }
 }
 
 - (void)_loadNib {

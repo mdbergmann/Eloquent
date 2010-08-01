@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoPCRE/CocoPCRE.h>
 #import <BibleCombiViewController.h>
 
 
@@ -18,7 +17,6 @@
 - (void)synchronizedViewContentBoundsDidChange:(NSNotification *)aNotification;
 
 - (NSRange)rangeFromViewableFirstLineInTextView:(NSTextView *)theTextView lineRect:(NSRect *)lineRect;
-- (NSString *)verseKeyInTextLine:(NSString *)text;
 - (NSString *)verseMarkerInTextLine:(NSAttributedString *)text;
 - (NSRect)rectForTextRange:(NSRange)range inTextView:(NSTextView *)textView;
 - (NSRect)rectForAttributeName:(NSString *)attrName attributeValue:(id)attrValue inTextView:(NSTextView *)textView;

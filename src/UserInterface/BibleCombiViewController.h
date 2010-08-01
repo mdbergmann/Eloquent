@@ -14,7 +14,6 @@
 
 #define BIBLECOMBIVIEW_NIBNAME   @"BibleCombiView"
 
-@class Regex;
 @class SwordModule, SwordBible, SwordCommentary, ScrollSynchronizableView;
 
 @interface BibleCombiViewController : ModuleCommonsViewController <NSCoding, ModuleProviding, SubviewHosting> {
@@ -33,9 +32,6 @@
     
     // the current right ScrollSynchronizableView
     ScrollSynchronizableView *currentSyncView;
-    
-    // the regex that will find out the versekey
-    Regex *regex;
     
     // progressAction
     BOOL progressControl;
