@@ -13,7 +13,6 @@
 @class ContentDisplayingViewController;
 
 @interface ContentDisplayingViewControllerFactory : NSObject {
-
 }
 
 + (ContentDisplayingViewController *)createSwordModuleViewControllerForModule:(SwordModule *)aModule;

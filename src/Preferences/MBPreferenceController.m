@@ -35,11 +35,11 @@ static MBPreferenceController *instance;
 }
 
 - (id)initWithDelegate:(id)aDelegate {
-	CocoLog(LEVEL_DEBUG,@"[MBPreferenceController -init]");
+	CocoLog(LEVEL_DEBUG,@"");
 	
 	self = [super initWithWindowNibName:@"Preferences" owner:self];
 	if(self == nil) {
-		CocoLog(LEVEL_ERR, @"[MBPreferenceController -init] cannot init!");		
+		CocoLog(LEVEL_ERR, @"cannot init!");		
 	} else {
         instance = self;
         delegate = aDelegate;
@@ -51,12 +51,12 @@ static MBPreferenceController *instance;
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    CocoLog(LEVEL_DEBUG, @"[WindowHostController -windowWillClose:]");
+    CocoLog(LEVEL_DEBUG, @"");
     // tell delegate that we are closing
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
-        CocoLog(LEVEL_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        CocoLog(LEVEL_WARN, @"delegate does not respond to selector!");
     }
 }
 
@@ -90,6 +90,10 @@ static MBPreferenceController *instance;
 
 - (NSArray *)moduleNamesOfTypeMorphGreek {
     return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_GREEKPARSE];
+}
+
+- (NSArray *)moduleNamesOfTypeDailyDevotion {
+    return [[SwordManager defaultManager] modulesForFeature:SWMOD_CONF_FEATURE_DAILYDEVOTION];
 }
 
 - (WebPreferences *)defaultWebPreferences {

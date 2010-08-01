@@ -455,7 +455,11 @@ extern char ModuleListUI;
             [hc setDelegate:hostingDelegate];
             [hostingDelegate addContentViewController:hc];
             [hostingDelegate setSearchText:key];        
-        }            
+        } else {
+            // in case there is no hosting delegate, create a new single one
+            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            [host setSearchText:key];            
+        }
     }
 }
 

@@ -115,6 +115,8 @@
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A533FF114E62A300B015C5 /* HUDToolbarView.m */; };
 		A9A73AF211609C8500A4099D /* WindowHostController+SplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A73AF111609C8500A4099D /* WindowHostController+SplitViewDelegate.m */; };
+		A9A9206F1205A3E8008D7A64 /* DailyDevotionPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A9206E1205A3E8008D7A64 /* DailyDevotionPanelController.m */; };
+		A9A921D31205C49E008D7A64 /* DailyDevotion.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A921D11205C49E008D7A64 /* DailyDevotion.xib */; };
 		A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ABF335107A2934005D6156 /* InitialInfoViewController.m */; };
 		A9ABF33A107A2A65005D6156 /* InitialInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9ABF338107A2A65005D6156 /* InitialInfoView.xib */; };
 		A9B0067F115F819400C07A22 /* scopebar_active.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B0067D115F819400C07A22 /* scopebar_active.png */; };
@@ -423,6 +425,9 @@
 		A9A533FF114E62A300B015C5 /* HUDToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDToolbarView.m; path = src/UserInterface/HUDToolbarView.m; sourceTree = "<group>"; };
 		A9A73AF011609C8500A4099D /* WindowHostController+SplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WindowHostController+SplitViewDelegate.h"; path = "src/UserInterface/WindowHostController+SplitViewDelegate.h"; sourceTree = "<group>"; };
 		A9A73AF111609C8500A4099D /* WindowHostController+SplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "WindowHostController+SplitViewDelegate.m"; path = "src/UserInterface/WindowHostController+SplitViewDelegate.m"; sourceTree = "<group>"; };
+		A9A9206D1205A3E8008D7A64 /* DailyDevotionPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyDevotionPanelController.h; path = src/UserInterface/DailyDevotionPanelController.h; sourceTree = "<group>"; };
+		A9A9206E1205A3E8008D7A64 /* DailyDevotionPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyDevotionPanelController.m; path = src/UserInterface/DailyDevotionPanelController.m; sourceTree = "<group>"; };
+		A9A921D21205C49E008D7A64 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DailyDevotion.xib; sourceTree = "<group>"; };
 		A9ABF334107A2934005D6156 /* InitialInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialInfoViewController.h; path = src/UserInterface/InitialInfoViewController.h; sourceTree = "<group>"; };
 		A9ABF335107A2934005D6156 /* InitialInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialInfoViewController.m; path = src/UserInterface/InitialInfoViewController.m; sourceTree = "<group>"; };
 		A9ABF339107A2A65005D6156 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/InitialInfoView.xib; sourceTree = "<group>"; };
@@ -592,6 +597,7 @@
 				A91C93EB0DF9B149006B7361 /* Indexing */,
 				A91C93FA0DF9B149006B7361 /* ModuleManager */,
 				A96103B910B03A2E007A9371 /* NotesTaking */,
+				A9A921D01205C45C008D7A64 /* DailyDevotion */,
 				A9E8BD290EADADD000E58D1E /* Bookmarks */,
 				A99055A90E041C3400E8D7A2 /* UserInterface */,
 				A918BA4011C67AF700024D84 /* Sword */,
@@ -652,6 +658,7 @@
 				A9FCD75E10B1562D006F7A3B /* BookmarkManagerUI.xib */,
 				A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */,
 				A9EDA1191150E1F5004EC005 /* PrintAccessory.xib */,
+				A9A921D11205C49E008D7A64 /* DailyDevotion.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -908,10 +915,10 @@
 				A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */,
 				A9FCD80E10B1B5A1006F7A3B /* ModulesUIController.h */,
 				A9FCD80F10B1B5A1006F7A3B /* ModulesUIController.m */,
-				A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */,
-				A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */,
 				A95CFC581132951600E71D4E /* ContentDisplayingViewControllerFactory.h */,
 				A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */,
+				A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */,
+				A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -943,6 +950,15 @@
 				A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */,
 			);
 			name = HelperObjects;
+			sourceTree = "<group>";
+		};
+		A9A921D01205C45C008D7A64 /* DailyDevotion */ = {
+			isa = PBXGroup;
+			children = (
+				A9A9206D1205A3E8008D7A64 /* DailyDevotionPanelController.h */,
+				A9A9206E1205A3E8008D7A64 /* DailyDevotionPanelController.m */,
+			);
+			name = DailyDevotion;
 			sourceTree = "<group>";
 		};
 		A9B7441A0F646223001960B0 /* About */ = {
@@ -1235,6 +1251,7 @@
 				A9B00680115F819400C07A22 /* scopebar_inactive.png in Resources */,
 				A9629CB31179CB6F00E375AA /* Modules in Resources */,
 				A9921BA511FDACF1002DAA72 /* bin in Resources */,
+				A9A921D31205C49E008D7A64 /* DailyDevotion.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1366,6 +1383,7 @@
 				A9EDA1201150E24E004EC005 /* PrintAccessoryViewController.m in Sources */,
 				A9A73AF211609C8500A4099D /* WindowHostController+SplitViewDelegate.m in Sources */,
 				A918BA4311C67AF700024D84 /* SwordModule+SearchKitIndex.mm in Sources */,
+				A9A9206F1205A3E8008D7A64 /* DailyDevotionPanelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1517,6 +1535,14 @@
 				A99A774A10B33DE5002EFD30 /* English */,
 			);
 			name = NotesView.xib;
+			sourceTree = "<group>";
+		};
+		A9A921D11205C49E008D7A64 /* DailyDevotion.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9A921D21205C49E008D7A64 /* English */,
+			);
+			name = DailyDevotion.xib;
 			sourceTree = "<group>";
 		};
 		A9ABF338107A2A65005D6156 /* InitialInfoView.xib */ = {

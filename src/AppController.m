@@ -1,28 +1,20 @@
 
 #import "AppController.h"
-#import "CocoLogger/CocoLogger.h"
 #import "MBPreferenceController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "MBAboutWindowController.h"
-#import "ObjCSword/Configuration.h"
-#import "ObjCSword/OSXConfiguration.h"
-#import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordCommentary.h"
-#import "ObjCSword/SwordInstallSourceController.h"
-#import "ObjCSword/SwordInstallSource.h"
 #import "MBThreadedProgressSheetController.h"
 #import "ProgressOverlayViewController.h"
 #import "IndexingManager.h"
 #import "globals.h"
 #import "BookmarkManager.h"
 #import "HUDPreviewController.h"
-#import "ObjCSword/SwordBook.h"
-#import "ObjCSword/SwordModuleTreeEntry.h"
 #import "FileRepresentation.h"
 #import "NotesManager.h"
 #import "NSDictionary+Additions.h"
 #import "ContentDisplayingViewControllerFactory.h"
+#import "DailyDevotionPanelController.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err = 0;
@@ -133,6 +125,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithInt:250] forKey:DefaultsLSBWidth];
     [defaultsDict setObject:[NSNumber numberWithInt:150] forKey:DefaultsRSBWidth];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowDailyDevotionOnStartupKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowPreviewToolTip];
     NSColor *bgCol = [NSColor colorWithCalibratedRed:0.6980 green:0.7176 blue:0.6156 alpha:1.0];
     NSColor *fgCol = [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0];
@@ -310,8 +303,6 @@ static AppController *singleton;
         // set singleton
         singleton = self;
 
-        isContentShowing = NO;
-
         // init window Hosts array
         windowHosts = [[NSMutableArray alloc] init];        
 
@@ -347,6 +338,8 @@ static AppController *singleton;
         // init default progressoverlay controller
         [ProgressOverlayViewController defaultController];
         
+        // init Sword locale system
+        [[SwordLocaleManager defaultManager] initLocale];
         // init default SwordManager
         SwordManager *sm = [SwordManager defaultManager];
         
@@ -555,6 +548,39 @@ static AppController *singleton;
     }    
 }
 
+- (IBAction)showDailyDevotionPanel:(id)sender {
+    
+    NSString *ddModName = [userDefaults stringForKey:DefaultsDailyDevotionModule];
+
+    BOOL show = YES;
+    if(dailyDevotionController == nil) {
+        // get daily devotion module
+        if(ddModName == nil) {
+            show = NO;
+        } else {
+            SwordDictionary *ddMod = (SwordDictionary *)[[SwordManager defaultManager] moduleWithName:ddModName];
+            dailyDevotionController = [[DailyDevotionPanelController alloc] initWithDelegate:self andModule:ddMod];
+        }
+    } else {
+        if(ddModName != nil) {
+            SwordDictionary *ddMod = (SwordDictionary *)[[SwordManager defaultManager] moduleWithName:ddModName];
+            [dailyDevotionController setDailyDevotionModule:ddMod];
+            [dailyDevotionController displayTextForDayAndMonth];
+        }
+    }
+
+    if(show) {
+        // show window
+        if(!isDailyDevotionShowing) {
+            [dailyDevotionController showWindow:self];
+            isDailyDevotionShowing = YES;
+        } else {
+            [dailyDevotionController close];    
+            isDailyDevotionShowing = NO;
+        }        
+    }
+}
+
 - (IBAction)showCreateModuleWindow:(id)sender {
     [[NSApplication sharedApplication] runModalForWindow:createModuleWindow];
 }
@@ -681,6 +707,8 @@ static AppController *singleton;
         isPreferencesShowing = NO;
     } else if([aController isKindOfClass:[HUDPreviewController class]]) {
         isPreviewShowing = NO;
+    } else if([aController isKindOfClass:[DailyDevotionPanelController class]]) {
+        isDailyDevotionShowing = NO;
     }
 }
 
@@ -753,6 +781,11 @@ static AppController *singleton;
     if([userDefaults boolForKey:DefaultsShowHUDPreview]) {
         [self showPreviewPanel:nil];
     }
+    
+    // show HUD daily devotion if set
+    if([userDefaults boolForKey:DefaultsShowDailyDevotionOnStartupKey]) {
+        [self showDailyDevotionPanel:nil];
+    }    
 }
 
 - (void)saveSessionToFile:(NSString *)sessionFile {

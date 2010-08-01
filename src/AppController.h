@@ -1,13 +1,14 @@
 /* AppController */
 
 #import <Cocoa/Cocoa.h>
+#import <CocoLogger/CocoLogger.h>
+#import <ObjCSword/ObjCSword.h>
 #import <ModuleManager.h>
-#import <ObjCSword/SwordModule.h>
 
 @class SingleViewHostController;
 @class WorkspaceViewHostController;
 @class HUDPreviewController;
-@class HUDContentViewController;
+@class DailyDevotionPanelController;
 @class MBAboutWindowController;
 @class FileRepresentation;
 
@@ -29,10 +30,10 @@ typedef enum AppErrorCodes {
     IBOutlet HUDPreviewController *previewController;
     BOOL isPreviewShowing;
     
-    // HUD content view
-    IBOutlet HUDContentViewController *contentController;
-    BOOL isContentShowing;
-    
+    // DailyDevotion
+    IBOutlet DailyDevotionPanelController *dailyDevotionController;
+    BOOL isDailyDevotionShowing;
+
     // About window
     MBAboutWindowController *aboutWindowController;
         
@@ -79,6 +80,7 @@ typedef enum AppErrorCodes {
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showModuleManager:(id)sender;
 - (IBAction)showPreviewPanel:(id)sender;
+- (IBAction)showDailyDevotionPanel:(id)sender;
 - (IBAction)showCreateModuleWindow:(id)sender;
 - (IBAction)openMacSwordWikiPage:(id)sender;
 - (IBAction)openMacSwordHomePage:(id)sender;

@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">740</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<string key="IBDocument.SystemVersion">10F569</string>
+		<string key="IBDocument.InterfaceBuilderVersion">762</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
@@ -15,13 +15,12 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>740</string>
+				<string>762</string>
 				<string>1</string>
 			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="106"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -951,6 +950,14 @@
 									<reference key="NSOnImage" ref="780798457"/>
 									<reference key="NSMixedImage" ref="1039508180"/>
 								</object>
+								<object class="NSMenuItem" id="667423028">
+									<reference key="NSMenu" ref="835318025"/>
+									<string key="NSTitle">Show/Hide Daily Devotion panel</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="780798457"/>
+									<reference key="NSMixedImage" ref="1039508180"/>
+								</object>
 								<object class="NSMenuItem" id="299356726">
 									<reference key="NSMenu" ref="835318025"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -1065,15 +1072,14 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<string key="NSFrameSize">{480, 360}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
-			</object>
-			<object class="NSCustomObject" id="835246135">
-				<string key="NSClassName">HUDPreviewController</string>
 			</object>
 			<object class="NSWindowTemplate" id="604109967">
 				<int key="NSWindowStyleMask">8219</int>
@@ -1268,7 +1274,6 @@
 									</object>
 									<string key="NSFrameSize">{457, 187}</string>
 									<reference key="NSSuperview" ref="998610783"/>
-									<reference key="NSNextKeyView" ref="638998648"/>
 									<reference key="NSDocView" ref="638998648"/>
 									<reference key="NSBGColor" ref="1043290189"/>
 									<object class="NSCursor" key="NSCursor">
@@ -1299,7 +1304,6 @@
 							</object>
 							<string key="NSFrame">{{20, 20}, {457, 187}}</string>
 							<reference key="NSSuperview" ref="966951882"/>
-							<reference key="NSNextKeyView" ref="422280006"/>
 							<int key="NSsFlags">528</int>
 							<reference key="NSVScroller" ref="206806930"/>
 							<reference key="NSHScroller" ref="954131079"/>
@@ -1313,8 +1317,8 @@
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSFrameAutosaveName"/>
 			</object>
-			<object class="NSCustomObject" id="932869845">
-				<string key="NSClassName">SUUpdater</string>
+			<object class="NSCustomObject" id="835246135">
+				<string key="NSClassName">HUDPreviewController</string>
 			</object>
 			<object class="NSWindowTemplate" id="954314567">
 				<int key="NSWindowStyleMask">1</int>
@@ -1326,7 +1330,7 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="25284737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1335,6 +1339,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 62}, {59, 17}}</string>
 							<reference key="NSSuperview" ref="25284737"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="303634196">
 								<int key="NSCellFlags">68288064</int>
@@ -1356,6 +1361,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{81, 60}, {234, 22}}</string>
 							<reference key="NSSuperview" ref="25284737"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="935537312">
 								<int key="NSCellFlags">-1804468671</int>
@@ -1378,6 +1384,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{225, 12}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="25284737"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="507328585">
 								<int key="NSCellFlags">604110336</int>
@@ -1398,6 +1405,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{129, 12}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="25284737"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="435427941">
 								<int key="NSCellFlags">67239424</int>
@@ -1415,9 +1423,14 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{335, 99}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
+			</object>
+			<object class="NSCustomObject" id="932869845">
+				<string key="NSClassName">SUUpdater</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -2055,6 +2068,14 @@
 					</object>
 					<int key="connectionID">552</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showDailyDevotionPanel:</string>
+						<reference key="source" ref="528392195"/>
+						<reference key="destination" ref="667423028"/>
+					</object>
+					<int key="connectionID">601</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2479,6 +2500,7 @@
 							<reference ref="1011231497"/>
 							<reference ref="710367292"/>
 							<reference ref="1042911350"/>
+							<reference ref="667423028"/>
 						</object>
 						<reference key="parent" ref="713487014"/>
 					</object>
@@ -2692,6 +2714,7 @@
 							<reference ref="966951882"/>
 						</object>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">PreviewPanel (Preview)</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">410</int>
@@ -3026,6 +3049,11 @@
 						<reference key="object" ref="851435579"/>
 						<reference key="parent" ref="374024848"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">600</int>
+						<reference key="object" ref="667423028"/>
+						<reference key="parent" ref="835318025"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3163,6 +3191,7 @@
 					<string>351.ImportedFromIB2</string>
 					<string>354.IBPluginDependency</string>
 					<string>354.ImportedFromIB2</string>
+					<string>371.IBEditorWindowLastContentRect</string>
 					<string>371.IBPluginDependency</string>
 					<string>371.IBWindowTemplateEditedContentRect</string>
 					<string>371.NSWindowTemplate.visibleAtLaunch</string>
@@ -3248,6 +3277,7 @@
 					<string>57.editorWindowContentRectSynchronizationRect</string>
 					<string>58.IBPluginDependency</string>
 					<string>58.ImportedFromIB2</string>
+					<string>600.IBPluginDependency</string>
 					<string>73.IBPluginDependency</string>
 					<string>73.ImportedFromIB2</string>
 					<string>74.IBPluginDependency</string>
@@ -3373,11 +3403,11 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{781, 762}, {266, 103}}</string>
+					<string>{{909, 1186}, {311, 123}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{352, 905}, {197, 73}}</string>
-					<string>{{168, 560}, {372, 20}}</string>
+					<string>{{669, 1309}, {372, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
@@ -3402,8 +3432,9 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
+					<string>{{0, 1025}, {480, 360}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{485, 557}, {480, 360}}</string>
+					<string>{{0, 1025}, {480, 360}}</string>
 					<integer value="0"/>
 					<string>{{485, 557}, {480, 360}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3416,9 +3447,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{123, 661}, {500, 250}}</string>
+					<string>{{64, 627}, {500, 250}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{123, 661}, {500, 250}}</string>
+					<string>{{64, 627}, {500, 250}}</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3488,6 +3519,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
@@ -3525,7 +3557,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">552</int>
+			<int key="maxID">602</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3555,6 +3587,7 @@
 							<string>saveSessionAs:</string>
 							<string>showAboutWindow:</string>
 							<string>showCreateModuleWindow:</string>
+							<string>showDailyDevotionPanel:</string>
 							<string>showModuleManager:</string>
 							<string>showPreferenceSheet:</string>
 							<string>showPreviewPanel:</string>
@@ -3584,24 +3617,25 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>contentController</string>
 							<string>createModuleNameTextField</string>
 							<string>createModuleOKButton</string>
 							<string>createModuleWindow</string>
+							<string>dailyDevotionController</string>
 							<string>previewController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>HUDContentViewController</string>
 							<string>NSTextField</string>
 							<string>NSButton</string>
 							<string>NSWindow</string>
+							<string>HUDDailyDevotionPanelController</string>
 							<string>HUDPreviewController</string>
 						</object>
 					</object>
@@ -3611,11 +3645,17 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">Application</string>
-					<string key="superclassName">NSApplication</string>
+					<string key="className">BibleViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">src/Application.h</string>
+						<string key="minorKey">src/UserInterface/BibleViewController+RightSidebar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">BibleViewController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/BibleViewController+TextDisplayGeneration.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -3625,12 +3665,16 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addBookmark:</string>
 							<string>addModule:</string>
+							<string>addVersesToBookmark:</string>
 							<string>closeButton:</string>
 							<string>moduleSelectionChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3645,7 +3689,6 @@
 							<string>entriesOutlineView</string>
 							<string>modulePopBtn</string>
 							<string>sideBarView</string>
-							<string>statusLine</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3654,7 +3697,6 @@
 							<string>NSOutlineView</string>
 							<string>NSPopUpButton</string>
 							<string>NSView</string>
-							<string>NSTextField</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -3700,9 +3742,11 @@
 							<string>lookUpInIndexOfBible:</string>
 							<string>openLink:</string>
 							<string>removeLink:</string>
+							<string>saveDocument:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3736,15 +3780,72 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">FullScreenSplitView</string>
-					<string key="superclassName">NSSplitView</string>
+					<string key="className">FullScreenView</string>
+					<string key="superclassName">NSView</string>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">fullScreenModeOnOff:</string>
 						<string key="NS.object.0">id</string>
 					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>delegate</string>
+							<string>toolbarController</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>ToolbarController</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">src/UserInterface/FullScreenSplitView.h</string>
+						<string key="minorKey">src/UserInterface/FullScreenView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">HUDDailyDevotionPanelController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>dayStepperChange:</string>
+							<string>monthStepperChange:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>dayStepper</string>
+							<string>dayTextField</string>
+							<string>delegate</string>
+							<string>moduleNameTextField</string>
+							<string>monthStepper</string>
+							<string>monthTextField</string>
+							<string>textView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSStepper</string>
+							<string>NSTextField</string>
+							<string>id</string>
+							<string>NSTextField</string>
+							<string>NSStepper</string>
+							<string>NSTextField</string>
+							<string>NSTextView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/HUDDailyDevotionPanelController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -3826,7 +3927,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
-							<string>id</string>
+							<string>WindowHostController</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -3843,9 +3944,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>bookPagerAction:</string>
 							<string>chapterPagerAction:</string>
+							<string>displayOptionHideVerseNumbering:</string>
 							<string>displayOptionHighlightBookmarks:</string>
 							<string>displayOptionShowCrossRefs:</string>
 							<string>displayOptionShowFootnotes:</string>
+							<string>displayOptionShowFullVerseNumbering:</string>
 							<string>displayOptionShowGreekAccents:</string>
 							<string>displayOptionShowHeadings:</string>
 							<string>displayOptionShowHebrewCantillation:</string>
@@ -3860,6 +3963,8 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3918,8 +4023,17 @@
 						<string key="NS.object.0">id</string>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">placeHolderView</string>
-						<string key="NS.object.0">NSBox</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>placeHolderView</string>
+							<string>statusLine</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSBox</string>
+							<string>NSTextField</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -3972,6 +4086,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">src/NotesTaking/NotesViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ScopeBarView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/ScopeBarView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4033,36 +4155,135 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">ToolbarController</string>
+					<string key="superclassName">HostableViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addBookmark:</string>
+							<string>clearRecents:</string>
+							<string>enterFullscreenMode:</string>
+							<string>forceReload:</string>
+							<string>leftSideBarHideShow:</string>
+							<string>quitFullscreenMode:</string>
+							<string>rightSideBarHideShow:</string>
+							<string>searchInput:</string>
+							<string>searchType:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addBookmarkBtn</string>
+							<string>enterFullscreenModeBtn</string>
+							<string>forceReloadBtn</string>
+							<string>hudForceReloadBtn</string>
+							<string>hudLeftSideBarToggleBtn</string>
+							<string>hudRightSideBarToggleBtn</string>
+							<string>hudSearchTextField</string>
+							<string>hudSearchTypeSegControl</string>
+							<string>leftSideBarToggleBtn</string>
+							<string>quitFullscreenModeBtn</string>
+							<string>rightSideBarToggleBtn</string>
+							<string>scopebarPlaceholder</string>
+							<string>searchTextField</string>
+							<string>searchTypeSegControl</string>
+							<string>toolbar</string>
+							<string>toolbarHUDView</string>
+							<string>toolbarViewItem</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSSearchField</string>
+							<string>NSSegmentedControl</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSBox</string>
+							<string>NSSearchField</string>
+							<string>NSSegmentedControl</string>
+							<string>NSToolbar</string>
+							<string>NSView</string>
+							<string>NSToolbarItem</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/ToolbarController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WindowHostController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">fullScreenModeOnOff:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/WindowHostController+FullscreenDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WindowHostController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/WindowHostController+SideBars.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WindowHostController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/UserInterface/WindowHostController+SplitViewDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">WindowHostController</string>
 					<string key="superclassName">NSWindowController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addBookmark:</string>
 							<string>clearRecents:</string>
+							<string>enterFullscreenMode:</string>
 							<string>focusSearchEntry:</string>
 							<string>forceReload:</string>
-							<string>fullScreenModeOnOff:</string>
 							<string>leftSideBarHideShow:</string>
-							<string>leftSideBottomSegChange:</string>
 							<string>myPrint:</string>
-							<string>navigationAction:</string>
-							<string>navigationBack:</string>
-							<string>navigationForward:</string>
 							<string>nextBook:</string>
 							<string>nextChapter:</string>
 							<string>performClose:</string>
 							<string>previousBook:</string>
 							<string>previousChapter:</string>
+							<string>quitFullscreenMode:</string>
 							<string>rightSideBarHideShow:</string>
-							<string>rightSideBottomSegChange:</string>
 							<string>searchInput:</string>
+							<string>searchType:</string>
 							<string>switchLookupView:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -4086,33 +4307,27 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>addBookmarkBtn</string>
+							<string>contentPlaceHolderView</string>
 							<string>contentSplitView</string>
 							<string>delegate</string>
-							<string>forceReloadBtn</string>
-							<string>leftSideBottomSegControl</string>
 							<string>mainSplitView</string>
-							<string>optionsView</string>
-							<string>placeHolderSearchOptionsView</string>
 							<string>placeHolderView</string>
 							<string>progressIndicator</string>
-							<string>rightSideBottomSegControl</string>
+							<string>scopebarView</string>
+							<string>scopebarViewPlaceholder</string>
 							<string>view</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
+							<string>NSBox</string>
 							<string>NSSplitView</string>
 							<string>id</string>
-							<string>NSButton</string>
-							<string>NSSegmentedControl</string>
-							<string>FullScreenSplitView</string>
-							<string>NSView</string>
-							<string>NSBox</string>
+							<string>NSSplitView</string>
 							<string>NSBox</string>
 							<string>NSProgressIndicator</string>
-							<string>NSSegmentedControl</string>
-							<string>NSView</string>
+							<string>ScopeBarView</string>
+							<string>NSBox</string>
+							<string>FullScreenView</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -4497,7 +4712,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="1033974253">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSToolbarItem.h</string>
 					</object>
@@ -4801,6 +5016,14 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">NSSearchField</string>
+					<string key="superclassName">NSTextField</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSSearchField.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">NSSegmentedControl</string>
 					<string key="superclassName">NSControl</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -4814,6 +5037,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSSplitView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSStepper</string>
+					<string key="superclassName">NSControl</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSStepper.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4860,6 +5091,19 @@
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSTextView.h</string>
 					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSToolbar</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSToolbar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSToolbarItem</string>
+					<string key="superclassName">NSObject</string>
+					<reference key="sourceIdentifier" ref="1033974253"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSView</string>
@@ -5016,6 +5260,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
+		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>
@@ -5031,5 +5276,18 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../MacSword2.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>NSMenuCheckmark</string>
+				<string>NSMenuMixedState</string>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{9, 8}</string>
+				<string>{7, 2}</string>
+			</object>
+		</object>
 	</data>
 </archive>

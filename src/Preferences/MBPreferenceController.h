@@ -61,6 +61,7 @@ typedef enum _VerseNumberingType {
 #define DefaultsStrongsGreekModule                  @"DefaultsStrongsGreekModule"
 #define DefaultsMorphHebrewModule                   @"DefaultsMorphHebrewModule"
 #define DefaultsMorphGreekModule                    @"DefaultsMorphGreekModule"
+#define DefaultsDailyDevotionModule                 @"DefaultsDailyDevotionModule"
 
 // indexing defaults
 #define DefaultsBackgroundIndexerEnabled            @"DefaultsBackgroundIndexerEnabled"
@@ -75,6 +76,7 @@ typedef enum _VerseNumberingType {
 #define DefaultsLSBWidth                            @"DefaultsLSBWidth"
 #define DefaultsRSBWidth                            @"DefaultsRSBWidth"
 #define DefaultsShowHUDPreview                      @"DefaultsShowHUDPreview"
+#define DefaultsShowDailyDevotionOnStartupKey       @"DefaultsShowDailyDevotionOnStartupKey"
 #define DefaultsShowPreviewToolTip                  @"DefaultsShowPreviewToolTip"
 #define DefaultsTextBackgroundColor                 @"DefaultsTextBackgroundColor"
 #define DefaultsTextForegroundColor                 @"DefaultsTextForegroundColor"
@@ -148,6 +150,7 @@ typedef enum _VerseNumberingType {
 - (NSArray *)moduleNamesOfTypeDictionary;
 - (NSArray *)moduleNamesOfTypeStrongsGreek;
 - (NSArray *)moduleNamesOfTypeStrongsHebrew;
+- (NSArray *)moduleNamesOfTypeDailyDevotion;
 
 // get font for module
 - (NSFont *)normalDisplayFontForModuleName:(NSString *)aModName;
