@@ -25,8 +25,8 @@
 
 @synthesize delegate;
 @synthesize dailyDevotionModule;
-@dynamic currentDay;
-@dynamic currentMonth;
+@dynamic day;
+@dynamic month;
 
 - (id)init {
     return [self initWithDelegate:nil andModule:nil];
@@ -39,8 +39,8 @@
         [self setDailyDevotionModule:ddModule];
         
         NSDate *now = [NSDate date];
-        currentDay = [[[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:now] day];
-        currentMonth = [[[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:now] month];
+        day = [[[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:now] day];
+        month = [[[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:now] month];
         
         dictionaryViewController = [[DictionaryViewController alloc] initWithModule:ddModule];
         
@@ -63,8 +63,6 @@
     NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
     [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
-
-    [self displayTextForDayAndMonth];
 }
 
 - (void)finalize {
@@ -81,15 +79,6 @@
     return 31;
 }
 
-- (NSInteger)currentDay {
-    return currentDay;
-}
-
-- (void)setCurrentDay:(NSInteger)day {
-    currentDay = day;
-    [self displayTextForDayAndMonth];    
-}
-
 - (NSInteger)minMonths {
     return 1;
 }
@@ -98,42 +87,49 @@
     return 12;
 }
 
-- (NSInteger)currentMonth {
-    return currentMonth;
+- (NSInteger)day {
+    return day;
 }
 
-- (void)setCurrentMonth:(NSInteger)month {
-    currentMonth = month;
-    [self displayTextForDayAndMonth];    
+- (void)setDay:(NSInteger)aDay {
+    day = aDay;
+    [[textView textStorage] setAttributedString:[self moduleText]];
+}
+
+- (NSInteger)month {
+    return month;
+}
+
+- (void)setMonth:(NSInteger)aMonth {
+    month = aMonth;
+    [[textView textStorage] setAttributedString:[self moduleText]];
 }
 
 - (NSString *)moduleName {
     return [dailyDevotionModule name];
 }
 
-- (void)displayTextForDayAndMonth {
+- (NSAttributedString *)moduleText {
     // create key String
-    NSString *keyString = [NSString stringWithFormat:@"%02i.%02i", [self currentMonth], [self currentDay]];
+    NSString *keyString = [NSString stringWithFormat:@"%02i.%02i", month, day];
     SwordModuleTextEntry *renderedText = [dailyDevotionModule textEntryForKey:[SwordKey swordKeyWithRef:keyString] textType:TextTypeRendered];
-
+    
     if(renderedText) {
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
         [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
-
+        
         WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[dailyDevotionModule name]];
-        //[webPrefs setStandardFontFamily:[FontLarge familyName]];
-        //[webPrefs setDefaultFontSize:[FontLarge pointSize]];
         [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
         
         NSData *data = [[renderedText text] dataUsingEncoding:NSUTF8StringEncoding];
         NSMutableAttributedString *displayString = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                                    options:options
-                                                         documentAttributes:nil];
-
+                                                                                           options:options
+                                                                                documentAttributes:nil];
+        
         // set custom fore ground color
         [displayString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor]
-                                  range:NSMakeRange(0, [displayString length])];
-
+                              range:NSMakeRange(0, [displayString length])];
+        
         // add pointing hand cursor to all links
         NSRange effectiveRange;
         int	i = 0;
@@ -149,9 +145,15 @@
         }
         
         if(displayString) {
-            [[textView textStorage] setAttributedString:displayString];
+            return displayString;
         }
     }
+    
+    return [[NSAttributedString alloc] initWithString:@""];
+}
+
+- (BOOL)isTextViewEditable {
+    return NO;
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -164,15 +166,8 @@
 
 - (IBAction)todayButton:(id)sender {
     NSDate *now = [NSDate date];
-    currentDay = [[[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:now] day];
-    [dayStepper setIntValue:currentDay];
-    [dayTextField setIntValue:currentDay];
-
-    currentMonth = [[[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:now] month];
-    [monthStepper setIntValue:currentMonth];
-    [monthTextField setIntValue:currentMonth];
-
-    [self displayTextForDayAndMonth];
+    [self setDay:[[[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:now] day]];
+    [self setMonth:[[[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:now] month]];
 }
 
 #pragma mark - NSTextView delegates
@@ -197,3 +192,4 @@
 }
 
 @end
+

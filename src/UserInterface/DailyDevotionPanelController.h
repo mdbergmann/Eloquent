@@ -14,11 +14,11 @@
 
 @interface DailyDevotionPanelController : NSWindowController {
     SwordDictionary *dailyDevotionModule;
-    NSInteger currentDay;
-    NSInteger currentMonth;
-    
     DictionaryViewController *dictionaryViewController;
-    
+
+    NSInteger day;
+    NSInteger month;    
+        
     IBOutlet NSTextView *textView;
     IBOutlet NSStepper *dayStepper;
     IBOutlet NSStepper *monthStepper;    
@@ -30,26 +30,28 @@
 
 @property(assign, readwrite) id delegate;
 @property(retain, readwrite) SwordDictionary *dailyDevotionModule;
-@property(readwrite) NSInteger currentDay;
-@property(readwrite) NSInteger currentMonth;
+@property(readwrite) NSInteger day;
+@property(readwrite) NSInteger month;
 
 - (id)initWithDelegate:(id)aDelegate andModule:(SwordDictionary *)ddModule;
 
 // bindings for stepper and textfields
 - (NSInteger)minDays;
 - (NSInteger)maxDays;
-- (NSInteger)currentDay;
-- (void)setCurrentDay:(NSInteger)day;
-
 - (NSInteger)minMonths;
 - (NSInteger)maxMonths;
-- (NSInteger)currentMonth;
-- (void)setCurrentMonth:(NSInteger)month;
+
+- (NSInteger)day;
+- (void)setDay:(NSInteger)aDay;
+- (NSInteger)month;
+- (void)setMonth:(NSInteger)aMonth;
 
 - (NSString *)moduleName;
+- (NSAttributedString *)moduleText;
 
-- (void)displayTextForDayAndMonth;
+- (BOOL)isTextViewEditable;
 
 - (IBAction)todayButton:(id)sender;
 
 @end
+
