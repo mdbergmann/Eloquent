@@ -166,7 +166,7 @@
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         // get number of modules in category
-        ret = [[swordManager modulesForType:[(SwordModCategory *)item name]] count];
+        ret = [[swordManager modulesForType:[(SwordModCategory *)item type]] count];
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         ret = [[(Bookmark *)item subGroups] count];
@@ -205,7 +205,7 @@
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         // get number of modules in category
-        ret = [[swordManager modulesForType:[(SwordModCategory *)item name]] objectAtIndex:index];
+        ret = [[swordManager modulesForType:[(SwordModCategory *)item type]] objectAtIndex:index];
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         ret = [[(Bookmark *)item subGroups] objectAtIndex:index];
@@ -228,7 +228,7 @@
         ret = YES;
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
-        ret = ([[swordManager modulesForType:[(SwordModCategory *)item name]] count] > 0);
+        ret = ([[swordManager modulesForType:[(SwordModCategory *)item type]] count] > 0);
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         ret = ([[(Bookmark *)item subGroups] count] > 0);

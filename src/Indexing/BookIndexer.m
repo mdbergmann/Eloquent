@@ -40,7 +40,7 @@
 		CocoLog(LEVEL_ERR,@"[BookIndexer -initWithModuleName] cannot alloc BookIndexer!");
 	} else {
 		[self setModName:aModName];
-		[self setModType:genbook];
+		[self setModType:Genbook];
         [self setModTypeStr:@"GenBook"];
 		
         // open or create content index

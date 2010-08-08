@@ -30,13 +30,13 @@
 
 + (ContentDisplayingViewController *)createSwordModuleViewControllerForModuleType:(ModuleType)aModuleType {
     ContentDisplayingViewController *vc = nil;    
-    if(aModuleType == bible) {
+    if(aModuleType == Bible) {
         vc = [[BibleCombiViewController alloc] init];
-    } else if(aModuleType == commentary) {
+    } else if(aModuleType == Commentary) {
         vc = [[CommentaryViewController alloc] init];
-    } else if(aModuleType == dictionary) {
+    } else if(aModuleType == Dictionary) {
         vc = [[DictionaryViewController alloc] init];
-    } else if(aModuleType == genbook) {
+    } else if(aModuleType == Genbook) {
         vc = [[GenBookViewController alloc] init];
     }
     return vc;    

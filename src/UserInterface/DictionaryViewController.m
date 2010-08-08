@@ -105,7 +105,7 @@
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&menu 
-                                     forModuletype:dictionary
+                                     forModuletype:Dictionary
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
     [modulePopBtn setMenu:menu];
@@ -115,7 +115,7 @@
         // on change, still exists?
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
             // select the first one found
-            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_DICTIONARIES];
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:Dictionary];
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
                 // and redisplay if needed

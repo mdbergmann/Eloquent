@@ -61,15 +61,14 @@
     
     // we currently know 3 module types to index
     switch(aModType) {
-        case bible:
-        case commentary:
+        case Bible:
+        case Commentary:
             indexer = [[BibleIndexer alloc] initWithModuleName:aModName];
             break;
-        case genbook:
+        case Genbook:
             indexer = [[BookIndexer alloc] initWithModuleName:aModName];
             break;
-        case dictionary:
-        case devotional:
+        case Dictionary:
             indexer = [[DictIndexer alloc] initWithModuleName:aModName];
             break;
     }

@@ -69,11 +69,11 @@ static MBPreferenceController *instance;
 }
 
 - (NSArray *)moduleNamesOfTypeBible {
-    return [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
+    return [[SwordManager defaultManager] modulesForType:Bible];
 }
 
 - (NSArray *)moduleNamesOfTypeDictionary {
-    return [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_DICTIONARIES];
+    return [[SwordManager defaultManager] modulesForType:Dictionary];
 }
 
 - (NSArray *)moduleNamesOfTypeStrongsGreek {

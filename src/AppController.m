@@ -472,15 +472,15 @@ static AppController *singleton;
 }
 
 - (IBAction)openNewSingleCommentaryHostWindow:(id)sender {
-    [self openSingleHostWindowForModuleType:commentary];
+    [self openSingleHostWindowForModuleType:Commentary];
 }
 
 - (IBAction)openNewSingleDictionaryHostWindow:(id)sender {
-    [self openSingleHostWindowForModuleType:dictionary];
+    [self openSingleHostWindowForModuleType:Dictionary];
 }
 
 - (IBAction)openNewSingleGenBookHostWindow:(id)sender {
-    [self openSingleHostWindowForModuleType:genbook];
+    [self openSingleHostWindowForModuleType:Genbook];
 }
 
 - (IBAction)openNewWorkspaceHostWindow:(id)sender {
@@ -565,7 +565,6 @@ static AppController *singleton;
         if(ddModName != nil) {
             SwordDictionary *ddMod = (SwordDictionary *)[[SwordManager defaultManager] moduleWithName:ddModName];
             [dailyDevotionController setDailyDevotionModule:ddMod];
-            [dailyDevotionController displayTextForDayAndMonth];
         }
     }
 

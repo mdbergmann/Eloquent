@@ -50,15 +50,15 @@ enum ModuleMenu_Items{
  @params[in] aSelector the selector of the target that should be called
  */
 - (void)generateModuleMenu:(NSMenu **)itemMenu 
-             forModuletype:(int)type 
+             forModuletype:(ModuleType)type 
             withMenuTarget:(id)aTarget 
             withMenuAction:(SEL)aSelector {
     
     SwordManager *swManager = [SwordManager defaultManager];
     // create menu for modules for specified type
     // bibles
-    if((type == -1) || ((type & bible) == bible)) {
-        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_BIBLES];
+    if((type == -1) || ((type & Bible) == Bible)) {
+        NSArray *mods = [swManager modulesForType:type];
         for(SwordBible *mod in mods) {
             NSMenuItem *menuItem = [[NSMenuItem alloc] init];
             [menuItem setTitle:[mod name]];
@@ -78,8 +78,8 @@ enum ModuleMenu_Items{
     }
     
     // commentaries
-    if((type == -1) || ((type & commentary) == commentary)) {
-        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_COMMENTARIES];
+    if((type == -1) || ((type & Commentary) == Commentary)) {
+        NSArray *mods = [swManager modulesForType:type];
         for(SwordBible *mod in mods) {
             NSMenuItem *menuItem = [[NSMenuItem alloc] init];
             [menuItem setTitle:[mod name]];
@@ -99,8 +99,8 @@ enum ModuleMenu_Items{
     }
     
     // dictionaries
-    if((type == -1) || ((type & dictionary) == dictionary)) {
-        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_DICTIONARIES];
+    if((type == -1) || ((type & Dictionary) == Dictionary)) {
+        NSArray *mods = [swManager modulesForType:type];
         for(SwordBible *mod in mods) {
             NSMenuItem *menuItem = [[NSMenuItem alloc] init];
             [menuItem setTitle:[mod name]];
@@ -119,8 +119,8 @@ enum ModuleMenu_Items{
     }
     
     // gen books
-    if((type == -1) || ((type & genbook) == genbook)) {
-        NSArray *mods = [swManager modulesForType:SWMOD_CATEGORY_GENBOOKS];
+    if((type == -1) || ((type & Genbook) == Genbook)) {
+        NSArray *mods = [swManager modulesForType:type];
         for(SwordBible *mod in mods) {
             NSMenuItem *menuItem = [[NSMenuItem alloc] init];
             [menuItem setTitle:[mod name]];
@@ -214,7 +214,7 @@ enum ModuleMenu_Items{
             
             if([[hostingDelegate contentViewController] contentViewType] == SwordBibleContentType) {
                 // only commentary and bible views are able to show within bible the current
-                if(mod.type == bible || mod.type == commentary) {                    
+                if(mod.type == Bible || mod.type == Commentary) {                    
                     ret = YES;
                 } else {
                     ret = NO;
@@ -261,9 +261,9 @@ enum ModuleMenu_Items{
             break;
         case ModuleMenuOpenCurrent:
         {
-            if(clicked.type == bible) {
+            if(clicked.type == Bible) {
                 [(BibleCombiViewController *)[hostingDelegate contentViewController] addNewBibleViewWithModule:(SwordBible *)clicked];
-            } else if(clicked.type == commentary) {
+            } else if(clicked.type == Commentary) {
                 [(BibleCombiViewController *)[hostingDelegate contentViewController] addNewCommentViewWithModule:(SwordCommentary *)clicked];                    
             }
             break;

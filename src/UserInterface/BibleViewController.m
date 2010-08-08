@@ -79,7 +79,7 @@
     self = [self init];
     if(self) {
         if(aModule == nil) {
-            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:Bible];
             if([modArray count] > 0) {
                 aModule = [modArray objectAtIndex:0];
             }
@@ -172,7 +172,7 @@
 - (void)populateModulesMenu {
     NSMenu *menu = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&menu 
-                                     forModuletype:bible 
+                                     forModuletype:Bible 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
     [modulePopBtn setMenu:menu];
@@ -181,7 +181,7 @@
         // on change, still exists?
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
             // select the first one found
-            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_BIBLES];
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:Bible];
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
                 // and redisplay if needed
@@ -205,14 +205,14 @@
     biblesMenu = [[NSMenu alloc] init];
     [biblesMenu setAutoenablesItems:YES];
     [[self modulesUIController] generateModuleMenu:&biblesMenu 
-                                     forModuletype:bible 
+                                     forModuletype:Bible 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
     
     // generate commentary menu
     commentariesMenu = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&commentariesMenu 
-                                     forModuletype:commentary 
+                                     forModuletype:Commentary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
     

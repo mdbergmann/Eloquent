@@ -105,7 +105,7 @@
     NSMenu *menu = [[NSMenu alloc] init];
     // generate menu
     [[self modulesUIController] generateModuleMenu:&menu 
-                                     forModuletype:genbook 
+                                     forModuletype:Genbook 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
     // add menu
@@ -116,7 +116,7 @@
         // on change, still exists?
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
             // select the first one found
-            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_GENBOOKS];
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:Genbook];
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
                 // and redisplay if needed

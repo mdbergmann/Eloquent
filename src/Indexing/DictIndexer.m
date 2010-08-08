@@ -39,7 +39,7 @@
 		CocoLog(LEVEL_ERR,@"cannot alloc DictIndexer!");
 	} else {
 		[self setModName:aModName];
-		[self setModType:dictionary];
+		[self setModType:Dictionary];
         [self setModTypeStr:@"Dictionary"];
 		
         // open or create content index

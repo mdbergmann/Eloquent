@@ -38,7 +38,7 @@ SearchBookSet *searchBookSet;
 		CocoLog(LEVEL_ERR,@"cannot alloc BibleIndexer!");
 	} else {
 		[self setModName:aModName];
-		[self setModType:bible];
+		[self setModType:Bible];
 		[self setModTypeStr:@"Bible"];
         
         searchBookSet = [[SearchBookSet alloc] init];

@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <LeftSideBarAccessoryUIController.h>
+#import <ObjCSword/SwordModule.h>
 
 @class SwordManager;
 @class SwordModule;
@@ -42,7 +43,7 @@
  @params[in] aSelector the selector of the target that should be called
  */
 - (void)generateModuleMenu:(NSMenu **)itemMenu 
-             forModuletype:(int)type 
+             forModuletype:(ModuleType)type 
             withMenuTarget:(id)aTarget 
             withMenuAction:(SEL)aSelector;
     

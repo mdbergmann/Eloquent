@@ -156,7 +156,7 @@ extern char ModuleListUI;
     // bibles
     NSMenu *bibleModules = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&bibleModules
-                                     forModuletype:bible 
+                                     forModuletype:Bible 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(lookUpInIndexOfBible:)];
     NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
@@ -164,7 +164,7 @@ extern char ModuleListUI;
     // dictionaries
     NSMenu *dictModules = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&dictModules 
-                                     forModuletype:dictionary 
+                                     forModuletype:Dictionary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(lookUpInDictionaryOfModule:)];
     item = [textContextMenu itemWithTag:LookUpInDictionaryList];

@@ -100,14 +100,14 @@
 - (void)populateModulesMenu {    
     NSMenu *menu = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&menu 
-                                     forModuletype:commentary 
+                                     forModuletype:Commentary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
     [modulePopBtn setMenu:menu];
     
     if(self.module != nil) {
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
-            NSArray *modArray = [[SwordManager defaultManager] modulesForType:SWMOD_CATEGORY_COMMENTARIES];
+            NSArray *modArray = [[SwordManager defaultManager] modulesForType:Commentary];
             if([modArray count] > 0) {
                 [self setModule:[modArray objectAtIndex:0]];
                 [self displayTextForReference:searchString searchType:searchType];
@@ -134,7 +134,7 @@
 - (void)populateAddPopupMenu {
     commentariesMenu = [[NSMenu alloc] init];
     [[self modulesUIController] generateModuleMenu:&commentariesMenu 
-                                     forModuletype:commentary 
+                                     forModuletype:Commentary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
 
