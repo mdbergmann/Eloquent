@@ -14,7 +14,7 @@
 #import "WorkspaceViewHostController.h"
 #import "ObjCSword/SwordManager.h"
 #import "ObjCSword/SwordModule.h"
-#import "ObjCSword/SwordModCategory.h"
+#import "SwordModCategory.h"
 #import "BookmarkManager.h"
 #import "Bookmark.h"
 #import "NotesManager.h"
