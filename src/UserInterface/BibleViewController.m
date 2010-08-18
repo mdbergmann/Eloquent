@@ -53,7 +53,6 @@
 
 @synthesize nibName;
 @synthesize bookSelection;
-@synthesize textContext;
 
 #pragma mark - initializers
 
@@ -251,7 +250,7 @@
     [super prepareContentForHost:aHostController];
     [self populateAddPopupMenu];
     [self populateBookmarksMenu];
-    
+    [[[textContextPopUpButton menu] itemWithTag:textContext] setState:NSOnState];    
     if(searchString == nil || [searchString length] == 0) {
         [hostingDelegate setSearchText:@"Gen 1"];
     }
@@ -439,7 +438,6 @@
     self = [super initWithCoder:decoder];
     if(self) {        
         self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];        
-        self.textContext = [decoder decodeIntegerForKey:@"TextContextKey"];
         [self _loadNib];
     }
     
@@ -449,7 +447,6 @@
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [super encodeWithCoder:encoder];
     
-    [encoder encodeInteger:textContext forKey:@"TextContextKey"];    
     [encoder encodeObject:nibName forKey:@"NibNameKey"];
 }
 

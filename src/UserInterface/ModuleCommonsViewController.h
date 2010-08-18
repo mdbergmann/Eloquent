@@ -39,9 +39,11 @@ enum GeneralMenuItemAdditions {
     NSMenu *verseNumberingMenu;
     
     int customFontSize;
+    NSInteger textContext;
 }
 
 @property (readwrite) int customFontSize;
+@property (readwrite) NSInteger textContext;
 @property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
 @property (retain, readwrite) NSMutableDictionary *displayOptions;
 @property (readonly) NSPopUpButton *fontSizePopUpButton;
@@ -77,6 +79,8 @@ enum GeneralMenuItemAdditions {
 
 /** add menu item for custom font size */
 - (void)checkAndAddFontSizeMenuItemIfNotExists;
+/** enable/disable popup buttons depending on search type */
+- (void)setupPopupButtonsForSearchType;
 
 // Actions to be overriden by subclasses
 - (IBAction)fontSizeChange:(id)sender;

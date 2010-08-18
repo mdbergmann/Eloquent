@@ -136,31 +136,37 @@
     lastBook = -1;
         
     [module lockModuleAccess];
-    SwordManager *swManager = [SwordManager defaultManager];
-    BOOL collectPreverseHeading = ([swManager globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
-    
+
+    NSMutableDictionary *duplicateChecker = [NSMutableDictionary dictionary];
     SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
     [lk setPersist:NO];
     [lk setPosition:SWPOS_TOP];
+    SwordVerseKey *vk = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[module versification]];
     NSString *ref = nil;
     NSString *rendered = nil;
-    SwordBibleTextEntry *entry = nil;
     int numberOfVerses = 0;
     while(![lk error]) {
-        ref = [lk keyText];
-        [module setKey:lk];
-        rendered = [module renderedText];
-        entry = [SwordBibleTextEntry textEntryForKey:ref andText:rendered];
+        // set current key to vk
+        [vk setKeyText:[lk keyText]];
+        if(textContext != 0) {
+            long lowVerse = [vk verse] - textContext;
+            long highVerse = lowVerse + (textContext * 2);
+            for(;lowVerse <= highVerse;lowVerse++) {
+                [vk setVerse:lowVerse];
+                ref = [vk keyText];
+                [module setKey:vk];
+                rendered = [module renderedText];
 
-        if(collectPreverseHeading) {
-            NSString *preverseHeading = [module entryAttributeValuePreverse];
-            if(preverseHeading && [preverseHeading length] > 0) {
-                [entry setPreverseHeading:preverseHeading];
+                [self handleTextEntry:[SwordBibleTextEntry textEntryForKey:ref andText:rendered] duplicateDict:duplicateChecker htmlString:htmlString];                
+
+                [vk increment];
             }
-        }        
-        
-        [self applyBookmarkHighlightingOnTextEntry:entry];
-        [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
+        } else {
+            ref = [lk keyText];
+            [module setKey:lk];
+            rendered = [module renderedText];
+            [self handleTextEntry:[SwordBibleTextEntry textEntryForKey:ref andText:rendered] duplicateDict:duplicateChecker htmlString:htmlString];
+        }
         
         [lk increment];
         numberOfVerses++;
@@ -169,6 +175,22 @@
     [contentCache setCount:numberOfVerses];
     
     return htmlString;
+}
+
+- (void)handleTextEntry:(SwordBibleTextEntry *)entry duplicateDict:(NSMutableDictionary *)duplicateDict htmlString:htmlString {
+    if(entry && ([duplicateDict objectForKey:[entry key]] == nil)) {
+        [duplicateDict setObject:entry forKey:[entry key]];
+        [self applyBookmarkHighlightingOnTextEntry:entry];
+        [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
+        
+        BOOL collectPreverseHeading = ([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
+        if(collectPreverseHeading) {
+            NSString *preverseHeading = [module entryAttributeValuePreverse];
+            if(preverseHeading && [preverseHeading length] > 0) {
+                [entry setPreverseHeading:preverseHeading];
+            }
+        }
+    }
 }
 
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry {
@@ -210,8 +232,6 @@
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     VerseNumberingType verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
-    BOOL isShowFullVerseNumbering = (verseNumbering == FullVerseNumbering);
-    BOOL isShowVerseNumbering = (verseNumbering == NoVerseNumbering);
     
     // headings fg color
     CGFloat hr, hg, hb = 0.0;
@@ -317,7 +337,6 @@
     VerseNumberingType verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
     BOOL isShowFullVerseNumbering = (verseNumbering == FullVerseNumbering);
-    BOOL isShowVerseNumbering = (verseNumbering == NoVerseNumbering);
     
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;

@@ -308,11 +308,13 @@
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     for(HostableViewController *hc in parBibleViewControllers) {
         customFontSize = [(ModuleCommonsViewController *)hc customFontSize];
+        textContext = [(ModuleCommonsViewController *)hc textContext];
         [self checkAndAddFontSizeMenuItemIfNotExists];
         [hc prepareContentForHost:aHostController];
     }
     for(HostableViewController *hc in parMiscViewControllers) {
         customFontSize = [(ModuleCommonsViewController *)hc customFontSize];
+        textContext = [(ModuleCommonsViewController *)hc textContext];
         [self checkAndAddFontSizeMenuItemIfNotExists];
         [hc prepareContentForHost:aHostController];
     }

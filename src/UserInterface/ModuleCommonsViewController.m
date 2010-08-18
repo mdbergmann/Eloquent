@@ -24,13 +24,12 @@ extern char BookmarkMgrUI;
 
 @interface ModuleCommonsViewController ()
 
-- (void)setupPopupButtonsForSearchType;
-
 @end
 
 @implementation ModuleCommonsViewController
 
 @synthesize customFontSize;
+@synthesize textContext;
 @synthesize modDisplayOptions;
 @synthesize displayOptions;
 @synthesize modDisplayOptionsPopUpButton;
@@ -44,6 +43,7 @@ extern char BookmarkMgrUI;
     self = [super init];
     if(self) {
         customFontSize = -1;
+        textContext = 0;
 
         // init modDisplayOptions Dictionary
         self.modDisplayOptions = [NSMutableDictionary dictionary];
@@ -219,7 +219,7 @@ extern char BookmarkMgrUI;
     [menu addItem:item];    
     [item setTitle:@"0"];
     [item setTag:0];
-    [item setState:1];
+    [item setState:0];
 
     item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
@@ -515,6 +515,7 @@ extern char BookmarkMgrUI;
     [super prepareContentForHost:aHostController];
     [self checkAndAddFontSizeMenuItemIfNotExists];
     [[[fontSizePopUpButton menu] itemWithTag:customFontSize] setState:NSOnState];
+    [[[textContextPopUpButton menu] itemWithTag:textContext] setState:NSOnState];
     [self setupPopupButtonsForSearchType];
 }
 
@@ -543,7 +544,7 @@ extern char BookmarkMgrUI;
         [[self modDisplayOptionsPopUpButton] setEnabled:YES];
         [[self displayOptionsPopUpButton] setEnabled:YES];
         [[self fontSizePopUpButton] setEnabled:YES];
-        [[self textContextPopUpButton] setEnabled:NO];
+        [[self textContextPopUpButton] setEnabled:YES];
     } else {
         [[self modDisplayOptionsPopUpButton] setEnabled:NO];
         [[self displayOptionsPopUpButton] setEnabled:NO];
@@ -594,6 +595,8 @@ extern char BookmarkMgrUI;
         if(fontSize) {
             self.customFontSize = [fontSize intValue];
         }
+        self.textContext = [decoder decodeIntegerForKey:@"TextContextKey"];
+
         NSDictionary *dOpts = [decoder decodeObjectForKey:@"ReferenceModDisplayOptions"];
         if(dOpts) {
             self.modDisplayOptions = [NSMutableDictionary dictionaryWithDictionary:dOpts];
@@ -613,6 +616,7 @@ extern char BookmarkMgrUI;
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:[NSNumber numberWithInt:customFontSize] forKey:@"CustomFontSizeEncoded"];
+    [encoder encodeInteger:textContext forKey:@"TextContextKey"];    
     [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
     [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
     [encoder encodeObject:[NSNumber numberWithBool:showingRSBPreferred] forKey:@"ShowingRSBPreferred"];

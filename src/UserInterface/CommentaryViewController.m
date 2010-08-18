@@ -192,7 +192,6 @@
         // the verse link, later we have to add percent escapes
         NSString *verseInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
 
-        // generate text according to userdefaults
         [htmlString appendFormat:@";;;%@;;;", verseInfo];
         [htmlString appendFormat:@"%@<br />\n", rendered];
 
@@ -351,6 +350,10 @@
             [addPopBtn setEnabled:YES];
         }
     }
+}
+
+- (void)setupPopupButtonsForSearchType {
+    [textContextPopUpButton setEnabled:NO];
 }
 
 #pragma mark - Actions

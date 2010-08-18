@@ -13,6 +13,7 @@
 
 @interface BibleViewController (TextDisplayGeneration)
 
+- (void)handleTextEntry:(SwordBibleTextEntry *)entry duplicateDict:(NSMutableDictionary *)duplicateDict htmlString:htmlString;
 - (NSString *)createHTMLStringWithMarkers;
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry;
 - (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
