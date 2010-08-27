@@ -33,6 +33,7 @@ enum ModuleMenu_Items{
 
 @interface ModulesUIController ()
 
+- (NSAttributedString *)aboutStringForModule:(SwordModule *)aMod;
 - (void)modulesListChanged:(NSNotification *)notification;
 - (void)createCluceneIndex;
 - (void)_createCluceneIndex;
@@ -184,7 +185,7 @@ enum ModuleMenu_Items{
 
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {
     // get about text as NSAttributedString
-    NSAttributedString *aboutText = [aMod fullAboutText];
+    NSAttributedString *aboutText = [self aboutStringForModule:aMod];
     [[moduleAboutTextView textStorage] setAttributedString:aboutText];
     // open window
     [NSApp beginSheet:moduleAboutWindow 
@@ -192,6 +193,74 @@ enum ModuleMenu_Items{
         modalDelegate:self
        didEndSelector:nil 
           contextInfo:nil];    
+}
+
+- (NSAttributedString *)aboutStringForModule:(SwordModule *)aMod {
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] init];
+    
+    // module Name, book name, type, lang, version, about
+    // module name
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleName", @"") 
+                                                                     attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod name]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module description
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleDescription", @"")
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod descr]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module type
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleType", @"") 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod typeString]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module lang
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleLang", @"") 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod lang]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module version
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleVersion", @"") 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod version]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    // module about
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", NSLocalizedString(@"AboutModuleAboutText", @"")]
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    NSMutableString *aboutStr = [NSMutableString stringWithString:[aMod aboutText]];
+    attrString = [[NSAttributedString alloc] initWithString:aboutStr 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];    
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+    
+    return ret;    
 }
 
 #pragma mark - Notfications
