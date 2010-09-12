@@ -511,7 +511,7 @@
                                        alternateButton:nil
                                            otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"PleaseMakeSelection", @"")];
-        [alert runModal];        
+        [alert runModal];
     }
 }
 
