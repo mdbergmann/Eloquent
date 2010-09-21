@@ -216,7 +216,7 @@ enum ModuleMenu_Items{
     attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod descr]] 
                                                  attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
     if(attrString) {
-        [ret appendAttributedString:attrString];    
+        [ret appendAttributedString:attrString];
     }
     
     // module type
@@ -249,6 +249,16 @@ enum ModuleMenu_Items{
         [ret appendAttributedString:attrString];    
     }
     
+    // module versification
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleVersification", @"") 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod versification]] 
+                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    if(attrString) {
+        [ret appendAttributedString:attrString];    
+    }
+
     // module about
     attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", NSLocalizedString(@"AboutModuleAboutText", @"")]
                                                  attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
