@@ -211,7 +211,7 @@
         [delegate performSelector:@selector(indexBookSetChanged:) withObject:self]; 
     }
     
-    if([[bookSet name] isEqualToString:NSLocalizedString(@"All", @"")]) {
+    if([bookSet isPredefined]) {
         [allButton setEnabled:NO];
         [noneButton setEnabled:NO];
         [invertButton setEnabled:NO];
