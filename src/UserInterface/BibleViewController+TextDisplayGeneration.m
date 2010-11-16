@@ -180,9 +180,7 @@
 - (void)handleTextEntry:(SwordBibleTextEntry *)entry duplicateDict:(NSMutableDictionary *)duplicateDict htmlString:htmlString {
     if(entry && ([duplicateDict objectForKey:[entry key]] == nil)) {
         [duplicateDict setObject:entry forKey:[entry key]];
-        [self applyBookmarkHighlightingOnTextEntry:entry];
-        [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];
-        
+
         BOOL collectPreverseHeading = ([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
         if(collectPreverseHeading) {
             NSString *preverseHeading = [module entryAttributeValuePreverse];
@@ -190,6 +188,9 @@
                 [entry setPreverseHeading:preverseHeading];
             }
         }
+        
+        [self applyBookmarkHighlightingOnTextEntry:entry];
+        [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];        
     }
 }
 
