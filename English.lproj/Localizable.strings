@@ -84,6 +84,8 @@ then type yes at the prompt!";
 "Information" = "Information";
 "Warning" = "Warning";
 "Error" = "Error";
+"Permanent" = "Permanent";
+"Temporary" = "Temporary";
 
 // toolbar
 "AddBookmarkLabel" = "Add bookmark";
@@ -133,6 +135,7 @@ then type yes at the prompt!";
 "Indexing" = "Indexing...";
 "SessionLoadError" = "Session load error";
 "SessionLoadErrorText" = "An error has occured while loading the session. Probably the session file is corrupt. You will start with a new session.";
+"ModuleXYNotInRepoWantToCopy" = "Do you want to copy %@ module to the module repository for permanent use or do you want to only use it temporarily?";
 
 // confirmations
 "DoNotAskAgain" = "Do not ask again!";
@@ -143,6 +146,7 @@ then type yes at the prompt!";
 "ConfirmDelete" = "Do you really want to delete item? This action cannot be undone!";
 "ConfirmCreateCluceneIndex" = "Clucene indexing";
 "ConfirmCreateCluceneIndexText" = "Are you sure you want to create a Clucene index for this module?";
+
 
 // open panels
 "LoadMSSession" = "Load session";

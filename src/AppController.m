@@ -46,15 +46,11 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 @implementation AppController (privateAPI)
 
 + (void)initialize {
-    
-    // set configuration to OSX
     [[Configuration config] setClass:[OSXConfiguration class]];
 
-	// get path to "Logs" folder of current user
 	NSString *logPath = LOGFILE;
 	
 #ifdef DEBUG
-	// init the logging facility in first place
 	[CocoLogger initLogger:logPath 
                  logPrefix:@"[MacSword]" 
             logFilterLevel:LEVEL_DEBUG 
@@ -62,7 +58,6 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
               logToConsole:YES];
 #endif
 #ifdef RELEASE
-	// init the logging facility in first place
 	[CocoLogger initLogger:logPath 
                  logPrefix:@"[MacSword]" 
             logFilterLevel:LEVEL_DEBUG 
@@ -75,7 +70,6 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 - (void)registerDefaults {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	// create a dictionary
 	NSMutableDictionary *defaultsDict = [NSMutableDictionary dictionary];
     
     // text container margins
@@ -286,6 +280,7 @@ static AppController *singleton;
 	if(self == nil) {
 		CocoLog(LEVEL_ERR,@"cannot alloc AppController!");		
     } else {
+        CocoLog(LEVEL_DEBUG, @"Initializing application");
 
         // first thing we do is check for system version
         if([(NSString *)OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
@@ -320,10 +315,7 @@ static AppController *singleton;
             }
         }
         
-        // register user defaults
         [self registerDefaults];
-        
-        // init AppSupportFolder
         [self setupFolders];
         
         // load session path from defaults
@@ -338,9 +330,7 @@ static AppController *singleton;
         // init default progressoverlay controller
         [ProgressOverlayViewController defaultController];
         
-        // init Sword locale system
         [[SwordLocaleManager defaultManager] initLocale];
-        // init default SwordManager
         SwordManager *sm = [SwordManager defaultManager];
         
         // check for installed modules, if there are none add our internal module path so that th user at least has one module (ESV)
@@ -456,9 +446,51 @@ static AppController *singleton;
 #pragma mark - NSApplication delegates
 
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames {
+    CocoLog(LEVEL_DEBUG, @"got file names:");
+    for(NSString *filename in filenames) {
+        CocoLog(LEVEL_DEBUG, @"filename: %@", filename);
+                
+        NSString *moduleFilename = [filename lastPathComponent];
+        NSString *moduleName = [[moduleFilename componentsSeparatedByString:@".swd"] objectAtIndex:0];
+        CocoLog(LEVEL_DEBUG, @"Have module name: %@", moduleName);
+        
+        SwordManager *swMgr = [SwordManager defaultManager];
+        
+        if([swMgr moduleWithName:moduleName] == nil) {
+            CocoLog(LEVEL_DEBUG, @"Don't know module: %@", moduleName);
+            // we don't know this module
+            // ask user whether to copy this module to the repository for permanent use
+            // or to only use it temporarily
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
+                                             defaultButton:NSLocalizedString(@"Permanent", @"") 
+                                           alternateButton:NSLocalizedString(@"Temporary", @"") 
+                                               otherButton:nil 
+                                 informativeTextWithFormat:[NSString stringWithFormat:NSLocalizedString(@"ModuleXYNotInRepoWantToCopy", @""), moduleName]];
+
+            NSString *destinationPath = filename;
+            if([alert runModal] == NSAlertDefaultReturn) {
+                CocoLog(LEVEL_DEBUG, @"User chose to permanently use this module.");
+                destinationPath = [DEFAULT_MODULE_PATH stringByAppendingPathComponent:moduleFilename];
+
+                CocoLog(LEVEL_DEBUG, [NSString stringWithFormat:@"Copying module %@ to %@", filename, destinationPath]); 
+                NSFileManager *fm = [NSFileManager defaultManager];
+                [fm copyItemAtPath:filename toPath:destinationPath error:nil];
+            }
+            // augment module
+            CocoLog(LEVEL_DEBUG, [NSString stringWithFormat:@"Augmenting module at: %@", destinationPath]);
+            [swMgr addPath:destinationPath];
+            // open single window
+            SwordModule *mod = [swMgr moduleWithName:moduleName];
+            if(mod) {
+                CocoLog(LEVEL_DEBUG, [NSString stringWithFormat:@"Opening module with name %@ in single window...", [mod name]]);
+                [self openSingleHostWindowForModule:mod];                
+            } else {
+                CocoLog(LEVEL_WARN, [NSString stringWithFormat:@"Could not retrieve module with name: %@", moduleName]);
+            }
+        }
+    }
 	[sender replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
 }
-
 
 #pragma mark - Actions
 
@@ -717,58 +749,35 @@ static AppController *singleton;
  \brief gets called if the nib file has been loaded. all gfx objacts are available now.
  */
 - (void)awakeFromNib {
-    CocoLog(LEVEL_DEBUG, @"[AppController -awakeFromNib]");
+    CocoLog(LEVEL_DEBUG, @"nib loaded");
     
-    
-    // check for session to load
     if([sessionPath length] == 0) {
         sessionPath = DEFAULT_SESSION_PATH;
     }
-    /*
-    // load saved windows
-    NSData *data = [NSData dataWithContentsOfFile:sessionPath];
-    if(data != nil) {
-        @try {
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
-            for(NSWindowController *wc in windowHosts) {
-                if([wc isKindOfClass:[WindowHostController class]]) {
-                    [(WindowHostController *)wc setDelegate:self];
-                }
-            }            
-        }
-        @catch (NSException *e) {
-            CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
-        }
-    }
-     */
-    
 }
 
 /**
  \brief is called when application loading is nearly finished
  */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-    CocoLog(LEVEL_DEBUG, @"[AppController -applicationWillFinishLaunching:]");
+    CocoLog(LEVEL_DEBUG, @"loading will finish");
     
-    /*
     // start background indexer if enabled
     if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
     }    
-     */
 }
 
 /**
  \brief is called when application loading is finished
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    CocoLog(LEVEL_DEBUG, @"loading did finish");
 
     [self loadSessionFromFile:sessionPath];
 
     // if there is no window in the session open add a new workspace
     if([windowHosts count] == 0) {
-        // open a default view
         WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
         svh.delegate = self;
         [windowHosts addObject:svh];
