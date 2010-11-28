@@ -223,11 +223,11 @@
                                                      documentAttributes:nil];
     
     // add pointing hand cursor to all links
-    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
+    CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
     [self applyLinkCursorToLinks];
-    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
+    CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...done");
 
-    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
+    CocoLog(LEVEL_DEBUG, @"start replacing markers...");
     // go through the attributed string and set attributes
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
@@ -279,7 +279,7 @@
             found = NO;
         }
     }
-    CocoLog(LEVEL_DEBUG, @"[CommentaryViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");    
+    CocoLog(LEVEL_DEBUG, @"start replacing markers...done");    
     
     [self applyWritingDirection];
     
@@ -388,26 +388,29 @@
 
 - (IBAction)toggleEdit:(id)sender {
     if(editEnabled == NO) {
+        [self replaceLinksWithAnchorTags];
+        
         [[(id<TextContentProviding>)contentDisplayController textView] setEditable:YES];
         [[(id<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:YES];
-        [[(id<TextContentProviding>)contentDisplayController textView] setAllowsUndo:YES];        
+        [[(id<TextContentProviding>)contentDisplayController textView] setAllowsUndo:YES];
+        [[(id<TextContentProviding>)contentDisplayController textView] setAutomaticLinkDetectionEnabled:NO];
         [editButton setTextColor:[NSColor redColor]];
         
         // set the delegate to be us temporarily
         [[(id<TextContentProviding>)contentDisplayController textView] setDelegate:self];
-        
+
     } else {
+        [self saveCommentaryText];
+        [module deleteSKSearchIndex];
+        
         [[(id<TextContentProviding>)contentDisplayController textView] setEditable:NO];
         [[(id<TextContentProviding>)contentDisplayController textView] setContinuousSpellCheckingEnabled:NO];
         [[(id<TextContentProviding>)contentDisplayController textView] setAllowsUndo:NO];
+        [[(id<TextContentProviding>)contentDisplayController textView] setAutomaticLinkDetectionEnabled:YES];
         [editButton setTextColor:[NSColor blackColor]];
         
         // set the delegate back to where it belongs
         [[(id<TextContentProviding>)contentDisplayController textView] setDelegate:contentDisplayController];
-
-        [self saveCommentaryText];
-		
-        [module deleteSKSearchIndex];
 		
         [editButton setTitle:NSLocalizedString(@"Edit", @"")];
         
@@ -416,6 +419,33 @@
     }
     
     editEnabled = !editEnabled;
+}
+
+- (void)replaceLinksWithAnchorTags {
+    NSRange effectiveRange;
+    NSMutableAttributedString *displayString = [[NSMutableAttributedString alloc] initWithAttributedString:[[(id<TextContentProviding>)contentDisplayController textView] attributedString]];
+	int	i = 0;
+	while (i < [displayString length]) {
+        NSDictionary *attrs = [displayString attributesAtIndex:i effectiveRange:&effectiveRange];
+        NSURL *url = [attrs objectForKey:NSLinkAttributeName];
+		if(url && ![attrs objectForKey:TEXT_VERSE_MARKER]) {
+            NSString *passage = [url path];
+            if([passage hasPrefix:@"/"]) {
+                passage = [passage stringByReplacingOccurrencesOfString:@"/" withString:@""];
+            }
+            NSString *replacementString = [NSString stringWithFormat:@"<a href=\"%@\">%@</a>", [url absoluteString], passage];
+            [displayString replaceCharactersInRange:effectiveRange withString:replacementString];
+            
+            effectiveRange.length = [replacementString length];
+
+            attrs = [attrs mutableCopy];
+            [(NSMutableDictionary *)attrs removeObjectForKey:NSCursorAttributeName];
+            [(NSMutableDictionary *)attrs removeObjectForKey:NSLinkAttributeName];
+            [displayString setAttributes:attrs range:effectiveRange];
+		}
+		i += effectiveRange.length;
+	}
+    [(id<TextContentProviding>)contentDisplayController setAttributedString:displayString];
 }
 
 #pragma mark - ContentSaving
