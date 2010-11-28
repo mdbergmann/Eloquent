@@ -78,6 +78,7 @@
 		A96516630E06D3DA0058AA91 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A96516610E06D3DA0058AA91 /* SingleViewHost.xib */; };
 		A965CEB3112C32C000F4E602 /* CacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A965CEB2112C32C000F4E602 /* CacheObject.m */; };
 		A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
+		A97561EE12A2779000A7661B /* SwordUrlProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = A97561ED12A2779000A7661B /* SwordUrlProtocol.m */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A9802A7612182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = A9802A7512182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m */; };
@@ -381,6 +382,8 @@
 		A965CEB2112C32C000F4E602 /* CacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CacheObject.m; path = src/UserInterface/CacheObject.m; sourceTree = "<group>"; };
 		A974469210CFC08500438C5F /* NSTextView+LookupAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTextView+LookupAdditions.h"; path = "src/UserInterface/NSTextView+LookupAdditions.h"; sourceTree = "<group>"; };
 		A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+LookupAdditions.m"; path = "src/UserInterface/NSTextView+LookupAdditions.m"; sourceTree = "<group>"; };
+		A97561EC12A2779000A7661B /* SwordUrlProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordUrlProtocol.h; path = src/SwordUrlProtocol.h; sourceTree = "<group>"; };
+		A97561ED12A2779000A7661B /* SwordUrlProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordUrlProtocol.m; path = src/SwordUrlProtocol.m; sourceTree = "<group>"; };
 		A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjCSword.xcodeproj; path = "sword_src/sword-trunk/bindings/objc/ObjCSword.xcodeproj"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
 		A9802A7412182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TextEntryDuplicateRemove.h"; sourceTree = "<group>"; };
@@ -555,6 +558,8 @@
 			children = (
 				A91C93DB0DF9B0E9006B7361 /* AppController.h */,
 				A91C93DC0DF9B0E9006B7361 /* AppController.m */,
+				A97561EC12A2779000A7661B /* SwordUrlProtocol.h */,
+				A97561ED12A2779000A7661B /* SwordUrlProtocol.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1410,6 +1415,7 @@
 				A9A9206F1205A3E8008D7A64 /* DailyDevotionPanelController.m in Sources */,
 				A9591226120ECCC100C55528 /* SwordModCategory.m in Sources */,
 				A9802A7612182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m in Sources */,
+				A97561EE12A2779000A7661B /* SwordUrlProtocol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

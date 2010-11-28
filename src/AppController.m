@@ -15,6 +15,7 @@
 #import "NSDictionary+Additions.h"
 #import "ContentDisplayingViewControllerFactory.h"
 #import "DailyDevotionPanelController.h"
+#import "SwordUrlProtocol.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err = 0;
@@ -745,6 +746,29 @@ static AppController *singleton;
 
 #pragma mark - app delegate methods
 
+- (void) handleURLEvent:(NSAppleEventDescriptor *) event withReplyEvent:(NSAppleEventDescriptor *) replyEvent {
+    NSString *urlString = [[event descriptorAtIndex:1] stringValue];
+
+	CocoLog(LEVEL_DEBUG, @"handling URL event for: %@", urlString);
+    
+    NSDictionary *linkData = [SwordManager linkDataForLinkURL:[NSURL URLWithString:urlString]];
+    NSString *moduleName = [linkData objectForKey:ATTRTYPE_MODULE];
+    NSString *passage = [linkData objectForKey:ATTRTYPE_VALUE];
+    
+    CocoLog(LEVEL_DEBUG, @"have module: %@", moduleName);
+    CocoLog(LEVEL_DEBUG, @"have passage: %@", passage);
+    
+    if(moduleName && passage) {
+        SwordModule *mod = [[SwordManager defaultManager] moduleWithName:moduleName];
+        if(mod) {
+            SingleViewHostController *host = [self openSingleHostWindowForModule:mod];
+            [host setSearchText:passage];
+        }
+    } else {
+        CocoLog(LEVEL_WARN, @"have nil moduleName or passage");
+    }
+}
+
 /**
  \brief gets called if the nib file has been loaded. all gfx objacts are available now.
  */
@@ -793,7 +817,15 @@ static AppController *singleton;
     // show HUD daily devotion if set
     if([userDefaults boolForKey:DefaultsShowDailyDevotionOnStartupKey]) {
         [self showDailyDevotionPanel:nil];
-    }    
+    }
+    
+    //initialise url handlers
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self 
+                                                       andSelector:@selector( handleURLEvent:withReplyEvent: ) 
+                                                     forEventClass:kInternetEventClass 
+                                                        andEventID:kAEGetURL];    
+    [SwordUrlProtocol setup];
+    
 }
 
 - (void)saveSessionToFile:(NSString *)sessionFile {
