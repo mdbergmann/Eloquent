@@ -1,6 +1,6 @@
 /*
  *  globals.h
- *  MacSword2
+ *  Eloquent
  *
  *  Created by Manfred Bergmann on 03.06.05.
  *  Copyright 2007 mabe. All rights reserved.
@@ -18,17 +18,17 @@
 
 #define BUNDLEVERSION               CFBundleGetVersionNumber(CFBundleGetMainBundle())
 #define BUNDLEVERSIONSTRING         CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey)
-#define APPNAME                     @"MacSword"
-#define DEFAULT_APPSUPPORT_PATH     [@"~/Library/Application Support/MacSword" stringByExpandingTildeInPath]
-#define OLD_BOOKMARK_PATH           [@"~/Library/Application Support/MacSword/Bookmarks.plist" stringByExpandingTildeInPath]
-#define DEFAULT_NOTES_PATH          [@"~/Library/Application Support/MacSword/Notes" stringByExpandingTildeInPath]
-#define DEFAULT_BOOKMARK_PATH       [@"~/Library/Application Support/MacSword/Bookmarklist.plist" stringByExpandingTildeInPath]
+#define APPNAME                     @"Eloquent"
+#define DEFAULT_APPSUPPORT_PATH     [@"~/Library/Application Support/Eloquent" stringByExpandingTildeInPath]
+#define OLD_BOOKMARK_PATH           [@"~/Library/Application Support/Eloquent/Bookmarks.plist" stringByExpandingTildeInPath]
+#define DEFAULT_NOTES_PATH          [@"~/Library/Application Support/Eloquent/Notes" stringByExpandingTildeInPath]
+#define DEFAULT_BOOKMARK_PATH       [@"~/Library/Application Support/Eloquent/Bookmarklist.plist" stringByExpandingTildeInPath]
 #define DEFAULT_MODULE_PATH         [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
-#define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/MacSword/DefaultSession.plist" stringByExpandingTildeInPath]
-#define DEFAULT_SEARCHBOOKSET_PATH  [@"~/Library/Application Support/MacSword/DefaultSearchBookSets.plist" stringByExpandingTildeInPath]
+#define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/Eloquent/DefaultSession.plist" stringByExpandingTildeInPath]
+#define DEFAULT_SEARCHBOOKSET_PATH  [@"~/Library/Application Support/Eloquent/DefaultSearchBookSets.plist" stringByExpandingTildeInPath]
 #define SWINSTALLMGR_NAME           @"InstallMgr"
-#define LOGFILE                     [@"~/Library/Logs/MacSword2.log" stringByExpandingTildeInPath]
-#define TMPFOLDER                   [@"~/Library/Caches/MacSword" stringByExpandingTildeInPath]
+#define LOGFILE                     [@"~/Library/Logs/Eloquent.log" stringByExpandingTildeInPath]
+#define TMPFOLDER                   [@"~/Library/Caches/Eloquent" stringByExpandingTildeInPath]
 
 // OS version
 #define OSVERSION [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"]
