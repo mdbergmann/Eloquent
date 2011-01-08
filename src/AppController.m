@@ -94,7 +94,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     
     [defaultsDict setObject:@"Helvetica Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
     [defaultsDict setObject:@"Helvetica" forKey:DefaultsBibleTextDisplayFontFamilyKey];
-    [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsBibleTextDisplayFontSizeKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:14] forKey:DefaultsBibleTextDisplayFontSizeKey];
     
 	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
@@ -122,7 +122,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowDailyDevotionOnStartupKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowPreviewToolTip];
-    NSColor *bgCol = [NSColor colorWithCalibratedRed:0.6980 green:0.7176 blue:0.6156 alpha:1.0];
+    NSColor *bgCol = [NSColor colorWithCalibratedRed:0.7852 green:0.8242 blue:1.0 alpha:1.0];
     NSColor *fgCol = [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0];
     NSColor *lkCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
     NSColor *hfCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
