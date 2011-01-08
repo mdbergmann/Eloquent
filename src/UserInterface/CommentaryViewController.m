@@ -32,6 +32,7 @@
 - (NSAttributedString *)displayableHTMLForReferenceLookup;
 /** stores the edited comment */
 - (void)saveCommentaryText;
+- (void)replaceLinksWithAnchorTags;
 - (void)applyModuleEditability;
 - (void)_loadNib;
 @end
@@ -354,6 +355,15 @@
 
 - (void)setupPopupButtonsForSearchType {
     [textContextPopUpButton setEnabled:NO];
+}
+
+#pragma mark - HostViewDelegate
+
+- (void)searchStringChanged:(NSString *)aSearchString {
+    if(![self hasUnsavedContent]) {
+        [super searchStringChanged:aSearchString];
+        [self displayTextForReference:searchString];        
+    }
 }
 
 #pragma mark - Actions
