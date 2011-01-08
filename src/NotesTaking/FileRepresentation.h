@@ -1,6 +1,6 @@
 //
 //  FileRepresentation.h
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 15.11.09.
 //  Copyright 2009 Software by MABE. All rights reserved.

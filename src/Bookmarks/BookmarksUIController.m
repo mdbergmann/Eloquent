@@ -1,6 +1,6 @@
 //
 //  BookmarksUIController.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 16.11.09.
 //  Copyright 2009 Software by MABE. All rights reserved.

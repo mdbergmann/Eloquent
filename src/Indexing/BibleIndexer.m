@@ -85,7 +85,7 @@ SearchBookSet *searchBookSet;
         
 		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
 		if(docRef == NULL) {
-			CocoLog(LEVEL_ERR, @"could nor create document!");
+			CocoLog(LEVEL_ERR, @"could not create document!");
 		} else {			
 			// add Document
 			//CocoLog(LEVEL_DEBUG, @"adding doc with text: %@", aText);

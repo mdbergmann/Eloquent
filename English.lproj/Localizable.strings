@@ -74,7 +74,7 @@ then type yes at the prompt!";
 "ActionStep_Refreshing" = "Refreshing...";
 
 
-// ------------------- MacSword --------------------------
+// ------------------- Eloquent --------------------------
 
 // commons
 "OK" = "OK";
@@ -86,6 +86,9 @@ then type yes at the prompt!";
 "Error" = "Error";
 "Permanent" = "Permanent";
 "Temporary" = "Temporary";
+
+// Menu
+"Menu_CheckForUpdates" = "Check for updates..."
 
 // toolbar
 "AddBookmarkLabel" = "Add bookmark";
@@ -125,7 +128,7 @@ then type yes at the prompt!";
 "ConfirmBookmarkDeleteText" = "Are you sure you want to remove the bookmark(s)?";
 "InitialViewLabelText" = "You have currently %d installed modules. Click below to install new ones or manage your modules.";
 "ErrorOnCreatingNote" = "Unknown error on creating new note!";
-"SWORDToolsInstalled" = "SWORD utilities have been installed at /usr/local/bin. Please remember you have to install again when you move MacSword to a different folder.";
+"SWORDToolsInstalled" = "SWORD utilities have been installed at /usr/local/bin. Please remember you have to install again when you move Eloquent to a different folder.";
 "ErrorSWORDToolsInstallation" = "An unknown error has occurred while installed the SWORD tools. Try uninstaling the tools first.";
 "SWORDToolsUninstalled" = "SWORD utilities have been uninstalled.";
 "UnsavedContentQuit" = "Some content is unsaved. Do you want to save before exiting?";
@@ -146,7 +149,6 @@ then type yes at the prompt!";
 "ConfirmDelete" = "Do you really want to delete item? This action cannot be undone!";
 "ConfirmCreateCluceneIndex" = "Clucene indexing";
 "ConfirmCreateCluceneIndexText" = "Are you sure you want to create a Clucene index for this module?";
-
 
 // open panels
 "LoadMSSession" = "Load session";

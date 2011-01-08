@@ -1,6 +1,6 @@
 //
 //  SideBarViewController.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 26.10.08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.

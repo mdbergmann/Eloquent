@@ -1,6 +1,6 @@
 //
 //  DailyDevotionPanelController.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 01.08.10.
 //  Copyright 2010 CrossWire. All rights reserved.

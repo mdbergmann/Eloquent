@@ -1,6 +1,6 @@
 //
 //  SwordUrlProtocol.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 28.11.10.
 //  Copyright 2010 CrossWire. All rights reserved.

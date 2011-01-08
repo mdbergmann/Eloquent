@@ -1,6 +1,6 @@
 //
 //  NSButton+Color.h
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 12.01.09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.

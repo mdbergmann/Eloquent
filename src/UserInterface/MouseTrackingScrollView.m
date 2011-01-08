@@ -1,6 +1,6 @@
 //
 //  MouseTrackingScrollView.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 03.07.08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.

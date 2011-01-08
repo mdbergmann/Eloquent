@@ -1,6 +1,6 @@
 //
 //  FullScreenView.h
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 09.03.09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  SwordSearching.m
-//  MacSword
+//  Eloquent
 //
 // Copyright 2008 Manfred Bergmann
 // Based on code by Will Thimbleby
@@ -22,7 +22,7 @@
 #import "ObjCSword/SwordListKey.h"
 #import "ObjCSword/SwordManager.h"
 
-NSString *MacSwordIndexVersion = @"2.6";
+NSString *EloquentIndexVersion = @"1.0";
 
 @interface SwordModule()
 - (NSString *)indexOfVerseKey:(SwordVerseKey *)vk;
@@ -72,30 +72,30 @@ NSString *MacSwordIndexVersion = @"2.6";
     if([im indexExistsForModuleName:[self name]]) {
         NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:[path stringByAppendingPathComponent:@"version.plist"]];
         if(d) {		
-            if([[d objectForKey:@"MacSword Index Version"] isEqualToString:MacSwordIndexVersion]) {
+            if([[d objectForKey:@"Eloquent Index Version"] isEqualToString:EloquentIndexVersion]) {
                 if(([d objectForKey:@"Sword Module Version"] == NULL) ||
                     ([[d objectForKey:@"Sword Module Version"] isEqualToString:[self version]])) {
-                    CocoLog(LEVEL_INFO, @"[SwordSearching -hasSearchIndex] module %@ has valid index", modName);
+                    CocoLog(LEVEL_INFO, @"module %@ has valid index", modName);
                     ret = YES;
                 } 
 				else {
                     //index out of date remove it
-                    CocoLog(LEVEL_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
+                    CocoLog(LEVEL_INFO, @"module %@ has no valid index!", modName);
                     [im removeIndexForModuleName:modName];
                 }
             } 
 			else {
                 //index out of date remove it
-                CocoLog(LEVEL_INFO, @"[SwordSearching -hasSearchIndex] module %@ has no valid index!", modName);
+                CocoLog(LEVEL_INFO, @"module %@ has no valid index!", modName);
 				[im removeIndexForModuleName:modName];
             }
         }
 		else {
-			CocoLog(LEVEL_DEBUG, @"[SwordSearching -hasSearchIndex] version.plist for module %@ was not found.", modName);			
+			CocoLog(LEVEL_DEBUG, @"version.plist for module %@ was not found.", modName);			
 		}
     }
 	else {
-		CocoLog(LEVEL_DEBUG, @"[SwordSearching -hasSearchIndex] index for module %@ was not found.", modName);
+		CocoLog(LEVEL_DEBUG, @"index for module %@ was not found.", modName);
 	}
     
 	return ret;
@@ -122,8 +122,6 @@ NSString *MacSwordIndexVersion = @"2.6";
 }
 
 - (void)createSKSearchIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-	CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator]");
-	
     [indexLock lock];
     
 	// get Indexer
@@ -132,7 +130,7 @@ NSString *MacSwordIndexVersion = @"2.6";
     if(indexer == nil) {
         CocoLog(LEVEL_ERR, @"Could not create Indexer for this module!");
     } else {
-        CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] start indexing...");
+        CocoLog(LEVEL_DEBUG, @"start indexing...");
         
         // add one step for the flush operation
         if(progressIndicator) {
@@ -148,13 +146,13 @@ NSString *MacSwordIndexVersion = @"2.6";
             [progressIndicator incrementProgressBy:10.0];
         }
         
-        CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexWithProgressIndicator:] stopped indexing");
+        CocoLog(LEVEL_DEBUG, @"stopped indexing");
         
         //save version info
         NSString *path = [(IndexingManager *)[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];        
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                           MacSwordIndexVersion, 
-                           @"MacSword Index Version", 
+                           EloquentIndexVersion, 
+                           @"Eloquent Index Version", 
                            [self version], 
                            @"Sword Module Version", nil];
         [d writeToFile:[path stringByAppendingPathComponent:@"version.plist"] atomically:NO];
@@ -170,8 +168,6 @@ NSString *MacSwordIndexVersion = @"2.6";
 }
 
 - (void)createSKSearchIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-	CocoLog(LEVEL_DEBUG, @"[SwordSearching -createSearchIndexThreadedWithDelegate::]");
-    
     delegate = aDelegate;
     [NSThread detachNewThreadSelector:@selector(createSKSearchIndexWithProgressIndicator:) toTarget:self withObject:progressIndicator];
 }

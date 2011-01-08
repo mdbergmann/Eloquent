@@ -29,7 +29,7 @@
 - (id)initWithDelegate:(id)aDelegate {
 	self = [super initWithWindowNibName:@"ModuleManager" owner:self];
 	if(self == nil) {
-		CocoLog(LEVEL_ERR,@"[ModuleManager -init]");		
+		CocoLog(LEVEL_ERR, @"");		
 	}
 	else {
         delegate = aDelegate;
@@ -150,12 +150,12 @@
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    CocoLog(LEVEL_DEBUG, @"[WindowHostController -windowWillClose:]");
+    CocoLog(LEVEL_DEBUG, @"");
     // tell delegate that we are closing
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
-        CocoLog(LEVEL_WARN, @"[WindowHostController -windowWillClose:] delegate does not respond to selector!");
+        CocoLog(LEVEL_WARN, @"delegate does not respond to selector!");
     }
 }
 
@@ -165,8 +165,7 @@
 /**
  \brief create a toolbar and add it to the window. Set the delegate to this object.
  */
-- (void)setupToolbar
-{
+- (void)setupToolbar {
     // Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier: @"modinstalltoolbar"];
     
@@ -186,16 +185,14 @@
 /**
  \brief returns array with allowed toolbar item identifiers
  */
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar 
-{
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar  {
 	return [tbIdentifiers allKeys];
 }
 
 /**
  \brief returns array with all default toolbar item identifiers
  */
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar 
-{
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
                                  TB_SYNC_ISLIST_ITEM,
                                  TB_INSTALLSOURCE_ADD_ITEM,
@@ -213,8 +210,7 @@
 
 - (NSToolbarItem *) toolbar:(NSToolbar *)toolbar 
 	  itemForItemIdentifier:(NSString *)itemIdentifier
-  willBeInsertedIntoToolbar:(BOOL)flag
-{
+  willBeInsertedIntoToolbar:(BOOL)flag {
     NSToolbarItem *item = nil;
     
 	item = [tbIdentifiers valueForKey:itemIdentifier];

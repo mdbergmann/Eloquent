@@ -1,6 +1,6 @@
 //
 //  ToolbarController.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 08.03.10.
 //  Copyright 2010 Software by MABE. All rights reserved.

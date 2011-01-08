@@ -1,6 +1,6 @@
 //
 //  NSImage+Additions.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 28.02.09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.

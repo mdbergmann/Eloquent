@@ -1,6 +1,6 @@
 //
 //  Highlighter.h
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 20.06.07.
 //  Copyright 2007 mabe. All rights reserved.

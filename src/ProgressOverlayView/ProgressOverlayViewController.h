@@ -1,6 +1,6 @@
 //
 //  ProgressOverlayViewController.h
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 10.03.09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.

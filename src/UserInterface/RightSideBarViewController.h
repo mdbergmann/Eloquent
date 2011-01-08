@@ -1,6 +1,6 @@
 //
 //  RightSideBarViewController.h
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 18.12.08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.

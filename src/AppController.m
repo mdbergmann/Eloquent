@@ -53,14 +53,14 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	
 #ifdef DEBUG
 	[CocoLogger initLogger:logPath 
-                 logPrefix:@"[MacSword]" 
+                 logPrefix:@"[Eloquent]" 
             logFilterLevel:LEVEL_DEBUG 
               appendToFile:YES 
               logToConsole:YES];
 #endif
 #ifdef RELEASE
 	[CocoLogger initLogger:logPath 
-                 logPrefix:@"[MacSword]" 
+                 logPrefix:@"[Eloquent]" 
             logFilterLevel:LEVEL_DEBUG 
               appendToFile:YES 
               logToConsole:NO];	
@@ -162,10 +162,10 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         // check if dir for application exists
         NSFileManager *manager = [NSFileManager defaultManager];
         if([manager fileExistsAtPath:path] == NO) {
-            CocoLog(LEVEL_INFO, @"path to MacSword does not exist, creating it!");
+            CocoLog(LEVEL_INFO, @"path to Eloquent does not exist, creating it!");
             // create APP dir
             if([manager createDirectoryAtPath:path attributes:nil] == NO) {
-                CocoLog(LEVEL_ERR,@"Cannot create MacSword folder in Application Support!");
+                CocoLog(LEVEL_ERR,@"Cannot create Eloquent folder in Application Support!");
                 ret = NO;
             }
         }
@@ -285,13 +285,13 @@ static AppController *singleton;
 
         // first thing we do is check for system version
         if([(NSString *)OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
-            NSLog(@"[MacSword] can't run here, you need Mac OSX Leopard to run!");
+            NSLog(@"[Eloquent] can't run here, you need Mac OSX Leopard to run!");
             // we can't run here
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                              defaultButton:NSLocalizedString(@"OK", @"") 
                                            alternateButton:nil 
                                                otherButton:nil 
-                                 informativeTextWithFormat:NSLocalizedString(@"MacSwordNeedsLeopard", @"")];
+                                 informativeTextWithFormat:NSLocalizedString(@"EloquentNeedsLeopard", @"")];
             [alert runModal];
             [[NSApplication sharedApplication] terminate:nil];
         }
@@ -303,14 +303,14 @@ static AppController *singleton;
         windowHosts = [[NSMutableArray alloc] init];        
 
         NSFileManager *fm = [NSFileManager defaultManager];
-        // check whether this is the first start of MacSword2
-        NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.MacSword.plist" stringByExpandingTildeInPath];
+        // check whether this is the first start of Eloquent
+        NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.Eloquent.plist" stringByExpandingTildeInPath];
         if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:DEFAULT_MODULE_PATH]) {
             // show Alert
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"") 
                                              defaultButton:NSLocalizedString(@"Yes", @"") 
                                            alternateButton:NSLocalizedString(@"No", @"") 
-                                               otherButton:nil informativeTextWithFormat:@"A MacSword 1 module database has been detected. This can cause a crash when used with MacSword 2. Do you want me to delete this database? You will then start with a fresh database but need to download your modules possibly again."];
+                                               otherButton:nil informativeTextWithFormat:@"A MacSword 1 module database has been detected. This can cause a crash when used with Eloquent. Do you want me to delete this database? You will then start with a fresh database but need to download your modules possibly again."];
             if([alert runModal] == NSAlertDefaultReturn) {
                 [fm removeItemAtPath:DEFAULT_MODULE_PATH error:nil];
             }
@@ -715,6 +715,12 @@ static AppController *singleton;
     }    
 }
 
+#ifdef USE_SPARKLE
+- (IBAction)checkForUpdates:(id)sender {
+    [sparkleUpdater checkForUpdates:sender];
+}
+#endif
+
 #pragma mark - NSControl delegate methods
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
@@ -746,7 +752,7 @@ static AppController *singleton;
 
 #pragma mark - app delegate methods
 
-- (void) handleURLEvent:(NSAppleEventDescriptor *) event withReplyEvent:(NSAppleEventDescriptor *) replyEvent {
+- (void)handleURLEvent:(NSAppleEventDescriptor *) event withReplyEvent:(NSAppleEventDescriptor *) replyEvent {
     NSString *urlString = [[event descriptorAtIndex:1] stringValue];
 
 	CocoLog(LEVEL_DEBUG, @"handling URL event for: %@", urlString);
@@ -773,7 +779,14 @@ static AppController *singleton;
  \brief gets called if the nib file has been loaded. all gfx objacts are available now.
  */
 - (void)awakeFromNib {
-    CocoLog(LEVEL_DEBUG, @"nib loaded");
+
+#ifdef USE_SPARKLE
+    sparkleUpdater = [[SUUpdater alloc] init];
+    
+    // add sparkle "Check for updates..." menu item to help menu
+    [helpMenu addItem:[NSMenuItem separatorItem]];
+    [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_CheckForUpdates", @"") action:@selector(checkForUpdates:) keyEquivalent:@""];
+#endif
     
     if([sessionPath length] == 0) {
         sessionPath = DEFAULT_SESSION_PATH;
@@ -784,9 +797,6 @@ static AppController *singleton;
  \brief is called when application loading is nearly finished
  */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-    CocoLog(LEVEL_DEBUG, @"loading will finish");
-    
-    // start background indexer if enabled
     if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
     }    
@@ -796,8 +806,6 @@ static AppController *singleton;
  \brief is called when application loading is finished
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    CocoLog(LEVEL_DEBUG, @"loading did finish");
-
     [self loadSessionFromFile:sessionPath];
 
     // if there is no window in the session open add a new workspace

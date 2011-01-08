@@ -1,6 +1,6 @@
 //
 //  SwordSearching.h
-//  MacSword
+//  Eloquent
 //
 // Copyright 2008 Manfred Bergmann
 // Based on code by Will Thimbleby

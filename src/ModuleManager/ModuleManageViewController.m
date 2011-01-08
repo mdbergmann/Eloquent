@@ -305,7 +305,7 @@
 
 	self = [super init];
 	if(self == nil) {
-		CocoLog(LEVEL_ERR,@"[ModuleManageViewController -init]");		
+		CocoLog(LEVEL_ERR,@"");		
 	} else {
         
         initialized = NO;
@@ -325,7 +325,7 @@
             
             [categoryOutlineView reloadData];            
         } else {
-			CocoLog(LEVEL_ERR,@"[ModuleManageViewController]: cannot load ModuleManagerView.nib!");
+			CocoLog(LEVEL_ERR,@"cannot load ModuleManagerView.nib!");
 		}		
 	}
 	
@@ -651,7 +651,7 @@
                 // we will create anew one and add it below
                 
             } else {
-                CocoLog(LEVEL_ERR, @"[ModuleManageViewController editISOKButton:] no selected install source!");
+                CocoLog(LEVEL_ERR, @"no selected install source!");
                 error = YES;
             }
         }
@@ -725,8 +725,6 @@
 }
 
 - (IBAction)editISDirSelectButton:(id)sender {
-    CocoLog(LEVEL_DEBUG, @"[ModuleManageViewController -editISDirSelectButton:]");
-
     NSString *filePath = [ModuleManageViewController fileOpenDialog];
     if(filePath != nil) {
         [editISDirCell setStringValue:filePath];
@@ -734,8 +732,6 @@
 }
 
 - (IBAction)editISTypeSelect:(id)sender {
-    CocoLog(LEVEL_DEBUG, @"[ModuleManageViewController -editISTypeSelect:]");
-    
     // check selected tag
     int tag = [[editISType selectedCell] tag];
     if(tag == TYPE_TAG_REMOTE) {
@@ -773,8 +769,6 @@
  \brief Notification is called when the selection has changed 
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	CocoLog(LEVEL_DEBUG,@"[ModuleManageViewController outlineViewSelectionDidChange:]");
-	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
 		if(oview != nil) {
@@ -804,10 +798,10 @@
             [modListViewController setInstallSources:selected];
             [modListViewController refreshModulesList];
 		} else {
-			CocoLog(LEVEL_WARN,@"[ModuleManageViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"have a nil notification object!");
 		}
 	} else {
-		CocoLog(LEVEL_WARN,@"[ModuleManageViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"have a nil notification!");
 	}
 }
 

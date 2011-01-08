@@ -53,6 +53,10 @@
     [super dealloc];
 }
 
+- (void)finalize {
+    [super finalize];
+}
+
 - (NSString *)moduleName {
     return [module name];
 }

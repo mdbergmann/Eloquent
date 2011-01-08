@@ -3,6 +3,7 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <ObjCSword/ObjCSword.h>
+#import <Sparkle/Sparkle.h>
 #import <ModuleManager.h>
 
 @class SingleViewHostController;
@@ -47,6 +48,14 @@ typedef enum AppErrorCodes {
     
     // the session is loaded from
     NSString *sessionPath;
+
+    // the help menu. we'll ad this reference here to be able to add the Sparkle updater menu item dynamically
+    IBOutlet NSMenu *helpMenu;
+    
+#ifdef USE_SPARKLE
+    // Sparkle updater
+    SUUpdater *sparkleUpdater;
+#endif
 }
 
 + (AppController *)defaultAppController;
@@ -97,5 +106,9 @@ typedef enum AppErrorCodes {
 // host delegate method
 - (void)hostClosing:(NSWindowController *)aHost;
 - (void)auxWindowClosing:(NSWindowController *)aController;
+
+#ifdef USE_SPARKLE
+- (IBAction)checkForUpdates:(id)sender;
+#endif
 
 @end

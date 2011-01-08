@@ -1,6 +1,6 @@
 //
 //  WindowHostController.m
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 05.11.08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.

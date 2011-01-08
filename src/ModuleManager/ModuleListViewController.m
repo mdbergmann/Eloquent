@@ -157,8 +157,6 @@
  \brief validate menu
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	CocoLog(LEVEL_DEBUG, @"[ModuleListViewController -validateMenuItem:] %@", [menuItem description]);
-    
     BOOL ret = NO;
     int selectedModuleCount = [moduleSelection count];
 	
@@ -240,7 +238,7 @@
         }                
         [moduleOutlineView reloadData];
     } else {
-        CocoLog(LEVEL_ERR, @"[ModuleListViewController -installModule:] no module selected!");
+        CocoLog(LEVEL_ERR, @"no module selected!");
     }    
 }
 
@@ -264,12 +262,12 @@
                     }
                 }
             } else {
-                CocoLog(LEVEL_WARN, @"[ModuleListViewController -installModule:] module is already installed!");
+                CocoLog(LEVEL_WARN, @"module is already installed!");
             }
         }
         [moduleOutlineView reloadData];
     } else {
-        CocoLog(LEVEL_ERR, @"[ModuleListViewController -installModule:] no module selected!");
+        CocoLog(LEVEL_ERR, @"no module selected!");
     }    
 }
 
@@ -293,12 +291,12 @@
                     }
                 }
             } else {
-                CocoLog(LEVEL_WARN, @"[ModuleListViewController -removeModule:] module is not installed!");
+                CocoLog(LEVEL_WARN, @"module is not installed!");
             }
         }
         [moduleOutlineView reloadData];
     } else {
-        CocoLog(LEVEL_ERR, @"[ModuleListViewController -removeModule:] no module selected!");
+        CocoLog(LEVEL_ERR, @"no module selected!");
     }
 }
 
@@ -322,20 +320,18 @@
                     }
                 }
             } else {
-                CocoLog(LEVEL_INFO, @"[ModuleListViewController -updateModule:] current version of module installed!");
+                CocoLog(LEVEL_INFO, @"current version of module installed!");
             }
         }        
         [moduleOutlineView reloadData];
     } else {
-        CocoLog(LEVEL_ERR, @"[ModuleListViewController -updateModule:] no module selected!");
+        CocoLog(LEVEL_ERR, @"no module selected!");
     }
 }
 
 #pragma mark - Notifications
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
-
-	CocoLog(LEVEL_DEBUG,@"[ModuleListViewController textDidChange:]");
     if(aNotification != nil) {
         NSSearchField *sf = [aNotification object];
         
@@ -375,8 +371,6 @@
  \brief Notification is called when the selection has changed 
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	CocoLog(LEVEL_DEBUG,@"[ModuleListViewController outlineViewSelectionDidChange:]");
-	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
 		if(oview != nil) {
@@ -399,10 +393,10 @@
 				}				
             }
 		} else {
-			CocoLog(LEVEL_WARN,@"[ModuleListViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"have a nil notification object!");
 		}
 	} else {
-		CocoLog(LEVEL_WARN,@"[ModuleListViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"have a nil notification!");
 	}
 }
 
@@ -431,7 +425,6 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    
     id ret = (NSString *)@"";
     
     // the key of the item (which is a dictionary) is the module
@@ -498,9 +491,6 @@
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
-
-    CocoLog(LEVEL_DEBUG, @"[ModuleListViewController -sortDescriptorsDidChange:]");
-
     NSArray *newDescriptors = [outlineView sortDescriptors];
     // keep them
     sortDescriptors = [newDescriptors retain];

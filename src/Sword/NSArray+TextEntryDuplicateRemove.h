@@ -1,6 +1,6 @@
 //
 //  NSArray+TextEntryDuplicateRemove.h
-//  MacSword2
+//  Eloquent
 //
 //  Created by Manfred Bergmann on 15.08.10.
 //  Copyright 2010 CrossWire. All rights reserved.

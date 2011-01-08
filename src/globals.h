@@ -7,12 +7,6 @@
  *
  */
 
-// $Author: $
-// $HeadURL: $
-// $LastChangedBy: $
-// $LastChangedDate: $
-// $Rev: $
-
 #import <Cocoa/Cocoa.h>
 #import <CoreFoundation/CoreFoundation.h>
 
