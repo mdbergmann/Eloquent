@@ -719,7 +719,7 @@
             NSURLResponse *response = [[NSURLResponse alloc] init];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             data = [NSURLConnection sendSynchronousRequest:request 
-                                                 returningResponse:&response error:nil];
+                                         returningResponse:&response error:nil];
         }
         data = nil;
     }
@@ -826,9 +826,7 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     int count = 0;
 	
-    // cast object
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-    
+    InstallSourceListObject *listObject = (InstallSourceListObject *)item;    
 	if(item == nil) {
         // number of root items
         count = [installSourceListObjects count];
@@ -840,13 +838,9 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-
-    // we only hace install Sources here
     InstallSourceListObject *ret = nil;
     
-    // cast object
     InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-
     if(item == nil) {
         // the return item will be a InstallSourceListObject
         ret = [installSourceListObjects objectAtIndex:index];
@@ -858,12 +852,9 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    
     NSString *ret = @"test";
     
-    // cast object
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-    
+    InstallSourceListObject *listObject = (InstallSourceListObject *)item;    
     if(item != nil) {
         if([listObject objectType] == TypeInstallSource) {
             ret = [[listObject installSource] caption];
@@ -876,10 +867,7 @@
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    
-    // cast object
     InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-
     if(item != nil && ([listObject objectType] == TypeInstallSource)) {
         return YES;
     }
