@@ -24,6 +24,8 @@
 
 - (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText;
 
+- (void)showRefreshRepositoryInformation;
+
 @end
 
 @implementation ModuleManageViewController (PrivateAPI)
@@ -238,6 +240,19 @@
     return confirmed;
 }
 
+- (void)showRefreshRepositoryInformation {
+    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+    BOOL confirmed = [sis userDisclaimerConfirmed];
+    if(confirmed) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"Info_RememberToRefreshRepositories", @"")];
+        [alert runModal];        
+    }
+}
+
 @end
 
 
@@ -420,13 +435,16 @@
                                             modalDelegate:self 
                                            didEndSelector:nil 
                                               contextInfo:nil];
-        }        
+        }
     }
 }
 
 - (void)disclaimerSheetEnd {
     [disclaimerWindow close];
     [[NSApplication sharedApplication] endSheet:disclaimerWindow];
+    
+    // tell user to refresh install sources
+    [self showRefreshRepositoryInformation];
 }
 
 #pragma mark - Menu validation
