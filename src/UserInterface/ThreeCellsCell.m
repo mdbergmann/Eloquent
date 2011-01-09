@@ -117,7 +117,7 @@
     return result;
 }
 
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)parentView {
     
 	// backup title
 	NSString *title = [self stringValue];
@@ -294,14 +294,14 @@
     
     // draw cells
     if(imageCell) {
-        [imageCell drawWithFrame:imageFrame inView:controlView];
+        [imageCell drawWithFrame:imageFrame inView:parentView];
     }
     // draw right cell
     if(rightCell) {
-        [rightCell drawWithFrame:rightFrame inView:controlView];    
+        [rightCell drawWithFrame:rightFrame inView:parentView];    
     }
     // draw text cell
-	[super drawWithFrame:textFrame inView:controlView];
+	[super drawWithFrame:textFrame inView:parentView];
 	
 	// und titel wieder setzen
 	[self setStringValue:title];

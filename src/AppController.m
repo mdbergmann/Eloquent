@@ -310,7 +310,7 @@ static AppController *singleton;
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"") 
                                              defaultButton:NSLocalizedString(@"Yes", @"") 
                                            alternateButton:NSLocalizedString(@"No", @"") 
-                                               otherButton:nil informativeTextWithFormat:@"A MacSword 1 module database has been detected. This can cause a crash when used with Eloquent. Do you want me to delete this database? You will then start with a fresh database but need to download your modules possibly again."];
+                                               otherButton:nil informativeTextWithFormat:NSLocalizedString(@"Info_OldModuleDatabaseDetected", @"")];
             if([alert runModal] == NSAlertDefaultReturn) {
                 [fm removeItemAtPath:DEFAULT_MODULE_PATH error:nil];
             }

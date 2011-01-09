@@ -47,11 +47,11 @@
     [super finalize];
 }
 
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)parentView {
     
 	// draw background without text
 	[self setStringValue:@""];
-	[super drawWithFrame:cellFrame inView:controlView];
+	[super drawWithFrame:cellFrame inView:parentView];
 
     // left image frame
     NSRect imageFrame;
@@ -78,7 +78,7 @@
 	bmTitleFrame.size.width -= IMAGE_WIDTH;    
     // draw image cells
     if(imageCell) {
-        [imageCell drawWithFrame:imageFrame inView:controlView];
+        [imageCell drawWithFrame:imageFrame inView:parentView];
     }    
 	// draw bookmark title cell
 	NSTextFieldCell *bmTitleCell = [[NSTextFieldCell alloc] initTextCell:[bookmark name]];
@@ -86,7 +86,7 @@
     [bmTitleCell setTruncatesLastVisibleLine:YES];
     [bmTitleCell setLineBreakMode:NSLineBreakByTruncatingTail];
     [bmTitleCell setFont:[self font]];
-	[bmTitleCell drawWithFrame:bmTitleFrame inView:controlView];
+	[bmTitleCell drawWithFrame:bmTitleFrame inView:parentView];
     
     // bookmark reference frame
 	NSRect bmRefFrame;
@@ -99,7 +99,7 @@
     [bmRefCell setTruncatesLastVisibleLine:YES];
     [bmRefCell setLineBreakMode:NSLineBreakByTruncatingTail];
     [bmRefCell setFont:bmRefFont];
-	[bmRefCell drawWithFrame:bmRefFrame inView:controlView];
+	[bmRefCell drawWithFrame:bmRefFrame inView:parentView];
 }
 
 @end

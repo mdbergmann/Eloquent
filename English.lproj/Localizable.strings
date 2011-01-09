@@ -139,6 +139,7 @@ then type yes at the prompt!";
 "SessionLoadError" = "Session load error";
 "SessionLoadErrorText" = "An error has occured while loading the session. Probably the session file is corrupt. You will start with a new session.";
 "ModuleXYNotInRepoWantToCopy" = "Do you want to copy %@ module to the module repository for permanent use or do you want to only use it temporarily?";
+"Info_OldModuleDatabaseDetected" = "A MacSword 1 module database has been detected. This can cause a crash when used with Eloquent. Do you want me to delete this database? You will then start with a fresh database but need to download your modules possibly again.";
 
 // confirmations
 "DoNotAskAgain" = "Do not ask again!";
