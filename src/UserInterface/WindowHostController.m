@@ -457,12 +457,10 @@ typedef enum _NavigationDirectionType {
 
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {
     if([aViewController isKindOfClass:[LeftSideBarViewController class]]) {
-        //[mainSplitView addSubview:[aViewController view] positioned:NSWindowBelow relativeTo:nil];
         NSSize s = [[lsbViewController view] frame].size;
         s.width = lsbWidth;
         [[lsbViewController view] setFrameSize:s];
     } else if([aViewController isKindOfClass:[RightSideBarViewController class]]) {
-        //[contentSplitView addSubview:[aView view] positioned:NSWindowAbove relativeTo:nil];
         NSSize s = [[rsbViewController view] frame].size;
         s.width = rsbWidth;
         [[rsbViewController view] setFrameSize:s];
