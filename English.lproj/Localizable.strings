@@ -64,6 +64,14 @@ then type yes at the prompt!";
 "ProcessTasksLabel" = "Process Tasks";
 "ProcessTasksToolTip" = "Process all the changes";
 
+// Tasks preview
+"TaskPreview_Heading" = "Module tasks:";
+"TaskPreview_RemoveHeading" = "The following modules will be removed:\n";
+"TaskPreview_InstallHeading" = "The following modules will be installed:\n";
+"TaskPreview_RemoveModule" = "Remove module: %@\n";
+"TaskPreview_InstallModule" = "Install module: %@\n";
+"TaskPreview_NoTasks" = "Nothing to do, no tasks selected!";
+
 // progress window strings
 "WindowTitle_Progress" = "Progress";
 

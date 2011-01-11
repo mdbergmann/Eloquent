@@ -245,14 +245,12 @@
 - (IBAction)installModule:(id)sender {
     [self updateModuleSelection];
     
-    // get current selected module
     if([moduleSelection count] > 0) {
         for(ModuleListObject *modObj in moduleSelection) {
             // only modules that are not installed can be registered for installation
             
             // check if module is installed already
             if((([[modObj module] status] & ModStatNew) > 0) || (([[modObj module] status] & ModStatUpdated) > 0)) {
-                // set taskid
                 [modObj setTaskId:TaskInstall];
                 
                 // register module for installation
@@ -274,14 +272,12 @@
 - (IBAction)removeModule:(id)sender {
     [self updateModuleSelection];
     
-    // get current selected module
     if([moduleSelection count] > 0) {
         for(ModuleListObject *modObj in moduleSelection) {
-            // only modules that are install can be removed
+            // only modules that are installed can be removed
             
             // check if module is really installed
             if(([[modObj module] status] & ModStatNew) == 0) {
-                // set taskid
                 [modObj setTaskId:TaskRemove];
                 
                 // register module for removal
@@ -303,14 +299,12 @@
 - (IBAction)updateModule:(id)sender {
     [self updateModuleSelection];
     
-    // get current selected module
     if([moduleSelection count] > 0) {
         for(ModuleListObject *modObj in moduleSelection) {
             // only module that are updateable can be updated
             
             // check if module is new version
             if(([[modObj module] status] & ModStatUpdated) > 0) {
-                // set taskid
                 [modObj setTaskId:TaskUpdate];
                 
                 // register module for update
@@ -354,10 +348,8 @@
                 }
             }
             
-            // set this new array
             [self setModuleData:resultArray];
             
-            // reload tableview
             [moduleOutlineView reloadData];
         } else {
             [self refreshModulesList];
@@ -387,16 +379,14 @@
 				
 				for(int i = 0;i < len;i++) {
 					mlo = [oview itemAtRow:indexes[i]];
-                    
-                    // add to array
                     [moduleSelection addObject:mlo];
 				}				
             }
 		} else {
-			CocoLog(LEVEL_WARN,@"have a nil notification object!");
+			CocoLog(LEVEL_WARN, @"have a nil notification object!");
 		}
 	} else {
-		CocoLog(LEVEL_WARN,@"have a nil notification!");
+		CocoLog(LEVEL_WARN, @"have a nil notification!");
 	}
 }
 
@@ -404,7 +394,6 @@
     int count = 0;
 	
 	if(item == nil) {
-        // number of root items
         count = [moduleData count];
 	}
 	
@@ -431,7 +420,6 @@
     if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODNAME]) {
         ret = [[mod module] name];
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODSTATUS]) {
-        // print module status
         int stat = [[mod module] status];
         if((stat & ModStatSameVersion) == ModStatSameVersion) {
             ret = NSLocalizedString(@"ModStatSameVersion", @"");
@@ -451,7 +439,6 @@
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_TASK]) {
         // for the cell we return the index number
         ret = [NSNumber numberWithInt:[mod taskId]];
-        //NSMenuItemCell *mItemCell = [mItem menu
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODTYPE]) {
         ret = [[mod module] typeString];
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODRVERSION]) {
