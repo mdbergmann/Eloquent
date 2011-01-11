@@ -427,9 +427,7 @@
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
     id ret = (NSString *)@"";
     
-    // the key of the item (which is a dictionary) is the module
     ModuleListObject *mod = (ModuleListObject *)item;
-
     if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODNAME]) {
         ret = [[mod module] name];
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODSTATUS]) {
@@ -467,7 +465,6 @@
             ret = [[[SwordManager defaultManager] moduleWithName:[mod moduleName]] version];
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODDESCR]) {
-        //SwordManager *bMgr = [[mod installSource] swordManager];
         ret = [[mod module] descr];
     }
     
@@ -492,13 +489,14 @@
 
 - (void)outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
     NSArray *newDescriptors = [outlineView sortDescriptors];
-    // keep them
     sortDescriptors = [newDescriptors retain];
-    
-    // sort module array
     [moduleData sortUsingDescriptors:newDescriptors];
-    
-    // reload data
     [moduleOutlineView reloadData];    
 }
+
+- (NSString *)outlineView:(NSOutlineView *)outlineView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
+    ModuleListObject *mod = (ModuleListObject *)item;
+    return [[mod module] descr];
+}
+
 @end
