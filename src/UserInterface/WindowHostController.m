@@ -502,7 +502,7 @@ typedef enum _NavigationDirectionType {
     if(rsbViewController == nil) {
         rsbViewController = [[RightSideBarViewController alloc] initWithDelegate:self];
         [rsbViewController setHostingDelegate:self];    
-    }        
+    }
     return self;
 }
 
