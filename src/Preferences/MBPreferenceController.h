@@ -41,6 +41,9 @@ typedef enum _VerseNumberingType {
 #define DefaultsHeaderViewFontSizeKey               @"DefaultsHeaderViewFontSizeKey"
 #define DefaultsHeaderViewFontSizeBigKey            @"DefaultsHeaderViewFontSizeBigKey"
 
+// Fullscreen stuff
+#define DefaultsFullscreenFontSizeAddKey            @"DefaultsFullscreenFontSizeAddKey"
+
 // module display settings
 #define DefaultsModuleDisplaySettingsKey            @"DefaultsModuleDisplaySettingsKey"
 

@@ -427,6 +427,8 @@
 - (void)disclaimerSheetEnd {
     [disclaimerWindow close];
     [[NSApplication sharedApplication] endSheet:disclaimerWindow];
+    
+    // TODO: ask user to refresh install sources after he accepted the disclaimer
 }
 
 #pragma mark - Menu validation
