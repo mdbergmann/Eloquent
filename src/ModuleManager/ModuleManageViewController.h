@@ -33,7 +33,13 @@
     IBOutlet NSButton *editISDirSelect;
     // disclaimer window
     IBOutlet NSWindow *disclaimerWindow;
-        
+    // tasks preview window
+    IBOutlet NSWindow *tasksPreviewWindow;
+    
+    // The preview text field
+    IBOutlet NSTextField *tasksPreviewTextField;
+    IBOutlet NSButton *processTasksButton;
+
     // the hosting window
     IBOutlet NSWindow *parentWindow;
     
@@ -88,12 +94,26 @@
 - (void)registerForRemove:(ModuleListObject *)modObj;
 - (void)registerForUpdate:(ModuleListObject *)modObj;
 
-/** process all the tasks that we have to do */
+/** process all the tasks */
 - (void)processTasks;
+- (NSInteger)numberOfTasks;
+- (BOOL)hasTasks;
+
+/** show tasks preview */
+- (void)showTasksPreview;
+- (void)tasksPreviewSheetEnd;
+// tasks preview window actions
+- (IBAction)closePreview:(id)sender;
+- (IBAction)processTasks:(id)sender;
+/** serialize tasks for previews */
+- (NSString *)tasksPreviewDescription;
 
 // disclaimer
 - (IBAction)showDisclaimer;
 - (void)disclaimerSheetEnd;
+// disclaimer window actions
+- (IBAction)confirmNo:(id)sender;
+- (IBAction)confirmYes:(id)sender;
 
 // actions
 - (IBAction)syncInstallSourcesFromMasterList:(id)sender;
@@ -108,9 +128,5 @@
 - (IBAction)editISTestButton:(id)sender;
 - (IBAction)editISDirSelectButton:(id)sender;
 - (IBAction)editISTypeSelect:(id)sender;
-
-// disclaimer window actions
-- (IBAction)confirmNo:(id)sender;
-- (IBAction)confirmYes:(id)sender;
 
 @end

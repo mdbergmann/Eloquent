@@ -240,11 +240,9 @@
     [moduleViewController deleteInstallSource:sender];    
 }
 
-/*
 - (void)previewTasksTB:(id)sender {
-    [moduleViewController processTasks];
+    [moduleViewController showTasksPreview];
 }
-*/
 
 - (void)processTasksTB:(id)sender {
     [moduleViewController processTasks];

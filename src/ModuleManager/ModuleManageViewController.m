@@ -24,6 +24,8 @@
 
 - (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText;
 
+- (void)showRefreshRepositoryInformation;
+
 @end
 
 @implementation ModuleManageViewController (PrivateAPI)
@@ -238,6 +240,19 @@
     return confirmed;
 }
 
+- (void)showRefreshRepositoryInformation {
+    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+    BOOL confirmed = [sis userDisclaimerConfirmed];
+    if(confirmed) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"") 
+                                       alternateButton:nil
+                                           otherButton:nil 
+                             informativeTextWithFormat:NSLocalizedString(@"Info_RememberToRefreshRepositories", @"")];
+        [alert runModal];        
+    }
+}
+
 @end
 
 
@@ -391,17 +406,11 @@
 
 /** process all the tasks we have to do */
 - (void)processTasks {
-        
-    // count actions
-    int actions = 0;
-    actions += [removeDict count];
-    actions += [installDict count];
-
     // start actions
-    if(actions > 0) {
+    if([self hasTasks]) {
         [self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"OnlyRemoveAndInstallForLocalSources", @"")];
         // start on new thread
-        [NSThread detachNewThreadSelector:@selector(batchProcessTasks:) toTarget:self withObject:[NSNumber numberWithInt:actions]];
+        [NSThread detachNewThreadSelector:@selector(batchProcessTasks:) toTarget:self withObject:[NSNumber numberWithInt:[self numberOfTasks]]];
     } else {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"") 
@@ -412,6 +421,17 @@
     }
 }
 
+- (NSInteger)numberOfTasks {
+    int actions = 0;
+    actions += [removeDict count];
+    actions += [installDict count];
+    return actions;
+}
+
+- (BOOL)hasTasks {
+    return [self numberOfTasks] > 0;
+}
+
 - (IBAction)showDisclaimer {
     if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil || [userDefaults boolForKey:DefaultsUserDisplaimerConfirmed] == NO) {
         if(disclaimerWindow) {
@@ -420,7 +440,7 @@
                                             modalDelegate:self 
                                            didEndSelector:nil 
                                               contextInfo:nil];
-        }        
+        }
     }
 }
 
@@ -428,7 +448,81 @@
     [disclaimerWindow close];
     [[NSApplication sharedApplication] endSheet:disclaimerWindow];
     
-    // TODO: ask user to refresh install sources after he accepted the disclaimer
+    // tell user to refresh install sources
+    [self showRefreshRepositoryInformation];
+}
+
+- (IBAction)confirmNo:(id)sender {
+    [userDefaults setBool:NO forKey:DefaultsUserDisplaimerConfirmed];
+    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];
+    // end sheet
+    [self disclaimerSheetEnd];
+}
+
+- (IBAction)confirmYes:(id)sender {
+    [userDefaults setBool:YES forKey:DefaultsUserDisplaimerConfirmed];    
+    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:YES];
+    // end sheet
+    [self disclaimerSheetEnd];
+}
+
+- (void)showTasksPreview {
+    if(tasksPreviewWindow) {
+        [processTasksButton setEnabled:[self hasTasks]];
+        
+        [tasksPreviewTextField setStringValue:[self tasksPreviewDescription]];
+        [[NSApplication sharedApplication] beginSheet:tasksPreviewWindow 
+                                       modalForWindow:parentWindow 
+                                        modalDelegate:self 
+                                       didEndSelector:nil 
+                                          contextInfo:nil];
+    }
+    
+}
+
+- (void)tasksPreviewSheetEnd {
+    [tasksPreviewWindow close];
+    [[NSApplication sharedApplication] endSheet:tasksPreviewWindow];
+}
+
+- (IBAction)closePreview:(id)sender {
+    [self tasksPreviewSheetEnd];
+}
+
+- (IBAction)processTasks:(id)sender {
+    [self tasksPreviewSheetEnd];    
+    [self processTasks];
+}
+
+/** serialize tasks for previews */
+- (NSString *)tasksPreviewDescription {
+    
+    NSMutableString *ret = [NSMutableString string];
+    
+    if([self hasTasks]) {
+        [ret appendString:NSLocalizedString(@"TaskPreview_Heading", @"")];
+        [ret appendString:@"\n\n"];
+        
+        if([removeDict count] > 0) {
+            [ret appendString:NSLocalizedString(@"TaskPreview_RemoveHeading", @"")];        
+            for(ModuleListObject *modObj in [removeDict allValues]) {
+                [ret appendFormat:NSLocalizedString(@"TaskPreview_RemoveModule", @""), [modObj moduleName]];
+            }
+            [ret appendString:@"\n"];
+        }
+        
+        if([installDict count] > 0) {
+            [ret appendString:NSLocalizedString(@"TaskPreview_InstallHeading", @"")];        
+            for(ModuleListObject *modObj in [installDict allValues]) {
+                [ret appendFormat:NSLocalizedString(@"TaskPreview_InstallModule", @""), [modObj moduleName]];
+            }
+            [ret appendString:@"\n"];
+        }        
+    } else {
+        [ret appendString:NSLocalizedString(@"TaskPreview_NoTasks", @"")];
+    }
+    
+    return ret;
 }
 
 #pragma mark - Menu validation
@@ -703,7 +797,7 @@
             NSURLResponse *response = [[NSURLResponse alloc] init];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             data = [NSURLConnection sendSynchronousRequest:request 
-                                                 returningResponse:&response error:nil];
+                                         returningResponse:&response error:nil];
         }
         data = nil;
     }
@@ -748,20 +842,6 @@
         [editISSourceCell setStringValue:@"localhost"];
         [editISSourceCell setEnabled:NO];
     }
-}
-
-- (IBAction)confirmNo:(id)sender {
-    [userDefaults setBool:NO forKey:DefaultsUserDisplaimerConfirmed];
-    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];
-    // end sheet
-    [self disclaimerSheetEnd];
-}
-
-- (IBAction)confirmYes:(id)sender {
-    [userDefaults setBool:YES forKey:DefaultsUserDisplaimerConfirmed];    
-    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:YES];
-    // end sheet
-    [self disclaimerSheetEnd];
 }
 
 //--------------------------------------------------------------------
@@ -810,9 +890,7 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     int count = 0;
 	
-    // cast object
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-    
+    InstallSourceListObject *listObject = (InstallSourceListObject *)item;    
 	if(item == nil) {
         // number of root items
         count = [installSourceListObjects count];
@@ -824,13 +902,9 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-
-    // we only hace install Sources here
     InstallSourceListObject *ret = nil;
     
-    // cast object
     InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-
     if(item == nil) {
         // the return item will be a InstallSourceListObject
         ret = [installSourceListObjects objectAtIndex:index];
@@ -842,12 +916,9 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    
     NSString *ret = @"test";
     
-    // cast object
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-    
+    InstallSourceListObject *listObject = (InstallSourceListObject *)item;    
     if(item != nil) {
         if([listObject objectType] == TypeInstallSource) {
             ret = [[listObject installSource] caption];
@@ -860,10 +931,7 @@
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    
-    // cast object
     InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-
     if(item != nil && ([listObject objectType] == TypeInstallSource)) {
         return YES;
     }

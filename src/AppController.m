@@ -120,8 +120,8 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSBSingle];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowRSBWorkspace];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowRSBSingle];
-    [defaultsDict setObject:[NSNumber numberWithInt:250] forKey:DefaultsLSBWidth];
-    [defaultsDict setObject:[NSNumber numberWithInt:150] forKey:DefaultsRSBWidth];
+    [defaultsDict setObject:[NSNumber numberWithInt:200] forKey:DefaultsLSBWidth];
+    [defaultsDict setObject:[NSNumber numberWithInt:110] forKey:DefaultsRSBWidth];
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowDailyDevotionOnStartupKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowPreviewToolTip];

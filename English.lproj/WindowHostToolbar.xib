@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10D573</string>
-		<string key="IBDocument.InterfaceBuilderVersion">762</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
-		<string key="IBDocument.HIToolboxVersion">460.00</string>
+		<string key="IBDocument.SystemVersion">10J567</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
+		<string key="IBDocument.HIToolboxVersion">462.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">762</string>
+			<string key="NS.object.0">823</string>
 		</object>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
 		<array key="IBDocument.PluginDependencies">
@@ -43,11 +43,9 @@
 						<string key="NSToolbarItemPaletteLabel">Reference text</string>
 						<nil key="NSToolbarItemToolTip"/>
 						<object class="NSSearchField" key="NSToolbarItemView" id="451244056">
-							<reference key="NSNextResponder"/>
+							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{0, 14}, {1600, 22}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSearchFieldCell" key="NSCell" id="471357944">
 								<int key="NSCellFlags">343014976</int>
@@ -133,11 +131,9 @@
 						<string key="NSToolbarItemPaletteLabel">Add bookmark</string>
 						<nil key="NSToolbarItemToolTip"/>
 						<object class="NSButton" key="NSToolbarItemView" id="874134462">
-							<reference key="NSNextResponder"/>
+							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{28, 14}, {32, 25}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="611015788">
 								<int key="NSCellFlags">67239424</int>
@@ -176,11 +172,9 @@
 						<string key="NSToolbarItemPaletteLabel">Refresh</string>
 						<nil key="NSToolbarItemToolTip"/>
 						<object class="NSButton" key="NSToolbarItemView" id="716734176">
-							<reference key="NSNextResponder"/>
+							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{8, 14}, {32, 25}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="737317609">
 								<int key="NSCellFlags">67239424</int>
@@ -219,11 +213,9 @@
 						<string key="NSToolbarItemPaletteLabel">Fullscreen</string>
 						<nil key="NSToolbarItemToolTip"/>
 						<object class="NSButton" key="NSToolbarItemView" id="908276226">
-							<reference key="NSNextResponder"/>
+							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{15, 14}, {32, 25}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="1003728880">
 								<int key="NSCellFlags">67239424</int>
@@ -262,11 +254,9 @@
 						<string key="NSToolbarItemPaletteLabel">Left sidebar</string>
 						<nil key="NSToolbarItemToolTip"/>
 						<object class="NSButton" key="NSToolbarItemView" id="628023434">
-							<reference key="NSNextResponder"/>
+							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{19, 14}, {32, 25}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="837737564">
 								<int key="NSCellFlags">67239424</int>
@@ -276,13 +266,17 @@
 								<reference key="NSControlView" ref="628023434"/>
 								<int key="NSButtonFlags">-2033958657</int>
 								<int key="NSButtonFlags2">163</int>
+								<object class="NSCustomResource" key="NSNormalImage" id="565187462">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">NSImageNameSlideshowTemplate</string>
+								</object>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
 							</object>
 						</object>
-						<nil key="NSToolbarItemImage"/>
+						<reference key="NSToolbarItemImage" ref="565187462"/>
 						<nil key="NSToolbarItemTarget"/>
 						<nil key="NSToolbarItemAction"/>
 						<string key="NSToolbarItemMinSize">{32, 25}</string>
@@ -301,11 +295,9 @@
 						<string key="NSToolbarItemPaletteLabel">Search type</string>
 						<nil key="NSToolbarItemToolTip"/>
 						<object class="NSSegmentedControl" key="NSToolbarItemView" id="390184404">
-							<reference key="NSNextResponder"/>
+							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{0, 14}, {71, 25}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSegmentedCell" key="NSCell" id="386494508">
 								<int key="NSCellFlags">-2080244224</int>
@@ -360,11 +352,9 @@
 						<string key="NSToolbarItemPaletteLabel">Right sidebar</string>
 						<nil key="NSToolbarItemToolTip"/>
 						<object class="NSButton" key="NSToolbarItemView" id="359633111">
-							<reference key="NSNextResponder"/>
+							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{23, 14}, {32, 25}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="8629909">
 								<int key="NSCellFlags">67239424</int>
@@ -372,15 +362,16 @@
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="335440614"/>
 								<reference key="NSControlView" ref="359633111"/>
-								<int key="NSButtonFlags">-2033434369</int>
+								<int key="NSButtonFlags">-2033958657</int>
 								<int key="NSButtonFlags2">163</int>
-								<string key="NSAlternateContents">lsb</string>
+								<reference key="NSNormalImage" ref="565187462"/>
+								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
 							</object>
 						</object>
-						<nil key="NSToolbarItemImage"/>
+						<reference key="NSToolbarItemImage" ref="565187462"/>
 						<nil key="NSToolbarItemTarget"/>
 						<nil key="NSToolbarItemAction"/>
 						<string key="NSToolbarItemMinSize">{32, 25}</string>
@@ -467,7 +458,7 @@
 				<array class="NSMutableArray" key="NSToolbarIBSelectableItems"/>
 			</object>
 			<object class="NSCustomView" id="983966148">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSBox" id="406264755">
@@ -479,12 +470,10 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrameSize">{894, 25}</string>
 								<reference key="NSSuperview" ref="406264755"/>
-								<reference key="NSWindow"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{20, 15}, {894, 25}}</string>
 						<reference key="NSSuperview" ref="983966148"/>
-						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -513,7 +502,6 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{820, 44}, {32, 25}}</string>
 						<reference key="NSSuperview" ref="983966148"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="604207204">
 							<int key="NSCellFlags">67239424</int>
@@ -538,7 +526,6 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{780, 44}, {32, 25}}</string>
 						<reference key="NSSuperview" ref="983966148"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="717627560">
 							<int key="NSCellFlags">67239424</int>
@@ -560,7 +547,6 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{155, 46}, {617, 22}}</string>
 						<reference key="NSSuperview" ref="983966148"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSearchFieldCell" key="NSCell" id="1058649061">
 							<int key="NSCellFlags">343014976</int>
@@ -612,7 +598,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{76, 44}, {71, 25}}</string>
 						<reference key="NSSuperview" ref="983966148"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSSegmentedCell" key="NSCell" id="320066611">
 							<int key="NSCellFlags">67239424</int>
@@ -644,7 +629,6 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{882, 44}, {32, 25}}</string>
 						<reference key="NSSuperview" ref="983966148"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="897332714">
 							<int key="NSCellFlags">67239424</int>
@@ -665,7 +649,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 44}, {32, 25}}</string>
 						<reference key="NSSuperview" ref="983966148"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="1025294675">
 							<int key="NSCellFlags">67239424</int>
@@ -683,8 +666,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{934, 88}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<string key="NSClassName">HUDToolbarView</string>
 			</object>
 		</array>
@@ -1354,9 +1335,26 @@
 						<string key="NS.key.0">fullScreenModeOnOff:</string>
 						<string key="NS.object.0">id</string>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">fullScreenModeOnOff:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">fullScreenModeOnOff:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="delegate">id</string>
 						<string key="toolbarController">ToolbarController</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="delegate">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toolbarController">
+							<string key="name">toolbarController</string>
+							<string key="candidateClassName">ToolbarController</string>
+						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -1377,6 +1375,16 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="delegate">id</string>
 						<string key="hostingDelegate">WindowHostController</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="delegate">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hostingDelegate">
+							<string key="name">hostingDelegate</string>
+							<string key="candidateClassName">WindowHostController</string>
+						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -1412,6 +1420,44 @@
 						<string key="searchInput:">id</string>
 						<string key="searchType:">id</string>
 					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addBookmark:">
+							<string key="name">addBookmark:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="clearRecents:">
+							<string key="name">clearRecents:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="enterFullscreenMode:">
+							<string key="name">enterFullscreenMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="forceReload:">
+							<string key="name">forceReload:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="leftSideBarHideShow:">
+							<string key="name">leftSideBarHideShow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quitFullscreenMode:">
+							<string key="name">quitFullscreenMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="rightSideBarHideShow:">
+							<string key="name">rightSideBarHideShow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="searchInput:">
+							<string key="name">searchInput:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="searchType:">
+							<string key="name">searchType:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addBookmarkBtn">NSButton</string>
 						<string key="enterFullscreenModeBtn">NSButton</string>
@@ -1431,6 +1477,76 @@
 						<string key="toolbarHUDView">NSView</string>
 						<string key="toolbarViewItem">NSToolbarItem</string>
 					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="addBookmarkBtn">
+							<string key="name">addBookmarkBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="enterFullscreenModeBtn">
+							<string key="name">enterFullscreenModeBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="forceReloadBtn">
+							<string key="name">forceReloadBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hudForceReloadBtn">
+							<string key="name">hudForceReloadBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hudLeftSideBarToggleBtn">
+							<string key="name">hudLeftSideBarToggleBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hudRightSideBarToggleBtn">
+							<string key="name">hudRightSideBarToggleBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hudSearchTextField">
+							<string key="name">hudSearchTextField</string>
+							<string key="candidateClassName">NSSearchField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hudSearchTypeSegControl">
+							<string key="name">hudSearchTypeSegControl</string>
+							<string key="candidateClassName">NSSegmentedControl</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="leftSideBarToggleBtn">
+							<string key="name">leftSideBarToggleBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="quitFullscreenModeBtn">
+							<string key="name">quitFullscreenModeBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rightSideBarToggleBtn">
+							<string key="name">rightSideBarToggleBtn</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="scopebarPlaceholder">
+							<string key="name">scopebarPlaceholder</string>
+							<string key="candidateClassName">NSBox</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchTextField">
+							<string key="name">searchTextField</string>
+							<string key="candidateClassName">NSSearchField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchTypeSegControl">
+							<string key="name">searchTypeSegControl</string>
+							<string key="candidateClassName">NSSegmentedControl</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toolbar">
+							<string key="name">toolbar</string>
+							<string key="candidateClassName">NSToolbar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toolbarHUDView">
+							<string key="name">toolbarHUDView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="toolbarViewItem">
+							<string key="name">toolbarViewItem</string>
+							<string key="candidateClassName">NSToolbarItem</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">src/UserInterface/ToolbarController.h</string>
@@ -1441,6 +1557,13 @@
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">fullScreenModeOnOff:</string>
 						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">fullScreenModeOnOff:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">fullScreenModeOnOff:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -1483,6 +1606,76 @@
 						<string key="searchType:">id</string>
 						<string key="switchLookupView:">id</string>
 					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addBookmark:">
+							<string key="name">addBookmark:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="clearRecents:">
+							<string key="name">clearRecents:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="enterFullscreenMode:">
+							<string key="name">enterFullscreenMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="focusSearchEntry:">
+							<string key="name">focusSearchEntry:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="forceReload:">
+							<string key="name">forceReload:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="leftSideBarHideShow:">
+							<string key="name">leftSideBarHideShow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="myPrint:">
+							<string key="name">myPrint:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="nextBook:">
+							<string key="name">nextBook:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="nextChapter:">
+							<string key="name">nextChapter:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="performClose:">
+							<string key="name">performClose:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="previousBook:">
+							<string key="name">previousBook:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="previousChapter:">
+							<string key="name">previousChapter:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="quitFullscreenMode:">
+							<string key="name">quitFullscreenMode:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="rightSideBarHideShow:">
+							<string key="name">rightSideBarHideShow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="searchInput:">
+							<string key="name">searchInput:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="searchType:">
+							<string key="name">searchType:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchLookupView:">
+							<string key="name">switchLookupView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="contentPlaceHolderView">NSBox</string>
 						<string key="contentSplitView">NSSplitView</string>
@@ -1493,6 +1686,44 @@
 						<string key="scopebarView">ScopeBarView</string>
 						<string key="scopebarViewPlaceholder">NSBox</string>
 						<string key="view">FullScreenView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="contentPlaceHolderView">
+							<string key="name">contentPlaceHolderView</string>
+							<string key="candidateClassName">NSBox</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="contentSplitView">
+							<string key="name">contentSplitView</string>
+							<string key="candidateClassName">NSSplitView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="delegate">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mainSplitView">
+							<string key="name">mainSplitView</string>
+							<string key="candidateClassName">NSSplitView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="placeHolderView">
+							<string key="name">placeHolderView</string>
+							<string key="candidateClassName">NSBox</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="progressIndicator">
+							<string key="name">progressIndicator</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="scopebarView">
+							<string key="name">scopebarView</string>
+							<string key="candidateClassName">ScopeBarView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="scopebarViewPlaceholder">
+							<string key="name">scopebarViewPlaceholder</string>
+							<string key="candidateClassName">NSBox</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view">
+							<string key="name">view</string>
+							<string key="candidateClassName">FullScreenView</string>
+						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -2075,6 +2306,13 @@
 						<string key="NS.key.0">view</string>
 						<string key="NS.object.0">NSView</string>
 					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">view</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">view</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSViewController.h</string>
@@ -2109,6 +2347,13 @@
 						<string key="NS.key.0">showWindow:</string>
 						<string key="NS.object.0">id</string>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showWindow:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSWindowController.h</string>
@@ -2123,12 +2368,13 @@
 			<integer value="1050" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../MacSword2.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../Eloquent.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSAddTemplate">{8, 8}</string>
 			<string key="NSEnterFullScreenTemplate">{16, 15}</string>
 			<string key="NSExitFullScreenTemplate">{16, 15}</string>
+			<string key="NSImageNameSlideshowTemplate">{128, 128}</string>
 			<string key="NSListViewTemplate">{11, 10}</string>
 			<string key="NSMenuCheckmark">{9, 8}</string>
 			<string key="NSMenuMixedState">{7, 2}</string>
