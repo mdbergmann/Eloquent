@@ -142,9 +142,9 @@
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[module name]];
         
         NSFont *keyFont = [NSFont fontWithName:[boldDisplayFont familyName]
-                                          size:(int)customFontSize];
+                                          size:[self customFontSize]];
         NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
-                                              size:(int)customFontSize];
+                                              size:[self customFontSize]];
 
         NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
         NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];

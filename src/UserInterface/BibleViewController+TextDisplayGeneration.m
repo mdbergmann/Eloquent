@@ -302,12 +302,12 @@
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
-    [webPrefs setDefaultFontSize:(int)customFontSize];
+    [webPrefs setDefaultFontSize:[self customFontSize]];
     [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
-                                   size:(int)customFontSize];
+                                   size:[self customFontSize]];
 
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
     tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
