@@ -38,11 +38,11 @@ enum GeneralMenuItemAdditions {
     
     NSMenu *verseNumberingMenu;
     
-    int customFontSize;
+    NSInteger customFontSize;
     NSInteger textContext;
 }
 
-@property (readwrite) int customFontSize;
+@property (readwrite) NSInteger customFontSize;
 @property (readwrite) NSInteger textContext;
 @property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
 @property (retain, readwrite) NSMutableDictionary *displayOptions;

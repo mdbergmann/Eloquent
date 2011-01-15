@@ -25,6 +25,7 @@
 - (void)goneToFullScreenMode {
     CocoLog(LEVEL_DEBUG, @"gone to fullscreen");
     inFullScreenTransition = NO;
+    [self forceReload:nil];
 }
 
 - (void)leavingFullScreenMode {
@@ -40,6 +41,7 @@
 - (void)leftFullScreenMode {
     CocoLog(LEVEL_DEBUG, @"left fullscreen");
     inFullScreenTransition = NO;
+    [self forceReload:nil];
 }
 
 - (IBAction)fullScreenModeOnOff:(id)sender {

@@ -100,6 +100,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
     
+    // fullscreen font size additon
+    [defaultsDict setObject:[NSNumber numberWithInt:2] forKey:DefaultsFullscreenFontSizeAddKey];
+    
     // module display settings
     [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleDisplaySettingsKey];
     

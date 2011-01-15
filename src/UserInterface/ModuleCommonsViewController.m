@@ -28,7 +28,7 @@ extern char BookmarkMgrUI;
 
 @implementation ModuleCommonsViewController
 
-@synthesize customFontSize;
+@dynamic customFontSize;
 @synthesize textContext;
 @synthesize modDisplayOptions;
 @synthesize displayOptions;
@@ -261,6 +261,17 @@ extern char BookmarkMgrUI;
     [textContextPopUpButton setMenu:menu];
     [textContextPopUpButton setTarget:self];
     [textContextPopUpButton setAction:@selector(textContextChange:)];
+}
+
+- (NSInteger)customFontSize {
+    if([(WindowHostController *)hostingDelegate isFullScreenMode]) {
+        return customFontSize + [[NSUserDefaults standardUserDefaults] integerForKey:DefaultsFullscreenFontSizeAddKey];
+    }
+    return customFontSize;
+}
+
+- (void)setCustomFontSize:(NSInteger)aSize {
+    customFontSize = aSize;
 }
 
 #pragma mark - Actions

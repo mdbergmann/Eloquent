@@ -29,6 +29,8 @@
 @property (retain, readwrite) NSArray *dictKeys;
 
 - (void)commonInit;
+- (NSIndexSet *)selectedIndexes;
+- (void)selectTableViewEntriesFromSelection;
 
 @end
 
@@ -76,7 +78,6 @@
     if(module != nil) {
         self.dictKeys = [(SwordDictionary *)module allKeys];
     }
-    self.selection = [NSMutableArray array];
     
     BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
     if(!stat) {
@@ -94,12 +95,32 @@
         [placeHolderView setContentView:[contentDisplayController view]];
         [self reportLoadingComplete];        
     }
-    
+        
     [self displayTextForReference:@""];
 
     viewLoaded = YES;
 }
 
+- (void)selectTableViewEntriesFromSelection {
+    if(selection != nil) {
+        [entriesTableView selectRowIndexes:[self selectedIndexes] byExtendingSelection:NO];
+    }    
+}
+
+- (NSIndexSet *)selectedIndexes {
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+
+    for(NSString *key in selection) {
+        NSInteger index = [dictKeys indexOfObject:key];
+        if(index > -1) {
+            [indexes addIndex:index];
+        }
+    }
+    
+    return indexes;
+}
+         
+         
 #pragma mark - Methods
 
 - (void)populateModulesMenu {
@@ -142,9 +163,9 @@
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[module name]];
         
         NSFont *keyFont = [NSFont fontWithName:[boldDisplayFont familyName]
-                                          size:(int)customFontSize];
+                                          size:[self customFontSize]];
         NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
-                                              size:(int)customFontSize];
+                                              size:[self customFontSize]];
 
         NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
         NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
@@ -260,8 +281,8 @@
     [entriesTableView reloadData];
     if([self.dictKeys count] == 1) {
         [entriesTableView selectAll:self];
-    }
-    
+    }    
+
     [contentCache setContent:[self displayableHTMLForReferenceLookup]];
 }
 
@@ -283,7 +304,8 @@
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
-    [self displayTextForReference:@""];
+    [self displayTextForReference:searchString];
+    [self selectTableViewEntriesFromSelection];
 }
 
 - (NSString *)title {
@@ -421,13 +443,21 @@
     self = [super initWithCoder:decoder];
     if(self) {
         self.dictKeys = [(SwordDictionary *)module allKeys];
+
+        NSArray *selectedKeys = (NSArray *)[decoder decodeObjectForKey:@"SelectedDictionaryKeys"];
+        if(selectedKeys != nil) {
+            [self setSelection:[NSMutableArray arrayWithArray:selectedKeys]];
+        }
+        
         [self commonInit];
     }
         
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder {
+- (void)encodeWithCoder:(NSCoder *)encoder {    
+    [encoder encodeObject:selection forKey:@"SelectedDictionaryKeys"];
+    
     [super encodeWithCoder:encoder];
 }
 

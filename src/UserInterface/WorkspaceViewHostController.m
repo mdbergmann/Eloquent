@@ -107,10 +107,15 @@
             // select first
             if(i == 0) {
                 contentViewController = vc;
-                [tabView selectTabViewItem:item];
+                [tabView selectTabViewItem:item];                
             }
         }
         i++;
+    }
+
+    // Fix: this will select the first element of the search texts objects as the current one
+    if([[self searchTextObjs] count] > 0) {
+        currentSearchText = [[self searchTextObjs] objectAtIndex:0];
     }
         
     if(contentViewController != nil) {
