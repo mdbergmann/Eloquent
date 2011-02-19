@@ -50,7 +50,6 @@
 		A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */; };
 		A908988F10C3C8BD0043465F /* edit_small.png in Resources */ = {isa = PBXBuildFile; fileRef = A908988E10C3C8BD0043465F /* edit_small.png */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
-		A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */ = {isa = PBXBuildFile; fileRef = A913C2BE0EC182E200A85F8D /* sword2.icns */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
 		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
 		A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A916FCE50E05483F009CAA2F /* BibleView.xib */; };
@@ -90,6 +89,7 @@
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
+		A94C9E8C131025920026FEE5 /* Eloquent.icns in Resources */ = {isa = PBXBuildFile; fileRef = A94C9E8B131025920026FEE5 /* Eloquent.icns */; };
 		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
 		A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
@@ -324,7 +324,6 @@
 		A908988E10C3C8BD0043465F /* edit_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_small.png; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
-		A913C2BE0EC182E200A85F8D /* sword2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sword2.icns; sourceTree = "<group>"; };
 		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
 		A916FCDD0E053910009CAA2F /* ModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleViewController.h; path = src/UserInterface/ModuleViewController.h; sourceTree = "<group>"; };
 		A916FCDE0E053910009CAA2F /* ModuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleViewController.m; path = src/UserInterface/ModuleViewController.m; sourceTree = "<group>"; };
@@ -398,6 +397,7 @@
 		A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchTextObject.m; path = src/UserInterface/SearchTextObject.m; sourceTree = "<group>"; };
 		A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MouseTrackingScrollView.h; path = src/UserInterface/MouseTrackingScrollView.h; sourceTree = "<group>"; };
 		A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MouseTrackingScrollView.m; path = src/UserInterface/MouseTrackingScrollView.m; sourceTree = "<group>"; };
+		A94C9E8B131025920026FEE5 /* Eloquent.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Eloquent.icns; sourceTree = "<group>"; };
 		A94D66CE0EC2CFC9006A84CB /* WorkspaceViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceViewHostController.h; path = src/UserInterface/WorkspaceViewHostController.h; sourceTree = "<group>"; };
 		A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceViewHostController.m; path = src/UserInterface/WorkspaceViewHostController.m; sourceTree = "<group>"; };
 		A94D66D20EC2D175006A84CB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
@@ -764,6 +764,7 @@
 		A91A23370E61955000382F44 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				A94C9E8B131025920026FEE5 /* Eloquent.icns */,
 				A9B0067D115F819400C07A22 /* scopebar_active.png */,
 				A9B0067E115F819400C07A22 /* scopebar_inactive.png */,
 				A908988E10C3C8BD0043465F /* edit_small.png */,
@@ -778,7 +779,6 @@
 				A9D760F10EF715BB00A78AA8 /* agt_add-to-autorun.png */,
 				A9D760F20EF715BB00A78AA8 /* bookmarks_list_add.png */,
 				A991F4A20EE2E224009A6D08 /* ModuleManager.png */,
-				A913C2BE0EC182E200A85F8D /* sword2.icns */,
 				A9CDC4570E652FD700BDA30F /* fifteenpieces.png */,
 				A91A23380E61955000382F44 /* add.png */,
 				A91A23390E61955000382F44 /* edit.png */,
@@ -1182,7 +1182,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				ORGANIZATIONNAME = CrossWire;
+				ORGANIZATIONNAME = Crosswire;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Eloquent" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1288,7 +1288,6 @@
 				A90545B90E62F11900CF4D18 /* DictionaryView.xib in Resources */,
 				A9CDC4580E652FD700BDA30F /* fifteenpieces.png in Resources */,
 				A9DCB0D50E9F252C004169EB /* GenBookView.xib in Resources */,
-				A913C2BF0EC182E200A85F8D /* sword2.icns in Resources */,
 				A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */,
 				A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */,
 				A9D3EB750EF6E28E00B3C993 /* dsa_pub.pem in Resources */,
@@ -1323,6 +1322,7 @@
 				A9629CB31179CB6F00E375AA /* Modules in Resources */,
 				A9921BA511FDACF1002DAA72 /* bin in Resources */,
 				A9A921D31205C49E008D7A64 /* DailyDevotion.xib in Resources */,
+				A94C9E8C131025920026FEE5 /* Eloquent.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
