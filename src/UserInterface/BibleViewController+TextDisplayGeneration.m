@@ -80,11 +80,11 @@
             }                
         }
 
-        CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...");
+        CocoLog(LEVEL_DEBUG, @"apply writing direction...");
         [self applyWritingDirection];
-        CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch:] apply writing direction...done");
+        CocoLog(LEVEL_DEBUG, @"apply writing direction...done");
     }
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForIndexedSearch::] prepare search results...done");
+    CocoLog(LEVEL_DEBUG, @"prepare search results...done");
         
     return ret;
 }
@@ -93,25 +93,25 @@
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
 
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...");
+    CocoLog(LEVEL_DEBUG, @"start creating HTML string...");
     NSString *htmlString = [self createHTMLStringWithMarkers];
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start creating HTML string...done");
+    CocoLog(LEVEL_DEBUG, @"start creating HTML string...done");
     
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...");
+    CocoLog(LEVEL_DEBUG, @"start generating attr string...");
     [self applyString:htmlString];
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start generating attr string...done");
+    CocoLog(LEVEL_DEBUG, @"start generating attr string...done");
     
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...");
+    CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
     [self applyLinkCursorToLinks];
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] setting pointing hand cursor...done");
+    CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...done");
     
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...");
+    CocoLog(LEVEL_DEBUG, @"start replacing markers...");
     [self replaceVerseMarkers];
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] start replacing markers...done");
+    CocoLog(LEVEL_DEBUG, @"start replacing markers...done");
     
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...");
+    CocoLog(LEVEL_DEBUG, @"apply writing direction...");
     [self applyWritingDirection];
-    CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLForReferenceLookup:] apply writing direction...done");        
+    CocoLog(LEVEL_DEBUG, @"apply writing direction...done");        
     
     return tempDisplayString;
 }
@@ -177,6 +177,11 @@
     return htmlString;
 }
 
+/**
+ Handles a verse entry.
+ The rendered verse text is appended to htmlString.
+ In case a context setting is set in the UI the duplicateDict will make sure we don't add verses twice.
+ */
 - (void)handleTextEntry:(SwordBibleTextEntry *)entry duplicateDict:(NSMutableDictionary *)duplicateDict htmlString:htmlString {
     if(entry && ([duplicateDict objectForKey:[entry key]] == nil)) {
         [duplicateDict setObject:entry forKey:[entry key]];
@@ -194,6 +199,9 @@
     }
 }
 
+/**
+ Highlight is this is a bookmark.
+ */
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry {
     BOOL isHighlightBookmarks = [[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue];
     if(isHighlightBookmarks) {
@@ -216,6 +224,9 @@
     }
 }
 
+/**
+ Create the HTML string from the verse entry and append it to aString.
+ */
 - (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString {
     NSString *bookName = @"";
     int book = -1;
@@ -233,6 +244,7 @@
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
     VerseNumberingType verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
+    BOOL hideVerseNumbering = (verseNumbering == NoVerseNumbering);
     
     // headings fg color
     CGFloat hr, hg, hb = 0.0;
@@ -268,7 +280,9 @@
                     [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
                 }
             }
-            [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
+            if(!hideVerseNumbering) {
+                [aString appendFormat:@"<br /><b>%@ %i:</b><br />\n", bookName, chapter];
+            }
         }
         [aString appendFormat:@";;;%@;;; %@\n", verseMarkerInfo, [anEntry text]];   // verse marker
     } else {
@@ -281,7 +295,7 @@
                     [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
                 }
             }
-            if(isShowVerseNumbersOnly) {
+            if(isShowVerseNumbersOnly && !hideVerseNumbering) {
                 if(chapter == 1) {
                     [aString appendFormat:@"<b>%@ %i:</b><br />\n", bookName, chapter];
                 } else {
@@ -298,6 +312,9 @@
     lastBook = book;
 }
 
+/**
+ Set the calculated HTML string to the TextView.
+ */
 - (void)applyString:(NSString *)aString {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
