@@ -5,7 +5,7 @@
 SRCROOT=`pwd`;
 BUILD_DIR="$SRCROOT/build";
 CONFIG="Release";
-TARGET="MacSword";
+TARGET="Eloquent";
 
 # check these values
 if [ $SRCROOT = "" ]; then
@@ -39,7 +39,7 @@ xcodebuild -target "$TARGET" -configuration "$CONFIG" clean build
 
 # generate deploy archive
 BUNDLEVERSION=`$SRCROOT/get_bundle_version.rb`;
-DESTPATH="$SRCROOT/../../$TARGET-""$BUNDLEVERSION";
+DESTPATH="$SRCROOT/../deploy/$TARGET-""$BUNDLEVERSION";
 
 mkdir "$DESTPATH";
 # copy app
@@ -50,10 +50,10 @@ DMGARCHIVE="$TARGET-${BUNDLEVERSION}.dmg";
 ZIPARCHIVE="$DMGARCHIVE.zip";
 # create disk image
 echo "Destpath: $DESTPATH";
-hdiutil create -srcfolder "$DESTPATH" "$SRCROOT/../../$DMGARCHIVE";
+hdiutil create -srcfolder "$DESTPATH" "$SRCROOT/../deploy/$DMGARCHIVE";
 sleep 2;
 # zip it
-cd "$SRCROOT/../../";
+cd "$SRCROOT/../deploy/";
 zip "$ZIPARCHIVE" "$DMGARCHIVE";
 
 exit 0
