@@ -206,13 +206,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A9013D4111E316C800E1CCCA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9013D3E11E316C700E1CCCA;
-			remoteInfo = "ObjCSword copy";
-		};
 		A975EA1511C77052007C1532 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
@@ -240,13 +233,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = A975EED911C792B9007C1532;
 			remoteInfo = mod2osis;
-		};
-		A9921AF411FDA1CA002DAA72 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9921AC411FDA1C7002DAA72;
-			remoteInfo = Sword_iOS;
 		};
 		A9BDFA701207F9870067ED5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -913,11 +899,9 @@
 			isa = PBXGroup;
 			children = (
 				A975EA1611C77052007C1532 /* ObjCSword.framework */,
-				A9013D4211E316C800E1CCCA /* ObjCSword_iOS.framework */,
 				A975EA1811C77052007C1532 /* Tests.octest */,
 				A9BDFA711207F9870067ED5B /* Tests.octest */,
 				A975EEDD11C792BA007C1532 /* mod2osis */,
-				A9921AF511FDA1CA002DAA72 /* libSword.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1213,13 +1197,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		A9013D4211E316C800E1CCCA /* ObjCSword_iOS.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ObjCSword_iOS.framework;
-			remoteRef = A9013D4111E316C800E1CCCA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		A975EA1611C77052007C1532 /* ObjCSword.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1239,13 +1216,6 @@
 			fileType = "compiled.mach-o.executable";
 			path = mod2osis;
 			remoteRef = A975EEDC11C792BA007C1532 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A9921AF511FDA1CA002DAA72 /* libSword.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libSword.dylib;
-			remoteRef = A9921AF411FDA1CA002DAA72 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A9BDFA711207F9870067ED5B /* Tests.octest */ = {
