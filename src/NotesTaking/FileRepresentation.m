@@ -74,6 +74,11 @@
         return NO;
     }
     
+    if([[[source parent] filePath] isEqualToString:[destDirectoryRep filePath]]) {
+        // no need to copy, it is the same path
+        return NO;
+    }
+    
     NSFileManager *fm = [NSFileManager defaultManager];
     
     // copy
