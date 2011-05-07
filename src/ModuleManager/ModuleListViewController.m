@@ -21,6 +21,7 @@
 
 - (ModuleListObject *)moduleObjectForClickedRow;
 - (void)updateModuleSelection;
+- (void)refreshLanguages;
 
 @end
 
@@ -62,9 +63,30 @@
     }    
 }
 
+- (void)refreshLanguages {
+    NSMutableArray *list = [NSMutableArray array];
+    for(ModuleListObject *lo in moduleData) {
+        SwordModule *mod = [lo module];
+        if(![list containsObject:[mod lang]]) {
+            [list addObject:[mod lang]];            
+        }
+    }
+    [list sortUsingSelector:@selector(compare:)];
+
+    [languagesButton removeAllItems];
+    [languagesButton addItemWithTitle:NSLocalizedString(@"All", @"")];
+    for(NSString *lang in list) {
+        [languagesButton addItemWithTitle:lang];
+    }
+    
+    [languagesButton selectItemWithTitle:[self langFilter]];
+}
+
 @end
 
 @implementation ModuleListViewController
+
+@synthesize langFilter;
 
 // ------------- getter / setter -------------------
 /** weak reference */
@@ -80,7 +102,7 @@
 - (void)setInstallSources:(NSArray *)anArray {
     [anArray retain];
     [installSources release];
-    installSources = anArray;
+    installSources = anArray;    
 }
 
 - (NSArray *)installSources {
@@ -93,6 +115,7 @@
         installSources = [[NSArray array] retain];
         moduleData = [[NSMutableArray array] retain];
         moduleSelection = [[NSMutableArray array] retain];
+        [self setLangFilter:NSLocalizedString(@"All", @"")];
     }
     
     return self;
@@ -102,6 +125,7 @@
     [self setModuleData:nil];
     [self setModuleSelection:nil];
     [self setInstallSources:nil];
+    [self setLangFilter:nil];
     
     [super dealloc];
 }
@@ -111,6 +135,7 @@
 //--------------------------------------------------------------------
 - (void)awakeFromNib {
     [moduleOutlineView setMenu:moduleMenu];
+    [self refreshLanguages];
 }
 
 /** update the modules with the modules in the sources list */
@@ -135,18 +160,25 @@
         NSArray *modList = [sis moduleStatusInInstallSource:is baseManager:sw];        
         // loop over module list
         for(SwordModule *mod in modList) {
-            // check for module type
-            if(([listObject objectType] == TypeInstallSource) || 
-               (([listObject objectType] == TypeModuleType) && [[listObject moduleType] isEqualToString:[mod typeString]])) {
 
-                ModuleListObject *buf = [[[ModuleListObject alloc] init] autorelease];
-                [buf setModule:mod];
-                [buf setInstallSource:is];
-                // add ModuleListObject to moduleData array
-                [moduleData addObject:buf];
+            // check for language filter
+            if([[self langFilter] isEqualToString:NSLocalizedString(@"All", @"")] ||
+               [[self langFilter] isEqualToString:[mod lang]]) {
+
+                // check for module type
+                if(([listObject objectType] == TypeInstallSource) || 
+                   (([listObject objectType] == TypeModuleType) && [[listObject moduleType] isEqualToString:[mod typeString]])) {
+                    
+                    ModuleListObject *buf = [[[ModuleListObject alloc] init] autorelease];
+                    [buf setModule:mod];
+                    [buf setInstallSource:is];
+                    // add ModuleListObject to moduleData array
+                    [moduleData addObject:buf];
+                }                
             }
         }
     }
+    [self refreshLanguages];
     
     [moduleOutlineView reloadData];
 }
@@ -157,15 +189,15 @@
  \brief validate menu
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    if([menuItem action] == @selector(languageFilter:)) {
+        return YES;
+    }
+    
     BOOL ret = NO;
-    int selectedModuleCount = [moduleSelection count];
-	
-	//CocoLog(LEVEL_DEBUG, @"%d module(s) selected", selectedModuleCount);
-	
+    int selectedModuleCount = [moduleSelection count];	
 	if(selectedModuleCount > 1) {
 		ret = YES;
-	}
-	else {
+	} else {
 	
 		// begin fix for MACSW-172 (draymer)
 		ModuleListObject *selectedObj = nil;
@@ -217,6 +249,12 @@
 
 // ----------------------- actions -------------------------
 - (IBAction)search:(id)sender {
+}
+
+- (IBAction)languageFilter:(id)sender {
+    [self setLangFilter:[(NSMenuItem *)sender title]];
+    
+    [self refreshModulesList];
 }
 
 // -------------------- module actions ---------------------
@@ -343,11 +381,9 @@
             for(ModuleListObject *mod in moduleData) {
                 // try to match against name of module
                 if([regex matchIn:[[mod module] name] matchResult:nil] == RegexMatch) {
-                    // add
                     [resultArray addObject:mod];
                 }
             }
-            
             [self setModuleData:resultArray];
             
             [moduleOutlineView reloadData];

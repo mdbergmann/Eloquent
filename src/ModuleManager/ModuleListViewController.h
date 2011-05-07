@@ -16,6 +16,7 @@
 
     // menu
     IBOutlet NSMenu *moduleMenu;
+    IBOutlet NSPopUpButton *languagesButton;
     
     /** we store a retained copy of the selected install sources */
     NSArray *installSources;
@@ -28,7 +29,11 @@
     
     /** current sort descriptors */
     NSArray *sortDescriptors;
+    
+    NSString *langFilter;
 }
+
+@property (readwrite, retain) NSString *langFilter;
 
 // ------------- getter / setter -------------------
 - (void)setDelegate:(id)aDelegate;
@@ -42,6 +47,7 @@
 
 // actions
 - (IBAction)search:(id)sender;
+- (IBAction)languageFilter:(id)sender;
 // menu actions
 - (IBAction)noneTask:(id)sender;
 - (IBAction)installModule:(id)sender;
