@@ -47,7 +47,7 @@
 
 + (FileRepresentation *)createWithName:(NSString *)aName isFolder:(BOOL)isFolder destinationDirectoryRep:(FileRepresentation *)aFolderRep {
     if(![aFolderRep isDirectory]) {
-        CocoLog(LEVEL_WARN, @"[FileRepresentation +createWithName::] destination is no directory!");
+        CocoLog(LEVEL_WARN, @"destination is no directory!");
         [NSException raise:@"NoDirectory" format:@"Given inFolder FileRepresentation is no folder!"];
     }
     
@@ -70,7 +70,7 @@
 
 + (BOOL)copyComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep {
     if(![destDirectoryRep isDirectory]) {
-        CocoLog(LEVEL_WARN, @"[FileRepresentation +moveComplete::] destination is no directory!");
+        CocoLog(LEVEL_WARN, @"destination is no directory!");
         return NO;
     }
     
@@ -80,7 +80,7 @@
     NSString *fileName = [FileRepresentation findFileNameForPreferredName:[source name] atFolder:[destDirectoryRep filePath]];    
     NSString *destinationPath = [[destDirectoryRep filePath] stringByAppendingPathComponent:fileName];
     if(![fm copyItemAtPath:[source filePath] toPath:destinationPath error:NULL]) {
-        CocoLog(LEVEL_ERR, @"[FileRepresentation +copyComplete::] unable to copy file %@ to path %@", [source filePath], destinationPath);
+        CocoLog(LEVEL_ERR, @"unable to copy file %@ to path %@", [source filePath], destinationPath);
         return NO;
     }
     FileRepresentation *destinationFileRep = [[FileRepresentation alloc] initWithPath:destinationPath];
@@ -94,7 +94,7 @@
 
 + (BOOL)moveComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep {
     if(![destDirectoryRep isDirectory]) {
-        CocoLog(LEVEL_WARN, @"[FileRepresentation +moveComplete::] destination is no directory!");
+        CocoLog(LEVEL_WARN, @"destination is no directory!");
         return NO;
     }
 
@@ -105,7 +105,7 @@
     
     // delete source
     if(![FileRepresentation deleteComplete:source]) {
-        CocoLog(LEVEL_ERR, @"[FileRepresentation +moveComplete::] unable to delete file %@", [source filePath]);        
+        CocoLog(LEVEL_ERR, @"unable to delete file %@", [source filePath]);        
         return NO;
     }
         
@@ -148,6 +148,14 @@
     return [fileWrapper filename];
 }
 
+- (NSString *)description {
+    return [self name];
+}
+
+- (NSComparisonResult)compare:(FileRepresentation *)aFileRep {
+    return [[self name] compare:[aFileRep name]];
+}
+
 - (void)setName:(NSString *)aName {
     NSString *newPath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:aName];
     // set name is a file move operation
@@ -181,7 +189,7 @@
 }
 
 - (NSArray *)directoryContent {
-    return [directoryContentWrapper allValues];
+    return [[directoryContentWrapper allValues] sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (void)addFileRepresentation:(FileRepresentation *)anItem {
