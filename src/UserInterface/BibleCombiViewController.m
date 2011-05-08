@@ -580,6 +580,12 @@
                 [parBibleViewControllers addObject:aViewController];
                 [parBibleSplitView addSubview:[aViewController view] positioned:NSWindowAbove relativeTo:nil];
             }
+            
+            // add search bookset to added view controller
+            if([parBibleViewControllers count] > 1) {
+                // take bookset from first
+                [self indexBookSetChanged:[parBibleViewControllers objectAtIndex:0]];
+            }
         }
         [self setupForContentViewController:aViewController];
     }
