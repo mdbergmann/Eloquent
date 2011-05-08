@@ -88,7 +88,7 @@
         
         [self _loadNib];
     } else {
-        CocoLog(LEVEL_ERR, @"[BibleViewController -init] unable init!");
+        CocoLog(LEVEL_ERR, @"unable init!");
     }
     
     return self;
@@ -108,7 +108,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
     if(!stat) {
-        CocoLog(LEVEL_ERR, @"[BibleViewController -init] unable to load nib!");            
+        CocoLog(LEVEL_ERR, @"unable to load nib!");            
     }    
 }
 
@@ -312,14 +312,14 @@
     if(performProgressCalculation) {
         // in order to show a progress indicator for if the searching takes too long
         // we need to find out how long it will approximately take
-        CocoLog(LEVEL_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...");
+        CocoLog(LEVEL_DEBUG, @"numberOfVerseKeys...");
         int len = [(SwordBible *)module numberOfVerseKeysForReference:searchString];
         // let's say that for more then 30 verses we show a progress indicator
         if(len >= 30) {
             [self beginIndicateProgress];
         }
         performProgressCalculation = YES;   // next time we do
-        CocoLog(LEVEL_DEBUG, @"[BibleViewController -checkPerformProgressCalculation::] numberOfVerseKeys...done");
+        CocoLog(LEVEL_DEBUG, @"numberOfVerseKeys...done");
     }
 }
 
@@ -333,7 +333,7 @@
         long maxResults = 10000;
         indexer = [[IndexingManager sharedManager] indexerForModuleName:[module name] moduleType:[module type]];
         if(indexer == nil) {
-            CocoLog(LEVEL_ERR, @"[BibleViewController -performThreadedSearch::] Could not get indexer for searching!");
+            CocoLog(LEVEL_ERR, @"Could not get indexer for searching!");
         } else {
             [indexer performThreadedSearchOperation:searchString constrains:bookSet maxResults:maxResults delegate:self];
         }        

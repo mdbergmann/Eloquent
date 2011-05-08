@@ -62,7 +62,7 @@
         
         [self _loadNib];
     } else {
-        CocoLog(LEVEL_ERR, @"[CommentaryViewController -init] unable init!");
+        CocoLog(LEVEL_ERR, @"unable init!");
     }
     
     return self;    
@@ -76,7 +76,7 @@
 - (void)_loadNib {
     BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
     if(!stat) {
-        CocoLog(LEVEL_ERR, @"[CommentaryViewController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"unable to load nib!");
     }
 }
 

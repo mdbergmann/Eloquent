@@ -216,8 +216,8 @@ extern char ModuleListUI;
     NSDictionary *linkResult = [SwordManager linkDataForLinkURL:aUrl];
     SendNotifyShowPreviewData(linkResult);
     
-    CocoLog(LEVEL_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] classname: %@", [aUrl className]);    
-    CocoLog(LEVEL_DEBUG, @"[ContentDisplayingViewController -processPreviewDisplay:] link: %@", [aUrl description]);
+    CocoLog(LEVEL_DEBUG, @"classname: %@", [aUrl className]);    
+    CocoLog(LEVEL_DEBUG, @"link: %@", [aUrl description]);
     if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
         return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
     }

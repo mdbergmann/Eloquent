@@ -51,7 +51,7 @@
 #pragma mark - NSOutlineView delegate methods
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	CocoLog(LEVEL_DEBUG,@"[BibleViewController outlineViewSelectionDidChange:]");
+	CocoLog(LEVEL_DEBUG,@"");
 	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
@@ -97,10 +97,10 @@
                 [hostingDelegate setSearchText:selRef];
             }
 		} else {
-			CocoLog(LEVEL_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"have a nil notification object!");
 		}
 	} else {
-		CocoLog(LEVEL_WARN,@"[BibleViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"have a nil notification!");
 	}
 }
 

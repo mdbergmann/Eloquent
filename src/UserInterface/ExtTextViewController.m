@@ -31,7 +31,7 @@
 - (id)initWithDelegate:(id)aDelegate {
     self = [super init];
     if(self) {
-        CocoLog(LEVEL_DEBUG, @"[ExtTextViewController -init] loading nib");
+        CocoLog(LEVEL_DEBUG, @"loading nib");
         
         // init values
         viewLoaded = NO;
@@ -40,7 +40,7 @@
         // load nib
         BOOL stat = [NSBundle loadNibNamed:EXTTEXTVIEW_NIBNAME owner:self];
         if(!stat) {
-            CocoLog(LEVEL_ERR, @"[ExtTextViewController -init] unable to load nib!");
+            CocoLog(LEVEL_ERR, @"unable to load nib!");
         }
     }
     
@@ -167,7 +167,7 @@
 - (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
-        CocoLog(LEVEL_WARN, @"[ExtTextViewController -textView:willDisplayToolTip:] no URL: %@\n", tooltip);
+        CocoLog(LEVEL_WARN, @"no URL: %@\n", tooltip);
     } else {
         return [delegate performSelector:@selector(processPreviewDisplay:) withObject:url];
     }

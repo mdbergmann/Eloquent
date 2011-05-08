@@ -67,7 +67,7 @@
         self.delegate = aDelegate;
         [self commonInit];
     } else {
-        CocoLog(LEVEL_ERR, @"[DictionaryViewController -init] unable init!");
+        CocoLog(LEVEL_ERR, @"unable init!");
     }
     
     return self;
@@ -81,7 +81,7 @@
     
     BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
     if(!stat) {
-        CocoLog(LEVEL_ERR, @"[DictionaryViewController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"unable to load nib!");
     }
 }
 
@@ -233,7 +233,7 @@
                                   range:NSMakeRange(0, [tempDisplayString length])];
         
         // add pointing hand cursor to all links
-        CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...");
+        CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
         NSRange effectiveRange;
         int	i = 0;
         while (i < [tempDisplayString length]) {
@@ -246,7 +246,7 @@
             }
             i += effectiveRange.length;
         }
-        CocoLog(LEVEL_DEBUG, @"[BibleViewController -displayableHTMLFromVerseData:] setting pointing hand cursor...done");        
+        CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...done");        
     } else {
         tempDisplayString = [[NSMutableAttributedString alloc] init];
     }
@@ -399,10 +399,10 @@
             self.selection = sel;
             [self displayTextForReference:searchString];
 		} else {
-			CocoLog(LEVEL_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification object!");
+			CocoLog(LEVEL_WARN,@"have a nil notification object!");
 		}
 	} else {
-		CocoLog(LEVEL_WARN,@"[DictionaryViewController outlineViewSelectionDidChange:] have a nil notification!");
+		CocoLog(LEVEL_WARN,@"have a nil notification!");
 	}
 }
 
