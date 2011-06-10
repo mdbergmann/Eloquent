@@ -14,6 +14,13 @@
 #import "globals.h"
 
 
+@interface HUDPreviewController ()
+
++ (NSString *)createHtmlVerseForKey:(NSString *)aKey andText:(NSString *)verseText withStyleColor:(NSString *)styleColorSting andModuleName:(NSString *)aModName;
+
+@end
+
+
 @implementation HUDPreviewController
 
 @synthesize delegate;
@@ -80,7 +87,7 @@
                         if(textType == TextTypeStripped) {
                             [displayText appendFormat:@"%@:\n%@\n", key, verseText];                            
                         } else {
-                            [displayText appendFormat:@"<span style=\"%@\">%@:<br />%@<br /></span>", previewPaneTextColor, key, verseText];                            
+                            [displayText appendString:[HUDPreviewController createHtmlVerseForKey:key andText:verseText withStyleColor:previewPaneTextColor andModuleName:module]];                            
                         }
                     }
                 } else if([result isKindOfClass:[NSString class]]) {
@@ -92,7 +99,7 @@
                     if(textType == TextTypeStripped) {
                         [displayText appendFormat:@"%@:\n%@\n", key, verseText];                            
                     } else {
-                        [displayText appendFormat:@"<span style=\"%@\">%@:<br />%@<br /></span>", previewPaneTextColor, key, verseText];                            
+                        [displayText appendString:[HUDPreviewController createHtmlVerseForKey:key andText:verseText withStyleColor:previewPaneTextColor andModuleName:module]];                            
                     }
                 }
             }
@@ -101,6 +108,10 @@
     }
     
     return ret;    
+}
+
++ (NSString *)createHtmlVerseForKey:(NSString *)aKey andText:(NSString *)verseText withStyleColor:(NSString *)styleColorSting andModuleName:(NSString *)aModName {
+    return [NSString stringWithFormat:@"<span style=\"%@\"><a href=\"sword://%@/%@\">%@</a>:<br />%@<br /></span>", styleColorSting, aModName, aKey, aKey, verseText];
 }
 
 - (id)init {
@@ -117,6 +128,12 @@
 }
 
 - (void)awakeFromNib {
+    NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:2];
+    [linkAttributes setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+    [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+    [previewText setLinkTextAttributes:linkAttributes];
+    
+    
     [previewText setTextColor:[NSColor lightGrayColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(showPreviewData:)
