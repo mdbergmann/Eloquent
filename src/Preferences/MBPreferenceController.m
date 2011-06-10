@@ -126,7 +126,7 @@ static MBPreferenceController *instance;
     int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
 
-    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:aModName];
+    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
     if(settings) {
         displayFont = [settings displayFont];
     }
@@ -139,7 +139,7 @@ static MBPreferenceController *instance;
     int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
     
-    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:aModName];
+    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
     if(settings) {
         displayFont = [settings displayFontBold];
     }

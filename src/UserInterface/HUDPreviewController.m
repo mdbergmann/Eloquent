@@ -9,7 +9,6 @@
 #import "HUDPreviewController.h"
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
 #import "ObjCSword/SwordModuleTextEntry.h"
 #import "ObjCSword/SwordKey.h"
 #import "globals.h"
@@ -20,9 +19,21 @@
 @synthesize delegate;
 
 + (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData {
+    return [HUDPreviewController previewDataFromDict:previewData forTextType:TextTypeStripped];
+}
+
++ (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData forTextType:(TextPullType)textType {
     NSMutableDictionary *ret = nil;
     
     if(previewData) {
+        
+        // headings fg color
+        CGFloat hr, hg, hb = 0.0;
+        NSColor *hfCol = [NSColor colorWithCalibratedRed:0.86 green:0.86 blue:0.86 alpha:0.0];
+        [hfCol getRed:&hr green:&hg blue:&hb alpha:NULL];    
+        NSString *previewPaneTextColor = [NSString stringWithFormat:@"color:rgb(%i%%, %i%%, %i%%);",
+                                          (int)(hr * 100.0), (int)(hg * 100.0), (int)(hb * 100.0)];
+        
         NSString *module = [previewData objectForKey:ATTRTYPE_MODULE];
         if(!module || [module length] == 0) {
             // get module for previewtype
@@ -58,7 +69,7 @@
             }
             [ret setObject:displayType forKey:@"PreviewDisplayTypeKey"];
             
-            id result = [mod attributeValueForParsedLinkData:previewData];
+            id result = [mod attributeValueForParsedLinkData:previewData withTextRenderType:textType];
             if(result != nil) {
                 if([result isKindOfClass:[NSArray class]]) {
                     // prepare for view
@@ -66,7 +77,11 @@
                         NSString *verseText = [entry text];
                         NSString *key = [entry key];
                         
-                        [displayText appendFormat:@"%@:\n%@\n", key, verseText];
+                        if(textType == TextTypeStripped) {
+                            [displayText appendFormat:@"%@:\n%@\n", key, verseText];                            
+                        } else {
+                            [displayText appendFormat:@"<span style=\"%@\">%@:<br />%@<br /></span>", previewPaneTextColor, key, verseText];                            
+                        }
                     }
                 } else if([result isKindOfClass:[NSString class]]) {
                     displayText = result;
@@ -74,14 +89,18 @@
                     NSString *verseText = [(SwordModuleTextEntry *)result text];
                     NSString *key = [(SwordModuleTextEntry *)result key];
                     
-                    [displayText appendFormat:@"%@:\n%@\n", key, verseText];                    
+                    if(textType == TextTypeStripped) {
+                        [displayText appendFormat:@"%@:\n%@\n", key, verseText];                            
+                    } else {
+                        [displayText appendFormat:@"<span style=\"%@\">%@:<br />%@<br /></span>", previewPaneTextColor, key, verseText];                            
+                    }
                 }
             }
             [ret setObject:displayText forKey:@"PreviewDisplayTextKey"];            
         }      
     }
-
-    return ret;
+    
+    return ret;    
 }
 
 - (id)init {
@@ -122,10 +141,24 @@
 
 - (void)showPreviewData:(NSNotification *)aNotification {
     NSDictionary *data = [aNotification object];
-    NSDictionary *previewDict = [HUDPreviewController previewDataFromDict:data];
+    NSDictionary *previewDict = [HUDPreviewController previewDataFromDict:data forTextType:TextTypeRendered];
     if(previewDict) {
         [previewType setStringValue:[previewDict objectForKey:PreviewDisplayTypeKey]];
-        [previewText setString:[previewDict objectForKey:PreviewDisplayTextKey]];            
+
+        
+        NSMutableDictionary *options = [NSMutableDictionary dictionary];
+        [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
+        WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferences];
+        [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
+        [options setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+                
+        NSData *data = [[previewDict objectForKey:PreviewDisplayTextKey] dataUsingEncoding:NSUTF8StringEncoding];
+        NSMutableAttributedString *tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+                                                                                               options:options
+                                                                                    documentAttributes:nil];
+        
+        
+        [[previewText textStorage] setAttributedString:tempDisplayString];
     }
 }
 

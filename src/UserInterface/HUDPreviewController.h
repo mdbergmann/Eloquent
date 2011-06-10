@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
+#import <ObjCSword/SwordModule.h>
 
 #define PreviewDisplayTypeKey   @"PreviewDisplayTypeKey"
 #define PreviewDisplayTextKey   @"PreviewDisplayTextKey"
@@ -16,7 +17,6 @@
     
     IBOutlet NSBox *placeholderView;
     IBOutlet NSTextField *previewType;
-    //IBOutlet NSTextField *previewText;
     IBOutlet NSTextView *previewText;
     
     IBOutlet id delegate;
@@ -25,6 +25,7 @@
 @property (assign, readwrite) id delegate;
 
 + (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData;
++ (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData forTextType:(TextPullType)textType;
 
 - (id)initWithDelegate:(id)aDelegate;
 
