@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10J567</string>
+		<string key="IBDocument.SystemVersion">10J869</string>
 		<string key="IBDocument.InterfaceBuilderVersion">823</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">462.00</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">823</string>
@@ -266,9 +266,9 @@
 								<reference key="NSControlView" ref="628023434"/>
 								<int key="NSButtonFlags">-2033958657</int>
 								<int key="NSButtonFlags2">163</int>
-								<object class="NSCustomResource" key="NSNormalImage" id="565187462">
+								<object class="NSCustomResource" key="NSNormalImage" id="47868346">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSImageNameSlideshowTemplate</string>
+									<string key="NSResourceName">tb_sidebar_left</string>
 								</object>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -276,7 +276,7 @@
 								<int key="NSPeriodicInterval">75</int>
 							</object>
 						</object>
-						<reference key="NSToolbarItemImage" ref="565187462"/>
+						<reference key="NSToolbarItemImage" ref="47868346"/>
 						<nil key="NSToolbarItemTarget"/>
 						<nil key="NSToolbarItemAction"/>
 						<string key="NSToolbarItemMinSize">{32, 25}</string>
@@ -364,14 +364,17 @@
 								<reference key="NSControlView" ref="359633111"/>
 								<int key="NSButtonFlags">-2033958657</int>
 								<int key="NSButtonFlags2">163</int>
-								<reference key="NSNormalImage" ref="565187462"/>
+								<object class="NSCustomResource" key="NSNormalImage" id="259979318">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">tb_sidebar_right</string>
+								</object>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
 							</object>
 						</object>
-						<reference key="NSToolbarItemImage" ref="565187462"/>
+						<reference key="NSToolbarItemImage" ref="259979318"/>
 						<nil key="NSToolbarItemTarget"/>
 						<nil key="NSToolbarItemAction"/>
 						<string key="NSToolbarItemMinSize">{32, 25}</string>
@@ -2374,12 +2377,13 @@
 			<string key="NSAddTemplate">{8, 8}</string>
 			<string key="NSEnterFullScreenTemplate">{16, 15}</string>
 			<string key="NSExitFullScreenTemplate">{16, 15}</string>
-			<string key="NSImageNameSlideshowTemplate">{128, 128}</string>
 			<string key="NSListViewTemplate">{11, 10}</string>
 			<string key="NSMenuCheckmark">{9, 8}</string>
 			<string key="NSMenuMixedState">{7, 2}</string>
 			<string key="NSRefreshTemplate">{10, 12}</string>
 			<string key="NSRevealFreestandingTemplate">{14, 14}</string>
+			<string key="tb_sidebar_left">{15, 15}</string>
+			<string key="tb_sidebar_right">{15, 15}</string>
 		</dictionary>
 	</data>
 </archive>

@@ -22,31 +22,11 @@
 @implementation WindowHostController (SideBars)
 
 - (BOOL)showingLSB {
-    BOOL ret = NO;
-    if([[mainSplitView subviews] containsObject:[lsbViewController view]]) {
-        ret = YES;
-        // show image play to right
-        [toolbarController setLSBToggleButtonImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
-    } else {
-        // show image play to left
-        [toolbarController setLSBToggleButtonImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];
-    }
-    
-    return ret;
+    return [[mainSplitView subviews] containsObject:[lsbViewController view]];
 }
 
 - (BOOL)showingRSB {
-    BOOL ret = NO;
-    if([[contentSplitView subviews] containsObject:[rsbViewController view]]) {
-        ret = YES;
-        // show image play to left
-        [toolbarController setRSBToggleButtonImage:[(NSImage *)[NSImage imageNamed:NSImageNameSlideshowTemplate] mirrorVertically]];    
-    } else {
-        // show image play to right
-        [toolbarController setRSBToggleButtonImage:[NSImage imageNamed:NSImageNameSlideshowTemplate]];
-    }
-    
-    return ret;
+    return [[contentSplitView subviews] containsObject:[rsbViewController view]];
 }
 
 - (BOOL)toggleLSB {
