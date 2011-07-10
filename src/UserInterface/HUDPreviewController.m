@@ -91,7 +91,11 @@
                         }
                     }
                 } else if([result isKindOfClass:[NSString class]]) {
-                    displayText = result;
+                    if(textType == TextTypeRendered) {
+                        displayText = [NSString stringWithFormat:@"<span style=\"%@\">%@</span>", previewPaneTextColor, result];                        
+                    } else {
+                        displayText = result;
+                    }
                 } else if([result isKindOfClass:[SwordModuleTextEntry class]]) {
                     NSString *verseText = [(SwordModuleTextEntry *)result text];
                     NSString *key = [(SwordModuleTextEntry *)result key];
