@@ -35,6 +35,7 @@
 
 - (void)awakeFromNib {
     [toolbar setAllowsUserCustomization:YES];
+    [searchTextField setFrameSize:CGSizeMake(1600.0, [searchTextField frame].size.height)];
     //[self reportLoadingComplete];
 }
 

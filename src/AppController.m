@@ -47,7 +47,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 @implementation AppController (privateAPI)
 
 + (void)initialize {
-    [[Configuration config] setClass:[OSXConfiguration class]];
+    [Configuration configWithImpl:[OSXConfiguration new]];
 
 	NSString *logPath = LOGFILE;
 	

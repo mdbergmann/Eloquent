@@ -208,6 +208,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A954ACEA13EEA7310094E3FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A954ABC313EE9AB00094E3FE;
+			remoteInfo = sword;
+		};
 		A975EA1511C77052007C1532 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
@@ -905,9 +912,10 @@
 			isa = PBXGroup;
 			children = (
 				A975EA1611C77052007C1532 /* ObjCSword.framework */,
-				A975EA1811C77052007C1532 /* Tests.octest */,
 				A9BDFA711207F9870067ED5B /* Tests.octest */,
 				A975EEDD11C792BA007C1532 /* mod2osis */,
+				A975EA1811C77052007C1532 /* Tests.octest */,
+				A954ACEB13EEA7310094E3FE /* libsword.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1172,6 +1180,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0410;
 				ORGANIZATIONNAME = Crosswire;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Eloquent" */;
@@ -1203,6 +1212,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		A954ACEB13EEA7310094E3FE /* libsword.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libsword.dylib;
+			remoteRef = A954ACEA13EEA7310094E3FE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A975EA1611C77052007C1532 /* ObjCSword.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1748,7 +1764,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Deploy;
 				ZERO_LINK = NO;
 			};
@@ -1769,7 +1784,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = WriteBuildnumber;
 				ZERO_LINK = NO;
 			};
@@ -1787,10 +1801,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DRELEASE";
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.7;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = AppStore;
@@ -1798,20 +1811,20 @@
 		A9CA81E512D0BDE1005346FD /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Resources\"",
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = 4.2;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				IBC_FLATTEN_NIBS = NO;
@@ -1819,6 +1832,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
@@ -1834,7 +1848,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Deploy;
 				ZERO_LINK = NO;
 			};
@@ -1845,7 +1858,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = WriteBuildnumber;
 				ZERO_LINK = NO;
 			};
@@ -1861,7 +1873,6 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SRCROOT)/Resources\"",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1879,7 +1890,6 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = Tests;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
@@ -1896,7 +1906,6 @@
 					"\"$(SRCROOT)/Resources\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1925,7 +1934,6 @@
 					"-lz",
 					"-licucore",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = Tests;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1941,7 +1949,6 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SRCROOT)/Resources\"",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1959,7 +1966,6 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = Tests;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
@@ -1970,7 +1976,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1980,7 +1986,6 @@
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
@@ -1988,7 +1993,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				IBC_FLATTEN_NIBS = NO;
@@ -1997,6 +2002,7 @@
 				LD_OPENMP_FLAGS = "-fopenmp";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-DDEBUG",
@@ -2015,20 +2021,20 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Resources\"",
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = 4.2;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				IBC_FLATTEN_NIBS = NO;
@@ -2036,6 +2042,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = (
 					"-DRELEASE",
 					"-DUSE_SPARKLE",
@@ -2060,10 +2067,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DDEBUG";
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.7;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
@@ -2071,10 +2077,7 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2082,10 +2085,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DRELEASE";
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.7;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
