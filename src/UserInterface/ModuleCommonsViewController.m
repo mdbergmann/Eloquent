@@ -19,6 +19,7 @@
 #import "ObjectAssotiations.h"
 #import "ModulesUIController.h"
 #import "BookmarksUIController.h"
+#import "WindowHostController+Fullscreen.h"
 
 extern char BookmarkMgrUI;
 

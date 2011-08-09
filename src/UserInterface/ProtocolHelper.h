@@ -31,8 +31,6 @@
 
 @protocol FullScreenCapability
 - (BOOL)isFullScreenMode;
-- (void)setFullScreenMode:(BOOL)flag;
-- (IBAction)fullScreenModeOnOff:(id)sender;
 @end
 
 @protocol TextContentProviding

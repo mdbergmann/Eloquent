@@ -43,37 +43,26 @@
     return toolbar;
 }
 
-- (NSView *)toolbarHUDView {
-    return toolbarHUDView;
-}
-
 - (void)setScopebarView:(NSView *)aView {
     [scopebarPlaceholder setContentView:aView];
 }
 
 - (void)setSearchTextFieldRecents:(NSArray *)recents {
     [searchTextField setRecentSearches:recents];
-    [hudSearchTextField setRecentSearches:recents];
 }
 
 - (void)setSearchTextFieldRecentsMenu:(NSMenu *)aMenu {
     [[searchTextField cell] setSearchMenuTemplate:aMenu];    
-    [[hudSearchTextField cell] setSearchMenuTemplate:aMenu];    
 }
 
 - (void)setSearchTextFieldString:(NSString *)aString {
     [searchTextField setStringValue:aString];    
-    [hudSearchTextField setStringValue:aString];    
 }
 
 - (void)setSearchTextFieldOptions:(SearchTextFieldOptions *)options {
     [searchTextField setContinuous:[options continuous]];
     [[searchTextField cell] setSendsSearchStringImmediately:[options sendsSearchStringImmediately]]; 
     [[searchTextField cell] setSendsWholeSearchString:[options sendsWholeSearchString]];    
-
-    [hudSearchTextField setContinuous:[options continuous]];
-    [[hudSearchTextField cell] setSendsSearchStringImmediately:[options sendsSearchStringImmediately]]; 
-    [[hudSearchTextField cell] setSendsWholeSearchString:[options sendsWholeSearchString]];    
 }
 
 - (void)focusSearchTextField {
@@ -82,12 +71,10 @@
 
 - (void)setActiveSearchTypeSegElement:(SearchType)aType {
     [searchTypeSegControl selectSegmentWithTag:aType];    
-    [hudSearchTypeSegControl selectSegmentWithTag:aType];    
 }
 
 - (void)setEnabled:(BOOL)flag searchTypeSegElement:(SearchType)aType {
     [[searchTypeSegControl cell] setEnabled:flag forSegment:aType];    
-    [[hudSearchTypeSegControl cell] setEnabled:flag forSegment:aType];    
 }
 
 - (void)setBookmarkButtonEnabled:(BOOL)flag {
@@ -96,17 +83,14 @@
 
 - (void)setForceReloadButtonEnabled:(BOOL)flag {
     [forceReloadBtn setEnabled:flag];
-    [hudForceReloadBtn setEnabled:flag];
 }
 
 - (void)setLSBToggleButtonImage:(NSImage *)anImage {
     [leftSideBarToggleBtn setImage:anImage];
-    [hudLeftSideBarToggleBtn setImage:anImage];
 }
 
 - (void)setRSBToggleButtonImage:(NSImage *)anImage {
     [rightSideBarToggleBtn setImage:anImage];    
-    [hudRightSideBarToggleBtn setImage:anImage];
 }
 
 # pragma mark - NSToolbarDelegate
@@ -162,14 +146,6 @@
 
 - (IBAction)rightSideBarHideShow:(id)sender {
     [delegate rightSideBarHideShow:sender];
-}
-
-- (IBAction)quitFullscreenMode:(id)sender {
-    [delegate quitFullscreenMode:sender];
-}
-
-- (IBAction)enterFullscreenMode:(id)sender {
-    [delegate enterFullscreenMode:sender];
 }
 
 @end

@@ -33,6 +33,7 @@
 #import "SearchTextFieldOptions.h"
 #import "ToolbarController.h"
 #import "PrintAccessoryViewController.h"
+#import "WindowHostController+Fullscreen.h"
 
 extern char ModuleListUI;
 extern char BookmarkMgrUI;
@@ -63,6 +64,7 @@ typedef enum _NavigationDirectionType {
     if(self) {
         hostLoaded = NO;
         inFullScreenTransition = NO;
+        inFullScreenMode = NO;
         
         [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         
@@ -241,14 +243,6 @@ typedef enum _NavigationDirectionType {
     }    
 }
 
-- (IBAction)quitFullscreenMode:(id)sender {
-    [view setFullScreenMode:NO];
-}
-
-- (IBAction)enterFullscreenMode:(id)sender {
-    [view setFullScreenMode:YES];    
-}
-
 - (IBAction)performClose:(id)sender {
     [self close];
     [Assotiater unregisterForAssotiatedObject:self withKey:&NotesMgrUI];
@@ -342,10 +336,6 @@ typedef enum _NavigationDirectionType {
     }
     
     [[self window] setTitle:[self computeWindowTitle]];
-}
-
-- (BOOL)isFullScreenMode {
-    return [view isFullScreenMode];
 }
 
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod {

@@ -66,6 +66,7 @@
     PrintAccessoryViewController *printAccessoryController;
     
     BOOL inFullScreenTransition;
+    BOOL inFullScreenMode;
     
     BOOL hostLoaded;
 }
@@ -88,8 +89,6 @@
 
 /** tells the lsb to open the module about window */
 - (void)displayModuleAboutSheetForModule:(SwordModule *)aMod;
-
-- (BOOL)isFullScreenMode;
 
 - (ContentViewType)contentViewType;
 - (void)readaptHostUI;
@@ -114,8 +113,6 @@
 - (IBAction)forceReload:(id)sender;
 
 // menu first responder actions
-- (IBAction)enterFullscreenMode:(id)sender;
-- (IBAction)quitFullscreenMode:(id)sender;
 - (IBAction)leftSideBarHideShow:(id)sender;
 - (IBAction)rightSideBarHideShow:(id)sender;
 - (IBAction)switchLookupView:(id)sender;

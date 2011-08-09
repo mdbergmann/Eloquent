@@ -19,7 +19,6 @@
 - (IBAction)switchLookupView:(id)sender;
 - (IBAction)navigationBack:(id)sender;
 - (IBAction)navigationForward:(id)sender;
-- (IBAction)fullScreenModeOnOff:(id)sender;
 - (IBAction)focusSearchEntry:(id)sender;
 - (IBAction)nextBook:(id)sender;
 - (IBAction)previousBook:(id)sender;
