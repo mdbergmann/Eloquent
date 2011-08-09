@@ -48,4 +48,30 @@
     [view fullScreenModeOnOff:sender];
 }
 
+- (void)windowWillEnterFullScreen:(NSNotification *)notification {
+    CocoLog(LEVEL_DEBUG, @"going to fullscreen");
+    
+    inFullScreenTransition = YES;
+}
+
+- (void)windowDidEnterFullScreen:(NSNotification *)notification {
+    CocoLog(LEVEL_DEBUG, @"gone to fullscreen");
+    
+    inFullScreenTransition = NO;
+    [self forceReload:nil];
+}
+
+- (void)windowWillExitFullScreen:(NSNotification *)notification {
+    CocoLog(LEVEL_DEBUG, @"leaving fullscreen");
+    
+    inFullScreenTransition = YES;
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)notification {
+    CocoLog(LEVEL_DEBUG, @"left fullscreen");
+    
+    inFullScreenTransition = NO;
+    [self forceReload:nil];
+}
+
 @end

@@ -119,7 +119,6 @@
                                  @"ReferenceTextField",
                                  @"AddBookmarkButton",
                                  @"RefreshButton",
-                                 @"FullscreenButton",
                                  NSToolbarSpaceItemIdentifier,
                                  @"RightSidebarButton",
                                  nil];

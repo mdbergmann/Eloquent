@@ -59,7 +59,7 @@
 						<object class="NSSearchField" key="NSToolbarItemView" id="451244056">
 							<reference key="NSNextResponder"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{0, 14}, {1600, 22}}</string>
+							<string key="NSFrame">{{0, 14}, {200, 22}}</string>
 							<reference key="NSSuperview"/>
 							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
@@ -131,7 +131,7 @@
 						<nil key="NSToolbarItemImage"/>
 						<nil key="NSToolbarItemTarget"/>
 						<nil key="NSToolbarItemAction"/>
-						<string key="NSToolbarItemMinSize">{299, 22}</string>
+						<string key="NSToolbarItemMinSize">{200, 22}</string>
 						<string key="NSToolbarItemMaxSize">{2000, 22}</string>
 						<bool key="NSToolbarItemEnabled">YES</bool>
 						<bool key="NSToolbarItemAutovalidates">YES</bool>
@@ -215,49 +215,6 @@
 							</object>
 						</object>
 						<reference key="NSToolbarItemImage" ref="492345346"/>
-						<nil key="NSToolbarItemTarget"/>
-						<nil key="NSToolbarItemAction"/>
-						<string key="NSToolbarItemMinSize">{32, 25}</string>
-						<string key="NSToolbarItemMaxSize">{32, 25}</string>
-						<bool key="NSToolbarItemEnabled">YES</bool>
-						<bool key="NSToolbarItemAutovalidates">YES</bool>
-						<int key="NSToolbarItemTag">0</int>
-						<bool key="NSToolbarIsUserRemovable">YES</bool>
-						<int key="NSToolbarItemVisibilityPriority">0</int>
-					</object>
-					<object class="NSToolbarItem" key="B9FF30EE-5C53-4FB0-B5A9-2D22A8241CE7" id="235293873">
-						<object class="NSMutableString" key="NSToolbarItemIdentifier">
-							<characters key="NS.bytes">B9FF30EE-5C53-4FB0-B5A9-2D22A8241CE7</characters>
-						</object>
-						<string key="NSToolbarItemLabel">Fullscreen</string>
-						<string key="NSToolbarItemPaletteLabel">Fullscreen</string>
-						<nil key="NSToolbarItemToolTip"/>
-						<object class="NSButton" key="NSToolbarItemView" id="908276226">
-							<reference key="NSNextResponder"/>
-							<int key="NSvFlags">265</int>
-							<string key="NSFrame">{{15, 14}, {32, 25}}</string>
-							<reference key="NSSuperview"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="1003728880">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents"/>
-								<reference key="NSSupport" ref="335440614"/>
-								<reference key="NSControlView" ref="908276226"/>
-								<int key="NSButtonFlags">-2033958657</int>
-								<int key="NSButtonFlags2">163</int>
-								<object class="NSCustomResource" key="NSNormalImage" id="121393410">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSEnterFullScreenTemplate</string>
-								</object>
-								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-						</object>
-						<reference key="NSToolbarItemImage" ref="121393410"/>
 						<nil key="NSToolbarItemTarget"/>
 						<nil key="NSToolbarItemAction"/>
 						<string key="NSToolbarItemMinSize">{32, 25}</string>
@@ -481,7 +438,6 @@
 					<reference ref="156431576"/>
 					<reference ref="272370804"/>
 					<reference ref="129405008"/>
-					<reference ref="235293873"/>
 					<reference ref="228239594"/>
 					<reference ref="929494607"/>
 				</array>
@@ -492,7 +448,6 @@
 					<reference ref="497547049"/>
 					<reference ref="272370804"/>
 					<reference ref="129405008"/>
-					<reference ref="235293873"/>
 					<reference ref="938658726"/>
 					<reference ref="929494607"/>
 				</array>
@@ -992,30 +947,6 @@
 					</object>
 					<int key="connectionID">163</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">enterFullscreenModeBtn</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="908276226"/>
-					</object>
-					<int key="connectionID">169</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">enterFullscreenMode:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="235293873"/>
-					</object>
-					<int key="connectionID">171</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">enterFullscreenMode:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="908276226"/>
-					</object>
-					<int key="connectionID">172</int>
-				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1055,7 +986,6 @@
 							<reference ref="929494607"/>
 							<reference ref="1012121456"/>
 							<reference ref="938658726"/>
-							<reference ref="235293873"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1293,28 +1223,6 @@
 						<reference key="object" ref="604207204"/>
 						<reference key="parent" ref="695885357"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">164</int>
-						<reference key="object" ref="235293873"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="908276226"/>
-						</array>
-						<reference key="parent" ref="460229016"/>
-						<string key="objectName">Toolbar Item (EnterFullscreen)</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">165</int>
-						<reference key="object" ref="908276226"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1003728880"/>
-						</array>
-						<reference key="parent" ref="235293873"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">166</int>
-						<reference key="object" ref="1003728880"/>
-						<reference key="parent" ref="908276226"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1356,10 +1264,6 @@
 				<string key="153.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="159.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="160.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="164.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="164.designableToolbarItemIdentifier">FullscreenButton</string>
-				<string key="165.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="166.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="86.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="87.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="88.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1752,7 +1656,6 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSAddTemplate">{8, 8}</string>
-			<string key="NSEnterFullScreenTemplate">{16, 15}</string>
 			<string key="NSExitFullScreenTemplate">{16, 15}</string>
 			<string key="NSListViewTemplate">{11, 10}</string>
 			<string key="NSMenuCheckmark">{9, 8}</string>
