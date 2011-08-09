@@ -88,12 +88,16 @@
         [tabView removeTabViewItem:item];    
     }
     
+    /*
     // for a clean new workspace we display the initialMainView
     if([viewControllers count] == 0) {
         [contentPlaceHolderView setContentView:[initialViewController view]];
     } else {
         [contentPlaceHolderView setContentView:defaultMainView];
     }
+     */
+    // TODO: put initial view
+    [contentPlaceHolderView setContentView:defaultMainView];
     
     // re-set already loaded tabview items
     int i = 0;
@@ -358,6 +362,8 @@
         // remove initialMainView if present
         if([contentPlaceHolderView contentView] == [initialViewController view]) {
             [[initialViewController view] removeFromSuperview];
+
+            // TODO: adding defaultMainView later raises an exception and makes the view unresizable
             [contentPlaceHolderView setContentView:defaultMainView];
         }
         
