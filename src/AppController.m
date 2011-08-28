@@ -167,7 +167,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         if([manager fileExistsAtPath:path] == NO) {
             CocoLog(LEVEL_INFO, @"path to Eloquent does not exist, creating it!");
             // create APP dir
-            if([manager createDirectoryAtPath:path attributes:nil] == NO) {
+            if([manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
                 CocoLog(LEVEL_ERR,@"Cannot create Eloquent folder in Application Support!");
                 ret = NO;
             }
@@ -179,7 +179,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             NSString *indexPath = [path stringByAppendingPathComponent:@"Index"];
             if([manager fileExistsAtPath:indexPath] == NO) {
                 CocoLog(LEVEL_INFO, @"path to IndexFolder does not exist, creating it!");
-                if([manager createDirectoryAtPath:indexPath attributes:nil] == NO) {
+                if([manager createDirectoryAtPath:indexPath withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
                     CocoLog(LEVEL_ERR,@"Cannot create index folder in Application Support!");
                 }
             }
@@ -191,7 +191,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             path = DEFAULT_NOTES_PATH;
             if([manager fileExistsAtPath:path] == NO) {
                 CocoLog(LEVEL_INFO, @"path to notes does not exist, creating it!");
-                if([manager createDirectoryAtPath:path attributes:nil] == NO) {
+                if([manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
                     CocoLog(LEVEL_ERR,@"Cannot create notes folder in Application Support!");
                 }
             }
@@ -204,7 +204,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         path = DEFAULT_MODULE_PATH;
         if([manager fileExistsAtPath:path] == NO) {
             CocoLog(LEVEL_INFO, @"path to swmodules does not exist, creating it!");
-            if([manager createDirectoryAtPath:path attributes:nil] == NO) {
+            if([manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
                 CocoLog(LEVEL_ERR,@"Cannot create swmodules folder in Application Support!");
                 ret = NO;
             }
@@ -213,7 +213,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             NSString *modsFolder = [path stringByAppendingPathComponent:@"mods.d"];
             if([manager fileExistsAtPath:modsFolder] == NO) {
                 // create it
-                if([manager createDirectoryAtPath:modsFolder attributes:nil] == NO) {
+                if([manager createDirectoryAtPath:modsFolder withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
                     CocoLog(LEVEL_ERR, @"Could not create mods.d folder!");
                 }
             }            
@@ -228,7 +228,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             NSString *installMgrPath = [path stringByAppendingPathComponent:SWINSTALLMGR_NAME];
             if([manager fileExistsAtPath:installMgrPath] == NO) {
                 CocoLog(LEVEL_INFO, @"path to imstallmgr does not exist, creating it!");
-                if([manager createDirectoryAtPath:installMgrPath attributes:nil] == NO) {
+                if([manager createDirectoryAtPath:installMgrPath withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
                     CocoLog(LEVEL_ERR,@"Cannot create installmgr folder in Application Support!");
                     ret = NO;
                 }                
@@ -246,7 +246,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     NSString *modulesFolder = [[[NSBundle mainBundle] resourcePath]stringByAppendingPathComponent:@"Modules"];
 
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSArray *subDirs = [fm directoryContentsAtPath:modulesFolder];
+    NSArray *subDirs = [fm contentsOfDirectoryAtPath:modulesFolder error:NULL];
     // for all sub directories add module
     BOOL directory;
     NSString *fullSubDir = nil;

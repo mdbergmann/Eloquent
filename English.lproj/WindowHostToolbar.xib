@@ -429,7 +429,7 @@
 						</object>
 					</object>
 				</dictionary>
-				<array key="NSToolbarIBAllowedItems">
+				<array class="NSMutableArray" key="NSToolbarIBAllowedItems">
 					<reference ref="938658726"/>
 					<reference ref="1012121456"/>
 					<reference ref="497547049"/>
@@ -443,7 +443,9 @@
 					<reference ref="228239594"/>
 					<reference ref="938658726"/>
 					<reference ref="156431576"/>
+					<reference ref="1012121456"/>
 					<reference ref="497547049"/>
+					<reference ref="1012121456"/>
 					<reference ref="272370804"/>
 					<reference ref="129405008"/>
 					<reference ref="938658726"/>
@@ -621,6 +623,14 @@
 						<reference key="destination" ref="497547049"/>
 					</object>
 					<int key="connectionID">141</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">searchTextFieldItem</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="497547049"/>
+					</object>
+					<int key="connectionID">173</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -839,24 +849,13 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">172</int>
+			<int key="maxID">173</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">FullScreenView</string>
 					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">fullScreenModeOnOff:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="delegate">id</string>
 						<string key="toolbarController">ToolbarController</string>
@@ -912,10 +911,8 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addBookmark:">id</string>
 						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
 						<string key="forceReload:">id</string>
 						<string key="leftSideBarHideShow:">id</string>
-						<string key="quitFullscreenMode:">id</string>
 						<string key="rightSideBarHideShow:">id</string>
 						<string key="searchInput:">id</string>
 						<string key="searchType:">id</string>
@@ -929,20 +926,12 @@
 							<string key="name">clearRecents:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="forceReload:">
 							<string key="name">forceReload:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="leftSideBarHideShow:">
 							<string key="name">leftSideBarHideShow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="rightSideBarHideShow:">
@@ -961,15 +950,11 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addBookmarkBtn">NSButton</string>
 						<string key="forceReloadBtn">NSButton</string>
-						<string key="hudForceReloadBtn">NSButton</string>
-						<string key="hudLeftSideBarToggleBtn">NSButton</string>
-						<string key="hudRightSideBarToggleBtn">NSButton</string>
-						<string key="hudSearchTextField">NSSearchField</string>
-						<string key="hudSearchTypeSegControl">NSSegmentedControl</string>
 						<string key="leftSideBarToggleBtn">NSButton</string>
 						<string key="rightSideBarToggleBtn">NSButton</string>
 						<string key="scopebarPlaceholder">NSBox</string>
 						<string key="searchTextField">NSSearchField</string>
+						<string key="searchTextFieldItem">NSToolbarItem</string>
 						<string key="searchTypeSegControl">NSSegmentedControl</string>
 						<string key="toolbar">NSToolbar</string>
 						<string key="toolbarViewItem">NSToolbarItem</string>
@@ -982,26 +967,6 @@
 						<object class="IBToOneOutletInfo" key="forceReloadBtn">
 							<string key="name">forceReloadBtn</string>
 							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudForceReloadBtn">
-							<string key="name">hudForceReloadBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudLeftSideBarToggleBtn">
-							<string key="name">hudLeftSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudRightSideBarToggleBtn">
-							<string key="name">hudRightSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTextField">
-							<string key="name">hudSearchTextField</string>
-							<string key="candidateClassName">NSSearchField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTypeSegControl">
-							<string key="name">hudSearchTypeSegControl</string>
-							<string key="candidateClassName">NSSegmentedControl</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="leftSideBarToggleBtn">
 							<string key="name">leftSideBarToggleBtn</string>
@@ -1018,6 +983,10 @@
 						<object class="IBToOneOutletInfo" key="searchTextField">
 							<string key="name">searchTextField</string>
 							<string key="candidateClassName">NSSearchField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchTextFieldItem">
+							<string key="name">searchTextFieldItem</string>
+							<string key="candidateClassName">NSToolbarItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="searchTypeSegControl">
 							<string key="name">searchTypeSegControl</string>
@@ -1043,7 +1012,6 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addBookmark:">id</string>
 						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
 						<string key="focusSearchEntry:">id</string>
 						<string key="forceReload:">id</string>
 						<string key="leftSideBarHideShow:">id</string>
@@ -1053,7 +1021,6 @@
 						<string key="performClose:">id</string>
 						<string key="previousBook:">id</string>
 						<string key="previousChapter:">id</string>
-						<string key="quitFullscreenMode:">id</string>
 						<string key="rightSideBarHideShow:">id</string>
 						<string key="searchInput:">id</string>
 						<string key="searchType:">id</string>
@@ -1066,10 +1033,6 @@
 						</object>
 						<object class="IBActionInfo" key="clearRecents:">
 							<string key="name">clearRecents:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="focusSearchEntry:">
@@ -1106,10 +1069,6 @@
 						</object>
 						<object class="IBActionInfo" key="previousChapter:">
 							<string key="name">previousChapter:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="rightSideBarHideShow:">

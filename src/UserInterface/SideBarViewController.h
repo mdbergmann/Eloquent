@@ -14,14 +14,10 @@
 
 @interface SideBarViewController : HostableViewController {
     IBOutlet NSOutlineView *outlineView;
-    IBOutlet NSView *sidebarResizeControl;
 }
 
 // initialitazion
 - (id)initWithDelegate:(WindowHostController *)aDelegate;
-
-/** view of control rect */
-- (NSView *)resizeControl;
 
 - (ModulesUIController *)modulesUIController;
 - (BookmarksUIController *)bookmarksUIController;

@@ -40,10 +40,6 @@ extern char NotesMgrUI;
     [super finalize];
 }
 
-- (NSView *)resizeControl {
-    return sidebarResizeControl;
-}
-
 - (ModulesUIController *)modulesUIController {
     return [Assotiater objectForAssotiatedObject:self.delegate withKey:&ModuleListUI];
 }

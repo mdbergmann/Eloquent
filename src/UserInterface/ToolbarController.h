@@ -33,6 +33,7 @@
 
     IBOutlet NSToolbar *toolbar;
     IBOutlet NSToolbarItem *toolbarViewItem;
+    IBOutlet NSToolbarItem *searchTextFieldItem;
     
     IBOutlet NSBox *scopebarPlaceholder;
     

@@ -273,8 +273,11 @@
         if(![fileRep isDirectory]) {
             fileName = [NSString stringWithFormat:@"%@.rtf", fileName];
         }
-        [fileRep setName:fileName];            
-    }    
+        [fileRep setName:fileName];
+        
+        // refresh outlineview
+        [self reloadForController:[self notesUIController]];
+    }
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {

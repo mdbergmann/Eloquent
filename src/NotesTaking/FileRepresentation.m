@@ -58,7 +58,7 @@
     if(!isFolder) {
         createSuccess = [fm createFileAtPath:absFileName contents:[NSData data] attributes:nil];
     } else {
-        createSuccess = [fm createDirectoryAtPath:absFileName attributes:nil];        
+        createSuccess = [fm createDirectoryAtPath:absFileName withIntermediateDirectories:NO attributes:nil error:NULL];        
     }
     if(createSuccess) {
         FileRepresentation *fileRep = [[FileRepresentation alloc] initWithPath:absFileName];
@@ -214,7 +214,11 @@
         for(NSFileWrapper *subWrapper in [[fileWrapper fileWrappers] allValues]) {
             NSString *subFilePath = [self.filePath stringByAppendingPathComponent:[subWrapper filename]];
             FileRepresentation *subFileItem = [[FileRepresentation alloc] initWithPath:subFilePath];
-            [self addFileRepresentation:subFileItem];
+
+            // only add *rtf files
+            if([subFileItem isDirectory] || [[subFileItem name] hasSuffix:@".rtf"]) {
+                [self addFileRepresentation:subFileItem];                
+            }
             [subFileItem buildTree];
         }
     }
