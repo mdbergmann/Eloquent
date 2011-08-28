@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1923</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1923</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSScroller</string>
@@ -27,7 +27,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">ModulesUIController</string>
@@ -126,7 +129,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="43100557">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSScrollView" id="668160844">
@@ -161,7 +164,7 @@
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">67111173</int>
+												<int key="NSFlags">2309</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<object class="NSColor" key="NSBackgroundColor" id="619426402">
@@ -292,6 +295,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{581, 479}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -502,14 +506,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">40</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="641355749"/>
-						<reference key="destination" ref="1001"/>
-					</object>
-					<int key="connectionID">41</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">moduleUnlockOk:</string>
 						<reference key="source" ref="1001"/>
@@ -540,6 +536,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="979954075"/>
 					</object>
 					<int key="connectionID">46</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="641355749"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">41</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -787,458 +791,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="sourceID"/>
 			<int key="maxID">46</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">FullScreenView</string>
-					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">fullScreenModeOnOff:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="delegate">id</string>
-						<string key="toolbarController">ToolbarController</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="delegate">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbarController">
-							<string key="name">toolbarController</string>
-							<string key="candidateClassName">ToolbarController</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/FullScreenView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HostableViewController</string>
-					<string key="superclassName">NSViewController</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="delegate">id</string>
-						<string key="hostingDelegate">WindowHostController</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="delegate">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hostingDelegate">
-							<string key="name">hostingDelegate</string>
-							<string key="candidateClassName">WindowHostController</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/HostableViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">LeftSideBarAccessoryUIController</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="delegate">id</string>
-						<string key="hostingDelegate">WindowHostController</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="delegate">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hostingDelegate">
-							<string key="name">hostingDelegate</string>
-							<string key="candidateClassName">WindowHostController</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/LeftSideBarAccessoryUIController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ModulesUIController</string>
-					<string key="superclassName">LeftSideBarAccessoryUIController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="moduleAboutClose:">id</string>
-						<string key="moduleMenuClicked:">id</string>
-						<string key="moduleUnlockCancel:">id</string>
-						<string key="moduleUnlockOk:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="moduleAboutClose:">
-							<string key="name">moduleAboutClose:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="moduleMenuClicked:">
-							<string key="name">moduleMenuClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="moduleUnlockCancel:">
-							<string key="name">moduleUnlockCancel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="moduleUnlockOk:">
-							<string key="name">moduleUnlockOk:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="moduleAboutTextView">NSTextView</string>
-						<string key="moduleAboutWindow">NSWindow</string>
-						<string key="moduleMenu">NSMenu</string>
-						<string key="moduleUnlockOKButton">NSButton</string>
-						<string key="moduleUnlockTextField">NSTextField</string>
-						<string key="moduleUnlockWindow">NSWindow</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="moduleAboutTextView">
-							<string key="name">moduleAboutTextView</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="moduleAboutWindow">
-							<string key="name">moduleAboutWindow</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="moduleMenu">
-							<string key="name">moduleMenu</string>
-							<string key="candidateClassName">NSMenu</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="moduleUnlockOKButton">
-							<string key="name">moduleUnlockOKButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="moduleUnlockTextField">
-							<string key="name">moduleUnlockTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="moduleUnlockWindow">
-							<string key="name">moduleUnlockWindow</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ModulesUIController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ScopeBarView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ScopeBarView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ToolbarController</string>
-					<string key="superclassName">HostableViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="addBookmark:">id</string>
-						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
-						<string key="forceReload:">id</string>
-						<string key="leftSideBarHideShow:">id</string>
-						<string key="quitFullscreenMode:">id</string>
-						<string key="rightSideBarHideShow:">id</string>
-						<string key="searchInput:">id</string>
-						<string key="searchType:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="addBookmark:">
-							<string key="name">addBookmark:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="clearRecents:">
-							<string key="name">clearRecents:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="forceReload:">
-							<string key="name">forceReload:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="leftSideBarHideShow:">
-							<string key="name">leftSideBarHideShow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="rightSideBarHideShow:">
-							<string key="name">rightSideBarHideShow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchInput:">
-							<string key="name">searchInput:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchType:">
-							<string key="name">searchType:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="addBookmarkBtn">NSButton</string>
-						<string key="enterFullscreenModeBtn">NSButton</string>
-						<string key="forceReloadBtn">NSButton</string>
-						<string key="hudForceReloadBtn">NSButton</string>
-						<string key="hudLeftSideBarToggleBtn">NSButton</string>
-						<string key="hudRightSideBarToggleBtn">NSButton</string>
-						<string key="hudSearchTextField">NSSearchField</string>
-						<string key="hudSearchTypeSegControl">NSSegmentedControl</string>
-						<string key="leftSideBarToggleBtn">NSButton</string>
-						<string key="quitFullscreenModeBtn">NSButton</string>
-						<string key="rightSideBarToggleBtn">NSButton</string>
-						<string key="scopebarPlaceholder">NSBox</string>
-						<string key="searchTextField">NSSearchField</string>
-						<string key="searchTypeSegControl">NSSegmentedControl</string>
-						<string key="toolbar">NSToolbar</string>
-						<string key="toolbarHUDView">NSView</string>
-						<string key="toolbarViewItem">NSToolbarItem</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="addBookmarkBtn">
-							<string key="name">addBookmarkBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="enterFullscreenModeBtn">
-							<string key="name">enterFullscreenModeBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="forceReloadBtn">
-							<string key="name">forceReloadBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudForceReloadBtn">
-							<string key="name">hudForceReloadBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudLeftSideBarToggleBtn">
-							<string key="name">hudLeftSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudRightSideBarToggleBtn">
-							<string key="name">hudRightSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTextField">
-							<string key="name">hudSearchTextField</string>
-							<string key="candidateClassName">NSSearchField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTypeSegControl">
-							<string key="name">hudSearchTypeSegControl</string>
-							<string key="candidateClassName">NSSegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="leftSideBarToggleBtn">
-							<string key="name">leftSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="quitFullscreenModeBtn">
-							<string key="name">quitFullscreenModeBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rightSideBarToggleBtn">
-							<string key="name">rightSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="scopebarPlaceholder">
-							<string key="name">scopebarPlaceholder</string>
-							<string key="candidateClassName">NSBox</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="searchTextField">
-							<string key="name">searchTextField</string>
-							<string key="candidateClassName">NSSearchField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="searchTypeSegControl">
-							<string key="name">searchTypeSegControl</string>
-							<string key="candidateClassName">NSSegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbar">
-							<string key="name">toolbar</string>
-							<string key="candidateClassName">NSToolbar</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbarHUDView">
-							<string key="name">toolbarHUDView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbarViewItem">
-							<string key="name">toolbarViewItem</string>
-							<string key="candidateClassName">NSToolbarItem</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ToolbarController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WindowHostController</string>
-					<string key="superclassName">NSWindowController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="addBookmark:">id</string>
-						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
-						<string key="focusSearchEntry:">id</string>
-						<string key="forceReload:">id</string>
-						<string key="fullScreenModeOnOff:">id</string>
-						<string key="leftSideBarHideShow:">id</string>
-						<string key="myPrint:">id</string>
-						<string key="nextBook:">id</string>
-						<string key="nextChapter:">id</string>
-						<string key="performClose:">id</string>
-						<string key="previousBook:">id</string>
-						<string key="previousChapter:">id</string>
-						<string key="quitFullscreenMode:">id</string>
-						<string key="rightSideBarHideShow:">id</string>
-						<string key="searchInput:">id</string>
-						<string key="searchType:">id</string>
-						<string key="switchLookupView:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="addBookmark:">
-							<string key="name">addBookmark:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="clearRecents:">
-							<string key="name">clearRecents:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="focusSearchEntry:">
-							<string key="name">focusSearchEntry:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="forceReload:">
-							<string key="name">forceReload:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fullScreenModeOnOff:">
-							<string key="name">fullScreenModeOnOff:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="leftSideBarHideShow:">
-							<string key="name">leftSideBarHideShow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="myPrint:">
-							<string key="name">myPrint:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="nextBook:">
-							<string key="name">nextBook:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="nextChapter:">
-							<string key="name">nextChapter:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="performClose:">
-							<string key="name">performClose:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="previousBook:">
-							<string key="name">previousBook:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="previousChapter:">
-							<string key="name">previousChapter:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="rightSideBarHideShow:">
-							<string key="name">rightSideBarHideShow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchInput:">
-							<string key="name">searchInput:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchType:">
-							<string key="name">searchType:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="switchLookupView:">
-							<string key="name">switchLookupView:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="contentPlaceHolderView">NSBox</string>
-						<string key="contentSplitView">NSSplitView</string>
-						<string key="mainSplitView">NSSplitView</string>
-						<string key="placeHolderView">NSBox</string>
-						<string key="progressIndicator">NSProgressIndicator</string>
-						<string key="scopebarView">ScopeBarView</string>
-						<string key="scopebarViewPlaceholder">NSBox</string>
-						<string key="view">FullScreenView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="contentPlaceHolderView">
-							<string key="name">contentPlaceHolderView</string>
-							<string key="candidateClassName">NSBox</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="contentSplitView">
-							<string key="name">contentSplitView</string>
-							<string key="candidateClassName">NSSplitView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mainSplitView">
-							<string key="name">mainSplitView</string>
-							<string key="candidateClassName">NSSplitView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="placeHolderView">
-							<string key="name">placeHolderView</string>
-							<string key="candidateClassName">NSBox</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="progressIndicator">
-							<string key="name">progressIndicator</string>
-							<string key="candidateClassName">NSProgressIndicator</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="scopebarView">
-							<string key="name">scopebarView</string>
-							<string key="candidateClassName">ScopeBarView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="scopebarViewPlaceholder">
-							<string key="name">scopebarViewPlaceholder</string>
-							<string key="candidateClassName">NSBox</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="view">
-							<string key="name">view</string>
-							<string key="candidateClassName">FullScreenView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WindowHostController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>

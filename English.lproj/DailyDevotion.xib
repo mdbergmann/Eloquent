@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1923</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1923</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSCustomObject</string>
@@ -30,7 +30,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">DailyDevotionPanelController</string>
@@ -67,7 +70,6 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrame">{{0, 34}, {582, 14}}</string>
 											<reference key="NSSuperview" ref="885436562"/>
-											<reference key="NSWindow"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="164638598">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -87,7 +89,7 @@
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">67110917</int>
+												<int key="NSFlags">2053</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<object class="NSColor" key="NSBackgroundColor" id="401868778">
@@ -138,7 +140,6 @@
 									</array>
 									<string key="NSFrameSize">{582, 439}</string>
 									<reference key="NSSuperview" ref="286859233"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="190877173"/>
 									<reference key="NSDocView" ref="190877173"/>
 									<reference key="NSBGColor" ref="401868778"/>
@@ -173,7 +174,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{566, 1}, {15, 429}}</string>
 									<reference key="NSSuperview" ref="286859233"/>
-									<reference key="NSWindow"/>
 									<reference key="NSTarget" ref="286859233"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSCurValue">1</double>
@@ -184,7 +184,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="286859233"/>
-									<reference key="NSWindow"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="286859233"/>
 									<string key="NSAction">_doScroller:</string>
@@ -194,7 +193,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrame">{{20, 20}, {582, 439}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="885436562"/>
 							<int key="NSsFlags">133648</int>
 							<reference key="NSVScroller" ref="791531625"/>
@@ -206,7 +204,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 476}, {107, 17}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="799776875">
 								<int key="NSCellFlags">68288064</int>
@@ -237,7 +234,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{126, 471}, {111, 22}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="290430048">
 								<int key="NSCellFlags">-2077098431</int>
@@ -265,7 +261,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{586, 471}, {19, 27}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSStepperCell" key="NSCell" id="248660411">
 								<int key="NSCellFlags">917024</int>
@@ -281,7 +276,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{546, 474}, {35, 22}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="611469615">
 								<int key="NSCellFlags">-2072904127</int>
@@ -344,7 +338,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{522, 471}, {19, 27}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSStepperCell" key="NSCell" id="439536584">
 								<int key="NSCellFlags">917024</int>
@@ -360,7 +353,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{482, 474}, {35, 22}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="201469967">
 								<int key="NSCellFlags">-2072904127</int>
@@ -414,7 +406,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{377, 474}, {97, 19}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="157324386">
 								<int key="NSCellFlags">-2080244224</int>
@@ -439,7 +430,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">10</int>
 							<string key="NSFrame">{{0, 465}, {622, 5}}</string>
 							<reference key="NSSuperview" ref="703871115"/>
-							<reference key="NSWindow"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
@@ -460,7 +450,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</array>
 					<string key="NSFrameSize">{622, 513}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -483,27 +472,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="788797837"/>
-						<reference key="destination" ref="1001"/>
-					</object>
-					<int key="connectionID">71</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">textView</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="190877173"/>
 					</object>
 					<int key="connectionID">84</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="190877173"/>
-						<reference key="destination" ref="1001"/>
-					</object>
-					<int key="connectionID">85</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -546,6 +519,54 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">106</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="788797837"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">71</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="190877173"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">85</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">attributedString: moduleText</string>
+						<reference key="source" ref="190877173"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="190877173"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">attributedString: moduleText</string>
+							<string key="NSBinding">attributedString</string>
+							<string key="NSKeyPath">moduleText</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">140</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">editable: isTextViewEditable</string>
+						<reference key="source" ref="190877173"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="190877173"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">editable: isTextViewEditable</string>
+							<string key="NSBinding">editable</string>
+							<string key="NSKeyPath">isTextViewEditable</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">141</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: moduleName</string>
 						<reference key="source" ref="393076349"/>
@@ -560,39 +581,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">108</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">maxValue: maxDays</string>
-						<reference key="source" ref="389039518"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="1042109983">
-							<reference key="NSSource" ref="389039518"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">maxValue: maxDays</string>
-							<string key="NSBinding">maxValue</string>
-							<string key="NSKeyPath">maxDays</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">120</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">minValue: minDays</string>
-						<reference key="source" ref="389039518"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="761480193">
-							<reference key="NSSource" ref="389039518"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">minValue: minDays</string>
-							<string key="NSBinding">minValue</string>
-							<string key="NSKeyPath">minDays</string>
-							<reference key="NSPreviousConnector" ref="1042109983"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">121</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -629,51 +617,69 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">attributedString: moduleText</string>
-						<reference key="source" ref="190877173"/>
+						<string key="label">value: month</string>
+						<reference key="source" ref="803117022"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="190877173"/>
+							<reference key="NSSource" ref="803117022"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">attributedString: moduleText</string>
-							<string key="NSBinding">attributedString</string>
-							<string key="NSKeyPath">moduleText</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">140</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">editable: isTextViewEditable</string>
-						<reference key="source" ref="190877173"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="190877173"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">editable: isTextViewEditable</string>
-							<string key="NSBinding">editable</string>
-							<string key="NSKeyPath">isTextViewEditable</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">141</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: day</string>
-						<reference key="source" ref="633353189"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="633353189"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: day</string>
+							<string key="NSLabel">value: month</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">day</string>
+							<string key="NSKeyPath">month</string>
+							<reference key="NSPreviousConnector" ref="660302756"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">142</int>
+					<int key="connectionID">145</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: month</string>
+						<reference key="source" ref="832859678"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="832859678"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: month</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">month</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">144</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">maxValue: maxDays</string>
+						<reference key="source" ref="389039518"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector" id="1042109983">
+							<reference key="NSSource" ref="389039518"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">maxValue: maxDays</string>
+							<string key="NSBinding">maxValue</string>
+							<string key="NSKeyPath">maxDays</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">120</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">minValue: minDays</string>
+						<reference key="source" ref="389039518"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector" id="761480193">
+							<reference key="NSSource" ref="389039518"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">minValue: minDays</string>
+							<string key="NSBinding">minValue</string>
+							<string key="NSKeyPath">minDays</string>
+							<reference key="NSPreviousConnector" ref="1042109983"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">121</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -694,36 +700,19 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: month</string>
-						<reference key="source" ref="832859678"/>
+						<string key="label">value: day</string>
+						<reference key="source" ref="633353189"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="832859678"/>
+							<reference key="NSSource" ref="633353189"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: month</string>
+							<string key="NSLabel">value: day</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">month</string>
+							<string key="NSKeyPath">day</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">144</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: month</string>
-						<reference key="source" ref="803117022"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="803117022"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: month</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">month</string>
-							<reference key="NSPreviousConnector" ref="660302756"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">145</int>
+					<int key="connectionID">142</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -962,68 +951,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="sourceID"/>
 			<int key="maxID">145</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">DailyDevotionPanelController</string>
-					<string key="superclassName">NSWindowController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">todayButton:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">todayButton:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">todayButton:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="dayStepper">NSStepper</string>
-						<string key="dayTextField">NSTextField</string>
-						<string key="delegate">id</string>
-						<string key="monthStepper">NSStepper</string>
-						<string key="monthTextField">NSTextField</string>
-						<string key="textView">NSTextView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="dayStepper">
-							<string key="name">dayStepper</string>
-							<string key="candidateClassName">NSStepper</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="dayTextField">
-							<string key="name">dayTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="delegate">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="monthStepper">
-							<string key="name">monthStepper</string>
-							<string key="candidateClassName">NSStepper</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="monthTextField">
-							<string key="name">monthTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textView">
-							<string key="name">textView</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/DailyDevotionPanelController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>

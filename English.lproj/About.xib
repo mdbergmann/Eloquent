@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1923</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1923</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTextField</string>
@@ -25,7 +25,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="895649190">
 			<object class="NSCustomObject" id="786267811">
 				<string key="NSClassName">MBAboutWindowController</string>
@@ -59,7 +62,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 257}, {363, 17}}</string>
 							<reference key="NSSuperview" ref="1029709636"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="257659074">
 								<int key="NSCellFlags">67239424</int>
@@ -96,7 +98,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{20, 236}, {357, 13}}</string>
 							<reference key="NSSuperview" ref="1029709636"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="169437144">
 								<int key="NSCellFlags">67239424</int>
@@ -123,28 +124,8 @@
 										<object class="NSTextView" id="843986957">
 											<reference key="NSNextResponder" ref="485270105"/>
 											<int key="NSvFlags">2322</int>
-											<set class="NSMutableSet" key="NSDragTypes">
-												<string>Apple HTML pasteboard type</string>
-												<string>Apple PDF pasteboard type</string>
-												<string>Apple PICT pasteboard type</string>
-												<string>Apple PNG pasteboard type</string>
-												<string>Apple URL pasteboard type</string>
-												<string>CorePasteboardFlavorType 0x6D6F6F76</string>
-												<string>NSColor pasteboard type</string>
-												<string>NSFilenamesPboardType</string>
-												<string>NSStringPboardType</string>
-												<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
-												<string>NeXT RTFD pasteboard type</string>
-												<string>NeXT Rich Text Format v1.0 pasteboard type</string>
-												<string>NeXT TIFF v4.0 pasteboard type</string>
-												<string>NeXT font pasteboard type</string>
-												<string>NeXT ruler pasteboard type</string>
-												<string>WebURLsWithTitlesPboardType</string>
-												<string>public.url</string>
-											</set>
 											<string key="NSFrameSize">{355, 14}</string>
 											<reference key="NSSuperview" ref="485270105"/>
-											<reference key="NSWindow"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="120925254">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -164,7 +145,7 @@
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">67111175</int>
+												<int key="NSFlags">2311</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<object class="NSColor" key="NSBackgroundColor" id="858838508">
@@ -205,7 +186,6 @@
 									</array>
 									<string key="NSFrame">{{1, 1}, {355, 173}}</string>
 									<reference key="NSSuperview" ref="987328763"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="843986957"/>
 									<reference key="NSDocView" ref="843986957"/>
 									<reference key="NSBGColor" ref="858838508"/>
@@ -240,7 +220,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-30, 1}, {15, 173}}</string>
 									<reference key="NSSuperview" ref="987328763"/>
-									<reference key="NSWindow"/>
 									<int key="NSsFlags">256</int>
 									<reference key="NSTarget" ref="987328763"/>
 									<string key="NSAction">_doScroller:</string>
@@ -251,7 +230,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="987328763"/>
-									<reference key="NSWindow"/>
 									<int key="NSsFlags">257</int>
 									<reference key="NSTarget" ref="987328763"/>
 									<string key="NSAction">_doScroller:</string>
@@ -261,7 +239,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrame">{{20, 53}, {357, 175}}</string>
 							<reference key="NSSuperview" ref="1029709636"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="485270105"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="736874200"/>
@@ -273,7 +250,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{20, 20}, {357, 13}}</string>
 							<reference key="NSSuperview" ref="1029709636"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="30799141">
 								<int key="NSCellFlags">67239424</int>
@@ -298,7 +274,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</set>
 							<string key="NSFrame">{{134, 290}, {128, 128}}</string>
 							<reference key="NSSuperview" ref="1029709636"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="723569645">
 								<int key="NSCellFlags">130560</int>
@@ -317,7 +292,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</array>
 					<string key="NSFrameSize">{397, 438}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
 				<string key="NSMinSize">{213, 129}</string>
@@ -523,52 +497,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="sourceID"/>
 			<int key="maxID">29</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">MBAboutWindowController</string>
-					<string key="superclassName">NSWindowController</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="appNameLabel">NSTextField</string>
-						<string key="copyrightLabel">NSTextField</string>
-						<string key="creditsTextView">NSTextView</string>
-						<string key="imageView">NSImageView</string>
-						<string key="versionLabel">NSTextField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="appNameLabel">
-							<string key="name">appNameLabel</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="copyrightLabel">
-							<string key="name">copyrightLabel</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="creditsTextView">
-							<string key="name">creditsTextView</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="imageView">
-							<string key="name">imageView</string>
-							<string key="candidateClassName">NSImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="versionLabel">
-							<string key="name">versionLabel</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MBAboutWindowController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
