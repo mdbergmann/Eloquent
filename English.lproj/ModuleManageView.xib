@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1923</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1923</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTableHeaderView</string>
@@ -39,7 +39,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="953681884">
 			<object class="NSCustomObject" id="90255006">
 				<string key="NSClassName">ModuleManageViewController</string>
@@ -51,7 +54,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSSplitView" id="813400148">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="483866065">
@@ -71,7 +74,6 @@
 												<int key="NSvFlags">4370</int>
 												<string key="NSFrameSize">{269, 604}</string>
 												<reference key="NSSuperview" ref="323064554"/>
-												<reference key="NSWindow"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="_NSCornerView" key="NSCornerView">
 													<nil key="NSNextResponder"/>
@@ -173,7 +175,6 @@
 										</array>
 										<string key="NSFrameSize">{269, 604}</string>
 										<reference key="NSSuperview" ref="744278697"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="898243772"/>
 										<reference key="NSDocView" ref="898243772"/>
 										<object class="NSColor" key="NSBGColor" id="815015938">
@@ -187,7 +188,6 @@
 										<int key="NSvFlags">-2147483392</int>
 										<string key="NSFrame">{{229, 2}, {15, 470}}</string>
 										<reference key="NSSuperview" ref="744278697"/>
-										<reference key="NSWindow"/>
 										<reference key="NSTarget" ref="744278697"/>
 										<string key="NSAction">_doScroller:</string>
 										<double key="NSPercent">0.99794240000000001</double>
@@ -197,7 +197,6 @@
 										<int key="NSvFlags">-2147483392</int>
 										<string key="NSFrame">{{2, 472}, {227, 15}}</string>
 										<reference key="NSSuperview" ref="744278697"/>
-										<reference key="NSWindow"/>
 										<int key="NSsFlags">1</int>
 										<reference key="NSTarget" ref="744278697"/>
 										<string key="NSAction">_doScroller:</string>
@@ -206,7 +205,6 @@
 								</array>
 								<string key="NSFrameSize">{269, 604}</string>
 								<reference key="NSSuperview" ref="483866065"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="323064554"/>
 								<int key="NSsFlags">133680</int>
 								<reference key="NSVScroller" ref="675352381"/>
@@ -217,7 +215,6 @@
 						</array>
 						<string key="NSFrameSize">{269, 604}</string>
 						<reference key="NSSuperview" ref="813400148"/>
-						<reference key="NSWindow"/>
 						<string key="NSClassName">NSView</string>
 					</object>
 					<object class="NSCustomView" id="857861451">
@@ -237,7 +234,6 @@
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{488, 8}, {99, 17}}</string>
 												<reference key="NSSuperview" ref="842219815"/>
-												<reference key="NSWindow"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="518991607">
 													<int key="NSCellFlags">68288064</int>
@@ -263,7 +259,6 @@
 												<int key="NSvFlags">268</int>
 												<string key="NSFrame">{{17, 8}, {108, 17}}</string>
 												<reference key="NSSuperview" ref="842219815"/>
-												<reference key="NSWindow"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTextFieldCell" key="NSCell" id="694304435">
 													<int key="NSCellFlags">68288064</int>
@@ -280,7 +275,6 @@
 												<int key="NSvFlags">268</int>
 												<string key="NSFrame">{{127, 2}, {148, 26}}</string>
 												<reference key="NSSuperview" ref="842219815"/>
-												<reference key="NSWindow"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSPopUpButtonCell" key="NSCell" id="597141106">
 													<int key="NSCellFlags">-2076049856</int>
@@ -312,7 +306,6 @@
 												<int key="NSvFlags">265</int>
 												<string key="NSFrame">{{592, 5}, {174, 22}}</string>
 												<reference key="NSSuperview" ref="842219815"/>
-												<reference key="NSWindow"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSSearchFieldCell" key="NSCell" id="1028111245">
 													<int key="NSCellFlags">343014976</int>
@@ -370,7 +363,6 @@
 										</array>
 										<string key="NSFrame">{{0, 572}, {786, 32}}</string>
 										<reference key="NSSuperview" ref="693264325"/>
-										<reference key="NSWindow"/>
 										<string key="NSClassName">NSView</string>
 									</object>
 									<object class="NSScrollView" id="3785885">
@@ -386,14 +378,12 @@
 														<int key="NSvFlags">4352</int>
 														<string key="NSFrameSize">{786, 557}</string>
 														<reference key="NSSuperview" ref="168686714"/>
-														<reference key="NSWindow"/>
 														<bool key="NSEnabled">YES</bool>
 														<object class="NSTableHeaderView" key="NSHeaderView" id="221050475">
 															<reference key="NSNextResponder" ref="38015306"/>
 															<int key="NSvFlags">256</int>
 															<string key="NSFrameSize">{786, 17}</string>
 															<reference key="NSSuperview" ref="38015306"/>
-															<reference key="NSWindow"/>
 															<reference key="NSTableView" ref="849111337"/>
 														</object>
 														<object class="_NSCornerView" key="NSCornerView" id="268054890">
@@ -401,7 +391,6 @@
 															<int key="NSvFlags">-2147483392</int>
 															<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
 															<reference key="NSSuperview" ref="3785885"/>
-															<reference key="NSWindow"/>
 														</object>
 														<array class="NSMutableArray" key="NSTableColumns">
 															<object class="NSTableColumn" id="200693648">
@@ -686,7 +675,6 @@
 												</array>
 												<string key="NSFrame">{{0, 17}, {786, 557}}</string>
 												<reference key="NSSuperview" ref="3785885"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="849111337"/>
 												<reference key="NSDocView" ref="849111337"/>
 												<reference key="NSBGColor" ref="670421670"/>
@@ -697,7 +685,6 @@
 												<int key="NSvFlags">-2147483392</int>
 												<string key="NSFrame">{{771, 17}, {15, 542}}</string>
 												<reference key="NSSuperview" ref="3785885"/>
-												<reference key="NSWindow"/>
 												<reference key="NSTarget" ref="3785885"/>
 												<string key="NSAction">_doScroller:</string>
 												<double key="NSPercent">0.97306999999999999</double>
@@ -707,7 +694,6 @@
 												<int key="NSvFlags">-2147483392</int>
 												<string key="NSFrame">{{0, 559}, {771, 15}}</string>
 												<reference key="NSSuperview" ref="3785885"/>
-												<reference key="NSWindow"/>
 												<int key="NSsFlags">1</int>
 												<reference key="NSTarget" ref="3785885"/>
 												<string key="NSAction">_doScroller:</string>
@@ -721,7 +707,6 @@
 												</array>
 												<string key="NSFrameSize">{786, 17}</string>
 												<reference key="NSSuperview" ref="3785885"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="221050475"/>
 												<reference key="NSDocView" ref="221050475"/>
 												<reference key="NSBGColor" ref="670421670"/>
@@ -731,32 +716,26 @@
 										</array>
 										<string key="NSFrameSize">{786, 574}</string>
 										<reference key="NSSuperview" ref="693264325"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="168686714"/>
 										<int key="NSsFlags">133680</int>
 										<reference key="NSVScroller" ref="928558758"/>
 										<reference key="NSHScroller" ref="896399859"/>
 										<reference key="NSContentView" ref="168686714"/>
 										<reference key="NSHeaderClipView" ref="38015306"/>
-										<reference key="NSCornerView" ref="268054890"/>
 										<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 									</object>
 								</array>
 								<string key="NSFrameSize">{786, 604}</string>
 								<reference key="NSSuperview" ref="857861451"/>
-								<reference key="NSWindow"/>
 								<string key="NSClassName">NSView</string>
 							</object>
 						</array>
 						<string key="NSFrame">{{270, 0}, {786, 604}}</string>
 						<reference key="NSSuperview" ref="813400148"/>
-						<reference key="NSWindow"/>
 						<string key="NSClassName">NSCustomView</string>
 					</object>
 				</array>
 				<string key="NSFrameSize">{1056, 604}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<bool key="NSIsVertical">YES</bool>
 				<int key="NSDividerStyle">2</int>
 				<string key="NSAutosaveName">swmodmanager.mainview</string>
@@ -1147,7 +1126,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="340297536">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSScrollView" id="226084202">
@@ -1163,6 +1142,8 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{542, 322}</string>
 											<reference key="NSSuperview" ref="289601769"/>
+											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="641258854"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="904878347">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -1255,11 +1236,12 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 									</array>
 									<string key="NSFrame">{{1, 1}, {542, 365}}</string>
 									<reference key="NSSuperview" ref="226084202"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="637649400"/>
 									<reference key="NSDocView" ref="637649400"/>
 									<reference key="NSBGColor" ref="815015938"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{4, 4}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">4</int>
@@ -1269,6 +1251,8 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{543, 1}, {15, 365}}</string>
 									<reference key="NSSuperview" ref="226084202"/>
+									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="390521496"/>
 									<reference key="NSTarget" ref="226084202"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.91061460000000005</double>
@@ -1278,6 +1262,8 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="226084202"/>
+									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="289601769"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="226084202"/>
 									<string key="NSAction">_doScroller:</string>
@@ -1287,7 +1273,8 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 							</array>
 							<string key="NSFrame">{{20, 90}, {559, 367}}</string>
 							<reference key="NSSuperview" ref="340297536"/>
-							<reference key="NSNextKeyView" ref="289601769"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="805486863"/>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="641258854"/>
 							<reference key="NSHScroller" ref="805486863"/>
@@ -1298,6 +1285,8 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{489, 12}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="340297536"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="899973265">
 								<int key="NSCellFlags">67239424</int>
@@ -1308,7 +1297,7 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 								<int key="NSButtonFlags">-2038284033</int>
 								<int key="NSButtonFlags2">129</int>
 								<string key="NSAlternateContents"/>
-								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
+								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -1318,6 +1307,8 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{393, 12}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="340297536"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="54227441"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="660257677">
 								<int key="NSCellFlags">67239424</int>
@@ -1338,6 +1329,8 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 48}, {565, 34}}</string>
 							<reference key="NSSuperview" ref="340297536"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="321151583"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1049179681">
 								<int key="NSCellFlags">67239424</int>
@@ -1355,6 +1348,9 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 						</object>
 					</array>
 					<string key="NSFrameSize">{599, 477}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView" ref="226084202"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -1469,51 +1465,11 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">moduleOutlineView</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="849111337"/>
-					</object>
-					<int key="connectionID">65</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">dataSource</string>
-						<reference key="source" ref="849111337"/>
-						<reference key="destination" ref="972056767"/>
-					</object>
-					<int key="connectionID">68</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="849111337"/>
-						<reference key="destination" ref="972056767"/>
-					</object>
-					<int key="connectionID">69</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">modListViewController</string>
 						<reference key="source" ref="90255006"/>
 						<reference key="destination" ref="972056767"/>
 					</object>
 					<int key="connectionID">93</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="813400148"/>
-						<reference key="destination" ref="90255006"/>
-					</object>
-					<int key="connectionID">94</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="90255006"/>
-					</object>
-					<int key="connectionID">95</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1530,22 +1486,6 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 						<reference key="destination" ref="898243772"/>
 					</object>
 					<int key="connectionID">106</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">dataSource</string>
-						<reference key="source" ref="898243772"/>
-						<reference key="destination" ref="90255006"/>
-					</object>
-					<int key="connectionID">115</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="898243772"/>
-						<reference key="destination" ref="90255006"/>
-					</object>
-					<int key="connectionID">116</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1580,46 +1520,6 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 					<int key="connectionID">164</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">installModule:</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="801294112"/>
-					</object>
-					<int key="connectionID">174</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">removeModule:</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="279296082"/>
-					</object>
-					<int key="connectionID">175</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">updateModule:</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="199315105"/>
-					</object>
-					<int key="connectionID">176</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="367599987"/>
-						<reference key="destination" ref="972056767"/>
-					</object>
-					<int key="connectionID">177</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="599123995"/>
-						<reference key="destination" ref="90255006"/>
-					</object>
-					<int key="connectionID">178</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">installSourceMenu</string>
 						<reference key="source" ref="90255006"/>
@@ -1629,43 +1529,11 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">moduleMenu</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="367599987"/>
-					</object>
-					<int key="connectionID">183</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">menu</string>
-						<reference key="source" ref="813400148"/>
-						<reference key="destination" ref="367599987"/>
-					</object>
-					<int key="connectionID">184</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">noneTask:</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="878419077"/>
-					</object>
-					<int key="connectionID">217</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">editISWindow</string>
 						<reference key="source" ref="90255006"/>
 						<reference key="destination" ref="911988494"/>
 					</object>
 					<int key="connectionID">242</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="911988494"/>
-						<reference key="destination" ref="90255006"/>
-					</object>
-					<int key="connectionID">243</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1749,30 +1617,6 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">search:</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="371632840"/>
-					</object>
-					<int key="connectionID">285</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">searchTextField</string>
-						<reference key="source" ref="972056767"/>
-						<reference key="destination" ref="371632840"/>
-					</object>
-					<int key="connectionID">286</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="371632840"/>
-						<reference key="destination" ref="972056767"/>
-					</object>
-					<int key="connectionID">287</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">editISTypeSelect:</string>
 						<reference key="source" ref="90255006"/>
 						<reference key="destination" ref="1010607336"/>
@@ -1844,14 +1688,6 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 					<int key="connectionID">367</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">menu</string>
-						<reference key="source" ref="369062322"/>
-						<reference key="destination" ref="367599987"/>
-					</object>
-					<int key="connectionID">371</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">closePreview:</string>
 						<reference key="source" ref="90255006"/>
@@ -1876,22 +1712,6 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 					<int key="connectionID">387</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: hasTasks</string>
-						<reference key="source" ref="753411889"/>
-						<reference key="destination" ref="90255006"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="753411889"/>
-							<reference key="NSDestination" ref="90255006"/>
-							<string key="NSLabel">enabled: hasTasks</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">hasTasks</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">388</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">tasksPreviewTextField</string>
 						<reference key="source" ref="90255006"/>
@@ -1909,6 +1729,134 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="813400148"/>
+						<reference key="destination" ref="90255006"/>
+					</object>
+					<int key="connectionID">94</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="813400148"/>
+						<reference key="destination" ref="367599987"/>
+					</object>
+					<int key="connectionID">184</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dataSource</string>
+						<reference key="source" ref="898243772"/>
+						<reference key="destination" ref="90255006"/>
+					</object>
+					<int key="connectionID">115</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="898243772"/>
+						<reference key="destination" ref="90255006"/>
+					</object>
+					<int key="connectionID">116</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="371632840"/>
+						<reference key="destination" ref="972056767"/>
+					</object>
+					<int key="connectionID">287</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dataSource</string>
+						<reference key="source" ref="849111337"/>
+						<reference key="destination" ref="972056767"/>
+					</object>
+					<int key="connectionID">68</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="849111337"/>
+						<reference key="destination" ref="972056767"/>
+					</object>
+					<int key="connectionID">69</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">moduleOutlineView</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="849111337"/>
+					</object>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="90255006"/>
+					</object>
+					<int key="connectionID">95</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">installModule:</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="801294112"/>
+					</object>
+					<int key="connectionID">174</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeModule:</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="279296082"/>
+					</object>
+					<int key="connectionID">175</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">updateModule:</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="199315105"/>
+					</object>
+					<int key="connectionID">176</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">moduleMenu</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="367599987"/>
+					</object>
+					<int key="connectionID">183</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">noneTask:</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="878419077"/>
+					</object>
+					<int key="connectionID">217</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">search:</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="371632840"/>
+					</object>
+					<int key="connectionID">285</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">searchTextField</string>
+						<reference key="source" ref="972056767"/>
+						<reference key="destination" ref="371632840"/>
+					</object>
+					<int key="connectionID">286</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">languagesButton</string>
 						<reference key="source" ref="972056767"/>
 						<reference key="destination" ref="757797211"/>
@@ -1922,6 +1870,54 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 						<reference key="destination" ref="757797211"/>
 					</object>
 					<int key="connectionID">421</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="599123995"/>
+						<reference key="destination" ref="90255006"/>
+					</object>
+					<int key="connectionID">178</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="367599987"/>
+						<reference key="destination" ref="972056767"/>
+					</object>
+					<int key="connectionID">177</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="369062322"/>
+						<reference key="destination" ref="367599987"/>
+					</object>
+					<int key="connectionID">371</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="911988494"/>
+						<reference key="destination" ref="90255006"/>
+					</object>
+					<int key="connectionID">243</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: hasTasks</string>
+						<reference key="source" ref="753411889"/>
+						<reference key="destination" ref="90255006"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="753411889"/>
+							<reference key="NSDestination" ref="90255006"/>
+							<string key="NSLabel">enabled: hasTasks</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">hasTasks</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">388</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2443,8 +2439,8 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 						<array class="NSMutableArray" key="children">
 							<reference ref="226084202"/>
 							<reference ref="390521496"/>
-							<reference ref="54227441"/>
 							<reference ref="321151583"/>
+							<reference ref="54227441"/>
 						</array>
 						<reference key="parent" ref="936799747"/>
 					</object>
@@ -3024,7 +3020,7 @@ YmxlIHJlbW90ZSBzb3VyY2UgZmVhdHVyZXMgdGhlbiB0eXBlIHllcyBhdCB0aGUgcHJvbXB0IQ</byte
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
