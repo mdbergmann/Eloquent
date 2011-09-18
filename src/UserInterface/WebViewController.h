@@ -2,38 +2,32 @@
 //  WebViewController.h
 //  Eloquent
 //
-//  Created by Manfred Bergmann on 15.06.08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Created by Bergmann Manfred on 18.09.11.
+//  Copyright 2011 Crosswire. All rights reserved.
 //
 
-/*
- This class is the one webview controller class.
- It can be instanciated where ever needed and put in as subview.
- Delegate can be set to forward any WebView actions.
- A protocol is defined for these delegation methods.
- */
-
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 #import <CocoLogger/CocoLogger.h>
 #import <HostableViewController.h>
 #import <MBTextView.h>
 #import <ProtocolHelper.h>
 
-#define EXTTEXTVIEW_NIBNAME   @"ExtTextView"
+#define WEBVIEW_NIBNAME   @"WebView"
 
 @class MouseTrackingScrollView;
 
-@interface ExtTextViewController : HostableViewController <MouseTracking, TextContentProviding> {
-    IBOutlet MBTextView *textView;
+@interface WebViewController : HostableViewController <MouseTracking, TextContentProviding> {
+    IBOutlet WebView *webView;
     IBOutlet MouseTrackingScrollView *scrollView;
 }
 
 - (id)initWithDelegate:(id)aDelegate;
+- (NSMenu *)menuForEvent:(NSEvent *)event;
 
 // TextContentProviding
 - (MBTextView *)textView;
 - (MouseTrackingScrollView *)scrollView;
-- (NSMenu *)menuForEvent:(NSEvent *)event;
 - (void)setAttributedString:(NSAttributedString *)aString;
 - (void)setString:(NSString *)aString;
 

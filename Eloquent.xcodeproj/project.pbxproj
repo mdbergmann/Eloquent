@@ -93,6 +93,7 @@
 		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
 		A94D66D30EC2D175006A84CB /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = A94D66D10EC2D175006A84CB /* WorkspaceViewHost.xib */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
+		A955E198142612B000357B6F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A955E196142612B000357B6F /* WebViewController.m */; };
 		A9591226120ECCC100C55528 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9591225120ECCC100C55528 /* SwordModCategory.m */; };
 		A95CFC5A1132951600E71D4E /* ContentDisplayingViewControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */; };
 		A95CFC791132A9A100E71D4E /* SearchTextFieldOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */; };
@@ -398,6 +399,8 @@
 		A94D66D20EC2D175006A84CB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
 		A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDPreviewController.h; path = src/UserInterface/HUDPreviewController.h; sourceTree = "<group>"; };
 		A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDPreviewController.m; path = src/UserInterface/HUDPreviewController.m; sourceTree = "<group>"; };
+		A955E195142612B000357B6F /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = src/UserInterface/WebViewController.h; sourceTree = "<group>"; };
+		A955E196142612B000357B6F /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = src/UserInterface/WebViewController.m; sourceTree = "<group>"; };
 		A9591224120ECCC100C55528 /* SwordModCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwordModCategory.h; sourceTree = "<group>"; };
 		A9591225120ECCC100C55528 /* SwordModCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwordModCategory.m; sourceTree = "<group>"; };
 		A95CFC581132951600E71D4E /* ContentDisplayingViewControllerFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentDisplayingViewControllerFactory.h; path = src/UserInterface/ContentDisplayingViewControllerFactory.h; sourceTree = "<group>"; };
@@ -938,6 +941,8 @@
 				A9ABF335107A2934005D6156 /* InitialInfoViewController.m */,
 				A916FCE10E0542A2009CAA2F /* ExtTextViewController.h */,
 				A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */,
+				A955E195142612B000357B6F /* WebViewController.h */,
+				A955E196142612B000357B6F /* WebViewController.m */,
 				A9F184610E0811C8005F3B35 /* HostableViewController.h */,
 				A9F184620E0811C8005F3B35 /* HostableViewController.m */,
 				A9BDB9EB10B3E9B600E8AD3C /* ContentDisplayingViewController.h */,
@@ -1465,6 +1470,7 @@
 				A9591226120ECCC100C55528 /* SwordModCategory.m in Sources */,
 				A9802A7612182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m in Sources */,
 				A97561EE12A2779000A7661B /* SwordUrlProtocol.m in Sources */,
+				A955E198142612B000357B6F /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,7 +1802,7 @@
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -1825,7 +1831,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				IBC_FLATTEN_NIBS = NO;
@@ -1994,7 +2000,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				IBC_FLATTEN_NIBS = NO;
@@ -2035,7 +2041,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
 				IBC_FLATTEN_NIBS = NO;
@@ -2064,7 +2070,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -2082,7 +2088,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
