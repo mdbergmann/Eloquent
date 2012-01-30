@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1923</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1923</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSScroller</string>
@@ -980,7 +980,7 @@
 								</object>
 								<object class="NSMenuItem" id="626536341">
 									<reference key="NSMenu" ref="374024848"/>
-									<string key="NSTitle">Eloquent Wiki</string>
+									<string key="NSTitle">Eloquent Wiki (Userguide)</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="780798457"/>
@@ -1166,7 +1166,7 @@
 											<string key="NSFrameSize">{457, 14}</string>
 											<reference key="NSSuperview" ref="422280006"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="954131079"/>
+											<reference key="NSNextKeyView" ref="206806930"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="889747655">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -1269,6 +1269,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSFrame">{{441, 1}, {15, 185}}</string>
 									<reference key="NSSuperview" ref="998610783"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<reference key="NSTarget" ref="998610783"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.97959180000000001</double>
@@ -1287,7 +1288,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSFrame">{{20, 20}, {457, 187}}</string>
 							<reference key="NSSuperview" ref="966951882"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="422280006"/>
+							<reference key="NSNextKeyView" ref="954131079"/>
 							<int key="NSsFlags">133648</int>
 							<reference key="NSVScroller" ref="206806930"/>
 							<reference key="NSHScroller" ref="954131079"/>

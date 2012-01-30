@@ -14,6 +14,8 @@ ln -s $1/mod2osis /usr/local/bin/mod2osis
 ln -s $1/mod2vpl /usr/local/bin/mod2vpl
 ln -s $1/mod2zmod /usr/local/bin/mod2zmod
 ln -s $1/osis2mod /usr/local/bin/osis2mod
+ln -s $1/step2vpl /usr/local/bin/step2vpl
+ln -s $1/stepdump /usr/local/bin/stepdump
 ln -s $1/tei2mod /usr/local/bin/tei2mod
 ln -s $1/vpl2mod /usr/local/bin/vpl2mod
 ln -s $1/vs2osisref /usr/local/bin/vs2osisref

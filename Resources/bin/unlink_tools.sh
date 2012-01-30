@@ -12,6 +12,8 @@ rm /usr/local/bin/mod2osis
 rm /usr/local/bin/mod2vpl
 rm /usr/local/bin/mod2zmod
 rm /usr/local/bin/osis2mod
+rm /usr/local/bin/step2vpl
+rm /usr/local/bin/stepdump
 rm /usr/local/bin/tei2mod
 rm /usr/local/bin/vpl2mod
 rm /usr/local/bin/vs2osisref
