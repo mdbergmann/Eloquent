@@ -703,12 +703,12 @@
 
 #pragma mark - MouseTracking
 
-- (void)mouseEntered:(NSView *)theView {
+- (void)mouseEnteredView:(NSView *)theView {
     currentSyncView = (ScrollSynchronizableView *)theView;
     [self establishScrollSynchronization:[(ScrollSynchronizableView *)theView syncScrollView]];
 }
 
-- (void)mouseExited:(NSView *)theView {
+- (void)mouseExitedView:(NSView *)theView {
     [self stopScrollSynchronizationForView:[(ScrollSynchronizableView *)theView syncScrollView]];
 }
 

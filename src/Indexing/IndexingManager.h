@@ -55,7 +55,7 @@
  \brief open or create index for the given parameters
  @return SKIndexRef or NULL on error
  */
-- (SKIndexRef)openOrCreateIndexforModName:(NSString *)aModName textType:(NSString *)aModType;
+- (SKIndexRef)openOrCreateIndexForModName:(NSString *)aModName textType:(NSString *)aModType;
 
 /** stores to disk */
 - (void)storeSearchBookSets;

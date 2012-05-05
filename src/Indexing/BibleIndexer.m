@@ -9,7 +9,7 @@
 #import "BibleIndexer.h"
 #import "SearchResultEntry.h"
 #import "SearchBookSet.h"
-#import <AppKit/NSApplication.h>
+#import "IndexingManager.h"
 
 /** the range for searching */
 SearchBookSet *searchBookSet;
@@ -46,7 +46,7 @@ SearchBookSet *searchBookSet;
         contentIndexRef = NULL;
         
         // open or create content index
-        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];				
+        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexForModName:aModName textType:[self modTypeStr]];
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
             CocoLog(LEVEL_ERR, @"Error on creating or opening content index!");
@@ -126,13 +126,13 @@ SearchBookSet *searchBookSet;
         // use 10.4 searching on Tiger and above
         SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (CFStringRef)query, 0);
         if(searchRef != NULL) {
-            // create documentids array
+            // create document ids array
             SKDocumentID docIDs[maxResults];
             float scores[maxResults];
             CFIndex foundItems = 0;
             
             Boolean inProgress = YES;
-            CFIndex count = kMaxSearchResults;
+            CFIndex count;
             while(inProgress == YES) {
                 if(maxResults > kMaxSearchResults) {
                     count = kMaxSearchResults;
@@ -164,7 +164,7 @@ SearchBookSet *searchBookSet;
                                                   docRefs);
             
             // prepare result array
-            array = [NSMutableArray arrayWithCapacity:foundItems];
+            array = [NSMutableArray arrayWithCapacity:(NSUInteger)foundItems];
             // loop over results
             for(int i = 0;i < foundItems;i++) {
                 // prepare search result entry
@@ -178,9 +178,6 @@ SearchBookSet *searchBookSet;
                 // check for an existing range
                 BOOL addDoc = YES;
                 if([searchBookSet count] > 0) {
-                    // get document name
-                    NSString *docName = (NSString *)SKDocumentGetName(hit);
-                    
                     // extract versekey information
                     addDoc = NO;
                     NSArray *verseKeyInfo = [docName componentsSeparatedByString:@"/"];

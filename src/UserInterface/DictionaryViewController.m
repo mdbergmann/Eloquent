@@ -8,16 +8,12 @@
 
 #import "DictionaryViewController.h"
 #import "SingleViewHostController.h"
-#import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "globals.h"
 #import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
-#import "ObjCSword/SwordDictionary.h"
-#import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
 #import "SearchTextFieldOptions.h"
@@ -63,7 +59,7 @@
 - (id)initWithModule:(SwordDictionary *)aModule delegate:(id)aDelegate {
     self = [self init];
     if(self) {
-        self.module = (SwordDictionary *)aModule;
+        self.module = aModule;
         self.delegate = aDelegate;
         [self commonInit];
     } else {
@@ -101,6 +97,17 @@
     viewLoaded = YES;
 }
 
+- (void)finalize {
+    [super finalize];
+}
+
+- (void)dealloc {
+    [selection release];
+    [dictKeys release];
+
+    [super dealloc];
+}
+
 - (void)selectTableViewEntriesFromSelection {
     if(selection != nil) {
         [entriesTableView selectRowIndexes:[self selectedIndexes] byExtendingSelection:NO];
@@ -111,7 +118,7 @@
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
 
     for(NSString *key in selection) {
-        NSInteger index = [dictKeys indexOfObject:key];
+        NSUInteger index = [dictKeys indexOfObject:key];
         if(index > -1) {
             [indexes addIndex:index];
         }
@@ -124,7 +131,7 @@
 #pragma mark - Methods
 
 - (void)populateModulesMenu {
-    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
     [[self modulesUIController] generateModuleMenu:&menu 
                                      forModuletype:Dictionary
                                     withMenuTarget:self 
@@ -153,11 +160,11 @@
 }
 
 - (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
-    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
+    NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
     if(searchResults) {
         // strip searchQuery
-        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+        NSAttributedString *newLine = [[[NSAttributedString alloc] initWithString:@"\n"] autorelease];
         
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[module name]];
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[module name]];
@@ -176,7 +183,7 @@
         
         // build search string
         for(SearchResultEntry *entry in searchResults) {
-            NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
+            NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes] autorelease];
             
             NSString *contentStr = @"";
             if([entry keyString] != nil) {
@@ -235,12 +242,12 @@
         // add pointing hand cursor to all links
         CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
         NSRange effectiveRange;
-        int	i = 0;
+        NSUInteger	i = 0;
         while (i < [tempDisplayString length]) {
             NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
             if([attrs objectForKey:NSLinkAttributeName] != nil) {
                 // add pointing hand cursor
-                attrs = [attrs mutableCopy];
+                attrs = [[attrs mutableCopy] autorelease];
                 [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
                 [tempDisplayString setAttributes:attrs range:effectiveRange];
             }
@@ -287,14 +294,12 @@
 }
 
 - (void)handleDisplayStatusText {
-    int length = 0;
-    NSString *text = @"";
+    NSString *text;
     if(searchType == ReferenceSearchType) {
-        length = [contentCache count];
         text = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
     } else {
-        length = [searchContentCache count];
-        text = [NSString stringWithFormat:@"Found %i entries"];
+        NSInteger length = [searchContentCache count];
+        text = [NSString stringWithFormat:@"Found %i entries", length];
     }
     
     [self setStatusText:text];
@@ -325,7 +330,7 @@
 }
 
 - (SearchTextFieldOptions *)searchFieldOptions {
-    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
+    SearchTextFieldOptions *options = [[[SearchTextFieldOptions alloc] init] autorelease];
     if(searchType == ReferenceSearchType) {
         [options setContinuous:YES];
         [options setSendsSearchStringImmediately:YES];
@@ -350,7 +355,7 @@
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
-        // add the webview as contentvew to the placeholder    
+        // add the web view as content view to the placeholder
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];
     }
@@ -383,9 +388,9 @@
 		if(oview != nil) {
             
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
-			int len = [selectedRows count];
+			NSUInteger len = [selectedRows count];
 			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
-            NSString *item = nil;
+            NSString *item;
 			if(len > 0) {
 				NSUInteger indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
@@ -420,7 +425,7 @@
     NSString *ret = @"";
     
     if(self.module != nil) {
-        ret = [dictKeys objectAtIndex:rowIndex];
+        ret = [dictKeys objectAtIndex:(NSUInteger)rowIndex];
     }
     
     return ret;

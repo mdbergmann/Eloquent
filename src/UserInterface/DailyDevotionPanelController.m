@@ -60,13 +60,19 @@
     
     [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
     
-    NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
+    NSMutableDictionary *selectionAttributes = [[[textView selectedTextAttributes] mutableCopy] autorelease];
     [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
 }
 
 - (void)finalize {
     [super finalize];
+}
+
+- (void)dealloc {
+    [dictionaryViewController release];
+
+    [super dealloc];
 }
 
 #pragma mark - Bindings
@@ -122,9 +128,9 @@
         [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
         
         NSData *data = [[renderedText text] dataUsingEncoding:NSUTF8StringEncoding];
-        NSMutableAttributedString *displayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+        NSMutableAttributedString *displayString = [[[NSMutableAttributedString alloc] initWithHTML:data
                                                                                            options:options
-                                                                                documentAttributes:nil];
+                                                                                documentAttributes:nil] autorelease];
         
         // set custom fore ground color
         [displayString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor]
@@ -137,7 +143,7 @@
             NSDictionary *attrs = [displayString attributesAtIndex:i effectiveRange:&effectiveRange];
             if([attrs objectForKey:NSLinkAttributeName] != nil) {
                 // add pointing hand cursor
-                attrs = [attrs mutableCopy];
+                attrs = [[attrs mutableCopy] autorelease];
                 [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
                 [displayString setAttributes:attrs range:effectiveRange];
             }
@@ -149,7 +155,7 @@
         }
     }
     
-    return [[NSAttributedString alloc] initWithString:@""];
+    return [[[NSAttributedString alloc] initWithString:@""] autorelease];
 }
 
 - (BOOL)isTextViewEditable {

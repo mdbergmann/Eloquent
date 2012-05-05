@@ -10,7 +10,7 @@
 @implementation MBThreadedProgressSheetController
 
 + (MBThreadedProgressSheetController *)standardProgressSheetController {
-	static MBThreadedProgressSheetController *singleton;
+	static MBThreadedProgressSheetController *singleton = nil;
 	
 	if(singleton == nil) {
 		singleton = [[MBThreadedProgressSheetController alloc] init];
@@ -173,10 +173,6 @@
 
 - (BOOL)isDisplayedWhenStopped {
 	return [progressIndicator isDisplayedWhenStopped];
-}
-
-- (void)animateProgress {
-	[progressIndicator animate:nil];
 }
 
 - (void)setMaxProgressValue:(NSNumber *)aValue {

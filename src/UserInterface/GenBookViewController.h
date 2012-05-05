@@ -18,7 +18,7 @@
 #define GENBOOKVIEW_NIBNAME   @"GenBookView"
 
 /** the view of this view controller is a ScrollSynchronizableView */
-@interface GenBookViewController : ModuleViewController <NSCoding> {
+@interface GenBookViewController : ModuleViewController <NSCoding, NSOutlineViewDataSource, NSOutlineViewDelegate> {
     IBOutlet NSPopUpButton *modulePopBtn;
     IBOutlet NSOutlineView *entriesOutlineView;
     
@@ -32,13 +32,10 @@
 
 // ---------- methods --------------
 // selector called by menuitems
-- (void)moduleSelectionChanged:(id)sender;
+- (IBAction)moduleSelectionChanged:(id)sender;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
-
-// actions
-- (IBAction)moduleSelectionChanged:(id)sender;
 
 @end

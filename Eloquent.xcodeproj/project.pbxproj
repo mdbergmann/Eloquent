@@ -2071,6 +2071,7 @@
 					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = AppStore;
@@ -2246,6 +2247,7 @@
 					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2285,6 +2287,7 @@
 					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

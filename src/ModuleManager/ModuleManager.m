@@ -43,6 +43,13 @@
 	[super finalize];
 }
 
+- (void)dealloc {
+    [moduleViewController release];
+    [tbIdentifiers release];
+
+    [super dealloc];
+}
+
 - (void)showWindow:(id)sender {
     
     [super showWindow:sender];
@@ -56,15 +63,14 @@
 //--------------------------------------------------------------------
 - (void)awakeFromNib {
     tbIdentifiers = [[NSMutableDictionary alloc] init];
-    
     [moduleViewController setParentWindow:[self window]];
     
-    NSToolbarItem *item = nil;
-    NSImage *image = nil;
+    NSToolbarItem *item;
+    NSImage *image;
     
     // ----------------------------------------------------------------------------------------
     // sync is list
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_SYNC_ISLIST_ITEM];
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:TB_SYNC_ISLIST_ITEM] autorelease];
     [item setLabel:NSLocalizedString(@"SyncISFromMasterLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"SyncISFromMasterLabel", @"")];
     [item setToolTip:NSLocalizedString(@"SyncISFromMasterToolTip", @"")];
@@ -75,7 +81,7 @@
     [tbIdentifiers setObject:item forKey:TB_SYNC_ISLIST_ITEM];
 
     // add is
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_ADD_ITEM];
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_ADD_ITEM] autorelease];
     [item setLabel:NSLocalizedString(@"AddInstallSourceLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"AddInstallSourceLabel", @"")];
     [item setToolTip:NSLocalizedString(@"AddInstallSourceToolTip", @"")];
@@ -86,7 +92,7 @@
     [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_ADD_ITEM];
 
     // edit is
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_EDIT_ITEM];
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_EDIT_ITEM] autorelease];
     [item setLabel:NSLocalizedString(@"EditInstallSourceLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"EditInstallSourceLabel", @"")];
     [item setToolTip:NSLocalizedString(@"EditInstallSourceToolTip", @"")];
@@ -97,7 +103,7 @@
     [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_EDIT_ITEM];
     
     // refresh is
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_REFRESH_ITEM];
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_REFRESH_ITEM] autorelease];
     [item setLabel:NSLocalizedString(@"RefreshInstallSourceLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"RefreshInstallSourceLabel", @"")];
     [item setToolTip:NSLocalizedString(@"RefreshInstallSourceToolTip", @"")];
@@ -108,7 +114,7 @@
     [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_REFRESH_ITEM];
     
     // delete is
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_DELETE_ITEM];
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_DELETE_ITEM] autorelease];
     [item setLabel:NSLocalizedString(@"DeleteInstallSourceLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"DeleteInstallSourceLabel", @"")];
     [item setToolTip:NSLocalizedString(@"DeleteInstallSourceToolTip", @"")];
@@ -119,7 +125,7 @@
     [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_DELETE_ITEM];
 
     // preview tasks
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TASK_PREVIEW_ITEM];
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:TB_TASK_PREVIEW_ITEM] autorelease];
     [item setLabel:NSLocalizedString(@"PreviewTasksLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"PreviewTasksLabel", @"")];
     [item setToolTip:NSLocalizedString(@"PreviewTasksToolTip", @"")];
@@ -130,7 +136,7 @@
     [tbIdentifiers setObject:item forKey:TB_TASK_PREVIEW_ITEM];
     
     // preview tasks
-    item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TASK_PROCESS_ITEM];
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:TB_TASK_PROCESS_ITEM] autorelease];
     [item setLabel:NSLocalizedString(@"ProcessTasksLabel", @"")];
     [item setPaletteLabel:NSLocalizedString(@"ProcessTasksLabel", @"")];
     [item setToolTip:NSLocalizedString(@"ProcessTasksToolTip", @"")];
@@ -146,7 +152,7 @@
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSeparatorItemIdentifier];
     [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarPrintItemIdentifier];
     
-    [self setupToolbar];    
+    [self setupToolbar];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -166,19 +172,19 @@
  \brief create a toolbar and add it to the window. Set the delegate to this object.
  */
 - (void)setupToolbar {
-    // Create a new toolbar instance, and attach it to our document window 
-    NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier: @"modinstalltoolbar"];
-    
+    // Create a new toolbar instance, and attach it to our document window
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"modinstalltoolbar"] autorelease];
+
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
     [toolbar setAllowsUserCustomization: YES];
     [toolbar setAutosavesConfiguration: YES];
 	//[toolbar setSizeMode:NSToolbarSizeModeRegular];
     [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
-    
+
     // We are the delegate
     [toolbar setDelegate:self];
-    
-    // Attach the toolbar to the document window 
+
+    // Attach the toolbar to the document window
     [[self window] setToolbar:toolbar];
 }
 
@@ -211,11 +217,7 @@
 - (NSToolbarItem *) toolbar:(NSToolbar *)toolbar 
 	  itemForItemIdentifier:(NSString *)itemIdentifier
   willBeInsertedIntoToolbar:(BOOL)flag {
-    NSToolbarItem *item = nil;
-    
-	item = [tbIdentifiers valueForKey:itemIdentifier];
-	
-    return item;
+    return [tbIdentifiers valueForKey:itemIdentifier];
 }
 
 /** toolbar item */

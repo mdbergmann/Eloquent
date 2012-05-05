@@ -10,15 +10,10 @@
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
-#import "AppController.h"
 #import "ExtTextViewController.h"
 #import "SingleViewHostController.h"
-#import "WorkspaceViewHostController.h"
-#import "BibleCombiViewController.h"
 #import "IndexingManager.h"
-#import "ObjCSword/SwordModuleTextEntry.h"
 #import "ObjCSword/Notifications.h"
-#import "NSTextView+LookupAdditions.h"
 #import "CacheObject.h"
 #import "NSDictionary+ModuleDisplaySettings.h"
 
@@ -55,7 +50,7 @@
     forceRedisplay = NO;
     searchType = ReferenceSearchType;
     
-    self.searchContentCache = [[CacheObject alloc] init];
+    self.searchContentCache = [[[CacheObject alloc] init] autorelease];
     contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(modulesListChanged:)
@@ -81,6 +76,19 @@
     [mi setTarget:self];
     [mi setTag:ShowModuleAbout];
  }
+
+- (void)finalize {
+    [super finalize];
+}
+
+- (void)dealloc {
+    [contentDisplayController release];
+    [tempDisplayString release];
+    [searchContentCache release];
+    [module release];
+
+    [super dealloc];
+}
 
 #pragma mark - Methods
 
@@ -143,10 +151,8 @@
     
     if(results) {
         [searchContentCache setCount:[results count]];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:
-                                    [[NSSortDescriptor alloc] initWithKey:@"documentName" 
-                                                                ascending:YES 
-                                                                 selector:@selector(caseInsensitiveCompare:)]];       
+        NSSortDescriptor *descriptor = [[[NSSortDescriptor alloc] initWithKey:@"documentName" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:descriptor];
         NSArray *sortedResults = [results sortedArrayUsingDescriptors:sortDescriptors];
         [searchContentCache setContent:[self displayableHTMLForIndexedSearchResults:sortedResults]];
         
@@ -169,11 +175,11 @@
 #pragma mark - TextContentProviding
 
 - (NSTextView *)textView {
-    return (NSTextView *)[(id<TextContentProviding>)contentDisplayController textView];    
+    return [(id<TextContentProviding>)contentDisplayController textView];
 }
 
 - (NSScrollView *)scrollView {
-    return (NSScrollView *)[(id<TextContentProviding>)contentDisplayController scrollView];    
+    return [(id<TextContentProviding>)contentDisplayController scrollView];
 }
 
 - (void)setAttributedString:(NSAttributedString *)aString {
@@ -193,7 +199,7 @@
     NSSize printSize = NSMakeSize(paperSize.width - ([printInfo leftMargin] + [printInfo rightMargin]), 
                                   paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
     
-    NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
+    NSTextView *printView = [[[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)] autorelease];
     [printView insertText:[[self textView] attributedString]];
     
     return printView;
@@ -272,7 +278,7 @@
     if([searchString length] > 0) {
         [contentCache setContent:[self displayableHTMLForReferenceLookup]];        
     } else {
-        [contentCache setContent:[[NSAttributedString alloc] initWithString:@""]];
+        [contentCache setContent:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
     }
 }
 
@@ -312,7 +318,7 @@
 }
 
 - (void)handleDisplayCached {
-    NSAttributedString *displayText = nil;
+    NSAttributedString *displayText;
     if(searchType == ReferenceSearchType) {
         displayText = [contentCache content];
     } else {
@@ -321,12 +327,11 @@
     
     if(displayText) {
         [self setAttributedString:displayText];
-        displayText = nil;
     }
 }
 
 - (void)handleDisplayStatusText {
-    int length = 0;
+    int length;
     if(searchType == ReferenceSearchType) {
         length = [contentCache count];
         [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        

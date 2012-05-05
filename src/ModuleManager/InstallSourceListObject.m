@@ -6,6 +6,7 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import <ObjCSword/ObjCSword.h>
 #import "InstallSourceListObject.h"
 
 

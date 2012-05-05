@@ -27,8 +27,8 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent {
     CocoLog(LEVEL_DEBUG, @"[MouseTrackingScrollView -mouseEntered:]");
-    if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
-        [delegate performSelector:@selector(mouseEntered:) withObject:self];
+    if(delegate && [delegate respondsToSelector:@selector(mouseEnteredView:)]) {
+        [delegate performSelector:@selector(mouseEnteredView:) withObject:self];
     }
     
     //[super mouseEntered:theEvent];
@@ -36,8 +36,8 @@
 
 - (void)mouseExited:(NSEvent *)theEvent {
     CocoLog(LEVEL_DEBUG, @"[MouseTrackingScrollView -mouseExited:]");
-    if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
-        [delegate performSelector:@selector(mouseExited:) withObject:self];
+    if(delegate && [delegate respondsToSelector:@selector(mouseExitedView:)]) {
+        [delegate performSelector:@selector(mouseExitedView:) withObject:self];
     }
     
     //[super mouseExited:theEvent];

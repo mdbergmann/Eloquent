@@ -8,6 +8,7 @@
 
 #import "DictIndexer.h"
 #import "SearchResultEntry.h"
+#import "IndexingManager.h"
 
 @interface DictIndexer : Indexer {
 }
@@ -43,7 +44,7 @@
         [self setModTypeStr:@"Dictionary"];
 		
         // open or create content index
-        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];
+        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexForModName:aModName textType:[self modTypeStr]];
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
             CocoLog(LEVEL_ERR, @"Error on creating content index!");
@@ -126,13 +127,13 @@
     if(contentIndexRef != NULL) {
         SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (CFStringRef)query, 0);
         if(searchRef != NULL) {
-            // create documentids array
+            // create document ids array
             SKDocumentID docIDs[maxResults];
             float scores[maxResults];
             CFIndex foundItems = 0;
             
             Boolean inProgress = YES;
-            CFIndex count = kMaxSearchResults;
+            CFIndex count;
             while(inProgress == YES) {
                 if(maxResults > kMaxSearchResults) {
                     count = kMaxSearchResults;
@@ -164,7 +165,7 @@
                                                   docRefs);
             
             // prepare result array
-            array = [NSMutableArray arrayWithCapacity:foundItems];
+            array = [NSMutableArray arrayWithCapacity:(NSUInteger)foundItems];
             // loop over results
             for(int i = 0;i < foundItems;i++) {
                 // prepare search result entry

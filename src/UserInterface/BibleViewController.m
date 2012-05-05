@@ -9,33 +9,17 @@
 #import "BibleViewController.h"
 #import "AppController.h"
 #import "SingleViewHostController.h"
-#import "BibleCombiViewController.h"
-#import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
-#import "MBPreferenceController.h"
-#import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
-#import "ObjCSword/SwordBible.h"
-#import "SearchResultEntry.h"
-#import "Highlighter.h"
 #import "GradientCell.h"
 #import "SearchBookSetEditorController.h"
 #import "SearchBookSet.h"
 #import "Bookmark.h"
 #import "BookmarkManager.h"
-#import "ObjCSword/SwordVerseKey.h"
 #import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "BookmarksUIController.h"
-#import "ObjCSword/SwordModuleTextEntry.h"
-#import "ObjCSword/SwordBibleTextEntry.h"
-#import "NSUserDefaults+Additions.h"
 #import "NSTextView+LookupAdditions.h"
 #import "NSAttributedString+Additions.h"
-#import "WorkspaceViewHostController.h"
-#import "globals.h"
-#import "ObjCSword/SwordBibleBook.h"
-#import "ObjCSword/SwordBibleChapter.h"
 #import "CommentaryViewController.h"
 
 @interface BibleViewController ()
@@ -83,7 +67,7 @@
                 aModule = [modArray objectAtIndex:0];
             }
         }
-        self.module = (SwordModule *)aModule;
+        self.module = aModule;
         self.delegate = aDelegate;
         
         [self _loadNib];
@@ -140,6 +124,21 @@
     viewLoaded = YES;
 }
 
+- (void)finalize {
+    [super finalize];
+}
+
+- (void)dealloc {
+    [commentariesMenu release];
+    [biblesMenu release];
+    [searchBookSetsController release];
+    [gradientCell release];
+    [nibName release];
+    [bookSelection release];
+
+    [super dealloc];
+}
+
 #pragma mark - methods
 
 - (SearchBookSetEditorController *)searchBookSetsController {
@@ -169,7 +168,7 @@
 }
 
 - (void)populateModulesMenu {
-    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
     [[self modulesUIController] generateModuleMenu:&menu 
                                      forModuletype:Bible 
                                     withMenuTarget:self 
@@ -193,7 +192,7 @@
 }
 
 - (void)populateBookmarksMenu {
-    NSMenu *bookmarksMenu = [[NSMenu alloc] init];
+    NSMenu *bookmarksMenu = [[[NSMenu alloc] init] autorelease];
     [[self bookmarksUIController] generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];
     NSMenuItem *item = [textContextMenu itemWithTag:AddVersesToBookmark];
     [item setSubmenu:bookmarksMenu];    
@@ -216,7 +215,7 @@
                                     withMenuAction:@selector(addModule:)];
     
     // overall menu
-    NSMenu *allMenu = [[NSMenu alloc] init];
+    NSMenu *allMenu = [[[NSMenu alloc] init] autorelease];
     [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
     NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Bible", @"") action:nil keyEquivalent:@""];
     [mi setSubmenu:biblesMenu];
@@ -409,7 +408,7 @@
 - (void)contentViewInitFinished:(HostableViewController *)aView {
     if(viewLoaded) {
         // set sync scroll view
-        [(ScrollSynchronizableView *)[self view] setSyncScrollView:(NSScrollView *)[(id<TextContentProviding>)contentDisplayController scrollView]];
+        [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
         // add the webview as contentvew to the placeholder    
@@ -420,15 +419,15 @@
 
 #pragma mark - MouseTracking protocol
 
-- (void)mouseEntered:(NSView *)theView {
-    if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
-        [delegate performSelector:@selector(mouseEntered:) withObject:[self view]];
+- (void)mouseEnteredView:(NSView *)theView {
+    if(delegate && [delegate respondsToSelector:@selector(mouseEnteredView:)]) {
+        [delegate performSelector:@selector(mouseEnteredView:) withObject:[self view]];
     }
 }
 
-- (void)mouseExited:(NSView *)theView {
-    if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
-        [delegate performSelector:@selector(mouseExited:) withObject:[self view]];
+- (void)mouseExitedView:(NSView *)theView {
+    if(delegate && [delegate respondsToSelector:@selector(mouseExitedView:)]) {
+        [delegate performSelector:@selector(mouseExitedView:) withObject:[self view]];
     }
 }
 

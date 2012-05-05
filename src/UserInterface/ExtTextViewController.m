@@ -187,17 +187,17 @@
 
 #pragma mark - mouse tracking protocol
 
-- (void)mouseEntered:(NSView *)theView {
+- (void)mouseEnteredView:(NSView *)theView {
     //CocoLog(LEVEL_DEBUG, @"[ExtTextViewController - mouseEntered]");
-    if(delegate && [delegate respondsToSelector:@selector(mouseEntered:)]) {
-        [delegate performSelector:@selector(mouseEntered:) withObject:[self view]];
+    if(delegate && [delegate respondsToSelector:@selector(mouseEnteredView:)]) {
+        [delegate performSelector:@selector(mouseEnteredView:) withObject:[self view]];
     }
 }
 
-- (void)mouseExited:(NSView *)theView {
+- (void)mouseExitedView:(NSView *)theView {
     //CocoLog(LEVEL_DEBUG, @"[ExtTextViewController - mouseExited]");
-    if(delegate && [delegate respondsToSelector:@selector(mouseExited:)]) {
-        [delegate performSelector:@selector(mouseExited:) withObject:[self view]];
+    if(delegate && [delegate respondsToSelector:@selector(mouseExitedView:)]) {
+        [delegate performSelector:@selector(mouseExitedView:) withObject:[self view]];
     }
 }
 

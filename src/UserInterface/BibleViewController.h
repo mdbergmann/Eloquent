@@ -18,7 +18,7 @@
 
 #define BIBLEVIEW_NIBNAME   @"BibleView"
 
-@interface BibleViewController : ModuleViewController <NSCoding> {
+@interface BibleViewController : ModuleViewController <NSCoding, NSOutlineViewDelegate, NSOutlineViewDataSource> {
     IBOutlet NSButton *closeBtn;
     IBOutlet NSPopUpButton *addPopBtn;
     IBOutlet NSPopUpButton *modulePopBtn;

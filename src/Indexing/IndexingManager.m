@@ -7,14 +7,10 @@
 //
 
 #import "IndexingManager.h"
-#import "MBPreferenceController.h"
 #import "globals.h"
 #import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
 #import "SearchBookSet.h"
 #import "ObjCSword/SwordVerseKey.h"
-
-#define INDEXTYPE kSKIndexInverted
 
 @interface IndexingManager ()
 
@@ -22,7 +18,7 @@
 @property (retain, readwrite) NSMutableDictionary *indexerRegistrat;
 
 /**
-\brief creates a nonexisting empty index for the given parameters
+\brief creates a non existing empty index for the given parameters
  @param[in] modName: the name of the module.
  @param[in] modType: the type of the module. depending on this, more than one index may be created for the module.
  @return: success YES/NO
@@ -30,7 +26,7 @@
 - (BOOL)createIndexForModuleName:(NSString *)modName moduleType:(ModuleType)modType;
 
 /**
- this method can be run in seperate thread for checking index validity
+ this method can be run in separate thread for checking index validity
  */
 - (void)runIndexCheck;
 - (void)detachedIndexCheckRunner;
@@ -48,7 +44,7 @@
 @synthesize indexerRegistrat;
 
 /**
-\brief creates a nonexisting empty index for the given parameters
+\brief creates a non existing empty index for the given parameters
  @param[in] modName: the name of the module.
  @param[in] modType: the type of the module. depending on this, more than one index may be created for the module.
  @return: success YES/NO
@@ -58,7 +54,7 @@
 }
 
 /**
- this method can be run in seperate thread for checking index validity
+ this method can be run in separate thread for checking index validity
  */
 - (void)runIndexCheck {
     if(!stalled) {
@@ -76,10 +72,10 @@
         // make copy of array
         NSArray *modNames = [NSArray arrayWithArray:[swordManager moduleNames]];
         for(NSString *name in modNames) {
-            CocoLog(LEVEL_DEBUG, @"[IndexingManager -runIndexCheck] checking index for module: %@", name);
+            CocoLog(LEVEL_DEBUG, @"checking index for module: %@", name);
             SwordModule *mod = [swordManager moduleWithName:name];
             if(![mod hasSKSearchIndex]) {
-                CocoLog(LEVEL_DEBUG, @"[IndexingManager -runIndexCheck] creating index for module: %@", name);
+                CocoLog(LEVEL_DEBUG, @"creating index for module: %@", name);
                 [mod createSKSearchIndex];
             }
         }
@@ -93,7 +89,7 @@
 \brief this is a singleton
  */
 + (IndexingManager *)sharedManager {
-	static IndexingManager *singleton;
+	static IndexingManager *singleton = nil;
 	
 	if(singleton == nil) {
 		singleton = [[IndexingManager alloc] init];
@@ -107,11 +103,11 @@
  @returns initialized not nil object
  */
 - (id)init {
-	CocoLog(LEVEL_DEBUG,@"init of IndexingManager");
+	CocoLog(LEVEL_DEBUG, @"init of IndexingManager");
 	
 	self = [super init];
 	if(self == nil) {
-		CocoLog(LEVEL_ERR,@"cannot alloc IndexingManager!");
+		CocoLog(LEVEL_ERR, @"cannot alloc IndexingManager!");
 	}
 	else {
 		[self setBaseIndexPath:@""];
@@ -125,7 +121,7 @@
             // load
             [self setSearchBookSets:[NSMutableArray arrayWithArray:[NSKeyedUnarchiver unarchiveObjectWithFile:DEFAULT_SEARCHBOOKSET_PATH]]];
         } else {
-            // build default search booksets
+            // build default search book sets
             NSMutableArray *bookSets = [NSMutableArray array];
             // All
             SearchBookSet *set = [SearchBookSet searchBookSetWithName:NSLocalizedString(@"All", @"")];
@@ -230,9 +226,13 @@
 \brief dealloc of this class is called on closing this document
  */
 - (void)finalize {
-    CocoLog(LEVEL_DEBUG, @"[IndexingManager -finalize]");
-    
     [super finalize];
+}
+
+- (void)dealloc {
+    [indexCheckLock release];
+
+    [super dealloc];
 }
 
 - (void)storeSearchBookSets {
@@ -244,7 +244,7 @@
  \brief open or create index for the given parameters
  @return SKIndexRef or NULL on error
  */
-- (SKIndexRef)openOrCreateIndexforModName:(NSString *)aModName textType:(NSString *)aModType {
+- (SKIndexRef)openOrCreateIndexForModName:(NSString *)aModName textType:(NSString *)aModType {
 	// we do not accept nil values
 	if(aModName == nil) {
 		aModName = @"";
@@ -254,12 +254,12 @@
     NSString *indexFolder = [self indexFolderPathForModuleName:aModName];
     if([fm fileExistsAtPath:indexFolder] == NO) {
         // create index folder
-        [fm createDirectoryAtPath:indexFolder attributes:nil];
+        [fm createDirectoryAtPath:indexFolder withIntermediateDirectories:NO attributes:nil error:NULL];
     }
     
 	// construct index for content
     NSString *indexName = [NSString stringWithFormat:@"%@-%@", aModName, aModType];
-	SKIndexRef indexRef = NULL;
+	SKIndexRef indexRef;
 	NSString *indexPath = [self indexPathForModuleName:aModName textType:aModType];
 	NSURL *indexURL = [NSURL fileURLWithPath:indexPath];
 	if([fm fileExistsAtPath:indexPath] == YES) {
@@ -384,9 +384,9 @@
  @return: YES/NO
  */
 - (BOOL)indexExistsForModuleName:(NSString *)aModName {
-	BOOL			isDir		= NO;
-	NSFileManager	*fm			= [NSFileManager defaultManager];	
-    NSString		*indexPath	= [self indexFolderPathForModuleName:aModName];
+	BOOL isDir = NO;
+	NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *indexPath	= [self indexFolderPathForModuleName:aModName];
 	
 	return (([fm fileExistsAtPath:indexPath isDirectory:&isDir] && isDir == YES) ? YES : NO);
 }
@@ -397,12 +397,11 @@
 - (BOOL)removeIndexForModuleName:(NSString *)modName {
     BOOL ret = YES;
     
-	NSFileManager	*fm			= [NSFileManager defaultManager];	
-    NSString		*indexPath	= [self indexFolderPathForModuleName:modName];	
+	NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *indexPath	= [self indexFolderPathForModuleName:modName];
 
 	if([fm fileExistsAtPath:indexPath]) {
-        ret = [fm removeFileAtPath:indexPath handler:nil];
-    
+        ret = [fm removeItemAtPath:indexPath error:NULL];
 		if(!ret) {
             CocoLog(LEVEL_ERR, @"[IndexingManager -removeIndexForModuleName:] could not remove index for module: %@", modName);
         }

@@ -8,6 +8,7 @@
 
 #import "BookIndexer.h"
 #import "SearchResultEntry.h"
+#import "IndexingManager.h"
 
 @interface BookIndexer : Indexer {
 }
@@ -44,7 +45,7 @@
         [self setModTypeStr:@"GenBook"];
 		
         // open or create content index
-        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexforModName:aModName textType:[self modTypeStr]];
+        contentIndexRef = [[IndexingManager sharedManager] openOrCreateIndexForModName:aModName textType:[self modTypeStr]];
         // check if we have a valid index reference
         if(contentIndexRef == NULL) {
             CocoLog(LEVEL_ERR, @"[BookIndexer -initWithModuleName] Error on creating content index!");
@@ -136,7 +137,7 @@
             CFIndex foundItems = 0;
             
             Boolean inProgress = YES;
-            CFIndex count = kMaxSearchResults;
+            CFIndex count;
             while(inProgress == YES) {
                 if(maxResults > kMaxSearchResults) {
                     count = kMaxSearchResults;
@@ -168,7 +169,7 @@
                                                   docRefs);
             
             // prepare result array
-            array = [NSMutableArray arrayWithCapacity:foundItems];
+            array = [NSMutableArray arrayWithCapacity:(NSUInteger)foundItems];
             // loop over results
             for(int i = 0;i < foundItems;i++) {
                 // prepare search result entry

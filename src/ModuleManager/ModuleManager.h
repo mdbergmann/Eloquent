@@ -10,8 +10,8 @@
 
 @class ModuleManageViewController;
 
-@interface ModuleManager : NSWindowController {
-    
+@interface ModuleManager : NSWindowController <NSToolbarDelegate> {
+
     // the module view controller
     ModuleManageViewController *moduleViewController;
     

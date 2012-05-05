@@ -46,7 +46,6 @@
 // ------------------ methods -----------------
 
 - (void)dealloc {
-    
     [self setModule:nil];
     [self setInstallSource:nil];
     
@@ -63,7 +62,7 @@
 - (NSString *)moduleTypeString {
     return [module typeString];
 }
-- (int)moduleStatus {
+- (NSInteger)moduleStatus {
     return [module status];
 }
 

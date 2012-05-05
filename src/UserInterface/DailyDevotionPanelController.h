@@ -12,7 +12,7 @@
 
 @class SwordDictionary, DictionaryViewController;
 
-@interface DailyDevotionPanelController : NSWindowController {
+@interface DailyDevotionPanelController : NSWindowController <NSTextViewDelegate, NSWindowDelegate> {
     SwordDictionary *dailyDevotionModule;
     DictionaryViewController *dictionaryViewController;
 
@@ -35,7 +35,7 @@
 
 - (id)initWithDelegate:(id)aDelegate andModule:(SwordDictionary *)ddModule;
 
-// bindings for stepper and textfields
+// bindings for stepper and text fields
 - (NSInteger)minDays;
 - (NSInteger)maxDays;
 - (NSInteger)minMonths;

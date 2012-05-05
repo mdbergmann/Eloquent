@@ -1,11 +1,10 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <ModuleListViewController.h>
-#import <ObjCSword/SwordInstallSourceController.h>
+#import "SwordInstallSourceManager.h"
 
 @class ModuleListObject;
 @class InstallSourceListObject;
-@class ThinDividerSplitView;
 
 #define EDITING_MODE_ADD    1
 #define EDITING_MODE_EDIT   2
@@ -13,7 +12,7 @@
 #define TYPE_TAG_REMOTE 0
 #define TYPE_TAG_LOCAL  1
 
-@interface ModuleManageViewController : NSObject {
+@interface ModuleManageViewController : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource> {
     
     // the views
     IBOutlet NSOutlineView *categoryOutlineView;
@@ -68,17 +67,11 @@
     BOOL initialized;
 }
 
-+ (NSString *)fileOpenDialog;
+@property (assign, readwrite) IBOutlet id delegate;
+@property (assign, readwrite) IBOutlet NSWindow *parentWindow;
+@property (retain, readwrite) NSArray *selectedInstallSources;
 
-// -------------- getter / setter ------------------
-- (NSWindow *)parentWindow;
-- (void)setParentWindow:(NSWindow *)value;
-
-- (id)delegate;
-- (void)setDelegate:(id)value;
-
-- (NSArray *)selectedInstallSources;
-- (void)setSelectedInstallSources:(NSArray *)value;
++ (NSURL *)fileOpenDialog;
 
 - (BOOL)initialized;
 
@@ -102,6 +95,7 @@
 /** show tasks preview */
 - (void)showTasksPreview;
 - (void)tasksPreviewSheetEnd;
+
 // tasks preview window actions
 - (IBAction)closePreview:(id)sender;
 - (IBAction)processTasks:(id)sender;
@@ -115,7 +109,6 @@
 - (IBAction)confirmNo:(id)sender;
 - (IBAction)confirmYes:(id)sender;
 
-// actions
 - (IBAction)syncInstallSourcesFromMasterList:(id)sender;
 - (IBAction)addInstallSource:(id)sender;
 - (IBAction)deleteInstallSource:(id)sender;

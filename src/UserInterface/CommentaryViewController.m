@@ -10,14 +10,10 @@
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
-#import "ExtTextViewController.h"
 #import "globals.h"
 #import "CacheObject.h"
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
-#import "ObjCSword/SwordBible.h"
-#import "ObjCSword/SwordCommentary.h"
 #import "ObjCSword/SwordModuleTextEntry.h"
 #import "NSButton+Color.h"
 #import "NSTextView+LookupAdditions.h"
@@ -54,7 +50,7 @@
 - (id)initWithModule:(SwordCommentary *)aModule delegate:(id)aDelegate {
     self = [super init];
     if(self) {
-        self.module = (SwordCommentary *)aModule;
+        self.module = aModule;
         self.delegate = aDelegate;
         editEnabled = NO;
         
@@ -99,7 +95,7 @@
 }
 
 - (void)populateModulesMenu {    
-    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
     [[self modulesUIController] generateModuleMenu:&menu 
                                      forModuletype:Commentary 
                                     withMenuTarget:self 
@@ -139,7 +135,7 @@
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
 
-    NSMenu *allMenu = [[NSMenu alloc] init];
+    NSMenu *allMenu = [[[NSMenu alloc] init] autorelease];
     [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
     NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Commentary", @"") action:nil keyEquivalent:@""];
     [mi setSubmenu:commentariesMenu];
@@ -167,26 +163,23 @@
      (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
 
     [module lockModuleAccess];
-    // we skip consective links. Commentary module does that by default.
+    // we skip consecutive links. Commentary module does that by default.
     SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
     [lk setPersist:YES];
     [lk setPosition:SWPOS_TOP];
     [module setKey:lk];
     NSInteger numberOfVerses = 0;
-    NSString *ref = nil;
-    NSString *rendered = nil;
+    NSString *ref;
+    NSString *rendered;
     while(![module error]) {
         ref = [lk keyText];
         rendered = [module renderedText];
         
-        NSString *bookName = @"";
-        int book = -1;
-        int chapter = -1;
-        int verse = -1;
-
+        NSString *bookName;
+        int chapter;
+        int verse;
         SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:ref v11n:[module versification]];
         bookName = [verseKey bookName];
-        book = [verseKey book];
         chapter = [verseKey chapter];
         verse = [verseKey verse];
         
@@ -234,7 +227,7 @@
     BOOL found = YES;
     NSString *text = [tempDisplayString string];
     while(found) {
-        int tLen = [text length];
+        NSUInteger tLen = [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, tLen-replaceRange.location)];
         if(start.location != NSNotFound) {
             NSRange stop = [text rangeOfString:@";;;" options:0 range:NSMakeRange(start.location+3, tLen-(start.location+3))];
@@ -253,7 +246,7 @@
                 
                 // prepare various link usages
                 NSString *visible = @"";
-                NSRange linkRange;
+                NSRange linkRange = NSMakeRange(0, 0);
                 if(showBookNames) {
                     visible = [NSString stringWithFormat:@"%@ %@:%@:\n", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
                     linkRange.location = replaceRange.location;
@@ -292,16 +285,16 @@
     NSAttributedString *attrString = [[(id<TextContentProviding>)contentDisplayController textView] attributedString];
     NSString *text = [[(id<TextContentProviding>)contentDisplayController textView] string];
     NSArray *lines = [text componentsSeparatedByString:@"\n"];
-    long lineStartIndex = 0;
+    NSUInteger lineStartIndex = 0;
     NSString *currentVerse = nil;
     NSMutableString *currentText = [NSMutableString string];
-    for(int i = 0;i < [lines count];i++) {
+    for(NSUInteger i = 0;i < [lines count];i++) {
         NSMutableString *line = [NSMutableString stringWithString:[lines objectAtIndex:i]];
         // add new line for all lines except the last
         if(i < [lines count]-1) {
             [line appendString:@"\n"];
         }
-        // linestart still in range?
+        // line start still in range?
         if(lineStartIndex < [text length]) {
             NSDictionary *attrs = [attrString attributesAtIndex:lineStartIndex effectiveRange:nil];
             // we need to write if either we encounter another verse marker or it is the last line
@@ -433,8 +426,8 @@
 
 - (void)replaceLinksWithAnchorTags {
     NSRange effectiveRange;
-    NSMutableAttributedString *displayString = [[NSMutableAttributedString alloc] initWithAttributedString:[[(id<TextContentProviding>)contentDisplayController textView] attributedString]];
-	int	i = 0;
+    NSMutableAttributedString *displayString = [[[NSMutableAttributedString alloc] initWithAttributedString:[[(id<TextContentProviding>)contentDisplayController textView] attributedString]] autorelease];
+	NSUInteger i = 0;
 	while (i < [displayString length]) {
         NSDictionary *attrs = [displayString attributesAtIndex:i effectiveRange:&effectiveRange];
         NSURL *url = [attrs objectForKey:NSLinkAttributeName];
@@ -448,7 +441,7 @@
             
             effectiveRange.length = [replacementString length];
 
-            attrs = [attrs mutableCopy];
+            attrs = [[attrs mutableCopy] autorelease];
             [(NSMutableDictionary *)attrs removeObjectForKey:NSCursorAttributeName];
             [(NSMutableDictionary *)attrs removeObjectForKey:NSLinkAttributeName];
             [displayString setAttributes:attrs range:effectiveRange];

@@ -39,6 +39,6 @@ typedef enum _ModuleTaskId {
 // --------------- methods --------------
 - (NSString *)moduleName;
 - (NSString *)moduleTypeString;
-- (int)moduleStatus;
+- (NSInteger)moduleStatus;
 
 @end

@@ -18,7 +18,7 @@ enum GeneralMenuItemAdditions {
 @class ModulesUIController;
 @class BookmarksUIController;
 
-@interface ModuleCommonsViewController : ContentDisplayingViewController <NSCoding> {
+@interface ModuleCommonsViewController : ContentDisplayingViewController <NSCoding, NSTextViewDelegate> {
     IBOutlet NSView *referenceOptionsView;
 
     IBOutlet NSPopUpButton *fontSizePopUpButton;

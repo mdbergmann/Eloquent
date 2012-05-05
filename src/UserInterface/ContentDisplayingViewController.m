@@ -17,16 +17,13 @@
 #import "GenBookViewController.h"
 #import "DictionaryViewController.h"
 #import "NSTextView+LookupAdditions.h"
-#import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
 #import "ObjCSword/SwordKey.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "AppController.h"
-#import "ObjCSword/SwordModuleTextEntry.h"
 #import "ModulesUIController.h"
 #import "CacheObject.h"
-#import "NSAttributedString+Additions.h"
 #import "ObjectAssotiations.h"
 #import "ContentDisplayingViewControllerFactory.h"
 #import "ProgressOverlayViewController.h"
@@ -61,7 +58,7 @@ extern char ModuleListUI;
         [self setClickedLinkTextRange:NSMakeRange(NSNotFound, 0)];
         [self setForceRedisplay:NO];
         [self setLastEvent:nil];
-        [self setContentCache:[[CacheObject alloc] init]];        
+        [self setContentCache:[[[CacheObject alloc] init] autorelease]];
         progressActionType = ReferenceLookupAction;
         
         [self commonInit];
@@ -75,6 +72,15 @@ extern char ModuleListUI;
 
 - (void)finalize {
     [super finalize];
+}
+
+- (void)dealloc {
+    [progressController release];
+    [contentCache release];
+    [contextMenuClickedLink release];
+    [lastEvent release];
+
+    [super dealloc];
 }
 
 - (void)awakeFromNib {
@@ -154,7 +160,7 @@ extern char ModuleListUI;
     [super prepareContentForHost:aHostController];
     // populate menu items with modules
     // bibles
-    NSMenu *bibleModules = [[NSMenu alloc] init];
+    NSMenu *bibleModules = [[[NSMenu alloc] init] autorelease];
     [[self modulesUIController] generateModuleMenu:&bibleModules
                                      forModuletype:Bible 
                                     withMenuTarget:self 
@@ -162,7 +168,7 @@ extern char ModuleListUI;
     NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
     [item setSubmenu:bibleModules];
     // dictionaries
-    NSMenu *dictModules = [[NSMenu alloc] init];
+    NSMenu *dictModules = [[[NSMenu alloc] init] autorelease];
     [[self modulesUIController] generateModuleMenu:&dictModules 
                                      forModuletype:Dictionary 
                                     withMenuTarget:self 
@@ -231,8 +237,8 @@ extern char ModuleListUI;
     // get mouse cursor location
     NSPoint eventLocation = [lastEvent locationInWindow];
     NSPoint localPoint = [textView convertPoint:eventLocation fromView:nil];
-    int glyphIndex = [[textView layoutManager] glyphIndexForPoint:localPoint inTextContainer:[textView textContainer]];
-    int characterIndex = [[textView layoutManager] characterIndexForGlyphAtIndex:glyphIndex];
+    NSUInteger glyphIndex = [[textView layoutManager] glyphIndexForPoint:localPoint inTextContainer:[textView textContainer]];
+    NSUInteger characterIndex = [[textView layoutManager] characterIndexForGlyphAtIndex:glyphIndex];
     
     return [[textView textStorage] attributesAtIndex:characterIndex effectiveRange:&clickedLinkTextRange];
 }

@@ -25,8 +25,8 @@
 @end
 
 @protocol MouseTracking
-- (void)mouseEntered:(NSView *)theView;
-- (void)mouseExited:(NSView *)theView;
+- (void)mouseEnteredView:(NSView *)theView;
+- (void)mouseExitedView:(NSView *)theView;
 @end
 
 @protocol FullScreenCapability

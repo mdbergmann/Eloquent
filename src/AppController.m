@@ -7,8 +7,6 @@
 #import "MBThreadedProgressSheetController.h"
 #import "ProgressOverlayViewController.h"
 #import "IndexingManager.h"
-#import "globals.h"
-#import "BookmarkManager.h"
 #import "HUDPreviewController.h"
 #import "FileRepresentation.h"
 #import "NotesManager.h"
@@ -18,10 +16,10 @@
 #import "SwordUrlProtocol.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
-	OSStatus err = 0;
+	OSStatus err;
 	FSRef folderRef;
 	NSString *path = nil;
-	NSURL *url = nil;
+	NSURL *url;
 	
 	err = FSFindFolder(domain, dir, createFolder, &folderRef);
 	if(err == 0) {
@@ -47,7 +45,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 @implementation AppController (privateAPI)
 
 + (void)initialize {
-    [Configuration configWithImpl:[OSXConfiguration new]];
+    [Configuration configWithImpl:[[OSXConfiguration new] autorelease]];
 
 	NSString *logPath = LOGFILE;
 	
@@ -100,7 +98,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
     
-    // fullscreen font size additon
+    // full screen font size addition
     [defaultsDict setObject:[NSNumber numberWithInt:2] forKey:DefaultsFullscreenFontSizeAddKey];
     
     // module display settings
@@ -249,8 +247,8 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     NSArray *subDirs = [fm contentsOfDirectoryAtPath:modulesFolder error:NULL];
     // for all sub directories add module
     BOOL directory;
-    NSString *fullSubDir = nil;
-    NSString *subDir = nil;
+    NSString *fullSubDir;
+    NSString *subDir;
     for(subDir in subDirs) {
         if([subDir hasSuffix:@"swd"]) {
             fullSubDir = [modulesFolder stringByAppendingPathComponent:subDir];
@@ -286,19 +284,6 @@ static AppController *singleton;
     } else {
         CocoLog(LEVEL_DEBUG, @"Initializing application");
 
-        // first thing we do is check for system version
-        if([(NSString *)OSVERSION compare:@"10.5.0"] == NSOrderedAscending) {
-            NSLog(@"[Eloquent] can't run here, you need Mac OSX Leopard to run!");
-            // we can't run here
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
-                                             defaultButton:NSLocalizedString(@"OK", @"") 
-                                           alternateButton:nil 
-                                               otherButton:nil 
-                                 informativeTextWithFormat:NSLocalizedString(@"EloquentNeedsLeopard", @"")];
-            [alert runModal];
-            [[NSApplication sharedApplication] terminate:nil];
-        }
-
         // set singleton
         singleton = self;
 
@@ -323,15 +308,15 @@ static AppController *singleton;
         [self setupFolders];
         
         // load session path from defaults
-        sessionPath = [userDefaults stringForKey:DefaultsSessionPath];
-        if(!sessionPath) {
-            sessionPath = @"";
+        sessionPathURL = [userDefaults objectForKey:DefaultsSessionPath];
+        if(!sessionPathURL) {
+            sessionPathURL = [NSURL URLWithString:@""];
         }
         
         // initialize ThreadedProgressSheet
         [MBThreadedProgressSheetController standardProgressSheetController];
         
-        // init default progressoverlay controller
+        // init default progress overlay controller
         [ProgressOverlayViewController defaultController];
         
         [[SwordLocaleManager defaultManager] initLocale];
@@ -343,7 +328,7 @@ static AppController *singleton;
         }
         
         // init install manager
-        SwordInstallSourceController *sim = [SwordInstallSourceController defaultController];
+        SwordInstallSourceManager *sim = [SwordInstallSourceManager defaultController];
         [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
         
         // make available all cipher keys to SwordManager
@@ -353,7 +338,7 @@ static AppController *singleton;
             [sm setCipherKey:key forModuleNamed:modName];
         }
         
-        // init indexingmanager, set base index path
+        // init indexing manager, set base index path
         IndexingManager *im = [IndexingManager sharedManager];
         [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
         [im setSwordManager:sm];        
@@ -366,8 +351,20 @@ static AppController *singleton;
     [super finalize];
 }
 
+- (void)dealloc {
+    [windowHosts release];
+    [aboutWindowController release];
+    [preferenceController release];
+    [previewController release];
+    [dailyDevotionController release];
+#ifdef USE_SPARKLE
+    [sparkleUpdater release];
+#endif
+    [super dealloc];
+}
+
 - (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType {
-    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
+    SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
     [windowHosts addObject:svh];
     svh.delegate = self;
     
@@ -395,7 +392,7 @@ static AppController *singleton;
         }
     }
     
-    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
+    SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
     [windowHosts addObject:svh];
     svh.delegate = self;
     
@@ -408,7 +405,7 @@ static AppController *singleton;
 }
 
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep {
-    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
+    SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
     [windowHosts addObject:svh];
     svh.delegate = self;
     
@@ -420,6 +417,7 @@ static AppController *singleton;
     return svh;
 }
 
+/*
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod {
     if(mod == nil) {
         NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
@@ -435,7 +433,7 @@ static AppController *singleton;
         }
     }
     
-    WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
+    WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
     [windowHosts addObject:svh];
     svh.delegate = self;
     
@@ -446,6 +444,7 @@ static AppController *singleton;
     
     return svh;    
 }
+*/
 
 #pragma mark - NSApplication delegates
 
@@ -520,7 +519,7 @@ static AppController *singleton;
 }
 
 - (IBAction)openNewWorkspaceHostWindow:(id)sender {
-    WorkspaceViewHostController *wvh = [[WorkspaceViewHostController alloc] init];
+    WorkspaceViewHostController *wvh = [[[WorkspaceViewHostController alloc] init] autorelease];
     [windowHosts addObject:wvh];
     [wvh setDelegate:self];
     [wvh showWindow:self];
@@ -563,7 +562,7 @@ static AppController *singleton;
  init module manager window controller
  */
 - (IBAction)showModuleManager:(id)sender {
-    ModuleManager *mm = [[ModuleManager alloc] initWithDelegate:self]; 
+    ModuleManager *mm = [[[ModuleManager alloc] initWithDelegate:self] autorelease];
     [mm showWindow:self];
 }
 
@@ -791,8 +790,8 @@ static AppController *singleton;
     [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_CheckForUpdates", @"") action:@selector(checkForUpdates:) keyEquivalent:@""];
 #endif
     
-    if([sessionPath length] == 0) {
-        sessionPath = DEFAULT_SESSION_PATH;
+    if([[sessionPathURL absoluteString] length] == 0) {
+        sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
     }
 }
 
@@ -809,11 +808,11 @@ static AppController *singleton;
  \brief is called when application loading is finished
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [self loadSessionFromFile:sessionPath];
+    [self loadSessionFromFile:sessionPathURL];
 
     // if there is no window in the session open add a new workspace
     if([windowHosts count] == 0) {
-        WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
+        WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
         svh.delegate = self;
         [windowHosts addObject:svh];
 
@@ -839,22 +838,22 @@ static AppController *singleton;
     
 }
 
-- (void)saveSessionToFile:(NSString *)sessionFile {
+- (void)saveSessionToFile:(NSURL *)sessionFile {
     // encode all windows
     NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    NSKeyedArchiver *archiver = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
     [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
     [archiver encodeObject:windowHosts forKey:@"WindowsEncoded"];
     [archiver finishEncoding];
     // write data object
-    [data writeToFile:sessionFile atomically:NO];    
+    [data writeToURL:sessionFile atomically:NO];
 }
 
-- (void)loadSessionFromFile:(NSString *)sessionFile {
-    NSData *data = [NSData dataWithContentsOfFile:sessionFile];
+- (void)loadSessionFromFile:(NSURL *)sessionFile {
+    NSData *data = [NSData dataWithContentsOfURL:sessionFile];
     if(data != nil) {
         @try {
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            NSKeyedUnarchiver *unarchiver = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
             windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
             for(NSWindowController *wc in windowHosts) {
                 if([wc isKindOfClass:[WindowHostController class]]) {
@@ -873,7 +872,7 @@ static AppController *singleton;
             CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
             
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionLoadError", @"")
-                                             defaultButton:NSLocalizedString(@"Ok", @"") 
+                                             defaultButton:NSLocalizedString(@"OK", @"")
                                            alternateButton:nil
                                                otherButton:nil 
                                  informativeTextWithFormat:NSLocalizedString(@"SessionLoadErrorText", @"")];
@@ -887,20 +886,20 @@ static AppController *singleton;
     NSSavePanel *sp = [NSSavePanel savePanel];
     [sp setTitle:NSLocalizedString(@"SaveMSSession", @"")];
     [sp setCanCreateDirectories:YES];
-    [sp setRequiredFileType:@"mssess"];
+    [sp setAllowedFileTypes:[NSArray arrayWithObject:@"mssess"]];
     if([sp runModal] == NSFileHandlingPanelOKButton) {
-        sessionPath = [sp filename];
-        [self saveSessionToFile:sessionPath];
+        sessionPathURL = [sp URL];
+        [self saveSessionToFile:sessionPathURL];
         // this session we have loaded
-        [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];
+        [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
     }
 }
 
 /** stores as default session */
 - (IBAction)saveAsDefaultSession:(id)sender {
-    [self saveSessionToFile:DEFAULT_SESSION_PATH];
+    [self saveSessionToFile:[NSURL fileURLWithPath:DEFAULT_SESSION_PATH]];
     // this session we have loaded
-    [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];    
+    [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
 }
 
 /** loads session from file */
@@ -916,11 +915,11 @@ static AppController *singleton;
                                            otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"WantToSaveTheSessionBeforeClosing", @"")];
         if([alert runModal] == NSAlertDefaultReturn) {
-            if([sessionPath length] == 0) {
-                sessionPath = DEFAULT_SESSION_PATH;
+            if([[sessionPathURL absoluteString] length] == 0) {
+                sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
             }    
             // save session
-            [self saveSessionToFile:sessionPath];            
+            [self saveSessionToFile:sessionPathURL];
         }
 
         // close all existing windows
@@ -932,18 +931,18 @@ static AppController *singleton;
     // open load panel
     NSOpenPanel *op = [NSOpenPanel openPanel];
     [op setCanCreateDirectories:NO];
-    [op setRequiredFileType:@"mssess"];
+    [op setAllowedFileTypes:[NSArray arrayWithObject:@"mssess"]];
     [op setTitle:NSLocalizedString(@"LoadMSSession", @"")];
     [op setAllowsMultipleSelection:NO];
     [op setCanChooseDirectories:NO];
     [op setAllowsOtherFileTypes:NO];
     if([op runModal] == NSFileHandlingPanelOKButton) {
         // get file
-        sessionPath = [op filename];
+        sessionPathURL = [op URL];
         // this session we have loaded
-        [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];        
+        [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
         // load session
-        [self loadSessionFromFile:sessionPath];
+        [self loadSessionFromFile:sessionPathURL];
     }    
 }
 
@@ -960,11 +959,11 @@ static AppController *singleton;
                                            otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"WantToSaveTheSessionBeforeClosing", @"")];
         if([alert runModal] == NSAlertDefaultReturn) {
-            if([sessionPath length] == 0) {
-                sessionPath = DEFAULT_SESSION_PATH;
+            if([[sessionPathURL absoluteString] length] == 0) {
+                sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
             }    
             // save session
-            [self saveSessionToFile:sessionPath];            
+            [self saveSessionToFile:sessionPathURL];
         }
         
         // close all existing windows
@@ -974,10 +973,10 @@ static AppController *singleton;
     }
 
     // this session we have to load
-    sessionPath = DEFAULT_SESSION_PATH;
-    [userDefaults setObject:sessionPath forKey:DefaultsSessionPath];        
+    sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
+    [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
     // load session
-    [self loadSessionFromFile:sessionPath];
+    [self loadSessionFromFile:sessionPathURL];
 }
 
 /**
@@ -1011,11 +1010,11 @@ static AppController *singleton;
         }        
     }
     
-    if([sessionPath length] == 0) {
-        sessionPath = DEFAULT_SESSION_PATH;
+    if([[sessionPathURL absoluteString] length] == 0) {
+        sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
     }    
     // save session
-    [self saveSessionToFile:sessionPath];    
+    [self saveSessionToFile:sessionPathURL];
     
     // we store on application exit
     [[IndexingManager sharedManager] storeSearchBookSets];

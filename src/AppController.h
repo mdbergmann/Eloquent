@@ -12,17 +12,10 @@
 @class DailyDevotionPanelController;
 @class MBAboutWindowController;
 @class FileRepresentation;
-
-typedef enum AppErrorCodes {
-    INIT_SUCCESS = 0,
-    UNABLE_TO_FIND_APPSUPPORT,
-    UNABLE_TO_CREATE_APPSUPPORT_FOLDER,
-}AppErrorCode;
-
 @class MBPreferenceController;
 @class SwordModule;
 
-@interface AppController : NSObject {
+@interface AppController : NSObject <NSApplicationDelegate> {
 	// our preference controller
 	MBPreferenceController *preferenceController;
     BOOL isPreferencesShowing;
@@ -47,7 +40,7 @@ typedef enum AppErrorCodes {
     NSMutableArray *windowHosts;
     
     // the session is loaded from
-    NSString *sessionPath;
+    NSURL *sessionPathURL;
 
     // the help menu. we'll ad this reference here to be able to add the Sparkle updater menu item dynamically
     IBOutlet NSMenu *helpMenu;
@@ -63,10 +56,12 @@ typedef enum AppErrorCodes {
 - (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType;
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod;
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep;
+/*
 - (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod;
+*/
 
 /** loads a session from the given file */
-- (void)loadSessionFromFile:(NSString *)sessionFile;
+- (void)loadSessionFromFile:(NSURL *)sessionURL;
 /** stores the session to file */
 - (IBAction)saveSessionAs:(id)sender;
 /** stores as default session */

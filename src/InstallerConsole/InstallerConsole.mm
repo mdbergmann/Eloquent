@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import <SwordInstallSourceController.h>
+#import "SwordInstallSourceManager.h"
 #import <SwordInstallSource.h>
 #import <SwordManager.h>
 #import <SwordModule.h>
@@ -28,7 +28,7 @@ void uninstallModule(char *parameter);
 
 
 // global controller
-SwordInstallSourceController *sim;
+SwordInstallSourceManager *sim;
 SwordManager *swMgr;
 
 int main (int argc, const char * argv[]) {
@@ -282,7 +282,7 @@ void initModuleInstaller(char *parameter) {
     // get path parameter
     getNextParam(&parameter[0], buf);
     NSString *path = [NSString stringWithCString:buf];
-    sim = [[SwordInstallSourceController alloc] initWithPath:path createPath:YES];
+    sim = [[SwordInstallSourceManager alloc] initWithPath:path createPath:YES];
     // init Module Manager also
     // check for a mods.d folder in path
     NSFileManager *fm = [NSFileManager defaultManager];

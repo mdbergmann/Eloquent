@@ -7,9 +7,6 @@
 //
 
 #import "Indexer.h"
-#import "IndexingManager.h"
-#import "SearchResultEntry.h"
-
 #import "BibleIndexer.m"
 #import "BookIndexer.m"
 #import "DictIndexer.m"
@@ -42,10 +39,10 @@
 - (id)init {
 	self = [super init];
 	if(self == nil) {
-		CocoLog(LEVEL_ERR,@"cannot alloc Indexer!");
+		CocoLog(LEVEL_ERR, @"cannot alloc Indexer!");
 	} else {
         [self setModName:@""];
-        [self setAccessLock:[[NSLock alloc] init]];
+        [self setAccessLock:[[[NSLock alloc] init] autorelease]];
         accessCounter = 0;
     }
 	
@@ -71,6 +68,9 @@
         case Dictionary:
             indexer = [[DictIndexer alloc] initWithModuleName:aModName];
             break;
+        case All:
+            // do nothing
+            break;
     }
 
 	return indexer;
@@ -82,6 +82,14 @@
 - (void)finalize {
 	// dealloc object
 	[super finalize];
+}
+
+- (void)dealloc {
+    [modName release];
+    [modTypeStr release];
+    [accessLock release];
+
+    [super dealloc];
 }
 
 /**
@@ -109,12 +117,7 @@
  the array is autoreleased, the caller has to make sure to retain it if needed.
  */
 - (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults {
-    
-    [accessLock lock];
-    NSArray *array = nil;
-    [accessLock unlock];
-    
-    return array;
+    return nil;
 }
 
 /**
@@ -156,7 +159,7 @@
     // perform search
     NSArray *result = [self performSearchOperation:query constrains:constrains maxResults:maxResults];
     
-    // notifi delegate
+    // notify delegate
     if(delegate) {
         if([delegate respondsToSelector:@selector(searchOperationFinished:)]) {
             [delegate performSelectorOnMainThread:@selector(searchOperationFinished:) withObject:result waitUntilDone:YES];

@@ -6,18 +6,14 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import <ObjCSword/ObjCSword.h>
 #import "GenBookViewController.h"
 #import "SingleViewHostController.h"
-#import "ExtTextViewController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "globals.h"
-#import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
-#import "ObjCSword/SwordBook.h"
-#import "IndexingManager.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
 #import "SearchTextFieldOptions.h"
@@ -99,10 +95,20 @@
     viewLoaded = YES;
 }
 
+- (void)finalize {
+    [super finalize];
+}
+
+- (void)dealloc {
+    [selection release];
+
+    [super dealloc];
+}
+
 #pragma mark - Methods
 
 - (void)populateModulesMenu {
-    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
     // generate menu
     [[self modulesUIController] generateModuleMenu:&menu 
                                      forModuletype:Genbook 
@@ -133,7 +139,7 @@
     
     if(searchResults) {
         // strip searchQuery
-        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+        NSAttributedString *newLine = [[[NSAttributedString alloc] initWithString:@"\n"] autorelease];
 
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
@@ -152,7 +158,7 @@
         
         // build search string
         for(SearchResultEntry *entry in searchResults) {
-            NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
+            NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes] autorelease];
             
             NSString *contentStr = @"";
             if([entry keyString] != nil) {
@@ -219,12 +225,12 @@
     // add pointing hand cursor to all links
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
     NSRange effectiveRange;
-	int	i = 0;
+	NSUInteger	i = 0;
 	while (i < [tempDisplayString length]) {
         NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if([attrs objectForKey:NSLinkAttributeName] != nil) {
             // add pointing hand cursor
-            attrs = [attrs mutableCopy];
+            attrs = [[attrs mutableCopy] autorelease];
             [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
             [tempDisplayString setAttributes:attrs range:effectiveRange];
 		}
@@ -304,7 +310,7 @@
 }
 
 - (SearchTextFieldOptions *)searchFieldOptions {
-    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
+    SearchTextFieldOptions *options = [[[SearchTextFieldOptions alloc] init] autorelease];
     [options setContinuous:YES];
     [options setSendsSearchStringImmediately:YES];
     [options setSendsWholeSearchString:YES];
@@ -331,11 +337,11 @@
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
-        // we have some special setting for the textview
+        // we have some special setting for the text view
         // it should be allowed to edit images
         [[(id<TextContentProviding>)contentDisplayController textView] setAllowsImageEditing:YES];
         
-        // add the webview as contentvew to the placeholder    
+        // add the web view as content view to the placeholder
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];
     }
@@ -368,9 +374,9 @@
 		if(oview != nil) {
             
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
-			int len = [selectedRows count];
+			NSUInteger len = [selectedRows count];
 			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
-            SwordModuleTreeEntry *item = nil;
+            SwordModuleTreeEntry *item;
 			if(len > 0) {
 				NSUInteger indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
@@ -402,7 +408,7 @@
 
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    int count = 0;
+    int count;
 	
 	if(item == nil) {
         SwordModuleTreeEntry *root = [(SwordBook *)module treeEntryForKey:nil];
@@ -417,14 +423,14 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     
-    SwordModuleTreeEntry *ret = nil;
+    SwordModuleTreeEntry *ret;
     if(item == nil) {
         SwordModuleTreeEntry *treeEntry = [(SwordBook *)module treeEntryForKey:nil];
-        NSString *key = [[treeEntry content] objectAtIndex:index];
+        NSString *key = [[treeEntry content] objectAtIndex:(NSUInteger)index];
         ret = [(SwordBook *)module treeEntryForKey:key];
 	} else {
         SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
-        NSString *key = [[treeEntry content] objectAtIndex:index];
+        NSString *key = [[treeEntry content] objectAtIndex:(NSUInteger)index];
         ret = [(SwordBook *)module treeEntryForKey:key];
     }
     

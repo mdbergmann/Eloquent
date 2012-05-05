@@ -1,305 +1,45 @@
-
 #import "ModuleManageViewController.h"
 #import "ObjCSword/SwordManager.h"
 #import "MBThreadedProgressSheetController.h"
-#import "ObjCSword/SwordInstallSource.h"
-#import "ObjCSword/SwordModule.h"
 #import "ModuleListObject.h"
 #import "InstallSourceListObject.h"
 #import "IndexingManager.h"
 #import "MBPreferenceController.h"
-#import "globals.h"
 
-// defaults entyr for disclainer
-#define DefaultsUserDisplaimerConfirmed @"DefaultsUserDisplaimerConfirmed"
+// defaults entry for disclaimer
+#define DefaultsUserDisclaimerConfirmed @"DefaultsUserDisplaimerConfirmed"
 
-@interface ModuleManageViewController (PrivateAPI)
-
-- (void)setInstallSourceListObjects:(NSMutableArray *)value;
-- (void)setInstallDict:(NSMutableDictionary *)value;
-- (void)setRemoveDict:(NSMutableDictionary *)value;
+@interface ModuleManageViewController ()
 
 - (void)batchProcessTasks:(NSNumber *)actions;
 - (void)refreshInstallSourceListObjects;
-
 - (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText;
-
 - (void)showRefreshRepositoryInformation;
-
-@end
-
-@implementation ModuleManageViewController (PrivateAPI)
-
-- (void)setInstallSourceListObjects:(NSMutableArray *)value {
-    [value retain];
-    [installSourceListObjects release];
-    installSourceListObjects = value;    
-}
-
-- (void)setInstallDict:(NSMutableDictionary *)value {
-    [value retain];
-    [installDict release];
-    installDict = value;
-}
-
-- (void)setRemoveDict:(NSMutableDictionary *)value {
-    [value retain];
-    [removeDict release];
-    removeDict = value;
-}
-
-/**
- \brief batch process tasks with seperate thread to show progress in threaded progres indicator
- */
-- (void)batchProcessTasks:(NSNumber *)actions {
-	// if this method gets it's own ARP
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-    // Cancel indicator
-    BOOL isCanceled = NO;
-    int error = 0;
-    
-    // get ThreadedProgressSheet
-    MBThreadedProgressSheetController *pSheet = [MBThreadedProgressSheetController standardProgressSheetController];
-    [pSheet setSheetWindow:parentWindow];
-    [pSheet setMinProgressValue:[NSNumber numberWithDouble:0.0]];
-    [pSheet reset];
-    [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:YES]];
-    [pSheet setIsThreaded:[NSNumber numberWithBool:YES]];
-    
-    if([actions intValue] == 1) {
-        // set to indeterminate
-        [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:) 
-                                 withObject:[NSNumber numberWithBool:YES]
-                              waitUntilDone:YES];
-    } else if([actions intValue] > 1) {
-        // set to indeterminate
-        [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:) 
-                                 withObject:[NSNumber numberWithBool:NO]
-                              waitUntilDone:YES];
-        [pSheet performSelectorOnMainThread:@selector(setMaxProgressValue:)
-                                 withObject:actions 
-                              waitUntilDone:YES];
-    }
-    
-    // begin sheet
-    [pSheet performSelectorOnMainThread:@selector(beginSheet) 
-                             withObject:nil 
-                          waitUntilDone:YES];	
-    
-    // get controllers
-    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
-    SwordManager *sm = [SwordManager defaultManager];
-    
-    // start animation
-    [pSheet performSelectorOnMainThread:@selector(startProgressAnimation) 
-                             withObject:nil 
-                          waitUntilDone:YES];
-    
-    // first remove
-    [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
-                             withObject:NSLocalizedString(@"Action_RemovingModules", @"") 
-                          waitUntilDone:YES];
-    NSEnumerator *iter = [[removeDict allKeys] objectEnumerator];
-    id key;
-    while((key = [iter nextObject])) {
-        // check return value of sheet, has cancel been pressed?
-        if([pSheet sheetReturnCode] != 0) {
-            // cancel has been pressed, break import process
-            isCanceled = YES;
-        } else {
-            // increment progress
-            [pSheet performSelectorOnMainThread:@selector(incrementProgressBy:)
-                                     withObject:[NSNumber numberWithDouble:1.0]
-                                  waitUntilDone:YES];		
-            
-            ModuleListObject *modObj = [removeDict objectForKey:key];
-            
-            // give some messages
-            [pSheet performSelectorOnMainThread:@selector(setCurrentStepMessage:)
-                                     withObject:[[modObj module] name] 
-                                  waitUntilDone:YES];
-            // uninstall
-            int stat = [sis uninstallModule:[modObj module] fromManager:sm];
-            if(stat != 0) {
-                error++;
-            } else {
-                // shall we remove the index as well?
-                if([userDefaults boolForKey:DefaultsRemoveIndexOnModuleRemoval]) {
-                    [[IndexingManager sharedManager] removeIndexForModuleName:[[modObj module] name]];
-                }
-            }
-        }
-    }
-    [removeDict removeAllObjects];
-    
-    if(isCanceled == NO) {
-        // then install
-        [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
-                                 withObject:NSLocalizedString(@"Action_InstallingModules", @"") 
-                              waitUntilDone:YES];
-        NSEnumerator *iter = [[installDict allKeys] objectEnumerator];
-        while((key = [iter nextObject])) {
-            // check returnvalue of sheet, has cancel been pressed?
-            if([pSheet sheetReturnCode] != 0) {
-                // cancel has been pressed, break import process
-                isCanceled = YES;
-            } else {
-                // increment progress
-                [pSheet performSelectorOnMainThread:@selector(incrementProgressBy:)
-                                         withObject:[NSNumber numberWithDouble:1.0]
-                                      waitUntilDone:YES];		
-                
-                ModuleListObject *modObj = [installDict objectForKey:key];
-                
-                // give some messages
-                [pSheet performSelectorOnMainThread:@selector(setCurrentStepMessage:)
-                                         withObject:[[modObj module] name] 
-                                      waitUntilDone:YES];
-                // install
-                SwordInstallSource *is = [modObj installSource];
-                if([is isLocalSource] || [sis userDisclaimerConfirmed]) {
-                    int stat = [sis installModule:[modObj module] fromSource:is withManager:sm];
-                    if(stat != 0) {
-                        error++;
-                    }
-                }
-            }
-        }
-        [installDict removeAllObjects];
-    }
-    
-    // stop animation
-    [pSheet stopProgressAnimation];
-    
-    // before ending the sheet, reinitialize the module manager
-    [sm reInit];
-    // also refresh the module list view
-    [modListViewController refreshModulesList];
-    
-    // end sheet
-    [pSheet performSelectorOnMainThread:@selector(endSheet) 
-                             withObject:nil 
-                          waitUntilDone:YES];
-    
-    // do some cleanup
-    [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:NO]];
-    [pSheet setProgressAction:[NSNumber numberWithInt:NONE_PROGRESS_ACTION]];
-    [pSheet reset];
-        
-    // release pool
-    [pool release];
-}
-
-/**
- refreshes install sources for the outlineview
- */
-- (void)refreshInstallSourceListObjects {
-
-    // clear list
-    [installSourceListObjects removeAllObjects];    
-    
-    // build new list
-    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
-    NSEnumerator *iter = [[sis installSourceList] objectEnumerator];
-    SwordInstallSource *is = nil;
-    while((is = [iter nextObject])) {
-        InstallSourceListObject *listObj = [InstallSourceListObject installSourceListObjectForType:TypeInstallSource];
-        [listObj setInstallSource:is];
-        [listObj setModuleType:@"All"];
-        
-        NSMutableArray *subList = [NSMutableArray array];
-        NSEnumerator *iter2 = [[is listModuleTypes] objectEnumerator];
-        NSString *modType = nil;
-        while((modType = [iter2 nextObject])) {
-            InstallSourceListObject *subListObj = [InstallSourceListObject installSourceListObjectForType:TypeModuleType];
-            [subListObj setInstallSource:is];
-            [subListObj setModuleType:modType];
-            
-            [subList addObject:subListObj];
-        }
-        
-        [listObj setSubInstallSources:[NSArray arrayWithArray:subList]];
-        
-        // add
-        [installSourceListObjects addObject:listObj];
-    }
-}
-
-- (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText {
-    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
-    BOOL confirmed = [sis userDisclaimerConfirmed];
-    if(!confirmed) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
-                                         defaultButton:NSLocalizedString(@"OK", @"") 
-                                       alternateButton:nil
-                                           otherButton:nil 
-                             informativeTextWithFormat:aText];
-        [alert runModal];
-    }
-    return confirmed;
-}
-
-- (void)showRefreshRepositoryInformation {
-    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
-    BOOL confirmed = [sis userDisclaimerConfirmed];
-    if(confirmed) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
-                                         defaultButton:NSLocalizedString(@"OK", @"") 
-                                       alternateButton:nil
-                                           otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"Info_RememberToRefreshRepositories", @"")];
-        [alert runModal];        
-    }
-}
 
 @end
 
 
 @implementation ModuleManageViewController
 
+@synthesize delegate;
+@synthesize parentWindow ;
+@synthesize selectedInstallSources;
+
 // static methods
-+ (NSString *)fileOpenDialog {
++ (NSURL *)fileOpenDialog {
     int result;
     
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setCanChooseDirectories:YES];
-    result = [oPanel runModalForDirectory:NSHomeDirectory() file:nil];
+    result = [oPanel runModal];
 	
     if(result == NSOKButton)  {
-        NSString *fileToOpen = [oPanel filename];
+        NSURL *fileToOpen = [oPanel URL];
 		return fileToOpen;
     } else {
-		CocoLog(LEVEL_DEBUG,@"Cancel Button!");
+		CocoLog(LEVEL_DEBUG, @"Cancel Button!");
 		return nil;
 	}
-}
-
-// ------------------ getter / setter -------------------
-- (NSWindow *)parentWindow {
-    return parentWindow;
-}
-
-- (void)setParentWindow:(NSWindow *)value {
-    parentWindow = value;
-}
-
-- (id)delegate {
-    return delegate;
-}
-
-- (void)setDelegate:(id)value {
-    delegate = value;
-}
-
-- (NSArray *)selectedInstallSources {
-    return selectedInstallSources;
-}
-
-- (void)setSelectedInstallSources:(NSArray *)value {
-    [value retain];
-    [selectedInstallSources release];
-    selectedInstallSources = value;
 }
 
 - (BOOL)initialized {
@@ -320,7 +60,7 @@
 
 	self = [super init];
 	if(self == nil) {
-		CocoLog(LEVEL_ERR,@"");		
+		CocoLog(LEVEL_ERR, @"");
 	} else {
         
         initialized = NO;
@@ -351,6 +91,15 @@
 	[super finalize];
 }
 
+- (void)dealloc {
+    [selectedInstallSources release];
+    [installDict release];
+    [removeDict release];
+    [installSourceListObjects release];
+
+    [super dealloc];
+}
+
 - (void)awakeFromNib {
     // set default menu
     [categoryOutlineView setMenu:installSourceMenu];    
@@ -360,10 +109,10 @@
     [categoryOutlineView reloadData];
     
     // first thing, we check the disclaimer
-    if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil) {
-        [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];        
+    if([userDefaults stringForKey:DefaultsUserDisclaimerConfirmed] == nil) {
+        [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:NO];
     } else {
-        [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:[userDefaults boolForKey:DefaultsUserDisplaimerConfirmed]];
+        [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:[userDefaults boolForKey:DefaultsUserDisclaimerConfirmed]];
     }
     
     initialized = YES;    
@@ -372,7 +121,7 @@
 #pragma mark - Methods
 
 - (NSView *)contentView {
-    return (NSView *)splitView;
+    return splitView;
 }
 
 - (void)unregister:(ModuleListObject *)modObj {    
@@ -433,7 +182,7 @@
 }
 
 - (IBAction)showDisclaimer {
-    if([userDefaults stringForKey:DefaultsUserDisplaimerConfirmed] == nil || [userDefaults boolForKey:DefaultsUserDisplaimerConfirmed] == NO) {
+    if([userDefaults stringForKey:DefaultsUserDisclaimerConfirmed] == nil || [userDefaults boolForKey:DefaultsUserDisclaimerConfirmed] == NO) {
         if(disclaimerWindow) {
             [[NSApplication sharedApplication] beginSheet:disclaimerWindow 
                                            modalForWindow:parentWindow 
@@ -453,15 +202,15 @@
 }
 
 - (IBAction)confirmNo:(id)sender {
-    [userDefaults setBool:NO forKey:DefaultsUserDisplaimerConfirmed];
-    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:NO];
+    [userDefaults setBool:NO forKey:DefaultsUserDisclaimerConfirmed];
+    [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:NO];
     // end sheet
     [self disclaimerSheetEnd];
 }
 
 - (IBAction)confirmYes:(id)sender {
-    [userDefaults setBool:YES forKey:DefaultsUserDisplaimerConfirmed];    
-    [[SwordInstallSourceController defaultController] setUserDisclainerConfirmed:YES];
+    [userDefaults setBool:YES forKey:DefaultsUserDisclaimerConfirmed];
+    [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:YES];
     // end sheet
     [self disclaimerSheetEnd];
 }
@@ -549,8 +298,8 @@
         [ps startProgressAnimation];
         
         // refresh master remote install source list
-        if([[SwordInstallSourceController defaultController] refreshMasterRemoteInstallSourceList] == 0) {
-            [[SwordInstallSourceController defaultController] reinitialize];
+        if([[SwordInstallSourceManager defaultController] refreshMasterRemoteInstallSourceList] == 0) {
+            [[SwordInstallSourceManager defaultController] reinitialize];
             [self refreshInstallSourceListObjects];
             [categoryOutlineView reloadData];
         }    
@@ -592,7 +341,7 @@
         if(stat == NSAlertDefaultReturn) {
             
             // delete this source
-            SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+            SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
             [sis removeInstallSource:is];
             
             // refresh list objects
@@ -665,7 +414,7 @@
             [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
 
             // the controller
-            SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+            SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
             
             // start progress bar
             [ps beginSheet];
@@ -712,7 +461,7 @@
 }
 
 - (IBAction)editISOKButton:(id)sender {
-    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
     
     BOOL error = NO;
     BOOL close = YES;
@@ -755,7 +504,7 @@
 
     if(error == NO) {
         
-        SwordInstallSource *is = [[SwordInstallSource alloc] initWithType:@"FTP"];
+        SwordInstallSource *is = [[[SwordInstallSource alloc] initWithType:@"FTP"] autorelease];
         
         [is setCaption:[editISCaptionCell stringValue]];
         [is setDirectory:[editISDirCell stringValue]];
@@ -784,7 +533,7 @@
     
     NSData *data = nil;
     if([host isEqualToString:@"localhost"]) {
-        // check for existance of directory
+        // check for existence of directory
         NSString *modDir = [dir stringByAppendingPathComponent:@"mods.d"];
         NSFileManager *fm = [NSFileManager defaultManager];
         if([fm fileExistsAtPath:modDir]) {
@@ -794,12 +543,13 @@
         if([self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"UnavailableOptionDueToNoDisclaimerComfirm", @"")]) {        
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, dir]];
             
-            NSURLResponse *response = [[NSURLResponse alloc] init];
+            NSURLResponse *response = [[[NSURLResponse alloc] init] autorelease];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             data = [NSURLConnection sendSynchronousRequest:request 
                                          returningResponse:&response error:nil];
+        } else {
+            data = nil;
         }
-        data = nil;
     }
     
     // if data is not nil, this URL is valid
@@ -811,7 +561,7 @@
                              informativeTextWithFormat:NSLocalizedString(@"ISNotValid", @"")];
         [alert runModal];
     } else {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Info", @"")
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"") 
                                        alternateButton:nil
                                            otherButton:nil 
@@ -821,9 +571,9 @@
 }
 
 - (IBAction)editISDirSelectButton:(id)sender {
-    NSString *filePath = [ModuleManageViewController fileOpenDialog];
-    if(filePath != nil) {
-        [editISDirCell setStringValue:filePath];
+    NSURL *fileUrl = [ModuleManageViewController fileOpenDialog];
+    if(fileUrl != nil) {
+        [editISDirCell setStringValue:[fileUrl absoluteString]];
     }
 }
 
@@ -838,7 +588,7 @@
     } else if(tag == TYPE_TAG_LOCAL) {
         // show dir button
         [editISDirSelect setHidden:NO];
-        // set localost and disable host field
+        // set localhost and disable host field
         [editISSourceCell setStringValue:@"localhost"];
         [editISSourceCell setEnabled:NO];
     }
@@ -856,9 +606,9 @@
 		if(oview != nil) {
 
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
-			int len = [selectedRows count];
+			NSUInteger len = [selectedRows count];
 			NSMutableArray *selection = [NSMutableArray arrayWithCapacity:len];
-            NSDictionary *item = nil;
+            NSDictionary *item;
 			if(len > 0) {
 				NSUInteger indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
@@ -907,9 +657,9 @@
     InstallSourceListObject *listObject = (InstallSourceListObject *)item;
     if(item == nil) {
         // the return item will be a InstallSourceListObject
-        ret = [installSourceListObjects objectAtIndex:index];
+        ret = [installSourceListObjects objectAtIndex:(NSUInteger)index];
     } else if([listObject objectType] == TypeInstallSource) {
-        ret = [[listObject subInstallSources] objectAtIndex:index];
+        ret = [[listObject subInstallSources] objectAtIndex:(NSUInteger)index];
     }
     
     return ret;
@@ -937,6 +687,207 @@
     }
     
     return NO;
+}
+
+#pragma mark - Private stuff
+
+/**
+ \brief batch process tasks with separate thread to show progress in threaded progress indicator
+ */
+- (void)batchProcessTasks:(NSNumber *)actions {
+	// if this method gets it's own ARP
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    // Cancel indicator
+    BOOL isCanceled = NO;
+    int error = 0;
+
+    // get ThreadedProgressSheet
+    MBThreadedProgressSheetController *pSheet = [MBThreadedProgressSheetController standardProgressSheetController];
+    [pSheet setSheetWindow:parentWindow];
+    [pSheet setMinProgressValue:[NSNumber numberWithDouble:0.0]];
+    [pSheet reset];
+    [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:YES]];
+    [pSheet setIsThreaded:[NSNumber numberWithBool:YES]];
+
+    if([actions intValue] == 1) {
+        // set to indeterminate
+        [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
+                                 withObject:[NSNumber numberWithBool:YES]
+                              waitUntilDone:YES];
+    } else if([actions intValue] > 1) {
+        // set to indeterminate
+        [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
+                                 withObject:[NSNumber numberWithBool:NO]
+                              waitUntilDone:YES];
+        [pSheet performSelectorOnMainThread:@selector(setMaxProgressValue:)
+                                 withObject:actions
+                              waitUntilDone:YES];
+    }
+
+    // begin sheet
+    [pSheet performSelectorOnMainThread:@selector(beginSheet)
+                             withObject:nil
+                          waitUntilDone:YES];
+
+    // get controllers
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    SwordManager *sm = [SwordManager defaultManager];
+
+    // start animation
+    [pSheet performSelectorOnMainThread:@selector(startProgressAnimation)
+                             withObject:nil
+                          waitUntilDone:YES];
+
+    // first remove
+    [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
+                             withObject:NSLocalizedString(@"Action_RemovingModules", @"")
+                          waitUntilDone:YES];
+
+    for(id key in [removeDict allKeys]) {
+        // check return value of sheet, has cancel been pressed?
+        if([pSheet sheetReturnCode] != 0) {
+            // cancel has been pressed, break import process
+            isCanceled = YES;
+        } else {
+            // increment progress
+            [pSheet performSelectorOnMainThread:@selector(incrementProgressBy:)
+                                     withObject:[NSNumber numberWithDouble:1.0]
+                                  waitUntilDone:YES];
+
+            ModuleListObject *modObj = [removeDict objectForKey:key];
+
+            // give some messages
+            [pSheet performSelectorOnMainThread:@selector(setCurrentStepMessage:)
+                                     withObject:[[modObj module] name]
+                                  waitUntilDone:YES];
+            // uninstall
+            int stat = [sis uninstallModule:[modObj module] fromManager:sm];
+            if(stat != 0) {
+                error++;
+            } else {
+                // shall we remove the index as well?
+                if([userDefaults boolForKey:DefaultsRemoveIndexOnModuleRemoval]) {
+                    [[IndexingManager sharedManager] removeIndexForModuleName:[[modObj module] name]];
+                }
+            }
+        }
+    }
+    [removeDict removeAllObjects];
+
+    if(isCanceled == NO) {
+        // then install
+        [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
+                                 withObject:NSLocalizedString(@"Action_InstallingModules", @"")
+                              waitUntilDone:YES];
+        for (id key in [installDict allKeys]) {
+            // check return value of sheet, has cancel been pressed?
+            if([pSheet sheetReturnCode] != 0) {
+                // cancel has been pressed, break import process
+                isCanceled = YES;
+            } else {
+                // increment progress
+                [pSheet performSelectorOnMainThread:@selector(incrementProgressBy:)
+                                         withObject:[NSNumber numberWithDouble:1.0]
+                                      waitUntilDone:YES];
+
+                ModuleListObject *modObj = [installDict objectForKey:key];
+
+                // give some messages
+                [pSheet performSelectorOnMainThread:@selector(setCurrentStepMessage:)
+                                         withObject:[[modObj module] name]
+                                      waitUntilDone:YES];
+                // install
+                SwordInstallSource *is = [modObj installSource];
+                if([is isLocalSource] || [sis userDisclaimerConfirmed]) {
+                    int stat = [sis installModule:[modObj module] fromSource:is withManager:sm];
+                    if(stat != 0) {
+                        error++;
+                    }
+                }
+            }
+        }
+        [installDict removeAllObjects];
+    }
+
+    // stop animation
+    [pSheet stopProgressAnimation];
+
+    // before ending the sheet, reinitialize the module manager
+    [sm reInit];
+    // also refresh the module list view
+    [modListViewController refreshModulesList];
+
+    // end sheet
+    [pSheet performSelectorOnMainThread:@selector(endSheet)
+                             withObject:nil
+                          waitUntilDone:YES];
+
+    // do some cleanup
+    [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:NO]];
+    [pSheet setProgressAction:[NSNumber numberWithInt:NONE_PROGRESS_ACTION]];
+    [pSheet reset];
+
+    // release pool
+    [pool release];
+}
+
+/**
+ refreshes install sources for the outline view
+ */
+- (void)refreshInstallSourceListObjects {
+
+    // clear list
+    [installSourceListObjects removeAllObjects];
+
+    // build new list
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    for(SwordInstallSource *is in [sis installSourceList]) {
+        InstallSourceListObject *listObj = [InstallSourceListObject installSourceListObjectForType:TypeInstallSource];
+        [listObj setInstallSource:is];
+        [listObj setModuleType:@"All"];
+
+        NSMutableArray *subList = [NSMutableArray array];
+        for(NSString *modType in [is listModuleTypes]) {
+            InstallSourceListObject *subListObj = [InstallSourceListObject installSourceListObjectForType:TypeModuleType];
+            [subListObj setInstallSource:is];
+            [subListObj setModuleType:modType];
+
+            [subList addObject:subListObj];
+        }
+
+        [listObj setSubInstallSources:[NSArray arrayWithArray:subList]];
+
+        // add
+        [installSourceListObjects addObject:listObj];
+    }
+}
+
+- (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText {
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    BOOL confirmed = [sis userDisclaimerConfirmed];
+    if(!confirmed) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"")
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:aText];
+        [alert runModal];
+    }
+    return confirmed;
+}
+
+- (void)showRefreshRepositoryInformation {
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    BOOL confirmed = [sis userDisclaimerConfirmed];
+    if(confirmed) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
+                                         defaultButton:NSLocalizedString(@"OK", @"")
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:NSLocalizedString(@"Info_RememberToRefreshRepositories", @"")];
+        [alert runModal];
+    }
 }
 
 @end

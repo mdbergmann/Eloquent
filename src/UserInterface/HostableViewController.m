@@ -71,10 +71,10 @@
 
 #pragma mark - MouseTracking protocol
 
-- (void)mouseEntered:(NSView *)theView {
+- (void)mouseEnteredView:(NSView *)theView {
 }
 
-- (void)mouseExited:(NSView *)theView {
+- (void)mouseExitedView:(NSView *)theView {
 }
 
 #pragma mark - HostViewDelegate protocol

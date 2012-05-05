@@ -17,7 +17,7 @@
 #define DICTIONARYVIEW_NIBNAME   @"DictionaryView"
 
 /** the view of this view controller is a ScrollSynchronizableView */
-@interface DictionaryViewController : ModuleViewController <NSCoding> {
+@interface DictionaryViewController : ModuleViewController <NSCoding, NSTableViewDataSource, NSTableViewDelegate> {
     IBOutlet NSPopUpButton *modulePopBtn;
     IBOutlet NSTableView *entriesTableView;
     
@@ -32,13 +32,10 @@
 
 // ---------- methods --------------
 // selector called by menuitems
-- (void)moduleSelectionChanged:(id)sender;
+- (IBAction)moduleSelectionChanged:(id)sender;
 
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
-
-// actions
-- (IBAction)moduleSelectionChanged:(id)sender;
 
 @end

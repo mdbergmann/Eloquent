@@ -82,7 +82,6 @@ enum ThreadedeProgressReturnCode {
 - (BOOL)isIndeterminateProgress;
 - (void)setIsDisplayedWhenStopped:(NSNumber *)aSetting;
 - (BOOL)isDisplayedWhenStopped;
-- (void)animateProgress;
 - (void)setMaxProgressValue:(NSNumber *)aValue;
 - (double)maxProgressValue;
 - (void)setMinProgressValue:(NSNumber *)aValue;

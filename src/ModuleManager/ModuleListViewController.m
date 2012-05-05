@@ -126,6 +126,7 @@
     [self setModuleSelection:nil];
     [self setInstallSources:nil];
     [self setLangFilter:nil];
+    [sortDescriptors release];
     
     [super dealloc];
 }
@@ -143,7 +144,7 @@
     // prepare the module data for display
     
     // get SwordInstallSourceController
-    SwordInstallSourceController *sis = [SwordInstallSourceController defaultController];
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
     // get default Sword Manager
     SwordManager *sw = [SwordManager defaultManager];
     
@@ -201,8 +202,8 @@
 	
 		// begin fix for MACSW-172 (draymer)
 		ModuleListObject *selectedObj = nil;
-		ModuleListObject *accessedObj = nil;		
-		ModuleListObject *modObj = nil;
+		ModuleListObject *accessedObj;
+		ModuleListObject *modObj;
 		
 		// need to check to see if the module being modified is that same as the
 		// module being selected.
@@ -407,8 +408,8 @@
             [moduleSelection removeAllObjects];
             
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
-			int len = [selectedRows count];
-            ModuleListObject *mlo = nil;
+			NSUInteger len = [selectedRows count];
+            ModuleListObject *mlo;
 			if(len > 0) {
 				NSUInteger indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
@@ -443,7 +444,7 @@
     
 	if(item == nil) {
         // number of root items
-        ret = [moduleData objectAtIndex:index];
+        ret = [moduleData objectAtIndex:(NSUInteger)index];
 	}
 
     return ret;

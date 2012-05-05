@@ -13,7 +13,6 @@
 #import <Indexer.h>
 
 #define TEXT_VERSE_MARKER   @"VerseMarkerAttributeName"
-#define CHAPTER_BEGINNING_MARKER @"ChapterBeginningMarker"
 
 @class SwordModule, CacheObject;
 
@@ -40,7 +39,7 @@
 - (NSAttributedString *)displayableHTMLForReferenceLookup;
 
 // helper methods for text display/index creation/search result display
-// methods maybe overriden to customize handling for subclasses
+// methods maybe overridden to customize handling for subclasses
 - (BOOL)hasValidCacheObject;
 - (void)handleDisplayForReference;
 - (void)handleDisplayIndexedNoHasIndex;
