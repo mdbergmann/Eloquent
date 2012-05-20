@@ -13,7 +13,7 @@
 @interface NSTextView (LookupAdditions)
 
 - (NSRange)rangeOfFirstLineWithLineRect:(NSRect *)lineRect;
-- (NSRange)rangeOfLineAtIndex:(long)index;
+- (NSRange)rangeOfLineAtIndex:(NSUInteger)index;
 - (NSRect)rectOfFirstLine;
 - (NSRect)rectOfLastLine;
 - (NSRange)rangeOfVisibleText;

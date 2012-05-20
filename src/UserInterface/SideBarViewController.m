@@ -7,7 +7,7 @@
 //
 
 #import "SideBarViewController.h"
-#import "ObjectAssotiations.h"
+#import "ObjectAssociations.h"
 #import "ModulesUIController.h"
 #import "BookmarksUIController.h"
 #import "NotesUIController.h"
@@ -41,15 +41,15 @@ extern char NotesMgrUI;
 }
 
 - (ModulesUIController *)modulesUIController {
-    return [Assotiater objectForAssotiatedObject:self.delegate withKey:&ModuleListUI];
+    return [Associater objectForAssociatedObject:self.delegate withKey:&ModuleListUI];
 }
 
 - (BookmarksUIController *)bookmarksUIController {
-    return [Assotiater objectForAssotiatedObject:self.delegate withKey:&BookmarkMgrUI];    
+    return [Associater objectForAssociatedObject:self.delegate withKey:&BookmarkMgrUI];
 }
 
 - (NotesUIController *)notesUIController {
-    return [Assotiater objectForAssotiatedObject:self.delegate withKey:&NotesMgrUI];    
+    return [Associater objectForAssociatedObject:self.delegate withKey:&NotesMgrUI];
 }
 
 @end

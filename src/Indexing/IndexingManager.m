@@ -222,15 +222,13 @@
 	return self;
 }
 
-/**
-\brief dealloc of this class is called on closing this document
- */
-- (void)finalize {
-    [super finalize];
-}
-
 - (void)dealloc {
     [indexCheckLock release];
+    [baseIndexPath release];
+    [swordManager release];
+    [timer release];
+    [searchBookSets release];
+    [indexerRegistrat release];
 
     [super dealloc];
 }
@@ -369,12 +367,10 @@
  @return NSString that is autoreleased
  */
 - (NSString *)indexFolderPathForModuleName:(NSString *)aModName {
-    NSString *ret = nil;
-
     // we currently only have content types
 	NSString *indexName = [NSString stringWithFormat:@"index-%@", aModName];
-	ret = [baseIndexPath stringByAppendingPathComponent:indexName];
 
+    NSString *ret = [baseIndexPath stringByAppendingPathComponent:indexName];
     return ret;
 }
 

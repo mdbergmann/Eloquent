@@ -11,7 +11,7 @@
 #import "NotesManager.h"
 #import "FileRepresentation.h"
 #import "AppController.h"
-#import "ObjectAssotiations.h"
+#import "ObjectAssociations.h"
 
 #define NOTES_UI_NIBNAME @"NotesUI"
 

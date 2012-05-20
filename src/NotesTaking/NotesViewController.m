@@ -14,7 +14,7 @@
 #import "MBPreferenceController.h"
 #import "HUDPreviewController.h"
 #import "ObjCSword/SwordManager.h"
-#import "ObjectAssotiations.h"
+#import "ObjectAssociations.h"
 #import "NotesUIController.h"
 #import "NSUserDefaults+Additions.h"
 #import "SearchTextFieldOptions.h"
@@ -87,7 +87,7 @@ extern char NotesMgrUI;
 }
 
 - (NotesUIController *)notesUIController {
-    return [Assotiater objectForAssotiatedObject:hostingDelegate withKey:&NotesMgrUI];    
+    return [Associater objectForAssociatedObject:hostingDelegate withKey:&NotesMgrUI];
 }
 
 - (NSAttributedString *)swordLinkStringFromReference:(NSString *)aReference ofModule:(NSString *)aModuleName {

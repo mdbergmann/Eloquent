@@ -9,16 +9,14 @@
 #import "BookmarksUIController.h"
 #import "WindowHostController.h"
 #import "SingleViewHostController.h"
-#import "LeftSideBarViewController.h"
 #import "AppController.h"
 #import "Bookmark.h"
 #import "BookmarkManager.h"
 #import "SearchTextObject.h"
-#import "ObjectAssotiations.h"
 
 #define BOOKMARKMANAGER_UI_NIBNAME @"BookmarkManagerUI"
 
-enum BookmarkMenu_Items{
+enum BookmarkMenu_Items {
     BookmarkMenuAddNewBM = 1,
     BookmarkMenuAddNewBMFolder,
     BookmarkMenuEditBM,
@@ -57,9 +55,11 @@ enum BookmarkMenu_Items{
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
+- (void)dealloc {
+    [bookmarkSelection release];
+    [super dealloc];
 }
+
 
 - (void)awakeFromNib {
 }
@@ -105,8 +105,8 @@ enum BookmarkMenu_Items{
 
 - (void)bookmarkDialog:(id)sender {    
     // create new bookmark instance
-    Bookmark *new = [[Bookmark alloc] init];
-    NSString *refText = [(SearchTextObject *)[(WindowHostController *)hostingDelegate currentSearchText] searchTextForType:ReferenceSearchType];
+    Bookmark *new = [[[Bookmark alloc] init] autorelease];
+    NSString *refText = [[hostingDelegate currentSearchText] searchTextForType:ReferenceSearchType];
     [new setReference:refText];
     [new setName:refText];
     
@@ -115,7 +115,7 @@ enum BookmarkMenu_Items{
     
     // bring up bookmark panel
     bookmarkAction = BookmarkMenuAddNewBM;
-    NSWindow *window = [(NSWindowController *)hostingDelegate window];
+    NSWindow *window = [hostingDelegate window];
     [NSApp beginSheet:bookmarkDetailPanel
        modalForWindow:window
         modalDelegate:self
@@ -124,7 +124,7 @@ enum BookmarkMenu_Items{
 }
 
 - (void)bookmarkDialogForVerseList:(NSArray *)aVerseList {
-    Bookmark *new = [[Bookmark alloc] init];
+    Bookmark *new = [[[Bookmark alloc] init] autorelease];
     
     NSString *verseString = [aVerseList componentsJoinedByString:@";"];    
     [new setReference:verseString];
@@ -133,7 +133,7 @@ enum BookmarkMenu_Items{
     [bmObjectController setContent:new];
     
     bookmarkAction = BookmarkMenuAddNewBM;
-    NSWindow *window = [(NSWindowController *)hostingDelegate window];
+    NSWindow *window = [hostingDelegate window];
     [NSApp beginSheet:bookmarkDetailPanel
        modalForWindow:window
         modalDelegate:self
@@ -202,12 +202,12 @@ enum BookmarkMenu_Items{
     switch(tag) {
         case BookmarkMenuAddNewBM:
         {
-            Bookmark *new = [[Bookmark alloc] init];
+            Bookmark *new = [[[Bookmark alloc] init] autorelease];
             // set as content
             [bmObjectController setContent:new];
             // bring up bookmark panel
             [bookmarkDetailPanel makeFirstResponder:bookmarkNameTextField];
-            NSWindow *window = [(NSWindowController *)hostingDelegate window];
+            NSWindow *window = [hostingDelegate window];
             [NSApp beginSheet:bookmarkDetailPanel
                modalForWindow:window
                 modalDelegate:self
@@ -220,7 +220,7 @@ enum BookmarkMenu_Items{
             // bring up bookmark panel
             [bookmarkFolderWindow makeFirstResponder:bookmarkFolderNameTextField];
             [bookmarkOkButton setEnabled:NO];
-            NSWindow *window = [(NSWindowController *)hostingDelegate window];
+            NSWindow *window = [hostingDelegate window];
             [NSApp beginSheet:bookmarkFolderWindow
                modalForWindow:window
                 modalDelegate:self
@@ -237,7 +237,7 @@ enum BookmarkMenu_Items{
                 // bring up bookmark panel
                 [bookmarkDetailPanel makeFirstResponder:bookmarkNameTextField];
                 [bookmarkOkButton setEnabled:YES];
-                NSWindow *window = [(NSWindowController *)hostingDelegate window];
+                NSWindow *window = [hostingDelegate window];
                 [NSApp beginSheet:bookmarkDetailPanel 
                    modalForWindow:window 
                     modalDelegate:self 
@@ -248,7 +248,7 @@ enum BookmarkMenu_Items{
                 [bookmarkFolderWindow makeFirstResponder:bookmarkFolderNameTextField];
                 [bookmarkFolderNameTextField setStringValue:[bm name]];
                 [bookmarkOkButton setEnabled:NO];
-                NSWindow *window = [(NSWindowController *)hostingDelegate window];
+                NSWindow *window = [hostingDelegate window];
                 [NSApp beginSheet:bookmarkFolderWindow
                    modalForWindow:window
                     modalDelegate:self
@@ -337,7 +337,7 @@ enum BookmarkMenu_Items{
 
     if(bookmarkAction == BookmarkMenuAddNewBMFolder) {
         // create new bookmark folder
-        Bookmark *bm = [[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]];
+        Bookmark *bm = [[[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]] autorelease];
         [bm setSubGroups:[NSMutableArray array]];   // this will get a folder 
         
         if([bookmarkSelection count] > 0) {

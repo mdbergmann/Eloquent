@@ -29,7 +29,7 @@
 #import "WorkspaceViewHostController.h"
 #import "NotesViewController.h"
 #import "WindowHostController+SideBars.h"
-#import "ObjectAssotiations.h"
+#import "ObjectAssociations.h"
 #import "SearchTextFieldOptions.h"
 #import "ToolbarController.h"
 #import "PrintAccessoryViewController.h"
@@ -75,11 +75,11 @@ typedef enum _NavigationDirectionType {
         [rsbViewController setHostingDelegate:self];
         
         modulesUIController = [[ModulesUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
-        [Assotiater registerObject:modulesUIController forAssotiatedObject:self withKey:&ModuleListUI];
+        [Associater registerObject:modulesUIController forAssociatedObject:self withKey:&ModuleListUI];
         bookmarksUIController = [[BookmarksUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
-        [Assotiater registerObject:bookmarksUIController forAssotiatedObject:self withKey:&BookmarkMgrUI];    
+        [Associater registerObject:bookmarksUIController forAssociatedObject:self withKey:&BookmarkMgrUI];
         notesUIController = [[NotesUIController alloc] initWithDelegate:lsbViewController hostingDelegate:self];
-        [Assotiater registerObject:notesUIController forAssotiatedObject:self withKey:&NotesMgrUI];    
+        [Associater registerObject:notesUIController forAssociatedObject:self withKey:&NotesMgrUI];
         
         toolbarController = [[ToolbarController alloc] initWithDelegate:self];
         printAccessoryController = [[PrintAccessoryViewController alloc] initWithPrintInfo:[[NSPrintInfo alloc] init]];
@@ -245,9 +245,9 @@ typedef enum _NavigationDirectionType {
 
 - (IBAction)performClose:(id)sender {
     [self close];
-    [Assotiater unregisterForAssotiatedObject:self withKey:&NotesMgrUI];
-    [Assotiater unregisterForAssotiatedObject:self withKey:&ModuleListUI];
-    [Assotiater unregisterForAssotiatedObject:self withKey:&BookmarkMgrUI];
+    [Associater unregisterForAssociatedObject:self withKey:&NotesMgrUI];
+    [Associater unregisterForAssociatedObject:self withKey:&ModuleListUI];
+    [Associater unregisterForAssociatedObject:self withKey:&BookmarkMgrUI];
 }
 
 #pragma mark - Methods
@@ -477,7 +477,7 @@ typedef enum _NavigationDirectionType {
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    [Assotiater setCurrentInitialisationHost:self];
+    [Associater setCurrentInitialisationHost:self];
     
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];
 

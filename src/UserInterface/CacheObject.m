@@ -15,4 +15,11 @@
 @synthesize content;
 @synthesize count;
 
+- (void)dealloc {
+    [reference release];
+    [content release];
+
+    [super dealloc];
+}
+
 @end

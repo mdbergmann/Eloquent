@@ -26,17 +26,13 @@
         visibleRect.origin.y -= containerOrigin.y;
         
         NSRange glyphRange = [layoutManager glyphRangeForBoundingRect:visibleRect inTextContainer:[self textContainer]];
-        //NSRange glyphRange = [layoutManager glyphRangeForBoundingRectWithoutAdditionalLayout:visibleRect inTextContainer:[theTextView textContainer]];
-        //CocoLog(LEVEL_DEBUG, @"glyphRange loc:%i len:%i", glyphRange.location, glyphRange.length);
-        
+
         // get line rect
         *lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphRange.location effectiveRange:nil];
-        //CocoLog(LEVEL_DEBUG, @"lineRect x:%f y:%f w:%f h:%f", lineRect->origin.x, lineRect->origin.y, lineRect->size.width, lineRect->size.height);
-        
+
         // get range
         NSRange lineRange = [layoutManager glyphRangeForBoundingRect:*lineRect inTextContainer:[self textContainer]];
-        //CocoLog(LEVEL_DEBUG, @"lineRange loc:%i len:%i", lineRange.location, lineRange.length);        
-        
+
         return lineRange;
     }
     
@@ -48,7 +44,7 @@
  @param[in] index location
  @return the range of line
  */
-- (NSRange)rangeOfLineAtIndex:(long)index {
+- (NSRange)rangeOfLineAtIndex:(NSUInteger)index {
     if([self enclosingScrollView]) {
         NSLayoutManager *layoutManager = [self layoutManager];
         // get line rect
@@ -107,9 +103,9 @@
     
     // get text
     NSString *text = [[self textStorage] string];
-    int startIndex = 0;
-    int stopIndex = 0;
-    int mask = 0;
+    NSUInteger startIndex;
+    NSUInteger stopIndex;
+    NSStringCompareOptions mask = 0;
     
     if(lastFoundRange.location == NSNotFound) {
         startIndex = 0;
@@ -122,7 +118,7 @@
             startIndex = 0;
             stopIndex = lastFoundRange.location;
             mask = NSBackwardsSearch;
-        }        
+        }
     }
     ret = [text rangeOfString:token options:mask range:NSMakeRange(startIndex, stopIndex)];
     
@@ -144,14 +140,14 @@
     ret.origin.x = NSNotFound;
     
     NSAttributedString *text = [self attributedString];
-    long len = [[self string] length];
+    NSUInteger len = [[self string] length];
     NSRange foundRange;
     foundRange.location = NSNotFound;
-    for(int i = 0;i < len;i++) {
+    for(NSUInteger i = 0;i < len;i++) {
         id val = [text attribute:attrName atIndex:i effectiveRange:&foundRange];
         if(val != nil) {
             if([val isKindOfClass:[NSString class]] && [(NSString *)val isEqualToString:(NSString *)attrValue]) {
-                CocoLog(LEVEL_DEBUG, @"[ExtTextViewController -rectForAttributeName::] found attribute");
+                CocoLog(LEVEL_DEBUG, @"found attribute");
                 break;
             } else {
                 i += foundRange.location + foundRange.length;
@@ -172,7 +168,7 @@
 }
 
 - (NSAttributedString *)selectedAttributedString {
-    NSAttributedString *ret = [[NSAttributedString alloc] init];
+    NSAttributedString *ret = [[[NSAttributedString alloc] init] autorelease];
     
     NSRange selRange = [self selectedRange];
     if(selRange.length > 0) {

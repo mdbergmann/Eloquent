@@ -27,7 +27,7 @@
 @dynamic bookmarks;
 
 + (BookmarkManager *)defaultManager {
-    static BookmarkManager *instance;
+    static BookmarkManager *instance = nil;
     if(instance == nil) {
         instance = [[BookmarkManager alloc] init]; 
     }
@@ -44,8 +44,9 @@
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
+- (void)dealloc {
+    [bookmarks release];
+    [super dealloc];
 }
 
 - (NSMutableArray *)bookmarks {
@@ -66,12 +67,12 @@
     
     NSFileManager *fm = [NSFileManager defaultManager];
     
-    // check for new boommarks file first
+    // check for new bookmarks file first
     NSString *bookmarkFile = DEFAULT_BOOKMARK_PATH;
     if([fm fileExistsAtPath:bookmarkFile] == YES) {
         NSData *data = [NSData dataWithContentsOfFile:bookmarkFile];
         if(data != nil) {
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            NSKeyedUnarchiver *unarchiver = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
             ret = [unarchiver decodeObjectForKey:@"Bookmarks"];
         }
     } else {
@@ -107,7 +108,7 @@
             if([item isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *ditem = item;
                 // create bookmark for dictionary
-                Bookmark *bmark = [[Bookmark alloc] init];
+                Bookmark *bmark = [[[Bookmark alloc] init] autorelease];
                 [bmark setName:[ditem objectForKey:@"name"]];
                 [bmark setReference:[ditem objectForKey:@"reference"]];
                 [bms addObject:bmark];
@@ -115,7 +116,7 @@
                 NSArray *aitem = item;
                 // this is a subgroup
                 // index 0 has the name of the node
-                Bookmark *bmark = [[Bookmark alloc] initWithName:[aitem objectAtIndex:0]];
+                Bookmark *bmark = [[[Bookmark alloc] initWithName:[aitem objectAtIndex:0]] autorelease];
                 // pass on
                 [bmark setSubGroups:[self _loadBookmarks:aitem]];
                 [bms addObject:bmark];
@@ -129,7 +130,7 @@
 - (void)saveBookmarks {
     
     NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    NSKeyedArchiver *archiver = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
     [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
     [archiver encodeObject:bookmarks forKey:@"Bookmarks"];
     [archiver finishEncoding];
@@ -176,7 +177,7 @@
 
 - (BOOL)deleteBookmarkForPath:(NSIndexPath *)path {
     NSMutableArray *list = [self bookmarks];
-    for(int i = 0;i < [path length] - 1;i++) {
+    for(NSUInteger i = 0;i < [path length] - 1;i++) {
         Bookmark *b = [list objectAtIndex:[path indexAtPosition:i]];
         list = [b subGroups];
     }
@@ -190,26 +191,24 @@
 }
 
 - (NSIndexPath *)indexPathForBookmark:(Bookmark *)bm {
-    NSIndexPath *ret = [[NSIndexPath alloc] init];
-    
     NSMutableArray *reverseIndex = [NSMutableArray array];
     [self getIndexPath:reverseIndex forBookmark:bm inList:[self bookmarks]];
-    int len = [reverseIndex count];
+    NSUInteger len = [reverseIndex count];
     NSUInteger indexes[len];
-    for(int i = 0;i < len;i++) {
+    for(NSUInteger i = 0;i < len;i++) {
         indexes[len-1 - i] = (NSUInteger)[[reverseIndex objectAtIndex:i] intValue];
     }
-    ret = [[NSIndexPath alloc] initWithIndexes:indexes length:len];
-    
+
+    NSIndexPath *ret = [[[NSIndexPath alloc] initWithIndexes:indexes length:len] autorelease];
     return ret;
 }
 
 - (int)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list {
     if(list && [list count] > 0) {
-        for(int i = 0;i < [list count];i++) {
+        for(NSUInteger i = 0;i < [list count];i++) {
             Bookmark *b = [list objectAtIndex:i];
             if(bm != b) {
-                int index = [self getIndexPath:reverseIndex forBookmark:bm inList:[b subGroups]];
+                NSInteger index = [self getIndexPath:reverseIndex forBookmark:bm inList:[b subGroups]];
                 if(index > -1) {
                     // record
                     [reverseIndex addObject:[NSNumber numberWithInt:i]];

@@ -60,12 +60,9 @@ static MBPreferenceController *instance;
     }
 }
 
-/**
-\brief dealloc of this class is called on closing this document
- */
-- (void)finalize {
-	// dealloc object
-	[super finalize];
+- (void)dealloc {
+    [sheetWindow release];
+    [super dealloc];
 }
 
 - (NSArray *)moduleNamesOfTypeBible {
@@ -102,7 +99,7 @@ static MBPreferenceController *instance;
 
 - (WebPreferences *)defaultWebPreferencesForModuleName:(NSString *)aModName {
     // init web preferences
-    WebPreferences *webPreferences = [[WebPreferences alloc] init];
+    WebPreferences *webPreferences = [[[WebPreferences alloc] init] autorelease];
     [webPreferences setAutosaves:NO];
     // set defaults
     [webPreferences setJavaEnabled:NO];
@@ -147,9 +144,6 @@ static MBPreferenceController *instance;
     return displayFont;    
 }
 
-//--------------------------------------------------------------------
-//----------- bundle delegates ---------------------------------------
-//--------------------------------------------------------------------
 - (void)awakeFromNib {
 	CocoLog(LEVEL_DEBUG,@"[MBPreferenceController -awakeFromNib]");
 	
@@ -162,12 +156,12 @@ static MBPreferenceController *instance;
     [moduleFontsTableView setDoubleAction:@selector(moduleFontsTableViewDoubleClick:)];
     
     // calculate margins
-    southMargin = [prefsTabView frame].origin.y;
-    northMargin = [[self window] frame].size.height - [prefsTabView frame].size.height + 50;
-    sideMargin = ([[self window] frame].size.width - [prefsTabView frame].size.width) / 2;
+    southMargin = (int)[prefsTabView frame].origin.y;
+    northMargin = (int)([[self window] frame].size.height - [prefsTabView frame].size.height + 50.0);
+    sideMargin = (int)([[self window] frame].size.width - [prefsTabView frame].size.width) / 2;
     
     // topTabViewmargin
-    topTabViewMargin = [prefsTabView frame].size.height - [prefsTabView contentRect].size.height;
+    topTabViewMargin = (int)([prefsTabView frame].size.height - [prefsTabView contentRect].size.height);
     
     // init tabview
     //preselect tabitem general
@@ -207,7 +201,7 @@ static MBPreferenceController *instance;
         if(!settings) {
             settings = [NSMutableDictionary dictionary];
         } else {
-            settings = [settings mutableCopy];
+            settings = [[settings mutableCopy] autorelease];
         }
         [settings setDisplayFont:[NSFont fontWithName:fontFamily size:(float)fontSize]];
         [settings setDisplayFontBold:[NSFont fontWithName:fontBoldName size:(float)fontSize]];
@@ -366,15 +360,15 @@ static MBPreferenceController *instance;
 	NSFontPanel *fp = [NSFontPanel sharedFontPanel];
 	[fp setIsVisible:YES];
     
-    int clickedRow = [moduleFontsTableView clickedRow];
-    currentModuleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:clickedRow];
+    NSInteger clickedRow = [moduleFontsTableView clickedRow];
+    currentModuleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)clickedRow];
     
     [fontManager setSelectedFont:[self normalDisplayFontForModuleName:currentModuleName] isMultiple:NO];
 }
 
 - (IBAction)resetModuleFont:(id)sender {
-    int clickedRow = [moduleFontsTableView clickedRow];
-    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:clickedRow];
+    NSInteger clickedRow = [moduleFontsTableView clickedRow];
+    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)clickedRow];
     
     // remove from user defaults. this will apply the default font
     NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
@@ -391,9 +385,9 @@ static MBPreferenceController *instance;
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
     if([[aTableColumn identifier] isEqualToString:@"module"]) {
-        return [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:rowIndex];        
+        return [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)rowIndex];
     } else if([[aTableColumn identifier] isEqualToString:@"font"]) {
-        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:rowIndex];
+        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)rowIndex];
         NSFont *displayFont = [self normalDisplayFontForModuleName:moduleName];
         return [NSString stringWithFormat:@"%@ - %i", [displayFont familyName], (int)[displayFont pointSize]];
     }
@@ -404,14 +398,14 @@ static MBPreferenceController *instance;
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
     if([[aTableColumn identifier] isEqualToString:@"module"] || 
        [[aTableColumn identifier] isEqualToString:@"font"]) {
-        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:rowIndex];
+        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)rowIndex];
         NSFont *displayFont = [self normalDisplayFontForModuleName:moduleName];
         [aCell setFont:displayFont];        
     }     
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:row];
+    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)row];
     
     CGFloat pointSize = [[self normalDisplayFontForModuleName:moduleName] pointSize];
     CGFloat newHeight = pointSize + (pointSize / 1.3);

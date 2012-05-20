@@ -15,13 +15,13 @@
 @synthesize type;
 
 + (NSArray *)moduleCategories {
-    static NSArray *cats;
+    static NSArray *cats = nil;
     if(cats == nil) {
         cats = [NSArray arrayWithObjects:
-                [[SwordModCategory alloc] initWithType:Bible], 
-                [[SwordModCategory alloc] initWithType:Commentary],
-                [[SwordModCategory alloc] initWithType:Dictionary],
-                [[SwordModCategory alloc] initWithType:Genbook], nil];
+                [[[SwordModCategory alloc] initWithType:Bible] autorelease],
+                [[[SwordModCategory alloc] initWithType:Commentary] autorelease],
+                [[[SwordModCategory alloc] initWithType:Dictionary] autorelease],
+                [[[SwordModCategory alloc] initWithType:Genbook] autorelease], nil];
     }
     
     return cats;

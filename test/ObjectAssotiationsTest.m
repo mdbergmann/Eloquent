@@ -13,14 +13,14 @@
 static char anObjectKey;
 
 - (void)setUp {
-    objAsso = [ObjectAssotiations assotiations];
+    objAsso = [ObjectAssociations associations];
     assoObject = [[NSObject alloc] init];
     anObject = [[NSObject alloc] init];
 }
 
 - (void)testAssotiation {
     [objAsso registerObject:anObject forAssotiatedObject:assoObject withKey:&anObjectKey];
-    NSObject *obj = [objAsso objectForAssotiatedObject:assoObject withKey:&anObjectKey];
+    NSObject *obj = [objAsso objectForAssociatedObject:assoObject withKey:&anObjectKey];
     STAssertTrue((obj == anObject), @"");
     STAssertEqualObjects(obj, anObject, @"");
 }

@@ -19,7 +19,7 @@
 @synthesize isPredefined;
 
 + (id)searchBookSetWithName:(NSString *)aName {
-    return [[SearchBookSet alloc] initWithName:aName];
+    return [[[SearchBookSet alloc] initWithName:aName] autorelease];
 }
 
 - (id)init {
@@ -42,8 +42,10 @@
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
+- (void)dealloc {
+    [name release];
+    [osisBookNames release];
+    [super dealloc];
 }
 
 - (int)count {
@@ -79,7 +81,7 @@
     SearchBookSet *obj = [[SearchBookSet alloc] init];
     
     obj.name = [decoder decodeObjectForKey:@"NameEncoded"];
-    obj.osisBookNames = [[decoder decodeObjectForKey:@"OSISBookNamesEncoded"] mutableCopy];
+    obj.osisBookNames = [[[decoder decodeObjectForKey:@"OSISBookNamesEncoded"] mutableCopy] autorelease];
     obj.isPredefined = [decoder decodeBoolForKey:@"PredefinedEncoded"];
     
     return obj;

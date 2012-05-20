@@ -7,9 +7,6 @@
 //
 
 #import "NSDictionary+ModuleDisplaySettings.h"
-#import "globals.h"
-#import "MBPreferenceController.h"
-
 
 @implementation NSDictionary (ModuleDisplaySettings)
 

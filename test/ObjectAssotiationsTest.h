@@ -7,10 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import <ObjectAssotiations.h>
+#import "ObjectAssociations.h"
 
 @interface ObjectAssotiationsTest : SenTestCase {
-    ObjectAssotiations *objAsso;
+    ObjectAssociations *objAsso;
     NSObject *assoObject;
     NSObject *anObject;
 }

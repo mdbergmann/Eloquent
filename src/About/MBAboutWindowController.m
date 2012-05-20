@@ -10,14 +10,6 @@
 	return [super initWithWindowNibName:@"About"];
 }
 
-- (void)finalize {
-	// dealloc object
-	[super finalize];
-}
-
-//--------------------------------------------------------------------
-//----------- bundle delegates ---------------------------------------
-//--------------------------------------------------------------------
 - (void)windowDidLoad {
     
     // get BundlePath
@@ -37,9 +29,9 @@
     
     NSData *rtfData = [NSData dataWithContentsOfFile:creditPath];
     NSAttributedString *credits = [[[NSAttributedString alloc] initWithRTF:rtfData documentAttributes:nil] autorelease];
-    // insert the text into the textview
+    // insert the text into the text view
     [creditsTextView insertText:credits];
-    // make uneditable
+    // make un editable
     [creditsTextView setEditable:NO];
 }
 

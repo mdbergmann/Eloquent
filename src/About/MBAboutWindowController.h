@@ -12,7 +12,6 @@
     IBOutlet NSTextField *appNameLabel;
     IBOutlet NSTextField *copyrightLabel;
     IBOutlet NSTextView *creditsTextView;
-    IBOutlet NSImageView *imageView;
     IBOutlet NSTextField *versionLabel;
 }
 

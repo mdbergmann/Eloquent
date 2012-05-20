@@ -4,14 +4,14 @@
 @interface ConfirmationSheetController (privateAPI)
 
 // end sheet callback
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)aContextInfo;
 
 @end
 
 @implementation ConfirmationSheetController (privateAPI)
 
 // end sheet callback
-- (void)sheetDidEnd:(NSWindow *)sSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)sheetDidEnd:(NSWindow *)sSheet returnCode:(int)returnCode contextInfo:(void *)aContextInfo {
 	// hide sheet
 	[sSheet orderOut:nil];
 	
@@ -132,6 +132,19 @@
 	[super finalize];
 }
 
+- (void)dealloc {
+    [confirmationTitle release];
+    [confirmationText release];
+    [defaultButtonText release];
+    [alternateButtonText release];
+    [otherButtonText release];
+    [askAgainButtonText release];
+    [defaultsAskAgainKey release];
+    [contextInfo release];
+    [sheetWindow release];
+    [super dealloc];
+}
+
 // window title
 - (void)setSheetTitle:(NSString *)aTitle {
 	[sheetWindow setTitle:aTitle];
@@ -147,7 +160,7 @@
 }
 
 /**
- \brief begin sheet
+ begin sheet
 */
 - (void)beginSheet {
 	// reset switch
@@ -166,7 +179,7 @@
 }
 
 /**
- \briefd run modal as window
+ run modal as window
 */
 - (int)runModal {
 	return [NSApp runModalForWindow:[self window]];

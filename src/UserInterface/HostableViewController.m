@@ -9,7 +9,7 @@
 #import "HostableViewController.h"
 #import "WindowHostController.h"
 #import "SearchTextFieldOptions.h"
-#import "ObjectAssotiations.h"
+#import "ObjectAssociations.h"
 
 @implementation HostableViewController
 

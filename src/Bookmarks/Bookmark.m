@@ -42,8 +42,15 @@
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
+- (void)dealloc {
+    [name release];
+    [reference release];
+    [comment release];
+    [foregroundColor release];
+    [backgroundColor release];
+    [subGroups release];
+
+    [super dealloc];
 }
 
 - (int)childCount {
@@ -62,11 +69,10 @@
     return name;
 }
 
-// --------- NSCoding implementation ----------------
 #pragma mark NSCoding implementation
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    Bookmark *bm = [[Bookmark alloc] init];
+    Bookmark *bm = [[[Bookmark alloc] init] autorelease];
     
     [bm setName:[decoder decodeObjectForKey:@"BookmarkName"]];
     [bm setReference:[decoder decodeObjectForKey:@"BookmarkRef"]];
@@ -82,11 +88,8 @@
         subgroups = nil;
     } 
     [bm setSubGroups:subgroups];
-    
-    //if([decoder decodeObjectForKey:@"BookmarkHighlight"]) {
-        [bm setHighlight:[decoder decodeBoolForKey:@"BookmarkHighlight"]];    
-    //}
-    
+    [bm setHighlight:[decoder decodeBoolForKey:@"BookmarkHighlight"]];
+
     return bm;
 }
 

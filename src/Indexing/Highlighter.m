@@ -15,7 +15,7 @@
 
 + (NSString *)stripSearchQuery:(NSString *)searchQuery {
     // remove any characters from the tokens like: "+, -, *, !, &, |, AND, OR, (, ), ""
-    NSMutableString *query = [searchQuery mutableCopy];
+    NSMutableString *query = [[searchQuery mutableCopy] autorelease];
     for(int i = 0;i < 11;i++) {
         NSString *token = @"+";
         switch(i) {
@@ -79,18 +79,18 @@
         
         int size = (int)[(NSFont *)[attributes objectForKey:NSFontAttributeName] pointSize];
 
-        // create attributes Dictinary for highlight
+        // create attributes Dictionary for highlight
         NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
         NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] size:size];
         [attr setObject:fontBold forKey:NSFontAttributeName];
         
         // create NSMutableAttributedString
-        ret = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+        ret = [[[NSMutableAttributedString alloc] initWithString:text attributes:attributes] autorelease];
 
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
         int tLen = [tokens count];
-        for(int i = 0;i < tLen;i++) {
+        for(NSUInteger i = 0;i < tLen;i++) {
             NSString *token = [tokens objectAtIndex:i];
             
             if(([token length] > 0) && ([token isEqualToString:@" "] == NO)) {
@@ -125,7 +125,7 @@
     NSRange found, area;
     unsigned int length = [text length];
     if(length > 0) {
-        // create attributes Dictinary
+        // create attributes Dictionary
         NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
         [attr setObject:boldFont forKey:NSFontAttributeName];
         
@@ -135,7 +135,7 @@
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
         int tLen = [tokens count];
-        for(int i = 0;i < tLen;i++) {
+        for(NSUInteger i = 0;i < tLen;i++) {
             NSString *token = [tokens objectAtIndex:i];
             
             if(([token length] > 0) && ([token isEqualToString:@" "] == NO)) {
@@ -171,12 +171,12 @@
     unsigned int length = [text length];
     
     if(length > 0) {
-        ret = [text mutableCopy];
+        ret = [[text mutableCopy] autorelease];
         
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
         int tLen = [tokens count];
-        for(int i = 0;i < tLen;i++) {
+        for(NSUInteger i = 0;i < tLen;i++) {
             NSString *token = [tokens objectAtIndex:i];
             
             if(([token length] > 0) && ([token isEqualToString:@" "] == NO)) {

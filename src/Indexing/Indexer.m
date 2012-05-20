@@ -60,13 +60,13 @@
     switch(aModType) {
         case Bible:
         case Commentary:
-            indexer = [[BibleIndexer alloc] initWithModuleName:aModName];
+            indexer = [[[BibleIndexer alloc] initWithModuleName:aModName] autorelease];
             break;
         case Genbook:
-            indexer = [[BookIndexer alloc] initWithModuleName:aModName];
+            indexer = [[[BookIndexer alloc] initWithModuleName:aModName] autorelease];
             break;
         case Dictionary:
-            indexer = [[DictIndexer alloc] initWithModuleName:aModName];
+            indexer = [[[DictIndexer alloc] initWithModuleName:aModName] autorelease];
             break;
         case All:
             // do nothing
@@ -74,14 +74,6 @@
     }
 
 	return indexer;
-}
-
-/**
-\brief dealloc of this class is called on closing this document
- */
-- (void)finalize {
-	// dealloc object
-	[super finalize];
 }
 
 - (void)dealloc {

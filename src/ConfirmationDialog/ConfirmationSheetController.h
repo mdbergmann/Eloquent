@@ -46,7 +46,7 @@ enum SheetReturnCode {
 
 @property (retain, readwrite) id contextInfo;
 @property (readonly) int sheetReturnCode;
-@property (readwrite) id delegate;
+@property (assign, readwrite) id delegate;
 @property (retain, readwrite) NSString *defaultsAskAgainKey;
 @property (retain, readwrite) NSString *confirmationTitle;
 @property (retain, readwrite) NSString *confirmationText;

@@ -45,13 +45,9 @@
 	return self;
 }
 
-/**
-\brief dealloc of this class is called on closing this document
- */
 - (void)dealloc {
 	[self setProperties:nil];
     
-	// dealloc object
 	[super dealloc];
 }
 

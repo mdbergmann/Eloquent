@@ -4,7 +4,7 @@
 #import <WebKit/WebKit.h>
 #import <CocoLogger/CocoLogger.h>
 
-#define PREFERENCE_CONTROLLER_NIB_NAME              @"Preferences"
+#define PREFERENCE_CONTROLLER_NIB_NAME @"Preferences"
 
 typedef enum _VerseNumberingType {
     FullVerseNumbering = 0,
@@ -96,7 +96,7 @@ typedef enum _VerseNumberingType {
 
 @class SwordManager;
 
-@interface MBPreferenceController : NSWindowController {
+@interface MBPreferenceController : NSWindowController <NSTableViewDataSource, NSTableViewDelegate, NSWindowDelegate> {
 	// global stuff
 	IBOutlet NSButton *okButton;
 	IBOutlet NSTabView *prefsTabView;

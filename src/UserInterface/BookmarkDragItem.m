@@ -19,10 +19,16 @@
     self = [super init];
     if(self) {
         self.path = [NSIndexPath indexPathWithIndex:0];
-        self.bookmark = [[Bookmark alloc] init];
+        self.bookmark = [[[Bookmark alloc] init] autorelease];
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [path release];
+    [bookmark release];
+    [super dealloc];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {

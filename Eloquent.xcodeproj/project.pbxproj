@@ -118,9 +118,9 @@
 		A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810360EB4A9350066943B /* LeftSideBarViewController.m */; };
 		A98A9519112E8C1D00EC8B76 /* WindowHostController+SideBars.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9518112E8C1D00EC8B76 /* WindowHostController+SideBars.m */; };
 		A98A951C112E8DA000EC8B76 /* WindowHostController+Fullscreen.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951B112E8DA000EC8B76 /* WindowHostController+Fullscreen.m */; };
-		A98A951F112E8E4B00EC8B76 /* ObjectAssotiations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */; };
+		A98A951F112E8E4B00EC8B76 /* ObjectAssociations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssociations.m */; };
 		A98A952A112E989C00EC8B76 /* ObjectAssotiationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9529112E989C00EC8B76 /* ObjectAssotiationsTest.m */; };
-		A98A9539112E9A6100EC8B76 /* ObjectAssotiations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */; };
+		A98A9539112E9A6100EC8B76 /* ObjectAssociations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssociations.m */; };
 		A98A9683112ED53C00EC8B76 /* BibleViewController+RightSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9682112ED53C00EC8B76 /* BibleViewController+RightSidebar.m */; };
 		A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */; };
 		A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */; };
@@ -452,7 +452,6 @@
 		A91C93DB0DF9B0E9006B7361 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = src/AppController.h; sourceTree = "<group>"; };
 		A91C93DC0DF9B0E9006B7361 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = src/AppController.m; sourceTree = "<group>"; };
 		A91C93E10DF9B0F8006B7361 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globals.h; path = src/globals.h; sourceTree = "<group>"; };
-		A91C93E20DF9B0F8006B7361 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utils.h; path = src/utils.h; sourceTree = "<group>"; };
 		A91C93EC0DF9B149006B7361 /* BibleIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleIndexer.h; sourceTree = "<group>"; };
 		A91C93ED0DF9B149006B7361 /* BibleIndexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleIndexer.m; sourceTree = "<group>"; };
 		A91C93EE0DF9B149006B7361 /* BookIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookIndexer.h; sourceTree = "<group>"; };
@@ -546,8 +545,8 @@
 		A98A9518112E8C1D00EC8B76 /* WindowHostController+SideBars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "WindowHostController+SideBars.m"; path = "src/UserInterface/WindowHostController+SideBars.m"; sourceTree = "<group>"; };
 		A98A951A112E8DA000EC8B76 /* WindowHostController+Fullscreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WindowHostController+Fullscreen.h"; path = "src/UserInterface/WindowHostController+Fullscreen.h"; sourceTree = "<group>"; };
 		A98A951B112E8DA000EC8B76 /* WindowHostController+Fullscreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "WindowHostController+Fullscreen.m"; path = "src/UserInterface/WindowHostController+Fullscreen.m"; sourceTree = "<group>"; };
-		A98A951D112E8E4B00EC8B76 /* ObjectAssotiations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectAssotiations.h; path = src/ObjectAssotiations/ObjectAssotiations.h; sourceTree = "<group>"; };
-		A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectAssotiations.m; path = src/ObjectAssotiations/ObjectAssotiations.m; sourceTree = "<group>"; };
+		A98A951D112E8E4B00EC8B76 /* ObjectAssociations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectAssociations.h; path = src/ObjectAssotiations/ObjectAssociations.h; sourceTree = "<group>"; };
+		A98A951E112E8E4B00EC8B76 /* ObjectAssociations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectAssociations.m; path = src/ObjectAssotiations/ObjectAssociations.m; sourceTree = "<group>"; };
 		A98A9528112E989C00EC8B76 /* ObjectAssotiationsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectAssotiationsTest.h; path = test/ObjectAssotiationsTest.h; sourceTree = "<group>"; };
 		A98A9529112E989C00EC8B76 /* ObjectAssotiationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectAssotiationsTest.m; path = test/ObjectAssotiationsTest.m; sourceTree = "<group>"; };
 		A98A9681112ED53C00EC8B76 /* BibleViewController+RightSidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BibleViewController+RightSidebar.h"; path = "src/UserInterface/BibleViewController+RightSidebar.h"; sourceTree = "<group>"; };
@@ -774,7 +773,6 @@
 			isa = PBXGroup;
 			children = (
 				A91C93E10DF9B0F8006B7361 /* globals.h */,
-				A91C93E20DF9B0F8006B7361 /* utils.h */,
 				32CA4F630368D1EE00C91783 /* Eloquent_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -1126,8 +1124,8 @@
 				A9032EAF112D7F6A009D6A02 /* NSDictionary+Additions.m */,
 				A9032ECC112D8323009D6A02 /* NSUserDefaults+Additions.h */,
 				A9032ECD112D8323009D6A02 /* NSUserDefaults+Additions.m */,
-				A98A951D112E8E4B00EC8B76 /* ObjectAssotiations.h */,
-				A98A951E112E8E4B00EC8B76 /* ObjectAssotiations.m */,
+				A98A951D112E8E4B00EC8B76 /* ObjectAssociations.h */,
+				A98A951E112E8E4B00EC8B76 /* ObjectAssociations.m */,
 				A95CFC771132A9A100E71D4E /* SearchTextFieldOptions.h */,
 				A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */,
 			);
@@ -1679,7 +1677,7 @@
 				A9032ECE112D8323009D6A02 /* NSUserDefaults+Additions.m in Sources */,
 				A98A9519112E8C1D00EC8B76 /* WindowHostController+SideBars.m in Sources */,
 				A98A951C112E8DA000EC8B76 /* WindowHostController+Fullscreen.m in Sources */,
-				A98A951F112E8E4B00EC8B76 /* ObjectAssotiations.m in Sources */,
+				A98A951F112E8E4B00EC8B76 /* ObjectAssociations.m in Sources */,
 				A98A9683112ED53C00EC8B76 /* BibleViewController+RightSidebar.m in Sources */,
 				A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */,
 				A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */,
@@ -1703,7 +1701,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A98A9539112E9A6100EC8B76 /* ObjectAssotiations.m in Sources */,
+				A98A9539112E9A6100EC8B76 /* ObjectAssociations.m in Sources */,
 				A98A952A112E989C00EC8B76 /* ObjectAssotiationsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -24,7 +24,7 @@
 #import "AppController.h"
 #import "ModulesUIController.h"
 #import "CacheObject.h"
-#import "ObjectAssotiations.h"
+#import "ObjectAssociations.h"
 #import "ContentDisplayingViewControllerFactory.h"
 #import "ProgressOverlayViewController.h"
 
@@ -87,7 +87,7 @@ extern char ModuleListUI;
 }
 
 - (ModulesUIController *)modulesUIController {
-    return [Assotiater objectForAssotiatedObject:hostingDelegate withKey:&ModuleListUI];
+    return [Associater objectForAssociatedObject:hostingDelegate withKey:&ModuleListUI];
 }
 
 - (void)hostingDelegateShowRightSideBar:(BOOL)aFlag {

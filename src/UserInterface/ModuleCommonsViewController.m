@@ -16,7 +16,7 @@
 #import "BibleCombiViewController.h"
 #import "NSImage+Additions.h"
 #import "ProgressOverlayViewController.h"
-#import "ObjectAssotiations.h"
+#import "ObjectAssociations.h"
 #import "ModulesUIController.h"
 #import "BookmarksUIController.h"
 #import "WindowHostController+Fullscreen.h"
@@ -82,7 +82,7 @@ extern char BookmarkMgrUI;
 }
 
 - (BookmarksUIController *)bookmarksUIController {
-    return [Assotiater objectForAssotiatedObject:hostingDelegate withKey:&BookmarkMgrUI];    
+    return [Associater objectForAssociatedObject:hostingDelegate withKey:&BookmarkMgrUI];
 }
 
 #pragma mark - Display things

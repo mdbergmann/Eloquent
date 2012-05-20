@@ -39,7 +39,7 @@
 	[super drawWithFrame:cellFrame inView:parentView];
 
 	// text cell
-	NSTextFieldCell *textCell = [[NSTextFieldCell alloc] initTextCell:title];
+	NSTextFieldCell *textCell = [[[NSTextFieldCell alloc] initTextCell:title] autorelease];
     [textCell setFont:[self font]];
 	[textCell drawWithFrame:cellFrame inView:parentView];
     

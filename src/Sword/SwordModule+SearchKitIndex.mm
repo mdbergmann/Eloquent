@@ -6,21 +6,10 @@
 // Based on code by Will Thimbleby
 //
 
+#import <ObjCSword/ObjCSword.h>
 #import "CocoLogger/CocoLogger.h"
 #import "IndexingManager.h"
-#import "Indexer.h"
 #import "SearchResultEntry.h"
-#import "utils.h"
-#import "ObjCSword/SwordModule.h"
-#import "ObjCSword/SwordBible.h"
-#import "ObjCSword/SwordDictionary.h"
-#import "ObjCSword/SwordBook.h"
-#import "ObjCSword/SwordBibleBook.h"
-#import "ObjCSword/SwordModuleTextEntry.h"
-#import "ObjCSword/SwordBibleTextEntry.h"
-#import "ObjCSword/SwordVerseKey.h"
-#import "ObjCSword/SwordListKey.h"
-#import "ObjCSword/SwordManager.h"
 
 NSString *EloquentIndexVersion = @"1.0";
 
@@ -106,7 +95,6 @@ NSString *EloquentIndexVersion = @"1.0";
  */
 - (void)recreateSKSearchIndex {
 	[self deleteSKSearchIndex];
-	//[self createIndex];
 }
 
 - (void)deleteSKSearchIndex {
@@ -149,7 +137,7 @@ NSString *EloquentIndexVersion = @"1.0";
         CocoLog(LEVEL_DEBUG, @"stopped indexing");
         
         //save version info
-        NSString *path = [(IndexingManager *)[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];        
+        NSString *path = [[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
                            EloquentIndexVersion, 
                            @"Eloquent Index Version", 
@@ -212,8 +200,8 @@ NSString *EloquentIndexVersion = @"1.0";
         SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
         [lk setPersist:NO];
         [lk setPosition:SWPOS_TOP];
-        NSString *ref = nil;
-        NSString *stripped = nil;
+        NSString *ref;
+        NSString *stripped;
         while(![lk error]) {
             ref = [lk keyText];
             [self setKey:lk];
@@ -273,8 +261,8 @@ NSString *EloquentIndexVersion = @"1.0";
         [lk setPersist:YES];
         [lk setPosition:SWPOS_TOP];
         [self setKey:lk];
-        NSString *ref = nil;
-        NSString *stripped = nil;
+        NSString *ref;
+        NSString *stripped;
         while(![self error]) {
             ref = [lk keyText];
             stripped = [self strippedText];
@@ -342,7 +330,7 @@ NSString *EloquentIndexVersion = @"1.0";
 
 - (void)indexContents:(NSString *)treeKey intoIndex:(Indexer *)indexer {
     
-    SwordModuleTreeEntry *entry = [(SwordBook *)self treeEntryForKey:treeKey];
+    SwordModuleTreeEntry *entry = [self treeEntryForKey:treeKey];
 
     if([indexer progressIndicator] != nil) {
         [[indexer progressIndicator] addToMaxProgressValue:(double)[[entry content] count]];

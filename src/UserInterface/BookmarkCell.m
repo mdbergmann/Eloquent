@@ -47,6 +47,13 @@
     [super finalize];
 }
 
+- (void)dealloc {
+    [bmRefFont release];
+    [image release];
+    [bookmark release];
+    [super dealloc];
+}
+
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)parentView {
     
 	// draw background without text
@@ -65,7 +72,7 @@
     if(image == nil) {
         imageFrame.size.width = 0;    
     } else {
-        imageCell = [[NSImageCell alloc] initImageCell:[self image]];
+        imageCell = [[[NSImageCell alloc] initImageCell:[self image]] autorelease];
         [imageCell setImageAlignment:NSImageAlignCenter];
     }
         
@@ -81,7 +88,7 @@
         [imageCell drawWithFrame:imageFrame inView:parentView];
     }    
 	// draw bookmark title cell
-	NSTextFieldCell *bmTitleCell = [[NSTextFieldCell alloc] initTextCell:[bookmark name]];
+	NSTextFieldCell *bmTitleCell = [[[NSTextFieldCell alloc] initTextCell:[bookmark name]] autorelease];
     [bmTitleCell setWraps:NO];
     [bmTitleCell setTruncatesLastVisibleLine:YES];
     [bmTitleCell setLineBreakMode:NSLineBreakByTruncatingTail];
@@ -94,7 +101,7 @@
     bmRefFrame.origin.y += BMTITLE_HEIGHT + BMTITLE_Y_OFFSET + BMREF_Y_OFFSET;
     bmRefFrame.size.height = BMREF_HEIGHT;
 	// draw bookmark ref cell
-	NSTextFieldCell *bmRefCell = [[NSTextFieldCell alloc] initTextCell:[bookmark reference]];
+	NSTextFieldCell *bmRefCell = [[[NSTextFieldCell alloc] initTextCell:[bookmark reference]] autorelease];
     [bmRefCell setWraps:NO];
     [bmRefCell setTruncatesLastVisibleLine:YES];
     [bmRefCell setLineBreakMode:NSLineBreakByTruncatingTail];

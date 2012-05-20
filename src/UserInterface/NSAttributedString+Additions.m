@@ -13,7 +13,7 @@
 
 - (NSArray *)findBibleVerses {
     NSMutableArray *verseList = [NSMutableArray array];
-    for(NSInteger i = 0;i < [self length]; i++) {
+    for(NSUInteger i = 0;i < [self length]; i++) {
         NSRange range;
         NSString *attrValue = [self attribute:TEXT_VERSE_MARKER atIndex:i effectiveRange:&range];
         if(attrValue) {

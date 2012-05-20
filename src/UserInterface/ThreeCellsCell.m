@@ -7,7 +7,6 @@
 //
 
 #import "ThreeCellsCell.h"
-#import "CTGradient.h"
 
 #define RADIUS 7.0
 #define WIDTH_MIN 20
@@ -53,10 +52,17 @@
     [super finalize];
 }
 
+- (void)dealloc {
+    [image release];
+    [rightImage release];
+    [countFont release];
+    [super dealloc];
+}
+
 - (NSAttributedString *)attributedObjectLeftCountValue {
     NSString *contents = [NSString stringWithFormat:@"%i", leftCounter];
     // hightlighted?
-    NSDictionary *attr = nil;
+    NSDictionary *attr;
     if(![self isHighlighted]) {
         attr = [[[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
                  [[NSColor whiteColor] colorWithAlphaComponent:0.85], NSForegroundColorAttributeName,
@@ -73,7 +79,7 @@
 - (NSAttributedString *)attributedObjectRightCountValue {
     NSString *contents = [NSString stringWithFormat:@"%i", rightCounter];
     // hightlighted?
-    NSDictionary *attr = nil;
+    NSDictionary *attr;
     if(![self isHighlighted]) {
         attr = [[[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
                  [[NSColor whiteColor] colorWithAlphaComponent:0.85], NSForegroundColorAttributeName,
@@ -131,7 +137,7 @@
     if(image == nil) {
         imageFrame.size.width = 0;    
     } else {
-        imageCell = [[NSImageCell alloc] initImageCell:[self image]];
+        imageCell = [[[NSImageCell alloc] initImageCell:[self image]] autorelease];
         [imageCell setImageAlignment:NSImageAlignCenter];
         // leave some pixels between the arrow and the image
         imageFrame.origin.x += 3;
@@ -280,7 +286,7 @@
     } else if(rightImage != nil) {
         rightFrame.size.width = [rightImage size].width;
         rightFrame.origin.x = (cellFrame.origin.x + cellFrame.size.width) - (rightFrame.size.width + 5);
-        rightCell = [[NSImageCell alloc] initImageCell:rightImage];
+        rightCell = [[[NSImageCell alloc] initImageCell:rightImage] autorelease];
         [(NSImageCell *)rightCell setImageAlignment:NSImageAlignCenter];
     }
     

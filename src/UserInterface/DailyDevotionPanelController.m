@@ -71,6 +71,7 @@
 
 - (void)dealloc {
     [dictionaryViewController release];
+    [dailyDevotionModule release];
 
     [super dealloc];
 }
@@ -178,7 +179,7 @@
 
 #pragma mark - NSTextView delegates
 
-- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
+- (NSString *)textView:(NSTextView *)aTextView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     CocoLog(LEVEL_DEBUG, @"");
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
