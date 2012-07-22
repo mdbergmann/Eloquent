@@ -12,8 +12,6 @@
 #import "NSTextView+LookupAdditions.h"
 #import "ModuleViewController.h"
 #import "MBPreferenceController.h"
-#import "HUDPreviewController.h"
-#import "ObjCSword/SwordManager.h"
 #import "ObjectAssociations.h"
 #import "NotesUIController.h"
 #import "NSUserDefaults+Additions.h"
@@ -74,6 +72,11 @@ extern char NotesMgrUI;
     [super finalize];
 }
 
+- (void)dealloc {
+    [fileRep release];
+    [super dealloc];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
 
@@ -102,9 +105,9 @@ extern char NotesMgrUI;
     [keyAttributes setObject:aReference forKey:TEXT_VERSE_MARKER];
     
     // prepare output
-    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:aReference attributes:keyAttributes];
+    NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:aReference attributes:keyAttributes] autorelease];
     if(!keyString) {
-        keyString = [[NSAttributedString alloc] init];
+        keyString = [[[NSAttributedString alloc] init] autorelease];
     }
     return keyString;
 }
@@ -154,7 +157,7 @@ extern char NotesMgrUI;
     if(fileRep) {
         NSData *textData = [fileRep fileContent];
         if([textData length] > 0) {
-            [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL]];
+            [[textView textStorage] setAttributedString:[[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL] autorelease]];
         }
     }
 }
@@ -198,7 +201,7 @@ extern char NotesMgrUI;
 }
 
 - (SearchTextFieldOptions *)searchFieldOptions {
-    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
+    SearchTextFieldOptions *options = [[[SearchTextFieldOptions alloc] init] autorelease];
     if(searchType == ReferenceSearchType) {
         [options setContinuous:YES];
         [options setSendsSearchStringImmediately:YES];
@@ -220,7 +223,7 @@ extern char NotesMgrUI;
                                   paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
     
     // create print view
-    NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
+    NSTextView *printView = [[[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)] autorelease];
     [printView insertText:[textView attributedString]];
     
     return printView;
@@ -279,7 +282,7 @@ extern char NotesMgrUI;
     return [super menuForEvent:event];
 }
 
-- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
+- (NSString *)textView:(NSTextView *)aTextView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     // create URL
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
@@ -302,7 +305,7 @@ extern char NotesMgrUI;
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        self.fileRep = [[FileRepresentation alloc] initWithPath:[decoder decodeObjectForKey:@"NoteFilePath"]];
+        self.fileRep = [[[FileRepresentation alloc] initWithPath:[decoder decodeObjectForKey:@"NoteFilePath"]] autorelease];
         lastFoundRange = NSMakeRange(NSNotFound, 0);
         contentDisplayController = self;        
         

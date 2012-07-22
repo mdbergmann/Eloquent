@@ -21,7 +21,7 @@
 @class ThreeCellsCell;
 @class BookmarkCell;
 
-@interface LeftSideBarViewController : SideBarViewController <LeftSideBarDelegate> {
+@interface LeftSideBarViewController : SideBarViewController <NSOutlineViewDataSource, NSOutlineViewDelegate, LeftSideBarDelegate> {
         
     BookmarkManager *bookmarkManager;
     SwordManager *swordManager;    

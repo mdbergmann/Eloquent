@@ -12,7 +12,7 @@
 
 @class FileRepresentation;
 
-@interface NotesViewController : ContentDisplayingViewController <TextDisplayable, TextContentProviding> {
+@interface NotesViewController : ContentDisplayingViewController <NSTextViewDelegate, TextDisplayable, TextContentProviding> {
     IBOutlet NSTextView *textView;
     IBOutlet NSButton *saveButton;
     FileRepresentation *fileRep;

@@ -38,15 +38,14 @@ static NotesManager *singleton = nil;
     self = [super init];
     if(self) {
         
-        NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:aPath];
+        NSFileWrapper *wrapper = [[[NSFileWrapper alloc] initWithPath:aPath] autorelease];
         if([wrapper isSymbolicLink]) {
             self.rootPath = [wrapper symbolicLinkDestination];
-            self.rootPathRep = [[FileRepresentation alloc] initWithPath:rootPath];
         } else {
             self.rootPath = aPath;
-            self.rootPathRep = [[FileRepresentation alloc] initWithPath:aPath];            
         }
-        
+        self.rootPathRep = [[[FileRepresentation alloc] initWithPath:rootPath] autorelease];
+
         [rootPathRep buildTree];
     }
     
@@ -57,8 +56,13 @@ static NotesManager *singleton = nil;
     [super finalize];
 }
 
-#pragma mark - Methods
+- (void)dealloc {
+    [rootPath release];
+    [rootPathRep release];
+    [super dealloc];
+}
 
+#pragma mark - Methods
 
 - (FileRepresentation *)notesFileRep {
     return rootPathRep;

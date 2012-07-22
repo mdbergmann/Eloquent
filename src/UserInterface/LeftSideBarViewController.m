@@ -9,11 +9,9 @@
 #import "LeftSideBarViewController.h"
 #import "AppController.h"
 #import "BibleCombiViewController.h"
-#import "HostableViewController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
 #import "SwordModCategory.h"
 #import "BookmarkManager.h"
 #import "Bookmark.h"
@@ -22,7 +20,6 @@
 #import "FileRepresentation.h"
 #import "ThreeCellsCell.h"
 #import "BookmarkDragItem.h"
-#import "SearchTextObject.h"
 #import "BookmarksUIController.h"
 #import "ModulesUIController.h"
 #import "globals.h"
@@ -110,6 +107,19 @@
     [super finalize];
 }
 
+- (void)dealloc {
+    [selectedItems release];
+    [bookmarkGroupImage release];
+    [bookmarkImage release];
+    [lockedImage release];
+    [unlockedImage release];
+    [notesDrawerImage release];
+    [noteImage release];
+    [threeCellsCell release];
+    [bookmarkCell release];
+    [super dealloc];
+}
+
 - (id)objectForClickedRow {
     id ret = nil;
     
@@ -145,7 +155,7 @@
 
 #pragma mark - outline datasource methods
 
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+- (NSInteger)outlineView:(NSOutlineView *)aOutlineView numberOfChildrenOfItem:(id)item {
     NSInteger ret = 0;
     
     if(item == nil) {
@@ -178,7 +188,7 @@
     return ret;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+- (id)outlineView:(NSOutlineView *)aOutlineView child:(NSInteger)index ofItem:(id)item {
     id ret = nil;
     
     if(item == nil) {
@@ -193,31 +203,31 @@
     } else if(item == modulesRootItem) {
         // modules root
         // get categories
-        ret = [[SwordModCategory moduleCategories] objectAtIndex:index];
+        ret = [[SwordModCategory moduleCategories] objectAtIndex:(NSUInteger)index];
     } else if(item == bookmarksRootItem) {
         // bookmarks root
         // get bookmarks
-        ret = [[bookmarkManager bookmarks] objectAtIndex:index];
+        ret = [[bookmarkManager bookmarks] objectAtIndex:(NSUInteger)index];
     } else if(item == notesRootItem) {
         // notes root
         // get notes
-        ret = [[[notesManager notesFileRep] directoryContent] objectAtIndex:index];
+        ret = [[[notesManager notesFileRep] directoryContent] objectAtIndex:(NSUInteger)index];
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         // get number of modules in category
-        ret = [[swordManager modulesForType:[(SwordModCategory *)item type]] objectAtIndex:index];
+        ret = [[swordManager modulesForType:[(SwordModCategory *)item type]] objectAtIndex:(NSUInteger)index];
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
-        ret = [[(Bookmark *)item subGroups] objectAtIndex:index];
+        ret = [[(Bookmark *)item subGroups] objectAtIndex:(NSUInteger)index];
     } else if([item isKindOfClass:[FileRepresentation class]] && [(FileRepresentation *)item isDirectory]) {
         // notes folder
-        ret = [[(FileRepresentation *)item directoryContent] objectAtIndex:index];
+        ret = [[(FileRepresentation *)item directoryContent] objectAtIndex:(NSUInteger)index];
     }
     
     return ret;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+- (BOOL)outlineView:(NSOutlineView *)aOutlineView isItemExpandable:(id)item {
     BOOL ret = NO;
     
     if(item == modulesRootItem) {
@@ -240,7 +250,7 @@
     return ret;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+- (id)outlineView:(NSOutlineView *)aOutlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
     NSString *ret = nil;
     
     if(item == modulesRootItem) {
@@ -266,7 +276,7 @@
     return ret;
 }
 
-- (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+- (void)outlineView:(NSOutlineView *)aOutlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
     if([item isKindOfClass:[FileRepresentation class]]) {
         FileRepresentation *fileRep = item;
         NSString *fileName = (NSString *)object;
@@ -280,7 +290,7 @@
     }
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
+- (BOOL)outlineView:(NSOutlineView *)aOutlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
     // make sure this is no module that we are dragging here
     NSString *dragType = @"";
     NSMutableArray *dragItems = [NSMutableArray arrayWithCapacity:[items count]];
@@ -288,7 +298,7 @@
         id item = [items objectAtIndex:i];
         if([item isKindOfClass:[Bookmark class]]) {
             // get the bookmarks instances and encode them
-            BookmarkDragItem *di = [[BookmarkDragItem alloc] init];
+            BookmarkDragItem *di = [[[BookmarkDragItem alloc] init] autorelease];
             di.bookmark = item;
             NSIndexPath *path = [bookmarkManager indexPathForBookmark:di.bookmark];
             di.path = path;
@@ -311,7 +321,7 @@
     return NO;
 }
 
-- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
+- (NSDragOperation)outlineView:(NSOutlineView *)aOutlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
     // make sure we drop only with in bookmarks
     if([self isDropSectionBookmarksForItem:item] ||
        [self isDropSectionNotesForItem:item]) {
@@ -319,7 +329,7 @@
         if(mask == NSDragOperationAll_Obsolete) {
             mask = NSDragOperationEvery;
         }
-        NSInteger op = NSDragOperationNone;
+        NSDragOperation op = NSDragOperationNone;
         if(mask == NSDragOperationCopy) {
             op = NSDragOperationCopy;
         } else if(mask & NSDragOperationMove) {
@@ -340,7 +350,7 @@
     return (([anItem isKindOfClass:[FileRepresentation class]] && [(FileRepresentation *)anItem isDirectory]) || (anItem == notesRootItem));
 }
 
-- (BOOL)outlineView:(NSOutlineView *)anOutlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index {
+- (BOOL)outlineView:(NSOutlineView *)aOutlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index {
     // get our data from the paste board
     NSPasteboard* pboard = [info draggingPasteboard];
     if([pboard dataForType:DD_BOOKMARK_TYPE]) {
@@ -350,7 +360,7 @@
         
         Bookmark *bitem = item;
         // is first level object?
-        NSMutableArray *dropPoint = nil;
+        NSMutableArray *dropPoint;
         if(bitem == bookmarksRootItem) {
             dropPoint = [bookmarkManager bookmarks];
         } else {
@@ -477,14 +487,14 @@
 	}
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+- (BOOL)outlineView:(NSOutlineView *)aOutlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
     if([item isKindOfClass:[FileRepresentation class]]) {
         return YES;
     }
     return NO;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
+- (BOOL)outlineView:(NSOutlineView *)aOutlineView isGroupItem:(id)item {
     if(item != nil) {
         if(item == modulesRootItem || 
            item == bookmarksRootItem ||
@@ -495,7 +505,7 @@
     return NO;
 }
 
-- (NSCell *)outlineView:(NSOutlineView *)outlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+- (NSCell *)outlineView:(NSOutlineView *)aOutlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
     if(item != nil) {
         if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
             return bookmarkCell;
@@ -506,7 +516,7 @@
     return nil;
 }
 
-- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
+- (CGFloat)outlineView:(NSOutlineView *)aOutlineView heightOfRowByItem:(id)item {
     if(item != nil) {
         if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
             return 34.0;

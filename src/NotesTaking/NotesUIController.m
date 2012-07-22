@@ -113,7 +113,7 @@ enum NotesMenu_Items{
 - (IBAction)notesMenuClicked:(id)sender {
 	CocoLog(LEVEL_DEBUG, @"[NotesUIController -menuClicked:] %@", [sender description]);
     
-    FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
+    id clickedObj = [self delegateSelectedObject];
     if([clickedObj isKindOfClass:[NSString class]] && [(NSString *)clickedObj isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {
         clickedObj = [notesManager notesFileRep];
     }
@@ -132,7 +132,7 @@ enum NotesMenu_Items{
         case NotesMenuRemove:
         {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Confirmation", @"")
-                                             defaultButton:NSLocalizedString(@"OK", @"") 
+                                             defaultButton:NSLocalizedString(@"OK", @"")
                                            alternateButton:NSLocalizedString(@"Cancel", @"")
                                                otherButton:nil 
                                  informativeTextWithFormat:NSLocalizedString(@"ConfirmDelete", @"")];

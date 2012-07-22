@@ -218,7 +218,7 @@
             NSString *subFilePath = [self.filePath stringByAppendingPathComponent:[subWrapper filename]];
             FileRepresentation *subFileItem = [[[FileRepresentation alloc] initWithPath:subFilePath] autorelease];
 
-            // only add *rtf files
+            // only add directories or .rtf files
             if([subFileItem isDirectory] || [[subFileItem name] hasSuffix:@".rtf"]) {
                 [self addFileRepresentation:subFileItem];                
             }
