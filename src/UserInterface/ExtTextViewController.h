@@ -23,7 +23,7 @@
 
 @class MouseTrackingScrollView;
 
-@interface ExtTextViewController : HostableViewController <MouseTracking, TextContentProviding> {
+@interface ExtTextViewController : HostableViewController <NSTextViewDelegate, MouseTracking, TextContentProviding> {
     IBOutlet MBTextView *textView;
     IBOutlet MouseTrackingScrollView *scrollView;
 }

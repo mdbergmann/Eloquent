@@ -323,7 +323,7 @@ typedef enum _NavigationDirectionType {
         // search type segmented view
         [toolbarController setEnabled:[contentViewController enableReferenceSearch] searchTypeSegElement:ReferenceSearchType];
         [toolbarController setEnabled:[contentViewController enableIndexedSearch] searchTypeSegElement:IndexSearchType];
-        [toolbarController setActiveSearchTypeSegElement:[contentViewController preferedSearchType]];
+        [toolbarController setActiveSearchTypeSegElement:[contentViewController preferredSearchType]];
         
         // search field
         [toolbarController setSearchTextFieldOptions:[contentViewController searchFieldOptions]];
@@ -463,7 +463,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)setupForContentViewController {
-    [self setSearchTypeUI:[contentViewController preferedSearchType]];
+    [self setSearchTypeUI:[contentViewController preferredSearchType]];
     [self setupContentRelatedViews];
     [contentViewController searchStringChanged:[self searchText]];
     [contentViewController prepareContentForHost:self];

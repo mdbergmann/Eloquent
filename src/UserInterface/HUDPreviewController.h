@@ -13,7 +13,7 @@
 #define PreviewDisplayTypeKey   @"PreviewDisplayTypeKey"
 #define PreviewDisplayTextKey   @"PreviewDisplayTextKey"
 
-@interface HUDPreviewController : NSWindowController {
+@interface HUDPreviewController : NSWindowController <NSWindowDelegate> {
     
     IBOutlet NSBox *placeholderView;
     IBOutlet NSTextField *previewType;

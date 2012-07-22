@@ -9,11 +9,7 @@
 #import "ExtTextViewController.h"
 #import "MouseTrackingScrollView.h"
 #import "MBPreferenceController.h"
-#import "HUDPreviewController.h"
-#import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
 #import "globals.h"
-#import "ProtocolHelper.h"
 #import "NSUserDefaults+Additions.h"
 
 @interface ExtTextViewController ()
@@ -57,7 +53,7 @@
 
     [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
 
-    NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
+    NSMutableDictionary *selectionAttributes = [[[textView selectedTextAttributes] mutableCopy] autorelease];
     [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
      
@@ -117,7 +113,7 @@
 	} else if([keyPath isEqualToString:DefaultsTextBackgroundColor]) {
         [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];        
 	} else if([keyPath isEqualToString:DefaultsTextHighlightColor]) {
-        NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
+        NSMutableDictionary *selectionAttributes = [[[textView selectedTextAttributes] mutableCopy] autorelease];
         [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
         [textView setSelectedTextAttributes:selectionAttributes];
 	} else if([keyPath isEqualToString:DefaultsLinkForegroundColor]) {
@@ -164,7 +160,7 @@
 
 #pragma mark - NSTextView delegates
 
-- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
+- (NSString *)textView:(NSTextView *)aTextView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex {
     NSURL *url = [NSURL URLWithString:[tooltip stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if(!url) {
         CocoLog(LEVEL_WARN, @"no URL: %@\n", tooltip);

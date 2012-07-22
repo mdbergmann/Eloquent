@@ -305,7 +305,7 @@
     return YES;
 }
 
-- (SearchType)preferedSearchType {
+- (SearchType)preferredSearchType {
     return IndexSearchType;
 }
 

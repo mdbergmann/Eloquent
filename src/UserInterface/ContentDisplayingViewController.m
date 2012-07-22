@@ -206,16 +206,67 @@ extern char ModuleListUI;
 }
 
 - (BOOL)linkClicked:(id)link {
-    NSDictionary *data = [SwordManager linkDataForLinkURL:contextMenuClickedLink];
+    NSDictionary *data = [SwordManager linkDataForLinkURL:link];
     NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
     if([attrType isEqualToString:@"n"]) {
         [self processPreviewDisplay:link];
     } else {
-        self.contextMenuClickedLink = link;
-        [self openLink:self];
+        [self openClickedLink:link];
     }
     
     return YES;
+}
+
+- (void)openClickedLink:(NSURL *)link {
+    // get data for the link
+    NSDictionary *data = [SwordManager linkDataForLinkURL:link];
+    NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
+    if(!modName || [modName length] == 0) {
+        // get default bible module
+        modName = [userDefaults stringForKey:DefaultsBibleModule];
+        NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+        if([attrType isEqualToString:@"Hebrew"]) {
+            modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
+        } else if([attrType isEqualToString:@"Greek"]) {
+            modName = [userDefaults stringForKey:DefaultsStrongsGreekModule];
+        } else if([attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
+            modName = [userDefaults stringForKey:DefaultsMorphGreekModule];
+        }
+    }
+
+    if(modName) {
+        SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
+
+        id result = [mod attributeValueForParsedLinkData:data];
+        NSMutableString *key = [NSMutableString string];
+        if([result isKindOfClass:[SwordModuleTextEntry class]]) {
+            key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
+        } else if([result isKindOfClass:[NSArray class]]) {
+            int i = 0;
+            for(SwordModuleTextEntry *entry in (NSArray *)result) {
+                if(i > 0) {
+                    [key appendString:@";"];
+                }
+                [key appendString:[entry key]];
+                i++;
+            }
+        }
+
+        // open
+        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
+            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            [host setSearchText:key];
+        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
+            ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
+            [hc setDelegate:hostingDelegate];
+            [hostingDelegate addContentViewController:hc];
+            [hostingDelegate setSearchText:key];
+        } else {
+            // in case there is no hosting delegate, create a new single one
+            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            [host setSearchText:key];
+        }
+    }
 }
 
 - (NSString *)processPreviewDisplay:(NSURL *)aUrl {
@@ -343,7 +394,6 @@ extern char ModuleListUI;
 }
 
 - (IBAction)lookUpInIndexOfBible:(id)sender {
-    // sender is the menuitem
     NSMenuItem *item = (NSMenuItem *)sender;
     NSString *modName = [item title];
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
@@ -395,7 +445,6 @@ extern char ModuleListUI;
 }
 
 - (IBAction)lookUpInDictionaryOfModule:(id)sender {
-    // sender is the menuitem
     NSMenuItem *item = (NSMenuItem *)sender;
     NSString *modName = [item title];
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
@@ -418,55 +467,7 @@ extern char ModuleListUI;
 #pragma mark - Link Context Menu actions
 
 - (IBAction)openLink:(id)sender {
-    // get data for the link
-    NSDictionary *data = [SwordManager linkDataForLinkURL:contextMenuClickedLink];
-    NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
-    if(!modName || [modName length] == 0) {
-        // get default bible module
-        modName = [userDefaults stringForKey:DefaultsBibleModule];
-        NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
-        if([attrType isEqualToString:@"Hebrew"]) {
-            modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
-        } else if([attrType isEqualToString:@"Greek"]) {
-            modName = [userDefaults stringForKey:DefaultsStrongsGreekModule];
-        } else if([attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
-            modName = [userDefaults stringForKey:DefaultsMorphGreekModule];
-        }
-    }
-    
-    if(modName) {
-        SwordModule *mod = [[SwordManager defaultManager] moduleWithName:modName];
-        
-        id result = [mod attributeValueForParsedLinkData:data];
-        NSMutableString *key = [NSMutableString string];
-        if([result isKindOfClass:[SwordModuleTextEntry class]]) {
-            key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
-        } else if([result isKindOfClass:[NSArray class]]) {
-            int i = 0;
-            for(SwordModuleTextEntry *entry in (NSArray *)result) {
-                if(i > 0) {
-                    [key appendString:@";"];
-                }
-                [key appendString:[entry key]];
-                i++;
-            }
-        }
-        
-        // open
-        if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
-            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-            [host setSearchText:key];
-        } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
-            [hc setDelegate:hostingDelegate];
-            [hostingDelegate addContentViewController:hc];
-            [hostingDelegate setSearchText:key];        
-        } else {
-            // in case there is no hosting delegate, create a new single one
-            SingleViewHostController *host = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-            [host setSearchText:key];            
-        }
-    }
+    [self openClickedLink:self.contextMenuClickedLink];
 }
 
 - (IBAction)removeLink:(id)sender {

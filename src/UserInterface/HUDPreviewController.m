@@ -10,7 +10,6 @@
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
 #import "ObjCSword/SwordModuleTextEntry.h"
-#import "ObjCSword/SwordKey.h"
 #import "globals.h"
 
 
@@ -92,7 +91,7 @@
                     }
                 } else if([result isKindOfClass:[NSString class]]) {
                     if(textType == TextTypeRendered) {
-                        displayText = [NSString stringWithFormat:@"<span style=\"%@\">%@</span>", previewPaneTextColor, result];                        
+                        displayText = [NSMutableString stringWithFormat:@"<span style=\"%@\">%@</span>", previewPaneTextColor, result];
                     } else {
                         displayText = result;
                     }
@@ -174,9 +173,9 @@
         [options setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
                 
         NSData *data = [[previewDict objectForKey:PreviewDisplayTextKey] dataUsingEncoding:NSUTF8StringEncoding];
-        NSMutableAttributedString *tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+        NSMutableAttributedString *tempDisplayString = [[[NSMutableAttributedString alloc] initWithHTML:data
                                                                                                options:options
-                                                                                    documentAttributes:nil];
+                                                                                    documentAttributes:nil] autorelease];
         
         
         [[previewText textStorage] setAttributedString:tempDisplayString];

@@ -27,7 +27,7 @@
 - (void)searchStringChanged:(NSString *)aSearchString;
 - (void)forceReload;
 - (SearchTextFieldOptions *)searchFieldOptions;
-- (SearchType)preferedSearchType;
+- (SearchType)preferredSearchType;
 - (BOOL)enableReferenceSearch;
 - (BOOL)enableIndexedSearch;
 - (BOOL)enableAddBookmarks;
@@ -40,7 +40,7 @@
     IBOutlet WindowHostController *hostingDelegate;
     
     BOOL viewLoaded;    
-    BOOL isLoadingComleteReported;
+    BOOL isLoadingCompleteReported;
     BOOL showingRSBPreferred;
     
     SearchType searchType;
@@ -77,7 +77,7 @@
 - (void)searchStringChanged:(NSString *)aSearchString;
 - (void)forceReload;
 - (SearchTextFieldOptions *)searchFieldOptions;
-- (SearchType)preferedSearchType;
+- (SearchType)preferredSearchType;
 - (BOOL)enableReferenceSearch;
 - (BOOL)enableIndexedSearch;
 - (BOOL)enableAddBookmarks;

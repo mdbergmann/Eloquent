@@ -24,7 +24,7 @@
     self = [super init];
     if(self) {
         viewLoaded = NO;
-        isLoadingComleteReported = NO;
+        isLoadingCompleteReported = NO;
         self.hostingDelegate = nil;
         self.searchType = ReferenceSearchType;
         self.searchString = @"";
@@ -45,10 +45,10 @@
 }
 
 - (void)reportLoadingComplete {
-    if(delegate && isLoadingComleteReported == NO) {
+    if(delegate && isLoadingCompleteReported == NO) {
         if([delegate respondsToSelector:@selector(contentViewInitFinished:)]) {
             [delegate performSelector:@selector(contentViewInitFinished:) withObject:self];
-            isLoadingComleteReported = YES;
+            isLoadingCompleteReported = YES;
         } else {
             CocoLog(LEVEL_WARN, @"delegate does not respond to selector!");
         }
@@ -119,7 +119,7 @@
     return options;
 }
 
-- (SearchType)preferedSearchType {
+- (SearchType)preferredSearchType {
     return searchType;
 }
 
