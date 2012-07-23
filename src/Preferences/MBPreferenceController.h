@@ -142,6 +142,7 @@ typedef enum _VerseNumberingType {
 
 // the default prefs controller
 + (MBPreferenceController *)defaultPrefsController;
++ (void)registerDefaults;
 
 - (id)initWithDelegate:(id)aDelegate;
 

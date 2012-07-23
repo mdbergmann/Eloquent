@@ -5,12 +5,12 @@
 #import "globals.h"
 #import "NSDictionary+ModuleDisplaySettings.h"
 #import "NSMutableDictionary+ModuleDisplaySettings.h"
+#import "NSDictionary+Additions.h"
 
 @interface MBPreferenceController ()
 
 - (void)applyFontPreviewText;
 - (void)applyFontTextFieldPreviewHeight;
-
 - (void)moduleFontsTableViewDoubleClick:(id)sender;
 
 @end
@@ -28,6 +28,83 @@ static MBPreferenceController *instance;
     }
     
     return instance;
+}
+
++ (void)registerDefaults {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+	NSMutableDictionary *defaultsDict = [NSMutableDictionary dictionary];
+
+    // text container margins
+    [defaultsDict setObject:[NSNumber numberWithFloat:5.0] forKey:DefaultsTextContainerVerticalMargins];
+    [defaultsDict setObject:[NSNumber numberWithFloat:5.0] forKey:DefaultsTextContainerHorizontalMargins];
+
+    // printing
+    [defaultsDict setObject:[NSNumber numberWithFloat:1.5] forKey:DefaultsPrintLeftMargin];
+    [defaultsDict setObject:[NSNumber numberWithFloat:1.0] forKey:DefaultsPrintRightMargin];
+    [defaultsDict setObject:[NSNumber numberWithFloat:1.5] forKey:DefaultsPrintTopMargin];
+    [defaultsDict setObject:[NSNumber numberWithFloat:2.0] forKey:DefaultsPrintBottomMargin];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsPrintCenterHorizontally];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsPrintCenterVertically];
+
+    // defaults for BibleText display
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextShowBookNameKey];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:FullVerseNumbering] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextHighlightBookmarksKey];
+
+    [defaultsDict setObject:@"Helvetica Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+    [defaultsDict setObject:@"Helvetica" forKey:DefaultsBibleTextDisplayFontFamilyKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:14] forKey:DefaultsBibleTextDisplayFontSizeKey];
+
+	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
+
+    // full screen font size addition
+    [defaultsDict setObject:[NSNumber numberWithInt:2] forKey:DefaultsFullscreenFontSizeAddKey];
+
+    // module display settings
+    [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleDisplaySettingsKey];
+
+    // set default bible
+    [defaultsDict setObject:@"KJV" forKey:DefaultsBibleModule];
+    [defaultsDict setObject:@"StrongsGreek" forKey:DefaultsStrongsGreekModule];
+    [defaultsDict setObject:@"StrongsHebrew" forKey:DefaultsStrongsHebrewModule];
+
+    // indexer stuff
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBackgroundIndexerEnabled];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsRemoveIndexOnModuleRemoval];
+
+    // UI defaults
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowLSBWorkspace];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowLSBSingle];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowRSBWorkspace];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowRSBSingle];
+    [defaultsDict setObject:[NSNumber numberWithInt:200] forKey:DefaultsLSBWidth];
+    [defaultsDict setObject:[NSNumber numberWithInt:110] forKey:DefaultsRSBWidth];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsShowHUDPreview];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowDailyDevotionOnStartupKey];
+    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsShowPreviewToolTip];
+    NSColor *bgCol = [NSColor colorWithCalibratedRed:0.7852 green:0.8242 blue:1.0 alpha:1.0];
+    NSColor *fgCol = [NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.0 alpha:1.0];
+    NSColor *lkCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
+    NSColor *hfCol = [NSColor colorWithCalibratedRed:0.2862 green:0.2862 blue:0.2862 alpha:1.0];
+    NSColor *thCol = [NSColor colorWithCalibratedRed:0.7764 green:0.3176 blue:0.0 alpha:1.0];
+    [defaultsDict setColor:bgCol forKey:DefaultsTextBackgroundColor];
+    [defaultsDict setColor:fgCol forKey:DefaultsTextForegroundColor];
+    [defaultsDict setColor:thCol forKey:DefaultsTextHighlightColor];
+    [defaultsDict setColor:lkCol forKey:DefaultsLinkForegroundColor];
+    [defaultsDict setColor:bgCol forKey:DefaultsLinkBackgroundColor];
+    [defaultsDict setColor:hfCol forKey:DefaultsHeadingsForegroundColor];
+    [defaultsDict setObject:[NSNumber numberWithInt:NSUnderlineStyleNone] forKey:DefaultsLinkUnderlineAttribute];
+
+    // cipher keys
+    [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleCipherKeysKey];
+
+	// register the defaults
+	[defaults registerDefaults:defaultsDict];
 }
 
 - (id)init {

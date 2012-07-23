@@ -501,6 +501,37 @@
 		A94D66CE0EC2CFC9006A84CB /* WorkspaceViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceViewHostController.h; path = src/UserInterface/WorkspaceViewHostController.h; sourceTree = "<group>"; };
 		A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceViewHostController.m; path = src/UserInterface/WorkspaceViewHostController.m; sourceTree = "<group>"; };
 		A94D66D20EC2D175006A84CB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
+		A95043E415BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = cs.lproj/Credits.rtf; sourceTree = "<group>"; };
+		A95043E515BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A95043E615BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		A95043E715BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/About.xib; sourceTree = "<group>"; };
+		A95043E815BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ModuleManager.xib; sourceTree = "<group>"; };
+		A95043E915BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ModuleManageView.xib; sourceTree = "<group>"; };
+		A95043EA15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
+		A95043EB15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/WindowHostToolbar.xib; sourceTree = "<group>"; };
+		A95043EC15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
+		A95043ED15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
+		A95043EE15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/BibleCombiView.xib; sourceTree = "<group>"; };
+		A95043EF15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/BibleView.xib; sourceTree = "<group>"; };
+		A95043F015BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/CommentaryView.xib; sourceTree = "<group>"; };
+		A95043F115BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/DictionaryView.xib; sourceTree = "<group>"; };
+		A95043F215BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/GenBookView.xib; sourceTree = "<group>"; };
+		A95043F315BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ExtTextView.xib; sourceTree = "<group>"; };
+		A95043F415BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/WebView.xib; sourceTree = "<group>"; };
+		A95043F515BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/Preferences.xib; sourceTree = "<group>"; };
+		A95043F615BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/LeftSideBarView.xib; sourceTree = "<group>"; };
+		A95043F715BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/RightSideBarView.xib; sourceTree = "<group>"; };
+		A95043F815BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
+		A95043F915BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ProgressOverlayView.xib; sourceTree = "<group>"; };
+		A95043FA15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/InitialInfoView.xib; sourceTree = "<group>"; };
+		A95043FB15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/SearchBookSetEditor.xib; sourceTree = "<group>"; };
+		A95043FC15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/NotesUI.xib; sourceTree = "<group>"; };
+		A95043FD15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/NotesView.xib; sourceTree = "<group>"; };
+		A95043FE15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/BookmarkManagerUI.xib; sourceTree = "<group>"; };
+		A95043FF15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ModuleListUI.xib; sourceTree = "<group>"; };
+		A950440015BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/PrintAccessory.xib; sourceTree = "<group>"; };
+		A950440115BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/DailyDevotion.xib; sourceTree = "<group>"; };
+		A950440215BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDPreviewController.h; path = src/UserInterface/HUDPreviewController.h; sourceTree = "<group>"; };
 		A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDPreviewController.m; path = src/UserInterface/HUDPreviewController.m; sourceTree = "<group>"; };
 		A955E195142612B000357B6F /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = src/UserInterface/WebViewController.h; sourceTree = "<group>"; };
@@ -1731,6 +1762,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
+				A950440215BC87F600D89B38 /* cs */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1739,6 +1771,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A90545B80E62F11900CF4D18 /* English */,
+				A95043F115BC87F600D89B38 /* cs */,
 			);
 			name = DictionaryView.xib;
 			sourceTree = "<group>";
@@ -1747,6 +1780,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A916FCE60E05483F009CAA2F /* English */,
+				A95043EF15BC87F600D89B38 /* cs */,
 			);
 			name = BibleView.xib;
 			sourceTree = "<group>";
@@ -1755,6 +1789,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9202A2C0E59A2650094F629 /* English */,
+				A95043F015BC87F600D89B38 /* cs */,
 			);
 			name = CommentaryView.xib;
 			sourceTree = "<group>";
@@ -1763,6 +1798,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9333AE40F6699A70001BD38 /* English */,
+				A95043F915BC87F600D89B38 /* cs */,
 			);
 			name = ProgressOverlayView.xib;
 			sourceTree = "<group>";
@@ -1771,6 +1807,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A94D66D20EC2D175006A84CB /* English */,
+				A95043ED15BC87F600D89B38 /* cs */,
 			);
 			name = WorkspaceViewHost.xib;
 			sourceTree = "<group>";
@@ -1779,6 +1816,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A96515EE0E06C79D0058AA91 /* English */,
+				A95043EE15BC87F600D89B38 /* cs */,
 			);
 			name = BibleCombiView.xib;
 			sourceTree = "<group>";
@@ -1787,6 +1825,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A96516620E06D3DA0058AA91 /* English */,
+				A95043EC15BC87F600D89B38 /* cs */,
 			);
 			name = SingleViewHost.xib;
 			sourceTree = "<group>";
@@ -1795,6 +1834,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A98423531145031D0001EED1 /* English */,
+				A95043EB15BC87F600D89B38 /* cs */,
 			);
 			name = WindowHostToolbar.xib;
 			sourceTree = "<group>";
@@ -1803,6 +1843,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B52B0DF9AD6E00207967 /* English */,
+				A95043E515BC87F600D89B38 /* cs */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1811,6 +1852,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B52D0DF9AD6E00207967 /* English */,
+				A95043E615BC87F600D89B38 /* cs */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -1819,6 +1861,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B52F0DF9AD6E00207967 /* English */,
+				A95043E815BC87F600D89B38 /* cs */,
 			);
 			name = ModuleManager.xib;
 			sourceTree = "<group>";
@@ -1827,6 +1870,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B5310DF9AD6E00207967 /* English */,
+				A95043E915BC87F600D89B38 /* cs */,
 			);
 			name = ModuleManageView.xib;
 			sourceTree = "<group>";
@@ -1835,6 +1879,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B5330DF9AD6E00207967 /* English */,
+				A95043EA15BC87F600D89B38 /* cs */,
 			);
 			name = ThreadedProgressSheet.xib;
 			sourceTree = "<group>";
@@ -1843,6 +1888,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A99A76DC10B2BCDF002EFD30 /* English */,
+				A95043FC15BC87F600D89B38 /* cs */,
 			);
 			name = NotesUI.xib;
 			sourceTree = "<group>";
@@ -1851,6 +1897,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A99A774A10B33DE5002EFD30 /* English */,
+				A95043FD15BC87F600D89B38 /* cs */,
 			);
 			name = NotesView.xib;
 			sourceTree = "<group>";
@@ -1859,6 +1906,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9A921D21205C49E008D7A64 /* English */,
+				A950440115BC87F600D89B38 /* cs */,
 			);
 			name = DailyDevotion.xib;
 			sourceTree = "<group>";
@@ -1867,6 +1915,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9ABF339107A2A65005D6156 /* English */,
+				A95043FA15BC87F600D89B38 /* cs */,
 			);
 			name = InitialInfoView.xib;
 			sourceTree = "<group>";
@@ -1875,6 +1924,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9B7441F0F646346001960B0 /* English */,
+				A95043E715BC87F600D89B38 /* cs */,
 			);
 			name = About.xib;
 			sourceTree = "<group>";
@@ -1883,6 +1933,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9C0F4060EFD67DA00CFDF06 /* English */,
+				A95043F815BC87F600D89B38 /* cs */,
 			);
 			name = ConfirmationDialog.xib;
 			sourceTree = "<group>";
@@ -1891,6 +1942,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9CDDDD00F738E0500C907B9 /* English */,
+				A95043FB15BC87F600D89B38 /* cs */,
 			);
 			name = SearchBookSetEditor.xib;
 			sourceTree = "<group>";
@@ -1899,6 +1951,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9D849630EFA2D34000457EC /* English */,
+				A95043F615BC87F600D89B38 /* cs */,
 			);
 			name = LeftSideBarView.xib;
 			sourceTree = "<group>";
@@ -1907,6 +1960,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9D849650EFA2D34000457EC /* English */,
+				A95043F715BC87F600D89B38 /* cs */,
 			);
 			name = RightSideBarView.xib;
 			sourceTree = "<group>";
@@ -1915,6 +1969,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9DC14E40E0AA83D00E3F944 /* English */,
+				A95043F315BC87F600D89B38 /* cs */,
 			);
 			name = ExtTextView.xib;
 			sourceTree = "<group>";
@@ -1923,6 +1978,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9DCB0D40E9F252C004169EB /* English */,
+				A95043F215BC87F600D89B38 /* cs */,
 			);
 			name = GenBookView.xib;
 			sourceTree = "<group>";
@@ -1931,6 +1987,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9DFBC3F0EF6ECF30061BE19 /* English */,
+				A95043F515BC87F600D89B38 /* cs */,
 			);
 			name = Preferences.xib;
 			sourceTree = "<group>";
@@ -1939,6 +1996,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9E9E29B0F650544007C4AB2 /* English */,
+				A95043E415BC87F600D89B38 /* cs */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -1947,6 +2005,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9EDA11A1150E1F5004EC005 /* English */,
+				A950440015BC87F600D89B38 /* cs */,
 			);
 			name = PrintAccessory.xib;
 			sourceTree = "<group>";
@@ -1955,6 +2014,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9F185490E083117005F3B35 /* English */,
+				A95043F415BC87F600D89B38 /* cs */,
 			);
 			name = WebView.xib;
 			sourceTree = "<group>";
@@ -1963,6 +2023,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9FCD75F10B1562D006F7A3B /* English */,
+				A95043FE15BC87F600D89B38 /* cs */,
 			);
 			name = BookmarkManagerUI.xib;
 			sourceTree = "<group>";
@@ -1971,6 +2032,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9FCD81B10B1B919006F7A3B /* English */,
+				A95043FF15BC87F600D89B38 /* cs */,
 			);
 			name = ModuleListUI.xib;
 			sourceTree = "<group>";
