@@ -338,40 +338,11 @@ static AppController *singleton;
     return svh;
 }
 
-/*
-- (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod {
-    if(mod == nil) {
-        NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
-        if(sBible == nil) {
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
-                                             defaultButton:NSLocalizedString(@"OK", @"") 
-                                           alternateButton:nil 
-                                               otherButton:nil 
-                                 informativeTextWithFormat:NSLocalizedString(@"NoDefaultBibleSelectedText", @"")];
-            [alert runModal];
-        } else {
-            mod = [[SwordManager defaultManager] moduleWithName:sBible];
-        }
-    }
-    
-    WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
-    [windowHosts addObject:svh];
-    svh.delegate = self;
-    
-    ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
-    [svh addContentViewController:hc];
-    
-    [svh showWindow:self];    
-    
-    return svh;    
-}
-*/
-
 #pragma mark - NSApplication delegates
 
-- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames {
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)fileNames {
     CocoLog(LEVEL_DEBUG, @"got file names:");
-    for(NSString *filename in filenames) {
+    for(NSString *filename in fileNames) {
         CocoLog(LEVEL_DEBUG, @"filename: %@", filename);
                 
         NSString *moduleFilename = [filename lastPathComponent];
@@ -788,8 +759,7 @@ static AppController *singleton;
                     [(WindowHostController *)entry showWindow:self];
                 }
             }
-        }
-        @catch (NSException *e) {
+        } @catch (NSException *e) {
             CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
             
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionLoadError", @"")
@@ -842,11 +812,6 @@ static AppController *singleton;
             // save session
             [self saveSessionToFile:sessionPathURL];
         }
-
-        // close all existing windows
-        for(NSWindowController *wc in windowHosts) {
-            [wc close];
-        }
     }
     
     // open load panel
@@ -858,6 +823,11 @@ static AppController *singleton;
     [op setCanChooseDirectories:NO];
     [op setAllowsOtherFileTypes:NO];
     if([op runModal] == NSFileHandlingPanelOKButton) {
+        // close all existing windows
+        for(NSWindowController *wc in windowHosts) {
+            [wc close];
+        }
+
         // get file
         sessionPathURL = [op URL];
         // this session we have loaded
