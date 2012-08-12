@@ -56,12 +56,7 @@
 - (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType;
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod;
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep;
-/*
-- (WorkspaceViewHostController *)openWorkspaceHostWindowForModule:(SwordModule *)mod;
-*/
 
-/** loads a session from the given file */
-- (void)loadSessionFromFile:(NSURL *)sessionURL;
 /** stores the session to file */
 - (IBAction)saveSessionAs:(id)sender;
 /** stores as default session */

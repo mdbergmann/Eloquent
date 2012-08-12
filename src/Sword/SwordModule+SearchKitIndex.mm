@@ -13,11 +13,6 @@
 
 NSString *EloquentIndexVersion = @"1.0";
 
-@interface SwordModule()
-- (NSString *)indexOfVerseKey:(SwordVerseKey *)vk;
-- (void)indexContentsIntoIndex:(Indexer *)indexer;
-@end
-
 @interface SwordBible(SearchKitIndex)
 - (void)indexContentsIntoIndex:(Indexer *)indexer;
 @end
@@ -204,7 +199,7 @@ NSString *EloquentIndexVersion = @"1.0";
         NSString *stripped;
         while(![lk error]) {
             ref = [lk keyText];
-            [self setKey:lk];
+            [self setSwordKey:lk];
             stripped = [self strippedText];
             
             NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
@@ -260,7 +255,7 @@ NSString *EloquentIndexVersion = @"1.0";
         SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
         [lk setPersist:YES];
         [lk setPosition:SWPOS_TOP];
-        [self setKey:lk];
+        [self setSwordKey:lk];
         NSString *ref;
         NSString *stripped;
         while(![self error]) {

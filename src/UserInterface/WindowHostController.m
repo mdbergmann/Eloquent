@@ -66,7 +66,7 @@ typedef enum _NavigationDirectionType {
         inFullScreenTransition = NO;
         inFullScreenMode = NO;
         
-        [self setCurrentSearchText:[[SearchTextObject alloc] init]];
+        [self setCurrentSearchText:[[[SearchTextObject alloc] init] autorelease]];
         
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
         [lsbViewController setHostingDelegate:self];
@@ -82,10 +82,21 @@ typedef enum _NavigationDirectionType {
         [Associater registerObject:notesUIController forAssociatedObject:self withKey:&NotesMgrUI];
         
         toolbarController = [[ToolbarController alloc] initWithDelegate:self];
-        printAccessoryController = [[PrintAccessoryViewController alloc] initWithPrintInfo:[[NSPrintInfo alloc] init]];
+        printAccessoryController = [[PrintAccessoryViewController alloc] initWithPrintInfo:[[[NSPrintInfo alloc] init] autorelease]];
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [lsbViewController release];
+    [rsbViewController release];
+    [modulesUIController release];
+    [bookmarksUIController release];
+    [notesUIController release];
+    [toolbarController release];
+    [printAccessoryController release];
+    [super dealloc];
 }
 
 - (void)awakeFromNib {
@@ -109,7 +120,7 @@ typedef enum _NavigationDirectionType {
 
     [[self window] setToolbar:[toolbarController toolbar]];
     
-    NSMenu *recentsMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")];
+    NSMenu *recentsMenu = [[[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")] autorelease];
     [recentsMenu setAutoenablesItems:YES];
     // recent searches
     NSMenuItem *item = [recentsMenu addItemWithTitle:NSLocalizedString(@"RecentSearches", @"") action:nil keyEquivalent:@""];
@@ -190,7 +201,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)nextBook:(id)sender {
-    // get current search entry, take the first versekey's book and add 1
+    // get current search entry, take the first verseKey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
         [contentViewController isKindOfClass:[CommentaryViewController class]]) {
         SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
@@ -204,7 +215,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)previousBook:(id)sender {
-    // get current search entry, take the first versekey's book and add 1
+    // get current search entry, take the first verseKey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
         SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
@@ -218,7 +229,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)nextChapter:(id)sender {
-    // get current search entry, take the first versekey's book and add 1
+    // get current search entry, take the first verseKey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
         SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
@@ -231,7 +242,7 @@ typedef enum _NavigationDirectionType {
 }
 
 - (IBAction)previousChapter:(id)sender {
-    // get current search entry, take the first versekey's book and add 1
+    // get current search entry, take the first verseKey's book and add 1
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
         SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
@@ -253,7 +264,7 @@ typedef enum _NavigationDirectionType {
 #pragma mark - Methods
 
 - (NSView *)view {
-    return (NSView *)view;
+    return view;
 }
 
 - (void)setView:(FullScreenView *)aView {
@@ -364,7 +375,7 @@ typedef enum _NavigationDirectionType {
 
 - (ContentViewType)contentViewType {
     if(contentViewController && [contentViewController respondsToSelector:@selector(contentViewType)]) {
-        return [(ContentDisplayingViewController *)contentViewController contentViewType];
+        return [contentViewController contentViewType];
     }
     return SwordBibleContentType;
 }
@@ -499,7 +510,7 @@ typedef enum _NavigationDirectionType {
 - (void)encodeWithCoder:(NSCoder *)encoder {
     // encode LSB and RSB width
     lsbShowing = [self showingLSB];
-    int w = lsbWidth;
+    CGFloat w = lsbWidth;
     if(lsbShowing) {
         w = [[lsbViewController view] frame].size.width;
     }
@@ -510,7 +521,7 @@ typedef enum _NavigationDirectionType {
     if(rsbShowing) {
         w = [[rsbViewController view] frame].size.width;
     }
-    [encoder encodeInt:w forKey:@"RSBWidth"];
+    [encoder encodeInt:(int)w forKey:@"RSBWidth"];
     [encoder encodeBool:rsbShowing forKey:@"RSBShowing"];
     
     // encode searchQuery

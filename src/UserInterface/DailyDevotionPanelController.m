@@ -118,7 +118,7 @@
 
 - (NSAttributedString *)moduleText {
     // create key String
-    NSString *keyString = [NSString stringWithFormat:@"%02i.%02i", month, day];
+    NSString *keyString = [NSString stringWithFormat:@"%02ld.%02ld", month, day];
     SwordModuleTextEntry *renderedText = [dailyDevotionModule textEntryForKey:[SwordKey swordKeyWithRef:keyString] textType:TextTypeRendered];
     
     if(renderedText) {
@@ -139,7 +139,7 @@
         
         // add pointing hand cursor to all links
         NSRange effectiveRange;
-        int	i = 0;
+        NSUInteger	i = 0;
         while (i < [displayString length]) {
             NSDictionary *attrs = [displayString attributesAtIndex:i effectiveRange:&effectiveRange];
             if([attrs objectForKey:NSLinkAttributeName] != nil) {

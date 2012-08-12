@@ -36,7 +36,7 @@
 
 - (void)commonInit;
 - (NSString *)tabViewItemLabelForText:(NSString *)aText;
-- (NSString *)computeTabTitleForTabIndex:(int)index;
+- (NSString *)computeTabTitleForTabIndex:(NSInteger)index;
 - (void)_addContentViewController:(ContentDisplayingViewController *)aViewController;
 
 @end
@@ -141,25 +141,25 @@
 
 
 - (NSString *)tabViewItemLabelForText:(NSString *)aText {
-    return [NSString stringWithFormat:@"%@ - %i", aText, [[[tabControl tabView] tabViewItems] count]];
+    return [NSString stringWithFormat:@"%@ - %ld", aText, [[[tabControl tabView] tabViewItems] count]];
 }
 
 - (NSString *)computeTabTitle {
     return [self computeTabTitleForTabIndex:-1];
 }
 
-- (NSString *)computeTabTitleForTabIndex:(int)index {
+- (NSString *)computeTabTitleForTabIndex:(NSInteger)index {
     NSMutableString *ret = [NSMutableString string];
     
     if(contentViewController != nil) {
         if([contentViewController isSwordModuleContentType]) {
             SwordModule *mod = [(ModuleViewController *)contentViewController module];
             if(mod != nil) {
-                SearchTextObject *sto = nil;
+                SearchTextObject *sto;
                 if(index == -1) {
                     sto = currentSearchText;
                 } else {
-                    sto = [searchTextObjs objectAtIndex:index];
+                    sto = [searchTextObjs objectAtIndex:(NSUInteger)index];
                 }
                 [ret appendFormat:@"%@ - %@", [mod name], [sto searchTextForType:[self searchType]]];                    
             }
@@ -196,7 +196,7 @@
         NSTabViewItem *item = [tabView selectedTabViewItem];
         if(item != nil) {
             // find view controller
-            int index = [tabView indexOfTabViewItem:item];
+            NSUInteger index = (NSUInteger)[tabView indexOfTabViewItem:item];
             HostableViewController *vc = [viewControllers objectAtIndex:index];
             [tabView removeTabViewItem:item];
             
@@ -229,7 +229,7 @@
 - (IBAction)menuItemSelected:(id)sender {
     int tag = [(NSMenuItem *)sender tag];
     
-    int index = [[tabView tabViewItems] indexOfObject:[tabView selectedTabViewItem]];
+    NSUInteger index = [[tabView tabViewItems] indexOfObject:[tabView selectedTabViewItem]];
     ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
 
     // found view controller?
@@ -292,31 +292,29 @@
 - (BOOL)tabView:(NSTabView *)aTabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
     
     // find view controller
-    int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
-    if(index >= 0) {
-        ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];        
-        if(vc != nil) {
-            if([vc hasUnsavedContent]) {
-                NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
-                                                 defaultButton:NSLocalizedString(@"Yes", @"") 
-                                               alternateButton:NSLocalizedString(@"Cancel", @"") 
-                                                   otherButton:NSLocalizedString(@"No", @"")
-                                     informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];    
-                NSInteger modalResult = [alert runModal];
-                if(modalResult == NSAlertDefaultReturn) {
-                    [vc saveContent];
-                } else if(modalResult == NSAlertAlternateReturn) {
-                    return NO;
-                }
+    NSUInteger index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
+    ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
+    if(vc != nil) {
+        if([vc hasUnsavedContent]) {
+            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                             defaultButton:NSLocalizedString(@"Yes", @"")
+                                           alternateButton:NSLocalizedString(@"Cancel", @"")
+                                               otherButton:NSLocalizedString(@"No", @"")
+                                 informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];
+            NSInteger modalResult = [alert runModal];
+            if(modalResult == NSAlertDefaultReturn) {
+                [vc saveContent];
+            } else if(modalResult == NSAlertAlternateReturn) {
+                return NO;
             }
-            
-            // also remove search text obj
-            [searchTextObjs removeObjectAtIndex:index];            
-            // remove this view controller from our list
-            [viewControllers removeObjectAtIndex:index];
-        }        
-        [tabControl setNeedsDisplay:YES];
+        }
+
+        // also remove search text obj
+        [searchTextObjs removeObjectAtIndex:index];
+        // remove this view controller from our list
+        [viewControllers removeObjectAtIndex:index];
     }
+    [tabControl setNeedsDisplay:YES];
 
     return YES;
 }
@@ -331,7 +329,7 @@
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     if(hostLoaded) {
         if([[tabControl representedTabViewItems] containsObject:tabViewItem]) {
-            int index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
+            NSUInteger index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
             contentViewController = [viewControllers objectAtIndex:index];
             
             [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
@@ -369,7 +367,7 @@
         
         // extend searchTexts
         SearchType stype = [currentSearchText searchType];
-        SearchTextObject *sto = [[SearchTextObject alloc] init];
+        SearchTextObject *sto = [[[SearchTextObject alloc] init] autorelease];
         [sto setSearchText:@"" forSearchType:stype];
         [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
         [sto setSearchType:stype];
@@ -377,7 +375,7 @@
         [self setCurrentSearchText:sto];
         
         // add tab item
-        NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
+        NSTabViewItem *newItem = [[[NSTabViewItem alloc] init] autorelease];
         [tabView addTabViewItem:newItem];
         [tabView selectTabViewItem:newItem];
         [newItem setView:[aViewController view]];
@@ -389,7 +387,7 @@
     [super removeSubview:aViewController];
 
     // get index for if this is a module based controller
-    int index = [viewControllers indexOfObject:aViewController];
+    NSUInteger index = [viewControllers indexOfObject:aViewController];
     if(index > 0) {
         [searchTextObjs removeObjectAtIndex:index];
     }
@@ -440,11 +438,11 @@
         }
 
         // set tab labels
-        for(int i = [viewControllers count]-1;i >= 0;--i) {
-            ContentDisplayingViewController *vc = [viewControllers objectAtIndex:i];
+        for(NSInteger i = [viewControllers count]-1;i >= 0;--i) {
+            ContentDisplayingViewController *vc = [viewControllers objectAtIndex:(NSUInteger)i];
             contentViewController = vc;
             if([vc viewLoaded]) {
-                NSTabViewItem *item = [[tabView tabViewItems] objectAtIndex:i];
+                NSTabViewItem *item = [[tabView tabViewItems] objectAtIndex:(NSUInteger)i];
                 [item setLabel:[self computeTabTitleForTabIndex:i]];
             }
         }

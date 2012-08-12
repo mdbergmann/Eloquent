@@ -296,10 +296,10 @@
 - (void)handleDisplayStatusText {
     NSString *text;
     if(searchType == ReferenceSearchType) {
-        text = [NSString stringWithFormat:@"Showing %i entries out of %i", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
+        text = [NSString stringWithFormat:@"Showing %ld entries out of %ld", [dictKeys count], [[(SwordDictionary *)module allKeys] count]];
     } else {
         NSInteger length = [searchContentCache count];
-        text = [NSString stringWithFormat:@"Found %i entries", length];
+        text = [NSString stringWithFormat:@"Found %ld entries", length];
     }
     
     [self setStatusText:text];

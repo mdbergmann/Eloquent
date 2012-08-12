@@ -206,6 +206,8 @@
 		A9FCD81010B1B5A1006F7A3B /* ModulesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD80F10B1B5A1006F7A3B /* ModulesUIController.m */; };
 		A9FCD81C10B1B919006F7A3B /* ModuleListUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FCD81A10B1B919006F7A3B /* ModuleListUI.xib */; };
 		A9FD34220E0A70F6001287DD /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
+		C01FCF5008A954540054247D /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* SessionManager.m */; };
+		C01FCF5008A9545400542480 /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247F /* Session.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -696,6 +698,10 @@
 		A9FCD81B10B1B919006F7A3B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ModuleListUI.xib; sourceTree = "<group>"; };
 		A9FD341F0E0A70F6001287DD /* MBPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPreferenceController.h; sourceTree = "<group>"; };
 		A9FD34200E0A70F6001287DD /* MBPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBPreferenceController.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054247C /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054247E /* SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionManager.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054247F /* Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Session.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542481 /* Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Session.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -731,6 +737,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A9545400542481 /* Session.h */,
+				C01FCF5008A954540054247F /* Session.m */,
+				C01FCF5008A954540054247E /* SessionManager.h */,
+				C01FCF5008A954540054247C /* SessionManager.m */,
 				A91C93DB0DF9B0E9006B7361 /* AppController.h */,
 				A91C93DC0DF9B0E9006B7361 /* AppController.m */,
 				A97561EC12A2779000A7661B /* SwordUrlProtocol.h */,
@@ -1725,6 +1735,8 @@
 				A9802A7612182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m in Sources */,
 				A97561EE12A2779000A7661B /* SwordUrlProtocol.m in Sources */,
 				A955E198142612B000357B6F /* WebViewController.m in Sources */,
+				C01FCF5008A954540054247D /* SessionManager.m in Sources */,
+				C01FCF5008A9545400542480 /* Session.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

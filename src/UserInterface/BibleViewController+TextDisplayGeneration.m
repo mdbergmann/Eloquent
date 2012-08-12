@@ -154,7 +154,7 @@
             for(;lowVerse <= highVerse;lowVerse++) {
                 [vk setVerse:lowVerse];
                 ref = [vk keyText];
-                [module setKey:vk];
+                [module setSwordKey:vk];
                 rendered = [module renderedText];
 
                 [self handleTextEntry:[SwordBibleTextEntry textEntryForKey:ref andText:rendered] duplicateDict:duplicateChecker htmlString:htmlString];                
@@ -163,7 +163,7 @@
             }
         } else {
             ref = [lk keyText];
-            [module setKey:lk];
+            [module setSwordKey:lk];
             rendered = [module renderedText];
             [self handleTextEntry:[SwordBibleTextEntry textEntryForKey:ref andText:rendered] duplicateDict:duplicateChecker htmlString:htmlString];
         }
@@ -190,7 +190,7 @@
         if(collectPreverseHeading) {
             NSString *preverseHeading = [module entryAttributeValuePreverse];
             if(preverseHeading && [preverseHeading length] > 0) {
-                [entry setPreverseHeading:preverseHeading];
+                [entry setPreVerseHeading:preverseHeading];
             }
         }
         
@@ -265,8 +265,8 @@
     }
     
     // pre-verse heading ?
-    if([anEntry preverseHeading]) {
-        [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, [anEntry preverseHeading]];
+    if([anEntry preVerseHeading]) {
+        [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, [anEntry preVerseHeading]];
     }
     
     // text get marked with ";;;<verseMarkerInfo>;;;" which is replaced later on with a marker

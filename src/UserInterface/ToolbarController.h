@@ -40,6 +40,8 @@
     NSMutableDictionary *tbIdentifiers;
 }
 
+- (id)initWithDelegate:(WindowHostController *)aDelegate;
+
 - (NSToolbar *)toolbar;
 
 - (void)setScopebarView:(NSView *)aView;

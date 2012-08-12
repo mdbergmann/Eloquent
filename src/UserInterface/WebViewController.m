@@ -43,6 +43,11 @@
     return self;    
 }
 
+- (NSMenu *)menuForEvent:(NSEvent *)event {
+    return nil;
+}
+
+
 - (void)awakeFromNib {
     viewLoaded = YES;
     [self reportLoadingComplete];

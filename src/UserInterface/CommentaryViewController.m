@@ -167,7 +167,7 @@
     SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
     [lk setPersist:YES];
     [lk setPosition:SWPOS_TOP];
-    [module setKey:lk];
+    [module setSwordKey:lk];
     NSInteger numberOfVerses = 0;
     NSString *ref;
     NSString *rendered;

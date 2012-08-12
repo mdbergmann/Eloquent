@@ -229,11 +229,12 @@ static AppController *singleton;
         [self setupFolders];
         
         // load session path from defaults
-        sessionPathURL = [userDefaults objectForKey:DefaultsSessionPath];
-        if(!sessionPathURL) {
+        if([userDefaults objectForKey:DefaultsSessionPath] == nil) {
             sessionPathURL = [NSURL URLWithString:@""];
+        } else {
+            sessionPathURL = [NSURL fileURLWithPath:[userDefaults objectForKey:DefaultsSessionPath]];
         }
-        
+
         // initialize ThreadedProgressSheet
         [MBThreadedProgressSheetController standardProgressSheetController];
         
@@ -282,6 +283,21 @@ static AppController *singleton;
     [sparkleUpdater release];
 #endif
     [super dealloc];
+}
+
+- (void)awakeFromNib {
+
+#ifdef USE_SPARKLE
+    sparkleUpdater = [[SUUpdater alloc] init];
+
+    // add sparkle "Check for updates..." menu item to help menu
+    [helpMenu addItem:[NSMenuItem separatorItem]];
+    [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_CheckForUpdates", @"") action:@selector(checkForUpdates:) keyEquivalent:@""];
+#endif
+
+    if([[sessionPathURL absoluteString] length] == 0) {
+        sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
+    }
 }
 
 - (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType {
@@ -560,7 +576,7 @@ static AppController *singleton;
                                  kAuthorizationFlagDefaults, &authorizationRef);
     
     if(status != errAuthorizationSuccess) {
-        CocoLog(LEVEL_ERR, @"Failed to create the authref: %ld", status);
+        CocoLog(LEVEL_ERR, @"Failed to create the authref: %d", status);
     } else {
         NSString *binFolder = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin"];
         NSString *cmd = [NSString stringWithFormat:@"%@/%@", binFolder, @"link_tools.sh"];
@@ -593,7 +609,7 @@ static AppController *singleton;
                                  kAuthorizationFlagDefaults, &authorizationRef);
     
     if(status != errAuthorizationSuccess) {
-        CocoLog(LEVEL_ERR, @"Failed to create the authref: %ld", status);
+        CocoLog(LEVEL_ERR, @"Failed to create the authref: %d", status);
     } else {
         NSString *cmd = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], @"Contents/Resources/bin/unlink_tools.sh"];
         
@@ -670,24 +686,6 @@ static AppController *singleton;
 }
 
 /**
- \brief gets called if the nib file has been loaded. all gfx objacts are available now.
- */
-- (void)awakeFromNib {
-
-#ifdef USE_SPARKLE
-    sparkleUpdater = [[SUUpdater alloc] init];
-    
-    // add sparkle "Check for updates..." menu item to help menu
-    [helpMenu addItem:[NSMenuItem separatorItem]];
-    [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_CheckForUpdates", @"") action:@selector(checkForUpdates:) keyEquivalent:@""];
-#endif
-    
-    if([[sessionPathURL absoluteString] length] == 0) {
-        sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
-    }
-}
-
-/**
  \brief is called when application loading is nearly finished
  */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
@@ -730,48 +728,6 @@ static AppController *singleton;
     
 }
 
-- (void)saveSessionToFile:(NSURL *)sessionFile {
-    // encode all windows
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
-    [archiver encodeObject:windowHosts forKey:@"WindowsEncoded"];
-    [archiver finishEncoding];
-    // write data object
-    [data writeToURL:sessionFile atomically:NO];
-}
-
-- (void)loadSessionFromFile:(NSURL *)sessionFile {
-    NSData *data = [NSData dataWithContentsOfURL:sessionFile];
-    if(data != nil) {
-        @try {
-            NSKeyedUnarchiver *unarchiver = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
-            windowHosts = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
-            for(NSWindowController *wc in windowHosts) {
-                if([wc isKindOfClass:[WindowHostController class]]) {
-                    [(WindowHostController *)wc setDelegate:self];
-                }
-            }
-            
-            // show svh
-            for(id entry in windowHosts) {
-                if([entry isKindOfClass:[WindowHostController class]]) {
-                    [(WindowHostController *)entry showWindow:self];
-                }
-            }
-        } @catch (NSException *e) {
-            CocoLog(LEVEL_ERR, @"Error on loading session: %@", [e reason]);
-            
-            NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionLoadError", @"")
-                                             defaultButton:NSLocalizedString(@"OK", @"")
-                                           alternateButton:nil
-                                               otherButton:nil 
-                                 informativeTextWithFormat:NSLocalizedString(@"SessionLoadErrorText", @"")];
-            [alert runModal];
-        }
-    }
-}
-
 /** stores the session to file */
 - (IBAction)saveSessionAs:(id)sender {
     NSSavePanel *sp = [NSSavePanel savePanel];
@@ -782,7 +738,7 @@ static AppController *singleton;
         sessionPathURL = [sp URL];
         [self saveSessionToFile:sessionPathURL];
         // this session we have loaded
-        [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
+        [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
     }
 }
 
@@ -790,7 +746,7 @@ static AppController *singleton;
 - (IBAction)saveAsDefaultSession:(id)sender {
     [self saveSessionToFile:[NSURL fileURLWithPath:DEFAULT_SESSION_PATH]];
     // this session we have loaded
-    [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
+    [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
 }
 
 /** loads session from file */
@@ -831,7 +787,7 @@ static AppController *singleton;
         // get file
         sessionPathURL = [op URL];
         // this session we have loaded
-        [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
+        [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
         // load session
         [self loadSessionFromFile:sessionPathURL];
     }    
@@ -865,7 +821,7 @@ static AppController *singleton;
 
     // this session we have to load
     sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
-    [userDefaults setObject:sessionPathURL forKey:DefaultsSessionPath];
+    [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
     // load session
     [self loadSessionFromFile:sessionPathURL];
 }

@@ -25,7 +25,7 @@
 @class ToolbarController;
 @class PrintAccessoryViewController;
 
-@interface WindowHostController : NSWindowController <NSCoding, SubviewHosting, ContentSaving> {
+@interface WindowHostController : NSWindowController <NSWindowDelegate, NSSplitViewDelegate, NSCoding, SubviewHosting, ContentSaving> {
     IBOutlet NSSplitView *mainSplitView;
     IBOutlet NSBox *contentPlaceHolderView;
     IBOutlet FullScreenView *view;

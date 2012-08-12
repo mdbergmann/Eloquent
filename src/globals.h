@@ -18,7 +18,7 @@
 #define DEFAULT_NOTES_PATH          [@"~/Library/Application Support/Eloquent/Notes" stringByExpandingTildeInPath]
 #define DEFAULT_BOOKMARK_PATH       [@"~/Library/Application Support/Eloquent/Bookmarklist.plist" stringByExpandingTildeInPath]
 #define DEFAULT_MODULE_PATH         [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
-#define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/Eloquent/DefaultSession.plist" stringByExpandingTildeInPath]
+#define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/Eloquent/DefaultSession.mssess" stringByExpandingTildeInPath]
 #define DEFAULT_SEARCHBOOKSET_PATH  [@"~/Library/Application Support/Eloquent/DefaultSearchBookSets.plist" stringByExpandingTildeInPath]
 #define SWINSTALLMGR_NAME           @"InstallMgr"
 #define LOGFILE                     [@"~/Library/Logs/Eloquent.log" stringByExpandingTildeInPath]
