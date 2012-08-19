@@ -13,21 +13,15 @@
 #import "SearchTextObject.h"
 #import "LeftSideBarViewController.h"
 #import "RightSideBarViewController.h"
-#import "ObjCSword/SwordManager.h"
 #import "ScopeBarView.h"
 #import "FullScreenView.h"
 #import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
-#import "GenBookViewController.h"
-#import "DictionaryViewController.h"
-#import "ObjCSword/SwordVerseKey.h"
 #import "SingleViewHostController.h"
 #import "ModulesUIController.h"
 #import "BookmarksUIController.h"
 #import "NotesUIController.h"
-#import "WorkspaceViewHostController.h"
-#import "NotesViewController.h"
 #import "WindowHostController+SideBars.h"
 #import "ObjectAssociations.h"
 #import "SearchTextFieldOptions.h"
@@ -96,6 +90,8 @@ typedef enum _NavigationDirectionType {
     [notesUIController release];
     [toolbarController release];
     [printAccessoryController release];
+    [currentSearchText release];
+    [contentViewController release];
     [super dealloc];
 }
 

@@ -36,12 +36,6 @@
     IBOutlet NSTextField *createModuleNameTextField;
     IBOutlet NSButton *createModuleOKButton;
     
-    // all window hosts
-    NSMutableArray *windowHosts;
-    
-    // the session is loaded from
-    NSURL *sessionPathURL;
-
     // the help menu. we'll ad this reference here to be able to add the Sparkle updater menu item dynamically
     IBOutlet NSMenu *helpMenu;
     

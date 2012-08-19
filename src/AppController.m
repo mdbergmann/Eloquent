@@ -13,6 +13,7 @@
 #import "ContentDisplayingViewControllerFactory.h"
 #import "DailyDevotionPanelController.h"
 #import "SwordUrlProtocol.h"
+#import "SessionManager.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err;
@@ -208,9 +209,6 @@ static AppController *singleton;
         // set singleton
         singleton = self;
 
-        // init window Hosts array
-        windowHosts = [[NSMutableArray alloc] init];        
-
         NSFileManager *fm = [NSFileManager defaultManager];
         // check whether this is the first start of Eloquent
         NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.Eloquent.plist" stringByExpandingTildeInPath];
@@ -227,13 +225,9 @@ static AppController *singleton;
 
         [MBPreferenceController registerDefaults];
         [self setupFolders];
-        
-        // load session path from defaults
-        if([userDefaults objectForKey:DefaultsSessionPath] == nil) {
-            sessionPathURL = [NSURL URLWithString:@""];
-        } else {
-            sessionPathURL = [NSURL fileURLWithPath:[userDefaults objectForKey:DefaultsSessionPath]];
-        }
+
+        // init SessionManager
+        [SessionManager defaultManager];
 
         // initialize ThreadedProgressSheet
         [MBThreadedProgressSheetController standardProgressSheetController];
@@ -274,7 +268,6 @@ static AppController *singleton;
 }
 
 - (void)dealloc {
-    [windowHosts release];
     [aboutWindowController release];
     [preferenceController release];
     [previewController release];
@@ -294,15 +287,11 @@ static AppController *singleton;
     [helpMenu addItem:[NSMenuItem separatorItem]];
     [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_CheckForUpdates", @"") action:@selector(checkForUpdates:) keyEquivalent:@""];
 #endif
-
-    if([[sessionPathURL absoluteString] length] == 0) {
-        sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
-    }
 }
 
 - (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType {
     SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
-    [windowHosts addObject:svh];
+    [[SessionManager defaultManager] addWindow:svh];
     svh.delegate = self;
     
     ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModuleType:aModuleType];
@@ -330,7 +319,7 @@ static AppController *singleton;
     }
     
     SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
-    [windowHosts addObject:svh];
+    [[SessionManager defaultManager] addWindow:svh];
     svh.delegate = self;
     
     ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
@@ -343,7 +332,7 @@ static AppController *singleton;
 
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep {
     SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
-    [windowHosts addObject:svh];
+    [[SessionManager defaultManager] addWindow:svh];
     svh.delegate = self;
     
     ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createNotesViewControllerForFileRep:fileRep];
@@ -428,7 +417,7 @@ static AppController *singleton;
 
 - (IBAction)openNewWorkspaceHostWindow:(id)sender {
     WorkspaceViewHostController *wvh = [[[WorkspaceViewHostController alloc] init] autorelease];
-    [windowHosts addObject:wvh];
+    [[SessionManager defaultManager] addWindow:wvh];
     [wvh setDelegate:self];
     [wvh showWindow:self];
 }
@@ -645,9 +634,8 @@ static AppController *singleton;
 
 #pragma mark - host window delegate methods
 
-- (void)hostClosing:(NSWindowController *)aHost {    
-    // remove from array
-    [windowHosts removeObject:aHost];
+- (void)hostClosing:(NSWindowController *)aHost {
+    [[SessionManager defaultManager] removeWindow:(WindowHostController *)aHost];
 }
 
 - (void)auxWindowClosing:(NSWindowController *)aController {
@@ -698,15 +686,17 @@ static AppController *singleton;
  \brief is called when application loading is finished
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [self loadSessionFromFile:sessionPathURL];
+    [[SessionManager defaultManager] loadSession];
 
     // if there is no window in the session open add a new workspace
-    if([windowHosts count] == 0) {
+    if(![[SessionManager defaultManager] hasWindows]) {
         WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
         svh.delegate = self;
-        [windowHosts addObject:svh];
+        [[SessionManager defaultManager] addWindow:svh];
 
         [svh showWindow:self];
+    } else {
+        [[SessionManager defaultManager] addDelegateToHosts:self];
     }
     
     // show HUD preview if set
@@ -730,100 +720,22 @@ static AppController *singleton;
 
 /** stores the session to file */
 - (IBAction)saveSessionAs:(id)sender {
-    NSSavePanel *sp = [NSSavePanel savePanel];
-    [sp setTitle:NSLocalizedString(@"SaveMSSession", @"")];
-    [sp setCanCreateDirectories:YES];
-    [sp setAllowedFileTypes:[NSArray arrayWithObject:@"mssess"]];
-    if([sp runModal] == NSFileHandlingPanelOKButton) {
-        sessionPathURL = [sp URL];
-        [self saveSessionToFile:sessionPathURL];
-        // this session we have loaded
-        [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
-    }
+    [[SessionManager defaultManager] saveSessionAs];
 }
 
 /** stores as default session */
 - (IBAction)saveAsDefaultSession:(id)sender {
-    [self saveSessionToFile:[NSURL fileURLWithPath:DEFAULT_SESSION_PATH]];
-    // this session we have loaded
-    [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
+    [[SessionManager defaultManager] saveAsDefaultSession];
 }
 
 /** loads session from file */
 - (IBAction)openSession:(id)sender {
-
-    // if there are any open windows, a session is currently open
-    // ask the user if we wants to save the open session first
-    if([windowHosts count] > 0) {
-        // show Alert
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionStillOpen", @"")
-                                         defaultButton:NSLocalizedString(@"Yes", @"") 
-                                       alternateButton:NSLocalizedString(@"No", @"") 
-                                           otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"WantToSaveTheSessionBeforeClosing", @"")];
-        if([alert runModal] == NSAlertDefaultReturn) {
-            if([[sessionPathURL absoluteString] length] == 0) {
-                sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
-            }    
-            // save session
-            [self saveSessionToFile:sessionPathURL];
-        }
-    }
-    
-    // open load panel
-    NSOpenPanel *op = [NSOpenPanel openPanel];
-    [op setCanCreateDirectories:NO];
-    [op setAllowedFileTypes:[NSArray arrayWithObject:@"mssess"]];
-    [op setTitle:NSLocalizedString(@"LoadMSSession", @"")];
-    [op setAllowsMultipleSelection:NO];
-    [op setCanChooseDirectories:NO];
-    [op setAllowsOtherFileTypes:NO];
-    if([op runModal] == NSFileHandlingPanelOKButton) {
-        // close all existing windows
-        for(NSWindowController *wc in windowHosts) {
-            [wc close];
-        }
-
-        // get file
-        sessionPathURL = [op URL];
-        // this session we have loaded
-        [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
-        // load session
-        [self loadSessionFromFile:sessionPathURL];
-    }    
+    [[SessionManager defaultManager] loadSessionFrom];
 }
 
 /** open the default session */
 - (IBAction)openDefaultSession:(id)sender {
-
-    // if there are any open windows, a session is currently open
-    // ask the user if we wants to save the open session first
-    if([windowHosts count] > 0) {
-        // show Alert
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"SessionStillOpen", @"")
-                                         defaultButton:NSLocalizedString(@"Yes", @"") 
-                                       alternateButton:NSLocalizedString(@"No", @"") 
-                                           otherButton:nil 
-                             informativeTextWithFormat:NSLocalizedString(@"WantToSaveTheSessionBeforeClosing", @"")];
-        if([alert runModal] == NSAlertDefaultReturn) {
-            if([[sessionPathURL absoluteString] length] == 0) {
-                sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
-            }    
-            // save session
-            [self saveSessionToFile:sessionPathURL];
-        }
-        
-        // close all existing windows
-        for(NSWindowController *wc in windowHosts) {
-            [wc close];
-        }
-    }
-
-    // this session we have to load
-    sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
-    [userDefaults setObject:[sessionPathURL absoluteString] forKey:DefaultsSessionPath];
-    // load session
-    [self loadSessionFromFile:sessionPathURL];
+    [[SessionManager defaultManager] loadDefaultSession];
 }
 
 /**
@@ -832,14 +744,7 @@ static AppController *singleton;
 - (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
 
     // check for any unsaved content
-    BOOL unsavedContent = NO;
-    for(WindowHostController *hc in windowHosts) {
-        if([hc hasUnsavedContent]) {
-            unsavedContent = YES;
-            break;
-        }
-    }
-    if(unsavedContent) {
+    if([[SessionManager defaultManager] hasUnsavedContent]) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
                                          defaultButton:NSLocalizedString(@"Yes", @"") 
                                        alternateButton:NSLocalizedString(@"Cancel", @"") 
@@ -847,22 +752,15 @@ static AppController *singleton;
                              informativeTextWithFormat:NSLocalizedString(@"UnsavedContentQuit", @"")];    
         NSInteger modalResult = [alert runModal];
         if(modalResult == NSAlertDefaultReturn) {
-            for(WindowHostController *hc in windowHosts) {
-                if([hc hasUnsavedContent]) {
-                    [hc saveContent];
-                }
-            }        
+            [[SessionManager defaultManager] saveContent];
         } else if(modalResult == NSAlertAlternateReturn) {
             return NSTerminateCancel;
         }        
     }
     
-    if([[sessionPathURL absoluteString] length] == 0) {
-        sessionPathURL = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
-    }    
     // save session
-    [self saveSessionToFile:sessionPathURL];
-    
+    [[SessionManager defaultManager] saveSession];
+
     // we store on application exit
     [[IndexingManager sharedManager] storeSearchBookSets];
     

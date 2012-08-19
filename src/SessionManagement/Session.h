@@ -13,11 +13,7 @@
 @property (strong, nonatomic) NSURL *url;
 @property (strong, nonatomic) NSArray *windows;
 
-+ (Session *)sessionFromURL:(NSURL *)anUrl;
-
 - (id)initWithURL:(NSURL *)anUrl;
 - (id)initWithURL:(NSURL *)anUrl andWindows:(NSArray *)aWindows;
-- (void)load;
-- (void)store;
 
 @end

@@ -7,21 +7,17 @@
 //
 
 #import "BibleCombiViewController.h"
-#import "CocoPCRE/CocoPCRE.h"
 #import "WorkspaceViewHostController.h"
 #import "MBPreferenceController.h"
 #import "BibleViewController.h"
 #import "CommentaryViewController.h"
 #import "ScrollSynchronizableView.h"
-#import "WindowHostController.h"
 #import "ObjCSword/SwordManager.h"
-#import "NSButton+Color.h"
 #import "globals.h"
 #import "ProgressOverlayViewController.h"
 #import "SearchBookSet.h"
 #import "SearchBookSetEditorController.h"
 #import "BibleCombiViewController+ViewSynchronisation.h"
-#import "ContentDisplayingViewControllerFactory.h"
 
 @interface BibleCombiViewController ()
 
@@ -745,6 +741,12 @@
     [encoder encodeObject:parBibleViewControllers forKey:@"ParallelBibleViewControllerEncoded"];
     // encode parallel commentary view controllers
     [encoder encodeObject:parMiscViewControllers forKey:@"ParallelMiscViewControllerEncoded"];
+}
+
+- (void)dealloc {
+    [parBibleViewControllers release];
+    [parMiscViewControllers release];
+    [super dealloc];
 }
 
 @end

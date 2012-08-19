@@ -98,15 +98,15 @@
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
-                                 @"LeftSidebarButton",
-                                 NSToolbarSpaceItemIdentifier,
-                                 @"SearchTypeSegmentButton",
-                                 @"ReferenceTextField",
-                                 @"AddBookmarkButton",
-                                 @"RefreshButton",
-                                 NSToolbarSpaceItemIdentifier,
-                                 @"RightSidebarButton",
-                                 nil];
+        @"LeftSidebarButton",
+        NSToolbarFlexibleSpaceItemIdentifier,
+        @"SearchTypeSegmentButton",
+        @"ReferenceTextField",
+        @"AddBookmarkButton",
+        @"RefreshButton",
+        NSToolbarFlexibleSpaceItemIdentifier,
+        @"RightSidebarButton",
+        nil];
 	
 	return defaultItemArray;
 }
