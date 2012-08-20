@@ -245,7 +245,7 @@ static AppController *singleton;
         
         // init install manager
         SwordInstallSourceManager *sim = [SwordInstallSourceManager defaultController];
-        [sim setConfigPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
+        [sim setConfigFilePath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
         
         // make available all cipher keys to SwordManager
         NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];

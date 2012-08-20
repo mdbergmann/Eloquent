@@ -424,7 +424,7 @@
             for(InstallSourceListObject *source in selectedInstallSources) {
                 stat = [sis refreshInstallSource:[source installSource]];
                 if(stat != 0) {
-                    CocoLog(LEVEL_ERR, @"[ModuleManageViewController -refreshInstallSource:] error on refreshing install source!");
+                    CocoLog(LEVEL_ERR, @"Error on refreshing install source!");
                     break;
                 }
             }
@@ -437,8 +437,6 @@
                                      informativeTextWithFormat:NSLocalizedString(@"ErrorOnRefreshingModules", @"")];
                 [alert runModal];            
             } else {
-                // re initialize sis
-                //[[SwordManager defaultManager] reInit];
                 [sis reinitialize];
             }
             
@@ -446,6 +444,8 @@
             [modListViewController setInstallSources:[NSArray array]];
             [modListViewController refreshModulesList];
 
+            // the following lines are nonsense
+            // TODO: find better way for refreshing the module list.
             [self setSelectedInstallSources:[NSArray array]];
             [categoryOutlineView deselectAll:self];
             [categoryOutlineView reloadData];

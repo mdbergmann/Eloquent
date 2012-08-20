@@ -620,6 +620,7 @@
 		A9ABF334107A2934005D6156 /* InitialInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialInfoViewController.h; path = src/UserInterface/InitialInfoViewController.h; sourceTree = "<group>"; };
 		A9ABF335107A2934005D6156 /* InitialInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialInfoViewController.m; path = src/UserInterface/InitialInfoViewController.m; sourceTree = "<group>"; };
 		A9ABF339107A2A65005D6156 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/InitialInfoView.xib; sourceTree = "<group>"; };
+		A9ADDA3E15E2D8F100675628 /* Eloquent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Eloquent.entitlements; sourceTree = "<group>"; };
 		A9B0067D115F819400C07A22 /* scopebar_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_active.png; sourceTree = "<group>"; };
 		A9B0067E115F819400C07A22 /* scopebar_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_inactive.png; sourceTree = "<group>"; };
 		A9B1FC3811E3291D00BB561A /* ObjCSword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjCSword.framework; path = "sword_src/sword-trunk/bindings/objc/build/Release/ObjCSword.framework"; sourceTree = "<group>"; };
@@ -787,6 +788,7 @@
 		29B97314FDCFA39411CA2CEA /* MacSword2 */ = {
 			isa = PBXGroup;
 			children = (
+				A9ADDA3E15E2D8F100675628 /* Eloquent.entitlements */,
 				A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */,
 				A9D9F5260EAF15410035222E /* Tests */,
 				A91C93F80DF9B149006B7361 /* InstallerConsole */,
@@ -2126,6 +2128,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DRELEASE";
 				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = AppStore;
@@ -2134,6 +2137,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2165,6 +2169,7 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "899308F6-9F9B-4FDD-B6C2-039F19C4E6A0";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = AppStore;
@@ -2308,6 +2313,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2335,7 +2341,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-DDEBUG",
 					"-DUSE_SPARKLE",
@@ -2347,6 +2353,7 @@
 				);
 				PRODUCT_NAME = Eloquent;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2355,6 +2362,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2387,7 +2396,9 @@
 					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
+				PROVISIONING_PROFILE = "899308F6-9F9B-4FDD-B6C2-039F19C4E6A0";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2406,6 +2417,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DDEBUG";
 				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
@@ -2425,6 +2437,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DRELEASE";
 				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;

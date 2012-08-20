@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSButton</string>
+			<string>NSButtonCell</string>
+			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
 			<string>NSMenu</string>
 			<string>NSMenuItem</string>
-			<string>NSScrollView</string>
-			<string>NSPopUpButtonCell</string>
 			<string>NSPopUpButton</string>
-			<string>NSCustomView</string>
-			<string>NSTextView</string>
-			<string>NSButtonCell</string>
-			<string>NSButton</string>
+			<string>NSPopUpButtonCell</string>
+			<string>NSScrollView</string>
 			<string>NSScroller</string>
-			<string>NSCustomObject</string>
+			<string>NSTextView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">NotesViewController</string>
@@ -71,7 +74,7 @@
 											<string>WebURLsWithTitlesPboardType</string>
 											<string>public.url</string>
 										</set>
-										<string key="NSFrameSize">{561, 14}</string>
+										<string key="NSFrameSize">{561, 452}</string>
 										<reference key="NSSuperview" ref="857995133"/>
 										<reference key="NSWindow"/>
 										<object class="NSTextContainer" key="NSTextContainer" id="568736198">
@@ -85,7 +88,7 @@
 												<array class="NSMutableArray" key="NSTextContainers">
 													<reference ref="568736198"/>
 												</array>
-												<int key="NSLMFlags">134</int>
+												<int key="NSLMFlags">166</int>
 												<nil key="NSDelegate"/>
 											</object>
 											<reference key="NSTextView" ref="74382497"/>
@@ -93,7 +96,7 @@
 											<int key="NSTCFlags">1</int>
 										</object>
 										<object class="NSTextViewSharedData" key="NSSharedData">
-											<int key="NSFlags">67432423</int>
+											<int key="NSFlags">323559</int>
 											<int key="NSTextCheckingTypes">0</int>
 											<nil key="NSMarkedAttributes"/>
 											<object class="NSColor" key="NSBackgroundColor" id="828082319">
@@ -138,7 +141,6 @@
 										</object>
 										<int key="NSTVFlags">6</int>
 										<string key="NSMaxSize">{1137, 10000000}</string>
-										<string key="NSMinize">{223, 0}</string>
 										<nil key="NSDelegate"/>
 									</object>
 								</array>
@@ -180,6 +182,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<string key="NSFrame">{{561, 0}, {15, 452}}</string>
 								<reference key="NSSuperview" ref="29190321"/>
 								<reference key="NSWindow"/>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="29190321"/>
 								<string key="NSAction">_doScroller:</string>
 								<double key="NSCurValue">1</double>
@@ -191,6 +194,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 								<reference key="NSSuperview" ref="29190321"/>
 								<reference key="NSWindow"/>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="29190321"/>
 								<string key="NSAction">_doScroller:</string>
@@ -206,6 +210,9 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="NSVScroller" ref="41409822"/>
 						<reference key="NSHScroller" ref="1050758713"/>
 						<reference key="NSContentView" ref="857995133"/>
+						<double key="NSMinMagnification">0.25</double>
+						<double key="NSMaxMagnification">4</double>
+						<double key="NSMagnification">1</double>
 					</object>
 				</array>
 				<string key="NSFrameSize">{576, 452}</string>
@@ -228,7 +235,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<reference key="NSSuperview" ref="1011985360"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSPopUpButtonCell" key="NSCell" id="885502401">
-									<int key="NSCellFlags">-2076049856</int>
+									<int key="NSCellFlags">-2076180416</int>
 									<int key="NSCellFlags2">133120</int>
 									<object class="NSFont" key="NSSupport" id="29">
 										<string key="NSName">LucidaGrande-Bold</string>
@@ -236,7 +243,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 										<int key="NSfFlags">16</int>
 									</object>
 									<reference key="NSControlView" ref="428600040"/>
-									<int key="NSButtonFlags">-1232977665</int>
+									<int key="NSButtonFlags">-1232977920</int>
 									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
@@ -590,6 +597,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<bool key="NSAltersState">YES</bool>
 									<int key="NSArrowPosition">2</int>
 								</object>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							</object>
 							<object class="NSButton" id="10681582">
 								<reference key="NSNextResponder" ref="1011985360"/>
@@ -598,7 +606,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<reference key="NSSuperview" ref="1011985360"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="519311420">
-									<int key="NSCellFlags">-1543373312</int>
+									<int key="NSCellFlags">-1543503872</int>
 									<int key="NSCellFlags2">134348800</int>
 									<string key="NSContents">Save</string>
 									<object class="NSFont" key="NSSupport">
@@ -607,13 +615,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 										<int key="NSfFlags">3100</int>
 									</object>
 									<reference key="NSControlView" ref="10681582"/>
-									<int key="NSButtonFlags">-2038152961</int>
+									<int key="NSButtonFlags">-2038153216</int>
 									<int key="NSButtonFlags2">164</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
 									<int key="NSPeriodicInterval">75</int>
 								</object>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							</object>
 							<object class="NSButton" id="542855148">
 								<reference key="NSNextResponder" ref="1011985360"/>
@@ -622,18 +631,19 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<reference key="NSSuperview" ref="1011985360"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="453126328">
-									<int key="NSCellFlags">67239424</int>
+									<int key="NSCellFlags">67108864</int>
 									<int key="NSCellFlags2">134348800</int>
 									<string key="NSContents">Rulers</string>
 									<reference key="NSSupport" ref="29"/>
 									<reference key="NSControlView" ref="542855148"/>
-									<int key="NSButtonFlags">-1232846593</int>
+									<int key="NSButtonFlags">-1232846848</int>
 									<int key="NSButtonFlags2">173</int>
 									<string key="NSAlternateContents"/>
 									<string key="NSKeyEquivalent"/>
 									<int key="NSPeriodicDelay">400</int>
 									<int key="NSPeriodicInterval">75</int>
 								</object>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							</object>
 						</array>
 						<string key="NSFrame">{{52, 0}, {430, 24}}</string>
@@ -1198,11 +1208,91 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleRuler:</string>
-						<reference key="source" ref="74382497"/>
-						<reference key="destination" ref="542855148"/>
+						<string key="label">lookUpInIndexOfBible:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="235969761"/>
 					</object>
-					<int key="connectionID">35</int>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">lookUpInDictionary:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="728585115"/>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">lookUpInDictionaryOfModule:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="21431203"/>
+					</object>
+					<int key="connectionID">67</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textContextMenu</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="324278244"/>
+					</object>
+					<int key="connectionID">69</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="74382497"/>
+					</object>
+					<int key="connectionID">71</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">lookUpInIndex:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="534718786"/>
+					</object>
+					<int key="connectionID">74</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">createSwordLinkFromTextSelection:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="884864093"/>
+					</object>
+					<int key="connectionID">75</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openLink:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="429772424"/>
+					</object>
+					<int key="connectionID">78</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeLink:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="283007763"/>
+					</object>
+					<int key="connectionID">80</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">linkContextMenu</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="718850812"/>
+					</object>
+					<int key="connectionID">81</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">saveDocument:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="10681582"/>
+					</object>
+					<int key="connectionID">82</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1259,150 +1349,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="610733589"/>
 					</object>
 					<int key="connectionID">64</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">lookUpInIndexOfBible:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="235969761"/>
-					</object>
-					<int key="connectionID">65</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">lookUpInDictionary:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="728585115"/>
-					</object>
-					<int key="connectionID">66</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">lookUpInDictionaryOfModule:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="21431203"/>
-					</object>
-					<int key="connectionID">67</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="324278244"/>
-						<reference key="destination" ref="1001"/>
-					</object>
-					<int key="connectionID">68</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textContextMenu</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="324278244"/>
-					</object>
-					<int key="connectionID">69</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textView</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="74382497"/>
-					</object>
-					<int key="connectionID">71</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="74382497"/>
-						<reference key="destination" ref="1001"/>
-					</object>
-					<int key="connectionID">72</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">lookUpInIndex:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="534718786"/>
-					</object>
-					<int key="connectionID">74</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">createSwordLinkFromTextSelection:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="884864093"/>
-					</object>
-					<int key="connectionID">75</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openLink:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="429772424"/>
-					</object>
-					<int key="connectionID">78</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">removeLink:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="283007763"/>
-					</object>
-					<int key="connectionID">80</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">linkContextMenu</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="718850812"/>
-					</object>
-					<int key="connectionID">81</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">saveDocument:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="10681582"/>
-					</object>
-					<int key="connectionID">82</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">modifyFont:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="748728674"/>
-					</object>
-					<int key="connectionID">118</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">addFontTrait:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="508352609"/>
-					</object>
-					<int key="connectionID">119</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">modifyFont:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="448274307"/>
-					</object>
-					<int key="connectionID">120</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">orderFrontFontPanel:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="878257962"/>
-					</object>
-					<int key="connectionID">121</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">addFontTrait:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="785512253"/>
-					</object>
-					<int key="connectionID">122</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1574,35 +1520,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">addFontTrait:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="558230692"/>
-					</object>
-					<int key="connectionID">189</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">turnOffKerning:</string>
 						<reference key="source" ref="1003"/>
 						<reference key="destination" ref="1033394528"/>
 					</object>
 					<int key="connectionID">190</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">modifyFont:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="138513908"/>
-					</object>
-					<int key="connectionID">191</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">modifyFont:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="229457116"/>
-					</object>
-					<int key="connectionID">192</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1619,14 +1541,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="887239585"/>
 					</object>
 					<int key="connectionID">194</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">addFontTrait:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="737808726"/>
-					</object>
-					<int key="connectionID">195</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1686,14 +1600,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">orderFrontFontPanel:</string>
-						<reference key="source" ref="153259574"/>
-						<reference key="destination" ref="500349734"/>
-					</object>
-					<int key="connectionID">203</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">underline:</string>
 						<reference key="source" ref="1003"/>
 						<reference key="destination" ref="682422647"/>
@@ -1739,6 +1645,110 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="763646195"/>
 					</object>
 					<int key="connectionID">599</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleRuler:</string>
+						<reference key="source" ref="74382497"/>
+						<reference key="destination" ref="542855148"/>
+					</object>
+					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="74382497"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">72</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="324278244"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">68</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">modifyFont:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="748728674"/>
+					</object>
+					<int key="connectionID">118</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">addFontTrait:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="508352609"/>
+					</object>
+					<int key="connectionID">119</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">modifyFont:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="448274307"/>
+					</object>
+					<int key="connectionID">120</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">orderFrontFontPanel:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="878257962"/>
+					</object>
+					<int key="connectionID">121</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">addFontTrait:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="785512253"/>
+					</object>
+					<int key="connectionID">122</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">addFontTrait:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="558230692"/>
+					</object>
+					<int key="connectionID">189</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">modifyFont:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="138513908"/>
+					</object>
+					<int key="connectionID">191</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">modifyFont:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="229457116"/>
+					</object>
+					<int key="connectionID">192</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">addFontTrait:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="737808726"/>
+					</object>
+					<int key="connectionID">195</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">orderFrontFontPanel:</string>
+						<reference key="source" ref="153259574"/>
+						<reference key="destination" ref="500349734"/>
+					</object>
+					<int key="connectionID">203</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2681,17 +2691,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">FullScreenView</string>
 					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">fullScreenModeOnOff:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="delegate">id</string>
 						<string key="toolbarController">ToolbarController</string>
@@ -2882,10 +2881,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addBookmark:">id</string>
 						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
 						<string key="forceReload:">id</string>
 						<string key="leftSideBarHideShow:">id</string>
-						<string key="quitFullscreenMode:">id</string>
 						<string key="rightSideBarHideShow:">id</string>
 						<string key="searchInput:">id</string>
 						<string key="searchType:">id</string>
@@ -2899,20 +2896,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">clearRecents:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="forceReload:">
 							<string key="name">forceReload:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="leftSideBarHideShow:">
 							<string key="name">leftSideBarHideShow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="rightSideBarHideShow:">
@@ -2930,21 +2919,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addBookmarkBtn">NSButton</string>
-						<string key="enterFullscreenModeBtn">NSButton</string>
 						<string key="forceReloadBtn">NSButton</string>
-						<string key="hudForceReloadBtn">NSButton</string>
-						<string key="hudLeftSideBarToggleBtn">NSButton</string>
-						<string key="hudRightSideBarToggleBtn">NSButton</string>
-						<string key="hudSearchTextField">NSSearchField</string>
-						<string key="hudSearchTypeSegControl">NSSegmentedControl</string>
 						<string key="leftSideBarToggleBtn">NSButton</string>
-						<string key="quitFullscreenModeBtn">NSButton</string>
 						<string key="rightSideBarToggleBtn">NSButton</string>
 						<string key="scopebarPlaceholder">NSBox</string>
 						<string key="searchTextField">NSSearchField</string>
+						<string key="searchTextFieldItem">NSToolbarItem</string>
 						<string key="searchTypeSegControl">NSSegmentedControl</string>
 						<string key="toolbar">NSToolbar</string>
-						<string key="toolbarHUDView">NSView</string>
 						<string key="toolbarViewItem">NSToolbarItem</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2952,40 +2934,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">addBookmarkBtn</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="enterFullscreenModeBtn">
-							<string key="name">enterFullscreenModeBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="forceReloadBtn">
 							<string key="name">forceReloadBtn</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="hudForceReloadBtn">
-							<string key="name">hudForceReloadBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudLeftSideBarToggleBtn">
-							<string key="name">hudLeftSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudRightSideBarToggleBtn">
-							<string key="name">hudRightSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTextField">
-							<string key="name">hudSearchTextField</string>
-							<string key="candidateClassName">NSSearchField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTypeSegControl">
-							<string key="name">hudSearchTypeSegControl</string>
-							<string key="candidateClassName">NSSegmentedControl</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="leftSideBarToggleBtn">
 							<string key="name">leftSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="quitFullscreenModeBtn">
-							<string key="name">quitFullscreenModeBtn</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rightSideBarToggleBtn">
@@ -3000,6 +2954,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">searchTextField</string>
 							<string key="candidateClassName">NSSearchField</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="searchTextFieldItem">
+							<string key="name">searchTextFieldItem</string>
+							<string key="candidateClassName">NSToolbarItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="searchTypeSegControl">
 							<string key="name">searchTypeSegControl</string>
 							<string key="candidateClassName">NSSegmentedControl</string>
@@ -3007,10 +2965,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="IBToOneOutletInfo" key="toolbar">
 							<string key="name">toolbar</string>
 							<string key="candidateClassName">NSToolbar</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbarHUDView">
-							<string key="name">toolbarHUDView</string>
-							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarViewItem">
 							<string key="name">toolbarViewItem</string>
@@ -3046,10 +3000,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addBookmark:">id</string>
 						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
 						<string key="focusSearchEntry:">id</string>
 						<string key="forceReload:">id</string>
-						<string key="fullScreenModeOnOff:">id</string>
 						<string key="leftSideBarHideShow:">id</string>
 						<string key="myPrint:">id</string>
 						<string key="nextBook:">id</string>
@@ -3057,7 +3009,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="performClose:">id</string>
 						<string key="previousBook:">id</string>
 						<string key="previousChapter:">id</string>
-						<string key="quitFullscreenMode:">id</string>
 						<string key="rightSideBarHideShow:">id</string>
 						<string key="searchInput:">id</string>
 						<string key="searchType:">id</string>
@@ -3072,20 +3023,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">clearRecents:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="focusSearchEntry:">
 							<string key="name">focusSearchEntry:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="forceReload:">
 							<string key="name">forceReload:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fullScreenModeOnOff:">
-							<string key="name">fullScreenModeOnOff:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="leftSideBarHideShow:">
@@ -3114,10 +3057,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="previousChapter:">
 							<string key="name">previousChapter:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="rightSideBarHideShow:">
@@ -3192,13 +3131,13 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{9, 8}</string>
-			<string key="NSMenuMixedState">{7, 2}</string>
+			<string key="NSMenuCheckmark">{11, 11}</string>
+			<string key="NSMenuMixedState">{10, 3}</string>
 		</dictionary>
 	</data>
 </archive>

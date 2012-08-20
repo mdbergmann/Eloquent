@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSCustomObject</string>
 			<string>NSCustomView</string>
 			<string>NSScrollView</string>
 			<string>NSScroller</string>
 			<string>NSTextView</string>
-			<string>NSCustomObject</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">ExtTextViewController</string>
@@ -46,7 +49,7 @@
 									<object class="NSTextView" id="338003844">
 										<reference key="NSNextResponder" ref="95105895"/>
 										<int key="NSvFlags">2322</int>
-										<string key="NSFrameSize">{515, 84}</string>
+										<string key="NSFrameSize">{515, 391}</string>
 										<reference key="NSSuperview" ref="95105895"/>
 										<reference key="NSWindow"/>
 										<object class="NSTextContainer" key="NSTextContainer" id="2441802">
@@ -217,7 +220,7 @@
 												<array class="NSMutableArray" key="NSTextContainers">
 													<reference ref="2441802"/>
 												</array>
-												<int key="NSLMFlags">6</int>
+												<int key="NSLMFlags">38</int>
 												<nil key="NSDelegate"/>
 											</object>
 											<reference key="NSTextView" ref="338003844"/>
@@ -225,7 +228,7 @@
 											<int key="NSTCFlags">1</int>
 										</object>
 										<object class="NSTextViewSharedData" key="NSSharedData">
-											<int key="NSFlags">67397901</int>
+											<int key="NSFlags">289037</int>
 											<int key="NSTextCheckingTypes">0</int>
 											<nil key="NSMarkedAttributes"/>
 											<object class="NSColor" key="NSBackgroundColor" id="793180260">
@@ -266,7 +269,6 @@
 										</object>
 										<int key="NSTVFlags">7</int>
 										<string key="NSMaxSize">{1030, 10000000}</string>
-										<string key="NSMinize">{83, 0}</string>
 										<nil key="NSDelegate"/>
 									</object>
 								</array>
@@ -308,6 +310,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<string key="NSFrame">{{500, 0}, {15, 376}}</string>
 								<reference key="NSSuperview" ref="620119398"/>
 								<reference key="NSWindow"/>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="620119398"/>
 								<string key="NSAction">_doScroller:</string>
 								<double key="NSPercent">0.42488789999999999</double>
@@ -318,6 +321,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<string key="NSFrame">{{0, 376}, {500, 15}}</string>
 								<reference key="NSSuperview" ref="620119398"/>
 								<reference key="NSWindow"/>
+								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="620119398"/>
 								<string key="NSAction">_doScroller:</string>
@@ -333,6 +337,9 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="NSVScroller" ref="731413634"/>
 						<reference key="NSHScroller" ref="996641260"/>
 						<reference key="NSContentView" ref="95105895"/>
+						<double key="NSMinMagnification">0.25</double>
+						<double key="NSMaxMagnification">4</double>
+						<double key="NSMagnification">1</double>
 					</object>
 				</array>
 				<string key="NSFrameSize">{515, 391}</string>
@@ -343,14 +350,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="338003844"/>
-						<reference key="destination" ref="1001"/>
-					</object>
-					<int key="connectionID">21</int>
-				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">scrollView</string>
@@ -374,6 +373,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="338003844"/>
 					</object>
 					<int key="connectionID">25</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="338003844"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">21</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -483,17 +490,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">FullScreenView</string>
 					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">fullScreenModeOnOff:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">fullScreenModeOnOff:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="delegate">id</string>
 						<string key="toolbarController">ToolbarController</string>
@@ -565,10 +561,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addBookmark:">id</string>
 						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
 						<string key="forceReload:">id</string>
 						<string key="leftSideBarHideShow:">id</string>
-						<string key="quitFullscreenMode:">id</string>
 						<string key="rightSideBarHideShow:">id</string>
 						<string key="searchInput:">id</string>
 						<string key="searchType:">id</string>
@@ -582,20 +576,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">clearRecents:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="forceReload:">
 							<string key="name">forceReload:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="leftSideBarHideShow:">
 							<string key="name">leftSideBarHideShow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="rightSideBarHideShow:">
@@ -613,21 +599,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addBookmarkBtn">NSButton</string>
-						<string key="enterFullscreenModeBtn">NSButton</string>
 						<string key="forceReloadBtn">NSButton</string>
-						<string key="hudForceReloadBtn">NSButton</string>
-						<string key="hudLeftSideBarToggleBtn">NSButton</string>
-						<string key="hudRightSideBarToggleBtn">NSButton</string>
-						<string key="hudSearchTextField">NSSearchField</string>
-						<string key="hudSearchTypeSegControl">NSSegmentedControl</string>
 						<string key="leftSideBarToggleBtn">NSButton</string>
-						<string key="quitFullscreenModeBtn">NSButton</string>
 						<string key="rightSideBarToggleBtn">NSButton</string>
 						<string key="scopebarPlaceholder">NSBox</string>
 						<string key="searchTextField">NSSearchField</string>
+						<string key="searchTextFieldItem">NSToolbarItem</string>
 						<string key="searchTypeSegControl">NSSegmentedControl</string>
 						<string key="toolbar">NSToolbar</string>
-						<string key="toolbarHUDView">NSView</string>
 						<string key="toolbarViewItem">NSToolbarItem</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -635,40 +614,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">addBookmarkBtn</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="enterFullscreenModeBtn">
-							<string key="name">enterFullscreenModeBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="forceReloadBtn">
 							<string key="name">forceReloadBtn</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="hudForceReloadBtn">
-							<string key="name">hudForceReloadBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudLeftSideBarToggleBtn">
-							<string key="name">hudLeftSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudRightSideBarToggleBtn">
-							<string key="name">hudRightSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTextField">
-							<string key="name">hudSearchTextField</string>
-							<string key="candidateClassName">NSSearchField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hudSearchTypeSegControl">
-							<string key="name">hudSearchTypeSegControl</string>
-							<string key="candidateClassName">NSSegmentedControl</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="leftSideBarToggleBtn">
 							<string key="name">leftSideBarToggleBtn</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="quitFullscreenModeBtn">
-							<string key="name">quitFullscreenModeBtn</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rightSideBarToggleBtn">
@@ -683,6 +634,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">searchTextField</string>
 							<string key="candidateClassName">NSSearchField</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="searchTextFieldItem">
+							<string key="name">searchTextFieldItem</string>
+							<string key="candidateClassName">NSToolbarItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="searchTypeSegControl">
 							<string key="name">searchTypeSegControl</string>
 							<string key="candidateClassName">NSSegmentedControl</string>
@@ -690,10 +645,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="IBToOneOutletInfo" key="toolbar">
 							<string key="name">toolbar</string>
 							<string key="candidateClassName">NSToolbar</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toolbarHUDView">
-							<string key="name">toolbarHUDView</string>
-							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarViewItem">
 							<string key="name">toolbarViewItem</string>
@@ -711,10 +662,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addBookmark:">id</string>
 						<string key="clearRecents:">id</string>
-						<string key="enterFullscreenMode:">id</string>
 						<string key="focusSearchEntry:">id</string>
 						<string key="forceReload:">id</string>
-						<string key="fullScreenModeOnOff:">id</string>
 						<string key="leftSideBarHideShow:">id</string>
 						<string key="myPrint:">id</string>
 						<string key="nextBook:">id</string>
@@ -722,7 +671,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="performClose:">id</string>
 						<string key="previousBook:">id</string>
 						<string key="previousChapter:">id</string>
-						<string key="quitFullscreenMode:">id</string>
 						<string key="rightSideBarHideShow:">id</string>
 						<string key="searchInput:">id</string>
 						<string key="searchType:">id</string>
@@ -737,20 +685,12 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">clearRecents:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="enterFullscreenMode:">
-							<string key="name">enterFullscreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="focusSearchEntry:">
 							<string key="name">focusSearchEntry:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="forceReload:">
 							<string key="name">forceReload:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fullScreenModeOnOff:">
-							<string key="name">fullScreenModeOnOff:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="leftSideBarHideShow:">
@@ -779,10 +719,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="previousChapter:">
 							<string key="name">previousChapter:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitFullscreenMode:">
-							<string key="name">quitFullscreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="rightSideBarHideShow:">
@@ -857,7 +793,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>

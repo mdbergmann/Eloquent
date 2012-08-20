@@ -89,25 +89,6 @@
 @synthesize langFilter;
 
 // ------------- getter / setter -------------------
-/** weak reference */
-- (void)setDelegate:(id)aDelegate {
-    delegate = aDelegate;
-}
-
-- (id)delegate {
-    return delegate;
-}
-
-
-- (void)setInstallSources:(NSArray *)anArray {
-    [anArray retain];
-    [installSources release];
-    installSources = anArray;    
-}
-
-- (NSArray *)installSources {
-    return installSources;
-}
 
 - (id)init {
     self = [super init];
@@ -131,12 +112,28 @@
     [super dealloc];
 }
 
-//--------------------------------------------------------------------
-//----------- Nib delegates ----------------------------------
-//--------------------------------------------------------------------
 - (void)awakeFromNib {
     [moduleOutlineView setMenu:moduleMenu];
     [self refreshLanguages];
+}
+
+- (void)setDelegate:(id)aDelegate {
+    delegate = aDelegate;
+}
+
+- (id)delegate {
+    return delegate;
+}
+
+
+- (void)setInstallSources:(NSArray *)anArray {
+    [anArray retain];
+    [installSources release];
+    installSources = anArray;    
+}
+
+- (NSArray *)installSources {
+    return installSources;
 }
 
 /** update the modules with the modules in the sources list */
@@ -248,7 +245,6 @@
 
 #pragma mark - Actions
 
-// ----------------------- actions -------------------------
 - (IBAction)search:(id)sender {
 }
 
@@ -258,7 +254,6 @@
     [self refreshModulesList];
 }
 
-// -------------------- module actions ---------------------
 - (IBAction)noneTask:(id)sender {
     [self updateModuleSelection];
     
