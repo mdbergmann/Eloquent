@@ -35,9 +35,9 @@
 
         // load session path from defaults
         if([userDefaults objectForKey:DefaultsSessionPath] == nil) {
-            self.session.url = [NSURL URLWithString:DEFAULT_SESSION_PATH];
+            self.session.url = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
         } else {
-            self.session.url = [NSURL fileURLWithPath:[userDefaults objectForKey:DefaultsSessionPath]];
+            self.session.url = [NSURL URLWithString:[userDefaults objectForKey:DefaultsSessionPath]];
         }
     }
 

@@ -25,7 +25,7 @@
         
         BOOL success = [NSBundle loadNibNamed:@"PrintAccessory" owner:self];
         if(success == NO) {
-            CocoLog(LEVEL_WARN, @"[PrintAccessoryViewController init] could not load nib");
+            CocoLog(LEVEL_WARN, @"could not load nib");
         }
     }
     return self;
@@ -36,6 +36,11 @@
 
 - (void)finalize {
 	[super finalize];
+}
+
+- (void)dealloc {
+    [printInfo release];
+    [super dealloc];
 }
 
 - (NSSet *)keyPathsForValuesAffectingPreview {

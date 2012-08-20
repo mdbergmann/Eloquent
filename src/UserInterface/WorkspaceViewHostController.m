@@ -15,13 +15,10 @@
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
 #import "DictionaryViewController.h"
-#import "GenBookViewController.h"
 #import "HostableViewController.h"
 #import "BibleSearchOptionsViewController.h"
 #import "LeftSideBarViewController.h"
 #import "RightSideBarViewController.h"
-#import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
 #import "SearchTextObject.h"
 #import "FakeModel.h"
 #import "FileRepresentation.h"
@@ -65,9 +62,9 @@
 }
 
 - (void)commonInit {
-    BOOL stat = [NSBundle loadNibNamed:WORKSPACEVIEWHOST_NIBNAME owner:self];
+    BOOL stat = [NSBundle loadNibNamed:@"WorkspaceViewHost" owner:self];
     if(!stat) {
-        CocoLog(LEVEL_ERR, @"[WorkspaceViewHostController -init] unable to load nib!");
+        CocoLog(LEVEL_ERR, @"unable to load nib!");
     }    
 }
 

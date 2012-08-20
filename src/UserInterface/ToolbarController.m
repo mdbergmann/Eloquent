@@ -9,12 +9,6 @@
 #import "ToolbarController.h"
 #import "SearchTextFieldOptions.h"
 
-@interface ToolbarController ()
-
-- (void)_loadNib;
-
-@end
-
 @implementation ToolbarController
 
 - (id)initWithDelegate:(WindowHostController *)aDelegate {
@@ -37,7 +31,6 @@
     [toolbar setAllowsUserCustomization:YES];
     [searchTextFieldItem setMaxSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
     [searchTextField setFrameSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
-    //[self reportLoadingComplete];
 }
 
 - (NSToolbar *)toolbar {

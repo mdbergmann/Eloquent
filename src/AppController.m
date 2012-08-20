@@ -693,12 +693,10 @@ static AppController *singleton;
         WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
         svh.delegate = self;
         [[SessionManager defaultManager] addWindow:svh];
-
-        [svh showWindow:self];
     } else {
         [[SessionManager defaultManager] addDelegateToHosts:self];
     }
-    
+        
     // show HUD preview if set
     if([userDefaults boolForKey:DefaultsShowHUDPreview]) {
         [self showPreviewPanel:nil];
@@ -716,6 +714,7 @@ static AppController *singleton;
                                                         andEventID:kAEGetURL];    
     [SwordUrlProtocol setup];
     
+    [[SessionManager defaultManager] showAllWindows];
 }
 
 /** stores the session to file */

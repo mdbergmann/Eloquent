@@ -218,7 +218,7 @@
 		
 		if(modObj != nil) {
 			
-			CocoLog(LEVEL_DEBUG, @"selected module: %xd", modObj);
+			CocoLog(LEVEL_DEBUG, @"selected module: %x", modObj);
 			
 			int tag = [menuItem tag];
 			

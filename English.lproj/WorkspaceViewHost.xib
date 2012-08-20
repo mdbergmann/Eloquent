@@ -2,25 +2,25 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1923</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1923</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSView</string>
+			<string>NSBox</string>
+			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
 			<string>NSMenu</string>
-			<string>NSWindowTemplate</string>
 			<string>NSMenuItem</string>
 			<string>NSSplitView</string>
 			<string>NSTabView</string>
 			<string>NSTabViewItem</string>
-			<string>NSCustomView</string>
-			<string>NSBox</string>
-			<string>NSCustomObject</string>
+			<string>NSView</string>
+			<string>NSWindowTemplate</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -66,13 +66,15 @@
 											<int key="NSvFlags">274</int>
 											<string key="NSFrameSize">{850, 25}</string>
 											<reference key="NSSuperview" ref="539735799"/>
+											<reference key="NSNextKeyView" ref="203043043"/>
 										</object>
 									</array>
 									<string key="NSFrameSize">{850, 25}</string>
 									<reference key="NSSuperview" ref="695810599"/>
+									<reference key="NSNextKeyView" ref="1066696852"/>
 									<string key="NSOffsets">{0, 0}</string>
 									<object class="NSTextFieldCell" key="NSTitleCell">
-										<int key="NSCellFlags">67239424</int>
+										<int key="NSCellFlags">67108864</int>
 										<int key="NSCellFlags2">0</int>
 										<string key="NSContents">Box</string>
 										<object class="NSFont" key="NSSupport" id="26">
@@ -108,6 +110,7 @@
 							</array>
 							<string key="NSFrame">{{0, 575}, {850, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
+							<reference key="NSNextKeyView" ref="539735799"/>
 							<string key="NSClassName">ScopeBarView</string>
 						</object>
 						<object class="NSCustomView" id="203043043">
@@ -127,13 +130,15 @@
 													<int key="NSvFlags">274</int>
 													<string key="NSFrameSize">{850, 574}</string>
 													<reference key="NSSuperview" ref="952028371"/>
+													<reference key="NSNextKeyView"/>
 												</object>
 											</array>
 											<string key="NSFrameSize">{850, 574}</string>
 											<reference key="NSSuperview" ref="777921219"/>
+											<reference key="NSNextKeyView" ref="863353084"/>
 											<string key="NSOffsets">{0, 0}</string>
 											<object class="NSTextFieldCell" key="NSTitleCell">
-												<int key="NSCellFlags">67239424</int>
+												<int key="NSCellFlags">67108864</int>
 												<int key="NSCellFlags2">0</int>
 												<string key="NSContents">Box</string>
 												<reference key="NSSupport" ref="26"/>
@@ -153,15 +158,17 @@
 									</array>
 									<string key="NSFrameSize">{850, 574}</string>
 									<reference key="NSSuperview" ref="203043043"/>
+									<reference key="NSNextKeyView" ref="952028371"/>
 								</object>
 								<object class="NSBox" id="157680891">
 									<reference key="NSNextResponder" ref="203043043"/>
 									<int key="NSvFlags">10</int>
 									<string key="NSFrame">{{0, 572}, {850, 5}}</string>
 									<reference key="NSSuperview" ref="203043043"/>
+									<reference key="NSNextKeyView" ref="777921219"/>
 									<string key="NSOffsets">{0, 0}</string>
 									<object class="NSTextFieldCell" key="NSTitleCell">
-										<int key="NSCellFlags">67239424</int>
+										<int key="NSCellFlags">67108864</int>
 										<int key="NSCellFlags2">0</int>
 										<string key="NSContents">Box</string>
 										<object class="NSFont" key="NSSupport" id="855910538">
@@ -183,11 +190,13 @@
 							</array>
 							<string key="NSFrameSize">{850, 575}</string>
 							<reference key="NSSuperview" ref="1006"/>
+							<reference key="NSNextKeyView" ref="157680891"/>
 							<string key="NSClassName">FullScreenView</string>
 						</object>
 					</array>
 					<string key="NSFrameSize">{850, 600}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSNextKeyView" ref="695810599"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1418}}</string>
 				<string key="NSMinSize">{400, 222}</string>
@@ -216,7 +225,7 @@
 				</array>
 			</object>
 			<object class="NSCustomView" id="322589580">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="1004626699">
@@ -224,6 +233,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{0, 544}, {800, 22}}</string>
 						<reference key="NSSuperview" ref="322589580"/>
+						<reference key="NSNextKeyView" ref="796331504"/>
 						<string key="NSClassName">PSMTabBarControl</string>
 					</object>
 					<object class="NSSplitView" id="796331504">
@@ -235,6 +245,7 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{800, 545}</string>
 								<reference key="NSSuperview" ref="796331504"/>
+								<reference key="NSNextKeyView" ref="589959247"/>
 								<array class="NSMutableArray" key="NSTabViewItems">
 									<object class="NSTabViewItem" id="369232863">
 										<string key="NSIdentifier">1</string>
@@ -268,11 +279,14 @@
 						</array>
 						<string key="NSFrameSize">{800, 545}</string>
 						<reference key="NSSuperview" ref="322589580"/>
+						<reference key="NSNextKeyView" ref="774995872"/>
 						<bool key="NSIsVertical">YES</bool>
 						<int key="NSDividerStyle">2</int>
 					</object>
 				</array>
 				<string key="NSFrameSize">{800, 565}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSNextKeyView" ref="1004626699"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomObject" id="91724264">
@@ -634,8 +648,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{9, 8}</string>
-			<string key="NSMenuMixedState">{7, 2}</string>
+			<string key="NSMenuCheckmark">{11, 11}</string>
+			<string key="NSMenuMixedState">{10, 3}</string>
 		</dictionary>
 	</data>
 </archive>

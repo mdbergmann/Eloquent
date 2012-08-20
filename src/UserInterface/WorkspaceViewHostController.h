@@ -14,8 +14,6 @@
 #import <ObjCSword/SwordModule.h>
 #import <ProtocolHelper.h>
 
-#define WORKSPACEVIEWHOST_NIBNAME   @"WorkspaceViewHost"
-
 @class ContentDisplayingViewController;
 @class SwordModule;
 @class FileRepresentation;
