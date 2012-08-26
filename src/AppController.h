@@ -39,7 +39,7 @@
     // the help menu. we'll ad this reference here to be able to add the Sparkle updater menu item dynamically
     IBOutlet NSMenu *helpMenu;
     
-#ifdef USE_SPARKLE
+#ifndef APPSTORE
     // Sparkle updater
     SUUpdater *sparkleUpdater;
 #endif

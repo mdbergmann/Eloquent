@@ -25,6 +25,7 @@
 #import "NotesViewController.h"
 #import "WindowHostController+SideBars.h"
 #import "ContentDisplayingViewControllerFactory.h"
+#import "InitialInfoViewController.h"
 
 @interface WorkspaceViewHostController ()
 
@@ -85,16 +86,15 @@
         [tabView removeTabViewItem:item];    
     }
     
-    /*
     // for a clean new workspace we display the initialMainView
     if([viewControllers count] == 0) {
         [contentPlaceHolderView setContentView:[initialViewController view]];
     } else {
         [contentPlaceHolderView setContentView:defaultMainView];
     }
-     */
+
     // TODO: put initial view
-    [contentPlaceHolderView setContentView:defaultMainView];
+    //[contentPlaceHolderView setContentView:defaultMainView];
     
     // re-set already loaded tabview items
     int i = 0;
@@ -339,16 +339,24 @@
 
 - (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
     if(![viewControllers containsObject:aViewController]) {
+        // only add controllers we don't show yet
         [viewControllers addObject:aViewController];
         [aViewController setShowingRSBPreferred:[userDefaults boolForKey:DefaultsShowRSBWorkspace]];
+
+        [self _addContentViewController:aViewController];
+        [super addContentViewController:aViewController];
     }
-    [self _addContentViewController:aViewController];
-    [super addContentViewController:aViewController];
 }
 
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {    
     [super contentViewInitFinished:aViewController];
-    [self _addContentViewController:(ContentDisplayingViewController *)aViewController];
+    
+    // if we don't know this view controller yet and it is a ContentDisplayingViewController, add it to our view controllers
+    if(![viewControllers containsObject:aViewController] && [aViewController isKindOfClass:[ContentDisplayingViewController class]]) {
+        [self addContentViewController:(ContentDisplayingViewController *)aViewController];
+    } else {
+        [self _addContentViewController:(ContentDisplayingViewController *)aViewController];
+    }
 }
 
 - (void)_addContentViewController:(ContentDisplayingViewController *)aViewController {

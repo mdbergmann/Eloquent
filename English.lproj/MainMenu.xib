@@ -984,32 +984,6 @@
 									<reference key="NSOnImage" ref="780798457"/>
 									<reference key="NSMixedImage" ref="1039508180"/>
 								</object>
-								<object class="NSMenuItem" id="847044414">
-									<reference key="NSMenu" ref="374024848"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="780798457"/>
-									<reference key="NSMixedImage" ref="1039508180"/>
-								</object>
-								<object class="NSMenuItem" id="472541183">
-									<reference key="NSMenu" ref="374024848"/>
-									<string key="NSTitle">Install module utilities</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="780798457"/>
-									<reference key="NSMixedImage" ref="1039508180"/>
-								</object>
-								<object class="NSMenuItem" id="851435579">
-									<reference key="NSMenu" ref="374024848"/>
-									<string key="NSTitle">Uninstall module utilities</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="780798457"/>
-									<reference key="NSMixedImage" ref="1039508180"/>
-								</object>
 							</array>
 						</object>
 					</object>
@@ -1941,22 +1915,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">linkSwordUtils:</string>
-						<reference key="source" ref="528392195"/>
-						<reference key="destination" ref="472541183"/>
-					</object>
-					<int key="connectionID">551</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">unlinkSwordUtils:</string>
-						<reference key="source" ref="528392195"/>
-						<reference key="destination" ref="851435579"/>
-					</object>
-					<int key="connectionID">552</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">showDailyDevotionPanel:</string>
 						<reference key="source" ref="528392195"/>
 						<reference key="destination" ref="667423028"/>
@@ -2305,9 +2263,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="626536341"/>
 							<reference ref="93950419"/>
 							<reference ref="497060804"/>
-							<reference ref="847044414"/>
-							<reference ref="472541183"/>
-							<reference ref="851435579"/>
 						</array>
 						<reference key="parent" ref="391199113"/>
 						<string key="objectName">Menu (Help)</string>
@@ -2914,21 +2869,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="parent" ref="720053764"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">548</int>
-						<reference key="object" ref="847044414"/>
-						<reference key="parent" ref="374024848"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">549</int>
-						<reference key="object" ref="472541183"/>
-						<reference key="parent" ref="374024848"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">550</int>
-						<reference key="object" ref="851435579"/>
-						<reference key="parent" ref="374024848"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">600</int>
 						<reference key="object" ref="667423028"/>
 						<reference key="parent" ref="835318025"/>
@@ -3109,9 +3049,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="542.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="544.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="546.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="548.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="549.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="550.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>

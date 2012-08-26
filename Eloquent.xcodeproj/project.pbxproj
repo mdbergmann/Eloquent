@@ -124,12 +124,13 @@
 		A98A9683112ED53C00EC8B76 /* BibleViewController+RightSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9682112ED53C00EC8B76 /* BibleViewController+RightSidebar.m */; };
 		A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */; };
 		A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */; };
+		A98D8BB215E42A5D0076FF92 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52C0DF9AD6E00207967 /* MainMenu.xib */; };
+		A98D8BB315E42A660076FF92 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52E0DF9AD6E00207967 /* ModuleManager.xib */; };
+		A98D8BB415E42A690076FF92 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
+		A98D8BB515E42AA30076FF92 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A992B52A0DF9AD6E00207967 /* Localizable.strings */; };
 		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
 		A991F4A30EE2E224009A6D08 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = A991F4A20EE2E224009A6D08 /* ModuleManager.png */; };
 		A9921BA511FDACF1002DAA72 /* bin in Resources */ = {isa = PBXBuildFile; fileRef = A9921B9311FDACF1002DAA72 /* bin */; };
-		A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A992B52A0DF9AD6E00207967 /* Localizable.strings */; };
-		A992B5350DF9AD6E00207967 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52C0DF9AD6E00207967 /* MainMenu.xib */; };
-		A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B52E0DF9AD6E00207967 /* ModuleManager.xib */; };
 		A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5300DF9AD6E00207967 /* ModuleManageView.xib */; };
 		A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = A992B5320DF9AD6E00207967 /* ThreadedProgressSheet.xib */; };
 		A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
@@ -153,7 +154,6 @@
 		A9B1FC1911E328FB00BB561A /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A975EA1611C77052007C1532 /* ObjCSword.framework */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
-		A9B744200F646346001960B0 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B7441E0F646346001960B0 /* About.xib */; };
 		A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */; };
 		A9BDF9F31207F6B70067ED5B /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A975EA1611C77052007C1532 /* ObjCSword.framework */; };
 		A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C0F4050EFD67DA00CFDF06 /* ConfirmationDialog.xib */; };
@@ -504,37 +504,6 @@
 		A94D66CE0EC2CFC9006A84CB /* WorkspaceViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceViewHostController.h; path = src/UserInterface/WorkspaceViewHostController.h; sourceTree = "<group>"; };
 		A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceViewHostController.m; path = src/UserInterface/WorkspaceViewHostController.m; sourceTree = "<group>"; };
 		A94D66D20EC2D175006A84CB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
-		A95043E415BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = cs; path = cs.lproj/Credits.rtf; sourceTree = "<group>"; };
-		A95043E515BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
-		A95043E615BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		A95043E715BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/About.xib; sourceTree = "<group>"; };
-		A95043E815BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ModuleManager.xib; sourceTree = "<group>"; };
-		A95043E915BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ModuleManageView.xib; sourceTree = "<group>"; };
-		A95043EA15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
-		A95043EB15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/WindowHostToolbar.xib; sourceTree = "<group>"; };
-		A95043EC15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/SingleViewHost.xib; sourceTree = "<group>"; };
-		A95043ED15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/WorkspaceViewHost.xib; sourceTree = "<group>"; };
-		A95043EE15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/BibleCombiView.xib; sourceTree = "<group>"; };
-		A95043EF15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/BibleView.xib; sourceTree = "<group>"; };
-		A95043F015BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/CommentaryView.xib; sourceTree = "<group>"; };
-		A95043F115BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/DictionaryView.xib; sourceTree = "<group>"; };
-		A95043F215BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/GenBookView.xib; sourceTree = "<group>"; };
-		A95043F315BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ExtTextView.xib; sourceTree = "<group>"; };
-		A95043F415BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/WebView.xib; sourceTree = "<group>"; };
-		A95043F515BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/Preferences.xib; sourceTree = "<group>"; };
-		A95043F615BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/LeftSideBarView.xib; sourceTree = "<group>"; };
-		A95043F715BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/RightSideBarView.xib; sourceTree = "<group>"; };
-		A95043F815BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ConfirmationDialog.xib; sourceTree = "<group>"; };
-		A95043F915BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ProgressOverlayView.xib; sourceTree = "<group>"; };
-		A95043FA15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/InitialInfoView.xib; sourceTree = "<group>"; };
-		A95043FB15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/SearchBookSetEditor.xib; sourceTree = "<group>"; };
-		A95043FC15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/NotesUI.xib; sourceTree = "<group>"; };
-		A95043FD15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/NotesView.xib; sourceTree = "<group>"; };
-		A95043FE15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/BookmarkManagerUI.xib; sourceTree = "<group>"; };
-		A95043FF15BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ModuleListUI.xib; sourceTree = "<group>"; };
-		A950440015BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/PrintAccessory.xib; sourceTree = "<group>"; };
-		A950440115BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/DailyDevotion.xib; sourceTree = "<group>"; };
-		A950440215BC87F600D89B38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A95184DD0EEFAAEF002EE88C /* HUDPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDPreviewController.h; path = src/UserInterface/HUDPreviewController.h; sourceTree = "<group>"; };
 		A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDPreviewController.m; path = src/UserInterface/HUDPreviewController.m; sourceTree = "<group>"; };
 		A955E195142612B000357B6F /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = src/UserInterface/WebViewController.h; sourceTree = "<group>"; };
@@ -1371,6 +1340,7 @@
 				Japanese,
 				French,
 				German,
+				cs,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MacSword2 */;
 			projectDirPath = "";
@@ -1539,9 +1509,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				A992B5340DF9AD6E00207967 /* Localizable.strings in Resources */,
-				A992B5350DF9AD6E00207967 /* MainMenu.xib in Resources */,
-				A992B5360DF9AD6E00207967 /* ModuleManager.xib in Resources */,
 				A992B5370DF9AD6E00207967 /* ModuleManageView.xib in Resources */,
 				A992B5380DF9AD6E00207967 /* ThreadedProgressSheet.xib in Resources */,
 				A916FCE70E05483F009CAA2F /* BibleView.xib in Resources */,
@@ -1576,7 +1543,6 @@
 				A9C0F4070EFD67DA00CFDF06 /* ConfirmationDialog.xib in Resources */,
 				A9D4B9940EFEA10800A5AFF9 /* groupbookmark.tiff in Resources */,
 				A9D4B9950EFEA10800A5AFF9 /* smallbookmark.tiff in Resources */,
-				A9B744200F646346001960B0 /* About.xib in Resources */,
 				A9E9E29C0F650544007C4AB2 /* Credits.rtf in Resources */,
 				A9333AE50F6699A70001BD38 /* ProgressOverlayView.xib in Resources */,
 				A9D72F1F0F6D362400333554 /* ResizeControl.png in Resources */,
@@ -1601,6 +1567,10 @@
 				A94C9E8C131025920026FEE5 /* Eloquent.icns in Resources */,
 				A9C5FF2413B34457003449B1 /* tb_sidebar_left.png in Resources */,
 				A9C5FF2513B34457003449B1 /* tb_sidebar_right.png in Resources */,
+				A98D8BB215E42A5D0076FF92 /* MainMenu.xib in Resources */,
+				A98D8BB315E42A660076FF92 /* ModuleManager.xib in Resources */,
+				A98D8BB415E42A690076FF92 /* About.xib in Resources */,
+				A98D8BB515E42AA30076FF92 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1790,7 +1760,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
-				A950440215BC87F600D89B38 /* cs */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1799,7 +1768,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A90545B80E62F11900CF4D18 /* English */,
-				A95043F115BC87F600D89B38 /* cs */,
 			);
 			name = DictionaryView.xib;
 			sourceTree = "<group>";
@@ -1808,7 +1776,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A916FCE60E05483F009CAA2F /* English */,
-				A95043EF15BC87F600D89B38 /* cs */,
 			);
 			name = BibleView.xib;
 			sourceTree = "<group>";
@@ -1817,7 +1784,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9202A2C0E59A2650094F629 /* English */,
-				A95043F015BC87F600D89B38 /* cs */,
 			);
 			name = CommentaryView.xib;
 			sourceTree = "<group>";
@@ -1826,7 +1792,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9333AE40F6699A70001BD38 /* English */,
-				A95043F915BC87F600D89B38 /* cs */,
 			);
 			name = ProgressOverlayView.xib;
 			sourceTree = "<group>";
@@ -1835,7 +1800,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A94D66D20EC2D175006A84CB /* English */,
-				A95043ED15BC87F600D89B38 /* cs */,
 			);
 			name = WorkspaceViewHost.xib;
 			sourceTree = "<group>";
@@ -1844,7 +1808,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A96515EE0E06C79D0058AA91 /* English */,
-				A95043EE15BC87F600D89B38 /* cs */,
 			);
 			name = BibleCombiView.xib;
 			sourceTree = "<group>";
@@ -1853,7 +1816,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A96516620E06D3DA0058AA91 /* English */,
-				A95043EC15BC87F600D89B38 /* cs */,
 			);
 			name = SingleViewHost.xib;
 			sourceTree = "<group>";
@@ -1862,7 +1824,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A98423531145031D0001EED1 /* English */,
-				A95043EB15BC87F600D89B38 /* cs */,
 			);
 			name = WindowHostToolbar.xib;
 			sourceTree = "<group>";
@@ -1871,7 +1832,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B52B0DF9AD6E00207967 /* English */,
-				A95043E515BC87F600D89B38 /* cs */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1880,7 +1840,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B52D0DF9AD6E00207967 /* English */,
-				A95043E615BC87F600D89B38 /* cs */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -1889,7 +1848,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B52F0DF9AD6E00207967 /* English */,
-				A95043E815BC87F600D89B38 /* cs */,
 			);
 			name = ModuleManager.xib;
 			sourceTree = "<group>";
@@ -1898,7 +1856,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B5310DF9AD6E00207967 /* English */,
-				A95043E915BC87F600D89B38 /* cs */,
 			);
 			name = ModuleManageView.xib;
 			sourceTree = "<group>";
@@ -1907,7 +1864,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A992B5330DF9AD6E00207967 /* English */,
-				A95043EA15BC87F600D89B38 /* cs */,
 			);
 			name = ThreadedProgressSheet.xib;
 			sourceTree = "<group>";
@@ -1916,7 +1872,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A99A76DC10B2BCDF002EFD30 /* English */,
-				A95043FC15BC87F600D89B38 /* cs */,
 			);
 			name = NotesUI.xib;
 			sourceTree = "<group>";
@@ -1925,7 +1880,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A99A774A10B33DE5002EFD30 /* English */,
-				A95043FD15BC87F600D89B38 /* cs */,
 			);
 			name = NotesView.xib;
 			sourceTree = "<group>";
@@ -1934,7 +1888,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9A921D21205C49E008D7A64 /* English */,
-				A950440115BC87F600D89B38 /* cs */,
 			);
 			name = DailyDevotion.xib;
 			sourceTree = "<group>";
@@ -1943,7 +1896,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9ABF339107A2A65005D6156 /* English */,
-				A95043FA15BC87F600D89B38 /* cs */,
 			);
 			name = InitialInfoView.xib;
 			sourceTree = "<group>";
@@ -1952,7 +1904,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9B7441F0F646346001960B0 /* English */,
-				A95043E715BC87F600D89B38 /* cs */,
 			);
 			name = About.xib;
 			sourceTree = "<group>";
@@ -1961,7 +1912,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9C0F4060EFD67DA00CFDF06 /* English */,
-				A95043F815BC87F600D89B38 /* cs */,
 			);
 			name = ConfirmationDialog.xib;
 			sourceTree = "<group>";
@@ -1970,7 +1920,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9CDDDD00F738E0500C907B9 /* English */,
-				A95043FB15BC87F600D89B38 /* cs */,
 			);
 			name = SearchBookSetEditor.xib;
 			sourceTree = "<group>";
@@ -1979,7 +1928,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9D849630EFA2D34000457EC /* English */,
-				A95043F615BC87F600D89B38 /* cs */,
 			);
 			name = LeftSideBarView.xib;
 			sourceTree = "<group>";
@@ -1988,7 +1936,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9D849650EFA2D34000457EC /* English */,
-				A95043F715BC87F600D89B38 /* cs */,
 			);
 			name = RightSideBarView.xib;
 			sourceTree = "<group>";
@@ -1997,7 +1944,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9DC14E40E0AA83D00E3F944 /* English */,
-				A95043F315BC87F600D89B38 /* cs */,
 			);
 			name = ExtTextView.xib;
 			sourceTree = "<group>";
@@ -2006,7 +1952,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9DCB0D40E9F252C004169EB /* English */,
-				A95043F215BC87F600D89B38 /* cs */,
 			);
 			name = GenBookView.xib;
 			sourceTree = "<group>";
@@ -2015,7 +1960,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9DFBC3F0EF6ECF30061BE19 /* English */,
-				A95043F515BC87F600D89B38 /* cs */,
 			);
 			name = Preferences.xib;
 			sourceTree = "<group>";
@@ -2024,7 +1968,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9E9E29B0F650544007C4AB2 /* English */,
-				A95043E415BC87F600D89B38 /* cs */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -2033,7 +1976,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9EDA11A1150E1F5004EC005 /* English */,
-				A950440015BC87F600D89B38 /* cs */,
 			);
 			name = PrintAccessory.xib;
 			sourceTree = "<group>";
@@ -2042,7 +1984,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9F185490E083117005F3B35 /* English */,
-				A95043F415BC87F600D89B38 /* cs */,
 			);
 			name = WebView.xib;
 			sourceTree = "<group>";
@@ -2051,7 +1992,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9FCD75F10B1562D006F7A3B /* English */,
-				A95043FE15BC87F600D89B38 /* cs */,
 			);
 			name = BookmarkManagerUI.xib;
 			sourceTree = "<group>";
@@ -2060,7 +2000,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A9FCD81B10B1B919006F7A3B /* English */,
-				A95043FF15BC87F600D89B38 /* cs */,
 			);
 			name = ModuleListUI.xib;
 			sourceTree = "<group>";
@@ -2138,7 +2077,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2161,6 +2100,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = (
+					"-DRELEASE",
+					"-DAPPSTORE",
+				);
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
@@ -2314,6 +2257,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2342,10 +2286,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"-DDEBUG",
-					"-DUSE_SPARKLE",
-				);
+				OTHER_CFLAGS = "-DDEBUG";
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
@@ -2363,7 +2304,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2386,10 +2327,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_CFLAGS = (
-					"-DRELEASE",
-					"-DUSE_SPARKLE",
-				);
+				OTHER_CFLAGS = "-DRELEASE";
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",

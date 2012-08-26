@@ -17,6 +17,7 @@
 @class ContentDisplayingViewController;
 @class SwordModule;
 @class FileRepresentation;
+@class InitialInfoViewController;
 
 @interface WorkspaceViewHostController : WindowHostController <NSCoding> {
 
@@ -25,7 +26,7 @@
     IBOutlet PSMTabBarControl *tabControl;
     IBOutlet NSTabView *tabView;
     
-    IBOutlet NSViewController *initialViewController;
+    IBOutlet InitialInfoViewController *initialViewController;
     IBOutlet NSView *defaultMainView;
     
     /** each tabItem should have this menu */

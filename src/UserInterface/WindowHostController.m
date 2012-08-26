@@ -123,11 +123,14 @@ typedef enum _NavigationDirectionType {
     [item setTag:NSSearchFieldRecentsTitleMenuItemTag];
     // recents
     item = [recentsMenu addItemWithTitle:NSLocalizedString(@"Recents", @"") action:nil keyEquivalent:@""];
-    [item setTag:NSSearchFieldRecentsMenuItemTag];    
+    [item setTag:NSSearchFieldRecentsMenuItemTag];
+    
     // install menu
     [toolbarController setSearchTextFieldRecentsMenu:recentsMenu];
+
     // we start with reference search type
     [currentSearchText setSearchType:ReferenceSearchType];
+    
     // set search string
     [toolbarController setSearchTextFieldString:[self searchText]];
 }

@@ -52,7 +52,7 @@ static MBPreferenceController *instance;
     [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextShowBookAbbrKey];
     [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
     [defaultsDict setObject:[NSNumber numberWithInt:FullVerseNumbering] forKey:DefaultsBibleTextVerseNumberingTypeKey];
-    [defaultsDict setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextHighlightBookmarksKey];
+    [defaultsDict setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextHighlightBookmarksKey];
 
     [defaultsDict setObject:@"Helvetica Bold" forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
     [defaultsDict setObject:@"Helvetica" forKey:DefaultsBibleTextDisplayFontFamilyKey];

@@ -147,7 +147,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             // create InstallMgr folder
             NSString *installMgrPath = [path stringByAppendingPathComponent:SWINSTALLMGR_NAME];
             if([manager fileExistsAtPath:installMgrPath] == NO) {
-                CocoLog(LEVEL_INFO, @"path to imstallmgr does not exist, creating it!");
+                CocoLog(LEVEL_INFO, @"path to installmgr does not exist, creating it!");
                 if([manager createDirectoryAtPath:installMgrPath withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
                     CocoLog(LEVEL_ERR,@"Cannot create installmgr folder in Application Support!");
                     ret = NO;
@@ -244,8 +244,7 @@ static AppController *singleton;
         }
         
         // init install manager
-        SwordInstallSourceManager *sim = [SwordInstallSourceManager defaultController];
-        [sim setConfigFilePath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
+        [SwordInstallSourceManager defaultControllerWithPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
         
         // make available all cipher keys to SwordManager
         NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
@@ -272,7 +271,7 @@ static AppController *singleton;
     [preferenceController release];
     [previewController release];
     [dailyDevotionController release];
-#ifdef USE_SPARKLE
+#ifndef APPSTORE
     [sparkleUpdater release];
 #endif
     [super dealloc];
@@ -280,7 +279,7 @@ static AppController *singleton;
 
 - (void)awakeFromNib {
 
-#ifdef USE_SPARKLE
+#ifndef APPSTORE
     sparkleUpdater = [[SUUpdater alloc] init];
 
     // add sparkle "Check for updates..." menu item to help menu
@@ -455,9 +454,6 @@ static AppController *singleton;
     [aboutWindowController showWindow:self];
 }
 
-/**
- init module manager window controller
- */
 - (IBAction)showModuleManager:(id)sender {
     ModuleManager *mm = [[[ModuleManager alloc] initWithDelegate:self] autorelease];
     [mm showWindow:self];
@@ -556,6 +552,7 @@ static AppController *singleton;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/forums/mvnforum/listthreads?forum=4"]];    
 }
 
+#ifndef APPSTORE
 - (IBAction)linkSwordUtils:(id)sender {
     AuthorizationRef authorizationRef;
     OSStatus status;
@@ -614,7 +611,6 @@ static AppController *singleton;
     }    
 }
 
-#ifdef USE_SPARKLE
 - (IBAction)checkForUpdates:(id)sender {
     [sparkleUpdater checkForUpdates:sender];
 }
