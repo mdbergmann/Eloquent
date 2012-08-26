@@ -761,6 +761,7 @@
 				A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */,
 				A9D9F5260EAF15410035222E /* Tests */,
 				A91C93F80DF9B149006B7361 /* InstallerConsole */,
+				C01FCF5008A954540054247C /* SessionManagement */,
 				A9B7441A0F646223001960B0 /* About */,
 				A9FD341C0E0A70F6001287DD /* Preferences */,
 				A91C93EB0DF9B149006B7361 /* Indexing */,
@@ -776,7 +777,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A9D9F51B0EAF151E0035222E /* Tests-Info.plist */,
-				C01FCF5008A954540054247C /* SessionManagement */,
 			);
 			name = MacSword2;
 			sourceTree = "<group>";
@@ -2077,7 +2077,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2304,7 +2304,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (

@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.SystemVersion">12B19</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
 		<string key="IBDocument.AppKitVersion">1187</string>
 		<string key="IBDocument.HIToolboxVersion">624.00</string>
@@ -63,7 +63,6 @@
 							<string key="NSFrame">{{0, 14}, {200, 22}}</string>
 							<reference key="NSSuperview"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSearchFieldCell" key="NSCell" id="471357944">
 								<int key="NSCellFlags">342884416</int>
@@ -155,7 +154,6 @@
 							<string key="NSFrame">{{28, 14}, {32, 25}}</string>
 							<reference key="NSSuperview"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="611015788">
 								<int key="NSCellFlags">67108864</int>
@@ -200,7 +198,6 @@
 							<string key="NSFrame">{{8, 14}, {32, 25}}</string>
 							<reference key="NSSuperview"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="737317609">
 								<int key="NSCellFlags">67108864</int>
@@ -245,7 +242,6 @@
 							<string key="NSFrame">{{19, 14}, {32, 25}}</string>
 							<reference key="NSSuperview"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="837737564">
 								<int key="NSCellFlags">67108864</int>
@@ -290,7 +286,6 @@
 							<string key="NSFrame">{{1, 14}, {67, 25}}</string>
 							<reference key="NSSuperview"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSegmentedCell" key="NSCell" id="386494508">
 								<int key="NSCellFlags">-2080374784</int>
@@ -351,7 +346,6 @@
 							<string key="NSFrame">{{23, 14}, {32, 25}}</string>
 							<reference key="NSSuperview"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="8629909">
 								<int key="NSCellFlags">67108864</int>
@@ -444,7 +438,7 @@
 						</object>
 					</object>
 				</dictionary>
-				<array key="NSToolbarIBAllowedItems">
+				<array class="NSMutableArray" key="NSToolbarIBAllowedItems">
 					<reference ref="938658726"/>
 					<reference ref="1012121456"/>
 					<reference ref="497547049"/>
@@ -456,14 +450,12 @@
 				</array>
 				<array key="NSToolbarIBDefaultItems">
 					<reference ref="228239594"/>
-					<reference ref="938658726"/>
+					<reference ref="1012121456"/>
 					<reference ref="156431576"/>
-					<reference ref="1012121456"/>
 					<reference ref="497547049"/>
-					<reference ref="1012121456"/>
 					<reference ref="272370804"/>
 					<reference ref="129405008"/>
-					<reference ref="938658726"/>
+					<reference ref="1012121456"/>
 					<reference ref="929494607"/>
 				</array>
 				<array key="NSToolbarIBSelectableItems" id="0"/>
@@ -864,7 +856,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">173</int>
+			<int key="maxID">179</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

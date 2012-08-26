@@ -159,6 +159,12 @@
 * Loads the session as is defined in session.url.
 */
 - (void)loadSession {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if(![fm fileExistsAtPath:[self.session.url path]]) {
+        CocoLog(LEVEL_INFO, @"No such session file at: %@", [self.session.url absoluteString]);
+        return;
+    }
+
     @try {
         NSData *data = [NSData dataWithContentsOfURL:self.session.url];
         if (data == nil) @throw [NSException exceptionWithName:@"SessionLoadError" reason:@"Unable to load session!" userInfo:nil];

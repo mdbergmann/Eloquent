@@ -29,8 +29,8 @@
 
 - (void)awakeFromNib {
     [toolbar setAllowsUserCustomization:YES];
-    [searchTextFieldItem setMaxSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
     [searchTextField setFrameSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
+    [searchTextFieldItem setMaxSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
 }
 
 - (NSToolbar *)toolbar {
@@ -89,6 +89,7 @@
 
 # pragma mark - NSToolbarDelegate
 
+/*
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  {
 	NSArray *defaultItemArray = [NSArray arrayWithObjects:
         @"LeftSidebarButton",
@@ -104,13 +105,12 @@
 	return defaultItemArray;
 }
 
-/*
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar 
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
      itemForItemIdentifier:(NSString *)itemIdentifier
  willBeInsertedIntoToolbar:(BOOL)flag {
 	return [tbIdentifiers valueForKey:itemIdentifier];
 }
-*/
+ */
 
 #pragma mark - Actions
 
