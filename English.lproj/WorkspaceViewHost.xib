@@ -42,7 +42,7 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">4111</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{736, 353}, {1024, 800}}</string>
+				<string key="NSWindowRect">{{653, 339}, {1280, 800}}</string>
 				<int key="NSWTFlags">813170688</int>
 				<string key="NSWindowTitle">Workspace</string>
 				<string key="NSWindowClass">WorkspaceHostWindow</string>
@@ -64,13 +64,13 @@
 										<object class="NSView" id="1066696852">
 											<reference key="NSNextResponder" ref="539735799"/>
 											<int key="NSvFlags">274</int>
-											<string key="NSFrameSize">{850, 25}</string>
+											<string key="NSFrameSize">{1280, 25}</string>
 											<reference key="NSSuperview" ref="539735799"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="203043043"/>
 										</object>
 									</array>
-									<string key="NSFrameSize">{850, 25}</string>
+									<string key="NSFrameSize">{1280, 25}</string>
 									<reference key="NSSuperview" ref="695810599"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1066696852"/>
@@ -110,7 +110,7 @@
 									</object>
 								</object>
 							</array>
-							<string key="NSFrame">{{0, 775}, {1024, 25}}</string>
+							<string key="NSFrame">{{0, 775}, {1280, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="539735799"/>
@@ -131,13 +131,13 @@
 												<object class="NSView" id="863353084">
 													<reference key="NSNextResponder" ref="952028371"/>
 													<int key="NSvFlags">274</int>
-													<string key="NSFrameSize">{1024, 774}</string>
+													<string key="NSFrameSize">{1280, 774}</string>
 													<reference key="NSSuperview" ref="952028371"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView"/>
 												</object>
 											</array>
-											<string key="NSFrameSize">{1024, 774}</string>
+											<string key="NSFrameSize">{1280, 774}</string>
 											<reference key="NSSuperview" ref="777921219"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="863353084"/>
@@ -161,7 +161,7 @@
 											<real value="0.0" key="NSBorderWidth2"/>
 										</object>
 									</array>
-									<string key="NSFrameSize">{1024, 774}</string>
+									<string key="NSFrameSize">{1280, 774}</string>
 									<reference key="NSSuperview" ref="203043043"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="952028371"/>
@@ -169,7 +169,7 @@
 								<object class="NSBox" id="157680891">
 									<reference key="NSNextResponder" ref="203043043"/>
 									<int key="NSvFlags">10</int>
-									<string key="NSFrame">{{0, 772}, {1024, 5}}</string>
+									<string key="NSFrame">{{0, 772}, {1280, 5}}</string>
 									<reference key="NSSuperview" ref="203043043"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="777921219"/>
@@ -195,14 +195,14 @@
 									<bool key="NSTransparent">NO</bool>
 								</object>
 							</array>
-							<string key="NSFrameSize">{1024, 775}</string>
+							<string key="NSFrameSize">{1280, 775}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="157680891"/>
 							<string key="NSClassName">FullScreenView</string>
 						</object>
 					</array>
-					<string key="NSFrameSize">{1024, 800}</string>
+					<string key="NSFrameSize">{1280, 800}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="695810599"/>
@@ -242,6 +242,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{0, 544}, {800, 22}}</string>
 						<reference key="NSSuperview" ref="322589580"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="796331504"/>
 						<string key="NSClassName">PSMTabBarControl</string>
 					</object>
@@ -254,6 +255,7 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{800, 545}</string>
 								<reference key="NSSuperview" ref="796331504"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="589959247"/>
 								<array class="NSMutableArray" key="NSTabViewItems">
 									<object class="NSTabViewItem" id="369232863">
@@ -263,6 +265,8 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrameSize">{800, 545}</string>
 											<reference key="NSSuperview" ref="774995872"/>
+											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 										</object>
 										<string key="NSLabel">Tab</string>
 										<object class="NSColor" key="NSColor">
@@ -288,6 +292,7 @@
 						</array>
 						<string key="NSFrameSize">{800, 545}</string>
 						<reference key="NSSuperview" ref="322589580"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="774995872"/>
 						<bool key="NSIsVertical">YES</bool>
 						<int key="NSDividerStyle">2</int>
@@ -295,6 +300,7 @@
 				</array>
 				<string key="NSFrameSize">{800, 565}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1004626699"/>
 				<string key="NSClassName">NSView</string>
 			</object>
