@@ -2076,7 +2076,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2256,7 +2255,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -2303,8 +2301,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
+				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2334,7 +2331,7 @@
 					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
-				PROVISIONING_PROFILE = "899308F6-9F9B-4FDD-B6C2-039F19C4E6A0";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2364,6 +2361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "Mac Developer: Manfred Bergmann (7FWLEZG9C2)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = "";
@@ -2374,6 +2372,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DRELEASE";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
 				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";

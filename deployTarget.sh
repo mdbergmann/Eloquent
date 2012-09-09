@@ -3,7 +3,7 @@
 # $SRCROOT, $BUILD_DIR, $CONFIGURATION in this order
 
 SRCROOT=`pwd`;
-BUILD_DIR="$SRCROOT/build";
+BUILD_DIR="build";
 CONFIG="Release";
 TARGET="Eloquent";
 
