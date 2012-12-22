@@ -550,8 +550,12 @@ static AppController *singleton;
     [NSApp stopModal];
 }
 
+- (IBAction)openAndComposeEmail:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"mailto:bugs@eloquent-bible-study.eu"]];
+}
+
 - (IBAction)openMacSwordWikiPage:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/wiki/Frontends:MacSword"]];    
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/wiki/Frontends:MacSword"]];
 }
 
 - (IBAction)openMacSwordHomePage:(id)sender {
