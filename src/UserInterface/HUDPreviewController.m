@@ -172,8 +172,8 @@
         [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
         [options setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
                 
-        NSData *data = [[previewDict objectForKey:PreviewDisplayTextKey] dataUsingEncoding:NSUTF8StringEncoding];
-        NSMutableAttributedString *tempDisplayString = [[[NSMutableAttributedString alloc] initWithHTML:data
+        NSData *tempData = [[previewDict objectForKey:PreviewDisplayTextKey] dataUsingEncoding:NSUTF8StringEncoding];
+        NSMutableAttributedString *tempDisplayString = [[[NSMutableAttributedString alloc] initWithHTML:tempData
                                                                                                options:options
                                                                                     documentAttributes:nil] autorelease];
         

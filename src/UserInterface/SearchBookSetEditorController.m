@@ -11,6 +11,7 @@
 #import "SearchBookSet.h"
 #import "IndexingManager.h"
 #import "ObjCSword/SwordBibleBook.h"
+#import "globals.h"
 
 // name of the nib
 #define NIB_NAME     @"SearchBookSetEditor"
@@ -79,14 +80,14 @@
 
 - (NSMenu *)bookSetsMenu {
     // build popup menu
-    NSMenu *menu = [[NSMenu alloc] init];
-    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Temporary", @"") action:@selector(bookSetChanged:) keyEquivalent:@""];
+    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+    NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Temporary", @"") action:@selector(bookSetChanged:) keyEquivalent:@""] autorelease];
     [item setTarget:self];
     [item setTag:0];
     [menu addItem:item];
     int i = 1;
     for(SearchBookSet *set in [[IndexingManager sharedManager] searchBookSets]) {
-        item = [[NSMenuItem alloc] init];
+        item = [[[NSMenuItem alloc] init] autorelease];
         [item setTitle:NSLocalizedString([set name], @"")];
         [item setTarget:self];
         [item setAction:@selector(bookSetChanged:)];
@@ -105,7 +106,7 @@
 	// display call with std font
 	NSFont *font = FontStd;
 	[aCell setFont:font];
-	float pointSize = [font pointSize];
+	CGFloat pointSize = [font pointSize];
 	[aTableView setRowHeight:pointSize+4];    
 }
 
@@ -119,7 +120,7 @@
     
     id ret = nil;
     
-    SwordBibleBook *bb = [[self books] objectAtIndex:rowIndex];
+    SwordBibleBook *bb = [[self books] objectAtIndex:(NSUInteger) rowIndex];
     if([[aTableColumn identifier] isEqualToString:@"enabled"]) {
         if([[selectedBookSet name] isEqualToString:@"All"]) {
             ret = [NSNumber numberWithBool:YES];
@@ -160,7 +161,7 @@
     
     if(![selectedBookSet isPredefined]) {
         // get clicked row
-        int clickedRow = [booksTableView clickedRow];
+        NSUInteger clickedRow = (NSUInteger) [booksTableView clickedRow];
         NSString *bookName = [[[self books] objectAtIndex:clickedRow] osisName];
         
         if([selectedBookSet containsBook:bookName]) {
@@ -259,9 +260,7 @@
 }
 
 - (IBAction)selectNone:(id)sender {
-    for(SwordBibleBook *bb in [self books]) {
-        [selectedBookSet removeAll];
-    }
+    [selectedBookSet removeAll];
     // we store on application exit
     //[[IndexingManager sharedManager] storeSearchBookSets];        
     

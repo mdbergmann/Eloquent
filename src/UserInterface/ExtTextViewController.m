@@ -11,6 +11,7 @@
 #import "MBPreferenceController.h"
 #import "globals.h"
 #import "NSUserDefaults+Additions.h"
+#import "MBTextView.h"
 
 @interface ExtTextViewController ()
 

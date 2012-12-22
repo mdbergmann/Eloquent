@@ -6,16 +6,20 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "ModuleViewController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "ObjCSword/SwordManager.h"
 #import "ExtTextViewController.h"
-#import "SingleViewHostController.h"
+#import "WindowHostController.h"
 #import "IndexingManager.h"
 #import "ObjCSword/Notifications.h"
 #import "CacheObject.h"
 #import "NSDictionary+ModuleDisplaySettings.h"
+#import "SwordModule+SearchKitIndex.h"
 
 @interface ModuleViewController () 
 

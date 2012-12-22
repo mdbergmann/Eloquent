@@ -12,7 +12,6 @@
 // result dictionary property key names
 #define IndexPropDocName @"DocumentName"
 #define IndexPropDocScore @"DocumentScore"
-#define IndexPropSwordKeyContent @"SwordContent"
 #define IndexPropSwordKeyString @"SwordKeyString"
 #define IndexPropSwordStrongString @"SwordStrongString"
 

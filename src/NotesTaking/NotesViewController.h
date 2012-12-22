@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <ContentDisplayingViewController.h>
+#import "ProtocolHelper.h"
+#import "Indexer.h"
 
 @class FileRepresentation;
 

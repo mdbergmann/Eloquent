@@ -6,22 +6,13 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "WindowHostController.h"
 #import "SingleViewHostController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
-#import "BibleCombiViewController.h"
-#import "CommentaryViewController.h"
-#import "DictionaryViewController.h"
-#import "GenBookViewController.h"
-#import "HostableViewController.h"
-#import "BibleSearchOptionsViewController.h"
-#import "LeftSideBarViewController.h"
-#import "RightSideBarViewController.h"
-#import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
+#import "ModuleCommonsViewController.h"
 #import "SearchTextObject.h"
-#import "FileRepresentation.h"
-#import "NotesViewController.h"
 #import "WindowHostController+SideBars.h"
 
 @interface SingleViewHostController ()
@@ -64,11 +55,11 @@
 #pragma mark - Methods
 
 - (NSView *)contentView {
-    return [(NSBox *)placeHolderView contentView];
+    return [placeHolderView contentView];
 }
 
 - (void)setContentView:(NSView *)aView {
-    [(NSBox *)placeHolderView setContentView:aView];
+    [placeHolderView setContentView:aView];
 }
 
 #pragma mark - Actions

@@ -6,10 +6,10 @@
 //  Copyright 2007 mabe. All rights reserved.
 //
 
-#import "BibleIndexer.h"
 #import "SearchResultEntry.h"
 #import "SearchBookSet.h"
 #import "IndexingManager.h"
+#import "Indexer.h"
 
 /** the range for searching */
 SearchBookSet *searchBookSet;

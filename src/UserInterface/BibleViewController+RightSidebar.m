@@ -6,6 +6,9 @@
 //  Copyright 2010 Software by MABE. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleViewController+RightSidebar.h"
 #import "WorkspaceViewHostController.h"
 #import "globals.h"
@@ -13,8 +16,8 @@
 #import "ObjCSword/SwordBibleBook.h"
 #import "ObjCSword/SwordBibleChapter.h"
 #import "MBPreferenceController.h"
-#import "globals.h"
 #import "BibleCombiViewController.h"
+#import "SearchBookSetEditorController.h"
 
 
 @implementation BibleViewController (RightSidebar)
@@ -109,7 +112,7 @@
 	NSFont *font = FontStd;    
 	[cell setFont:font];
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
-	float pointSize = [font pointSize];
+	CGFloat pointSize = [font pointSize];
 	[aOutlineView setRowHeight:pointSize+4];
 }
 

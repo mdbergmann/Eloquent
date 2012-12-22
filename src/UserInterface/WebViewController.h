@@ -9,13 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 #import <CocoLogger/CocoLogger.h>
-#import <HostableViewController.h>
-#import <MBTextView.h>
-#import <ProtocolHelper.h>
+#import "HostableViewController.h"
 
 #define WEBVIEW_NIBNAME   @"WebView"
 
 @class MouseTrackingScrollView;
+@class MBTextView;
 
 @interface WebViewController : HostableViewController <MouseTracking, TextContentProviding> {
     IBOutlet WebView *webView;
@@ -26,7 +25,7 @@
 - (NSMenu *)menuForEvent:(NSEvent *)event;
 
 // TextContentProviding
-- (MBTextView *)textView;
+- (NSTextView *)textView;
 - (MouseTrackingScrollView *)scrollView;
 - (void)setAttributedString:(NSAttributedString *)aString;
 - (void)setString:(NSString *)aString;

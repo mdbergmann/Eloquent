@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <SwordModule+SearchKitIndex.h>
 
 @interface ProgressOverlayViewController : NSViewController <IndexCreationProgressing> {
     // Progress overlay view

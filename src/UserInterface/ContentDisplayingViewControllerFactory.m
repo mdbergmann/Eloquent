@@ -8,6 +8,8 @@
 
 #import "ContentDisplayingViewControllerFactory.h"
 #import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
 #import "CommentaryViewController.h"
 #import "DictionaryViewController.h"
@@ -20,7 +22,7 @@
     ContentDisplayingViewController *vc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModuleType:[aModule type]];
     if(vc) {
         if([vc isKindOfClass:[BibleCombiViewController class]]) {
-            [(BibleCombiViewController *)vc addNewBibleViewWithModule:(SwordBible *)aModule];
+            [(BibleCombiViewController *)vc addNewBibleViewWithModule:aModule];
         } else {
             [(ModuleViewController *)vc setModule:aModule];
         }        
@@ -31,19 +33,19 @@
 + (ContentDisplayingViewController *)createSwordModuleViewControllerForModuleType:(ModuleType)aModuleType {
     ContentDisplayingViewController *vc = nil;    
     if(aModuleType == Bible) {
-        vc = [[BibleCombiViewController alloc] init];
+        vc = [[[BibleCombiViewController alloc] init] autorelease];
     } else if(aModuleType == Commentary) {
-        vc = [[CommentaryViewController alloc] init];
+        vc = [[[CommentaryViewController alloc] init] autorelease];
     } else if(aModuleType == Dictionary) {
-        vc = [[DictionaryViewController alloc] init];
+        vc = [[[DictionaryViewController alloc] init] autorelease];
     } else if(aModuleType == Genbook) {
-        vc = [[GenBookViewController alloc] init];
+        vc = [[[GenBookViewController alloc] init] autorelease];
     }
     return vc;    
 }
 
 + (ContentDisplayingViewController *)createNotesViewControllerForFileRep:(FileRepresentation *)aFileRep {
-    return [[NotesViewController alloc] initWithFileRepresentation:aFileRep];
+    return [[[NotesViewController alloc] initWithFileRepresentation:aFileRep] autorelease];
 }
 
 @end

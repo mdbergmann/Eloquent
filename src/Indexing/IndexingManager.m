@@ -11,6 +11,8 @@
 #import "ObjCSword/SwordManager.h"
 #import "SearchBookSet.h"
 #import "ObjCSword/SwordVerseKey.h"
+#import "Indexer.h"
+#import "SwordModule+SearchKitIndex.h"
 
 @interface IndexingManager ()
 
@@ -23,7 +25,7 @@
  @param[in] modType: the type of the module. depending on this, more than one index may be created for the module.
  @return: success YES/NO
  */
-- (BOOL)createIndexForModuleName:(NSString *)modName moduleType:(ModuleType)modType;
+- (BOOL)createIndexForModuleName:(NSString *)modName moduleType:(int)modType;
 
 /**
  this method can be run in separate thread for checking index validity
@@ -49,7 +51,7 @@
  @param[in] modType: the type of the module. depending on this, more than one index may be created for the module.
  @return: success YES/NO
  */
-- (BOOL)createIndexForModuleName:(NSString *)modName moduleType:(ModuleType)modType {
+- (BOOL)createIndexForModuleName:(NSString *)modName moduleType:(int)modType {
 	return NO;
 }
 
@@ -281,7 +283,7 @@
 /**
  the manager should be used to aquire indexers. the manager will keep track of already opened indexers and not open new ones if not necessary.
  */
-- (Indexer *)indexerForModuleName:(NSString *)aName moduleType:(ModuleType)aType {
+- (Indexer *)indexerForModuleName:(NSString *)aName moduleType:(int)aType {
     Indexer *ret = [indexerRegistrat objectForKey:aName];
     if(!ret) {
         ret = [Indexer indexerWithModuleName:aName moduleType:aType];

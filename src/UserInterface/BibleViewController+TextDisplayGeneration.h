@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <BibleViewController.h>
+#import "BibleViewController.h"
 
 @class SwordBibleTextEntry;
 

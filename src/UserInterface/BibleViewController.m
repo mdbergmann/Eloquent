@@ -6,9 +6,12 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleViewController.h"
 #import "AppController.h"
-#import "SingleViewHostController.h"
+#import "WindowHostController.h"
 #import "ScrollSynchronizableView.h"
 #import "GradientCell.h"
 #import "SearchBookSetEditorController.h"

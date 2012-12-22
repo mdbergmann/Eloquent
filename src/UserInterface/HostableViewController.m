@@ -9,7 +9,6 @@
 #import "HostableViewController.h"
 #import "WindowHostController.h"
 #import "SearchTextFieldOptions.h"
-#import "ObjectAssociations.h"
 
 @implementation HostableViewController
 
@@ -31,6 +30,11 @@
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [searchString release];
+    [super dealloc];
 }
 
 - (id)delegate {

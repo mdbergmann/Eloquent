@@ -2,7 +2,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <globals.h>
 
 enum SheetReturnCode {
 	SheetDefaultButtonCode = 0,

@@ -9,10 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
-#import <WindowHostController.h>
-#import <Indexer.h>
 #import <ObjCSword/SwordModule.h>
-#import <ProtocolHelper.h>
+#import "WindowHostController.h"
 
 @class ContentDisplayingViewController;
 @class SwordModule;

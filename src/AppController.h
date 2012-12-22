@@ -4,7 +4,6 @@
 #import <CocoLogger/CocoLogger.h>
 #import <ObjCSword/ObjCSword.h>
 #import <Sparkle/Sparkle.h>
-#import <ModuleManager.h>
 
 @class SingleViewHostController;
 @class WorkspaceViewHostController;

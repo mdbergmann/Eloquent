@@ -7,9 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SideBarViewController.h>
-#import <HostableViewController.h>
-#import <ProtocolHelper.h>
+#import "SideBarViewController.h"
 
 #define RIGHTSIDEBARVIEW_NIBNAME   @"RightSideBarView"
 
@@ -18,7 +16,6 @@
     IBOutlet NSBox *placeholderView;
 }
 
-// initialitazion
 - (id)initWithDelegate:(id)aDelegate;
 
 - (void)setContentView:(NSView *)aView;

@@ -6,18 +6,23 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "DictionaryViewController.h"
-#import "SingleViewHostController.h"
+#import "WindowHostController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "globals.h"
 #import "ObjCSword/SwordManager.h"
+#import "LeftSideBarAccessoryUIController.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
 #import "SearchTextFieldOptions.h"
 #import "CacheObject.h"
+#import "SwordDictionary.h"
 
 @interface DictionaryViewController (/* class continuation */)
 
@@ -438,7 +443,7 @@
 	// set row height according to used font
 	// get font height
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
-	float pointSize = [font pointSize];
+	CGFloat pointSize = [font pointSize];
 	[aTableView setRowHeight:pointSize+4];
 }
 

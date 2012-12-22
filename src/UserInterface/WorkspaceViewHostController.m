@@ -6,26 +6,21 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
 #import "WorkspaceViewHostController.h"
 #import "SingleViewHostController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "AppController.h"
-#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
-#import "CommentaryViewController.h"
-#import "DictionaryViewController.h"
-#import "HostableViewController.h"
-#import "BibleSearchOptionsViewController.h"
-#import "LeftSideBarViewController.h"
-#import "RightSideBarViewController.h"
+#import "ModuleViewController.h"
 #import "SearchTextObject.h"
-#import "FakeModel.h"
-#import "FileRepresentation.h"
 #import "NotesViewController.h"
 #import "WindowHostController+SideBars.h"
 #import "ContentDisplayingViewControllerFactory.h"
 #import "InitialInfoViewController.h"
+#import "RightSideBarViewController.h"
 
 @interface WorkspaceViewHostController ()
 
@@ -69,6 +64,12 @@
     }    
 }
 
+- (void)dealloc {
+    [viewControllers release];
+    [searchTextObjs release];
+    [super dealloc];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     
@@ -100,7 +101,7 @@
     int i = 0;
     for(ContentDisplayingViewController *vc in viewControllers) {
         if([vc viewLoaded]) {
-            NSTabViewItem *item = [[NSTabViewItem alloc] init];
+            NSTabViewItem *item = [[[NSTabViewItem alloc] init] autorelease];
             [item setView:[vc view]];
             [tabView addTabViewItem:item];
             [item setLabel:[self computeTabTitle]];
@@ -129,11 +130,11 @@
 #pragma mark - Methods
 
 - (NSView *)contentView {
-    return [(NSBox *)placeHolderView contentView];
+    return [placeHolderView contentView];
 }
 
 - (void)setContentView:(NSView *)aView {
-    [(NSBox *)placeHolderView setContentView:aView];
+    [placeHolderView setContentView:aView];
 }
 
 

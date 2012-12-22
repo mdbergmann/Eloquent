@@ -1,8 +1,8 @@
-
+#import <ObjCSword/ObjCSword.h>
 #import "ModuleListViewController.h"
 #import "ModuleListObject.h"
 #import "InstallSourceListObject.h"
-#import "ObjCSword/SwordManager.h"
+#import "globals.h"
 
 // table column identifiers
 #define TABLECOL_IDENTIFIER_MODNAME @"modname"

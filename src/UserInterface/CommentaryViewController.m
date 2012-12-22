@@ -6,7 +6,11 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "CommentaryViewController.h"
+#import "WindowHostController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "BibleCombiViewController.h"
@@ -22,6 +26,7 @@
 #import "ObjCSword/SwordListKey.h"
 #import "NSUserDefaults+Additions.h"
 #import "BibleViewController+TextDisplayGeneration.h"
+#import "SwordModule+SearchKitIndex.h"
 
 @interface CommentaryViewController ()
 /** generates HTML for display */

@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <ProtocolHelper.h>
-#import <Indexer.h>
+#import "Indexer.h"
+#import "ProtocolHelper.h"
 
 @class SearchTextFieldOptions;
 @class WindowHostController;

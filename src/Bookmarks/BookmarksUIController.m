@@ -6,7 +6,9 @@
 //  Copyright 2009 Software by MABE. All rights reserved.
 //
 
+#import "LeftSideBarAccessoryUIController.h"
 #import "BookmarksUIController.h"
+#import "HostableViewController.h"
 #import "WindowHostController.h"
 #import "SingleViewHostController.h"
 #import "AppController.h"

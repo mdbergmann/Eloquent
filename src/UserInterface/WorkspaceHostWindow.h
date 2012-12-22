@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HostWindow.h>
+#import "HostWindow.h"
 
 /**
  This class is used as first responder for all the main menu actions.

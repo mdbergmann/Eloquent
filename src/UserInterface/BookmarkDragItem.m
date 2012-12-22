@@ -32,7 +32,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    BookmarkDragItem *item = [[BookmarkDragItem alloc] init];
+    BookmarkDragItem *item = [[[BookmarkDragItem alloc] init] autorelease];
     item.bookmark = [decoder decodeObjectForKey:@"Bookmark"];
     item.path = [decoder decodeObjectForKey:@"IndexPath"];
     

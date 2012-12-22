@@ -7,8 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HostableViewController.h>
-#import <ProtocolHelper.h>
+#import "HostableViewController.h"
 
 typedef enum _ContentViewType {
     SwordBibleContentType = 1,

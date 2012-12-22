@@ -13,6 +13,9 @@
 #import "ObjCSword/SwordModuleTextEntry.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "DictionaryViewController.h"
 #import "NSUserDefaults+Additions.h"
 

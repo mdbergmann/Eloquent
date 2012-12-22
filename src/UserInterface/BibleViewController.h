@@ -8,9 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <HostableViewController.h>
-#import <ModuleViewController.h>
-#import <ProtocolHelper.h>
+#import "ModuleViewController.h"
 
 @class SwordBible;
 @class GradientCell;

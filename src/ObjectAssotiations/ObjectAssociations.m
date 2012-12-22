@@ -7,6 +7,7 @@
 //
 
 #import "ObjectAssociations.h"
+#import "HostableViewController.h"
 #import "WindowHostController.h"
 
 char ModuleListUI;

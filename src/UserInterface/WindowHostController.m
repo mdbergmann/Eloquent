@@ -6,6 +6,7 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
 #import "WindowHostController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
@@ -204,7 +205,7 @@ typedef enum _NavigationDirectionType {
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
         [contentViewController isKindOfClass:[CommentaryViewController class]]) {
         SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
-        [verseKey setBook:[verseKey book] + 1];
+        [verseKey setBook:(char) ([verseKey book] + 1)];
         [verseKey setChapter:1];
                 
         // get verse key text
@@ -218,7 +219,7 @@ typedef enum _NavigationDirectionType {
     if([contentViewController isKindOfClass:[BibleCombiViewController class]] || 
        [contentViewController isKindOfClass:[CommentaryViewController class]]) {
         SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[(ModuleCommonsViewController *)contentViewController searchString]];
-        [verseKey setBook:[verseKey book] - 1];
+        [verseKey setBook:(char) ([verseKey book] - 1)];
         [verseKey setChapter:1];
         
         // get verse key text

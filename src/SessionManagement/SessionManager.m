@@ -7,6 +7,8 @@
 
 #import <CocoLogger/CocoLogger.h>
 #import "SessionManager.h"
+#import "ProtocolHelper.h"
+#import "HostableViewController.h"
 #import "WindowHostController.h"
 #import "Session.h"
 #import "globals.h"

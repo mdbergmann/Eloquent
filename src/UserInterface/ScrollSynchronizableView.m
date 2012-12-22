@@ -26,4 +26,10 @@
     [super drawRect:rect];
 }
 
+- (void)dealloc {
+    [syncScrollView release];
+    [textView release];
+    [super dealloc];
+}
+
 @end

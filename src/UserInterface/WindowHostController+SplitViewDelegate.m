@@ -6,10 +6,12 @@
 //  Copyright 2010 Software by MABE. All rights reserved.
 //
 
+#import "HostableViewController.h"
 #import "WindowHostController+SplitViewDelegate.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "LeftSideBarViewController.h"
+#import "RightSideBarViewController.h"
 
 @implementation WindowHostController (SplitViewDelegate)
 
@@ -85,13 +87,13 @@
         if(sv == mainSplitView) {
             NSSize s = [[lsbViewController view] frame].size;
             if(s.width > 20) {
-                [userDefaults setInteger:s.width forKey:DefaultsLSBWidth];
+                [userDefaults setInteger:(NSInteger) s.width forKey:DefaultsLSBWidth];
             }
         } else if(sv == contentSplitView) {
             NSSize s = [[rsbViewController view] frame].size;
             if(s.width > 10) {
-                rsbWidth = s.width;
-                [userDefaults setInteger:s.width forKey:DefaultsRSBWidth];
+                rsbWidth = (float) s.width;
+                [userDefaults setInteger:(NSInteger) s.width forKey:DefaultsRSBWidth];
             }
         }
     }

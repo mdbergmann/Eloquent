@@ -6,27 +6,31 @@
 //  Copyright 2009 Software by MABE. All rights reserved.
 //
 
+#import "HostableViewController.h"
 #import "ContentDisplayingViewController.h"
 #import "HUDPreviewController.h"
 #import "MBPreferenceController.h"
 #import "globals.h"
 #import "NotesViewController.h"
-#import "BibleViewController.h"
-#import "BibleCombiViewController.h"
-#import "CommentaryViewController.h"
+#import "ModuleCommonsViewController.h"
+#import "ModuleViewController.h"
 #import "GenBookViewController.h"
 #import "DictionaryViewController.h"
 #import "NSTextView+LookupAdditions.h"
 #import "ObjCSword/SwordManager.h"
 #import "ObjCSword/SwordKey.h"
-#import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "AppController.h"
-#import "ModulesUIController.h"
 #import "CacheObject.h"
 #import "ObjectAssociations.h"
 #import "ContentDisplayingViewControllerFactory.h"
+#import "SwordUtil.h"
+#import "SwordModule+SearchKitIndex.h"
 #import "ProgressOverlayViewController.h"
+#import "CommentaryViewController.h"
+#import "BibleCombiViewController.h"
+#import "ModulesUIController.h"
+#import "SingleViewHostController.h"
 
 extern char ModuleListUI;
 
@@ -206,7 +210,7 @@ extern char ModuleListUI;
 }
 
 - (BOOL)linkClicked:(id)link {
-    NSDictionary *data = [SwordManager linkDataForLinkURL:link];
+    NSDictionary *data = [SwordUtil dictionaryFromUrl:link];
     NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
     if([attrType isEqualToString:@"n"]) {
         [self processPreviewDisplay:link];
@@ -219,7 +223,7 @@ extern char ModuleListUI;
 
 - (void)openClickedLink:(NSURL *)link {
     // get data for the link
-    NSDictionary *data = [SwordManager linkDataForLinkURL:link];
+    NSDictionary *data = [SwordUtil dictionaryFromUrl:link];
     NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
     if(!modName || [modName length] == 0) {
         // get default bible module
@@ -270,7 +274,7 @@ extern char ModuleListUI;
 }
 
 - (NSString *)processPreviewDisplay:(NSURL *)aUrl {
-    NSDictionary *linkResult = [SwordManager linkDataForLinkURL:aUrl];
+    NSDictionary *linkResult = [SwordUtil dictionaryFromUrl:aUrl];
     SendNotifyShowPreviewData(linkResult);
     
     CocoLog(LEVEL_DEBUG, @"classname: %@", [aUrl className]);    
@@ -323,7 +327,7 @@ extern char ModuleListUI;
         return ret;
     } else if([menuItem menu] == linkContextMenu) {
         if(selector == @selector(openLink:)) {
-            NSDictionary *data = [SwordManager linkDataForLinkURL:contextMenuClickedLink];
+            NSDictionary *data = [SwordUtil dictionaryFromUrl:contextMenuClickedLink];
             if(data) {
                 // this is all we can open
                 NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];

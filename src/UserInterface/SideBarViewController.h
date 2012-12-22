@@ -7,8 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HostableViewController.h>
-#import <ProtocolHelper.h>
+#import "HostableViewController.h"
 
 @class ModulesUIController, BookmarksUIController, NotesUIController;
 

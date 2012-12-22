@@ -8,8 +8,9 @@
 
 #import "InitialInfoViewController.h"
 #import "AppController.h"
-#import "ObjCSword/SwordManager.h"
+#import "HostableViewController.h"
 #import "WindowHostController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
@@ -64,7 +65,7 @@
     }
 
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:defaultBibleName];
-    [self.host addContentViewController:[[BibleCombiViewController alloc] initWithModule:(SwordBible *)mod delegate:nil]];
+    [self.host addContentViewController:[[[BibleCombiViewController alloc] initWithModule:(SwordBible *) mod delegate:nil] autorelease]];
 }
 
 @end

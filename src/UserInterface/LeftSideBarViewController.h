@@ -7,10 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SideBarViewController.h>
-#import <HostableViewController.h>
-#import <ProtocolHelper.h>
-#import <LeftSideBarAccessoryUIController.h>
+#import "SideBarViewController.h"
+#import "LeftSideBarAccessoryUIController.h"
 
 @class BookmarksUIController;
 @class BookmarkManager;

@@ -8,11 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <HostableViewController.h>
-#import <BibleViewController.h>
-#import <ProtocolHelper.h>
+#import "BibleViewController.h"
 
-@class SwordCommentary, ExtTextViewController;
+@class BibleViewController, SwordCommentary, ExtTextViewController;
 
 #define COMMENTARYVIEW_NIBNAME   @"CommentaryView"
 

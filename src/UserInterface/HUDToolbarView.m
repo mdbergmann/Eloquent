@@ -7,8 +7,6 @@
 //
 
 #import "HUDToolbarView.h"
-#import "CTGradient.h"
-
 
 @implementation HUDToolbarView
 

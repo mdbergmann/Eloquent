@@ -6,12 +6,13 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
 #import "LeftSideBarViewController.h"
 #import "AppController.h"
-#import "BibleCombiViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "WindowHostController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
-#import "ObjCSword/SwordManager.h"
 #import "SwordModCategory.h"
 #import "BookmarkManager.h"
 #import "Bookmark.h"

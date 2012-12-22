@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <globals.h>
 
 @class SearchBookSet;
 

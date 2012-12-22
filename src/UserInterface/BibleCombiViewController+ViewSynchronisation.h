@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <BibleCombiViewController.h>
+#import "BibleCombiViewController.h"
 
 
 @interface BibleCombiViewController (ViewSynchronisation)

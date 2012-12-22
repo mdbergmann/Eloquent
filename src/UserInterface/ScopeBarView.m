@@ -33,11 +33,17 @@
         image = bgImageInactive;
     }
     NSRect tmp = [self bounds];
-    int repeat = (tmp.size.width / 5) + 1;
+    int repeat = (int) ((tmp.size.width / 5) + 1);
     for(int i = 0;i < repeat;i++) {
         [image drawInRect:tmp fromRect:[self bounds] operation:NSCompositeSourceOver fraction:1.0];
         tmp.origin.x += 5;
     }
+}
+
+- (void)dealloc {
+    [bgImageActive release];
+    [bgImageInactive release];
+    [super dealloc];
 }
 
 @end

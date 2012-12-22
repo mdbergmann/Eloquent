@@ -6,13 +6,17 @@
 //  Copyright 2009 Software by MABE. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
 #import "NotesViewController.h"
 #import "globals.h"
 #import "FileRepresentation.h"
 #import "NSTextView+LookupAdditions.h"
+#import "ModuleCommonsViewController.h"
 #import "ModuleViewController.h"
 #import "MBPreferenceController.h"
 #import "ObjectAssociations.h"
+#import "LeftSideBarAccessoryUIController.h"
 #import "NotesUIController.h"
 #import "NSUserDefaults+Additions.h"
 #import "SearchTextFieldOptions.h"

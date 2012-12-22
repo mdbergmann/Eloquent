@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <ProtocolHelper.h>
+#import "ProtocolHelper.h"
 
 @class ConfirmationSheetController;
 @class ToolbarController;

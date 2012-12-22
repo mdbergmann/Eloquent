@@ -1,10 +1,9 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <ModuleListViewController.h>
-#import "SwordInstallSourceManager.h"
 
 @class ModuleListObject;
 @class InstallSourceListObject;
+@class ModuleListViewController;
 
 #define EDITING_MODE_ADD    1
 #define EDITING_MODE_EDIT   2

@@ -1,10 +1,13 @@
 
 #import "AppController.h"
 #import "MBPreferenceController.h"
+#import "HostableViewController.h"
+#import "WindowHostController.h"
 #import "SingleViewHostController.h"
 #import "WorkspaceViewHostController.h"
 #import "MBAboutWindowController.h"
 #import "MBThreadedProgressSheetController.h"
+#import "SwordModule+SearchKitIndex.h"
 #import "ProgressOverlayViewController.h"
 #import "IndexingManager.h"
 #import "HUDPreviewController.h"
@@ -14,6 +17,12 @@
 #import "DailyDevotionPanelController.h"
 #import "SwordUrlProtocol.h"
 #import "SessionManager.h"
+#import "globals.h"
+#import "ModuleManager.h"
+#import "SwordUtil.h"
+#import "FilterProviderFactory.h"
+#import "DefaultFilterProvider.h"
+#import "EloquentFilterProvider.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	OSStatus err;
@@ -179,7 +188,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             if([fm fileExistsAtPath:fullSubDir isDirectory:&directory]) {
                 if(directory) {
                     CocoLog(LEVEL_DEBUG, @"augmenting folder: %@", fullSubDir);
-                    [[SwordManager defaultManager] addPath:fullSubDir];
+                    [[SwordManager defaultManager] addModulesPath:fullSubDir];
                     CocoLog(LEVEL_DEBUG, @"augmenting folder done");
                 }
             }
@@ -236,6 +245,7 @@ static AppController *singleton;
         [ProgressOverlayViewController defaultController];
         
         [[SwordLocaleManager defaultManager] initLocale];
+        [[FilterProviderFactory providerFactory] initWithImpl:[[[EloquentFilterProvider alloc] init] autorelease]];
         SwordManager *sm = [SwordManager defaultManager];
         
         // check for installed modules, if there are none add our internal module path so that th user at least has one module (ESV)
@@ -377,7 +387,7 @@ static AppController *singleton;
             }
             // augment module
             CocoLog(LEVEL_DEBUG, [NSString stringWithFormat:@"Augmenting module at: %@", destinationPath]);
-            [swMgr addPath:destinationPath];
+            [swMgr addModulesPath:destinationPath];
             // open single window
             SwordModule *mod = [swMgr moduleWithName:moduleName];
             if(mod) {
@@ -527,7 +537,7 @@ static AppController *singleton;
     } else {
         NSString *modPath = [SwordCommentary createCommentaryWithName:modName];
         if(modPath != nil) {
-            [[SwordManager defaultManager] addPath:modPath];        
+            [[SwordManager defaultManager] addModulesPath:modPath];
         }        
         
         [createModuleWindow close];
@@ -651,7 +661,7 @@ static AppController *singleton;
 
 	CocoLog(LEVEL_DEBUG, @"handling URL event for: %@", urlString);
     
-    NSDictionary *linkData = [SwordManager linkDataForLinkURL:[NSURL URLWithString:urlString]];
+    NSDictionary *linkData = [SwordUtil dictionaryFromUrl:[NSURL URLWithString:urlString]];
     NSString *moduleName = [linkData objectForKey:ATTRTYPE_MODULE];
     NSString *passage = [linkData objectForKey:ATTRTYPE_VALUE];
     

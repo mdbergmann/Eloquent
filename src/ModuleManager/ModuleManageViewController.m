@@ -1,10 +1,12 @@
+#import <ObjCSword/ObjCSword.h>
 #import "ModuleManageViewController.h"
-#import "ObjCSword/SwordManager.h"
 #import "MBThreadedProgressSheetController.h"
 #import "ModuleListObject.h"
 #import "InstallSourceListObject.h"
 #import "IndexingManager.h"
 #import "MBPreferenceController.h"
+#import "globals.h"
+#import "ModuleListViewController.h"
 
 // defaults entry for disclaimer
 #define DefaultsUserDisclaimerConfirmed @"DefaultsUserDisplaimerConfirmed"

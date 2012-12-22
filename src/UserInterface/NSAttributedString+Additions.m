@@ -7,6 +7,9 @@
 //
 
 #import "NSAttributedString+Additions.h"
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "ModuleViewController.h"
 
 @implementation NSAttributedString (Additions)

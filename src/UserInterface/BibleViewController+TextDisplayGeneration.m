@@ -6,6 +6,9 @@
 //  Copyright 2010 Software by MABE. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleViewController+TextDisplayGeneration.h"
 #import "MBPreferenceController.h"
 #import "globals.h"
@@ -13,7 +16,6 @@
 #import "ObjCSword/SwordBibleTextEntry.h"
 #import "NSUserDefaults+Additions.h"
 #import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
 #import "ObjCSword/SwordBible.h"
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
@@ -21,16 +23,17 @@
 #import "BookmarkManager.h"
 #import "ObjCSword/SwordVerseKey.h"
 #import "ObjCSword/SwordListKey.h"
+#import "CacheObject.h"
 
 @implementation BibleViewController (TextDisplayGeneration)
 
 #pragma mark - HTML generation from search result
 
 - (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
-    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
+    NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
     
     if(searchResults && [searchResults count] > 0) {
-        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
+        NSAttributedString *newLine = [[[NSAttributedString alloc] initWithString:@"\n"] autorelease];
         
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
@@ -63,15 +66,15 @@
                     [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
                     
                     // prepare output
-                    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr] 
-                                                                                    attributes:keyAttributes];
+                    NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr]
+                                                                                     attributes:keyAttributes] autorelease];
                     NSAttributedString *contentString = nil;
                     if([keyStr isEqualToString:[searchResultEntry keyString]]) {
                         contentString = [Highlighter highlightText:contentStr 
                                                          forTokens:searchQuery 
                                                         attributes:contentAttributes];                        
                     } else {
-                        contentString = [[NSAttributedString alloc] initWithString:contentStr attributes:contentAttributes];
+                        contentString = [[[NSAttributedString alloc] initWithString:contentStr attributes:contentAttributes] autorelease];
                     }
                     [ret appendAttributedString:keyString];
                     [ret appendAttributedString:contentString];
@@ -96,6 +99,9 @@
     CocoLog(LEVEL_DEBUG, @"start creating HTML string...");
     NSString *htmlString = [self createHTMLStringWithMarkers];
     CocoLog(LEVEL_DEBUG, @"start creating HTML string...done");
+
+    // replace all zwsp'es with normal spaces
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"\u200B" withString:@""];
     
     CocoLog(LEVEL_DEBUG, @"start generating attr string...");
     [self applyString:htmlString];
@@ -228,11 +234,9 @@
  Create the HTML string from the verse entry and append it to aString.
  */
 - (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString {
-    NSString *bookName = @"";
-    int book = -1;
-    int chapter = -1;
-    int verse = -1;
-    
+    NSString *bookName;
+    int book, chapter, verse;
+
     SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[anEntry key] v11n:[module versification]];
     bookName = [verseKey bookName];
     book = [verseKey book];
@@ -242,7 +246,7 @@
     NSString *verseMarkerInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
     
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
-    VerseNumberingType verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
+    int verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
     BOOL hideVerseNumbering = (verseNumbering == NoVerseNumbering);
     
@@ -254,7 +258,7 @@
       (int)(hr * 100.0), (int)(hg * 100.0), (int)(hb * 100.0)];
     
     // book introductions
-    SwordBibleBook *bibleBook = (SwordBibleBook *)[(SwordBible *)module bookForLocalizedName:bookName];
+    SwordBibleBook *bibleBook = [(SwordBible *)module bookForLocalizedName:bookName];
     if(book != lastBook) {
         if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
             NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:bibleBook];
@@ -336,11 +340,11 @@
 
 - (void)applyLinkCursorToLinks {    
     NSRange effectiveRange;
-	int	i = 0;
+	NSUInteger i = 0;
 	while (i < [tempDisplayString length]) {
         NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if([attrs objectForKey:NSLinkAttributeName] != nil) {
-            attrs = [attrs mutableCopy];
+            attrs = [[attrs mutableCopy] autorelease];
             [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
             [tempDisplayString setAttributes:attrs range:effectiveRange];
 		}
@@ -352,7 +356,7 @@
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
-    VerseNumberingType verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
+    int verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
     BOOL isShowFullVerseNumbering = (verseNumbering == FullVerseNumbering);
     
@@ -361,9 +365,9 @@
     NSString *text = [tempDisplayString string];
     while(found) {
         int tLen = [text length];
-        NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, tLen-replaceRange.location)];
+        NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, (NSUInteger) (tLen-replaceRange.location))];
         if(start.location != NSNotFound) {
-            NSRange stop = [text rangeOfString:@";;;" options:0 range:NSMakeRange(start.location+3, tLen-(start.location+3))];
+            NSRange stop = [text rangeOfString:@";;;" options:0 range:NSMakeRange(start.location+3, (NSUInteger) (tLen-(start.location+3)))];
             if(stop.location != NSNotFound) {
                 replaceRange.location = start.location;
                 replaceRange.length = stop.location + 3 - start.location;

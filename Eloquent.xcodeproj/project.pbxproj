@@ -33,6 +33,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		8C92C3FE0C9B15207053A59D /* EloquentFilterProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8C92C1D5D7545986F2AFCEE1 /* EloquentFilterProvider.h */; };
+		8C92C9F54EFB58ACC035068E /* EloquentFilterProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8C92C5FF138B87CC5DB94C51 /* EloquentFilterProvider.mm */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -388,6 +390,7 @@
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
 				A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */,
+				8C92C3FE0C9B15207053A59D /* EloquentFilterProvider.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +404,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Eloquent_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Eloquent_Prefix.pch; sourceTree = "<group>"; };
+		8C92C1D5D7545986F2AFCEE1 /* EloquentFilterProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EloquentFilterProvider.h; sourceTree = "<group>"; };
+		8C92C5FF138B87CC5DB94C51 /* EloquentFilterProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EloquentFilterProvider.mm; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Eloquent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eloquent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9000E200F6114D300F07F3E /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTGradient.h; sourceTree = "<group>"; };
@@ -455,11 +460,8 @@
 		A91C93DB0DF9B0E9006B7361 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = src/AppController.h; sourceTree = "<group>"; };
 		A91C93DC0DF9B0E9006B7361 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = src/AppController.m; sourceTree = "<group>"; };
 		A91C93E10DF9B0F8006B7361 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globals.h; path = src/globals.h; sourceTree = "<group>"; };
-		A91C93EC0DF9B149006B7361 /* BibleIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibleIndexer.h; sourceTree = "<group>"; };
 		A91C93ED0DF9B149006B7361 /* BibleIndexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibleIndexer.m; sourceTree = "<group>"; };
-		A91C93EE0DF9B149006B7361 /* BookIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookIndexer.h; sourceTree = "<group>"; };
 		A91C93EF0DF9B149006B7361 /* BookIndexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookIndexer.m; sourceTree = "<group>"; };
-		A91C93F00DF9B149006B7361 /* DictIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictIndexer.h; sourceTree = "<group>"; };
 		A91C93F10DF9B149006B7361 /* DictIndexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictIndexer.m; sourceTree = "<group>"; };
 		A91C93F20DF9B149006B7361 /* Indexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Indexer.h; sourceTree = "<group>"; };
 		A91C93F30DF9B149006B7361 /* Indexer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Indexer.m; sourceTree = "<group>"; };
@@ -871,6 +873,8 @@
 				A918BA4211C67AF700024D84 /* SwordModule+SearchKitIndex.mm */,
 				A9802A7412182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.h */,
 				A9802A7512182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m */,
+				8C92C5FF138B87CC5DB94C51 /* EloquentFilterProvider.mm */,
+				8C92C1D5D7545986F2AFCEE1 /* EloquentFilterProvider.h */,
 			);
 			name = Sword;
 			path = src/Sword;
@@ -916,11 +920,8 @@
 		A91C93EB0DF9B149006B7361 /* Indexing */ = {
 			isa = PBXGroup;
 			children = (
-				A91C93EC0DF9B149006B7361 /* BibleIndexer.h */,
 				A91C93ED0DF9B149006B7361 /* BibleIndexer.m */,
-				A91C93EE0DF9B149006B7361 /* BookIndexer.h */,
 				A91C93EF0DF9B149006B7361 /* BookIndexer.m */,
-				A91C93F00DF9B149006B7361 /* DictIndexer.h */,
 				A91C93F10DF9B149006B7361 /* DictIndexer.m */,
 				A91C93F20DF9B149006B7361 /* Indexer.h */,
 				A91C93F30DF9B149006B7361 /* Indexer.m */,
@@ -1328,7 +1329,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = Crosswire;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Eloquent" */;
@@ -1722,6 +1723,7 @@
 				A955E198142612B000357B6F /* WebViewController.m in Sources */,
 				C01FCF5008A954540054247F /* Session.m in Sources */,
 				C01FCF5008A9545400542482 /* SessionManager.m in Sources */,
+				8C92C9F54EFB58ACC035068E /* EloquentFilterProvider.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2255,7 +2257,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2291,6 +2293,7 @@
 					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
+				PROVISIONING_PROFILE = "899308F6-9F9B-4FDD-B6C2-039F19C4E6A0";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2301,7 +2304,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2331,7 +2334,7 @@
 					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "899308F6-9F9B-4FDD-B6C2-039F19C4E6A0";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;

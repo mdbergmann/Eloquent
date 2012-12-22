@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <LeftSideBarAccessoryUIController.h>
 #import <ObjCSword/SwordModule.h>
+#import "LeftSideBarAccessoryUIController.h"
 
 @class SwordManager;
 @class SwordModule;

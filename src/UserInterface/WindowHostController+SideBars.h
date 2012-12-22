@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <WindowHostController.h>
+#import "WindowHostController.h"
 
 @interface WindowHostController (SideBars)
 

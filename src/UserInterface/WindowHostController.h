@@ -7,9 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ProtocolHelper.h>
-#import <ContentDisplayingViewController.h>
-#import <Indexer.h>
+#import "Indexer.h"
+#import "ContentDisplayingViewController.h"
 
 @class Bookmark;
 @class ScopeBarView;
@@ -78,7 +77,7 @@
 
 // methods
 - (NSView *)view;
-- (void)setView:(NSView *)aView;
+- (void)setView:(FullScreenView *)aView;
 
 /** sets the text string into the search text field */
 - (void)setSearchText:(NSString *)aString;

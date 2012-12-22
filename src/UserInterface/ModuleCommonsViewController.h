@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <ContentDisplayingViewController.h>
-#import <ProtocolHelper.h>
+#import "ContentDisplayingViewController.h"
 
 enum GeneralMenuItemAdditions {
     ShowModuleAbout = 100000

@@ -7,8 +7,11 @@
 //
 
 #import <ObjCSword/ObjCSword.h>
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "GenBookViewController.h"
-#import "SingleViewHostController.h"
+#import "WindowHostController.h"
 #import "ScrollSynchronizableView.h"
 #import "MBPreferenceController.h"
 #import "SearchResultEntry.h"
@@ -402,7 +405,7 @@
 	NSFont *font = FontStd;    
 	[cell setFont:font];
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
-	float pointSize = [font pointSize];
+	CGFloat pointSize = [font pointSize];
 	[aOutlineView setRowHeight:pointSize+4];
 }
 

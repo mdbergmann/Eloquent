@@ -12,7 +12,8 @@
 #import <ObjCSword/SwordModule.h>
 #import <AppKit/NSApplication.h>
 #import <CoreServices/CoreServices.h>
-#import <SwordModule+SearchKitIndex.h>
+
+@protocol IndexCreationProgressing;
 
 #define kMaxSearchResults 1000
 

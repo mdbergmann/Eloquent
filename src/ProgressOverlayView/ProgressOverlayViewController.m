@@ -6,6 +6,7 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#import "SwordModule+SearchKitIndex.h"
 #import "ProgressOverlayViewController.h"
 
 
@@ -15,7 +16,7 @@
 @synthesize barProgressView;
 
 + (ProgressOverlayViewController *)defaultController {
-	static ProgressOverlayViewController *singleton;
+	static ProgressOverlayViewController *singleton = nil;
 	
 	if(singleton == nil) {
 		singleton = [[ProgressOverlayViewController alloc] init];

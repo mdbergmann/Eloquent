@@ -7,6 +7,7 @@
 //
 
 #import "SearchTextObject.h"
+#import "Indexer.h"
 
 @interface SearchTextObject ()
 
@@ -29,6 +30,12 @@
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [searchTextsForTypes release];
+    [recentSearchesForTypes release];
+    [super dealloc];
 }
 
 - (void)finalize {
@@ -74,7 +81,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     
-    SearchTextObject *obj = [[SearchTextObject alloc] init];
+    SearchTextObject *obj = [[[SearchTextObject alloc] init] autorelease];
     
     // decode searchQuery
     obj.searchTextsForTypes = [decoder decodeObjectForKey:@"SearchTextsForTypesEncoded"];

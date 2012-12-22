@@ -8,9 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoPCRE/CocoPCRE.h>
-#import <HostableViewController.h>
-#import <ModuleViewController.h>
-#import <ProtocolHelper.h>
+#import "ModuleViewController.h"
 
 @class SwordDictionary, ExtTextViewController;
 

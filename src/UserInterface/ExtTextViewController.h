@@ -15,13 +15,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <HostableViewController.h>
-#import <MBTextView.h>
-#import <ProtocolHelper.h>
+#import "HostableViewController.h"
 
 #define EXTTEXTVIEW_NIBNAME   @"ExtTextView"
 
 @class MouseTrackingScrollView;
+@class MBTextView;
 
 @interface ExtTextViewController : HostableViewController <NSTextViewDelegate, MouseTracking, TextContentProviding> {
     IBOutlet MBTextView *textView;

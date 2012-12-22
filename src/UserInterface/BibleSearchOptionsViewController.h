@@ -7,8 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SearchOptionsViewController.h>
-#import <Indexer.h>
 
 #define BIBLESEARCHOPTIONSVIEW_NIBNAME @"BibleSearchOptions"
 

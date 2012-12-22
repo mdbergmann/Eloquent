@@ -8,16 +8,11 @@
 
 #import "WindowHostController+SideBars.h"
 #import "ToolbarController.h"
-#import "NSImage+Additions.h"
 #import "WorkspaceViewHostController.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
-
-@interface WindowHostController ()
-
-- (void)storeRSBUserDefaults;
-
-@end
+#import "LeftSideBarViewController.h"
+#import "RightSideBarViewController.h"
 
 @implementation WindowHostController (SideBars)
 
@@ -52,7 +47,7 @@
         NSView *v = [lsbViewController view];
         NSSize size = [v frame].size;
         if(size.width > 0) {
-            lsbWidth = size.width;
+            lsbWidth = (float) size.width;
         }
         [v removeFromSuperview];
     }
@@ -73,7 +68,7 @@
         NSView *v = [rsbViewController view];
         NSSize size = [v frame].size;
         if(size.width > 0) {
-            rsbWidth = size.width;
+            rsbWidth = (float) size.width;
         }
         [v removeFromSuperview];
     }

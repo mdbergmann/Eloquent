@@ -2,10 +2,8 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoPCRE/CocoPCRE.h>
 #import <CocoLogger/CocoLogger.h>
-#import "SwordInstallSourceManager.h"
 #import <ObjCSword/SwordInstallSource.h>
 #import <ObjCSword/SwordModule.h>
-#import <globals.h>
 
 @interface ModuleListViewController : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate> {
     

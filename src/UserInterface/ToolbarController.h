@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <Indexer.h>
-#import <HostableViewController.h>
+#import "HostableViewController.h"
 
 // toolbar identifiers
 #define TB_ADD_BIBLE_ITEM           @"IdAddBible"

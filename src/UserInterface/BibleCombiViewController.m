@@ -6,6 +6,9 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
 #import "WorkspaceViewHostController.h"
 #import "MBPreferenceController.h"
@@ -14,6 +17,7 @@
 #import "ScrollSynchronizableView.h"
 #import "ObjCSword/SwordManager.h"
 #import "globals.h"
+#import "SwordModule+SearchKitIndex.h"
 #import "ProgressOverlayViewController.h"
 #import "SearchBookSet.h"
 #import "SearchBookSetEditorController.h"
@@ -46,7 +50,7 @@
 }
 
 - (id)initWithDelegate:(id)aDelegate {
-    return [self initWithModule:nil delegate:nil];
+    return [self initWithModule:nil delegate:aDelegate];
 }
 
 - (id)initWithModule:(SwordBible *)aBible delegate:(id)aDelegate {
@@ -140,7 +144,7 @@
  */
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule {
     if(aModule != nil) {
-        BibleViewController *vc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
+        BibleViewController *vc = [[[BibleViewController alloc] initWithModule:aModule delegate:self] autorelease];
         [self addContentViewController:vc];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
@@ -158,7 +162,7 @@
  */
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule {
     if(aModule != nil) {
-        CommentaryViewController *vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
+        CommentaryViewController *vc = [[[CommentaryViewController alloc] initWithModule:aModule delegate:self] autorelease];
         [self addContentViewController:vc];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
@@ -206,9 +210,9 @@
         // what we also do here is recalculate the view size so all
         // views have the same size
         NSRect contentRect = [[self view] frame];
-        int width = contentRect.size.width;
+        CGFloat width = contentRect.size.width;
         int subViews = [[parBibleSplitView subviews] count];
-        int subViewWidth = width;
+        CGFloat subViewWidth = width;
         if(subViews > 0) {
             subViewWidth = (int)width/subViews;
         }

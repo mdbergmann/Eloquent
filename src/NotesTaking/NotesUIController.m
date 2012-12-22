@@ -6,12 +6,12 @@
 //  Copyright 2009 Software by MABE. All rights reserved.
 //
 
+#import "LeftSideBarAccessoryUIController.h"
 #import "NotesUIController.h"
-#import "LeftSideBarViewController.h"
+#import "HostableViewController.h"
 #import "NotesManager.h"
 #import "FileRepresentation.h"
 #import "AppController.h"
-#import "ObjectAssociations.h"
 
 #define NOTES_UI_NIBNAME @"NotesUI"
 

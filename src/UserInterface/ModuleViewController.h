@@ -8,9 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <ModuleCommonsViewController.h>
-#import <ProtocolHelper.h>
-#import <Indexer.h>
 
 #define TEXT_VERSE_MARKER   @"VerseMarkerAttributeName"
 

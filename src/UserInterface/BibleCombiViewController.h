@@ -7,10 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ModuleCommonsViewController.h>
-#import <ModuleViewController.h>
-#import <ProtocolHelper.h>
-#import <Indexer.h>
+#import "ProtocolHelper.h"
+#import "ModuleCommonsViewController.h"
 
 #define BIBLECOMBIVIEW_NIBNAME   @"BibleCombiView"
 

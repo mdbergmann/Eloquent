@@ -6,10 +6,14 @@
 //  Copyright 2010 Software by MABE. All rights reserved.
 //
 
+#import "HostableViewController.h"
+#import "ContentDisplayingViewController.h"
+#import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController+ViewSynchronisation.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
 #import "ScrollSynchronizableView.h"
+#import "ModuleViewController.h"
 
 @implementation BibleCombiViewController (ViewSynchronisation)
 
@@ -172,7 +176,7 @@
     
     // get the first found verseMarker attribute in the given text
     long len = [text length];
-    for(int i = 0;i < len;i++) {
+    for(NSUInteger i = 0;i < len;i++) {
         NSString * val = [text attribute:TEXT_VERSE_MARKER atIndex:i effectiveRange:nil];
         if(val != nil) {
             ret = val;
@@ -201,7 +205,7 @@
     long len = [[textView string] length];
     NSRange foundRange;
     foundRange.location = NSNotFound;
-    for(int i = 0;i < len;i++) {
+    for(NSUInteger i = 0;i < len;i++) {
         id val = [text attribute:attrName atIndex:i effectiveRange:&foundRange];
         if(val != nil) {
             if([val isKindOfClass:[NSString class]] && [(NSString *)val isEqualToString:(NSString *)attrValue]) {

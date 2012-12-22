@@ -6,9 +6,9 @@
 //  Copyright 2007 mabe. All rights reserved.
 //
 
-#import "BookIndexer.h"
 #import "SearchResultEntry.h"
 #import "IndexingManager.h"
+#import "Indexer.h"
 
 @interface BookIndexer : Indexer {
 }

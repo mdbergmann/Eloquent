@@ -7,10 +7,7 @@
 //
 
 #import "FullScreenView.h"
-#import "MBPreferenceController.h"
-#import "ConfirmationSheetController.h"
 #import "ToolbarController.h"
-#import "globals.h"
 
 @interface FullScreenView ()
 

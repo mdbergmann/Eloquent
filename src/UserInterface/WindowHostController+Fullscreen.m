@@ -7,8 +7,8 @@
 //
 
 #import "WindowHostController+Fullscreen.h"
-#import "WindowHostController+SideBars.h"
 #import "ToolbarController.h"
+#import "WindowHostController.h"
 
 
 @implementation WindowHostController (Fullscreen)

@@ -8,13 +8,7 @@
 
 #import "WebViewController.h"
 #import "MouseTrackingScrollView.h"
-#import "MBPreferenceController.h"
-#import "HUDPreviewController.h"
-#import "ObjCSword/SwordManager.h"
-#import "ObjCSword/SwordModule.h"
-#import "globals.h"
-#import "ProtocolHelper.h"
-#import "NSUserDefaults+Additions.h"
+#import "MBTextView.h"
 
 @implementation WebViewController
 
@@ -70,7 +64,7 @@
 }
 
 - (void)setString:(NSString *)aString {
-    [[webView mainFrame] loadHTMLString:aString baseURL:[[NSURL alloc] init]];
+    [[webView mainFrame] loadHTMLString:aString baseURL:[[[NSURL alloc] init] autorelease]];
 }
 
 - (void)textChanged:(NSNotification *)aNotification {

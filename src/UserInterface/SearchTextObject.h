@@ -7,8 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Indexer.h>
-
+#import "Indexer.h"
 
 @interface SearchTextObject : NSObject <NSCoding> {
     // texts for search type

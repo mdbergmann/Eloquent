@@ -10,6 +10,8 @@
 #import "CocoLogger/CocoLogger.h"
 #import "IndexingManager.h"
 #import "SearchResultEntry.h"
+#import "SwordModule+SearchKitIndex.h"
+#import "Indexer.h"
 
 NSString *EloquentIndexVersion = @"1.0";
 

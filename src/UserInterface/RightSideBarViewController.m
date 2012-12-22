@@ -6,6 +6,7 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import "HostableViewController.h"
 #import "RightSideBarViewController.h"
 
 
@@ -26,8 +27,6 @@
 }
 
 - (void)awakeFromNib {
-    CocoLog(LEVEL_DEBUG, @"[LeftSideBarViewController -awakeFromNib]");
-    
     [super awakeFromNib];
 }
 

@@ -6,7 +6,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <globals.h>
 
 @interface MBAboutWindowController : NSWindowController {
     IBOutlet NSTextField *appNameLabel;

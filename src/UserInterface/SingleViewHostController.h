@@ -8,10 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
-#import <WindowHostController.h>
-#import <Indexer.h>
 #import <ObjCSword/SwordModule.h>
-#import <ProtocolHelper.h>
 
 #define SINGLEVIEWHOST_NIBNAME   @"SingleViewHost"
 
