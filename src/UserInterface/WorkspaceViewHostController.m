@@ -77,7 +77,8 @@
     [tabControl setHideForSingleTab:NO];
     //[tabControl setFont:FontStdBold];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];
-    [tabControl setStyleNamed:@"Aqua"];
+    //[tabControl setStyle:[[PSMUnifiedTabStyle alloc] init]];
+    [tabControl setStyleNamed:@"LiveChat"];
     [[tabControl addTabButton] setTarget:self];
     [[tabControl addTabButton] setAction:@selector(addTab:)];
     [tabControl setShowAddTabButton:YES];
