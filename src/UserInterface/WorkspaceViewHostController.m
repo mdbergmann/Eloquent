@@ -181,6 +181,12 @@
     [tabView setFrameSize:lvRect.size];
 }
 
+- (void)readaptHostUI {
+    [super readaptHostUI];
+
+    [[tabView selectedTabViewItem] setLabel:[self computeTabTitle]];
+}
+
 #pragma mark - Actions
 
 - (void)setSearchText:(NSString *)aString {

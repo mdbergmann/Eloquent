@@ -301,9 +301,8 @@ typedef enum _NavigationDirectionType {
 }
 
 - (void)setSearchTypeUI:(SearchType)aType {
-    [self setSearchType:aType];
+    [self setSearchType:aType];     // this will trigger -readaptHostUI
     [toolbarController setActiveSearchTypeSegElement:aType];
-    [self readaptHostUI];
 }
 
 - (void)setupContentRelatedViews {
