@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">12B19</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
-		<string key="IBDocument.AppKitVersion">1187</string>
-		<string key="IBDocument.HIToolboxVersion">624.00</string>
+		<string key="IBDocument.SystemVersion">12C2037</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2549</string>
+			<string key="NS.object.0">2844</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSBox</string>
@@ -218,7 +218,7 @@
 				<array class="NSMutableArray" key="NSMenuItems">
 					<object class="NSMenuItem" id="297635008">
 						<reference key="NSMenu" ref="650738127"/>
-						<string key="NSTitle">Open in single</string>
+						<string key="NSTitle">Open in new window</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<object class="NSCustomResource" key="NSOnImage">
@@ -256,7 +256,6 @@
 								<string key="NSFrameSize">{800, 545}</string>
 								<reference key="NSSuperview" ref="796331504"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="589959247"/>
 								<array class="NSMutableArray" key="NSTabViewItems">
 									<object class="NSTabViewItem" id="369232863">
 										<string key="NSIdentifier">1</string>
@@ -266,7 +265,6 @@
 											<string key="NSFrameSize">{800, 545}</string>
 											<reference key="NSSuperview" ref="774995872"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 										</object>
 										<string key="NSLabel">Tab</string>
 										<object class="NSColor" key="NSColor">

@@ -75,9 +75,7 @@
     
     // tab control stuff
     [tabControl setHideForSingleTab:NO];
-    //[tabControl setFont:FontStdBold];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];
-    //[tabControl setStyle:[[PSMUnifiedTabStyle alloc] init]];
     [tabControl setStyleNamed:@"LiveChat"];
     [[tabControl addTabButton] setTarget:self];
     [[tabControl addTabButton] setAction:@selector(addTab:)];
@@ -187,12 +185,12 @@
     [[tabView selectedTabViewItem] setLabel:[self computeTabTitle]];
 }
 
-#pragma mark - Actions
-
 - (void)setSearchText:(NSString *)aString {
     [super setSearchText:aString];
     [[tabView selectedTabViewItem] setLabel:[self computeTabTitle]];
 }
+
+#pragma mark - Actions
 
 - (IBAction)performClose:(id)sender {
     if([[tabView tabViewItems] count] == 0) {
@@ -239,44 +237,40 @@
 
     // found view controller?
     if(vc != nil) {
-        switch(tag) {
-            case 1:
-            {
-                // open in single
+        if(tag == 1) {
+            // open in single window
 
-                // save search reference
-                NSString *searchRef = [self searchText];
-                
-                NSTabViewItem *tvi = [[tabView tabViewItems] objectAtIndex:index];
-                [searchTextObjs removeObjectAtIndex:index];
-                [viewControllers removeObject:vc];
-                [tabView removeTabViewItem:tvi];
+            // save search reference
+            NSString *searchRef = [self searchText];
 
-                // if there are more tabviews, select the next one
-                if([[tabView tabViewItems] count] > 0) {
-                    [tabView selectTabViewItemAtIndex:0];
-                } else {
-                    [self setView:nil];
-                    [scopebarViewPlaceholder setContentView:nil];
-                    [self showRightSideBar:NO];
-                }
-                
-                SingleViewHostController *svc = nil;
-                if([vc isKindOfClass:[ModuleViewController class]]) {
-                    // get module of vc and use it to open a single view
-                    SwordModule *mod = [(ModuleViewController *)vc module];
-                    svc = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
-                } else if([vc isKindOfClass:[BibleCombiViewController class]]) {                    
-                    // open single host window
-                    svc = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
-                    [vc setDelegate:svc];
-                    [vc setHostingDelegate:svc];
-                    [svc addContentViewController:vc];
-                }
-                [vc setHostingDelegate:svc];
-                [svc setSearchText:searchRef];
-                break;
+            NSTabViewItem *tvi = [[tabView tabViewItems] objectAtIndex:index];
+            [searchTextObjs removeObjectAtIndex:index];
+            [viewControllers removeObject:vc];
+            [tabView removeTabViewItem:tvi];
+
+            // if there are more tabviews, select the next one
+            if([[tabView tabViewItems] count] > 0) {
+                [tabView selectTabViewItemAtIndex:0];
+            } else {
+                [self setView:nil];
+                [scopebarViewPlaceholder setContentView:nil];
+                [self showRightSideBar:NO];
             }
+
+            SingleViewHostController *svc = nil;
+            if([vc isKindOfClass:[ModuleViewController class]]) {
+                // get module of vc and use it to open a single view
+                SwordModule *mod = [(ModuleViewController *)vc module];
+                svc = [[AppController defaultAppController] openSingleHostWindowForModule:mod];
+            } else if([vc isKindOfClass:[BibleCombiViewController class]]) {
+                // open single host window
+                svc = [[AppController defaultAppController] openSingleHostWindowForModule:nil];
+                [vc setDelegate:svc];
+                [vc setHostingDelegate:svc];
+                [svc addContentViewController:vc];
+            }
+            [vc setHostingDelegate:svc];
+            [svc setSearchText:searchRef];
         }
     }
 }

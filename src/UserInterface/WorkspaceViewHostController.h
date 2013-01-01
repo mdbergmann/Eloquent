@@ -17,7 +17,7 @@
 @class FileRepresentation;
 @class InitialInfoViewController;
 
-@interface WorkspaceViewHostController : WindowHostController <NSCoding> {
+@interface WorkspaceViewHostController : WindowHostController <NSCoding, NSTabViewDelegate> {
 
     /** the view switcher */
     //IBOutlet NSSegmentedControl *tabControl;

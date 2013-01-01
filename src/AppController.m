@@ -295,6 +295,12 @@ static AppController *singleton;
     // add sparkle "Check for updates..." menu item to help menu
     [helpMenu addItem:[NSMenuItem separatorItem]];
     [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_CheckForUpdates", @"") action:@selector(checkForUpdates:) keyEquivalent:@""];
+
+    // add linking of Sword utilities
+    [helpMenu addItem:[NSMenuItem separatorItem]];
+    [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_LinkSwordUtils", @"") action:@selector(linkSwordUtils:) keyEquivalent:@""];
+    [helpMenu addItemWithTitle:NSLocalizedString(@"Menu_UnLinkSwordUtils", @"") action:@selector(unlinkSwordUtils:) keyEquivalent:@""];
+
 #endif
 }
 
@@ -399,6 +405,106 @@ static AppController *singleton;
         }
     }
 	[sender replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
+}
+
+- (void)handleURLEvent:(NSAppleEventDescriptor *) event withReplyEvent:(NSAppleEventDescriptor *) replyEvent {
+    NSString *urlString = [[event descriptorAtIndex:1] stringValue];
+
+	CocoLog(LEVEL_DEBUG, @"handling URL event for: %@", urlString);
+
+    NSDictionary *linkData = [SwordUtil dictionaryFromUrl:[NSURL URLWithString:urlString]];
+    NSString *moduleName = [linkData objectForKey:ATTRTYPE_MODULE];
+    NSString *passage = [linkData objectForKey:ATTRTYPE_VALUE];
+
+    CocoLog(LEVEL_DEBUG, @"have module: %@", moduleName);
+    CocoLog(LEVEL_DEBUG, @"have passage: %@", passage);
+
+    if(moduleName && passage) {
+        SwordModule *mod = [[SwordManager defaultManager] moduleWithName:moduleName];
+        if(mod) {
+            SingleViewHostController *host = [self openSingleHostWindowForModule:mod];
+            [host setSearchText:passage];
+        }
+    } else {
+        CocoLog(LEVEL_WARN, @"have nil moduleName or passage");
+    }
+}
+
+/**
+ \brief is called when application loading is nearly finished
+ */
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+        [[IndexingManager sharedManager] triggerBackgroundIndexCheck];
+    }
+}
+
+/**
+ \brief is called when application loading is finished
+ */
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [[SessionManager defaultManager] loadSession];
+
+    // if there is no window in the session open add a new workspace
+    if(![[SessionManager defaultManager] hasWindows]) {
+        WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
+        svh.delegate = self;
+        [[SessionManager defaultManager] addWindow:svh];
+    } else {
+        [[SessionManager defaultManager] addDelegateToHosts:self];
+    }
+
+    // show HUD preview if set
+    if([userDefaults boolForKey:DefaultsShowHUDPreview]) {
+        [self showPreviewPanel:nil];
+    }
+
+    // show HUD daily devotion if set
+    if([userDefaults boolForKey:DefaultsShowDailyDevotionOnStartupKey]) {
+        [self showDailyDevotionPanel:nil];
+    }
+
+    //initialise url handlers
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
+                                                       andSelector:@selector( handleURLEvent:withReplyEvent: )
+                                                     forEventClass:kInternetEventClass
+                                                        andEventID:kAEGetURL];
+    [SwordUrlProtocol setup];
+
+    [[SessionManager defaultManager] showAllWindows];
+}
+
+/**
+\brief is called when application is terminated
+*/
+- (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
+
+    // check for any unsaved content
+    if([[SessionManager defaultManager] hasUnsavedContent]) {
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
+                                         defaultButton:NSLocalizedString(@"Yes", @"")
+                                       alternateButton:NSLocalizedString(@"Cancel", @"")
+                                           otherButton:NSLocalizedString(@"No", @"")
+                             informativeTextWithFormat:NSLocalizedString(@"UnsavedContentQuit", @"")];
+        NSInteger modalResult = [alert runModal];
+        if(modalResult == NSAlertDefaultReturn) {
+            [[SessionManager defaultManager] saveContent];
+        } else if(modalResult == NSAlertAlternateReturn) {
+            return NSTerminateCancel;
+        }
+    }
+
+    // save session
+    [[SessionManager defaultManager] saveSession];
+
+    // we store on application exit
+    [[IndexingManager sharedManager] storeSearchBookSets];
+
+    // close logger
+	[CocoLogger closeLogger];
+
+	// we want to terminate NOW
+	return NSTerminateNow;
 }
 
 #pragma mark - Actions
@@ -551,7 +657,7 @@ static AppController *singleton;
 }
 
 - (IBAction)openAndComposeEmail:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"mailto:bugs@eloquent-bible-study.eu"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"mailto:support@eloquent-bible-study.eu"]];
 }
 
 - (IBAction)openMacSwordWikiPage:(id)sender {
@@ -630,6 +736,26 @@ static AppController *singleton;
 }
 #endif
 
+/** stores the session to file */
+- (IBAction)saveSessionAs:(id)sender {
+    [[SessionManager defaultManager] saveSessionAs];
+}
+
+/** stores as default session */
+- (IBAction)saveAsDefaultSession:(id)sender {
+    [[SessionManager defaultManager] saveAsDefaultSession];
+}
+
+/** loads session from file */
+- (IBAction)openSession:(id)sender {
+    [[SessionManager defaultManager] loadSessionFrom];
+}
+
+/** open the default session */
+- (IBAction)openDefaultSession:(id)sender {
+    [[SessionManager defaultManager] loadDefaultSession];
+}
+
 #pragma mark - NSControl delegate methods
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
@@ -656,128 +782,6 @@ static AppController *singleton;
     } else if([aController isKindOfClass:[DailyDevotionPanelController class]]) {
         isDailyDevotionShowing = NO;
     }
-}
-
-#pragma mark - app delegate methods
-
-- (void)handleURLEvent:(NSAppleEventDescriptor *) event withReplyEvent:(NSAppleEventDescriptor *) replyEvent {
-    NSString *urlString = [[event descriptorAtIndex:1] stringValue];
-
-	CocoLog(LEVEL_DEBUG, @"handling URL event for: %@", urlString);
-    
-    NSDictionary *linkData = [SwordUtil dictionaryFromUrl:[NSURL URLWithString:urlString]];
-    NSString *moduleName = [linkData objectForKey:ATTRTYPE_MODULE];
-    NSString *passage = [linkData objectForKey:ATTRTYPE_VALUE];
-    
-    CocoLog(LEVEL_DEBUG, @"have module: %@", moduleName);
-    CocoLog(LEVEL_DEBUG, @"have passage: %@", passage);
-    
-    if(moduleName && passage) {
-        SwordModule *mod = [[SwordManager defaultManager] moduleWithName:moduleName];
-        if(mod) {
-            SingleViewHostController *host = [self openSingleHostWindowForModule:mod];
-            [host setSearchText:passage];
-        }
-    } else {
-        CocoLog(LEVEL_WARN, @"have nil moduleName or passage");
-    }
-}
-
-/**
- \brief is called when application loading is nearly finished
- */
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
-        [[IndexingManager sharedManager] triggerBackgroundIndexCheck];    
-    }    
-}
-
-/**
- \brief is called when application loading is finished
- */
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [[SessionManager defaultManager] loadSession];
-
-    // if there is no window in the session open add a new workspace
-    if(![[SessionManager defaultManager] hasWindows]) {
-        WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
-        svh.delegate = self;
-        [[SessionManager defaultManager] addWindow:svh];
-    } else {
-        [[SessionManager defaultManager] addDelegateToHosts:self];
-    }
-        
-    // show HUD preview if set
-    if([userDefaults boolForKey:DefaultsShowHUDPreview]) {
-        [self showPreviewPanel:nil];
-    }
-    
-    // show HUD daily devotion if set
-    if([userDefaults boolForKey:DefaultsShowDailyDevotionOnStartupKey]) {
-        [self showDailyDevotionPanel:nil];
-    }
-    
-    //initialise url handlers
-    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self 
-                                                       andSelector:@selector( handleURLEvent:withReplyEvent: ) 
-                                                     forEventClass:kInternetEventClass 
-                                                        andEventID:kAEGetURL];    
-    [SwordUrlProtocol setup];
-    
-    [[SessionManager defaultManager] showAllWindows];
-}
-
-/** stores the session to file */
-- (IBAction)saveSessionAs:(id)sender {
-    [[SessionManager defaultManager] saveSessionAs];
-}
-
-/** stores as default session */
-- (IBAction)saveAsDefaultSession:(id)sender {
-    [[SessionManager defaultManager] saveAsDefaultSession];
-}
-
-/** loads session from file */
-- (IBAction)openSession:(id)sender {
-    [[SessionManager defaultManager] loadSessionFrom];
-}
-
-/** open the default session */
-- (IBAction)openDefaultSession:(id)sender {
-    [[SessionManager defaultManager] loadDefaultSession];
-}
-
-/**
-\brief is called when application is terminated
-*/
-- (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
-
-    // check for any unsaved content
-    if([[SessionManager defaultManager] hasUnsavedContent]) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
-                                         defaultButton:NSLocalizedString(@"Yes", @"") 
-                                       alternateButton:NSLocalizedString(@"Cancel", @"") 
-                                           otherButton:NSLocalizedString(@"No", @"")
-                             informativeTextWithFormat:NSLocalizedString(@"UnsavedContentQuit", @"")];    
-        NSInteger modalResult = [alert runModal];
-        if(modalResult == NSAlertDefaultReturn) {
-            [[SessionManager defaultManager] saveContent];
-        } else if(modalResult == NSAlertAlternateReturn) {
-            return NSTerminateCancel;
-        }        
-    }
-    
-    // save session
-    [[SessionManager defaultManager] saveSession];
-
-    // we store on application exit
-    [[IndexingManager sharedManager] storeSearchBookSets];
-    
-    // close logger
-	[CocoLogger closeLogger];
-	
-	// we want to terminate NOW
-	return NSTerminateNow;
 }
 
 @end
