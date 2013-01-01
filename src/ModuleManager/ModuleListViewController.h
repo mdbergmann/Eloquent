@@ -10,35 +10,17 @@
     IBOutlet NSOutlineView *moduleOutlineView;
     IBOutlet NSSearchField *searchTextField;
     
-    IBOutlet id delegate;
-
     // menu
     IBOutlet NSMenu *moduleMenu;
     IBOutlet NSPopUpButton *languagesButton;
-    
-    /** we store a retained copy of the selected install sources */
-    NSArray *installSources;
-    
-    /** our data for displaying the module data */
-    NSMutableArray *moduleData;
-    
-    /** the selection */
-    NSMutableArray *moduleSelection;
-    
-    /** current sort descriptors */
-    NSArray *sortDescriptors;
-    
-    NSString *langFilter;
 }
 
-@property (readwrite, retain) NSString *langFilter;
+@property (readwrite) NSString *langFilter;
 
-// ------------- getter / setter -------------------
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
+/** we store a retained copy of the selected install sources */
+@property (readwrite) NSArray *installSources;
 
-- (void)setInstallSources:(NSArray *)anArray;
-- (NSArray *)installSources;
+@property (readwrite, assign) IBOutlet id delegate;
 
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList;

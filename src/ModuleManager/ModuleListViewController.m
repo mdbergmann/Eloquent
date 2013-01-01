@@ -14,91 +14,25 @@
 #define TABLECOL_IDENTIFIER_MODLVERSION @"modlversion"
 #define TABLECOL_IDENTIFIER_TASK @"task"
 
-@interface ModuleListViewController (PrivateAPI)
-
-- (void)setModuleData:(NSMutableArray *)anArray;
-- (void)setModuleSelection:(NSMutableArray *)anArray;
-
-- (ModuleListObject *)moduleObjectForClickedRow;
-- (void)updateModuleSelection;
-- (void)refreshLanguages;
-
+@interface ModuleListViewController ()
+@property (readwrite) NSMutableDictionary *languageMap;
+@property (readwrite) NSMutableArray *moduleData;
+@property (readwrite) NSMutableArray *moduleSelection;
 @end
 
-
-@implementation ModuleListViewController (PrivateAPI)
-
-// some setters for convenience
-- (void)setModuleData:(NSMutableArray *)anArray {
-    [anArray retain];
-    [moduleData release];
-    moduleData = anArray;    
-}
-
-- (void)setModuleSelection:(NSMutableArray *)anArray {
-    [anArray retain];
-    [moduleSelection release];
-    moduleSelection = anArray;    
-}
-
-- (ModuleListObject *)moduleObjectForClickedRow {
-    ModuleListObject *ret = nil;
-    
-    int clickedRow = [moduleOutlineView clickedRow];
-    if(clickedRow >= 0) {
-        // get row
-        ret = [moduleOutlineView itemAtRow:clickedRow];
-    }
-    
-    return ret;
-}
-
-- (void)updateModuleSelection {
-    if([moduleSelection count] == 0 || [moduleSelection count] == 1) {
-        ModuleListObject *clicked = [self moduleObjectForClickedRow];
-        if(clicked) {
-            [moduleSelection removeAllObjects];
-            [moduleSelection addObject:clicked];
-        }
-    }    
-}
-
-- (void)refreshLanguages {
-    NSMutableArray *list = [NSMutableArray array];
-    for(ModuleListObject *lo in moduleData) {
-        SwordModule *mod = [lo module];
-        if(![list containsObject:[mod lang]]) {
-            [list addObject:[mod lang]];            
-        }
-    }
-    [list sortUsingSelector:@selector(compare:)];
-
-    [languagesButton removeAllItems];
-    [languagesButton addItemWithTitle:NSLocalizedString(@"All", @"")];
-    for(NSString *lang in list) {
-        [languagesButton addItemWithTitle:lang];
-    }
-    
-    [languagesButton selectItemWithTitle:[self langFilter]];
-}
-
-@end
 
 @implementation ModuleListViewController
-
-@synthesize langFilter;
-
-// ------------- getter / setter -------------------
 
 - (id)init {
     self = [super init];
     if(self) {
-        installSources = [[NSArray array] retain];
-        moduleData = [[NSMutableArray array] retain];
-        moduleSelection = [[NSMutableArray array] retain];
+        self.installSources = [NSArray array];
+        self.moduleData = [NSMutableArray array];
+        self.moduleSelection = [NSMutableArray array];
+        self.languageMap = [NSMutableDictionary dictionary];
         [self setLangFilter:NSLocalizedString(@"All", @"")];
     }
-    
+
     return self;
 }
 
@@ -107,8 +41,7 @@
     [self setModuleSelection:nil];
     [self setInstallSources:nil];
     [self setLangFilter:nil];
-    [sortDescriptors release];
-    
+
     [super dealloc];
 }
 
@@ -117,23 +50,64 @@
     [self refreshLanguages];
 }
 
-- (void)setDelegate:(id)aDelegate {
-    delegate = aDelegate;
+- (ModuleListObject *)moduleObjectForClickedRow {
+    ModuleListObject *ret = nil;
+
+    int clickedRow = [moduleOutlineView clickedRow];
+    if(clickedRow >= 0) {
+        // get row
+        ret = [moduleOutlineView itemAtRow:clickedRow];
+    }
+
+    return ret;
 }
 
-- (id)delegate {
-    return delegate;
+- (void)updateModuleSelection {
+    if([self.moduleSelection count] == 0 || [self.moduleSelection count] == 1) {
+        ModuleListObject *clicked = [self moduleObjectForClickedRow];
+        if(clicked) {
+            [self.moduleSelection removeAllObjects];
+            [self.moduleSelection addObject:clicked];
+        }
+    }
 }
 
-
-- (void)setInstallSources:(NSArray *)anArray {
-    [anArray retain];
-    [installSources release];
-    installSources = anArray;    
+- (void)refreshLanguages {
+    [self setupLanguagesMap];
+    [self setupLanguagesPopup];
 }
 
-- (NSArray *)installSources {
-    return installSources;
+- (void)setupLanguagesMap {
+    [self.languageMap removeAllObjects];
+
+    // out Locale object
+    NSLocale *loc = [NSLocale systemLocale];
+
+    // available module languages
+    [self.languageMap setObject:NSLocalizedString(@"All", @"") forKey:NSLocalizedString(@"All", @"")];
+    for(ModuleListObject *lo in self.moduleData) {
+        SwordModule *mod = [lo module];
+
+        NSString *langString = [loc displayNameForKey:NSLocaleIdentifier value:[mod lang]];
+        if(langString != nil) {
+            [self.languageMap setObject:langString forKey:[mod lang]];
+        } else {
+            // add the iso code itself
+            [self.languageMap setObject:[mod lang] forKey:[mod lang]];
+        }
+    }
+}
+
+- (void)setupLanguagesPopup {
+    [languagesButton removeAllItems];
+    [languagesButton addItemWithTitle:NSLocalizedString(@"All", @"")];
+
+    NSArray *list = [self.languageMap.allValues sortedArrayUsingSelector:@selector(compare:)];
+    for(NSString *lang in list) {
+        [languagesButton addItemWithTitle:lang];
+    }
+
+    [languagesButton selectItemWithTitle:[self langFilter]];
 }
 
 /** update the modules with the modules in the sources list */
@@ -146,10 +120,10 @@
     SwordManager *sw = [SwordManager defaultManager];
     
     // clear module data
-    [moduleData removeAllObjects];
+    [self.moduleData removeAllObjects];
     
     // we have the install sources here and the modules have the state information
-    for(InstallSourceListObject *listObject in installSources) {
+    for(InstallSourceListObject *listObject in self.installSources) {
         
         // get install Source
         SwordInstallSource *is = [listObject installSource];
@@ -161,7 +135,7 @@
 
             // check for language filter
             if([[self langFilter] isEqualToString:NSLocalizedString(@"All", @"")] ||
-               [[self langFilter] isEqualToString:[mod lang]]) {
+               [[self langFilter] isEqualToString:[self.languageMap objectForKey:[mod lang]]]) {
 
                 // check for module type
                 if(([listObject objectType] == TypeInstallSource) || 
@@ -171,7 +145,7 @@
                     [buf setModule:mod];
                     [buf setInstallSource:is];
                     // add ModuleListObject to moduleData array
-                    [moduleData addObject:buf];
+                    [self.moduleData addObject:buf];
                 }                
             }
         }
@@ -192,7 +166,7 @@
     }
     
     BOOL ret = NO;
-    int selectedModuleCount = [moduleSelection count];	
+    int selectedModuleCount = [self.moduleSelection count];
 	if(selectedModuleCount > 1) {
 		ret = YES;
 	} else {
@@ -206,7 +180,7 @@
 		// module being selected.
 		accessedObj = [self moduleObjectForClickedRow];	
 		if(selectedModuleCount == 1) {
-			selectedObj = [moduleSelection objectAtIndex:0];
+			selectedObj = [self.moduleSelection objectAtIndex:0];
 		}
 		
 		modObj = (selectedObj == accessedObj ? selectedObj : accessedObj);
@@ -215,7 +189,7 @@
 		
 		if(modObj != nil) {
 			
-			CocoLog(LEVEL_DEBUG, @"selected module: %x", modObj);
+			CocoLog(LEVEL_DEBUG, @"selected module: %x", (unsigned int)modObj);
 			
 			int tag = [menuItem tag];
 			
@@ -258,15 +232,15 @@
     [self updateModuleSelection];
     
     // get current selected module
-    if([moduleSelection count] > 0) {
-        for(ModuleListObject *modObj in moduleSelection) {
+    if([self.moduleSelection count] > 0) {
+        for(ModuleListObject *modObj in self.moduleSelection) {
             // set taskid
             [modObj setTaskId:TaskNone];
             
             // unregister module from installation or removal
-            if(delegate) {
-                if([delegate respondsToSelector:@selector(unregister:)]) {
-                    [delegate performSelector:@selector(unregister:) withObject:modObj];
+            if(self.delegate) {
+                if([self.delegate respondsToSelector:@selector(unregister:)]) {
+                    [self.delegate performSelector:@selector(unregister:) withObject:modObj];
                 }
             }
         }                
@@ -279,8 +253,8 @@
 - (IBAction)installModule:(id)sender {
     [self updateModuleSelection];
     
-    if([moduleSelection count] > 0) {
-        for(ModuleListObject *modObj in moduleSelection) {
+    if([self.moduleSelection count] > 0) {
+        for(ModuleListObject *modObj in self.moduleSelection) {
             // only modules that are not installed can be registered for installation
             
             // check if module is installed already
@@ -288,9 +262,9 @@
                 [modObj setTaskId:TaskInstall];
                 
                 // register module for installation
-                if(delegate) {
-                    if([delegate respondsToSelector:@selector(registerForInstall:)]) {
-                        [delegate performSelector:@selector(registerForInstall:) withObject:modObj];
+                if(self.delegate) {
+                    if([self.delegate respondsToSelector:@selector(registerForInstall:)]) {
+                        [self.delegate performSelector:@selector(registerForInstall:) withObject:modObj];
                     }
                 }
             } else {
@@ -306,8 +280,8 @@
 - (IBAction)removeModule:(id)sender {
     [self updateModuleSelection];
     
-    if([moduleSelection count] > 0) {
-        for(ModuleListObject *modObj in moduleSelection) {
+    if([self.moduleSelection count] > 0) {
+        for(ModuleListObject *modObj in self.moduleSelection) {
             // only modules that are installed can be removed
             
             // check if module is really installed
@@ -315,9 +289,9 @@
                 [modObj setTaskId:TaskRemove];
                 
                 // register module for removal
-                if(delegate) {
-                    if([delegate respondsToSelector:@selector(registerForRemove:)]) {
-                        [delegate performSelector:@selector(registerForRemove:) withObject:modObj];
+                if(self.delegate) {
+                    if([self.delegate respondsToSelector:@selector(registerForRemove:)]) {
+                        [self.delegate performSelector:@selector(registerForRemove:) withObject:modObj];
                     }
                 }
             } else {
@@ -333,8 +307,8 @@
 - (IBAction)updateModule:(id)sender {
     [self updateModuleSelection];
     
-    if([moduleSelection count] > 0) {
-        for(ModuleListObject *modObj in moduleSelection) {
+    if([self.moduleSelection count] > 0) {
+        for(ModuleListObject *modObj in self.moduleSelection) {
             // only module that are updateable can be updated
             
             // check if module is new version
@@ -342,9 +316,9 @@
                 [modObj setTaskId:TaskUpdate];
                 
                 // register module for update
-                if(delegate) {
-                    if([delegate respondsToSelector:@selector(registerForUpdate:)]) {
-                        [delegate performSelector:@selector(registerForUpdate:) withObject:modObj];
+                if(self.delegate) {
+                    if([self.delegate respondsToSelector:@selector(registerForUpdate:)]) {
+                        [self.delegate performSelector:@selector(registerForUpdate:) withObject:modObj];
                     }
                 }
             } else {
@@ -374,7 +348,7 @@
             Regex *regex = [Regex regexWithPattern:searchStr];
             [regex setCaseSensitive:NO];
 
-            for(ModuleListObject *mod in moduleData) {
+            for(ModuleListObject *mod in self.moduleData) {
                 // try to match against name of module
                 if([regex matchIn:[[mod module] name] matchResult:nil] == RegexMatch) {
                     [resultArray addObject:mod];
@@ -400,7 +374,7 @@
 		if(oview != nil) {
             
             // remove any old selection
-            [moduleSelection removeAllObjects];
+            [self.moduleSelection removeAllObjects];
             
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
 			NSUInteger len = [selectedRows count];
@@ -411,7 +385,7 @@
 				
 				for(int i = 0;i < len;i++) {
 					mlo = [oview itemAtRow:indexes[i]];
-                    [moduleSelection addObject:mlo];
+                    [self.moduleSelection addObject:mlo];
 				}				
             }
 		} else {
@@ -426,7 +400,7 @@
     int count = 0;
 	
 	if(item == nil) {
-        count = [moduleData count];
+        count = [self.moduleData count];
 	}
 	
 	return count;
@@ -439,7 +413,7 @@
     
 	if(item == nil) {
         // number of root items
-        ret = [moduleData objectAtIndex:(NSUInteger)index];
+        ret = [self.moduleData objectAtIndex:(NSUInteger)index];
 	}
 
     return ret;
@@ -501,15 +475,14 @@
 	// set row height according to used font
 	// get font height
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
-	float pointSize = [font pointSize];
+	CGFloat pointSize = [font pointSize];
 	[aOutlineView setRowHeight:pointSize+6];
 	//[aOutlineView setRowHeight:imageHeight];
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
     NSArray *newDescriptors = [outlineView sortDescriptors];
-    sortDescriptors = [newDescriptors retain];
-    [moduleData sortUsingDescriptors:newDescriptors];
+    [self.moduleData sortUsingDescriptors:newDescriptors];
     [moduleOutlineView reloadData];    
 }
 
