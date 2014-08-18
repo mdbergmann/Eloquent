@@ -11,8 +11,8 @@
 
 @interface SearchTextObject ()
 
-@property (retain, readwrite) NSMutableDictionary *searchTextsForTypes;
-@property (retain, readwrite) NSMutableDictionary *recentSearchesForTypes;
+@property (strong, readwrite) NSMutableDictionary *searchTextsForTypes;
+@property (strong, readwrite) NSMutableDictionary *recentSearchesForTypes;
 
 @end
 
@@ -32,15 +32,7 @@
     return self;
 }
 
-- (void)dealloc {
-    [searchTextsForTypes release];
-    [recentSearchesForTypes release];
-    [super dealloc];
-}
 
-- (void)finalize {
-    [super finalize];
-}
 
 /**
  return the search text for the given type
@@ -81,7 +73,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     
-    SearchTextObject *obj = [[[SearchTextObject alloc] init] autorelease];
+    SearchTextObject *obj = [[SearchTextObject alloc] init];
     
     // decode searchQuery
     obj.searchTextsForTypes = [decoder decodeObjectForKey:@"SearchTextsForTypesEncoded"];

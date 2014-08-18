@@ -64,7 +64,7 @@
 }
 
 - (void)setString:(NSString *)aString {
-    [[webView mainFrame] loadHTMLString:aString baseURL:[[[NSURL alloc] init] autorelease]];
+    [[webView mainFrame] loadHTMLString:aString baseURL:[[NSURL alloc] init]];
 }
 
 - (void)textChanged:(NSNotification *)aNotification {

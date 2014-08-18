@@ -39,6 +39,8 @@
 - (void)setAttributedString:(NSAttributedString *)aString;
 - (void)setString:(NSString *)aString;
 - (void)textChanged:(NSNotification *)aNotification;
+- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex;
+- (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex;
 @end
 
 @protocol TextDisplayable

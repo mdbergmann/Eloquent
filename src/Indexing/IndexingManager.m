@@ -16,8 +16,8 @@
 
 @interface IndexingManager ()
 
-@property (retain, readwrite) NSTimer *timer;
-@property (retain, readwrite) NSMutableDictionary *indexerRegistrat;
+@property (strong, readwrite) NSTimer *timer;
+@property (strong, readwrite) NSMutableDictionary *indexerRegistrat;
 
 /**
 \brief creates a non existing empty index for the given parameters
@@ -69,20 +69,20 @@
     // set thread priority
     [NSThread setThreadPriority:0.1];
     if([indexCheckLock tryLock]) {
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        @autoreleasepool {
         
         // make copy of array
-        NSArray *modNames = [NSArray arrayWithArray:[swordManager moduleNames]];
-        for(NSString *name in modNames) {
-            CocoLog(LEVEL_DEBUG, @"checking index for module: %@", name);
-            SwordModule *mod = [swordManager moduleWithName:name];
-            if(![mod hasSKSearchIndex]) {
-                CocoLog(LEVEL_DEBUG, @"creating index for module: %@", name);
-                [mod createSKSearchIndex];
+            NSArray *modNames = [NSArray arrayWithArray:[swordManager moduleNames]];
+            for(NSString *name in modNames) {
+                CocoLog(LEVEL_DEBUG, @"checking index for module: %@", name);
+                SwordModule *mod = [swordManager moduleWithName:name];
+                if(![mod hasSKSearchIndex]) {
+                    CocoLog(LEVEL_DEBUG, @"creating index for module: %@", name);
+                    [mod createSKSearchIndex];
+                }
             }
-        }
         
-        [pool drain];
+        }
         [indexCheckLock unlock];
     }    
 }
@@ -224,16 +224,6 @@
 	return self;
 }
 
-- (void)dealloc {
-    [indexCheckLock release];
-    [baseIndexPath release];
-    [swordManager release];
-    [timer release];
-    [searchBookSets release];
-    [indexerRegistrat release];
-
-    [super dealloc];
-}
 
 - (void)storeSearchBookSets {
     // store
@@ -264,17 +254,17 @@
 	NSURL *indexURL = [NSURL fileURLWithPath:indexPath];
 	if([fm fileExistsAtPath:indexPath] == YES) {
 		// open index
-		indexRef = SKIndexOpenWithURL((CFURLRef)indexURL, (CFStringRef)indexName, NO);
+		indexRef = SKIndexOpenWithURL((__bridge CFURLRef)indexURL, (__bridge CFStringRef)indexName, NO);
 	} else {
         // create properties for indexing
         NSMutableDictionary *props = [NSMutableDictionary dictionary];
         [props setObject:(NSNumber *)kCFBooleanTrue forKey:(NSString *)kSKProximityIndexing];
         
 		// create index
-		indexRef = SKIndexCreateWithURL((CFURLRef)indexURL, 
-										(CFStringRef)indexName, 
+		indexRef = SKIndexCreateWithURL((__bridge CFURLRef)indexURL,
+										(__bridge CFStringRef)indexName,
 										kSKIndexInvertedVector, 
-										(CFDictionaryRef)props);
+										(__bridge CFDictionaryRef)props);
 	}
 	
 	return indexRef;

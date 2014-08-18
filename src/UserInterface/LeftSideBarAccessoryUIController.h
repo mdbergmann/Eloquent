@@ -21,12 +21,12 @@
 @class WindowHostController;
 
 @interface LeftSideBarAccessoryUIController : NSObject {
-    IBOutlet id<LeftSideBarDelegate> delegate;
-    IBOutlet WindowHostController *hostingDelegate;
+    IBOutlet id<LeftSideBarDelegate> __strong delegate;
+    IBOutlet WindowHostController *__strong hostingDelegate;
 }
 
-@property (assign, readwrite) id<LeftSideBarDelegate> delegate;
-@property (assign, readwrite) WindowHostController *hostingDelegate;
+@property (strong, readwrite) id<LeftSideBarDelegate> delegate;
+@property (strong, readwrite) WindowHostController *hostingDelegate;
 
 - (id)initWithDelegate:(id<LeftSideBarDelegate>)aDelegate hostingDelegate:(WindowHostController *)aHostingDelegate;
 

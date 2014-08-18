@@ -31,7 +31,7 @@
 \brief convenient allocator for this class cluster
  */
 + (id)indexerWithModuleName:(NSString *)aModName moduleType:(ModuleType)aModType {
-    Indexer *indexer = [[[Indexer alloc] initWithModuleName:aModName moduleType:aModType] autorelease];
+    Indexer *indexer = [[Indexer alloc] initWithModuleName:aModName moduleType:aModType];
     
     return indexer;
 }
@@ -42,7 +42,7 @@
 		CocoLog(LEVEL_ERR, @"cannot alloc Indexer!");
 	} else {
         [self setModName:@""];
-        [self setAccessLock:[[[NSLock alloc] init] autorelease]];
+        [self setAccessLock:[[NSLock alloc] init]];
         accessCounter = 0;
     }
 	
@@ -60,13 +60,13 @@
     switch(aModType) {
         case Bible:
         case Commentary:
-            indexer = [[[BibleIndexer alloc] initWithModuleName:aModName] autorelease];
+            indexer = [[BibleIndexer alloc] initWithModuleName:aModName];
             break;
         case Genbook:
-            indexer = [[[BookIndexer alloc] initWithModuleName:aModName] autorelease];
+            indexer = [[BookIndexer alloc] initWithModuleName:aModName];
             break;
         case Dictionary:
-            indexer = [[[DictIndexer alloc] initWithModuleName:aModName] autorelease];
+            indexer = [[DictIndexer alloc] initWithModuleName:aModName];
             break;
         case All:
             // do nothing
@@ -76,13 +76,6 @@
 	return indexer;
 }
 
-- (void)dealloc {
-    [modName release];
-    [modTypeStr release];
-    [accessLock release];
-
-    [super dealloc];
-}
 
 /**
 \brief add a text to be indexed to this indexer.

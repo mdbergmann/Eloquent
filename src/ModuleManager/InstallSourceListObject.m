@@ -18,8 +18,6 @@
 }
 
 - (void)setInstallSource:(SwordInstallSource *)value {
-    [value retain];
-    [installSource release];
     installSource = value;
 }
 
@@ -28,8 +26,6 @@
 }
 
 - (void)setModuleType:(NSString *)value {
-    [value retain];
-    [moduleType release];
     moduleType = value;    
 }
 
@@ -46,8 +42,6 @@
 }
 
 - (void)setSubInstallSources:(NSArray *)value {
-    [value retain];
-    [subInstallSources release];
     subInstallSources = value;    
 }
 
@@ -56,7 +50,7 @@
 /** convenient allocator */
 + (InstallSourceListObject *)installSourceListObjectForType:(InstallSourceListObjectType)type {
     InstallSourceListObject *object = [[InstallSourceListObject alloc] initWithListObjectType:type];
-    return [object autorelease];
+    return object;
 }
 
 - (id)initWithListObjectType:(InstallSourceListObjectType)type {
@@ -75,11 +69,7 @@
     [self setSubInstallSources:nil];
     [self setModuleType:nil];
     
-    [super dealloc];
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
 @end

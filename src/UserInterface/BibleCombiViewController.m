@@ -25,8 +25,8 @@
 
 @interface BibleCombiViewController ()
 
-@property(readwrite, retain) NSMutableArray *parBibleViewControllers;
-@property(readwrite, retain) NSMutableArray *parMiscViewControllers;
+@property(readwrite, strong) NSMutableArray *parBibleViewControllers;
+@property(readwrite, strong) NSMutableArray *parMiscViewControllers;
 
 - (void)distributeReference:(NSString *)aRef;
 - (void)tileSubViews;
@@ -144,7 +144,7 @@
  */
 - (void)addNewBibleViewWithModule:(SwordBible *)aModule {
     if(aModule != nil) {
-        BibleViewController *vc = [[[BibleViewController alloc] initWithModule:aModule delegate:self] autorelease];
+        BibleViewController *vc = [[BibleViewController alloc] initWithModule:aModule delegate:self];
         [self addContentViewController:vc];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
@@ -162,7 +162,7 @@
  */
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule {
     if(aModule != nil) {
-        CommentaryViewController *vc = [[[CommentaryViewController alloc] initWithModule:aModule delegate:self] autorelease];
+        CommentaryViewController *vc = [[CommentaryViewController alloc] initWithModule:aModule delegate:self];
         [self addContentViewController:vc];
         if(customFontSize > 0) {
             [vc setCustomFontSize:customFontSize];
@@ -747,10 +747,5 @@
     [encoder encodeObject:parMiscViewControllers forKey:@"ParallelMiscViewControllerEncoded"];
 }
 
-- (void)dealloc {
-    [parBibleViewControllers release];
-    [parMiscViewControllers release];
-    [super dealloc];
-}
 
 @end

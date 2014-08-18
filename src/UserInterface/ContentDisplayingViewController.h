@@ -64,8 +64,8 @@ typedef enum _ProgressActionType {
 }
 
 @property (readwrite) BOOL forceRedisplay;
-@property (retain, readwrite) NSEvent *lastEvent;
-@property (retain, readwrite) CacheObject *contentCache;
+@property (strong, readwrite) NSEvent *lastEvent;
+@property (strong, readwrite) CacheObject *contentCache;
 @property (readonly) ProgressOverlayViewController *progressController;
 @property (readwrite) ProgressActionType progressActionType;
 

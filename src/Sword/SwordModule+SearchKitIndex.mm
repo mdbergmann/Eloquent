@@ -192,41 +192,41 @@ NSString *EloquentIndexVersion = @"1.0";
     [moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
         
-        SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
-        [lk setPersist:NO];
-        [lk setPosition:SWPOS_TOP];
-        NSString *ref;
-        NSString *stripped;
-        while(![lk error]) {
-            ref = [lk keyText];
-            [self setSwordKey:lk];
-            stripped = [self strippedText];
-            
-            NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
-            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
-            
-            NSString *strongStr = @"";
-            if([self processEntryAttributes]) {
-                NSArray *strongNumbers = [self entryAttributeValuesLemma];
-                if(strongNumbers && [strongNumbers count] > 0) {
-                    strongStr = [strongNumbers componentsJoinedByString:@" "];
-                    // also add to dictionary
-                    [properties setObject:strongStr forKey:IndexPropSwordStrongString];
+            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
+            [lk setPersist:NO];
+            [lk setPosition:SWPOS_TOP];
+            NSString *ref;
+            NSString *stripped;
+            while(![lk error]) {
+                ref = [lk keyText];
+                [self setSwordKey:lk];
+                stripped = [self strippedText];
+                
+                NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
+                NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
+                
+                NSString *strongStr = @"";
+                if([self processEntryAttributes]) {
+                    NSArray *strongNumbers = [self entryAttributeValuesLemma];
+                    if(strongNumbers && [strongNumbers count] > 0) {
+                        strongStr = [strongNumbers componentsJoinedByString:@" "];
+                        // also add to dictionary
+                        [properties setObject:strongStr forKey:IndexPropSwordStrongString];
+                    }
                 }
+                
+                if((stripped && [stripped length] > 0) || (strongStr && [strongStr length] > 0)) {
+                    NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", stripped, strongStr];                
+                    // add to index
+                    [indexer addDocument:keyIndex text:indexContent textType:ContentTextType storeDict:properties];                
+                }
+                
+                [lk increment];
             }
-            
-            if((stripped && [stripped length] > 0) || (strongStr && [strongStr length] > 0)) {
-                NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", stripped, strongStr];                
-                // add to index
-                [indexer addDocument:keyIndex text:indexContent textType:ContentTextType storeDict:properties];                
-            }
-            
-            [lk increment];
-        }
         
-		[pool drain];
+		}
         
         if([indexer progressIndicator] != nil) {
             [[indexer progressIndicator] incrementProgressBy:1.0];
@@ -251,29 +251,29 @@ NSString *EloquentIndexVersion = @"1.0";
     [moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 
         // we want to skip consecutive links. Commentary module does this by default.
-        SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
-        [lk setPersist:YES];
-        [lk setPosition:SWPOS_TOP];
-        [self setSwordKey:lk];
-        NSString *ref;
-        NSString *stripped;
-        while(![self error]) {
-            ref = [lk keyText];
-            stripped = [self strippedText];
-            
-            NSDictionary *properties = [NSDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
-            NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
-            if(stripped && [stripped length] > 0) {
-                [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
+            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
+            [lk setPersist:YES];
+            [lk setPosition:SWPOS_TOP];
+            [self setSwordKey:lk];
+            NSString *ref;
+            NSString *stripped;
+            while(![self error]) {
+                ref = [lk keyText];
+                stripped = [self strippedText];
+                
+                NSDictionary *properties = [NSDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
+                NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
+                if(stripped && [stripped length] > 0) {
+                    [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
+                }
+                
+                [self incKeyPosition];
             }
-            
-            [self incKeyPosition];
-        }
 
-		[pool drain];
+		}
 
         if([indexer progressIndicator] != nil) {
             [[indexer progressIndicator] incrementProgressBy:1.0];
@@ -296,24 +296,24 @@ NSString *EloquentIndexVersion = @"1.0";
         [[indexer progressIndicator] setProgressIndeterminate:NO];
     }
 
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    for(NSString *key in [self allKeys]) {
-        // entryForKey does lock
-        NSString *entry = [self entryForKey:key];
-        
-        if(entry != nil) {
-            NSDictionary *properties = [NSDictionary dictionaryWithObject:key forKey:IndexPropSwordKeyString];            
-            if([entry length] > 0) {
-                NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", key, entry];
-                [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:properties];                
+    @autoreleasepool {
+        for(NSString *key in [self allKeys]) {
+            // entryForKey does lock
+            NSString *entry = [self entryForKey:key];
+            
+            if(entry != nil) {
+                NSDictionary *properties = [NSDictionary dictionaryWithObject:key forKey:IndexPropSwordKeyString];            
+                if([entry length] > 0) {
+                    NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", key, entry];
+                    [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:properties];                
+                }
+            }
+
+            if([indexer progressIndicator] != nil) {
+                [[indexer progressIndicator] incrementProgressBy:1.0];
             }
         }
-
-        if([indexer progressIndicator] != nil) {
-            [[indexer progressIndicator] incrementProgressBy:1.0];
-        }
-    }
-    [pool drain];        
+    }        
 }
 
 @end

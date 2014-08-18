@@ -44,10 +44,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [bookmarks release];
-    [super dealloc];
-}
 
 - (NSMutableArray *)bookmarks {
     if(bookmarks == nil) {
@@ -58,8 +54,7 @@
 }
 
 - (void)setBookmarks:(NSMutableArray *)bmarks {
-    [bookmarks release];
-    bookmarks = [bmarks retain];
+    bookmarks = bmarks;
 }
 
 - (NSMutableArray *)loadBookmarks {
@@ -72,7 +67,7 @@
     if([fm fileExistsAtPath:bookmarkFile] == YES) {
         NSData *data = [NSData dataWithContentsOfFile:bookmarkFile];
         if(data != nil) {
-            NSKeyedUnarchiver *unarchiver = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
             ret = [unarchiver decodeObjectForKey:@"Bookmarks"];
         }
     } else {
@@ -108,7 +103,7 @@
             if([item isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *ditem = item;
                 // create bookmark for dictionary
-                Bookmark *bmark = [[[Bookmark alloc] init] autorelease];
+                Bookmark *bmark = [[Bookmark alloc] init];
                 [bmark setName:[ditem objectForKey:@"name"]];
                 [bmark setReference:[ditem objectForKey:@"reference"]];
                 [bms addObject:bmark];
@@ -116,7 +111,7 @@
                 NSArray *aitem = item;
                 // this is a subgroup
                 // index 0 has the name of the node
-                Bookmark *bmark = [[[Bookmark alloc] initWithName:[aitem objectAtIndex:0]] autorelease];
+                Bookmark *bmark = [[Bookmark alloc] initWithName:[aitem objectAtIndex:0]];
                 // pass on
                 [bmark setSubGroups:[self _loadBookmarks:aitem]];
                 [bms addObject:bmark];
@@ -130,7 +125,7 @@
 - (void)saveBookmarks {
     
     NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
     [archiver encodeObject:bookmarks forKey:@"Bookmarks"];
     [archiver finishEncoding];
@@ -199,7 +194,7 @@
         indexes[len-1 - i] = (NSUInteger)[[reverseIndex objectAtIndex:i] intValue];
     }
 
-    NSIndexPath *ret = [[[NSIndexPath alloc] initWithIndexes:indexes length:len] autorelease];
+    NSIndexPath *ret = [[NSIndexPath alloc] initWithIndexes:indexes length:len];
     return ret;
 }
 

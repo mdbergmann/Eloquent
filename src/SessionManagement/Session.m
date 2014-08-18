@@ -26,11 +26,5 @@
     return self;
 }
 
-- (void)dealloc {
-    [_url release];
-    [_windows release];
-
-    [super dealloc];
-}
 
 @end

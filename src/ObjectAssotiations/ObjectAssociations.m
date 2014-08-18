@@ -16,7 +16,7 @@ char NotesMgrUI;
 
 @interface ObjectAssociations ()
 
-@property (retain, readwrite) NSMutableDictionary *associations;
+@property (strong, readwrite) NSMutableDictionary *associations;
 
 @end
 
@@ -42,15 +42,7 @@ char NotesMgrUI;
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [associations release];
-
-    [super dealloc];
-}
 
 - (void)registerObject:(id)anObject forAssociatedObject:(id)assoObject withKey:(void *)aKey {
     NSUInteger pointerKey = (NSUInteger)assoObject + (NSUInteger)aKey;

@@ -20,7 +20,7 @@
 /** we store a retained copy of the selected install sources */
 @property (readwrite) NSArray *installSources;
 
-@property (readwrite, assign) IBOutlet id delegate;
+@property (readwrite, strong) IBOutlet id delegate;
 
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList;

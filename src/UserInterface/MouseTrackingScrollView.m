@@ -50,10 +50,10 @@
     while(self.trackingAreas.count > 0) {
 		[self removeTrackingArea:[self.trackingAreas lastObject]];
 	}
-    [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds] 
+    [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:[self bounds] 
                                                         options:(NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow) 
                                                           owner:self 
-                                                       userInfo:nil] autorelease]];
+                                                       userInfo:nil]];
 }
 
 @end

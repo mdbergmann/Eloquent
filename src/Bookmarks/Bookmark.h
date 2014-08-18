@@ -19,12 +19,12 @@
     BOOL highlight;
 }
 
-@property (retain, readwrite) NSString *name;
-@property (retain, readwrite) NSString *reference;
-@property (retain, readwrite) NSString *comment;
-@property (retain, readwrite) NSColor *foregroundColor;
-@property (retain, readwrite) NSColor *backgroundColor;
-@property (retain, readwrite) NSMutableArray *subGroups;
+@property (strong, readwrite) NSString *name;
+@property (strong, readwrite) NSString *reference;
+@property (strong, readwrite) NSString *comment;
+@property (strong, readwrite) NSColor *foregroundColor;
+@property (strong, readwrite) NSColor *backgroundColor;
+@property (strong, readwrite) NSMutableArray *subGroups;
 @property (readwrite) BOOL highlight;
 
 - (id)initWithName:(NSString *)aName;

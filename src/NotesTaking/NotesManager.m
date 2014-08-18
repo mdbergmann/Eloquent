@@ -12,8 +12,8 @@
 
 @interface NotesManager ()
 
-@property (readwrite, retain) NSString *rootPath;
-@property (readwrite, retain) FileRepresentation *rootPathRep;
+@property (readwrite, strong) NSString *rootPath;
+@property (readwrite, strong) FileRepresentation *rootPathRep;
 
 - (FileRepresentation *)_fileRepForPath:(NSString *)aFilePath inFolder:(FileRepresentation *)aFolderRep;
 
@@ -38,13 +38,13 @@ static NotesManager *singleton = nil;
     self = [super init];
     if(self) {
         
-        NSFileWrapper *wrapper = [[[NSFileWrapper alloc] initWithPath:aPath] autorelease];
+        NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:aPath];
         if([wrapper isSymbolicLink]) {
             self.rootPath = [wrapper symbolicLinkDestination];
         } else {
             self.rootPath = aPath;
         }
-        self.rootPathRep = [[[FileRepresentation alloc] initWithPath:rootPath] autorelease];
+        self.rootPathRep = [[FileRepresentation alloc] initWithPath:rootPath];
 
         [rootPathRep buildTree];
     }
@@ -52,15 +52,7 @@ static NotesManager *singleton = nil;
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [rootPath release];
-    [rootPathRep release];
-    [super dealloc];
-}
 
 #pragma mark - Methods
 

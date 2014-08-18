@@ -127,20 +127,7 @@
     viewLoaded = YES;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [commentariesMenu release];
-    [biblesMenu release];
-    [searchBookSetsController release];
-    [gradientCell release];
-    [nibName release];
-    [bookSelection release];
-
-    [super dealloc];
-}
 
 #pragma mark - methods
 
@@ -171,8 +158,8 @@
 }
 
 - (void)populateModulesMenu {
-    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-    [[self modulesUIController] generateModuleMenu:&menu 
+    NSMenu *menu = [[NSMenu alloc] init];
+    [[self modulesUIController] generateModuleMenu:menu 
                                      forModuletype:Bible 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
@@ -195,7 +182,7 @@
 }
 
 - (void)populateBookmarksMenu {
-    NSMenu *bookmarksMenu = [[[NSMenu alloc] init] autorelease];
+    NSMenu *bookmarksMenu = [[NSMenu alloc] init];
     [[self bookmarksUIController] generateBookmarkMenu:&bookmarksMenu withMenuTarget:self withMenuAction:@selector(addVersesToBookmark:)];
     NSMenuItem *item = [textContextMenu itemWithTag:AddVersesToBookmark];
     [item setSubmenu:bookmarksMenu];    
@@ -205,20 +192,20 @@
     // generate bibles menu
     biblesMenu = [[NSMenu alloc] init];
     [biblesMenu setAutoenablesItems:YES];
-    [[self modulesUIController] generateModuleMenu:&biblesMenu 
+    [[self modulesUIController] generateModuleMenu:biblesMenu
                                      forModuletype:Bible 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
     
     // generate commentary menu
     commentariesMenu = [[NSMenu alloc] init];
-    [[self modulesUIController] generateModuleMenu:&commentariesMenu 
+    [[self modulesUIController] generateModuleMenu:commentariesMenu
                                      forModuletype:Commentary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
     
     // overall menu
-    NSMenu *allMenu = [[[NSMenu alloc] init] autorelease];
+    NSMenu *allMenu = [[NSMenu alloc] init];
     [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
     NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Bible", @"") action:nil keyEquivalent:@""];
     [mi setSubmenu:biblesMenu];

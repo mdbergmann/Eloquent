@@ -18,8 +18,7 @@
 
 - (void)setModule:(SwordModule *)value {
     if (module != value) {
-        [module release];
-        module = [value retain];
+        module = value;
     }
 }
 
@@ -29,8 +28,7 @@
 
 - (void)setInstallSource:(SwordInstallSource *)value {
     if (installSource != value) {
-        [installSource release];
-        installSource = [value retain];
+        installSource = value;
     }
 }
 
@@ -48,12 +46,8 @@
     [self setModule:nil];
     [self setInstallSource:nil];
     
-    [super dealloc];
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
 - (NSString *)moduleName {
     return [module name];

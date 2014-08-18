@@ -25,11 +25,11 @@
     IBOutlet NSTextField *dayTextField;
     IBOutlet NSTextField *monthTextField;    
     
-    IBOutlet id delegate;
+    IBOutlet id __strong delegate;
 }
 
-@property(assign, readwrite) id delegate;
-@property(retain, readwrite) SwordDictionary *dailyDevotionModule;
+@property(strong, readwrite) id delegate;
+@property(strong, readwrite) SwordDictionary *dailyDevotionModule;
 @property(readwrite) NSInteger day;
 @property(readwrite) NSInteger month;
 

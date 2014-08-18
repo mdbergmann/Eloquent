@@ -33,7 +33,6 @@
                       range:range];
     [attrTitle fixAttributesInRange:range];
     [self setAttributedTitle:attrTitle];
-    [attrTitle release];
 }
 
 @end

@@ -38,15 +38,15 @@ typedef enum {
     NSLock *accessLock;
     NSInteger accessCounter;
     
-    id<IndexCreationProgressing> progressIndicator;
+    id<IndexCreationProgressing> __strong progressIndicator;
 }
 
 @property (readwrite) ModuleType modType;
-@property (retain, readwrite) NSString *modTypeStr;
-@property (retain, readwrite) NSString *modName;
-@property (retain, readwrite) NSLock *accessLock;
+@property (strong, readwrite) NSString *modTypeStr;
+@property (strong, readwrite) NSString *modName;
+@property (strong, readwrite) NSLock *accessLock;
 @property (readwrite) NSInteger accessCounter;
-@property (assign, readwrite) id<IndexCreationProgressing> progressIndicator;
+@property (strong, readwrite) id<IndexCreationProgressing> progressIndicator;
 
 /**
  \brief convenient allocator for this class cluster

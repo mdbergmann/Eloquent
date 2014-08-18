@@ -168,7 +168,7 @@
 }
 
 - (NSAttributedString *)selectedAttributedString {
-    NSAttributedString *ret = [[[NSAttributedString alloc] init] autorelease];
+    NSAttributedString *ret = [[NSAttributedString alloc] init];
     
     NSRange selRange = [self selectedRange];
     if(selRange.length > 0) {

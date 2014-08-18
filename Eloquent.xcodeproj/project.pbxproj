@@ -49,7 +49,6 @@
 		8C92C302D8548324BCF5E14D /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C85A3AC93A5B8C519FCF /* DictionaryView.xib */; };
 		8C92C3973E4CD819745AFAB8 /* DailyDevotion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C91BA01EE9E0DA62FBC7 /* DailyDevotion.xib */; };
 		8C92C3BF8845411B042011FB /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF4FCFCF71CA175A010B /* fifteenpieces.png */; };
-		8C92C3FE0C9B15207053A59D /* EloquentFilterProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8C92C1D5D7545986F2AFCEE1 /* EloquentFilterProvider.h */; };
 		8C92C40CC450C589524BC11B /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD48C3B862B17274F21B /* refresh.png */; };
 		8C92C42B28CAA0776AA8F15A /* scopebar_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2AFC13F00593967C3F5 /* scopebar_inactive.png */; };
 		8C92C4B7853602C68D959374 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CBDD3D526032CCB69FA9 /* ThreadedProgressSheet.xib */; };
@@ -136,6 +135,7 @@
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
+		A945F5B219A21F5E00C618DD /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; };
 		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
 		A955E198142612B000357B6F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A955E196142612B000357B6F /* WebViewController.m */; };
@@ -151,6 +151,7 @@
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
 		A9802A7612182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = A9802A7512182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m */; };
+		A98203FA19A0C6C200DD808C /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; };
 		A98422E21144EF640001EED1 /* ToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98422E11144EF640001EED1 /* ToolbarController.m */; };
 		A987A34C0F6D59EC007E5EE1 /* ThickDividerSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = A987A34B0F6D59EC007E5EE1 /* ThickDividerSplitView.m */; };
 		A98810340EB4A6820066943B /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810330EB4A6820066943B /* SideBarViewController.m */; };
@@ -164,8 +165,6 @@
 		A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */; };
 		A98A96A1112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */; };
 		A99055AC0E04273E00E8D7A2 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
-		A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
-		A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A993E8CE1053137C00680650 /* BGHUDAppKit.framework */; };
 		A99A76D510B2A4C4002EFD30 /* FileRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */; };
 		A99A773710B33802002EFD30 /* NotesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A773610B33802002EFD30 /* NotesUIController.m */; };
 		A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A774310B33C7D002EFD30 /* NotesViewController.m */; };
@@ -186,8 +185,6 @@
 		A9CFAEA210D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CFAEA110D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m */; };
 		A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D102580EC1ED0A0023FF23 /* WindowHostController.m */; };
 		A9D450C60F59884A001617B1 /* NSImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D450C50F59884A001617B1 /* NSImage+Additions.m */; };
-		A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */; };
-		A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */; };
 		A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */; };
 		A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */; };
 		A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */; };
@@ -385,12 +382,10 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A9B1FBDF11E328EF00BB561A /* ObjCSword.framework in CopyFiles */,
-				A993E8FB1053138B00680650 /* BGHUDAppKit.framework in CopyFiles */,
-				A9D4BAD40EFEEA8400A5AFF9 /* PSMTabBarControl.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
 				A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */,
-				8C92C3FE0C9B15207053A59D /* EloquentFilterProvider.h in CopyFiles */,
+				A945F5B219A21F5E00C618DD /* PSMTabBarControl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +570,7 @@
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
 		A9802A7412182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TextEntryDuplicateRemove.h"; sourceTree = "<group>"; };
 		A9802A7512182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TextEntryDuplicateRemove.m"; sourceTree = "<group>"; };
+		A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMTabBarControl.framework; path = Resources/PSMTabBarControl.framework; sourceTree = "<group>"; };
 		A98422E01144EF640001EED1 /* ToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToolbarController.h; path = src/UserInterface/ToolbarController.h; sourceTree = "<group>"; };
 		A98422E11144EF640001EED1 /* ToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToolbarController.m; path = src/UserInterface/ToolbarController.m; sourceTree = "<group>"; };
 		A987A34A0F6D59EC007E5EE1 /* ThickDividerSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThickDividerSplitView.h; path = src/UserInterface/ThickDividerSplitView.h; sourceTree = "<group>"; };
@@ -599,7 +595,6 @@
 		A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BibleCombiViewController+ViewSynchronisation.m"; path = "src/UserInterface/BibleCombiViewController+ViewSynchronisation.m"; sourceTree = "<group>"; };
 		A99055AA0E04273E00E8D7A2 /* BibleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BibleViewController.h; path = src/UserInterface/BibleViewController.h; sourceTree = "<group>"; };
 		A99055AB0E04273E00E8D7A2 /* BibleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BibleViewController.m; path = src/UserInterface/BibleViewController.m; sourceTree = "<group>"; };
-		A993E8CE1053137C00680650 /* BGHUDAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BGHUDAppKit.framework; path = Resources/BGHUDAppKit.framework; sourceTree = "<group>"; };
 		A99A76D310B2A4C4002EFD30 /* FileRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileRepresentation.h; path = src/NotesTaking/FileRepresentation.h; sourceTree = "<group>"; };
 		A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileRepresentation.m; path = src/NotesTaking/FileRepresentation.m; sourceTree = "<group>"; };
 		A99A773510B33802002EFD30 /* NotesUIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotesUIController.h; path = src/NotesTaking/NotesUIController.h; sourceTree = "<group>"; };
@@ -634,7 +629,6 @@
 		A9D102580EC1ED0A0023FF23 /* WindowHostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WindowHostController.m; path = src/UserInterface/WindowHostController.m; sourceTree = "<group>"; };
 		A9D450C40F59884A001617B1 /* NSImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+Additions.h"; path = "src/UserInterface/NSImage+Additions.h"; sourceTree = "<group>"; };
 		A9D450C50F59884A001617B1 /* NSImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage+Additions.m"; path = "src/UserInterface/NSImage+Additions.m"; sourceTree = "<group>"; };
-		A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMTabBarControl.framework; path = Resources/PSMTabBarControl.framework; sourceTree = "<group>"; };
 		A9D4BB1C0EFEF74000A5AFF9 /* FakeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeModel.h; path = src/UserInterface/FakeModel.h; sourceTree = "<group>"; };
 		A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FakeModel.m; path = src/UserInterface/FakeModel.m; sourceTree = "<group>"; };
 		A9D849690EFA361F000457EC /* RightSideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RightSideBarViewController.h; path = src/UserInterface/RightSideBarViewController.h; sourceTree = "<group>"; };
@@ -690,8 +684,7 @@
 				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
 				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
 				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
-				A9D4BA760EFEDC7D00A5AFF9 /* PSMTabBarControl.framework in Frameworks */,
-				A993E8CF1053137C00680650 /* BGHUDAppKit.framework in Frameworks */,
+				A98203FA19A0C6C200DD808C /* PSMTabBarControl.framework in Frameworks */,
 				A9188E7610E0F401006DA14B /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -723,9 +716,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */,
 				A9B1FC3811E3291D00BB561A /* ObjCSword.framework */,
-				A993E8CE1053137C00680650 /* BGHUDAppKit.framework */,
-				A9D4BA750EFEDC7D00A5AFF9 /* PSMTabBarControl.framework */,
 				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
 				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,
 				A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */,
@@ -1329,7 +1321,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Crosswire;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Eloquent" */;
@@ -2059,7 +2051,6 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -2069,7 +2060,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DRELEASE";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 			};
@@ -2079,17 +2070,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Resources\"",
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
+					"$(PROJECT_DIR)/Resources",
 				);
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -2113,6 +2104,7 @@
 				);
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2258,7 +2250,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2267,11 +2260,10 @@
 					"\"$(SRCROOT)/Resources\"",
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Debug\"",
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
+					"$(PROJECT_DIR)/Resources",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
@@ -2295,6 +2287,7 @@
 				);
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2305,17 +2298,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Resources\"",
 					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
+					"$(PROJECT_DIR)/Resources",
 				);
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -2336,6 +2329,7 @@
 				);
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2347,7 +2341,6 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2357,7 +2350,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DDEBUG";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 			};
@@ -2369,7 +2362,6 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -2379,7 +2371,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DRELEASE";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 			};

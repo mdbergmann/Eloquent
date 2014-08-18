@@ -17,7 +17,7 @@
 }
 
 @property (readwrite) BOOL windowActive;
-@property (retain, readwrite) NSImage *bgImageActive;
-@property (retain, readwrite) NSImage *bgImageInactive;
+@property (strong, readwrite) NSImage *bgImageActive;
+@property (strong, readwrite) NSImage *bgImageInactive;
 
 @end

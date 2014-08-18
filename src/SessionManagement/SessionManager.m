@@ -33,7 +33,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.session = [[[Session alloc] init] autorelease];
+        self.session = [[Session alloc] init];
 
         // load session path from defaults
         if([userDefaults objectForKey:DefaultsSessionPath] == nil) {
@@ -46,11 +46,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [_session release];
-
-    [super dealloc];
-}
 
 
 - (bool)hasWindows {
@@ -74,7 +69,7 @@
 - (void)saveSession {
     // encode all windows
     NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver setOutputFormat:NSPropertyListXMLFormat_v1_0];
     [archiver encodeObject:self.session.windows forKey:@"WindowsEncoded"];
     [archiver finishEncoding];
@@ -171,7 +166,7 @@
         NSData *data = [NSData dataWithContentsOfURL:self.session.url];
         if (data == nil) @throw [NSException exceptionWithName:@"SessionLoadError" reason:@"Unable to load session!" userInfo:nil];
 
-        NSKeyedUnarchiver *unarchiver = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         NSArray *windows = [unarchiver decodeObjectForKey:@"WindowsEncoded"];
 
         self.session.windows = windows;
@@ -234,7 +229,7 @@
 }
 
 - (void)removeWindow:(WindowHostController *)aWindow {
-    NSMutableArray *windows = [[self.session.windows mutableCopy] autorelease];
+    NSMutableArray *windows = [self.session.windows mutableCopy];
     [windows removeObject:aWindow];
 
     self.session.windows = [NSArray arrayWithArray:windows];

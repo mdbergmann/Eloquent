@@ -35,7 +35,7 @@
         
         // headings fg color
         CGFloat hr, hg, hb = 0.0;
-        NSColor *hfCol = [NSColor colorWithCalibratedRed:0.86 green:0.86 blue:0.86 alpha:0.0];
+        NSColor *hfCol = [NSColor colorWithCalibratedRed:0.10 green:0.10 blue:0.10 alpha:0.0];
         [hfCol getRed:&hr green:&hg blue:&hb alpha:NULL];    
         NSString *previewPaneTextColor = [NSString stringWithFormat:@"color:rgb(%i%%, %i%%, %i%%);",
                                           (int)(hr * 100.0), (int)(hg * 100.0), (int)(hb * 100.0)];
@@ -143,9 +143,6 @@
                                                  name:NotificationShowPreviewData object:nil];    
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
 - (void)windowWillClose:(NSNotification *)notification {
     [userDefaults setBool:NO forKey:DefaultsShowHUDPreview];
@@ -173,9 +170,9 @@
         [options setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
                 
         NSData *tempData = [[previewDict objectForKey:PreviewDisplayTextKey] dataUsingEncoding:NSUTF8StringEncoding];
-        NSMutableAttributedString *tempDisplayString = [[[NSMutableAttributedString alloc] initWithHTML:tempData
+        NSMutableAttributedString *tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:tempData
                                                                                                options:options
-                                                                                    documentAttributes:nil] autorelease];
+                                                                                    documentAttributes:nil];
         
         
         [[previewText textStorage] setAttributedString:tempDisplayString];

@@ -10,10 +10,10 @@
 #import <CocoLogger/CocoLogger.h>
 
 @interface MouseTrackingScrollView : NSScrollView {
-    id delegate;
+    id __strong delegate;
 }
 
-@property (assign, readwrite) id delegate;
+@property (strong, readwrite) id delegate;
 
 - (void)updateMouseTracking;
 

@@ -15,7 +15,7 @@
 
 - (id)initWithPrintInfo:(NSPrintInfo *)aPrintInfo;
 
-@property (retain, readwrite) NSPrintInfo *printInfo;
+@property (strong, readwrite) NSPrintInfo *printInfo;
 
 - (NSSet *)keyPathsForValuesAffectingPreview;
 - (NSArray *)localizedSummaryItems;

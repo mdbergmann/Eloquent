@@ -36,11 +36,11 @@
     NSMutableDictionary *indexerRegistrat;
 }
 
-@property (retain, readwrite) NSString *baseIndexPath;
-@property (retain, readwrite) SwordManager *swordManager;
+@property (strong, readwrite) NSString *baseIndexPath;
+@property (strong, readwrite) SwordManager *swordManager;
 @property (readwrite) int interval;
 @property (readwrite) BOOL stalled;
-@property (retain, readwrite) NSMutableArray *searchBookSets;
+@property (strong, readwrite) NSMutableArray *searchBookSets;
 
 /**
  \brief singleton convenient allocator and getter of instance

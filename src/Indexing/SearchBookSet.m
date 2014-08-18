@@ -9,7 +9,7 @@
 #import "SearchBookSet.h"
 
 @interface SearchBookSet ()
-@property (retain, readwrite) NSMutableDictionary *osisBookNames;
+@property (strong, readwrite) NSMutableDictionary *osisBookNames;
 @end
 
 @implementation SearchBookSet
@@ -19,7 +19,7 @@
 @synthesize isPredefined;
 
 + (id)searchBookSetWithName:(NSString *)aName {
-    return [[[SearchBookSet alloc] initWithName:aName] autorelease];
+    return [[SearchBookSet alloc] initWithName:aName];
 }
 
 - (id)init {
@@ -42,11 +42,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [name release];
-    [osisBookNames release];
-    [super dealloc];
-}
 
 - (int)count {
     return [osisBookNames count];
@@ -81,7 +76,7 @@
     SearchBookSet *obj = [[SearchBookSet alloc] init];
     
     obj.name = [decoder decodeObjectForKey:@"NameEncoded"];
-    obj.osisBookNames = [[[decoder decodeObjectForKey:@"OSISBookNamesEncoded"] mutableCopy] autorelease];
+    obj.osisBookNames = [[decoder decodeObjectForKey:@"OSISBookNamesEncoded"] mutableCopy];
     obj.isPredefined = [decoder decodeBoolForKey:@"PredefinedEncoded"];
     
     return obj;

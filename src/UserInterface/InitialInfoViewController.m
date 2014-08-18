@@ -65,7 +65,7 @@
     }
 
     SwordModule *mod = [[SwordManager defaultManager] moduleWithName:defaultBibleName];
-    [self.host addContentViewController:[[[BibleCombiViewController alloc] initWithModule:(SwordBible *) mod delegate:nil] autorelease]];
+    [self.host addContentViewController:[[BibleCombiViewController alloc] initWithModule:(SwordBible *) mod delegate:nil]];
 }
 
 @end

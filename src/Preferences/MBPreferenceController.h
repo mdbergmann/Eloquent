@@ -125,7 +125,7 @@ typedef enum _VerseNumberingType {
 	NSWindow *sheetWindow;
     
 	// set delegate
-	id delegate;
+	id __strong delegate;
 	
 	// return code of sheet
 	int sheetReturnCode;
@@ -137,8 +137,8 @@ typedef enum _VerseNumberingType {
 	int topTabViewMargin;
 }
 
-@property (assign, readwrite) id delegate;
-@property (retain, readwrite) NSWindow *sheetWindow;
+@property (strong, readwrite) id delegate;
+@property (strong, readwrite) NSWindow *sheetWindow;
 
 // the default prefs controller
 + (MBPreferenceController *)defaultPrefsController;

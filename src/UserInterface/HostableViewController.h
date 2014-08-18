@@ -37,7 +37,7 @@
 
 @interface HostableViewController : NSViewController <MouseTracking, HostViewDelegate, ContentSaving> {
     IBOutlet id delegate;
-    IBOutlet WindowHostController *hostingDelegate;
+    IBOutlet WindowHostController *__strong hostingDelegate;
     
     BOOL viewLoaded;    
     BOOL isLoadingCompleteReported;
@@ -47,11 +47,11 @@
     NSString *searchString;
 }
 
-@property (assign, readwrite) id delegate;
-@property (assign, readwrite) WindowHostController *hostingDelegate;
+@property (strong, readwrite) id delegate;
+@property (strong, readwrite) WindowHostController *hostingDelegate;
 @property (readwrite) BOOL viewLoaded;
 @property (readwrite) SearchType searchType;
-@property (retain, readwrite) NSString *searchString;
+@property (strong, readwrite) NSString *searchString;
 @property (readwrite) BOOL showingRSBPreferred;
 
 - (void)reportLoadingComplete;

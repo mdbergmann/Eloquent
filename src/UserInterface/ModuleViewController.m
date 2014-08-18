@@ -54,7 +54,7 @@
     forceRedisplay = NO;
     searchType = ReferenceSearchType;
     
-    self.searchContentCache = [[[CacheObject alloc] init] autorelease];
+    self.searchContentCache = [[CacheObject alloc] init];
     contentDisplayController = [[ExtTextViewController alloc] initWithDelegate:self];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(modulesListChanged:)
@@ -81,18 +81,7 @@
     [mi setTag:ShowModuleAbout];
  }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [contentDisplayController release];
-    [tempDisplayString release];
-    [searchContentCache release];
-    [module release];
-
-    [super dealloc];
-}
 
 #pragma mark - Methods
 
@@ -102,8 +91,6 @@
 
 - (void)setModule:(SwordModule *)aModule {
     if(module != aModule) {
-        [aModule retain];
-        [module release];
         module = aModule;
 
         if(module != nil) {
@@ -155,7 +142,7 @@
     
     if(results) {
         [searchContentCache setCount:[results count]];
-        NSSortDescriptor *descriptor = [[[NSSortDescriptor alloc] initWithKey:@"documentName" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"documentName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
         NSArray *sortDescriptors = [NSArray arrayWithObject:descriptor];
         NSArray *sortedResults = [results sortedArrayUsingDescriptors:sortDescriptors];
         [searchContentCache setContent:[self displayableHTMLForIndexedSearchResults:sortedResults]];
@@ -203,7 +190,7 @@
     NSSize printSize = NSMakeSize(paperSize.width - ([printInfo leftMargin] + [printInfo rightMargin]), 
                                   paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
     
-    NSTextView *printView = [[[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)] autorelease];
+    NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
     [printView insertText:[[self textView] attributedString]];
     
     return printView;
@@ -282,7 +269,7 @@
     if([searchString length] > 0) {
         [contentCache setContent:[self displayableHTMLForReferenceLookup]];        
     } else {
-        [contentCache setContent:[[[NSAttributedString alloc] initWithString:@""] autorelease]];
+        [contentCache setContent:[[NSAttributedString alloc] initWithString:@""]];
     }
 }
 

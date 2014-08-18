@@ -17,8 +17,8 @@
     int leftCounter;
 }
 
-@property (retain, readwrite) NSImage *image;
-@property (retain, readwrite) NSImage *rightImage;
+@property (strong, readwrite) NSImage *image;
+@property (strong, readwrite) NSImage *rightImage;
 @property (readwrite) int rightCounter;
 @property (readwrite) int leftCounter;
 

@@ -16,7 +16,7 @@
     NSFont *bmRefFont;
 }
 
-@property (retain, readwrite) NSImage *image;
-@property (retain, readwrite) Bookmark *bookmark;
+@property (strong, readwrite) NSImage *image;
+@property (strong, readwrite) Bookmark *bookmark;
 
 @end

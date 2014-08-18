@@ -52,9 +52,6 @@ enum NotesMenu_Items{
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
 - (void)awakeFromNib {
 }

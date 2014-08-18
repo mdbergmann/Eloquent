@@ -42,16 +42,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [name release];
-    [reference release];
-    [comment release];
-    [foregroundColor release];
-    [backgroundColor release];
-    [subGroups release];
-
-    [super dealloc];
-}
 
 - (int)childCount {
     int ret = 0;
@@ -72,7 +62,7 @@
 #pragma mark NSCoding implementation
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    Bookmark *bm = [[[Bookmark alloc] init] autorelease];
+    Bookmark *bm = [[Bookmark alloc] init];
     
     [bm setName:[decoder decodeObjectForKey:@"BookmarkName"]];
     [bm setReference:[decoder decodeObjectForKey:@"BookmarkRef"]];

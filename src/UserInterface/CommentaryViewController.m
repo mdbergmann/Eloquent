@@ -100,8 +100,8 @@
 }
 
 - (void)populateModulesMenu {    
-    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-    [[self modulesUIController] generateModuleMenu:&menu 
+    NSMenu *menu = [[NSMenu alloc] init];
+    [[self modulesUIController] generateModuleMenu:menu
                                      forModuletype:Commentary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
@@ -135,12 +135,12 @@
 
 - (void)populateAddPopupMenu {
     commentariesMenu = [[NSMenu alloc] init];
-    [[self modulesUIController] generateModuleMenu:&commentariesMenu 
+    [[self modulesUIController] generateModuleMenu:commentariesMenu
                                      forModuletype:Commentary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(addModule:)];
 
-    NSMenu *allMenu = [[[NSMenu alloc] init] autorelease];
+    NSMenu *allMenu = [[NSMenu alloc] init];
     [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
     NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Commentary", @"") action:nil keyEquivalent:@""];
     [mi setSubmenu:commentariesMenu];
@@ -431,7 +431,7 @@
 
 - (void)replaceLinksWithAnchorTags {
     NSRange effectiveRange;
-    NSMutableAttributedString *displayString = [[[NSMutableAttributedString alloc] initWithAttributedString:[[(id<TextContentProviding>)contentDisplayController textView] attributedString]] autorelease];
+    NSMutableAttributedString *displayString = [[NSMutableAttributedString alloc] initWithAttributedString:[[(id<TextContentProviding>)contentDisplayController textView] attributedString]];
 	NSUInteger i = 0;
 	while (i < [displayString length]) {
         NSDictionary *attrs = [displayString attributesAtIndex:i effectiveRange:&effectiveRange];
@@ -446,7 +446,7 @@
             
             effectiveRange.length = [replacementString length];
 
-            attrs = [[attrs mutableCopy] autorelease];
+            attrs = [attrs mutableCopy];
             [(NSMutableDictionary *)attrs removeObjectForKey:NSCursorAttributeName];
             [(NSMutableDictionary *)attrs removeObjectForKey:NSLinkAttributeName];
             [displayString setAttributes:attrs range:effectiveRange];

@@ -36,9 +36,6 @@ extern char NotesMgrUI;
     [self reportLoadingComplete];
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
 - (ModulesUIController *)modulesUIController {
     return [Associater objectForAssociatedObject:self.delegate withKey:&ModuleListUI];

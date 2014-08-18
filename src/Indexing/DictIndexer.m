@@ -61,7 +61,6 @@
 	CocoLog(LEVEL_DEBUG,@"dealloc of DictIndexer");
 	
 	// dealloc object
-	[super dealloc];
 }
 
 /**
@@ -87,19 +86,19 @@
 		NSString *docName = [NSString stringWithFormat:@"%@", aKey];
 		//CocoLog(LEVEL_DEBUG, @"creating document with name: %@", docName);
         
-		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
+		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (__bridge CFStringRef)docName);
 		if(docRef == NULL) {
 			CocoLog(LEVEL_ERR, @"could nor create document!");
 		} else {			
 			// add Document
 			//CocoLog(LEVEL_DEBUG, @"adding doc with text: %@", aText);
-			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (CFStringRef)aText, YES);
+			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (__bridge CFStringRef)aText, YES);
 			if(!success) {
 				CocoLog(LEVEL_ERR, @"Could not add document!");
 			} else {
                 if(aDict != nil) {
                     // set document properties for this document
-                    SKIndexSetDocumentProperties(indexRef, docRef, (CFDictionaryRef)aDict);
+                    SKIndexSetDocumentProperties(indexRef, docRef, (__bridge CFDictionaryRef)aDict);
                 }
 			}
 			
@@ -125,7 +124,7 @@
     
     [accessLock lock];
     if(contentIndexRef != NULL) {
-        SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (CFStringRef)query, 0);
+        SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (__bridge CFStringRef)query, 0);
         if(searchRef != NULL) {
             // create document ids array
             SKDocumentID docIDs[maxResults];
@@ -175,10 +174,10 @@
                 SKDocumentRef hit = docRefs[i];
                 
                 // get doc name
-                NSString *docName = (NSString *)SKDocumentGetName(hit);
-                NSDictionary *propDict = (NSDictionary *)SKIndexCopyDocumentProperties(contentIndexRef, hit);
+                NSString *docName = (__bridge NSString *)SKDocumentGetName(hit);
+                NSDictionary *propDict = (NSDictionary *)CFBridgingRelease(SKIndexCopyDocumentProperties(contentIndexRef, hit));
                 if(propDict != nil) {
-                    searchEntry = [[[SearchResultEntry alloc] initWithDictionary:propDict] autorelease];
+                    searchEntry = [[SearchResultEntry alloc] initWithDictionary:propDict];
                 }
                 
                 // add score

@@ -14,10 +14,10 @@
     NSString *filePath;
     NSFileWrapper *fileWrapper;
     NSMutableDictionary *directoryContentWrapper;
-    FileRepresentation *parent;
+    FileRepresentation *__strong parent;
 }
 
-@property (readwrite, retain) NSString *filePath;
+@property (readwrite, strong) NSString *filePath;
 
 + (FileRepresentation *)createWithName:(NSString *)aName isFolder:(BOOL)isFolder destinationDirectoryRep:(FileRepresentation *)aFolderRep;
 + (BOOL)copyComplete:(FileRepresentation *)source to:(FileRepresentation *)destDirectoryRep;

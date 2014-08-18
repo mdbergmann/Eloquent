@@ -43,8 +43,8 @@ enum GeneralMenuItemAdditions {
 
 @property (readwrite) NSInteger customFontSize;
 @property (readwrite) NSInteger textContext;
-@property (retain, readwrite) NSMutableDictionary *modDisplayOptions;
-@property (retain, readwrite) NSMutableDictionary *displayOptions;
+@property (strong, readwrite) NSMutableDictionary *modDisplayOptions;
+@property (strong, readwrite) NSMutableDictionary *displayOptions;
 @property (readonly) NSPopUpButton *fontSizePopUpButton;
 @property (readonly) NSPopUpButton *textContextPopUpButton;
 @property (readonly) NSPopUpButton *displayOptionsPopUpButton;

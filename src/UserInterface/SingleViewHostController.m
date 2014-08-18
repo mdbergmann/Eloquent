@@ -90,7 +90,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {        
-        [super initWithCoder:decoder];
+        if (!(self = [super initWithCoder:decoder])) return nil;
 
         // decode contentViewController
         contentViewController = [decoder decodeObjectForKey:@"HostableViewControllerEncoded"];

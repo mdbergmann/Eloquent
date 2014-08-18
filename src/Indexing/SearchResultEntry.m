@@ -18,8 +18,6 @@
 @implementation SearchResultEntry (PrivateAPI)
 
 - (void)setProperties:(NSMutableDictionary *)dict {
-    [dict retain];
-    [properties release];
     properties = dict;
 }
 
@@ -48,7 +46,6 @@
 - (void)dealloc {
 	[self setProperties:nil];
     
-	[super dealloc];
 }
 
 // general methods for adding and getting properties

@@ -12,10 +12,10 @@
 
 @interface ObjectAssociations : NSObject {
     NSMutableDictionary *associations;
-    WindowHostController *currentInitialisationHost;
+    WindowHostController *__strong currentInitialisationHost;
 }
 
-@property (assign, readwrite) WindowHostController *currentInitialisationHost;
+@property (strong, readwrite) WindowHostController *currentInitialisationHost;
 
 + (ObjectAssociations *)associations;
 

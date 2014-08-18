@@ -28,7 +28,7 @@
     NSString *creditPath = [resourcePath stringByAppendingPathComponent:@"English.lproj/Credits.rtf"];
     
     NSData *rtfData = [NSData dataWithContentsOfFile:creditPath];
-    NSAttributedString *credits = [[[NSAttributedString alloc] initWithRTF:rtfData documentAttributes:nil] autorelease];
+    NSAttributedString *credits = [[NSAttributedString alloc] initWithRTF:rtfData documentAttributes:nil];
     // insert the text into the text view
     [creditsTextView insertText:credits];
     // make un editable

@@ -32,10 +32,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [searchString release];
-    [super dealloc];
-}
 
 - (id)delegate {
     return delegate;

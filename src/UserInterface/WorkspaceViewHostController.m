@@ -22,10 +22,16 @@
 #import "InitialInfoViewController.h"
 #import "RightSideBarViewController.h"
 
+@interface PSMTabBarControl (mystuff)
+
+- (PSMRolloverButton *)addTabButton;
+
+@end
+
 @interface WorkspaceViewHostController ()
 
-@property (retain, readwrite) NSMutableArray *viewControllers;
-@property (retain, readwrite) NSMutableArray *searchTextObjs;
+@property (strong, readwrite) NSMutableArray *viewControllers;
+@property (strong, readwrite) NSMutableArray *searchTextObjs;
 
 - (void)commonInit;
 - (NSString *)tabViewItemLabelForText:(NSString *)aText;
@@ -64,11 +70,6 @@
     }    
 }
 
-- (void)dealloc {
-    [viewControllers release];
-    [searchTextObjs release];
-    [super dealloc];
-}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -77,8 +78,9 @@
     [tabControl setHideForSingleTab:NO];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];
     [tabControl setStyleNamed:@"LiveChat"];
-    [[tabControl addTabButton] setTarget:self];
-    [[tabControl addTabButton] setAction:@selector(addTab:)];
+    PSMRolloverButton *button = [tabControl addTabButton];
+    [(NSButton *)button setTarget:self];
+    [(NSButton *)button setAction:@selector(addTab:)];
     [tabControl setShowAddTabButton:YES];
     [tabControl setCanCloseOnlyTab:YES];
     // remove all tabs
@@ -100,7 +102,7 @@
     int i = 0;
     for(ContentDisplayingViewController *vc in viewControllers) {
         if([vc viewLoaded]) {
-            NSTabViewItem *item = [[[NSTabViewItem alloc] init] autorelease];
+            NSTabViewItem *item = [[NSTabViewItem alloc] init];
             [item setView:[vc view]];
             [tabView addTabViewItem:item];
             [item setLabel:[self computeTabTitle]];
@@ -374,7 +376,7 @@
         
         // extend searchTexts
         SearchType stype = [currentSearchText searchType];
-        SearchTextObject *sto = [[[SearchTextObject alloc] init] autorelease];
+        SearchTextObject *sto = [[SearchTextObject alloc] init];
         [sto setSearchText:@"" forSearchType:stype];
         [sto setRecentSearches:[NSMutableArray array] forSearchType:stype];
         [sto setSearchType:stype];
@@ -382,7 +384,7 @@
         [self setCurrentSearchText:sto];
         
         // add tab item
-        NSTabViewItem *newItem = [[[NSTabViewItem alloc] init] autorelease];
+        NSTabViewItem *newItem = [[NSTabViewItem alloc] init];
         [tabView addTabViewItem:newItem];
         [tabView selectTabViewItem:newItem];
         [newItem setView:[aViewController view]];
@@ -424,7 +426,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if(self) {
-        [super initWithCoder:decoder];
+        if (!(self = [super initWithCoder:decoder])) return nil;
 
         self.searchTextObjs = [decoder decodeObjectForKey:@"SearchTextObjects"];
 

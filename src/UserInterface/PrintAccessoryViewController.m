@@ -34,14 +34,7 @@
 - (void)awakeFromNib {
 }
 
-- (void)finalize {
-	[super finalize];
-}
 
-- (void)dealloc {
-    [printInfo release];
-    [super dealloc];
-}
 
 - (NSSet *)keyPathsForValuesAffectingPreview {
     return [NSSet set]; 

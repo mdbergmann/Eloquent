@@ -14,6 +14,6 @@
     NSImage *bgImage;
 }
 
-@property (retain, readwrite) NSImage *bgImage;
+@property (strong, readwrite) NSImage *bgImage;
 
 @end

@@ -31,7 +31,7 @@ enum SheetReturnCode {
     NSString *defaultsAskAgainKey;
     
 	// delegate
-	id delegate;
+	id __strong delegate;
     
 	// the window the sheet will be brought up
 	NSWindow *sheetWindow;
@@ -43,17 +43,17 @@ enum SheetReturnCode {
 	id contextInfo;    
 }
 
-@property (retain, readwrite) id contextInfo;
+@property (strong, readwrite) id contextInfo;
 @property (readonly) int sheetReturnCode;
-@property (assign, readwrite) id delegate;
-@property (retain, readwrite) NSString *defaultsAskAgainKey;
-@property (retain, readwrite) NSString *confirmationTitle;
-@property (retain, readwrite) NSString *confirmationText;
-@property (retain, readwrite) NSString *defaultButtonText;
-@property (retain, readwrite) NSString *alternateButtonText;
-@property (retain, readwrite) NSString *otherButtonText;
-@property (retain, readwrite) NSString *askAgainButtonText;
-@property (retain, readwrite) NSWindow *sheetWindow;
+@property (strong, readwrite) id delegate;
+@property (strong, readwrite) NSString *defaultsAskAgainKey;
+@property (strong, readwrite) NSString *confirmationTitle;
+@property (strong, readwrite) NSString *confirmationText;
+@property (strong, readwrite) NSString *defaultButtonText;
+@property (strong, readwrite) NSString *alternateButtonText;
+@property (strong, readwrite) NSString *otherButtonText;
+@property (strong, readwrite) NSString *askAgainButtonText;
+@property (strong, readwrite) NSWindow *sheetWindow;
 
 - (id)initWithSheetTitle:(NSString *)aTitle 
                  message:(NSString *)msg 

@@ -40,10 +40,5 @@
     }
 }
 
-- (void)dealloc {
-    [bgImageActive release];
-    [bgImageInactive release];
-    [super dealloc];
-}
 
 @end

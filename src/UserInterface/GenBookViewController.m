@@ -24,7 +24,7 @@
 
 @interface GenBookViewController (/* class continuation */)
 
-@property (retain, readwrite) NSMutableArray *selection;
+@property (strong, readwrite) NSMutableArray *selection;
 
 - (void)commonInit;
 
@@ -98,22 +98,14 @@
     viewLoaded = YES;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [selection release];
-
-    [super dealloc];
-}
 
 #pragma mark - Methods
 
 - (void)populateModulesMenu {
-    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+    NSMenu *menu = [[NSMenu alloc] init];
     // generate menu
-    [[self modulesUIController] generateModuleMenu:&menu 
+    [[self modulesUIController] generateModuleMenu:menu 
                                      forModuletype:Genbook 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
@@ -138,11 +130,11 @@
 }
 
 - (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
-    NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
     if(searchResults) {
         // strip searchQuery
-        NSAttributedString *newLine = [[[NSAttributedString alloc] initWithString:@"\n"] autorelease];
+        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
 
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
@@ -161,7 +153,7 @@
         
         // build search string
         for(SearchResultEntry *entry in searchResults) {
-            NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes] autorelease];
+            NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
             
             NSString *contentStr = @"";
             if([entry keyString] != nil) {
@@ -233,7 +225,7 @@
         NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if([attrs objectForKey:NSLinkAttributeName] != nil) {
             // add pointing hand cursor
-            attrs = [[attrs mutableCopy] autorelease];
+            attrs = [attrs mutableCopy];
             [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
             [tempDisplayString setAttributes:attrs range:effectiveRange];
 		}
@@ -313,7 +305,7 @@
 }
 
 - (SearchTextFieldOptions *)searchFieldOptions {
-    SearchTextFieldOptions *options = [[[SearchTextFieldOptions alloc] init] autorelease];
+    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
     [options setContinuous:YES];
     [options setSendsSearchStringImmediately:YES];
     [options setSendsWholeSearchString:YES];

@@ -56,9 +56,6 @@ SearchBookSet *searchBookSet;
 	return self;
 }
 
-- (void)finalize {
-	[super finalize];
-}
 
 /**
 \brief add a text to be indexed to this indexer
@@ -83,19 +80,19 @@ SearchBookSet *searchBookSet;
 		NSString *docName = [NSString stringWithFormat:@"%@", aKey];
 		//CocoLog(LEVEL_DEBUG, @"creating document with name: %@", docName);
         
-		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (CFStringRef)docName);
+		SKDocumentRef docRef = SKDocumentCreate((CFStringRef)@"data", NULL, (__bridge CFStringRef)docName);
 		if(docRef == NULL) {
 			CocoLog(LEVEL_ERR, @"could not create document!");
 		} else {			
 			// add Document
 			//CocoLog(LEVEL_DEBUG, @"adding doc with text: %@", aText);
-			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (CFStringRef)aText, YES);
+			BOOL success = SKIndexAddDocumentWithText(indexRef, docRef, (__bridge CFStringRef)aText, YES);
 			if(!success) {
 				CocoLog(LEVEL_ERR, @"Could not add document!");
 			} else {
                 if(aDict != nil) {
                     // set document properties for this document
-                    SKIndexSetDocumentProperties(indexRef, docRef, (CFDictionaryRef)aDict);
+                    SKIndexSetDocumentProperties(indexRef, docRef, (__bridge CFDictionaryRef)aDict);
                 }
 			}
 			
@@ -124,7 +121,7 @@ SearchBookSet *searchBookSet;
         searchBookSet = constrains;
         
         // use 10.4 searching on Tiger and above
-        SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (CFStringRef)query, 0);
+        SKSearchRef searchRef = SKSearchCreate(contentIndexRef, (__bridge CFStringRef)query, 0);
         if(searchRef != NULL) {
             // create document ids array
             SKDocumentID docIDs[maxResults];
@@ -174,7 +171,7 @@ SearchBookSet *searchBookSet;
                 SKDocumentRef hit = docRefs[i];
                 
                 // get doc name
-                NSString *docName = (NSString *)SKDocumentGetName(hit);
+                NSString *docName = (__bridge NSString *)SKDocumentGetName(hit);
                 // check for an existing range
                 BOOL addDoc = YES;
                 if([searchBookSet count] > 0) {
@@ -196,9 +193,9 @@ SearchBookSet *searchBookSet;
                 
                 // add if in range
                 if(addDoc == YES) {
-                    NSDictionary *propDict = (NSDictionary *)SKIndexCopyDocumentProperties(contentIndexRef, hit);
+                    NSDictionary *propDict = (NSDictionary *)CFBridgingRelease(SKIndexCopyDocumentProperties(contentIndexRef, hit));
                     if(propDict != nil) {
-                        searchEntry = [[[SearchResultEntry alloc] initWithDictionary:propDict] autorelease];
+                        searchEntry = [[SearchResultEntry alloc] initWithDictionary:propDict];
                     }
 
                     // add score

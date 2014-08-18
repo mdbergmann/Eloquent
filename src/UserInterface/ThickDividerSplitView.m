@@ -25,7 +25,7 @@
 
 - (void)drawDividerInRect:(NSRect)aRect {	
     // Create a canvas
-	NSImage *canvas = [[[NSImage alloc] initWithSize:aRect.size] autorelease];
+	NSImage *canvas = [[NSImage alloc] initWithSize:aRect.size];
 	
     // Draw bar and grip onto the canvas
 	NSRect canvasRect = NSMakeRect(0, 0, [canvas size].width, [canvas size].height);

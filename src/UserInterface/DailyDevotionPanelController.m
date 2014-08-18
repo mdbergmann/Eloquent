@@ -63,21 +63,12 @@
     
     [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
     
-    NSMutableDictionary *selectionAttributes = [[[textView selectedTextAttributes] mutableCopy] autorelease];
+    NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
     [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [dictionaryViewController release];
-    [dailyDevotionModule release];
-
-    [super dealloc];
-}
 
 #pragma mark - Bindings
 
@@ -132,9 +123,9 @@
         [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
         
         NSData *data = [[renderedText text] dataUsingEncoding:NSUTF8StringEncoding];
-        NSMutableAttributedString *displayString = [[[NSMutableAttributedString alloc] initWithHTML:data
+        NSMutableAttributedString *displayString = [[NSMutableAttributedString alloc] initWithHTML:data
                                                                                            options:options
-                                                                                documentAttributes:nil] autorelease];
+                                                                                documentAttributes:nil];
         
         // set custom fore ground color
         [displayString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor]
@@ -147,7 +138,7 @@
             NSDictionary *attrs = [displayString attributesAtIndex:i effectiveRange:&effectiveRange];
             if([attrs objectForKey:NSLinkAttributeName] != nil) {
                 // add pointing hand cursor
-                attrs = [[attrs mutableCopy] autorelease];
+                attrs = [attrs mutableCopy];
                 [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
                 [displayString setAttributes:attrs range:effectiveRange];
             }
@@ -159,7 +150,7 @@
         }
     }
     
-    return [[[NSAttributedString alloc] initWithString:@""] autorelease];
+    return [[NSAttributedString alloc] initWithString:@""];
 }
 
 - (BOOL)isTextViewEditable {

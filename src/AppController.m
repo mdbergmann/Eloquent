@@ -32,10 +32,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 	
 	err = FSFindFolder(domain, dir, createFolder, &folderRef);
 	if(err == 0) {
-		url = (NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
+		url = (NSURL *)CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef));
 		if(url) {
 			path = [NSString stringWithString:[url path]];
-			[url release];
 		}
 	}
     
@@ -53,7 +52,7 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
 @implementation AppController (privateAPI)
 
 + (void)initialize {
-    [Configuration configWithImpl:[[OSXConfiguration new] autorelease]];
+    [Configuration configWithImpl:[OSXConfiguration new]];
 
 	NSString *logPath = LOGFILE;
 	
@@ -245,7 +244,7 @@ static AppController *singleton;
         [ProgressOverlayViewController defaultController];
         
         [[SwordLocaleManager defaultManager] initLocale];
-        [[FilterProviderFactory providerFactory] initWithImpl:[[[EloquentFilterProvider alloc] init] autorelease]];
+        [[FilterProviderFactory providerFactory] initWithImpl:[[EloquentFilterProvider alloc] init]];
         SwordManager *sm = [SwordManager defaultManager];
         
         // check for installed modules, if there are none add our internal module path so that th user at least has one module (ESV)
@@ -272,20 +271,7 @@ static AppController *singleton;
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [aboutWindowController release];
-    [preferenceController release];
-    [previewController release];
-    [dailyDevotionController release];
-#ifndef APPSTORE
-    [sparkleUpdater release];
-#endif
-    [super dealloc];
-}
 
 - (void)awakeFromNib {
 
@@ -305,7 +291,7 @@ static AppController *singleton;
 }
 
 - (SingleViewHostController *)openSingleHostWindowForModuleType:(ModuleType)aModuleType {
-    SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
+    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
     [[SessionManager defaultManager] addWindow:svh];
     svh.delegate = self;
     
@@ -333,7 +319,7 @@ static AppController *singleton;
         }
     }
     
-    SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
+    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
     [[SessionManager defaultManager] addWindow:svh];
     svh.delegate = self;
     
@@ -346,7 +332,7 @@ static AppController *singleton;
 }
 
 - (SingleViewHostController *)openSingleHostWindowForNote:(FileRepresentation *)fileRep {
-    SingleViewHostController *svh = [[[SingleViewHostController alloc] init] autorelease];
+    SingleViewHostController *svh = [[SingleViewHostController alloc] init];
     [[SessionManager defaultManager] addWindow:svh];
     svh.delegate = self;
     
@@ -447,7 +433,7 @@ static AppController *singleton;
 
     // if there is no window in the session open add a new workspace
     if(![[SessionManager defaultManager] hasWindows]) {
-        WorkspaceViewHostController *svh = [[[WorkspaceViewHostController alloc] init] autorelease];
+        WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
         svh.delegate = self;
         [[SessionManager defaultManager] addWindow:svh];
     } else {
@@ -531,7 +517,7 @@ static AppController *singleton;
 }
 
 - (IBAction)openNewWorkspaceHostWindow:(id)sender {
-    WorkspaceViewHostController *wvh = [[[WorkspaceViewHostController alloc] init] autorelease];
+    WorkspaceViewHostController *wvh = [[WorkspaceViewHostController alloc] init];
     [[SessionManager defaultManager] addWindow:wvh];
     [wvh setDelegate:self];
     [wvh showWindow:self];
@@ -571,7 +557,7 @@ static AppController *singleton;
 }
 
 - (IBAction)showModuleManager:(id)sender {
-    ModuleManager *mm = [[[ModuleManager alloc] initWithDelegate:self] autorelease];
+    ModuleManager *mm = [[ModuleManager alloc] initWithDelegate:self];
     [mm showWindow:self];
 }
 

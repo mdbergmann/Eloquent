@@ -15,7 +15,7 @@
     NSMutableArray *bookmarks;
 }
 
-@property (retain, readwrite) NSMutableArray *bookmarks;
+@property (strong, readwrite) NSMutableArray *bookmarks;
 
 + (BookmarkManager *)defaultManager;
 - (void)saveBookmarks;

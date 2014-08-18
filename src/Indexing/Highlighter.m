@@ -15,7 +15,7 @@
 
 + (NSString *)stripSearchQuery:(NSString *)searchQuery {
     // remove any characters from the tokens like: "+, -, *, !, &, |, AND, OR, (, ), ""
-    NSMutableString *query = [[searchQuery mutableCopy] autorelease];
+    NSMutableString *query = [searchQuery mutableCopy];
     for(int i = 0;i < 11;i++) {
         NSString *token = @"+";
         switch(i) {
@@ -85,7 +85,7 @@
         [attr setObject:fontBold forKey:NSFontAttributeName];
         
         // create NSMutableAttributedString
-        ret = [[[NSMutableAttributedString alloc] initWithString:text attributes:attributes] autorelease];
+        ret = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
 
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
@@ -171,7 +171,7 @@
     unsigned int length = [text length];
     
     if(length > 0) {
-        ret = [[text mutableCopy] autorelease];
+        ret = [text mutableCopy];
         
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];

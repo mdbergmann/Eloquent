@@ -36,7 +36,7 @@ extern char ModuleListUI;
 
 @interface ContentDisplayingViewController ()
 
-@property (retain, readwrite) NSURL *contextMenuClickedLink;
+@property (strong, readwrite) NSURL *contextMenuClickedLink;
 @property (readwrite) NSRange clickedLinkTextRange;
 
 - (NSDictionary *)textAttributesOfLastEventLocation;
@@ -62,7 +62,7 @@ extern char ModuleListUI;
         [self setClickedLinkTextRange:NSMakeRange(NSNotFound, 0)];
         [self setForceRedisplay:NO];
         [self setLastEvent:nil];
-        [self setContentCache:[[[CacheObject alloc] init] autorelease]];
+        [self setContentCache:[[CacheObject alloc] init]];
         progressActionType = ReferenceLookupAction;
         
         [self commonInit];
@@ -74,18 +74,7 @@ extern char ModuleListUI;
     progressController = [[ProgressOverlayViewController alloc] init];
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [progressController release];
-    [contentCache release];
-    [contextMenuClickedLink release];
-    [lastEvent release];
-
-    [super dealloc];
-}
 
 - (void)awakeFromNib {
 }
@@ -164,16 +153,16 @@ extern char ModuleListUI;
     [super prepareContentForHost:aHostController];
     // populate menu items with modules
     // bibles
-    NSMenu *bibleModules = [[[NSMenu alloc] init] autorelease];
-    [[self modulesUIController] generateModuleMenu:&bibleModules
+    NSMenu *bibleModules = [[NSMenu alloc] init];
+    [[self modulesUIController] generateModuleMenu:bibleModules
                                      forModuletype:Bible 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(lookUpInIndexOfBible:)];
     NSMenuItem *item = [textContextMenu itemWithTag:LookUpInIndexList];
     [item setSubmenu:bibleModules];
     // dictionaries
-    NSMenu *dictModules = [[[NSMenu alloc] init] autorelease];
-    [[self modulesUIController] generateModuleMenu:&dictModules 
+    NSMenu *dictModules = [[NSMenu alloc] init];
+    [[self modulesUIController] generateModuleMenu:dictModules 
                                      forModuletype:Dictionary 
                                     withMenuTarget:self 
                                     withMenuAction:@selector(lookUpInDictionaryOfModule:)];

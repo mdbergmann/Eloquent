@@ -7,7 +7,7 @@
 //
 
 #import "MBTextView.h"
-
+#import "ContentDisplayingViewController.h"
 
 @implementation MBTextView
 
@@ -22,7 +22,7 @@
 
 /** we react on save menu item */
 - (IBAction)saveDocument:(id)sender {
-    [[self delegate] saveDocument:sender];
+    [(ContentDisplayingViewController *)[self delegate] saveDocument:sender];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -41,7 +41,7 @@
 - (NSMenu *)menuForEvent:(NSEvent *)event {
     CocoLog(LEVEL_DEBUG, @"[MBTextView -menuForEvent:] %@\n", [event description]);
     
-    NSMenu *ret = [[self delegate] menuForEvent:event];
+    NSMenu *ret = [(ContentDisplayingViewController *)[self delegate] menuForEvent:event];
     if(!ret) {
         ret = [super menuForEvent:event];
     }

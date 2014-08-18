@@ -47,7 +47,6 @@
 	CocoLog(LEVEL_DEBUG,@"dealloc of MBThreadedProgressSheetController");
 	
 	// dealloc object
-	[super dealloc];
 }
 
 /**

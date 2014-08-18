@@ -23,11 +23,11 @@
     
     SearchBookSet *selectedBookSet;
     
-    id delegate;
+    id __strong delegate;
 }
 
-@property (retain, readwrite) SearchBookSet *selectedBookSet;
-@property (assign, readwrite) id delegate;
+@property (strong, readwrite) SearchBookSet *selectedBookSet;
+@property (strong, readwrite) id delegate;
 
 - (NSMenu *)bookSetsMenu;
 

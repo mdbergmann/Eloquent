@@ -37,7 +37,7 @@
     
     IBOutlet NSProgressIndicator *progressIndicator;
 
-    id delegate;
+    id __strong delegate;
     
     NSView *searchOptionsView;
     SearchTextObject *currentSearchText;
@@ -70,10 +70,10 @@
     BOOL hostLoaded;
 }
 
-@property (assign, readwrite) id delegate;
+@property (strong, readwrite) id delegate;
 @property (readwrite) SearchType searchType;
-@property (retain, readwrite) SearchTextObject *currentSearchText;
-@property (retain, readwrite) ContentDisplayingViewController *contentViewController;
+@property (strong, readwrite) SearchTextObject *currentSearchText;
+@property (strong, readwrite) ContentDisplayingViewController *contentViewController;
 
 // methods
 - (NSView *)view;

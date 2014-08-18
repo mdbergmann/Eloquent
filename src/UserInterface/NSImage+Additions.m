@@ -23,7 +23,7 @@
     } else {
         newSize = NSMakeSize(size.width, size.height);
     }
-    NSImage *rotatedImage = [[[NSImage alloc] initWithSize:newSize] autorelease];
+    NSImage *rotatedImage = [[NSImage alloc] initWithSize:newSize];
     
     [rotatedImage lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
@@ -49,7 +49,7 @@
 
 - (NSImage *)mirrorVertically {
 
-    NSImage *rotatedImage = [[[NSImage alloc] initWithSize:self.size] autorelease];
+    NSImage *rotatedImage = [[NSImage alloc] initWithSize:self.size];
     
     [rotatedImage lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];

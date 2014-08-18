@@ -13,11 +13,11 @@
     // Progress overlay view
     IBOutlet NSProgressIndicator *progressIndicator;
     IBOutlet NSProgressIndicator *barProgressIndicator;
-    IBOutlet id delegate;
+    IBOutlet id __strong delegate;
     IBOutlet NSView *barProgressView;
 }
 
-@property (assign, readwrite) id delegate;
+@property (strong, readwrite) id delegate;
 @property (readonly) NSView *barProgressView;
 
 + (ProgressOverlayViewController *)defaultController;

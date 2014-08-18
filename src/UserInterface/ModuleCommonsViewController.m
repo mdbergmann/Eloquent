@@ -68,14 +68,6 @@ extern char BookmarkMgrUI;
     return self;
 }
 
-- (void)dealloc {
-    [modDisplayOptions release];
-    [displayOptions release];
-    [displayOptionsMenu release];
-    [verseNumberingMenu release];
-    [modDisplayOptionsMenu release];
-    [super dealloc];
-}
 
 - (void)commonInit {
     [super commonInit];
@@ -163,7 +155,7 @@ extern char BookmarkMgrUI;
     [item setTag:1];
     
     verseNumberingMenu = [[NSMenu alloc] init];
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [item setTitle:NSLocalizedString(@"DisplayOptionVerseNumbering", @"")];
     [item setSubmenu:verseNumberingMenu];
     [menu addItem:item];
@@ -193,12 +185,12 @@ extern char BookmarkMgrUI;
 
 - (void)initFontSizeOptions {
     // init menu and popup button
-    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+    NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"FontSize", @"") action:nil keyEquivalent:@""];
     [item setHidden:YES];
     
     for(int i = 8;i <= 11;i++) {
-        item = [[[NSMenuItem alloc] init] autorelease];
+        item = [[NSMenuItem alloc] init];
         [menu addItem:item];    
         [item setTitle:[NSString stringWithFormat:@"%d", i]];
         [item setTag:i];
@@ -206,7 +198,7 @@ extern char BookmarkMgrUI;
     }
     
     for(int i = 12;i <= 78;i+=2) {
-        item = [[[NSMenuItem alloc] init] autorelease];
+        item = [[NSMenuItem alloc] init];
         [menu addItem:item];    
         [item setTitle:[NSString stringWithFormat:@"%d", i]];
         [item setTag:i];
@@ -221,47 +213,47 @@ extern char BookmarkMgrUI;
 
 - (void)initTextContextOptions {
     // init menu and popup button
-    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+    NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *item = [menu addItemWithTitle:NSLocalizedString(@"TextContext", @"") action:nil keyEquivalent:@""];
     [item setHidden:YES];
 
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
     [item setTitle:@"0"];
     [item setTag:0];
     [item setState:0];
 
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
     [item setTitle:@"1"];
     [item setTag:1];
     [item setState:0];
 
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
     [item setTitle:@"2"];
     [item setTag:2];
     [item setState:0];
 
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
     [item setTitle:@"3"];
     [item setTag:3];
     [item setState:0];
     
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
     [item setTitle:@"5"];
     [item setTag:5];
     [item setState:0];
 
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
     [item setTitle:@"7"];
     [item setTag:7];
     [item setState:0];
 
-    item = [[[NSMenuItem alloc] init] autorelease];
+    item = [[NSMenuItem alloc] init];
     [menu addItem:item];    
     [item setTitle:@"10"];
     [item setTag:10];
@@ -544,7 +536,7 @@ extern char BookmarkMgrUI;
     if(customFontSize > -1) {
         NSMenu *m = [fontSizePopUpButton menu];
         if(m && ![m itemWithTag:customFontSize]) {
-            NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+            NSMenuItem *item = [[NSMenuItem alloc] init];
             [item setTitle:[[NSNumber numberWithInt:customFontSize] stringValue]];
             [item setTag:customFontSize];
             [item setState:0];

@@ -58,9 +58,6 @@
     }
 }
 
-- (void)finalize {
-	[super finalize];
-}
 
 - (void)startProgressAnimation {
     [progressIndicator startAnimation:self];

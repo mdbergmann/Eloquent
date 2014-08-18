@@ -15,7 +15,7 @@
     BOOL isPredefined;
 }
 
-@property (retain, readwrite) NSString *name;
+@property (strong, readwrite) NSString *name;
 @property (readwrite) BOOL isPredefined;
 
 + (id)searchBookSetWithName:(NSString *)aName;

@@ -54,7 +54,6 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
         free(elementToRemove);
 	}
     
-    [super dealloc];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -142,7 +141,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)aquaSelectedGradient
@@ -182,7 +181,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color3];
     [newInstance addElement:&color4];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)aquaNormalGradient
@@ -214,7 +213,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color3];
     [newInstance addElement:&color4];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)aquaPressedGradient
@@ -246,7 +245,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color3];
     [newInstance addElement:&color4];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)unifiedSelectedGradient
@@ -266,7 +265,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)unifiedNormalGradient
@@ -286,7 +285,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)unifiedPressedGradient
@@ -306,7 +305,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)unifiedDarkGradient
@@ -326,7 +325,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)mailInactiveGradient {
@@ -349,7 +348,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)mailActiveGradient {
@@ -372,7 +371,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];    
+    return newInstance;    
 }
 
 + (id)sourceListSelectedGradient
@@ -396,7 +395,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)sourceListUnselectedGradient
@@ -420,7 +419,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     [newInstance addElement:&color1];
     [newInstance addElement:&color2];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)rainbowGradient
@@ -446,7 +445,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     
     [newInstance setBlendingMode:CTChromaticBlendingMode];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 + (id)hydrogenSpectrumGradient {
@@ -519,7 +518,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     
     [newInstance setBlendingMode:CTChromaticBlendingMode];
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 #pragma mark -
@@ -541,7 +540,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
         curElement = curElement->nextElement;
 	}
     
-    return [newInstance autorelease];
+    return newInstance;
 }
 
 - (CTGradient *)gradientWithBlendingMode:(CTGradientBlendingMode)mode {
@@ -549,7 +548,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     
     [newGradient setBlendingMode:mode];
     
-    return [newGradient autorelease];
+    return newGradient;
 }
 
 
@@ -569,7 +568,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     //Pass it off to addElement to take care of adding it to the elementList
     [newGradient addElement:&newGradientElement];
     
-    return [newGradient autorelease];
+    return newGradient;
 }
 
 
@@ -581,7 +580,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     if(isnan(removedElement.position))
         [NSException raise:NSRangeException format:@"-[%@ removeColorStopAtPosition:]: no such colorStop at position (%f)", [self class], position];
     
-    return [newGradient autorelease];
+    return newGradient;
 }
 
 - (CTGradient *)removeColorStopAtIndex:(unsigned)index {
@@ -591,7 +590,7 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
     if(isnan(removedElement.position))
         [NSException raise:NSRangeException format:@"-[%@ removeColorStopAtIndex:]: index (%i) beyond bounds", [self class], index];
     
-    return [newGradient autorelease];
+    return newGradient;
 }
 #pragma mark -
 

@@ -19,10 +19,10 @@
     IBOutlet NSTextField *previewType;
     IBOutlet NSTextView *previewText;
     
-    IBOutlet id delegate;
+    IBOutlet id __strong delegate;
 }
 
-@property (assign, readwrite) id delegate;
+@property (strong, readwrite) id delegate;
 
 + (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData;
 + (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData forTextType:(TextPullType)textType;

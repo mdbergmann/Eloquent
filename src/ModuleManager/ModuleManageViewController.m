@@ -72,12 +72,12 @@
         
         BOOL success = [NSBundle loadNibNamed:@"ModuleManageView" owner:self];
 		if(success == YES) {
-            selectedInstallSources = [[NSArray array] retain];
+            selectedInstallSources = [NSArray array];
             
-            installDict = [[NSMutableDictionary dictionary] retain];
-            removeDict = [[NSMutableDictionary dictionary] retain];
+            installDict = [NSMutableDictionary dictionary];
+            removeDict = [NSMutableDictionary dictionary];
             
-            installSourceListObjects = [[NSMutableArray array] retain];
+            installSourceListObjects = [NSMutableArray array];
             [self refreshInstallSourceListObjects];
             
             [categoryOutlineView reloadData];            
@@ -89,18 +89,7 @@
 	return self;    
 }
 
-- (void)finalize {    
-	[super finalize];
-}
 
-- (void)dealloc {
-    [selectedInstallSources release];
-    [installDict release];
-    [removeDict release];
-    [installSourceListObjects release];
-
-    [super dealloc];
-}
 
 - (void)awakeFromNib {
     // set default menu
@@ -506,7 +495,7 @@
 
     if(error == NO) {
         
-        SwordInstallSource *is = [[[SwordInstallSource alloc] initWithType:@"FTP"] autorelease];
+        SwordInstallSource *is = [[SwordInstallSource alloc] initWithType:@"FTP"];
         
         [is setCaption:[editISCaptionCell stringValue]];
         [is setDirectory:[editISDirCell stringValue]];
@@ -545,7 +534,7 @@
         if([self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"UnavailableOptionDueToNoDisclaimerComfirm", @"")]) {        
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"ftp://%@%@/mods.d", host, dir]];
             
-            NSURLResponse *response = [[[NSURLResponse alloc] init] autorelease];
+            NSURLResponse *response = [[NSURLResponse alloc] init];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             data = [NSURLConnection sendSynchronousRequest:request 
                                          returningResponse:&response error:nil];
@@ -698,91 +687,55 @@
  */
 - (void)batchProcessTasks:(NSNumber *)actions {
 	// if this method gets it's own ARP
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
     // Cancel indicator
-    BOOL isCanceled = NO;
-    int error = 0;
+        BOOL isCanceled = NO;
+        int error = 0;
 
-    // get ThreadedProgressSheet
-    MBThreadedProgressSheetController *pSheet = [MBThreadedProgressSheetController standardProgressSheetController];
-    [pSheet setSheetWindow:parentWindow];
-    [pSheet setMinProgressValue:[NSNumber numberWithDouble:0.0]];
-    [pSheet reset];
-    [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:YES]];
-    [pSheet setIsThreaded:[NSNumber numberWithBool:YES]];
+        // get ThreadedProgressSheet
+        MBThreadedProgressSheetController *pSheet = [MBThreadedProgressSheetController standardProgressSheetController];
+        [pSheet setSheetWindow:parentWindow];
+        [pSheet setMinProgressValue:[NSNumber numberWithDouble:0.0]];
+        [pSheet reset];
+        [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:YES]];
+        [pSheet setIsThreaded:[NSNumber numberWithBool:YES]];
 
-    if([actions intValue] == 1) {
-        // set to indeterminate
-        [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
-                                 withObject:[NSNumber numberWithBool:YES]
-                              waitUntilDone:YES];
-    } else if([actions intValue] > 1) {
-        // set to indeterminate
-        [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
-                                 withObject:[NSNumber numberWithBool:NO]
-                              waitUntilDone:YES];
-        [pSheet performSelectorOnMainThread:@selector(setMaxProgressValue:)
-                                 withObject:actions
-                              waitUntilDone:YES];
-    }
-
-    // begin sheet
-    [pSheet performSelectorOnMainThread:@selector(beginSheet)
-                             withObject:nil
-                          waitUntilDone:YES];
-
-    // get controllers
-    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
-    SwordManager *sm = [SwordManager defaultManager];
-
-    // start animation
-    [pSheet performSelectorOnMainThread:@selector(startProgressAnimation)
-                             withObject:nil
-                          waitUntilDone:YES];
-
-    // first remove
-    [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
-                             withObject:NSLocalizedString(@"Action_RemovingModules", @"")
-                          waitUntilDone:YES];
-
-    for(id key in [removeDict allKeys]) {
-        // check return value of sheet, has cancel been pressed?
-        if([pSheet sheetReturnCode] != 0) {
-            // cancel has been pressed, break import process
-            isCanceled = YES;
-        } else {
-            // increment progress
-            [pSheet performSelectorOnMainThread:@selector(incrementProgressBy:)
-                                     withObject:[NSNumber numberWithDouble:1.0]
+        if([actions intValue] == 1) {
+            // set to indeterminate
+            [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
+                                     withObject:[NSNumber numberWithBool:YES]
                                   waitUntilDone:YES];
-
-            ModuleListObject *modObj = [removeDict objectForKey:key];
-
-            // give some messages
-            [pSheet performSelectorOnMainThread:@selector(setCurrentStepMessage:)
-                                     withObject:[[modObj module] name]
+        } else if([actions intValue] > 1) {
+            // set to indeterminate
+            [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
+                                     withObject:[NSNumber numberWithBool:NO]
                                   waitUntilDone:YES];
-            // uninstall
-            int stat = [sis uninstallModule:[modObj module] fromManager:sm];
-            if(stat != 0) {
-                error++;
-            } else {
-                // shall we remove the index as well?
-                if([userDefaults boolForKey:DefaultsRemoveIndexOnModuleRemoval]) {
-                    [[IndexingManager sharedManager] removeIndexForModuleName:[[modObj module] name]];
-                }
-            }
+            [pSheet performSelectorOnMainThread:@selector(setMaxProgressValue:)
+                                     withObject:actions
+                                  waitUntilDone:YES];
         }
-    }
-    [removeDict removeAllObjects];
 
-    if(isCanceled == NO) {
-        // then install
-        [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
-                                 withObject:NSLocalizedString(@"Action_InstallingModules", @"")
+        // begin sheet
+        [pSheet performSelectorOnMainThread:@selector(beginSheet)
+                                 withObject:nil
                               waitUntilDone:YES];
-        for (id key in [installDict allKeys]) {
+
+        // get controllers
+        SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+        SwordManager *sm = [SwordManager defaultManager];
+
+        // start animation
+        [pSheet performSelectorOnMainThread:@selector(startProgressAnimation)
+                                 withObject:nil
+                              waitUntilDone:YES];
+
+        // first remove
+        [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
+                                 withObject:NSLocalizedString(@"Action_RemovingModules", @"")
+                              waitUntilDone:YES];
+
+        for(id key in [removeDict allKeys]) {
             // check return value of sheet, has cancel been pressed?
             if([pSheet sheetReturnCode] != 0) {
                 // cancel has been pressed, break import process
@@ -793,45 +746,81 @@
                                          withObject:[NSNumber numberWithDouble:1.0]
                                       waitUntilDone:YES];
 
-                ModuleListObject *modObj = [installDict objectForKey:key];
+                ModuleListObject *modObj = [removeDict objectForKey:key];
 
                 // give some messages
                 [pSheet performSelectorOnMainThread:@selector(setCurrentStepMessage:)
                                          withObject:[[modObj module] name]
                                       waitUntilDone:YES];
-                // install
-                SwordInstallSource *is = [modObj installSource];
-                if([is isLocalSource] || [sis userDisclaimerConfirmed]) {
-                    int stat = [sis installModule:[modObj module] fromSource:is withManager:sm];
-                    if(stat != 0) {
-                        error++;
+                // uninstall
+                int stat = [sis uninstallModule:[modObj module] fromManager:sm];
+                if(stat != 0) {
+                    error++;
+                } else {
+                    // shall we remove the index as well?
+                    if([userDefaults boolForKey:DefaultsRemoveIndexOnModuleRemoval]) {
+                        [[IndexingManager sharedManager] removeIndexForModuleName:[[modObj module] name]];
                     }
                 }
             }
         }
-        [installDict removeAllObjects];
-    }
+        [removeDict removeAllObjects];
 
-    // stop animation
-    [pSheet stopProgressAnimation];
+        if(isCanceled == NO) {
+            // then install
+            [pSheet performSelectorOnMainThread:@selector(setActionMessage:)
+                                     withObject:NSLocalizedString(@"Action_InstallingModules", @"")
+                                  waitUntilDone:YES];
+            for (id key in [installDict allKeys]) {
+                // check return value of sheet, has cancel been pressed?
+                if([pSheet sheetReturnCode] != 0) {
+                    // cancel has been pressed, break import process
+                    isCanceled = YES;
+                } else {
+                    // increment progress
+                    [pSheet performSelectorOnMainThread:@selector(incrementProgressBy:)
+                                             withObject:[NSNumber numberWithDouble:1.0]
+                                          waitUntilDone:YES];
 
-    // before ending the sheet, reinitialize the module manager
-    [sm reInit];
-    // also refresh the module list view
-    [modListViewController refreshModulesList];
+                    ModuleListObject *modObj = [installDict objectForKey:key];
 
-    // end sheet
-    [pSheet performSelectorOnMainThread:@selector(endSheet)
-                             withObject:nil
-                          waitUntilDone:YES];
+                    // give some messages
+                    [pSheet performSelectorOnMainThread:@selector(setCurrentStepMessage:)
+                                             withObject:[[modObj module] name]
+                                          waitUntilDone:YES];
+                    // install
+                    SwordInstallSource *is = [modObj installSource];
+                    if([is isLocalSource] || [sis userDisclaimerConfirmed]) {
+                        int stat = [sis installModule:[modObj module] fromSource:is withManager:sm];
+                        if(stat != 0) {
+                            error++;
+                        }
+                    }
+                }
+            }
+            [installDict removeAllObjects];
+        }
 
-    // do some cleanup
-    [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:NO]];
-    [pSheet setProgressAction:[NSNumber numberWithInt:NONE_PROGRESS_ACTION]];
-    [pSheet reset];
+        // stop animation
+        [pSheet stopProgressAnimation];
+
+        // before ending the sheet, reinitialize the module manager
+        [sm reInit];
+        // also refresh the module list view
+        [modListViewController refreshModulesList];
+
+        // end sheet
+        [pSheet performSelectorOnMainThread:@selector(endSheet)
+                                 withObject:nil
+                              waitUntilDone:YES];
+
+        // do some cleanup
+        [pSheet setShouldKeepTrackOfProgress:[NSNumber numberWithBool:NO]];
+        [pSheet setProgressAction:[NSNumber numberWithInt:NONE_PROGRESS_ACTION]];
+        [pSheet reset];
 
     // release pool
-    [pool release];
+    }
 }
 
 /**

@@ -27,9 +27,6 @@
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
 - (void)delegateReload {
     [delegate reloadForController:self];

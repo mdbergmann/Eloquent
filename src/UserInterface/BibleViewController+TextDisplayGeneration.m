@@ -30,10 +30,10 @@
 #pragma mark - HTML generation from search result
 
 - (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
-    NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
     if(searchResults && [searchResults count] > 0) {
-        NSAttributedString *newLine = [[[NSAttributedString alloc] initWithString:@"\n"] autorelease];
+        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[[self module] name]];
@@ -66,15 +66,15 @@
                     [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
                     
                     // prepare output
-                    NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr]
-                                                                                     attributes:keyAttributes] autorelease];
+                    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr]
+                                                                                     attributes:keyAttributes];
                     NSAttributedString *contentString = nil;
                     if([keyStr isEqualToString:[searchResultEntry keyString]]) {
                         contentString = [Highlighter highlightText:contentStr 
                                                          forTokens:searchQuery 
                                                         attributes:contentAttributes];                        
                     } else {
-                        contentString = [[[NSAttributedString alloc] initWithString:contentStr attributes:contentAttributes] autorelease];
+                        contentString = [[NSAttributedString alloc] initWithString:contentStr attributes:contentAttributes];
                     }
                     [ret appendAttributedString:keyString];
                     [ret appendAttributedString:contentString];
@@ -344,7 +344,7 @@
 	while (i < [tempDisplayString length]) {
         NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if([attrs objectForKey:NSLinkAttributeName] != nil) {
-            attrs = [[attrs mutableCopy] autorelease];
+            attrs = [attrs mutableCopy];
             [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
             [tempDisplayString setAttributes:attrs range:effectiveRange];
 		}

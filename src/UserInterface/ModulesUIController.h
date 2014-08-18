@@ -42,7 +42,7 @@
  @params[in] aTarget the target object of the created menuitem
  @params[in] aSelector the selector of the target that should be called
  */
-- (void)generateModuleMenu:(NSMenu **)itemMenu 
+- (void)generateModuleMenu:(NSMenu *)itemMenu 
              forModuletype:(ModuleType)type 
             withMenuTarget:(id)aTarget 
             withMenuAction:(SEL)aSelector;

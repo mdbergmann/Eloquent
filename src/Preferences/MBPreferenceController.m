@@ -137,10 +137,6 @@ static MBPreferenceController *instance;
     }
 }
 
-- (void)dealloc {
-    [sheetWindow release];
-    [super dealloc];
-}
 
 - (NSArray *)moduleNamesOfTypeBible {
     return [[SwordManager defaultManager] modulesForType:Bible];
@@ -176,7 +172,7 @@ static MBPreferenceController *instance;
 
 - (WebPreferences *)defaultWebPreferencesForModuleName:(NSString *)aModName {
     // init web preferences
-    WebPreferences *webPreferences = [[[WebPreferences alloc] init] autorelease];
+    WebPreferences *webPreferences = [[WebPreferences alloc] init];
     [webPreferences setAutosaves:NO];
     // set defaults
     [webPreferences setJavaEnabled:NO];
@@ -278,7 +274,7 @@ static MBPreferenceController *instance;
         if(!settings) {
             settings = [NSMutableDictionary dictionary];
         } else {
-            settings = [[settings mutableCopy] autorelease];
+            settings = [settings mutableCopy];
         }
         [settings setDisplayFont:[NSFont fontWithName:fontFamily size:(float)fontSize]];
         [settings setDisplayFontBold:[NSFont fontWithName:fontBoldName size:(float)fontSize]];

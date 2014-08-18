@@ -72,14 +72,7 @@ extern char NotesMgrUI;
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [fileRep release];
-    [super dealloc];
-}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -109,9 +102,9 @@ extern char NotesMgrUI;
     [keyAttributes setObject:aReference forKey:TEXT_VERSE_MARKER];
     
     // prepare output
-    NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:aReference attributes:keyAttributes] autorelease];
+    NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:aReference attributes:keyAttributes];
     if(!keyString) {
-        keyString = [[[NSAttributedString alloc] init] autorelease];
+        keyString = [[NSAttributedString alloc] init];
     }
     return keyString;
 }
@@ -161,7 +154,7 @@ extern char NotesMgrUI;
     if(fileRep) {
         NSData *textData = [fileRep fileContent];
         if([textData length] > 0) {
-            [[textView textStorage] setAttributedString:[[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL] autorelease]];
+            [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL]];
         }
     }
 }
@@ -205,7 +198,7 @@ extern char NotesMgrUI;
 }
 
 - (SearchTextFieldOptions *)searchFieldOptions {
-    SearchTextFieldOptions *options = [[[SearchTextFieldOptions alloc] init] autorelease];
+    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
     if(searchType == ReferenceSearchType) {
         [options setContinuous:YES];
         [options setSendsSearchStringImmediately:YES];
@@ -227,7 +220,7 @@ extern char NotesMgrUI;
                                   paperSize.height - ([printInfo topMargin] + [printInfo bottomMargin]));
     
     // create print view
-    NSTextView *printView = [[[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)] autorelease];
+    NSTextView *printView = [[NSTextView alloc] initWithFrame:NSMakeRect(0.0, 0.0, printSize.width, printSize.height)];
     [printView insertText:[textView attributedString]];
     
     return printView;
@@ -309,7 +302,7 @@ extern char NotesMgrUI;
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if(self) {
-        self.fileRep = [[[FileRepresentation alloc] initWithPath:[decoder decodeObjectForKey:@"NoteFilePath"]] autorelease];
+        self.fileRep = [[FileRepresentation alloc] initWithPath:[decoder decodeObjectForKey:@"NoteFilePath"]];
         lastFoundRange = NSMakeRange(NSNotFound, 0);
         contentDisplayController = self;        
         

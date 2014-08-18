@@ -11,9 +11,9 @@
 
 @interface FileRepresentation ()
 
-@property (readwrite, retain) NSFileWrapper *fileWrapper;
-@property (readwrite, retain) NSMutableDictionary *directoryContentWrapper;
-@property (readwrite, assign) FileRepresentation *parent;
+@property (readwrite, strong) NSFileWrapper *fileWrapper;
+@property (readwrite, strong) NSMutableDictionary *directoryContentWrapper;
+@property (readwrite, strong) FileRepresentation *parent;
 
 + (NSString *)findFileNameForPreferredName:(NSString *)aFileName atFolder:(NSString *)aFolder;
 
@@ -61,7 +61,7 @@
         createSuccess = [fm createDirectoryAtPath:absFileName withIntermediateDirectories:NO attributes:nil error:NULL];        
     }
     if(createSuccess) {
-        FileRepresentation *fileRep = [[[FileRepresentation alloc] initWithPath:absFileName] autorelease];
+        FileRepresentation *fileRep = [[FileRepresentation alloc] initWithPath:absFileName];
         [aFolderRep addFileRepresentation:fileRep];
         return fileRep;
     }
@@ -138,19 +138,13 @@
     self = [super init];
     if(self) {
         self.filePath = aPath;
-        self.fileWrapper = [[[NSFileWrapper alloc] initWithPath:aPath] autorelease];
+        self.fileWrapper = [[NSFileWrapper alloc] initWithPath:aPath];
         self.directoryContentWrapper = [NSMutableDictionary dictionary];
         self.parent = nil;
     }
     return self;
 }
 
-- (void)dealloc {
-    [filePath release];
-    [fileWrapper release];
-    [directoryContentWrapper release];
-    [super dealloc];
-}
 
 - (NSString *)name {
     return [fileWrapper filename];
@@ -170,7 +164,7 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     if([fm moveItemAtPath:filePath toPath:newPath error:NULL]) {
         self.filePath = newPath;
-        self.fileWrapper = [[[NSFileWrapper alloc] initWithPath:newPath] autorelease];
+        self.fileWrapper = [[NSFileWrapper alloc] initWithPath:newPath];
     } else {
         @throw [NSException exceptionWithName:@"UnableToRenameFile" reason:@"" userInfo:nil];
     }
@@ -216,7 +210,7 @@
         
         for(NSFileWrapper *subWrapper in [[fileWrapper fileWrappers] allValues]) {
             NSString *subFilePath = [self.filePath stringByAppendingPathComponent:[subWrapper filename]];
-            FileRepresentation *subFileItem = [[[FileRepresentation alloc] initWithPath:subFilePath] autorelease];
+            FileRepresentation *subFileItem = [[FileRepresentation alloc] initWithPath:subFilePath];
 
             // only add directories or .rtf files
             if([subFileItem isDirectory] || [[subFileItem name] hasSuffix:@".rtf"]) {

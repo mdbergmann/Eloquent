@@ -36,14 +36,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [self setModuleData:nil];
-    [self setModuleSelection:nil];
-    [self setInstallSources:nil];
-    [self setLangFilter:nil];
-
-    [super dealloc];
-}
 
 - (void)awakeFromNib {
     [moduleOutlineView setMenu:moduleMenu];
@@ -141,7 +133,7 @@
                 if(([listObject objectType] == TypeInstallSource) || 
                    (([listObject objectType] == TypeModuleType) && [[listObject moduleType] isEqualToString:[mod typeString]])) {
                     
-                    ModuleListObject *buf = [[[ModuleListObject alloc] init] autorelease];
+                    ModuleListObject *buf = [[ModuleListObject alloc] init];
                     [buf setModule:mod];
                     [buf setInstallSource:is];
                     // add ModuleListObject to moduleData array

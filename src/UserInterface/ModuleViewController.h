@@ -27,9 +27,9 @@
 }
 
 // --------- properties ---------
-@property (retain, readwrite) SwordModule *module;
+@property (strong, readwrite) SwordModule *module;
 @property (readwrite) BOOL performProgressCalculation;
-@property (retain, readwrite) CacheObject *searchContentCache;
+@property (strong, readwrite) CacheObject *searchContentCache;
 
 // ---------- methods ---------
 - (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)results;

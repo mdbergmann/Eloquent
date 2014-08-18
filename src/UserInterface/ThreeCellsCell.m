@@ -15,7 +15,7 @@
 
 @interface ThreeCellsCell ()
 
-@property(readwrite, retain) NSFont *countFont;
+@property(readwrite, strong) NSFont *countFont;
 
 @end
 
@@ -42,38 +42,29 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	ThreeCellsCell *cell = (ThreeCellsCell *)[super copyWithZone:zone];
-    cell->image = [image retain];
-    cell->rightImage = [rightImage retain];
-    cell->countFont = [countFont retain];
+    cell->image = image;
+    cell->rightImage = rightImage;
+    cell->countFont = countFont;
 	return cell;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [image release];
-    [rightImage release];
-    [countFont release];
-    [super dealloc];
-}
 
 - (NSAttributedString *)attributedObjectLeftCountValue {
     NSString *contents = [NSString stringWithFormat:@"%i", leftCounter];
     // hightlighted?
     NSDictionary *attr;
     if(![self isHighlighted]) {
-        attr = [[[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
+        attr = [[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
                  [[NSColor whiteColor] colorWithAlphaComponent:0.85], NSForegroundColorAttributeName,
-                 nil, nil] autorelease];        
+                 nil, nil];        
     } else {
-        attr = [[[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
+        attr = [[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
                  [[NSColor darkGrayColor] colorWithAlphaComponent:0.85], NSForegroundColorAttributeName,
-                 nil, nil] autorelease];
+                 nil, nil];
     }
     
-    return [[[NSMutableAttributedString alloc] initWithString:contents attributes:attr] autorelease];
+    return [[NSMutableAttributedString alloc] initWithString:contents attributes:attr];
 }
 
 - (NSAttributedString *)attributedObjectRightCountValue {
@@ -81,16 +72,16 @@
     // hightlighted?
     NSDictionary *attr;
     if(![self isHighlighted]) {
-        attr = [[[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
+        attr = [[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
                  [[NSColor whiteColor] colorWithAlphaComponent:0.85], NSForegroundColorAttributeName,
-                 nil, nil] autorelease];        
+                 nil, nil];        
     } else {
-        attr = [[[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
+        attr = [[NSDictionary alloc] initWithObjectsAndKeys:countFont, NSFontAttributeName,
                  [[NSColor darkGrayColor] colorWithAlphaComponent:0.85], NSForegroundColorAttributeName,
-                 nil, nil] autorelease];
+                 nil, nil];
     }
     
-    return [[[NSMutableAttributedString alloc] initWithString:contents attributes:attr] autorelease];
+    return [[NSMutableAttributedString alloc] initWithString:contents attributes:attr];
 }
 
 - (NSRect)counterRectForCellFrame:(NSRect)cellFrame {
@@ -137,7 +128,7 @@
     if(image == nil) {
         imageFrame.size.width = 0;    
     } else {
-        imageCell = [[[NSImageCell alloc] initImageCell:[self image]] autorelease];
+        imageCell = [[NSImageCell alloc] initImageCell:[self image]];
         [imageCell setImageAlignment:NSImageAlignCenter];
         // leave some pixels between the arrow and the image
         imageFrame.origin.x += 3;
@@ -286,7 +277,7 @@
     } else if(rightImage != nil) {
         rightFrame.size.width = [rightImage size].width;
         rightFrame.origin.x = (cellFrame.origin.x + cellFrame.size.width) - (rightFrame.size.width + 5);
-        rightCell = [[[NSImageCell alloc] initImageCell:rightImage] autorelease];
+        rightCell = [[NSImageCell alloc] initImageCell:rightImage];
         [(NSImageCell *)rightCell setImageAlignment:NSImageAlignCenter];
     }
     

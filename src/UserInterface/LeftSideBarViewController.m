@@ -35,7 +35,7 @@
 
 @interface LeftSideBarViewController ()
 
-@property (retain, readwrite) NSMutableArray *selectedItems;
+@property (strong, readwrite) NSMutableArray *selectedItems;
 
 - (void)reload;
 - (BOOL)isDropSectionBookmarksForItem:(id)anItem;
@@ -54,12 +54,12 @@
         bookmarkManager = [BookmarkManager defaultManager];
         notesManager = [NotesManager defaultManager];
         
-        bookmarkGroupImage = [[NSImage imageNamed:@"Drawer.png"] retain];
-        bookmarkImage = [[NSImage imageNamed:@"smallbookmark.tiff"] retain];
-        lockedImage = [[NSImage imageNamed:NSImageNameLockLockedTemplate] retain];
-        unlockedImage = [[NSImage imageNamed:NSImageNameLockUnlockedTemplate] retain];
-        notesDrawerImage = [[NSImage imageNamed:@"Drawer.png"] retain];
-        noteImage = [[NSImage imageNamed:@"edit_small.png"] retain];
+        bookmarkGroupImage = [NSImage imageNamed:@"Drawer.png"];
+        bookmarkImage = [NSImage imageNamed:@"smallbookmark.tiff"];
+        lockedImage = [NSImage imageNamed:NSImageNameLockLockedTemplate];
+        unlockedImage = [NSImage imageNamed:NSImageNameLockUnlockedTemplate];
+        notesDrawerImage = [NSImage imageNamed:@"Drawer.png"];
+        noteImage = [NSImage imageNamed:@"edit_small.png"];
 
         modulesRootItem = NSLocalizedString(@"LSBModules", @"");
         bookmarksRootItem = NSLocalizedString(@"LSBBookmarks", @"");
@@ -104,22 +104,7 @@
     [super awakeFromNib];
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [selectedItems release];
-    [bookmarkGroupImage release];
-    [bookmarkImage release];
-    [lockedImage release];
-    [unlockedImage release];
-    [notesDrawerImage release];
-    [noteImage release];
-    [threeCellsCell release];
-    [bookmarkCell release];
-    [super dealloc];
-}
 
 - (id)objectForClickedRow {
     id ret = nil;
@@ -299,7 +284,7 @@
         id item = [items objectAtIndex:i];
         if([item isKindOfClass:[Bookmark class]]) {
             // get the bookmarks instances and encode them
-            BookmarkDragItem *di = [[[BookmarkDragItem alloc] init] autorelease];
+            BookmarkDragItem *di = [[BookmarkDragItem alloc] init];
             di.bookmark = item;
             NSIndexPath *path = [bookmarkManager indexPathForBookmark:di.bookmark];
             di.path = path;

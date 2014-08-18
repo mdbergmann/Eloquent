@@ -39,7 +39,7 @@
     IBOutlet NSButton *processTasksButton;
 
     // the hosting window
-    IBOutlet NSWindow *parentWindow;
+    IBOutlet NSWindow *__strong parentWindow;
     
     // menus
     IBOutlet NSMenu *installSourceMenu;
@@ -48,7 +48,7 @@
     IBOutlet ModuleListViewController *modListViewController;
     
     // any delegate
-    IBOutlet id delegate;
+    IBOutlet id __strong delegate;
     
     /** the selected install sources */
     NSArray *selectedInstallSources;
@@ -66,9 +66,9 @@
     BOOL initialized;
 }
 
-@property (assign, readwrite) IBOutlet id delegate;
-@property (assign, readwrite) IBOutlet NSWindow *parentWindow;
-@property (retain, readwrite) NSArray *selectedInstallSources;
+@property (strong, readwrite) IBOutlet id delegate;
+@property (strong, readwrite) IBOutlet NSWindow *parentWindow;
+@property (strong, readwrite) NSArray *selectedInstallSources;
 
 + (NSURL *)fileOpenDialog;
 

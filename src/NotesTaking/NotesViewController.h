@@ -20,7 +20,7 @@
     NSRange lastFoundRange;
 }
 
-@property (readwrite, retain) FileRepresentation *fileRep;
+@property (readwrite, strong) FileRepresentation *fileRep;
 
 - (id)initWithFileRepresentation:(FileRepresentation *)aFileRep;
 - (id)initWithDelegate:(id)aDelegate;

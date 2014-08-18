@@ -19,20 +19,15 @@
     self = [super init];
     if(self) {
         self.path = [NSIndexPath indexPathWithIndex:0];
-        self.bookmark = [[[Bookmark alloc] init] autorelease];
+        self.bookmark = [[Bookmark alloc] init];
     }
     
     return self;
 }
 
-- (void)dealloc {
-    [path release];
-    [bookmark release];
-    [super dealloc];
-}
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    BookmarkDragItem *item = [[[BookmarkDragItem alloc] init] autorelease];
+    BookmarkDragItem *item = [[BookmarkDragItem alloc] init];
     item.bookmark = [decoder decodeObjectForKey:@"Bookmark"];
     item.path = [decoder decodeObjectForKey:@"IndexPath"];
     

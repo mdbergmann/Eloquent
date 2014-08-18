@@ -54,7 +54,7 @@
 
     [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
 
-    NSMutableDictionary *selectionAttributes = [[[textView selectedTextAttributes] mutableCopy] autorelease];
+    NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
     [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
      
@@ -114,7 +114,7 @@
 	} else if([keyPath isEqualToString:DefaultsTextBackgroundColor]) {
         [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];        
 	} else if([keyPath isEqualToString:DefaultsTextHighlightColor]) {
-        NSMutableDictionary *selectionAttributes = [[[textView selectedTextAttributes] mutableCopy] autorelease];
+        NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
         [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
         [textView setSelectedTextAttributes:selectionAttributes];
 	} else if([keyPath isEqualToString:DefaultsLinkForegroundColor]) {

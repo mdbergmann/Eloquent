@@ -61,7 +61,7 @@ typedef enum _NavigationDirectionType {
         inFullScreenTransition = NO;
         inFullScreenMode = NO;
         
-        [self setCurrentSearchText:[[[SearchTextObject alloc] init] autorelease]];
+        [self setCurrentSearchText:[[SearchTextObject alloc] init]];
         
         lsbViewController = [[LeftSideBarViewController alloc] initWithDelegate:self];
         [lsbViewController setHostingDelegate:self];
@@ -77,24 +77,12 @@ typedef enum _NavigationDirectionType {
         [Associater registerObject:notesUIController forAssociatedObject:self withKey:&NotesMgrUI];
         
         toolbarController = [[ToolbarController alloc] initWithDelegate:self];
-        printAccessoryController = [[PrintAccessoryViewController alloc] initWithPrintInfo:[[[NSPrintInfo alloc] init] autorelease]];
+        printAccessoryController = [[PrintAccessoryViewController alloc] initWithPrintInfo:[[NSPrintInfo alloc] init]];
     }
     
     return self;
 }
 
-- (void)dealloc {
-    [lsbViewController release];
-    [rsbViewController release];
-    [modulesUIController release];
-    [bookmarksUIController release];
-    [notesUIController release];
-    [toolbarController release];
-    [printAccessoryController release];
-    [currentSearchText release];
-    [contentViewController release];
-    [super dealloc];
-}
 
 - (void)awakeFromNib {
     [view setDelegate:self];
@@ -117,7 +105,7 @@ typedef enum _NavigationDirectionType {
 
     [[self window] setToolbar:[toolbarController toolbar]];
     
-    NSMenu *recentsMenu = [[[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")] autorelease];
+    NSMenu *recentsMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"SearchMenu", @"")];
     [recentsMenu setAutoenablesItems:YES];
     // recent searches
     NSMenuItem *item = [recentsMenu addItemWithTitle:NSLocalizedString(@"RecentSearches", @"") action:nil keyEquivalent:@""];

@@ -128,22 +128,7 @@
 	[self setSheetWindow:sheetWindow];    
 }
 
-- (void)finalize {
-	[super finalize];
-}
 
-- (void)dealloc {
-    [confirmationTitle release];
-    [confirmationText release];
-    [defaultButtonText release];
-    [alternateButtonText release];
-    [otherButtonText release];
-    [askAgainButtonText release];
-    [defaultsAskAgainKey release];
-    [contextInfo release];
-    [sheetWindow release];
-    [super dealloc];
-}
 
 // window title
 - (void)setSheetTitle:(NSString *)aTitle {
@@ -170,7 +155,7 @@
 	   modalForWindow:sheetWindow
 		modalDelegate:self 
 	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
-		  contextInfo:contextInfo];
+		  contextInfo:(__bridge void *)(contextInfo)];
 }
 
 // end sheet

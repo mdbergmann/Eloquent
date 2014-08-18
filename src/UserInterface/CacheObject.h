@@ -15,8 +15,8 @@
     NSInteger count;
 }
 
-@property (retain, readwrite) NSString *reference;
-@property (retain, readwrite) id content;
+@property (strong, readwrite) NSString *reference;
+@property (strong, readwrite) id content;
 @property (readwrite) NSInteger count;
 
 @end

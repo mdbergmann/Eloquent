@@ -26,8 +26,8 @@
 
 @interface DictionaryViewController (/* class continuation */)
 
-@property (retain, readwrite) NSMutableArray *selection;
-@property (retain, readwrite) NSArray *dictKeys;
+@property (strong, readwrite) NSMutableArray *selection;
+@property (strong, readwrite) NSArray *dictKeys;
 
 - (void)commonInit;
 - (NSIndexSet *)selectedIndexes;
@@ -102,16 +102,7 @@
     viewLoaded = YES;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
-- (void)dealloc {
-    [selection release];
-    [dictKeys release];
-
-    [super dealloc];
-}
 
 - (void)selectTableViewEntriesFromSelection {
     if(selection != nil) {
@@ -136,8 +127,8 @@
 #pragma mark - Methods
 
 - (void)populateModulesMenu {
-    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-    [[self modulesUIController] generateModuleMenu:&menu 
+    NSMenu *menu = [[NSMenu alloc] init];
+    [[self modulesUIController] generateModuleMenu:menu 
                                      forModuletype:Dictionary
                                     withMenuTarget:self 
                                     withMenuAction:@selector(moduleSelectionChanged:)];
@@ -165,11 +156,11 @@
 }
 
 - (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
-    NSMutableAttributedString *ret = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
     
     if(searchResults) {
         // strip searchQuery
-        NSAttributedString *newLine = [[[NSAttributedString alloc] initWithString:@"\n"] autorelease];
+        NSAttributedString *newLine = [[NSAttributedString alloc] initWithString:@"\n"];
         
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[module name]];
         NSFont *boldDisplayFont = [[MBPreferenceController defaultPrefsController] boldDisplayFontForModuleName:[module name]];
@@ -188,7 +179,7 @@
         
         // build search string
         for(SearchResultEntry *entry in searchResults) {
-            NSAttributedString *keyString = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes] autorelease];
+            NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [entry keyString]] attributes:keyAttributes];
             
             NSString *contentStr = @"";
             if([entry keyString] != nil) {
@@ -252,7 +243,7 @@
             NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
             if([attrs objectForKey:NSLinkAttributeName] != nil) {
                 // add pointing hand cursor
-                attrs = [[attrs mutableCopy] autorelease];
+                attrs = [attrs mutableCopy];
                 [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
                 [tempDisplayString setAttributes:attrs range:effectiveRange];
             }
@@ -335,7 +326,7 @@
 }
 
 - (SearchTextFieldOptions *)searchFieldOptions {
-    SearchTextFieldOptions *options = [[[SearchTextFieldOptions alloc] init] autorelease];
+    SearchTextFieldOptions *options = [[SearchTextFieldOptions alloc] init];
     if(searchType == ReferenceSearchType) {
         [options setContinuous:YES];
         [options setSendsSearchStringImmediately:YES];

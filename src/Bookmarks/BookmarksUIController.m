@@ -57,10 +57,6 @@ enum BookmarkMenu_Items {
     return self;
 }
 
-- (void)dealloc {
-    [bookmarkSelection release];
-    [super dealloc];
-}
 
 
 - (void)awakeFromNib {
@@ -88,7 +84,7 @@ enum BookmarkMenu_Items {
     // loop over bookmarks in list
     for(Bookmark *bm in bookmarkList) {
         if([bm isLeaf]) {
-            NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+            NSMenuItem *item = [[NSMenuItem alloc] init];
             [item setTitle:[bm name]];
             [item setTarget:aTarget];
             [item setAction:aSelector];
@@ -96,9 +92,9 @@ enum BookmarkMenu_Items {
             [item setRepresentedObject:bm];
             [menu addItem:item];
         } else {
-            NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+            NSMenuItem *item = [[NSMenuItem alloc] init];
             [item setTitle:[bm name]];
-            [item setSubmenu:[[[NSMenu alloc] init] autorelease]];
+            [item setSubmenu:[[NSMenu alloc] init]];
             [menu addItem:item];
             [self _createMenuStructure:[item submenu] fromBookmarkTree:[bm subGroups] menuTarget:aTarget menuSelector:aSelector];
         }
@@ -107,7 +103,7 @@ enum BookmarkMenu_Items {
 
 - (void)bookmarkDialog:(id)sender {    
     // create new bookmark instance
-    Bookmark *new = [[[Bookmark alloc] init] autorelease];
+    Bookmark *new = [[Bookmark alloc] init];
     NSString *refText = [[hostingDelegate currentSearchText] searchTextForType:ReferenceSearchType];
     [new setReference:refText];
     [new setName:refText];
@@ -126,7 +122,7 @@ enum BookmarkMenu_Items {
 }
 
 - (void)bookmarkDialogForVerseList:(NSArray *)aVerseList {
-    Bookmark *new = [[[Bookmark alloc] init] autorelease];
+    Bookmark *new = [[Bookmark alloc] init];
     
     NSString *verseString = [aVerseList componentsJoinedByString:@";"];    
     [new setReference:verseString];
@@ -204,7 +200,7 @@ enum BookmarkMenu_Items {
     switch(tag) {
         case BookmarkMenuAddNewBM:
         {
-            Bookmark *new = [[[Bookmark alloc] init] autorelease];
+            Bookmark *new = [[Bookmark alloc] init];
             // set as content
             [bmObjectController setContent:new];
             // bring up bookmark panel
@@ -339,7 +335,7 @@ enum BookmarkMenu_Items {
 
     if(bookmarkAction == BookmarkMenuAddNewBMFolder) {
         // create new bookmark folder
-        Bookmark *bm = [[[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]] autorelease];
+        Bookmark *bm = [[Bookmark alloc] initWithName:[bookmarkFolderNameTextField stringValue]];
         [bm setSubGroups:[NSMutableArray array]];   // this will get a folder 
         
         if([bookmarkSelection count] > 0) {

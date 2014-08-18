@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <ObjCSword/SwordModule.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
-#import <ObjCSword/SwordModule.h>
 #import "WindowHostController.h"
 
 @class ContentDisplayingViewController;

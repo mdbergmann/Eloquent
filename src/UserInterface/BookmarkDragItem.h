@@ -13,7 +13,7 @@
     Bookmark *bookmark;
 }
 
-@property (retain, readwrite) NSIndexPath *path;
-@property (retain, readwrite) Bookmark *bookmark;
+@property (strong, readwrite) NSIndexPath *path;
+@property (strong, readwrite) Bookmark *bookmark;
 
 @end

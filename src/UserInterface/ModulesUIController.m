@@ -50,7 +50,7 @@ enum ModuleMenu_Items{
  @params[in] aTarget the target object of the created menuitem
  @params[in] aSelector the selector of the target that should be called
  */
-- (void)generateModuleMenu:(NSMenu **)itemMenu 
+- (void)generateModuleMenu:(NSMenu *)itemMenu
              forModuletype:(ModuleType)type 
             withMenuTarget:(id)aTarget 
             withMenuAction:(SEL)aSelector {
@@ -70,12 +70,11 @@ enum ModuleMenu_Items{
             [menuItem setTarget:aTarget];
             [menuItem setAction:aSelector];
             [menuItem setEnabled:YES];
-            [*itemMenu addItem:menuItem];
-            [menuItem release];
+            [itemMenu addItem:menuItem];
         }
         
         // add separator as last item
-        [*itemMenu addItem:[NSMenuItem separatorItem]];
+        [itemMenu addItem:[NSMenuItem separatorItem]];
     }
     
     // commentaries
@@ -91,12 +90,11 @@ enum ModuleMenu_Items{
             [menuItem setTarget:aTarget];
             [menuItem setAction:aSelector];
             [menuItem setEnabled:YES];
-            [*itemMenu addItem:menuItem];
-            [menuItem release];
+            [itemMenu addItem:menuItem];
         }
         
         // add separator as last item
-        [*itemMenu addItem:[NSMenuItem separatorItem]];
+        [itemMenu addItem:[NSMenuItem separatorItem]];
     }
     
     // dictionaries
@@ -111,12 +109,11 @@ enum ModuleMenu_Items{
             //[menuItem setImage:image];
             [menuItem setTarget:aTarget];
             [menuItem setAction:aSelector];
-            [*itemMenu addItem:menuItem];
-            [menuItem release];
+            [itemMenu addItem:menuItem];
         }
         
         // add separator as last item
-        [*itemMenu addItem:[NSMenuItem separatorItem]];
+        [itemMenu addItem:[NSMenuItem separatorItem]];
     }
     
     // gen books
@@ -131,20 +128,19 @@ enum ModuleMenu_Items{
             //[menuItem setImage:image];
             [menuItem setTarget:aTarget];
             [menuItem setAction:aSelector];
-            [*itemMenu addItem:menuItem];
-            [menuItem release];
+            [itemMenu addItem:menuItem];
         }
         
         // add separator as last item
-        [*itemMenu addItem:[NSMenuItem separatorItem]];
+        [itemMenu addItem:[NSMenuItem separatorItem]];
     }
     
     // check last item is a separator, then remove    
-    int len = [[*itemMenu itemArray] count];
+    int len = [[itemMenu itemArray] count];
     if(len > 0) {
-        NSMenuItem *last = [*itemMenu itemAtIndex:len-1];
+        NSMenuItem *last = [itemMenu itemAtIndex:len-1];
         if([last isSeparatorItem]) {
-            [*itemMenu removeItem:last];
+            [itemMenu removeItem:last];
         }
     }
 }
@@ -173,9 +169,6 @@ enum ModuleMenu_Items{
     return self;
 }
 
-- (void)finalize {
-    [super finalize];
-}
 
 - (void)awakeFromNib {
     [moduleUnlockTextField setContinuous:YES];    

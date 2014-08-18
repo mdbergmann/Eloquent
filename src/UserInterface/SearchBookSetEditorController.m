@@ -56,9 +56,6 @@
     [searchBookSetsPopUpButton selectItemWithTag:0];
 }
 
-- (void)finalize {
-	[super finalize];
-}
 
 #pragma mark - Methods
 
@@ -80,14 +77,14 @@
 
 - (NSMenu *)bookSetsMenu {
     // build popup menu
-    NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-    NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Temporary", @"") action:@selector(bookSetChanged:) keyEquivalent:@""] autorelease];
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Temporary", @"") action:@selector(bookSetChanged:) keyEquivalent:@""];
     [item setTarget:self];
     [item setTag:0];
     [menu addItem:item];
     int i = 1;
     for(SearchBookSet *set in [[IndexingManager sharedManager] searchBookSets]) {
-        item = [[[NSMenuItem alloc] init] autorelease];
+        item = [[NSMenuItem alloc] init];
         [item setTitle:NSLocalizedString([set name], @"")];
         [item setTarget:self];
         [item setAction:@selector(bookSetChanged:)];
