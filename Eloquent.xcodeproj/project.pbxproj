@@ -2134,7 +2134,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2163,7 +2163,6 @@
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
-					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
@@ -2314,7 +2313,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2346,7 +2345,6 @@
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
-					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
@@ -2362,7 +2360,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2388,7 +2386,6 @@
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
-					"-licucore",
 				);
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
