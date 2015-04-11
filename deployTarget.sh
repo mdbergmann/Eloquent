@@ -29,8 +29,10 @@ fi
 ./increment_buildnumber.rb
 ./write_buildnumber.rb
 
+xcodebuild clean
+
 # build Deployment version
-xcodebuild -target "$TARGET" -configuration "$CONFIG" clean build
+xcodebuild -target "$TARGET" -configuration "$CONFIG" build
 #echo "rc = $RC";
 #if [ $RC != 0 ]; then
 #	echo "build did not succeed!";

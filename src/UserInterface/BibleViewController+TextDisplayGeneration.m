@@ -67,7 +67,7 @@
                     
                     // prepare output
                     NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr]
-                                                                                     attributes:keyAttributes];
+                                                                                    attributes:keyAttributes];
                     NSAttributedString *contentString = nil;
                     if([keyStr isEqualToString:[searchResultEntry keyString]]) {
                         contentString = [Highlighter highlightText:contentStr 
@@ -258,7 +258,7 @@
       (int)(hr * 100.0), (int)(hg * 100.0), (int)(hb * 100.0)];
     
     // book introductions
-    SwordBibleBook *bibleBook = [(SwordBible *)module bookForLocalizedName:bookName];
+    SwordBibleBook *bibleBook = [(SwordBible *)module bookForName:bookName];
     if(book != lastBook) {
         if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
             NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:bibleBook];
@@ -269,7 +269,7 @@
     }
     
     // pre-verse heading ?
-    if([anEntry preVerseHeading]) {
+    if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON] && [anEntry preVerseHeading].length > 0) {
         [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, [anEntry preVerseHeading]];
     }
     
@@ -278,8 +278,7 @@
         // new chapter or same chapter in another book
         if((chapter != lastChapter) || (book != lastBook)) {
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
-                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:bibleBook 
-                                                                           chapter:chapter];
+                NSString *chapIntro = [(SwordBible *)module chapterIntroductionIn:bibleBook forChapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
                     [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
                 }
@@ -293,8 +292,7 @@
         // new chapter or same chapter in another book
         if((chapter != lastChapter) || (book != lastBook)) {
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
-                NSString *chapIntro = [(SwordBible *)module chapterIntroductionFor:bibleBook 
-                                                                           chapter:chapter];
+                NSString *chapIntro = [(SwordBible *)module chapterIntroductionIn:bibleBook forChapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
                     [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
                 }

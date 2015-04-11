@@ -135,7 +135,7 @@
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
-		A945F5B219A21F5E00C618DD /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; };
+		A945F5B219A21F5E00C618DD /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
 		A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
 		A955E198142612B000357B6F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A955E196142612B000357B6F /* WebViewController.m */; };
@@ -149,7 +149,7 @@
 		A974469410CFC08500438C5F /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
 		A97561EE12A2779000A7661B /* SwordUrlProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = A97561ED12A2779000A7661B /* SwordUrlProtocol.m */; };
 		A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
-		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; };
+		A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A97CE18C0EEE71CA00984B21 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A9802A7612182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = A9802A7512182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m */; };
 		A98203FA19A0C6C200DD808C /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; };
 		A98422E21144EF640001EED1 /* ToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98422E11144EF640001EED1 /* ToolbarController.m */; };
@@ -169,16 +169,15 @@
 		A99A773710B33802002EFD30 /* NotesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A773610B33802002EFD30 /* NotesUIController.m */; };
 		A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A774310B33C7D002EFD30 /* NotesViewController.m */; };
 		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
+		A9A127A419DE9226005BCBC1 /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; };
+		A9A12A9819DF46F8005BCBC1 /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A533FF114E62A300B015C5 /* HUDToolbarView.m */; };
 		A9A73AF211609C8500A4099D /* WindowHostController+SplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A73AF111609C8500A4099D /* WindowHostController+SplitViewDelegate.m */; };
 		A9A9206F1205A3E8008D7A64 /* DailyDevotionPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A9206E1205A3E8008D7A64 /* DailyDevotionPanelController.m */; };
 		A9ABF336107A2934005D6156 /* InitialInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ABF335107A2934005D6156 /* InitialInfoViewController.m */; };
-		A9B1FBDF11E328EF00BB561A /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A975EA1611C77052007C1532 /* ObjCSword.framework */; };
-		A9B1FC1911E328FB00BB561A /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A975EA1611C77052007C1532 /* ObjCSword.framework */; };
 		A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9B7441D0F646223001960B0 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
 		A9BDB9ED10B3E9B600E8AD3C /* ContentDisplayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */; };
-		A9BDF9F31207F6B70067ED5B /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A975EA1611C77052007C1532 /* ObjCSword.framework */; };
 		A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */; };
 		A9C6C5AA11394B6300A3850A /* BookmarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C6C5A911394B6300A3850A /* BookmarkCell.m */; };
 		A9CFAE0B10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CFAE0A10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m */; };
@@ -199,8 +198,8 @@
 		A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
 		A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
 		A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
-		A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
-		A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
+		A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */; };
 		A9FCD75B10B1484C006F7A3B /* BookmarksUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD75A10B1484C006F7A3B /* BookmarksUIController.m */; };
 		A9FCD81010B1B5A1006F7A3B /* ModulesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD80F10B1B5A1006F7A3B /* ModulesUIController.m */; };
@@ -211,153 +210,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A954ACEA13EEA7310094E3FE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A954ABC313EE9AB00094E3FE;
-			remoteInfo = sword;
-		};
-		A975EA1511C77052007C1532 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = ObjCSword;
-		};
-		A975EA1711C77052007C1532 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9C2819611C43C4900803CB5;
-			remoteInfo = Tests;
-		};
-		A975EA4711C770FD007C1532 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = ObjCSword;
-		};
-		A975EEDC11C792BA007C1532 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A975EED911C792B9007C1532;
-			remoteInfo = mod2osis;
-		};
-		A98CB09C14D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D2714E14D717D800DA8926;
-			remoteInfo = imp2gbs;
-		};
-		A98CB09E14D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D2715B14D717FD00DA8926;
-			remoteInfo = imp2ld;
-		};
-		A98CB0A014D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D2716814D7181200DA8926;
-			remoteInfo = imp2vs;
-		};
-		A98CB0A214D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D2717514D7182300DA8926;
-			remoteInfo = installmgr;
-		};
-		A98CB0A414D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D2718214D7183B00DA8926;
-			remoteInfo = mod2imp;
-		};
-		A98CB0A614D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D2718F14D7185800DA8926;
-			remoteInfo = mod2vpl;
-		};
-		A98CB0A814D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D2719C14D7186A00DA8926;
-			remoteInfo = mod2zmod;
-		};
-		A98CB0AA14D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9A7EEB414D5D61700B76B6A;
-			remoteInfo = osis2mod;
-		};
-		A98CB0AC14D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D271A914D7187E00DA8926;
-			remoteInfo = step2vpl;
-		};
-		A98CB0AE14D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D271B614D7189300DA8926;
-			remoteInfo = stepdump;
-		};
-		A98CB0B014D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D271C314D718A400DA8926;
-			remoteInfo = tei2mod;
-		};
-		A98CB0B214D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D271D014D718B800DA8926;
-			remoteInfo = vpl2mod;
-		};
-		A98CB0B414D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D271DD14D718C800DA8926;
-			remoteInfo = vs2osisref;
-		};
-		A98CB0B614D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D271EA14D718DF00DA8926;
-			remoteInfo = vs2osisreftxt;
-		};
-		A98CB0B814D71C8400D36EA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9D271F714D718F500DA8926;
-			remoteInfo = xml2gbs;
-		};
-		A9BDFA701207F9870067ED5B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9BDFA6B1207F9870067ED5B;
-			remoteInfo = "Tests copy";
-		};
 		A9CA81AB12D0B99A005346FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -381,7 +233,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A9B1FBDF11E328EF00BB561A /* ObjCSword.framework in CopyFiles */,
+				A9A12A9819DF46F8005BCBC1 /* ObjCSword.framework in CopyFiles */,
 				A97CE1900EEE71D400984B21 /* Sparkle.framework in CopyFiles */,
 				A9F61C810E0102BB00C3A0EF /* CocoLogger.framework in CopyFiles */,
 				A9F61C820E0102BB00C3A0EF /* CocoPCRE.framework in CopyFiles */,
@@ -597,7 +449,6 @@
 		A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+LookupAdditions.m"; path = "src/UserInterface/NSTextView+LookupAdditions.m"; sourceTree = "<group>"; };
 		A97561EC12A2779000A7661B /* SwordUrlProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwordUrlProtocol.h; path = src/SwordUrlProtocol.h; sourceTree = "<group>"; };
 		A97561ED12A2779000A7661B /* SwordUrlProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwordUrlProtocol.m; path = src/SwordUrlProtocol.m; sourceTree = "<group>"; };
-		A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjCSword.xcodeproj; path = "sword_src/sword-trunk/bindings/objc/ObjCSword.xcodeproj"; sourceTree = "<group>"; };
 		A97CE18C0EEE71CA00984B21 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Resources/Sparkle.framework; sourceTree = "<group>"; };
 		A9802A7412182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TextEntryDuplicateRemove.h"; sourceTree = "<group>"; };
 		A9802A7512182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TextEntryDuplicateRemove.m"; sourceTree = "<group>"; };
@@ -634,6 +485,7 @@
 		A99A774310B33C7D002EFD30 /* NotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesViewController.m; path = src/NotesTaking/NotesViewController.m; sourceTree = "<group>"; };
 		A99DB3240EF96C310065482A /* ScopeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopeBarView.h; path = src/UserInterface/ScopeBarView.h; sourceTree = "<group>"; };
 		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
+		A9A127A319DE9226005BCBC1 /* ObjCSword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjCSword.framework; path = Resources/ObjCSword.framework; sourceTree = "<group>"; };
 		A9A533FE114E62A300B015C5 /* HUDToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDToolbarView.h; path = src/UserInterface/HUDToolbarView.h; sourceTree = "<group>"; };
 		A9A533FF114E62A300B015C5 /* HUDToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDToolbarView.m; path = src/UserInterface/HUDToolbarView.m; sourceTree = "<group>"; };
 		A9A73AF011609C8500A4099D /* WindowHostController+SplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WindowHostController+SplitViewDelegate.h"; path = "src/UserInterface/WindowHostController+SplitViewDelegate.h"; sourceTree = "<group>"; };
@@ -643,7 +495,6 @@
 		A9ABF334107A2934005D6156 /* InitialInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialInfoViewController.h; path = src/UserInterface/InitialInfoViewController.h; sourceTree = "<group>"; };
 		A9ABF335107A2934005D6156 /* InitialInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialInfoViewController.m; path = src/UserInterface/InitialInfoViewController.m; sourceTree = "<group>"; };
 		A9ADDA3E15E2D8F100675628 /* Eloquent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Eloquent.entitlements; sourceTree = "<group>"; };
-		A9B1FC3811E3291D00BB561A /* ObjCSword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjCSword.framework; path = "sword_src/sword-trunk/bindings/objc/build/Release/ObjCSword.framework"; sourceTree = "<group>"; };
 		A9B7441B0F646223001960B0 /* MBAboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAboutWindowController.h; sourceTree = "<group>"; };
 		A9B7441C0F646223001960B0 /* MBAboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAboutWindowController.m; sourceTree = "<group>"; };
 		A9BDB9EB10B3E9B600E8AD3C /* ContentDisplayingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentDisplayingViewController.h; path = src/UserInterface/ContentDisplayingViewController.h; sourceTree = "<group>"; };
@@ -709,11 +560,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9B1FC1911E328FB00BB561A /* ObjCSword.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				A9F61B940E00FFFD00C3A0EF /* CocoLogger.framework in Frameworks */,
 				A9F61B950E00FFFD00C3A0EF /* CocoPCRE.framework in Frameworks */,
 				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
+				A9A127A419DE9226005BCBC1 /* ObjCSword.framework in Frameworks */,
 				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
 				A98203FA19A0C6C200DD808C /* PSMTabBarControl.framework in Frameworks */,
 				A9188E7610E0F401006DA14B /* Security.framework in Frameworks */,
@@ -724,7 +575,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9BDF9F31207F6B70067ED5B /* ObjCSword.framework in Frameworks */,
 				A9B45CE80EF5B5E700B63848 /* CocoLogger.framework in Frameworks */,
 				A9D9F52D0EAF17890035222E /* SenTestingKit.framework in Frameworks */,
 			);
@@ -747,8 +597,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9A127A319DE9226005BCBC1 /* ObjCSword.framework */,
 				A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */,
-				A9B1FC3811E3291D00BB561A /* ObjCSword.framework */,
 				A97CE18C0EEE71CA00984B21 /* Sparkle.framework */,
 				A9D9F52C0EAF17890035222E /* SenTestingKit.framework */,
 				A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */,
@@ -783,7 +633,6 @@
 			isa = PBXGroup;
 			children = (
 				A9ADDA3E15E2D8F100675628 /* Eloquent.entitlements */,
-				A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */,
 				A9D9F5260EAF15410035222E /* Tests */,
 				A91C93F80DF9B149006B7361 /* InstallerConsole */,
 				C01FCF5008A954540054247C /* SessionManagement */,
@@ -1050,33 +899,6 @@
 			name = Hosts;
 			sourceTree = "<group>";
 		};
-		A975EA1011C77052007C1532 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A975EA1611C77052007C1532 /* ObjCSword.framework */,
-				A9BDFA711207F9870067ED5B /* Tests.octest */,
-				A975EA1811C77052007C1532 /* Tests.octest */,
-				A954ACEB13EEA7310094E3FE /* libsword.dylib */,
-				A98CB09D14D71C8400D36EA8 /* imp2gbs */,
-				A98CB09F14D71C8400D36EA8 /* imp2ld */,
-				A98CB0A114D71C8400D36EA8 /* imp2vs */,
-				A98CB0A314D71C8400D36EA8 /* installmgr */,
-				A98CB0A514D71C8400D36EA8 /* mod2imp */,
-				A975EEDD11C792BA007C1532 /* mod2osis */,
-				A98CB0A714D71C8400D36EA8 /* mod2vpl */,
-				A98CB0A914D71C8400D36EA8 /* mod2zmod */,
-				A98CB0AB14D71C8400D36EA8 /* osis2mod */,
-				A98CB0AD14D71C8400D36EA8 /* step2vpl */,
-				A98CB0AF14D71C8400D36EA8 /* stepdump */,
-				A98CB0B114D71C8400D36EA8 /* tei2mod */,
-				A98CB0B314D71C8400D36EA8 /* vpl2mod */,
-				A98CB0B514D71C8400D36EA8 /* vs2osisref */,
-				A98CB0B714D71C8400D36EA8 /* vs2osisreftxt */,
-				A98CB0B914D71C8400D36EA8 /* xml2gbs */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		A99055A90E041C3400E8D7A2 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
@@ -1320,7 +1142,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				A975EA4811C770FD007C1532 /* PBXTargetDependency */,
 			);
 			name = Eloquent;
 			productInstallPath = "$(HOME)/Applications";
@@ -1344,7 +1165,7 @@
 			name = Tests;
 			productName = Tests;
 			productReference = A9D9F51A0EAF151E0035222E /* Tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -1352,7 +1173,8 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastTestingUpgradeCheck = 0610;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Crosswire;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Eloquent" */;
@@ -1369,12 +1191,6 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MacSword2 */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = A975EA1011C77052007C1532 /* Products */;
-					ProjectRef = A975EA0F11C77052007C1532 /* ObjCSword.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Eloquent */,
@@ -1384,149 +1200,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		A954ACEB13EEA7310094E3FE /* libsword.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libsword.dylib;
-			remoteRef = A954ACEA13EEA7310094E3FE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A975EA1611C77052007C1532 /* ObjCSword.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ObjCSword.framework;
-			remoteRef = A975EA1511C77052007C1532 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A975EA1811C77052007C1532 /* Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.octest;
-			remoteRef = A975EA1711C77052007C1532 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A975EEDD11C792BA007C1532 /* mod2osis */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = mod2osis;
-			remoteRef = A975EEDC11C792BA007C1532 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB09D14D71C8400D36EA8 /* imp2gbs */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = imp2gbs;
-			remoteRef = A98CB09C14D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB09F14D71C8400D36EA8 /* imp2ld */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = imp2ld;
-			remoteRef = A98CB09E14D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0A114D71C8400D36EA8 /* imp2vs */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = imp2vs;
-			remoteRef = A98CB0A014D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0A314D71C8400D36EA8 /* installmgr */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = installmgr;
-			remoteRef = A98CB0A214D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0A514D71C8400D36EA8 /* mod2imp */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = mod2imp;
-			remoteRef = A98CB0A414D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0A714D71C8400D36EA8 /* mod2vpl */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = mod2vpl;
-			remoteRef = A98CB0A614D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0A914D71C8400D36EA8 /* mod2zmod */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = mod2zmod;
-			remoteRef = A98CB0A814D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0AB14D71C8400D36EA8 /* osis2mod */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = osis2mod;
-			remoteRef = A98CB0AA14D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0AD14D71C8400D36EA8 /* step2vpl */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = step2vpl;
-			remoteRef = A98CB0AC14D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0AF14D71C8400D36EA8 /* stepdump */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = stepdump;
-			remoteRef = A98CB0AE14D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0B114D71C8400D36EA8 /* tei2mod */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = tei2mod;
-			remoteRef = A98CB0B014D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0B314D71C8400D36EA8 /* vpl2mod */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = vpl2mod;
-			remoteRef = A98CB0B214D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0B514D71C8400D36EA8 /* vs2osisref */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = vs2osisref;
-			remoteRef = A98CB0B414D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0B714D71C8400D36EA8 /* vs2osisreftxt */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = vs2osisreftxt;
-			remoteRef = A98CB0B614D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A98CB0B914D71C8400D36EA8 /* xml2gbs */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = xml2gbs;
-			remoteRef = A98CB0B814D71C8400D36EA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A9BDFA711207F9870067ED5B /* Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.octest;
-			remoteRef = A9BDFA701207F9870067ED5B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -1764,11 +1437,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A975EA4811C770FD007C1532 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ObjCSword;
-			targetProxy = A975EA4711C770FD007C1532 /* PBXContainerItemProxy */;
-		};
 		A9CA81AC12D0B99A005346FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A9CA81A512D0B946005346FD /* WriteBuildnumber */;
@@ -2111,7 +1779,6 @@
 		A9CA81E412D0BDE1005346FD /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
@@ -2132,15 +1799,11 @@
 		A9CA81E512D0BDE1005346FD /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Resources\"",
-					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
 					"$(PROJECT_DIR)/Resources",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -2149,7 +1812,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
 				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -2167,7 +1830,7 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2311,17 +1974,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Resources\"",
-					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Debug\"",
-					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
 					"$(PROJECT_DIR)/Resources",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2332,7 +1990,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
 				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -2349,7 +2007,7 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2358,15 +2016,11 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Resources\"",
-					"\"$(SRCROOT)/sword_src/sword-trunk/bindings/objc/build/Release\"",
 					"$(PROJECT_DIR)/Resources",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -2375,7 +2029,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/sword_src/sword-trunk/include\"/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
 				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -2390,7 +2044,7 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/sword_src/sword-trunk/bindings/objc/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2408,6 +2062,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DDEBUG";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -2419,7 +2074,6 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";

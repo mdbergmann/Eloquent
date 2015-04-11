@@ -7,6 +7,8 @@
 //
 
 #import "HostableViewController.h"
+#import <ObjCSword/SwordManager.h>
+#import <ObjCSword/SwordDictionary.h>
 #import "ContentDisplayingViewController.h"
 #import "ModuleCommonsViewController.h"
 #import "DictionaryViewController.h"
@@ -16,13 +18,11 @@
 #import "SearchResultEntry.h"
 #import "Highlighter.h"
 #import "globals.h"
-#import "ObjCSword/SwordManager.h"
 #import "LeftSideBarAccessoryUIController.h"
 #import "ModulesUIController.h"
 #import "NSUserDefaults+Additions.h"
 #import "SearchTextFieldOptions.h"
 #import "CacheObject.h"
-#import "SwordDictionary.h"
 
 @interface DictionaryViewController (/* class continuation */)
 
@@ -362,7 +362,13 @@
 #pragma mark - Actions
 
 - (IBAction)moduleSelectionChanged:(id)sender {
-    NSString *modName = [(NSMenuItem *)sender title];
+    NSString *modName = @"";
+    if([self module] != nil) {
+        modName = [[self module] name];
+    }
+    if([sender isKindOfClass:[NSMenuItem class]]) {
+        modName = [sender title];
+    }
     if((module == nil) || (![modName isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:modName];
         
@@ -372,7 +378,7 @@
         if(self.searchString != nil) {
             forceRedisplay = YES;
             [self displayTextForReference:searchString searchType:searchType];
-        }        
+        }
     }
 }
 

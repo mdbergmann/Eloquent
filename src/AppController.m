@@ -1,5 +1,7 @@
 
 #import "AppController.h"
+#import <ObjCSword/SwordUtil.h>
+#import <ObjCSword/FilterProviderFactory.h>
 #import "MBPreferenceController.h"
 #import "HostableViewController.h"
 #import "WindowHostController.h"
@@ -19,9 +21,6 @@
 #import "SessionManager.h"
 #import "globals.h"
 #import "ModuleManager.h"
-#import "SwordUtil.h"
-#import "FilterProviderFactory.h"
-#import "DefaultFilterProvider.h"
 #import "EloquentFilterProvider.h"
 
 NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {

@@ -6,8 +6,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "DefaultFilterProvider.h"
-
+#import <ObjCSword/DefaultFilterProvider.h>
 
 @interface EloquentFilterProvider : DefaultFilterProvider
 @end

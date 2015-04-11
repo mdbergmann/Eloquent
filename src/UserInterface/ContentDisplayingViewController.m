@@ -7,6 +7,7 @@
 //
 
 #import "HostableViewController.h"
+#import <ObjCSword/SwordUtil.h>
 #import "ContentDisplayingViewController.h"
 #import "HUDPreviewController.h"
 #import "MBPreferenceController.h"
@@ -24,7 +25,6 @@
 #import "CacheObject.h"
 #import "ObjectAssociations.h"
 #import "ContentDisplayingViewControllerFactory.h"
-#import "SwordUtil.h"
 #import "SwordModule+SearchKitIndex.h"
 #import "ProgressOverlayViewController.h"
 #import "CommentaryViewController.h"
