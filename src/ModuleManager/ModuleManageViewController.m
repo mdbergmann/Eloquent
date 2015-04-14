@@ -101,9 +101,9 @@
     
     // first thing, we check the disclaimer
     if([userDefaults stringForKey:DefaultsUserDisclaimerConfirmed] == nil) {
-        [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:NO];
+        [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:NO];
     } else {
-        [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:[userDefaults boolForKey:DefaultsUserDisclaimerConfirmed]];
+        [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:[userDefaults boolForKey:DefaultsUserDisclaimerConfirmed]];
     }
     
     initialized = YES;    
@@ -194,14 +194,14 @@
 
 - (IBAction)confirmNo:(id)sender {
     [userDefaults setBool:NO forKey:DefaultsUserDisclaimerConfirmed];
-    [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:NO];
+    [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:NO];
     // end sheet
     [self disclaimerSheetEnd];
 }
 
 - (IBAction)confirmYes:(id)sender {
     [userDefaults setBool:YES forKey:DefaultsUserDisclaimerConfirmed];
-    [[SwordInstallSourceManager defaultController] setUserDisclaimerConfirmed:YES];
+    [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:YES];
     // end sheet
     [self disclaimerSheetEnd];
 }
@@ -289,8 +289,7 @@
         [ps startProgressAnimation];
         
         // refresh master remote install source list
-        if([[SwordInstallSourceManager defaultController] refreshMasterRemoteInstallSourceList] == 0) {
-            [[SwordInstallSourceManager defaultController] reinitialize];
+        if([[SwordInstallSourceManager defaultManager] refreshMasterRemoteInstallSourceList] == 0) {
             [self refreshInstallSourceListObjects];
             [categoryOutlineView reloadData];
         }    
@@ -332,7 +331,7 @@
         if(stat == NSAlertDefaultReturn) {
             
             // delete this source
-            SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+            SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
             [sis removeInstallSource:is];
             
             // refresh list objects
@@ -405,7 +404,7 @@
             [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
 
             // the controller
-            SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+            SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
             
             // start progress bar
             [ps beginSheet];
@@ -427,8 +426,6 @@
                                                    otherButton:nil 
                                      informativeTextWithFormat:NSLocalizedString(@"ErrorOnRefreshingModules", @"")];
                 [alert runModal];            
-            } else {
-                [sis reinitialize];
             }
             
             // set selection to none and reload
@@ -452,7 +449,7 @@
 }
 
 - (IBAction)editISOKButton:(id)sender {
-    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
     
     BOOL error = NO;
     BOOL close = YES;
@@ -722,7 +719,7 @@
                               waitUntilDone:YES];
 
         // get controllers
-        SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+        SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
         SwordManager *sm = [SwordManager defaultManager];
 
         // start animation
@@ -832,7 +829,7 @@
     [installSourceListObjects removeAllObjects];
 
     // build new list
-    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
     for(SwordInstallSource *is in [sis installSourceList]) {
         InstallSourceListObject *listObj = [InstallSourceListObject installSourceListObjectForType:TypeInstallSource];
         [listObj setInstallSource:is];
@@ -855,21 +852,21 @@
 }
 
 - (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText {
-    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
     BOOL confirmed = [sis userDisclaimerConfirmed];
     if(!confirmed) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"")
                                        alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:aText];
+                             informativeTextWithFormat:@"%@", aText];
         [alert runModal];
     }
     return confirmed;
 }
 
 - (void)showRefreshRepositoryInformation {
-    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
     BOOL confirmed = [sis userDisclaimerConfirmed];
     if(confirmed) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")

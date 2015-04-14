@@ -208,15 +208,12 @@ static AppController *singleton;
 
 - (id)init {
 	self = [super init];
-	if(self == nil) {
-		CocoLog(LEVEL_ERR,@"cannot alloc AppController!");		
-    } else {
-        CocoLog(LEVEL_DEBUG, @"Initializing application");
-
+	if(self) {
         // set singleton
         singleton = self;
 
         NSFileManager *fm = [NSFileManager defaultManager];
+
         // check whether this is the first start of Eloquent
         NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.Eloquent.plist" stringByExpandingTildeInPath];
         if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:DEFAULT_MODULE_PATH]) {
@@ -252,7 +249,10 @@ static AppController *singleton;
         }
         
         // init install manager
-        [SwordInstallSourceManager defaultControllerWithPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY]];
+        SwordInstallSourceManager *installSourceManager = [[SwordInstallSourceManager alloc] initWithPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY] createPath:YES];
+        [installSourceManager setFtpPassword:@"eloquent@crosswire.org"];
+        [installSourceManager useAsDefaultManager];
+        [installSourceManager initManager];
         
         // make available all cipher keys to SwordManager
         NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];

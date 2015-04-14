@@ -2,7 +2,7 @@
  *
  *  teixhtml.h -	Implementation of TEIXHTML
  *
- * $Id: teixhtml.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: teixhtml.h 3361 2015-03-23 00:00:58Z scribe $
  *
  * Copyright 2012-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -49,6 +49,7 @@ protected:
 public:
 	TEIXHTML();
 	void setRenderNoteNumbers(bool val = true) { renderNoteNumbers = val; }
+	virtual const char *getHeader() const;
 };
 
 SWORD_NAMESPACE_END

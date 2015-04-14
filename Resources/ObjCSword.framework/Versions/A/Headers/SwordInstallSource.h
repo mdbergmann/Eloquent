@@ -25,10 +25,8 @@
     sword::InstallSource *swInstallSource;
 #endif
     
-    BOOL temporarySource;
-
     /** the sword manager for this source */
-    SwordManager *swordManager;    
+    SwordManager *swordManager;
 }
 
 // init

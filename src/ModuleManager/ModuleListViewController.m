@@ -107,7 +107,7 @@
     // prepare the module data for display
     
     // get SwordInstallSourceController
-    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultController];
+    SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
     // get default Sword Manager
     SwordManager *sw = [SwordManager defaultManager];
     

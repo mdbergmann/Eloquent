@@ -4,7 +4,7 @@
  *		  	all types of modules (e.g. texts, commentaries, maps,
  *		  	lexicons, etc.)
  *
- * $Id: swmodule.h 3249 2014-08-24 01:55:08Z scribe $
+ * $Id: swmodule.h 3332 2015-03-12 08:50:51Z scribe $
  *
  * Copyright 1997-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -194,6 +194,16 @@ public:
 	// are not comfortable with, or don't wish to use  stl maps).
 	virtual void setConfig(ConfigEntMap *config);
 	virtual const ConfigEntMap &getConfig() const { return *config; }
+
+	/**
+	 * Gets a configuration property about a module.  These entries are primarily
+	 * pulled from the module's .conf file, but also includes some virtual entries
+	 * such as:
+	 * 	PrefixPath - the absolute filesystem path to the sword module repository
+	 *	location where this module is located.
+	 *	AbsoluteDataPath - the full path to the root folder where the module
+	 *	data is stored.
+	 */
 	virtual const char *getConfigEntry(const char *key) const;
 
 	/**
@@ -652,7 +662,8 @@ public:
 	 * @param render for internal use
 	 * @return result buffer
 	 */
-	SWBuf renderText(const char *buf = 0, int len = -1, bool render = true);
+	SWBuf renderText();
+	SWBuf renderText(const char *buf, int len = -1, bool render = true) const;
 	SWDEPRECATED const char *RenderText(const char *buf = 0, int len = -1, bool render = true) { return renderText(buf, len, render); }
 
 	/** Produces any header data which might be useful which is associated with the
