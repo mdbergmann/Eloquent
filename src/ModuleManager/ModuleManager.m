@@ -69,7 +69,7 @@
     [item setImage:image];
     //[item setTarget:[AppController defaultAppController]];
     [item setAction:@selector(syncISListFromMasterTB:)];
-    [tbIdentifiers setObject:item forKey:TB_SYNC_ISLIST_ITEM];
+    tbIdentifiers[TB_SYNC_ISLIST_ITEM] = item;
 
     // add is
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_ADD_ITEM];
@@ -80,7 +80,7 @@
     [item setImage:image];
     //[item setTarget:delegate];
     [item setAction:@selector(addInstallSourceTB:)];
-    [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_ADD_ITEM];
+    tbIdentifiers[TB_INSTALLSOURCE_ADD_ITEM] = item;
 
     // edit is
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_EDIT_ITEM];
@@ -91,7 +91,7 @@
     [item setImage:image];
     //[item setTarget:delegate];
     [item setAction:@selector(editInstallSourceTB:)];
-    [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_EDIT_ITEM];
+    tbIdentifiers[TB_INSTALLSOURCE_EDIT_ITEM] = item;
     
     // refresh is
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_REFRESH_ITEM];
@@ -102,7 +102,7 @@
     [item setImage:image];
     //[item setTarget:delegate];
     [item setAction:@selector(refreshInstallSourceTB:)];
-    [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_REFRESH_ITEM];
+    tbIdentifiers[TB_INSTALLSOURCE_REFRESH_ITEM] = item;
     
     // delete is
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_INSTALLSOURCE_DELETE_ITEM];
@@ -113,7 +113,7 @@
     [item setImage:image];
     //[item setTarget:delegate];
     [item setAction:@selector(deleteInstallSourceTB:)];
-    [tbIdentifiers setObject:item forKey:TB_INSTALLSOURCE_DELETE_ITEM];
+    tbIdentifiers[TB_INSTALLSOURCE_DELETE_ITEM] = item;
 
     // preview tasks
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TASK_PREVIEW_ITEM];
@@ -124,7 +124,7 @@
     [item setImage:image];
     //[item setTarget:delegate];
     [item setAction:@selector(previewTasksTB:)];
-    [tbIdentifiers setObject:item forKey:TB_TASK_PREVIEW_ITEM];
+    tbIdentifiers[TB_TASK_PREVIEW_ITEM] = item;
     
     // preview tasks
     item = [[NSToolbarItem alloc] initWithItemIdentifier:TB_TASK_PROCESS_ITEM];
@@ -135,13 +135,13 @@
     [item setImage:image];
     //[item setTarget:delegate];
     [item setAction:@selector(processTasksTB:)];
-    [tbIdentifiers setObject:item forKey:TB_TASK_PROCESS_ITEM];
+    tbIdentifiers[TB_TASK_PROCESS_ITEM] = item;
     
     // add std items
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarFlexibleSpaceItemIdentifier];
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSpaceItemIdentifier];
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarSeparatorItemIdentifier];
-    [tbIdentifiers setObject:[NSNull null] forKey:NSToolbarPrintItemIdentifier];
+    tbIdentifiers[NSToolbarFlexibleSpaceItemIdentifier] = [NSNull null];
+    tbIdentifiers[NSToolbarSpaceItemIdentifier] = [NSNull null];
+    tbIdentifiers[NSToolbarSeparatorItemIdentifier] = [NSNull null];
+    tbIdentifiers[NSToolbarPrintItemIdentifier] = [NSNull null];
     
     [self setupToolbar];
 }
@@ -190,17 +190,16 @@
  \brief returns array with all default toolbar item identifiers
  */
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-	NSArray *defaultItemArray = [NSArray arrayWithObjects:
-                                 TB_SYNC_ISLIST_ITEM,
-                                 TB_INSTALLSOURCE_ADD_ITEM,
-                                 TB_INSTALLSOURCE_DELETE_ITEM,
-                                 TB_INSTALLSOURCE_EDIT_ITEM,
-                                 TB_INSTALLSOURCE_REFRESH_ITEM,
-                                 NSToolbarSeparatorItemIdentifier,
-                                 TB_TASK_PREVIEW_ITEM,
-                                 TB_TASK_PROCESS_ITEM,
-                                 NSToolbarFlexibleSpaceItemIdentifier,
-                                 nil];
+	NSArray *defaultItemArray = @[
+            TB_SYNC_ISLIST_ITEM,
+            TB_INSTALLSOURCE_ADD_ITEM,
+            TB_INSTALLSOURCE_DELETE_ITEM,
+            TB_INSTALLSOURCE_EDIT_ITEM,
+            TB_INSTALLSOURCE_REFRESH_ITEM,
+            NSToolbarSeparatorItemIdentifier,
+            TB_TASK_PREVIEW_ITEM,
+            TB_TASK_PROCESS_ITEM,
+            NSToolbarFlexibleSpaceItemIdentifier];
 	
 	return defaultItemArray;
 }

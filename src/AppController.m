@@ -1,7 +1,6 @@
 
 #import "AppController.h"
 #import <ObjCSword/SwordUtil.h>
-#import <ObjCSword/FilterProviderFactory.h>
 #import "MBPreferenceController.h"
 #import "HostableViewController.h"
 #import "WindowHostController.h"
@@ -91,10 +90,10 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         path = [path stringByAppendingPathComponent:APPNAME];
         // check if dir for application exists
         NSFileManager *manager = [NSFileManager defaultManager];
-        if([manager fileExistsAtPath:path] == NO) {
+        if(![manager fileExistsAtPath:path]) {
             CocoLog(LEVEL_INFO, @"path to Eloquent does not exist, creating it!");
             // create APP dir
-            if([manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
+            if(![manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL]) {
                 CocoLog(LEVEL_ERR,@"Cannot create Eloquent folder in Application Support!");
                 ret = NO;
             }
@@ -104,9 +103,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         if(ret) {
             // create IndexFolder folder
             NSString *indexPath = [path stringByAppendingPathComponent:@"Index"];
-            if([manager fileExistsAtPath:indexPath] == NO) {
+            if(![manager fileExistsAtPath:indexPath]) {
                 CocoLog(LEVEL_INFO, @"path to IndexFolder does not exist, creating it!");
-                if([manager createDirectoryAtPath:indexPath withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
+                if(![manager createDirectoryAtPath:indexPath withIntermediateDirectories:NO attributes:nil error:NULL]) {
                     CocoLog(LEVEL_ERR,@"Cannot create index folder in Application Support!");
                 }
             }
@@ -116,9 +115,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
             
             // create default modules folder which is Sword
             path = DEFAULT_NOTES_PATH;
-            if([manager fileExistsAtPath:path] == NO) {
+            if(![manager fileExistsAtPath:path]) {
                 CocoLog(LEVEL_INFO, @"path to notes does not exist, creating it!");
-                if([manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
+                if(![manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL]) {
                     CocoLog(LEVEL_ERR,@"Cannot create notes folder in Application Support!");
                 }
             }
@@ -129,18 +128,18 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         
         // create default modules folder which is Sword
         path = DEFAULT_MODULE_PATH;
-        if([manager fileExistsAtPath:path] == NO) {
+        if(![manager fileExistsAtPath:path]) {
             CocoLog(LEVEL_INFO, @"path to swmodules does not exist, creating it!");
-            if([manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
+            if(![manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL]) {
                 CocoLog(LEVEL_ERR,@"Cannot create swmodules folder in Application Support!");
                 ret = NO;
             }
             
             // check for "mods.d" folder
             NSString *modsFolder = [path stringByAppendingPathComponent:@"mods.d"];
-            if([manager fileExistsAtPath:modsFolder] == NO) {
+            if(![manager fileExistsAtPath:modsFolder]) {
                 // create it
-                if([manager createDirectoryAtPath:modsFolder withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
+                if(![manager createDirectoryAtPath:modsFolder withIntermediateDirectories:NO attributes:nil error:NULL]) {
                     CocoLog(LEVEL_ERR, @"Could not create mods.d folder!");
                 }
             }            
@@ -153,9 +152,9 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
         if(ret) {
             // create InstallMgr folder
             NSString *installMgrPath = [path stringByAppendingPathComponent:SWINSTALLMGR_NAME];
-            if([manager fileExistsAtPath:installMgrPath] == NO) {
+            if(![manager fileExistsAtPath:installMgrPath]) {
                 CocoLog(LEVEL_INFO, @"path to installmgr does not exist, creating it!");
-                if([manager createDirectoryAtPath:installMgrPath withIntermediateDirectories:NO attributes:nil error:NULL] == NO) {
+                if(![manager createDirectoryAtPath:installMgrPath withIntermediateDirectories:NO attributes:nil error:NULL]) {
                     CocoLog(LEVEL_ERR,@"Cannot create installmgr folder in Application Support!");
                     ret = NO;
                 }                
@@ -243,7 +242,7 @@ static AppController *singleton;
         [[FilterProviderFactory providerFactory] initWithImpl:[[EloquentFilterProvider alloc] init]];
         SwordManager *sm = [SwordManager defaultManager];
         
-        // check for installed modules, if there are none add our internal module path so that th user at least has one module (ESV)
+        // check for installed modules, if there are none add our internal module path so that th user at least has one module (KJV)
         if([[sm modules] count] == 0) {
             [self addInternalModules];
         }
@@ -257,7 +256,7 @@ static AppController *singleton;
         // make available all cipher keys to SwordManager
         NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
         for(NSString *modName in cipherKeys) {
-            NSString *key = [cipherKeys objectForKey:modName];
+            NSString *key = cipherKeys[modName];
             [sm setCipherKey:key forModuleNamed:modName];
         }
         
@@ -351,7 +350,7 @@ static AppController *singleton;
         CocoLog(LEVEL_DEBUG, @"filename: %@", filename);
                 
         NSString *moduleFilename = [filename lastPathComponent];
-        NSString *moduleName = [[moduleFilename componentsSeparatedByString:@".swd"] objectAtIndex:0];
+        NSString *moduleName = [moduleFilename componentsSeparatedByString:@".swd"][0];
         CocoLog(LEVEL_DEBUG, @"Have module name: %@", moduleName);
         
         SwordManager *swMgr = [SwordManager defaultManager];
@@ -372,20 +371,20 @@ static AppController *singleton;
                 CocoLog(LEVEL_DEBUG, @"User chose to permanently use this module.");
                 destinationPath = [DEFAULT_MODULE_PATH stringByAppendingPathComponent:moduleFilename];
 
-                CocoLog(LEVEL_DEBUG, [NSString stringWithFormat:@"Copying module %@ to %@", filename, destinationPath]); 
+                CocoLog(LEVEL_DEBUG, @"Copying module %@ to %@", filename, destinationPath);
                 NSFileManager *fm = [NSFileManager defaultManager];
                 [fm copyItemAtPath:filename toPath:destinationPath error:nil];
             }
             // augment module
-            CocoLog(LEVEL_DEBUG, [NSString stringWithFormat:@"Augmenting module at: %@", destinationPath]);
+            CocoLog(LEVEL_DEBUG, @"Augmenting module at: %@", destinationPath);
             [swMgr addModulesPath:destinationPath];
             // open single window
             SwordModule *mod = [swMgr moduleWithName:moduleName];
             if(mod) {
-                CocoLog(LEVEL_DEBUG, [NSString stringWithFormat:@"Opening module with name %@ in single window...", [mod name]]);
+                CocoLog(LEVEL_DEBUG, @"Opening module with name %@ in single window...", [mod name]);
                 [self openSingleHostWindowForModule:mod];                
             } else {
-                CocoLog(LEVEL_WARN, [NSString stringWithFormat:@"Could not retrieve module with name: %@", moduleName]);
+                CocoLog(LEVEL_WARN, @"Could not retrieve module with name: %@", moduleName);
             }
         }
     }
@@ -398,8 +397,8 @@ static AppController *singleton;
 	CocoLog(LEVEL_DEBUG, @"handling URL event for: %@", urlString);
 
     NSDictionary *linkData = [SwordUtil dictionaryFromUrl:[NSURL URLWithString:urlString]];
-    NSString *moduleName = [linkData objectForKey:ATTRTYPE_MODULE];
-    NSString *passage = [linkData objectForKey:ATTRTYPE_VALUE];
+    NSString *moduleName = linkData[ATTRTYPE_MODULE];
+    NSString *passage = linkData[ATTRTYPE_VALUE];
 
     CocoLog(LEVEL_DEBUG, @"have module: %@", moduleName);
     CocoLog(LEVEL_DEBUG, @"have passage: %@", passage);
@@ -617,7 +616,7 @@ static AppController *singleton;
     
     // check for module name
     NSString *modName = [createModuleNameTextField stringValue];
-    if([[[SwordManager defaultManager] modules] objectForKey:modName] != nil) {
+    if([[SwordManager defaultManager] modules][modName] != nil) {
         // module exists already
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ModuleNameExists", @"") 
                                          defaultButton:NSLocalizedString(@"OK", @"") 

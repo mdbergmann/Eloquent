@@ -33,7 +33,7 @@
 - (SwordVerseKey *)initWithRef:(NSString *)aRef;
 - (SwordVerseKey *)initWithRef:(NSString *)aRef v11n:(NSString *)scheme;
 
-- (int)index;
+- (long)index;
 - (int)testament;
 - (void)setTestament:(char)val;
 - (int)book;

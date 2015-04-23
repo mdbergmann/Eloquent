@@ -16,29 +16,13 @@ typedef enum _InstallSourceListObjectType {
     TypeModuleType
 }InstallSourceListObjectType;
 
-@interface InstallSourceListObject : NSObject {
+@interface InstallSourceListObject : NSObject
 
-    SwordInstallSource *installSource;
-    NSString *moduleType;
-    InstallSourceListObjectType objectType;
-    
-    NSArray *subInstallSources;
-}
+@property (strong, readwrite) SwordInstallSource *installSource;
+@property (readwrite) InstallSourceListObjectType objectType;
+@property (strong, readwrite) NSString *moduleType;
+@property (strong, readwrite) NSArray *subInstallSources;
 
-// -------------- getter / setter -----------------
-- (SwordInstallSource *)installSource;
-- (void)setInstallSource:(SwordInstallSource *)value;
-
-- (NSString *)moduleType;
-- (void)setModuleType:(NSString *)value;
-
-- (InstallSourceListObjectType)objectType;
-- (void)setObjectType:(InstallSourceListObjectType)value;
-
-- (NSArray *)subInstallSources;
-- (void)setSubInstallSources:(NSArray *)value;
-
-// ------------------ methods -----------------
 /** convenient allocator */
 + (InstallSourceListObject *)installSourceListObjectForType:(InstallSourceListObjectType)type;
 

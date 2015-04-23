@@ -18,9 +18,9 @@
 @property (readwrite) NSString *langFilter;
 
 /** we store a retained copy of the selected install sources */
-@property (readwrite) NSArray *installSources;
+@property (strong, readwrite) NSArray *installSources;
 
-@property (readwrite, strong) IBOutlet id delegate;
+@property (strong, readwrite) IBOutlet id delegate;
 
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList;

@@ -47,19 +47,6 @@
     // the module list view controller
     IBOutlet ModuleListViewController *modListViewController;
     
-    // any delegate
-    IBOutlet id __strong delegate;
-    
-    /** the selected install sources */
-    NSArray *selectedInstallSources;
-    
-    /** dictionaries that hold things to be installed/removed/updated (first remove, then update) */
-    NSMutableDictionary *installDict;
-    NSMutableDictionary *removeDict;
-    
-    /** the array used for display in outline view */
-    NSMutableArray *installSourceListObjects;
-    
     int editingMode;
     
     // initialized?
@@ -68,7 +55,6 @@
 
 @property (strong, readwrite) IBOutlet id delegate;
 @property (strong, readwrite) IBOutlet NSWindow *parentWindow;
-@property (strong, readwrite) NSArray *selectedInstallSources;
 
 + (NSURL *)fileOpenDialog;
 

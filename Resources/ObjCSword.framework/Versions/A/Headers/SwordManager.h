@@ -109,17 +109,12 @@
     SwordFilter *thmlStripFilter, *gbfStripFilter, *osisStripFilter, *teiStripFilter;
 #endif
 
-	NSDictionary *modules;
-    NSString *modulesPath;
-	NSLock *managerLock;
-    BOOL temporaryManager;
 }
 
 // ------------------- getter / setter -------------------
-@property (strong, readwrite) NSDictionary *modules;
+@property (strong, readonly) NSDictionary *modules;
 @property (strong, readwrite) NSString *modulesPath;
 @property (strong, readwrite) NSLock *managerLock;
-@property (readwrite) BOOL temporaryManager;
 
 // --------------------- methods -----------------------
 

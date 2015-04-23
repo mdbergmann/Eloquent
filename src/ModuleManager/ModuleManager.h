@@ -11,12 +11,8 @@
 @class ModuleManageViewController;
 
 @interface ModuleManager : NSWindowController <NSToolbarDelegate> {
-
     // the module view controller
     ModuleManageViewController *moduleViewController;
-    
-    // delegate
-    id __strong delegate;
     
 	// we need a dictionary for all our toolbar identifiers
 	NSMutableDictionary *tbIdentifiers;

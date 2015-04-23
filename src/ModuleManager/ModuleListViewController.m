@@ -15,9 +15,9 @@
 #define TABLECOL_IDENTIFIER_TASK @"task"
 
 @interface ModuleListViewController ()
-@property (readwrite) NSMutableDictionary *languageMap;
-@property (readwrite) NSMutableArray *moduleData;
-@property (readwrite) NSMutableArray *moduleSelection;
+@property (strong, readwrite) NSMutableDictionary *languageMap;
+@property (strong, readwrite) NSArray *moduleData;
+@property (strong, readwrite) NSMutableArray *moduleSelection;
 @end
 
 
@@ -27,7 +27,7 @@
     self = [super init];
     if(self) {
         self.installSources = [NSArray array];
-        self.moduleData = [NSMutableArray array];
+        self.moduleData = [NSArray array];
         self.moduleSelection = [NSMutableArray array];
         self.languageMap = [NSMutableDictionary dictionary];
         [self setLangFilter:NSLocalizedString(@"All", @"")];
@@ -43,15 +43,11 @@
 }
 
 - (ModuleListObject *)moduleObjectForClickedRow {
-    ModuleListObject *ret = nil;
-
-    int clickedRow = [moduleOutlineView clickedRow];
+    NSInteger clickedRow = [moduleOutlineView clickedRow];
     if(clickedRow >= 0) {
-        // get row
-        ret = [moduleOutlineView itemAtRow:clickedRow];
+        return [moduleOutlineView itemAtRow:clickedRow];
     }
-
-    return ret;
+    return nil;
 }
 
 - (void)updateModuleSelection {
@@ -76,16 +72,16 @@
     NSLocale *loc = [NSLocale systemLocale];
 
     // available module languages
-    [self.languageMap setObject:NSLocalizedString(@"All", @"") forKey:NSLocalizedString(@"All", @"")];
+    self.languageMap[NSLocalizedString(@"All", @"")] = NSLocalizedString(@"All", @"");
     for(ModuleListObject *lo in self.moduleData) {
         SwordModule *mod = [lo module];
 
         NSString *langString = [loc displayNameForKey:NSLocaleIdentifier value:[mod lang]];
         if(langString != nil) {
-            [self.languageMap setObject:langString forKey:[mod lang]];
+            self.languageMap[[mod lang]] = langString;
         } else {
             // add the iso code itself
-            [self.languageMap setObject:[mod lang] forKey:[mod lang]];
+            self.languageMap[[mod lang]] = [mod lang];
         }
     }
 }
@@ -98,36 +94,26 @@
     for(NSString *lang in list) {
         [languagesButton addItemWithTitle:lang];
     }
-
     [languagesButton selectItemWithTitle:[self langFilter]];
 }
 
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList {
-    // prepare the module data for display
-    
-    // get SwordInstallSourceController
     SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
-    // get default Sword Manager
-    SwordManager *sw = [SwordManager defaultManager];
-    
-    // clear module data
-    [self.moduleData removeAllObjects];
-    
-    // we have the install sources here and the modules have the state information
+    SwordManager *sm = [SwordManager defaultManager];
+
+    NSMutableArray *arr = [NSMutableArray array];
+
     for(InstallSourceListObject *listObject in self.installSources) {
-        
-        // get install Source
         SwordInstallSource *is = [listObject installSource];
         
         // compare install source modules with sword manager modules to get state info
-        NSArray *modList = [sis moduleStatusInInstallSource:is baseManager:sw];        
+        NSArray *modList = [sis moduleStatusInInstallSource:is baseManager:sm];
         // loop over module list
         for(SwordModule *mod in modList) {
-
             // check for language filter
             if([[self langFilter] isEqualToString:NSLocalizedString(@"All", @"")] ||
-               [[self langFilter] isEqualToString:[self.languageMap objectForKey:[mod lang]]]) {
+                    [[self langFilter] isEqualToString:self.languageMap[[mod lang]]]) {
 
                 // check for module type
                 if(([listObject objectType] == TypeInstallSource) || 
@@ -136,14 +122,14 @@
                     ModuleListObject *buf = [[ModuleListObject alloc] init];
                     [buf setModule:mod];
                     [buf setInstallSource:is];
-                    // add ModuleListObject to moduleData array
-                    [self.moduleData addObject:buf];
-                }                
+                    [arr addObject:buf];
+                }
             }
         }
     }
     [self refreshLanguages];
-    
+
+    self.moduleData = arr;
     [moduleOutlineView reloadData];
 }
 
@@ -158,7 +144,7 @@
     }
     
     BOOL ret = NO;
-    int selectedModuleCount = [self.moduleSelection count];
+    NSInteger selectedModuleCount = [self.moduleSelection count];
 	if(selectedModuleCount > 1) {
 		ret = YES;
 	} else {
@@ -172,7 +158,7 @@
 		// module being selected.
 		accessedObj = [self moduleObjectForClickedRow];	
 		if(selectedModuleCount == 1) {
-			selectedObj = [self.moduleSelection objectAtIndex:0];
+			selectedObj = self.moduleSelection[0];
 		}
 		
 		modObj = (selectedObj == accessedObj ? selectedObj : accessedObj);
@@ -183,7 +169,7 @@
 			
 			CocoLog(LEVEL_DEBUG, @"selected module: %x", (unsigned int)modObj);
 			
-			int tag = [menuItem tag];
+			NSInteger tag = [menuItem tag];
 			
 			if(tag == TaskInstall) {
 				// install should only be active if it is not installed
@@ -389,26 +375,17 @@
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    int count = 0;
-	
 	if(item == nil) {
-        count = [self.moduleData count];
+        return [self.moduleData count];
 	}
-	
-	return count;
+	return 0;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    
-    // we only have modules here
-    NSDictionary *ret = nil;
-    
 	if(item == nil) {
-        // number of root items
-        ret = [self.moduleData objectAtIndex:(NSUInteger)index];
+        return self.moduleData[(NSUInteger) index];
 	}
-
-    return ret;
+    return nil;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
@@ -430,13 +407,13 @@
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODCIPHERED]) {
         if(([[mod module] status] & ModStatCiphered) == ModStatCiphered) {
-            ret = [NSNumber numberWithBool:YES];
+            ret = @YES;
         } else {
-            ret = [NSNumber numberWithBool:NO];
+            ret = @NO;
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_TASK]) {
         // for the cell we return the index number
-        ret = [NSNumber numberWithInt:[mod taskId]];
+        ret = @([mod taskId]);
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODTYPE]) {
         ret = [[mod module] typeString];
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODRVERSION]) {
@@ -474,7 +451,9 @@
 
 - (void)outlineView:(NSOutlineView *)outlineView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
     NSArray *newDescriptors = [outlineView sortDescriptors];
-    [self.moduleData sortUsingDescriptors:newDescriptors];
+    NSMutableArray *arr = [self.moduleData mutableCopy];
+    [arr sortUsingDescriptors:newDescriptors];
+    self.moduleData = arr;
     [moduleOutlineView reloadData];    
 }
 

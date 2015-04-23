@@ -19,24 +19,12 @@ typedef enum _ModuleTaskId {
     TaskUpdate
 }ModuleTaskId;
 
-@interface ModuleListObject : NSObject {
+@interface ModuleListObject : NSObject
 
-    SwordModule *module;
-    SwordInstallSource *installSource;
-    ModuleTaskId taskId;
-}
+@property (strong, readwrite) SwordModule *module;
+@property (strong, readwrite) SwordInstallSource *installSource;
+@property (readwrite) ModuleTaskId taskId;
 
-// ------------- getter / setter -------------
-- (SwordModule *)module;
-- (void)setModule:(SwordModule *)value;
-
-- (SwordInstallSource *)installSource;
-- (void)setInstallSource:(SwordInstallSource *)value;
-
-- (ModuleTaskId)taskId;
-- (void)setTaskId:(ModuleTaskId)value;
-
-// --------------- methods --------------
 - (NSString *)moduleName;
 - (NSString *)moduleTypeString;
 - (NSInteger)moduleStatus;

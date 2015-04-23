@@ -30,8 +30,7 @@
 #define SWPOS_TOP      1
 
 
-@class SwordManager, SwordModuleTextEntry, SwordKey;
-@class SwordFilter;
+@class SwordManager, SwordModuleTextEntry, SwordKey, SwordFilter;
 
 typedef enum {
     TextTypeStripped = 1,
@@ -65,21 +64,8 @@ typedef enum {
 
 @interface SwordModule : NSObject {
     
-    NSMutableDictionary *configEntries;
-	ModuleType type;
 	ModuleCategory category;
-    int status;
-	SwordManager *swManager;	
-	NSRecursiveLock *moduleLock;
-    NSLock *indexLock;
-    
-    /** we store the name separately */
-    NSString *typeString;
-    NSString *name;
-    NSString *descr;
-    NSString *lang;
 
-    
     /** yes, we have a delegate to report any action to */
     id delegate;
 
@@ -91,15 +77,10 @@ typedef enum {
 // ------------- properties ---------------
 @property (readwrite) ModuleType type;
 @property (readwrite) int status;
-@property (strong, readwrite) NSRecursiveLock *moduleLock;
-@property (strong, readwrite) NSLock *indexLock;
 @property (strong, readwrite) SwordManager *swManager;
-
-// swmodule properties
-@property (strong, readonly) NSString *name;
-@property (strong, readonly) NSString *typeString;
-@property (strong, readonly) NSString *descr;
-@property (strong, readonly) NSString *lang;
+@property (strong, readwrite) NSLock *indexLock;
+@property (strong, readwrite) NSRecursiveLock *moduleLock;
+@property (strong, readwrite) NSMutableDictionary *configEntries;
 
 #ifdef __cplusplus
 
@@ -166,8 +147,16 @@ typedef enum {
  */
 - (NSInteger)error;
 
-// --------------- Conf entries --------------
+/** module name */
+- (NSString *)name;
+/** module description */
+- (NSString *)descr;
+/** module language */
+- (NSString *)lang;
+/** module type string */
+- (NSString *)typeString;
 
+// --------------- Conf entries --------------
 /**
  Module category as string
  */

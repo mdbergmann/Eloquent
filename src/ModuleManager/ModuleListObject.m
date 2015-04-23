@@ -11,52 +11,14 @@
 
 @implementation ModuleListObject
 
-// ------------------ getter / setter -----------------
-- (SwordModule *)module {
-    return module;
-}
-
-- (void)setModule:(SwordModule *)value {
-    if (module != value) {
-        module = value;
-    }
-}
-
-- (SwordInstallSource *)installSource {
-    return installSource;
-}
-
-- (void)setInstallSource:(SwordInstallSource *)value {
-    if (installSource != value) {
-        installSource = value;
-    }
-}
-
-- (ModuleTaskId)taskId {
-    return taskId;
-}
-
-- (void)setTaskId:(ModuleTaskId)value {
-    taskId = value;
-}
-
-// ------------------ methods -----------------
-
-- (void)dealloc {
-    [self setModule:nil];
-    [self setInstallSource:nil];
-    
-}
-
-
 - (NSString *)moduleName {
-    return [module name];
+    return [self.module name];
 }
 - (NSString *)moduleTypeString {
-    return [module typeString];
+    return [self.module typeString];
 }
 - (NSInteger)moduleStatus {
-    return [module status];
+    return [self.module status];
 }
 
 @end

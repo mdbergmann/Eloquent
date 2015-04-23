@@ -95,11 +95,11 @@ NSString *EloquentIndexVersion = @"1.0";
 }
 
 - (void)deleteSKSearchIndex {
-    [indexLock lock];
+    [self.indexLock lock];
 	if([self hasSKSearchIndex]) {
 		[[IndexingManager sharedManager] removeIndexForModuleName:[self name]];
 	}    
-    [indexLock unlock];
+    [self.indexLock unlock];
 }
 
 - (void)createSKSearchIndex {
@@ -107,7 +107,7 @@ NSString *EloquentIndexVersion = @"1.0";
 }
 
 - (void)createSKSearchIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-    [indexLock lock];
+    [self.indexLock lock];
     
 	// get Indexer
     Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] 
@@ -149,7 +149,7 @@ NSString *EloquentIndexVersion = @"1.0";
         }
         delegate = nil;
     }
-    [indexLock unlock];
+    [self.indexLock unlock];
 }
 
 - (void)createSKSearchIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator {
@@ -189,7 +189,7 @@ NSString *EloquentIndexVersion = @"1.0";
         [[indexer progressIndicator] setProgressIndeterminate:NO];
     }
     
-    [moduleLock lock];
+    [self.moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
 		@autoreleasepool {
@@ -232,7 +232,7 @@ NSString *EloquentIndexVersion = @"1.0";
             [[indexer progressIndicator] incrementProgressBy:1.0];
         }
     }
-    [moduleLock unlock];
+    [self.moduleLock unlock];
 
 	[self setProcessEntryAttributes:savePEA];
 }
@@ -248,7 +248,7 @@ NSString *EloquentIndexVersion = @"1.0";
         [[indexer progressIndicator] setProgressIndeterminate:NO];
     }
 
-    [moduleLock lock];
+    [self.moduleLock lock];
     for(SwordBibleBook *bb in [self bookList]) {
         
 		@autoreleasepool {
@@ -264,7 +264,7 @@ NSString *EloquentIndexVersion = @"1.0";
                 ref = [lk keyText];
                 stripped = [self strippedText];
                 
-                NSDictionary *properties = [NSDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
+                NSDictionary *properties = @{IndexPropSwordKeyString : ref};
                 NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
                 if(stripped && [stripped length] > 0) {
                     [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
@@ -282,7 +282,7 @@ NSString *EloquentIndexVersion = @"1.0";
     // reset key
     [self setKeyString:@"gen"];
 
-    [moduleLock unlock];
+    [self.moduleLock unlock];
 }
 
 @end
@@ -302,7 +302,7 @@ NSString *EloquentIndexVersion = @"1.0";
             NSString *entry = [self entryForKey:key];
             
             if(entry != nil) {
-                NSDictionary *properties = [NSDictionary dictionaryWithObject:key forKey:IndexPropSwordKeyString];            
+                NSDictionary *properties = @{IndexPropSwordKeyString : key};
                 if([entry length] > 0) {
                     NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", key, entry];
                     [indexer addDocument:key text:indexContent textType:ContentTextType storeDict:properties];                
@@ -338,12 +338,12 @@ NSString *EloquentIndexVersion = @"1.0";
         NSArray *strippedArray = [self strippedTextEntriesForRef:key];
         if(strippedArray != nil) {
             // get content
-            NSString *stripped = [(SwordModuleTextEntry *)[strippedArray objectAtIndex:0] text];
+            NSString *stripped = [(SwordModuleTextEntry *) strippedArray[0] text];
             // define properties
             NSMutableDictionary *propDict = [NSMutableDictionary dictionaryWithCapacity:2];
             // additionally save content
             //[propDict setObject:stripped forKey:IndexPropSwordKeyContent];
-            [propDict setObject:key forKey:IndexPropSwordKeyString];
+            propDict[IndexPropSwordKeyString] = key;
             
             if([stripped length] > 0) {
                 // let's add the key also into the searchable content

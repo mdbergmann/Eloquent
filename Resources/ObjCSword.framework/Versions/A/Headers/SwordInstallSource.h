@@ -24,9 +24,6 @@
 #ifdef __cplusplus
     sword::InstallSource *swInstallSource;
 #endif
-    
-    /** the sword manager for this source */
-    SwordManager *swordManager;
 }
 
 // init
@@ -67,7 +64,6 @@
 
 /** Returns the SwordManager attached to this SwordInstallSourceController */
 - (SwordManager *)swordManager;
-- (void)setSwordManager:(SwordManager *)swManager;
 
 #ifdef __cplusplus
 - (sword::InstallSource *)installSource;
