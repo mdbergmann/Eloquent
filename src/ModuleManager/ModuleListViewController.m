@@ -127,10 +127,10 @@
             }
         }
     }
-    [self refreshLanguages];
-
     self.moduleData = arr;
     [moduleOutlineView reloadData];
+
+    [self refreshLanguages];
 }
 
 #pragma mark - Menu validation
