@@ -62,7 +62,7 @@
 /** list module types */
 - (NSArray *)listModuleTypes;
 
-/** Returns the SwordManager attached to this SwordInstallSourceController */
+/** Returns the SwordManager attached to this SwordInstallSource */
 - (SwordManager *)swordManager;
 
 #ifdef __cplusplus

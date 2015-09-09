@@ -295,7 +295,7 @@
         if([[SwordInstallSourceManager defaultManager] refreshMasterRemoteInstallSourceList] == 0) {
             [self refreshInstallSourceListObjects];
             [categoryOutlineView reloadData];
-        }    
+        }
         
         [ps stopProgressAnimation];
         [ps endSheet];        
@@ -433,19 +433,7 @@
             [alert runModal];
         }
 
-        // set selection to none and reload
-//        [modListViewController setInstallSources:[NSArray array]];
         [modListViewController refreshModulesList];
-
-        // the following lines are nonsense
-        // TODO: find better way for refreshing the module list.
-//        [self setSelectedInstallSources:[NSArray array]];
-//        [categoryOutlineView deselectAll:self];
-//        [categoryOutlineView reloadData];
-
-        // refresh install source list and reload
-//        [self refreshInstallSourceListObjects];
-//        [categoryOutlineView reloadData];
 
         [ps stopProgressAnimation];
         [ps endSheet];
