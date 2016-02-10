@@ -145,7 +145,18 @@
     }        
 }
 
-- (NSRange)rangeFromViewableFirstLineInTextView:(NSTextView *)theTextView lineRect:(NSRect *)lineRect {    
+- (NSString *)verseMarkerOfFirstLineOfTextView:(ScrollSynchronizableView *)syncView {
+    // all bible views display all verse keys whether they are empty or not. But we can search for the verse location
+    NSRect lineRect;
+    NSRange lineRange = [self rangeFromViewableFirstLineInTextView:[syncView textView] lineRect:&lineRect];
+    // try to get characters of textStorage
+    NSAttributedString *attrString = [[[syncView textView] textStorage] attributedSubstringFromRange:NSMakeRange(lineRange.location, lineRange.length)];
+    
+    // now, that we have the first line, extract the verse Marker
+    return [self verseMarkerInTextLine:attrString];
+}
+
+- (NSRange)rangeFromViewableFirstLineInTextView:(NSTextView *)theTextView lineRect:(NSRect *)lineRect {
     if([theTextView enclosingScrollView]) {
         NSLayoutManager *layoutManager = [theTextView layoutManager];
         NSRect visibleRect = [theTextView visibleRect];
@@ -222,17 +233,6 @@
     }
     
     return ret;
-}
-
-- (NSString *)verseMarkerOfFirstLineOfTextView:(ScrollSynchronizableView *)syncView {
-    // all bible views display all verse keys whether they are empty or not. But we can search for the verse location
-    NSRect lineRect;
-    NSRange lineRange = [self rangeFromViewableFirstLineInTextView:[syncView textView] lineRect:&lineRect];
-    // try to get characters of textStorage
-    NSAttributedString *attrString = [[[syncView textView] textStorage] attributedSubstringFromRange:NSMakeRange(lineRange.location, lineRange.length)];
-    
-    // now, that we have the first line, extract the verse Marker
-    return [self verseMarkerInTextLine:attrString];    
 }
 
 @end

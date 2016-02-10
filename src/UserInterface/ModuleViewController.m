@@ -232,6 +232,7 @@
             [self setProgressActionType:ReferenceLookupAction];
             [self setGlobalOptionsFromModOptions];
             [self handleDisplayForReference];
+            
         } else if(searchType == IndexSearchType) {
             [searchContentCache setReference:searchString];
             if(![module hasSKSearchIndex]) {

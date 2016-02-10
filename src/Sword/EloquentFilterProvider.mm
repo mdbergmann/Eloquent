@@ -10,7 +10,8 @@
 @implementation EloquentFilterProvider
 
 - (SwordFilter *)newOsisRenderFilter {
-    return [SwordOsisXHtmlFilter filter];
+    return [SwordOsisHtmlRefFilter filter];
+//    return [SwordOsisXHtmlFilter filter];
 }
 
 @end

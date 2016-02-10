@@ -104,7 +104,7 @@
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"\u200B" withString:@""];
     
     CocoLog(LEVEL_DEBUG, @"start generating attr string...");
-    [self applyString:htmlString];
+    [self applyString:htmlString];  // this will set tempDisplayString which will be used by the resulting methods
     CocoLog(LEVEL_DEBUG, @"start generating attr string...done");
     
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
@@ -280,7 +280,7 @@
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionIn:bibleBook forChapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
-                    [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
+                    [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];
                 }
             }
             if(!hideVerseNumbering) {
@@ -294,7 +294,7 @@
             if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionIn:bibleBook forChapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
-                    [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];                    
+                    [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];
                 }
             }
             if(isShowVerseNumbersOnly && !hideVerseNumbering) {
@@ -322,11 +322,11 @@
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
     [webPrefs setDefaultFontSize:[self customFontSize]];
+    
     [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
-    NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
-                                   size:[self customFontSize]];
+    NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] size:[self customFontSize]];
 
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
     tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
