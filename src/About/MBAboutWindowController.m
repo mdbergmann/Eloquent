@@ -20,9 +20,15 @@
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
     
     // set version
-    [versionLabel setStringValue:[NSString stringWithFormat:@"Version: %@/%@", 
+    [versionLabel setStringValue:[NSString stringWithFormat:@"Version: %@/%@ - %@",
                                   [infoPlist objectForKey:@"CFBundleShortVersionString"], 
-                                  [infoPlist objectForKey:@"CFBundleVersion"]]];
+                                  [infoPlist objectForKey:@"CFBundleVersion"],
+#ifdef APPSTORE
+                                  @"App Store version"
+#else
+                                  @"Standard version"
+#endif
+                                  ]];
     // set credit rtf text
     NSMutableString *resourcePath = [NSMutableString stringWithString:[[NSBundle mainBundle] resourcePath]];
     NSString *creditPath = [resourcePath stringByAppendingPathComponent:@"English.lproj/Credits.rtf"];

@@ -7,3 +7,4 @@ infoDict["CFBundleVersion"] = buildnumber
 #svs = "%s-%s" % [svs.split("-")[0], buildnumber]
 #infoDict["CFBundleShortVersionString"] = svs
 infoDict.writeToFile("./Info.plist", atomically: 1)
+infoDict.writeToFile("./Eloquent-AppStore-Info.plist", atomically: 1)

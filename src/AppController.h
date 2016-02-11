@@ -3,7 +3,10 @@
 #import <Cocoa/Cocoa.h>
 #import <CocoLogger/CocoLogger.h>
 #import <ObjCSword/ObjCSword.h>
+
+#ifndef APPSTORE
 #import <Sparkle/Sparkle.h>
+#endif
 
 @class SingleViewHostController;
 @class WorkspaceViewHostController;
@@ -78,9 +81,11 @@
 - (IBAction)openMacSwordHomePage:(id)sender;
 - (IBAction)openMacSwordForumPage:(id)sender;
 
+#ifndef APPSTORE
 // linking SWORD utils
 - (IBAction)linkSwordUtils:(id)sender;
 - (IBAction)unlinkSwordUtils:(id)sender;
+#endif
 
 // module creation
 - (IBAction)createCommentaryOk:(id)sender;
@@ -90,7 +95,7 @@
 - (void)hostClosing:(NSWindowController *)aHost;
 - (void)auxWindowClosing:(NSWindowController *)aController;
 
-#ifdef USE_SPARKLE
+#ifndef APPSTORE
 - (IBAction)checkForUpdates:(id)sender;
 #endif
 

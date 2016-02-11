@@ -134,6 +134,174 @@
 		A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
 		A939B89C10382C1F00CF2519 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
 		A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
+		A941DCC71C6D193900B7BAF7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A941DCC61C6D193900B7BAF7 /* Images.xcassets */; };
+		A941DCCB1C6D1A9E00B7BAF7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A941DCC61C6D193900B7BAF7 /* Images.xcassets */; };
+		A941DCCC1C6D1A9E00B7BAF7 /* Modules in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C9A237A2CF75CF21ED60 /* Modules */; };
+		A941DCCD1C6D1A9E00B7BAF7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C5BE0B11571CFED9A67F /* Credits.rtf */; };
+		A941DCCE1C6D1A9E00B7BAF7 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C98F600E66C5186FE43D /* dsa_pub.pem */; };
+		A941DCCF1C6D1A9E00B7BAF7 /* tb_sidebar_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C3CFF0379147B392D9F2 /* tb_sidebar_left.png */; };
+		A941DCD01C6D1A9E00B7BAF7 /* tb_sidebar_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C33EC04C814F5DFFF021 /* tb_sidebar_right.png */; };
+		A941DCD11C6D1A9E00B7BAF7 /* Eloquent.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD568A6D1350F225F820 /* Eloquent.icns */; };
+		A941DCD21C6D1A9E00B7BAF7 /* scopebar_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C9EABDA3A43AEBB43BDE /* scopebar_active.png */; };
+		A941DCD31C6D1A9E00B7BAF7 /* scopebar_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2AFC13F00593967C3F5 /* scopebar_inactive.png */; };
+		A941DCD41C6D1A9E00B7BAF7 /* edit_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C89E02C0DF83BADD9417 /* edit_small.png */; };
+		A941DCD51C6D1A9E00B7BAF7 /* Drawer.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C84D27BE7B6BC876D599 /* Drawer.png */; };
+		A941DCD61C6D1A9E00B7BAF7 /* SplitViewDividerBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CA6003BDF8AE99755B17 /* SplitViewDividerBar.tiff */; };
+		A941DCD71C6D1A9E00B7BAF7 /* SplitViewDividerDimple.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD3599DFF8622485FC5C /* SplitViewDividerDimple.tiff */; };
+		A941DCD81C6D1A9E00B7BAF7 /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF661E24BE786CECBAF2 /* ResizeControl.png */; };
+		A941DCD91C6D1A9E00B7BAF7 /* SidebarBottomGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C7542B22A064C357CAE5 /* SidebarBottomGradient.png */; };
+		A941DCDA1C6D1A9E00B7BAF7 /* groupbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CDD72BAF5E0FD879880E /* groupbookmark.tiff */; };
+		A941DCDB1C6D1A9E00B7BAF7 /* smallbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CE586B02A856A3078A29 /* smallbookmark.tiff */; };
+		A941DCDC1C6D1A9E00B7BAF7 /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CC94FF31566C02E58EC7 /* scopebar_gradient.png */; };
+		A941DCDD1C6D1A9E00B7BAF7 /* agt_add-to-autorun.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CE0E5FE5C4D03A05C40B /* agt_add-to-autorun.png */; };
+		A941DCDE1C6D1A9E00B7BAF7 /* bookmarks_list_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C5069737B8739DBD663E /* bookmarks_list_add.png */; };
+		A941DCDF1C6D1A9E00B7BAF7 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C4A14E611A588C1F114A /* ModuleManager.png */; };
+		A941DCE01C6D1A9E00B7BAF7 /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF4FCFCF71CA175A010B /* fifteenpieces.png */; };
+		A941DCE11C6D1A9E00B7BAF7 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C403BA56E297DB74DEB8 /* add.png */; };
+		A941DCE21C6D1A9E00B7BAF7 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2B9664C079021769DEF /* edit.png */; };
+		A941DCE31C6D1A9E00B7BAF7 /* editdelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CE3E37DA538A6D6EDEEA /* editdelete.png */; };
+		A941DCE41C6D1A9E00B7BAF7 /* exec.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CFD9DE6B81F6368059B8 /* exec.png */; };
+		A941DCE51C6D1A9E00B7BAF7 /* header_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C6ADCE1BFD8409E20B7C /* header_gradient.png */; };
+		A941DCE61C6D1A9E00B7BAF7 /* minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF216F8DBD38933D5B8C /* minus.tiff */; };
+		A941DCE71C6D1A9E00B7BAF7 /* plus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF51C9354E64B479201A /* plus.tiff */; };
+		A941DCE81C6D1A9E00B7BAF7 /* preview.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2B8C3D4401D4C0EE944 /* preview.png */; };
+		A941DCE91C6D1A9E00B7BAF7 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD48C3B862B17274F21B /* refresh.png */; };
+		A941DCEA1C6D1A9E00B7BAF7 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C6B4497EBF6D23C4659D /* reload.png */; };
+		A941DCEB1C6D1A9E00B7BAF7 /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2A50BA908A5122F8B3E /* remove.png */; };
+		A941DCEC1C6D1A9E00B7BAF7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CB036EDC40F782DF47E1 /* Localizable.strings */; };
+		A941DCED1C6D1A9E00B7BAF7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C30C2A20348F663677BE /* MainMenu.xib */; };
+		A941DCEE1C6D1A9E00B7BAF7 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C27E4FBF620FEE1B88D0 /* About.xib */; };
+		A941DCEF1C6D1A9E00B7BAF7 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C6DD56505A82EB2CFD9D /* ModuleManager.xib */; };
+		A941DCF01C6D1A9E00B7BAF7 /* ModuleManageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CA15128C67E2F2C1F1B8 /* ModuleManageView.xib */; };
+		A941DCF11C6D1A9E00B7BAF7 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CBDD3D526032CCB69FA9 /* ThreadedProgressSheet.xib */; };
+		A941DCF21C6D1A9E00B7BAF7 /* WindowHostToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C753DB3F14E0043AE37C /* WindowHostToolbar.xib */; };
+		A941DCF31C6D1A9E00B7BAF7 /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF56AEAAB4673EAFD1B1 /* SingleViewHost.xib */; };
+		A941DCF41C6D1A9E00B7BAF7 /* WorkspaceViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C51249E2F2AC81EEE0AA /* WorkspaceViewHost.xib */; };
+		A941DCF51C6D1A9E00B7BAF7 /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CEEC8B2FD9D949561D46 /* BibleCombiView.xib */; };
+		A941DCF61C6D1A9E00B7BAF7 /* BibleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CEE8F254DBEEE99F870C /* BibleView.xib */; };
+		A941DCF71C6D1A9E00B7BAF7 /* CommentaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C6775A0FFDB933CC2C2C /* CommentaryView.xib */; };
+		A941DCF81C6D1A9E00B7BAF7 /* DictionaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C85A3AC93A5B8C519FCF /* DictionaryView.xib */; };
+		A941DCF91C6D1A9E00B7BAF7 /* GenBookView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C301DACE47AC9D46A5AD /* GenBookView.xib */; };
+		A941DCFA1C6D1A9E00B7BAF7 /* ExtTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD0FDD69D90EBB5BEEA9 /* ExtTextView.xib */; };
+		A941DCFB1C6D1A9E00B7BAF7 /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C11528C396A97F85607E /* WebView.xib */; };
+		A941DCFC1C6D1A9E00B7BAF7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CEDA2F1AD331409D5B18 /* Preferences.xib */; };
+		A941DCFD1C6D1A9E00B7BAF7 /* LeftSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C447B4657CDEF224E8B4 /* LeftSideBarView.xib */; };
+		A941DCFE1C6D1A9E00B7BAF7 /* RightSideBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CB7FB431D458F69008D3 /* RightSideBarView.xib */; };
+		A941DCFF1C6D1A9E00B7BAF7 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF1F32449775E84BFE1B /* ConfirmationDialog.xib */; };
+		A941DD001C6D1A9E00B7BAF7 /* ProgressOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C04A0C310CD38240ED88 /* ProgressOverlayView.xib */; };
+		A941DD011C6D1A9E00B7BAF7 /* InitialInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C570AE3D25C4AB9CD648 /* InitialInfoView.xib */; };
+		A941DD021C6D1A9E00B7BAF7 /* SearchBookSetEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CA831E9076282E51F0A0 /* SearchBookSetEditor.xib */; };
+		A941DD031C6D1A9E00B7BAF7 /* NotesUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C39B40CE77873D065A22 /* NotesUI.xib */; };
+		A941DD041C6D1A9E00B7BAF7 /* NotesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C5DAE2673DAD5B39C3AF /* NotesView.xib */; };
+		A941DD051C6D1A9E00B7BAF7 /* BookmarkManagerUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C35EF2ED119332695B7A /* BookmarkManagerUI.xib */; };
+		A941DD061C6D1A9E00B7BAF7 /* ModuleListUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CC7CC85EDEF539D958E4 /* ModuleListUI.xib */; };
+		A941DD071C6D1A9E00B7BAF7 /* PrintAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CC68922C6768D2450629 /* PrintAccessory.xib */; };
+		A941DD081C6D1A9E00B7BAF7 /* DailyDevotion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C91BA01EE9E0DA62FBC7 /* DailyDevotion.xib */; };
+		A941DD091C6D1A9E00B7BAF7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C95BB12E8BD9C5C2AF4A /* InfoPlist.strings */; };
+		A941DD0B1C6D1A9E00B7BAF7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		A941DD0C1C6D1A9E00B7BAF7 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93DC0DF9B0E9006B7361 /* AppController.m */; };
+		A941DD0D1C6D1A9E00B7BAF7 /* Indexer.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F30DF9B149006B7361 /* Indexer.m */; };
+		A941DD0E1C6D1A9E00B7BAF7 /* IndexingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F50DF9B149006B7361 /* IndexingManager.m */; };
+		A941DD0F1C6D1A9E00B7BAF7 /* SearchResultEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F70DF9B149006B7361 /* SearchResultEntry.m */; };
+		A941DD101C6D1A9E00B7BAF7 /* InstallSourceListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93FC0DF9B149006B7361 /* InstallSourceListObject.m */; };
+		A941DD111C6D1A9E00B7BAF7 /* ModuleListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93FE0DF9B149006B7361 /* ModuleListObject.m */; };
+		A941DD121C6D1A9E00B7BAF7 /* ModuleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94000DF9B149006B7361 /* ModuleListViewController.m */; };
+		A941DD131C6D1A9E00B7BAF7 /* ModuleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94020DF9B149006B7361 /* ModuleManager.m */; };
+		A941DD141C6D1A9E00B7BAF7 /* ModuleManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C94040DF9B149006B7361 /* ModuleManageViewController.m */; };
+		A941DD151C6D1A9E00B7BAF7 /* MBThreadedProgressSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C941C0DF9B149006B7361 /* MBThreadedProgressSheetController.m */; };
+		A941DD161C6D1A9E00B7BAF7 /* BibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99055AB0E04273E00E8D7A2 /* BibleViewController.m */; };
+		A941DD171C6D1A9E00B7BAF7 /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
+		A941DD181C6D1A9E00B7BAF7 /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
+		A941DD191C6D1A9E00B7BAF7 /* BibleCombiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */; };
+		A941DD1A1C6D1A9E00B7BAF7 /* SingleViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A965162B0E06D0BD0058AA91 /* SingleViewHostController.m */; };
+		A941DD1B1C6D1A9E00B7BAF7 /* HostableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F184620E0811C8005F3B35 /* HostableViewController.m */; };
+		A941DD1C1C6D1A9E00B7BAF7 /* MBPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FD34200E0A70F6001287DD /* MBPreferenceController.m */; };
+		A941DD1D1C6D1A9E00B7BAF7 /* ScrollSynchronizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E821000E0B95C70020A64E /* ScrollSynchronizableView.m */; };
+		A941DD1E1C6D1A9E00B7BAF7 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
+		A941DD1F1C6D1A9E00B7BAF7 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
+		A941DD201C6D1A9E00B7BAF7 /* CommentaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */; };
+		A941DD211C6D1A9E00B7BAF7 /* HeaderImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A91A23010E61926800382F44 /* HeaderImageView.m */; };
+		A941DD221C6D1A9E00B7BAF7 /* DictionaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */; };
+		A941DD231C6D1A9E00B7BAF7 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
+		A941DD241C6D1A9E00B7BAF7 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
+		A941DD251C6D1A9E00B7BAF7 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2B0EADAE2800E58D1E /* Bookmark.m */; };
+		A941DD261C6D1A9E00B7BAF7 /* BookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E8BD2E0EADB01700E58D1E /* BookmarkManager.m */; };
+		A941DD271C6D1A9E00B7BAF7 /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810330EB4A6820066943B /* SideBarViewController.m */; };
+		A941DD281C6D1A9E00B7BAF7 /* LeftSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98810360EB4A9350066943B /* LeftSideBarViewController.m */; };
+		A941DD291C6D1A9E00B7BAF7 /* WindowHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D102580EC1ED0A0023FF23 /* WindowHostController.m */; };
+		A941DD2A1C6D1A9E00B7BAF7 /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
+		A941DD2B1C6D1A9E00B7BAF7 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
+		A941DD2C1C6D1A9E00B7BAF7 /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
+		A941DD2D1C6D1A9E00B7BAF7 /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
+		A941DD2E1C6D1A9E00B7BAF7 /* RightSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */; };
+		A941DD2F1C6D1A9E00B7BAF7 /* ThreeCellsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */; };
+		A941DD301C6D1A9E00B7BAF7 /* BookmarkDragItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */; };
+		A941DD311C6D1A9E00B7BAF7 /* ConfirmationSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C0F4220EFD67F700CFDF06 /* ConfirmationSheetController.m */; };
+		A941DD321C6D1A9E00B7BAF7 /* FakeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D4BB1D0EFEF74000A5AFF9 /* FakeModel.m */; };
+		A941DD331C6D1A9E00B7BAF7 /* NSButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F74DD40F1BA9A3000D3F3E /* NSButton+Color.m */; };
+		A941DD341C6D1A9E00B7BAF7 /* MBTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9623E5D0F34E412000E1F53 /* MBTextView.m */; };
+		A941DD351C6D1A9E00B7BAF7 /* NSImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D450C50F59884A001617B1 /* NSImage+Additions.m */; };
+		A941DD361C6D1A9E00B7BAF7 /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = A9000E210F6114D300F07F3E /* CTGradient.m */; };
+		A941DD371C6D1A9E00B7BAF7 /* GradientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9000E6D0F611BE700F07F3E /* GradientCell.m */; };
+		A941DD381C6D1A9E00B7BAF7 /* MBAboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B7441C0F646223001960B0 /* MBAboutWindowController.m */; };
+		A941DD391C6D1A9E00B7BAF7 /* FullScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */; };
+		A941DD3A1C6D1A9E00B7BAF7 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333AE00F6699110001BD38 /* ProgressOverlayViewController.m */; };
+		A941DD3B1C6D1A9E00B7BAF7 /* ProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9333B5C0F66CEC90001BD38 /* ProgressOverlayView.m */; };
+		A941DD3C1C6D1A9E00B7BAF7 /* ThickDividerSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = A987A34B0F6D59EC007E5EE1 /* ThickDividerSplitView.m */; };
+		A941DD3D1C6D1A9E00B7BAF7 /* ModuleCommonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A902D8D10F6E952600F994D2 /* ModuleCommonsViewController.m */; };
+		A941DD3E1C6D1A9E00B7BAF7 /* SearchBookSetEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E0E0F70EA5C00F6DA1F /* SearchBookSetEditorController.m */; };
+		A941DD3F1C6D1A9E00B7BAF7 /* SearchBookSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E500F71364A00F6DA1F /* SearchBookSet.m */; };
+		A941DD401C6D1A9E00B7BAF7 /* HostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A9266CFC0F882BC800BA1731 /* HostWindow.m */; };
+		A941DD411C6D1A9E00B7BAF7 /* WorkspaceHostWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */; };
+		A941DD421C6D1A9E00B7BAF7 /* InitialInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9ABF335107A2934005D6156 /* InitialInfoViewController.m */; };
+		A941DD431C6D1A9E00B7BAF7 /* NotesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A96103BB10B03B70007A9371 /* NotesManager.m */; };
+		A941DD441C6D1A9E00B7BAF7 /* BookmarksUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD75A10B1484C006F7A3B /* BookmarksUIController.m */; };
+		A941DD451C6D1A9E00B7BAF7 /* ModulesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FCD80F10B1B5A1006F7A3B /* ModulesUIController.m */; };
+		A941DD461C6D1A9E00B7BAF7 /* FileRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */; };
+		A941DD471C6D1A9E00B7BAF7 /* NotesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A773610B33802002EFD30 /* NotesUIController.m */; };
+		A941DD481C6D1A9E00B7BAF7 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A774310B33C7D002EFD30 /* NotesViewController.m */; };
+		A941DD491C6D1A9E00B7BAF7 /* ContentDisplayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BDB9EC10B3E9B600E8AD3C /* ContentDisplayingViewController.m */; };
+		A941DD4A1C6D1A9E00B7BAF7 /* LeftSideBarAccessoryUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */; };
+		A941DD4B1C6D1A9E00B7BAF7 /* NSTextView+LookupAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A974469310CFC08500438C5F /* NSTextView+LookupAdditions.m */; };
+		A941DD4C1C6D1A9E00B7BAF7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CFAE0A10D79B5D0096D0B7 /* NSMutableDictionary+ModuleDisplaySettings.m */; };
+		A941DD4D1C6D1A9E00B7BAF7 /* NSDictionary+ModuleDisplaySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CFAEA110D7B4C90096D0B7 /* NSDictionary+ModuleDisplaySettings.m */; };
+		A941DD4E1C6D1A9E00B7BAF7 /* CacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A965CEB2112C32C000F4E602 /* CacheObject.m */; };
+		A941DD4F1C6D1A9E00B7BAF7 /* NSAttributedString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9032E42112D6823009D6A02 /* NSAttributedString+Additions.m */; };
+		A941DD501C6D1A9E00B7BAF7 /* NSDictionary+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9032EAF112D7F6A009D6A02 /* NSDictionary+Additions.m */; };
+		A941DD511C6D1A9E00B7BAF7 /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9032ECD112D8323009D6A02 /* NSUserDefaults+Additions.m */; };
+		A941DD521C6D1A9E00B7BAF7 /* WindowHostController+SideBars.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9518112E8C1D00EC8B76 /* WindowHostController+SideBars.m */; };
+		A941DD531C6D1A9E00B7BAF7 /* WindowHostController+Fullscreen.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951B112E8DA000EC8B76 /* WindowHostController+Fullscreen.m */; };
+		A941DD541C6D1A9E00B7BAF7 /* ObjectAssociations.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A951E112E8E4B00EC8B76 /* ObjectAssociations.m */; };
+		A941DD551C6D1A9E00B7BAF7 /* BibleViewController+RightSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9682112ED53C00EC8B76 /* BibleViewController+RightSidebar.m */; };
+		A941DD561C6D1A9E00B7BAF7 /* BibleViewController+TextDisplayGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A9685112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m */; };
+		A941DD571C6D1A9E00B7BAF7 /* BibleCombiViewController+ViewSynchronisation.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A96A0112ED8F800EC8B76 /* BibleCombiViewController+ViewSynchronisation.m */; };
+		A941DD581C6D1A9E00B7BAF7 /* ContentDisplayingViewControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC591132951600E71D4E /* ContentDisplayingViewControllerFactory.m */; };
+		A941DD591C6D1A9E00B7BAF7 /* SearchTextFieldOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = A95CFC781132A9A100E71D4E /* SearchTextFieldOptions.m */; };
+		A941DD5A1C6D1A9E00B7BAF7 /* BookmarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C6C5A911394B6300A3850A /* BookmarkCell.m */; };
+		A941DD5B1C6D1A9E00B7BAF7 /* ToolbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98422E11144EF640001EED1 /* ToolbarController.m */; };
+		A941DD5C1C6D1A9E00B7BAF7 /* HUDToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A533FF114E62A300B015C5 /* HUDToolbarView.m */; };
+		A941DD5D1C6D1A9E00B7BAF7 /* PrintAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9EDA11F1150E24E004EC005 /* PrintAccessoryViewController.m */; };
+		A941DD5E1C6D1A9E00B7BAF7 /* WindowHostController+SplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A73AF111609C8500A4099D /* WindowHostController+SplitViewDelegate.m */; };
+		A941DD5F1C6D1A9E00B7BAF7 /* SwordModule+SearchKitIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = A918BA4211C67AF700024D84 /* SwordModule+SearchKitIndex.mm */; };
+		A941DD601C6D1A9E00B7BAF7 /* DailyDevotionPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A9206E1205A3E8008D7A64 /* DailyDevotionPanelController.m */; };
+		A941DD611C6D1A9E00B7BAF7 /* SwordModCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9591225120ECCC100C55528 /* SwordModCategory.m */; };
+		A941DD621C6D1A9E00B7BAF7 /* NSArray+TextEntryDuplicateRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = A9802A7512182E4A00F4EF70 /* NSArray+TextEntryDuplicateRemove.m */; };
+		A941DD631C6D1A9E00B7BAF7 /* SwordUrlProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = A97561ED12A2779000A7661B /* SwordUrlProtocol.m */; };
+		A941DD641C6D1A9E00B7BAF7 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A955E196142612B000357B6F /* WebViewController.m */; };
+		A941DD651C6D1A9E00B7BAF7 /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247E /* Session.m */; };
+		A941DD661C6D1A9E00B7BAF7 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542481 /* SessionManager.m */; };
+		A941DD671C6D1A9E00B7BAF7 /* EloquentFilterProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8C92C5FF138B87CC5DB94C51 /* EloquentFilterProvider.mm */; };
+		A941DD691C6D1A9E00B7BAF7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A941DD6A1C6D1A9E00B7BAF7 /* CocoLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; };
+		A941DD6B1C6D1A9E00B7BAF7 /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
+		A941DD6C1C6D1A9E00B7BAF7 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
+		A941DD6D1C6D1A9E00B7BAF7 /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; };
+		A941DD6F1C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; };
+		A941DD701C6D1A9E00B7BAF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9188E7510E0F401006DA14B /* Security.framework */; };
+		A941DD721C6D1A9E00B7BAF7 /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A941DD741C6D1A9E00B7BAF7 /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		A941DD751C6D1A9E00B7BAF7 /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		A941DD761C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
 		A945F5B219A21F5E00C618DD /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
@@ -227,6 +395,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		A941DD711C6D1A9E00B7BAF7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A941DD721C6D1A9E00B7BAF7 /* ObjCSword.framework in CopyFiles */,
+				A941DD741C6D1A9E00B7BAF7 /* CocoLogger.framework in CopyFiles */,
+				A941DD751C6D1A9E00B7BAF7 /* CocoPCRE.framework in CopyFiles */,
+				A941DD761C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9F61C8A0E0102D900C3A0EF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -423,6 +604,12 @@
 		A939B89B10382C1F00CF2519 /* WorkspaceHostWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorkspaceHostWindow.m; path = src/UserInterface/WorkspaceHostWindow.m; sourceTree = "<group>"; };
 		A93E7DF80ED69FAB007B0533 /* SearchTextObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTextObject.h; path = src/UserInterface/SearchTextObject.h; sourceTree = "<group>"; };
 		A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchTextObject.m; path = src/UserInterface/SearchTextObject.m; sourceTree = "<group>"; };
+		A941DCC61C6D193900B7BAF7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Eloquent/Images.xcassets; sourceTree = "<group>"; };
+		A941DD7C1C6D1A9E00B7BAF7 /* Eloquent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eloquent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A941DD7D1C6D1A9E00B7BAF7 /* Eloquent-AppStore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Eloquent-AppStore-Info.plist"; path = "/Users/mbergmann/Development/MySources/crosswire/Eloquent_MacOS/trunk/Eloquent-AppStore-Info.plist"; sourceTree = "<absolute>"; };
+		A941DD7E1C6D1DAE00B7BAF7 /* get_bundle_version.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = get_bundle_version.rb; sourceTree = "<group>"; };
+		A941DD7F1C6D1DAE00B7BAF7 /* increment_buildnumber.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = increment_buildnumber.rb; sourceTree = "<group>"; };
+		A941DD801C6D1DAE00B7BAF7 /* write_buildnumber.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = write_buildnumber.rb; sourceTree = "<group>"; };
 		A945CFCC0E1CA73C00FAC910 /* MouseTrackingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MouseTrackingScrollView.h; path = src/UserInterface/MouseTrackingScrollView.h; sourceTree = "<group>"; };
 		A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MouseTrackingScrollView.m; path = src/UserInterface/MouseTrackingScrollView.m; sourceTree = "<group>"; };
 		A94D66CE0EC2CFC9006A84CB /* WorkspaceViewHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorkspaceViewHostController.h; path = src/UserInterface/WorkspaceViewHostController.h; sourceTree = "<group>"; };
@@ -571,6 +758,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A941DD681C6D1A9E00B7BAF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A941DD691C6D1A9E00B7BAF7 /* Cocoa.framework in Frameworks */,
+				A941DD6A1C6D1A9E00B7BAF7 /* CocoLogger.framework in Frameworks */,
+				A941DD6B1C6D1A9E00B7BAF7 /* CocoPCRE.framework in Frameworks */,
+				A941DD6C1C6D1A9E00B7BAF7 /* WebKit.framework in Frameworks */,
+				A941DD6D1C6D1A9E00B7BAF7 /* ObjCSword.framework in Frameworks */,
+				A941DD6F1C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in Frameworks */,
+				A941DD701C6D1A9E00B7BAF7 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9D9F5170EAF151E0035222E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -625,6 +826,7 @@
 			children = (
 				8D1107320486CEB800E47090 /* Eloquent.app */,
 				A9D9F51A0EAF151E0035222E /* Tests.octest */,
+				A941DD7C1C6D1A9E00B7BAF7 /* Eloquent.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -632,6 +834,7 @@
 		29B97314FDCFA39411CA2CEA /* MacSword2 */ = {
 			isa = PBXGroup;
 			children = (
+				A941DCC61C6D193900B7BAF7 /* Images.xcassets */,
 				A9ADDA3E15E2D8F100675628 /* Eloquent.entitlements */,
 				A9D9F5260EAF15410035222E /* Tests */,
 				A91C93F80DF9B149006B7361 /* InstallerConsole */,
@@ -650,6 +853,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A9D9F51B0EAF151E0035222E /* Tests-Info.plist */,
+				A941DD7D1C6D1A9E00B7BAF7 /* Eloquent-AppStore-Info.plist */,
 			);
 			name = MacSword2;
 			sourceTree = "<group>";
@@ -657,6 +861,9 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A941DD7E1C6D1DAE00B7BAF7 /* get_bundle_version.rb */,
+				A941DD7F1C6D1DAE00B7BAF7 /* increment_buildnumber.rb */,
+				A941DD801C6D1DAE00B7BAF7 /* write_buildnumber.rb */,
 				A91C93E10DF9B0F8006B7361 /* globals.h */,
 				32CA4F630368D1EE00C91783 /* Eloquent_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -1149,6 +1356,26 @@
 			productReference = 8D1107320486CEB800E47090 /* Eloquent.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A941DCC81C6D1A9E00B7BAF7 /* Eloquent-AppStore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A941DD781C6D1A9E00B7BAF7 /* Build configuration list for PBXNativeTarget "Eloquent-AppStore" */;
+			buildPhases = (
+				A941DCC91C6D1A9E00B7BAF7 /* Resources */,
+				A941DD0A1C6D1A9E00B7BAF7 /* Sources */,
+				A941DD681C6D1A9E00B7BAF7 /* Frameworks */,
+				A941DD711C6D1A9E00B7BAF7 /* CopyFiles */,
+				A941DD771C6D1A9E00B7BAF7 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Eloquent-AppStore";
+			productInstallPath = "$(HOME)/Applications";
+			productName = MacSword2;
+			productReference = A941DD7C1C6D1A9E00B7BAF7 /* Eloquent.app */;
+			productType = "com.apple.product-type.application";
+		};
 		A9D9F5190EAF151E0035222E /* Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9D9F51E0EAF151F0035222E /* Build configuration list for PBXNativeTarget "Tests" */;
@@ -1174,11 +1401,19 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0720;
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Crosswire;
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
 						DevelopmentTeam = 27XS5W9C3J;
+					};
+					A941DCC81C6D1A9E00B7BAF7 = {
+						DevelopmentTeam = 27XS5W9C3J;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1199,6 +1434,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Eloquent */,
+				A941DCC81C6D1A9E00B7BAF7 /* Eloquent-AppStore */,
 				A9CA81A012D0B912005346FD /* Deploy */,
 				A9CA81A512D0B946005346FD /* WriteBuildnumber */,
 				A9D9F5190EAF151E0035222E /* Tests */,
@@ -1212,6 +1448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C92CC8B9274B19AC6E826D9 /* bin in Resources */,
+				A941DCC71C6D193900B7BAF7 /* Images.xcassets in Resources */,
 				8C92C00EDF150F8FF43D9667 /* Modules in Resources */,
 				8C92CF43AF1A057497847E67 /* Credits.rtf in Resources */,
 				8C92CD4AC9634413128E9A3E /* dsa_pub.pem in Resources */,
@@ -1277,6 +1514,76 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A941DCC91C6D1A9E00B7BAF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A941DCCB1C6D1A9E00B7BAF7 /* Images.xcassets in Resources */,
+				A941DCCC1C6D1A9E00B7BAF7 /* Modules in Resources */,
+				A941DCCD1C6D1A9E00B7BAF7 /* Credits.rtf in Resources */,
+				A941DCCE1C6D1A9E00B7BAF7 /* dsa_pub.pem in Resources */,
+				A941DCCF1C6D1A9E00B7BAF7 /* tb_sidebar_left.png in Resources */,
+				A941DCD01C6D1A9E00B7BAF7 /* tb_sidebar_right.png in Resources */,
+				A941DCD11C6D1A9E00B7BAF7 /* Eloquent.icns in Resources */,
+				A941DCD21C6D1A9E00B7BAF7 /* scopebar_active.png in Resources */,
+				A941DCD31C6D1A9E00B7BAF7 /* scopebar_inactive.png in Resources */,
+				A941DCD41C6D1A9E00B7BAF7 /* edit_small.png in Resources */,
+				A941DCD51C6D1A9E00B7BAF7 /* Drawer.png in Resources */,
+				A941DCD61C6D1A9E00B7BAF7 /* SplitViewDividerBar.tiff in Resources */,
+				A941DCD71C6D1A9E00B7BAF7 /* SplitViewDividerDimple.tiff in Resources */,
+				A941DCD81C6D1A9E00B7BAF7 /* ResizeControl.png in Resources */,
+				A941DCD91C6D1A9E00B7BAF7 /* SidebarBottomGradient.png in Resources */,
+				A941DCDA1C6D1A9E00B7BAF7 /* groupbookmark.tiff in Resources */,
+				A941DCDB1C6D1A9E00B7BAF7 /* smallbookmark.tiff in Resources */,
+				A941DCDC1C6D1A9E00B7BAF7 /* scopebar_gradient.png in Resources */,
+				A941DCDD1C6D1A9E00B7BAF7 /* agt_add-to-autorun.png in Resources */,
+				A941DCDE1C6D1A9E00B7BAF7 /* bookmarks_list_add.png in Resources */,
+				A941DCDF1C6D1A9E00B7BAF7 /* ModuleManager.png in Resources */,
+				A941DCE01C6D1A9E00B7BAF7 /* fifteenpieces.png in Resources */,
+				A941DCE11C6D1A9E00B7BAF7 /* add.png in Resources */,
+				A941DCE21C6D1A9E00B7BAF7 /* edit.png in Resources */,
+				A941DCE31C6D1A9E00B7BAF7 /* editdelete.png in Resources */,
+				A941DCE41C6D1A9E00B7BAF7 /* exec.png in Resources */,
+				A941DCE51C6D1A9E00B7BAF7 /* header_gradient.png in Resources */,
+				A941DCE61C6D1A9E00B7BAF7 /* minus.tiff in Resources */,
+				A941DCE71C6D1A9E00B7BAF7 /* plus.tiff in Resources */,
+				A941DCE81C6D1A9E00B7BAF7 /* preview.png in Resources */,
+				A941DCE91C6D1A9E00B7BAF7 /* refresh.png in Resources */,
+				A941DCEA1C6D1A9E00B7BAF7 /* reload.png in Resources */,
+				A941DCEB1C6D1A9E00B7BAF7 /* remove.png in Resources */,
+				A941DCEC1C6D1A9E00B7BAF7 /* Localizable.strings in Resources */,
+				A941DCED1C6D1A9E00B7BAF7 /* MainMenu.xib in Resources */,
+				A941DCEE1C6D1A9E00B7BAF7 /* About.xib in Resources */,
+				A941DCEF1C6D1A9E00B7BAF7 /* ModuleManager.xib in Resources */,
+				A941DCF01C6D1A9E00B7BAF7 /* ModuleManageView.xib in Resources */,
+				A941DCF11C6D1A9E00B7BAF7 /* ThreadedProgressSheet.xib in Resources */,
+				A941DCF21C6D1A9E00B7BAF7 /* WindowHostToolbar.xib in Resources */,
+				A941DCF31C6D1A9E00B7BAF7 /* SingleViewHost.xib in Resources */,
+				A941DCF41C6D1A9E00B7BAF7 /* WorkspaceViewHost.xib in Resources */,
+				A941DCF51C6D1A9E00B7BAF7 /* BibleCombiView.xib in Resources */,
+				A941DCF61C6D1A9E00B7BAF7 /* BibleView.xib in Resources */,
+				A941DCF71C6D1A9E00B7BAF7 /* CommentaryView.xib in Resources */,
+				A941DCF81C6D1A9E00B7BAF7 /* DictionaryView.xib in Resources */,
+				A941DCF91C6D1A9E00B7BAF7 /* GenBookView.xib in Resources */,
+				A941DCFA1C6D1A9E00B7BAF7 /* ExtTextView.xib in Resources */,
+				A941DCFB1C6D1A9E00B7BAF7 /* WebView.xib in Resources */,
+				A941DCFC1C6D1A9E00B7BAF7 /* Preferences.xib in Resources */,
+				A941DCFD1C6D1A9E00B7BAF7 /* LeftSideBarView.xib in Resources */,
+				A941DCFE1C6D1A9E00B7BAF7 /* RightSideBarView.xib in Resources */,
+				A941DCFF1C6D1A9E00B7BAF7 /* ConfirmationDialog.xib in Resources */,
+				A941DD001C6D1A9E00B7BAF7 /* ProgressOverlayView.xib in Resources */,
+				A941DD011C6D1A9E00B7BAF7 /* InitialInfoView.xib in Resources */,
+				A941DD021C6D1A9E00B7BAF7 /* SearchBookSetEditor.xib in Resources */,
+				A941DD031C6D1A9E00B7BAF7 /* NotesUI.xib in Resources */,
+				A941DD041C6D1A9E00B7BAF7 /* NotesView.xib in Resources */,
+				A941DD051C6D1A9E00B7BAF7 /* BookmarkManagerUI.xib in Resources */,
+				A941DD061C6D1A9E00B7BAF7 /* ModuleListUI.xib in Resources */,
+				A941DD071C6D1A9E00B7BAF7 /* PrintAccessory.xib in Resources */,
+				A941DD081C6D1A9E00B7BAF7 /* DailyDevotion.xib in Resources */,
+				A941DD091C6D1A9E00B7BAF7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9D9F5150EAF151E0035222E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1287,6 +1594,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		A941DD771C6D1A9E00B7BAF7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/macruby increment_buildnumber.rb\n/usr/local/bin/macruby write_buildnumber.rb\n";
+		};
 		A9CA81A412D0B946005346FD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1426,6 +1746,106 @@
 				C01FCF5008A954540054247F /* Session.m in Sources */,
 				C01FCF5008A9545400542482 /* SessionManager.m in Sources */,
 				8C92C9F54EFB58ACC035068E /* EloquentFilterProvider.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A941DD0A1C6D1A9E00B7BAF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A941DD0B1C6D1A9E00B7BAF7 /* main.m in Sources */,
+				A941DD0C1C6D1A9E00B7BAF7 /* AppController.m in Sources */,
+				A941DD0D1C6D1A9E00B7BAF7 /* Indexer.m in Sources */,
+				A941DD0E1C6D1A9E00B7BAF7 /* IndexingManager.m in Sources */,
+				A941DD0F1C6D1A9E00B7BAF7 /* SearchResultEntry.m in Sources */,
+				A941DD101C6D1A9E00B7BAF7 /* InstallSourceListObject.m in Sources */,
+				A941DD111C6D1A9E00B7BAF7 /* ModuleListObject.m in Sources */,
+				A941DD121C6D1A9E00B7BAF7 /* ModuleListViewController.m in Sources */,
+				A941DD131C6D1A9E00B7BAF7 /* ModuleManager.m in Sources */,
+				A941DD141C6D1A9E00B7BAF7 /* ModuleManageViewController.m in Sources */,
+				A941DD151C6D1A9E00B7BAF7 /* MBThreadedProgressSheetController.m in Sources */,
+				A941DD161C6D1A9E00B7BAF7 /* BibleViewController.m in Sources */,
+				A941DD171C6D1A9E00B7BAF7 /* ModuleViewController.m in Sources */,
+				A941DD181C6D1A9E00B7BAF7 /* ExtTextViewController.m in Sources */,
+				A941DD191C6D1A9E00B7BAF7 /* BibleCombiViewController.m in Sources */,
+				A941DD1A1C6D1A9E00B7BAF7 /* SingleViewHostController.m in Sources */,
+				A941DD1B1C6D1A9E00B7BAF7 /* HostableViewController.m in Sources */,
+				A941DD1C1C6D1A9E00B7BAF7 /* MBPreferenceController.m in Sources */,
+				A941DD1D1C6D1A9E00B7BAF7 /* ScrollSynchronizableView.m in Sources */,
+				A941DD1E1C6D1A9E00B7BAF7 /* Highlighter.m in Sources */,
+				A941DD1F1C6D1A9E00B7BAF7 /* MouseTrackingScrollView.m in Sources */,
+				A941DD201C6D1A9E00B7BAF7 /* CommentaryViewController.m in Sources */,
+				A941DD211C6D1A9E00B7BAF7 /* HeaderImageView.m in Sources */,
+				A941DD221C6D1A9E00B7BAF7 /* DictionaryViewController.m in Sources */,
+				A941DD231C6D1A9E00B7BAF7 /* OptionsHeaderView.m in Sources */,
+				A941DD241C6D1A9E00B7BAF7 /* GenBookViewController.m in Sources */,
+				A941DD251C6D1A9E00B7BAF7 /* Bookmark.m in Sources */,
+				A941DD261C6D1A9E00B7BAF7 /* BookmarkManager.m in Sources */,
+				A941DD271C6D1A9E00B7BAF7 /* SideBarViewController.m in Sources */,
+				A941DD281C6D1A9E00B7BAF7 /* LeftSideBarViewController.m in Sources */,
+				A941DD291C6D1A9E00B7BAF7 /* WindowHostController.m in Sources */,
+				A941DD2A1C6D1A9E00B7BAF7 /* WorkspaceViewHostController.m in Sources */,
+				A941DD2B1C6D1A9E00B7BAF7 /* SearchTextObject.m in Sources */,
+				A941DD2C1C6D1A9E00B7BAF7 /* HUDPreviewController.m in Sources */,
+				A941DD2D1C6D1A9E00B7BAF7 /* ScopeBarView.m in Sources */,
+				A941DD2E1C6D1A9E00B7BAF7 /* RightSideBarViewController.m in Sources */,
+				A941DD2F1C6D1A9E00B7BAF7 /* ThreeCellsCell.m in Sources */,
+				A941DD301C6D1A9E00B7BAF7 /* BookmarkDragItem.m in Sources */,
+				A941DD311C6D1A9E00B7BAF7 /* ConfirmationSheetController.m in Sources */,
+				A941DD321C6D1A9E00B7BAF7 /* FakeModel.m in Sources */,
+				A941DD331C6D1A9E00B7BAF7 /* NSButton+Color.m in Sources */,
+				A941DD341C6D1A9E00B7BAF7 /* MBTextView.m in Sources */,
+				A941DD351C6D1A9E00B7BAF7 /* NSImage+Additions.m in Sources */,
+				A941DD361C6D1A9E00B7BAF7 /* CTGradient.m in Sources */,
+				A941DD371C6D1A9E00B7BAF7 /* GradientCell.m in Sources */,
+				A941DD381C6D1A9E00B7BAF7 /* MBAboutWindowController.m in Sources */,
+				A941DD391C6D1A9E00B7BAF7 /* FullScreenView.m in Sources */,
+				A941DD3A1C6D1A9E00B7BAF7 /* ProgressOverlayViewController.m in Sources */,
+				A941DD3B1C6D1A9E00B7BAF7 /* ProgressOverlayView.m in Sources */,
+				A941DD3C1C6D1A9E00B7BAF7 /* ThickDividerSplitView.m in Sources */,
+				A941DD3D1C6D1A9E00B7BAF7 /* ModuleCommonsViewController.m in Sources */,
+				A941DD3E1C6D1A9E00B7BAF7 /* SearchBookSetEditorController.m in Sources */,
+				A941DD3F1C6D1A9E00B7BAF7 /* SearchBookSet.m in Sources */,
+				A941DD401C6D1A9E00B7BAF7 /* HostWindow.m in Sources */,
+				A941DD411C6D1A9E00B7BAF7 /* WorkspaceHostWindow.m in Sources */,
+				A941DD421C6D1A9E00B7BAF7 /* InitialInfoViewController.m in Sources */,
+				A941DD431C6D1A9E00B7BAF7 /* NotesManager.m in Sources */,
+				A941DD441C6D1A9E00B7BAF7 /* BookmarksUIController.m in Sources */,
+				A941DD451C6D1A9E00B7BAF7 /* ModulesUIController.m in Sources */,
+				A941DD461C6D1A9E00B7BAF7 /* FileRepresentation.m in Sources */,
+				A941DD471C6D1A9E00B7BAF7 /* NotesUIController.m in Sources */,
+				A941DD481C6D1A9E00B7BAF7 /* NotesViewController.m in Sources */,
+				A941DD491C6D1A9E00B7BAF7 /* ContentDisplayingViewController.m in Sources */,
+				A941DD4A1C6D1A9E00B7BAF7 /* LeftSideBarAccessoryUIController.m in Sources */,
+				A941DD4B1C6D1A9E00B7BAF7 /* NSTextView+LookupAdditions.m in Sources */,
+				A941DD4C1C6D1A9E00B7BAF7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */,
+				A941DD4D1C6D1A9E00B7BAF7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
+				A941DD4E1C6D1A9E00B7BAF7 /* CacheObject.m in Sources */,
+				A941DD4F1C6D1A9E00B7BAF7 /* NSAttributedString+Additions.m in Sources */,
+				A941DD501C6D1A9E00B7BAF7 /* NSDictionary+Additions.m in Sources */,
+				A941DD511C6D1A9E00B7BAF7 /* NSUserDefaults+Additions.m in Sources */,
+				A941DD521C6D1A9E00B7BAF7 /* WindowHostController+SideBars.m in Sources */,
+				A941DD531C6D1A9E00B7BAF7 /* WindowHostController+Fullscreen.m in Sources */,
+				A941DD541C6D1A9E00B7BAF7 /* ObjectAssociations.m in Sources */,
+				A941DD551C6D1A9E00B7BAF7 /* BibleViewController+RightSidebar.m in Sources */,
+				A941DD561C6D1A9E00B7BAF7 /* BibleViewController+TextDisplayGeneration.m in Sources */,
+				A941DD571C6D1A9E00B7BAF7 /* BibleCombiViewController+ViewSynchronisation.m in Sources */,
+				A941DD581C6D1A9E00B7BAF7 /* ContentDisplayingViewControllerFactory.m in Sources */,
+				A941DD591C6D1A9E00B7BAF7 /* SearchTextFieldOptions.m in Sources */,
+				A941DD5A1C6D1A9E00B7BAF7 /* BookmarkCell.m in Sources */,
+				A941DD5B1C6D1A9E00B7BAF7 /* ToolbarController.m in Sources */,
+				A941DD5C1C6D1A9E00B7BAF7 /* HUDToolbarView.m in Sources */,
+				A941DD5D1C6D1A9E00B7BAF7 /* PrintAccessoryViewController.m in Sources */,
+				A941DD5E1C6D1A9E00B7BAF7 /* WindowHostController+SplitViewDelegate.m in Sources */,
+				A941DD5F1C6D1A9E00B7BAF7 /* SwordModule+SearchKitIndex.mm in Sources */,
+				A941DD601C6D1A9E00B7BAF7 /* DailyDevotionPanelController.m in Sources */,
+				A941DD611C6D1A9E00B7BAF7 /* SwordModCategory.m in Sources */,
+				A941DD621C6D1A9E00B7BAF7 /* NSArray+TextEntryDuplicateRemove.m in Sources */,
+				A941DD631C6D1A9E00B7BAF7 /* SwordUrlProtocol.m in Sources */,
+				A941DD641C6D1A9E00B7BAF7 /* WebViewController.m in Sources */,
+				A941DD651C6D1A9E00B7BAF7 /* Session.m in Sources */,
+				A941DD661C6D1A9E00B7BAF7 /* SessionManager.m in Sources */,
+				A941DD671C6D1A9E00B7BAF7 /* EloquentFilterProvider.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1737,6 +2157,100 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A941DD791C6D1A9E00B7BAF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Resources",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
+				IBC_FLATTEN_NIBS = NO;
+				INFOPLIST_FILE = "Eloquent-AppStore-Info.plist";
+				INSTALL_PATH = /Applications;
+				LD_OPENMP_FLAGS = "-fopenmp";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-DDEBUG",
+					"-DAPPSTORE",
+				);
+				OTHER_LDFLAGS = (
+					"-lcurl",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.crosswire.Eloquent;
+				PRODUCT_NAME = Eloquent;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A941DD7A1C6D1A9E00B7BAF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Resources",
+				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
+				IBC_FLATTEN_NIBS = NO;
+				INFOPLIST_FILE = "Eloquent-AppStore-Info.plist";
+				INSTALL_PATH = /Applications;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = (
+					"-DRELEASE",
+					"-DAPPSTORE",
+				);
+				OTHER_LDFLAGS = (
+					"-lcurl",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.crosswire.Eloquent;
+				PRODUCT_NAME = Eloquent;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		A9CA81A112D0B912005346FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1781,121 +2295,6 @@
 			};
 			name = Release;
 		};
-		A9CA81E412D0BDE1005346FD /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = "";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_CFLAGS = "-DRELEASE";
-				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				WARNING_CFLAGS = "-Wall";
-			};
-			name = AppStore;
-		};
-		A9CA81E512D0BDE1005346FD /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Resources",
-				);
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Eloquent_Prefix.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = "";
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
-				IBC_FLATTEN_NIBS = NO;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_CFLAGS = (
-					"-DRELEASE",
-					"-DAPPSTORE",
-				);
-				OTHER_LDFLAGS = (
-					"-lcurl",
-					"-lz",
-				);
-				PRODUCT_NAME = Eloquent;
-				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = x86_64;
-				WRAPPER_EXTENSION = app;
-			};
-			name = AppStore;
-		};
-		A9CA81E612D0BDE1005346FD /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = Deploy;
-				ZERO_LINK = NO;
-			};
-			name = AppStore;
-		};
-		A9CA81E712D0BDE1005346FD /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = WriteBuildnumber;
-				ZERO_LINK = NO;
-			};
-			name = AppStore;
-		};
-		A9CA81E812D0BDE1005346FD /* AppStore */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-					"\"$(SRCROOT)/Resources\"",
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "Tests-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/sword_mac_build/build/result_inst/lib\"",
-				);
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
-				PRODUCT_NAME = Tests;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = AppStore;
-		};
 		A9D9F51C0EAF151F0035222E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1933,6 +2332,7 @@
 					"-lz",
 					"-licucore",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = Tests;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1965,6 +2365,7 @@
 					"-framework",
 					SenTestingKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = Tests;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1974,6 +2375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1994,7 +2396,7 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
 				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				INSTALL_PATH = /Applications;
 				LD_OPENMP_FLAGS = "-fopenmp";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
@@ -2005,6 +2407,7 @@
 					"-lcurl",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.crosswire.Eloquent;
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -2017,6 +2420,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2034,7 +2438,7 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Resources/ObjCSword.framework/PrivateHeaders";
 				IBC_FLATTEN_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -2043,6 +2447,7 @@
 					"-lcurl",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.crosswire.Eloquent;
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -2056,6 +2461,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application: Manfred Bergmann";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
@@ -2096,12 +2502,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A941DD781C6D1A9E00B7BAF7 /* Build configuration list for PBXNativeTarget "Eloquent-AppStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A941DD791C6D1A9E00B7BAF7 /* Debug */,
+				A941DD7A1C6D1A9E00B7BAF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A9CA81A312D0B930005346FD /* Build configuration list for PBXAggregateTarget "Deploy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A9CA81A112D0B912005346FD /* Debug */,
 				A9CA81A212D0B912005346FD /* Release */,
-				A9CA81E612D0BDE1005346FD /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2111,7 +2525,6 @@
 			buildConfigurations = (
 				A9CA81A612D0B946005346FD /* Debug */,
 				A9CA81A712D0B946005346FD /* Release */,
-				A9CA81E712D0BDE1005346FD /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2121,7 +2534,6 @@
 			buildConfigurations = (
 				A9D9F51C0EAF151F0035222E /* Debug */,
 				A9D9F51D0EAF151F0035222E /* Release */,
-				A9CA81E812D0BDE1005346FD /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2131,7 +2543,6 @@
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
 				C01FCF4C08A954540054247B /* Release */,
-				A9CA81E512D0BDE1005346FD /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2141,7 +2552,6 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
-				A9CA81E412D0BDE1005346FD /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
