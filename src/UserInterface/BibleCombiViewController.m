@@ -102,7 +102,7 @@
     
     BOOL loaded = YES;
     for(HostableViewController *hc in parBibleViewControllers) {
-        if(hc.viewLoaded == NO) {
+        if(!hc.viewLoaded) {
             loaded = NO;
         } else {
             [parBibleSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
@@ -110,7 +110,7 @@
         }
     }
     for(HostableViewController *hc in parMiscViewControllers) {
-        if(hc.viewLoaded == NO) {
+        if(!hc.viewLoaded) {
             loaded = NO;
         } else {
             [parMiscSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
@@ -211,7 +211,7 @@
         // views have the same size
         NSRect contentRect = [[self view] frame];
         CGFloat width = contentRect.size.width;
-        int subViews = [[parBibleSplitView subviews] count];
+        int subViews = (int) [[parBibleSplitView subviews] count];
         CGFloat subViewWidth = width;
         if(subViews > 0) {
             subViewWidth = (int)width/subViews;
@@ -229,7 +229,7 @@
             newSize.width = subViewWidth;
             [v setFrameSize:newSize];
             
-            if(haveRight == NO) {
+            if(!haveRight) {
                 // have the most right one
                 haveRight = YES;
                 // this one shows vertical scrollbar
@@ -245,7 +245,7 @@
 }
 
 - (NSNumber *)bibleViewCount {
-    return [NSNumber numberWithInt:[parBibleViewControllers count]];
+    return @((int) [parBibleViewControllers count]);
 }
 
 - (NSArray *)openBibleModules {
@@ -272,7 +272,7 @@
 
 - (NSString *)title {
     if([parBibleViewControllers count] > 0) {
-        return [(id<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] title];
+        return [(id<HostViewDelegate>) parBibleViewControllers[0] title];
     }
     return @"BibleView";
 }
@@ -281,7 +281,7 @@
     NSView *ret = nil;
     
     if([parBibleViewControllers count] > 0) {
-        ret = [(id<HostViewDelegate>)[parBibleViewControllers objectAtIndex:0] rightAccessoryView];
+        ret = [(id<HostViewDelegate>) parBibleViewControllers[0] rightAccessoryView];
     }
     
     return ret;
@@ -329,7 +329,7 @@
 
 - (SwordModule *)module {
     if([parBibleViewControllers count] > 0) {
-        return [(ModuleViewController *)[parBibleViewControllers objectAtIndex:0] module];
+        return [(ModuleViewController *) parBibleViewControllers[0] module];
     }
     
     return nil;
@@ -361,7 +361,7 @@
 
     NSView *printView = nil;
     if([parBibleViewControllers count] > 0) {
-        printView = [(ModuleViewController *)[parBibleViewControllers objectAtIndex:0] printViewForInfo:printInfo];
+        printView = [(ModuleViewController *) parBibleViewControllers[0] printViewForInfo:printInfo];
     }
     
     return printView;
@@ -479,7 +479,7 @@
         }
     } else if([menuItem menu] == displayOptionsMenu) {
         if([menuItem action] == @selector(displayOptionShowVerseNumberOnly:)) {
-            if([[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue]) {
+            if([displayOptions[DefaultsBibleTextVersesOnOneLineKey] boolValue]) {
                 ret = YES;
             }
         } else {
@@ -497,7 +497,7 @@
 - (IBAction)textContextChange:(id)sender {
     [super textContextChange:sender];
 
-    int tag = [(NSPopUpButton *)sender selectedTag];    
+    NSInteger tag = [(NSPopUpButton *)sender selectedTag];
     for(BibleViewController *bv in parBibleViewControllers) {
         [bv setTextContext:tag];
     }
@@ -539,7 +539,7 @@
         }
         
         // subviews create the progress indicator view but shouldn't be able to remove it if we distribute a new reference ourselfs
-        if(progressControl == NO) {
+        if(!progressControl) {
             if(progressStartedCounter == 0) {
                 [self removeProgressOverlayView];
                 
@@ -584,7 +584,7 @@
             // add search bookset to added view controller
             if([parBibleViewControllers count] > 1) {
                 // take bookset from first
-                [self indexBookSetChanged:[parBibleViewControllers objectAtIndex:0]];
+                [self indexBookSetChanged:parBibleViewControllers[0]];
             }
         }
         [self setupForContentViewController:aViewController];
