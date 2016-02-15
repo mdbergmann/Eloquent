@@ -42,9 +42,9 @@
         NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
                                               size:(int)customFontSize];
         
-        NSMutableDictionary *keyAttributes = [NSMutableDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-        NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
-        [contentAttributes setObject:[userDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
+        NSMutableDictionary *keyAttributes = [@{NSFontAttributeName : keyFont} mutableCopy];
+        NSMutableDictionary *contentAttributes = [@{NSFontAttributeName : contentFont} mutableCopy];
+        contentAttributes[NSForegroundColorAttributeName] = [userDefaults colorForKey:DefaultsTextForegroundColor];
         
         // strip search tokens
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
@@ -62,8 +62,8 @@
                     NSURL *keyURL = [NSURL URLWithString:[keyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
                     
                     // add attributes
-                    [keyAttributes setObject:keyURL forKey:NSLinkAttributeName];
-                    [keyAttributes setObject:keyStr forKey:TEXT_VERSE_MARKER];
+                    keyAttributes[NSLinkAttributeName] = keyURL;
+                    keyAttributes[TEXT_VERSE_MARKER] = keyStr;
                     
                     // prepare output
                     NSAttributedString *keyString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", keyStr]
@@ -144,39 +144,14 @@
     [module lockModuleAccess];
 
     NSMutableDictionary *duplicateChecker = [NSMutableDictionary dictionary];
-    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
-    [lk setPersist:NO];
-    [lk setPosition:SWPOS_TOP];
-    SwordVerseKey *vk = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[module versification]];
-    NSString *ref = nil;
-    NSString *rendered = nil;
-    int numberOfVerses = 0;
-    while(![lk error]) {
-        // set current key to vk
-        [vk setKeyText:[lk keyText]];
-        if(textContext != 0) {
-            long lowVerse = [vk verse] - textContext;
-            long highVerse = lowVerse + (textContext * 2);
-            for(;lowVerse <= highVerse;lowVerse++) {
-                [vk setVerse:lowVerse];
-                ref = [vk keyText];
-                [module setSwordKey:vk];
-                rendered = [module renderedText];
 
-                [self handleTextEntry:[SwordBibleTextEntry textEntryForKey:ref andText:rendered] duplicateDict:duplicateChecker htmlString:htmlString];                
+    NSArray *textEntries = [(SwordBible *) [self module] renderedTextEntriesForRef:searchString context:(int)textContext];
+    int numberOfVerses = (int)[textEntries count];
 
-                [vk increment];
-            }
-        } else {
-            ref = [lk keyText];
-            [module setSwordKey:lk];
-            rendered = [module renderedText];
-            [self handleTextEntry:[SwordBibleTextEntry textEntryForKey:ref andText:rendered] duplicateDict:duplicateChecker htmlString:htmlString];
-        }
-        
-        [lk increment];
-        numberOfVerses++;
+    for(SwordBibleTextEntry *te in textEntries) {
+        [self handleTextEntry:te duplicateDict:duplicateChecker htmlString:htmlString];
     }
+
     [module unlockModuleAccess];
     [contentCache setCount:numberOfVerses];
     
@@ -189,8 +164,8 @@
  In case a context setting is set in the UI the duplicateDict will make sure we don't add verses twice.
  */
 - (void)handleTextEntry:(SwordBibleTextEntry *)entry duplicateDict:(NSMutableDictionary *)duplicateDict htmlString:htmlString {
-    if(entry && ([duplicateDict objectForKey:[entry key]] == nil)) {
-        [duplicateDict setObject:entry forKey:[entry key]];
+    if(entry && (duplicateDict[[entry key]] == nil)) {
+        duplicateDict[[entry key]] = entry;
 
         BOOL collectPreverseHeading = ([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
         if(collectPreverseHeading) {
@@ -209,7 +184,7 @@
  Highlight is this is a bookmark.
  */
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry {
-    BOOL isHighlightBookmarks = [[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue];
+    BOOL isHighlightBookmarks = [displayOptions[DefaultsBibleTextHighlightBookmarksKey] boolValue];
     if(isHighlightBookmarks) {
         Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:[anEntry key]]];
         if(bm && [bm highlight]) {
@@ -245,8 +220,8 @@
     
     NSString *verseMarkerInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
     
-    BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
-    int verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
+    BOOL isVersesOnOneLine = [displayOptions[DefaultsBibleTextVersesOnOneLineKey] boolValue];
+    int verseNumbering = [displayOptions[DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
     BOOL hideVerseNumbering = (verseNumbering == NoVerseNumbering);
     
@@ -260,7 +235,7 @@
     // book introductions
     SwordBibleBook *bibleBook = [(SwordBible *)module bookForName:bookName];
     if(book != lastBook) {
-        if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
+        if([modDisplayOptions[SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
             NSString *bookIntro = [(SwordBible *)module bookIntroductionFor:bibleBook];
             if(bookIntro && [bookIntro length] > 0) {
                 [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, bookIntro];
@@ -269,7 +244,7 @@
     }
     
     // pre-verse heading ?
-    if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON] && [anEntry preVerseHeading].length > 0) {
+    if([modDisplayOptions[SW_OPTION_HEADINGS] isEqualToString:SW_ON] && [anEntry preVerseHeading].length > 0) {
         [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, [anEntry preVerseHeading]];
     }
     
@@ -277,7 +252,7 @@
     if(!isVersesOnOneLine) {
         // new chapter or same chapter in another book
         if((chapter != lastChapter) || (book != lastBook)) {
-            if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
+            if([modDisplayOptions[SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionIn:bibleBook forChapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
                     [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];
@@ -291,7 +266,7 @@
     } else {
         // new chapter or same chapter in another book
         if((chapter != lastChapter) || (book != lastBook)) {
-            if([[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
+            if([modDisplayOptions[SW_OPTION_HEADINGS] isEqualToString:SW_ON]) {
                 NSString *chapIntro = [(SwordBible *)module chapterIntroductionIn:bibleBook forChapter:chapter];
                 if(chapIntro && [chapIntro length] > 0) {
                     [aString appendFormat:@"<br /><p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, chapIntro];
@@ -319,11 +294,11 @@
  */
 - (void)applyString:(NSString *)aString {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
-    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
+    options[NSCharacterEncodingDocumentOption] = @(NSUTF8StringEncoding);
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
-    [webPrefs setDefaultFontSize:[self customFontSize]];
+    [webPrefs setDefaultFontSize:(int) [self customFontSize]];
     
-    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
+    options[NSWebPreferencesDocumentOption] = webPrefs;
     
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] size:[self customFontSize]];
@@ -341,9 +316,9 @@
 	NSUInteger i = 0;
 	while (i < [tempDisplayString length]) {
         NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
-		if([attrs objectForKey:NSLinkAttributeName] != nil) {
+		if(attrs[NSLinkAttributeName] != nil) {
             attrs = [attrs mutableCopy];
-            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+            ((NSMutableDictionary *) attrs)[NSCursorAttributeName] = [NSCursor pointingHandCursor];
             [tempDisplayString setAttributes:attrs range:effectiveRange];
 		}
 		i += effectiveRange.length;
@@ -353,8 +328,8 @@
 - (void)replaceVerseMarkers {    
     BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
-    BOOL isVersesOnOneLine = [[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue];
-    int verseNumbering = [[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue];
+    BOOL isVersesOnOneLine = [displayOptions[DefaultsBibleTextVersesOnOneLineKey] boolValue];
+    int verseNumbering = [displayOptions[DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);
     BOOL isShowFullVerseNumbering = (verseNumbering == FullVerseNumbering);
     
@@ -362,7 +337,7 @@
     BOOL found = YES;
     NSString *text = [tempDisplayString string];
     while(found) {
-        int tLen = [text length];
+        int tLen = (int) [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, (NSUInteger) (tLen-replaceRange.location))];
         if(start.location != NSNotFound) {
             NSRange stop = [text rangeOfString:@";;;" options:0 range:NSMakeRange(start.location+3, (NSUInteger) (tLen-(start.location+3)))];
@@ -375,19 +350,19 @@
                 
                 NSArray *comps = [marker componentsSeparatedByString:@"|"];
                 if([comps count] == 2) {         
-                    NSString *verseMarker = [NSString stringWithFormat:@"%@ %@", [comps objectAtIndex:0], [comps objectAtIndex:1]];
+                    NSString *verseMarker = [NSString stringWithFormat:@"%@ %@", comps[0], comps[1]];
                     
                     NSRange linkRange;
                     linkRange.length = 9;
                     linkRange.location = replaceRange.location;
                     
                     NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:3];
-                    [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
+                    markerOpts[TEXT_VERSE_MARKER] = verseMarker;
                     
                     [tempDisplayString replaceCharactersInRange:replaceRange withString:verseMarker];
                     [tempDisplayString addAttributes:markerOpts range:linkRange];   
                 } else {
-                    NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
+                    NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", comps[0], comps[1], comps[2]];
                     
                     NSString *visible = @"";
                     NSRange linkRange;
@@ -395,11 +370,11 @@
                     linkRange.location = NSNotFound;
                     if(showBookNames) {
                         if(isVersesOnOneLine && isShowFullVerseNumbering) {
-                            visible = [NSString stringWithFormat:@"%@ %@:%@: ", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
+                            visible = [NSString stringWithFormat:@"%@ %@:%@: ", comps[0], comps[1], comps[2]];
                             linkRange.location = replaceRange.location;
                             linkRange.length = [visible length] - 2;                            
                         } else if((isVersesOnOneLine && isShowVerseNumbersOnly) || isShowVerseNumbersOnly) {
-                            visible = [NSString stringWithFormat:@"%@ ", [comps objectAtIndex:2]];
+                            visible = [NSString stringWithFormat:@"%@ ", comps[2]];
                             linkRange.location = replaceRange.location;
                             linkRange.length = [visible length] - 1;
                         }
@@ -410,9 +385,9 @@
                     NSURL *verseURL = [NSURL URLWithString:[verseLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
                     
                     NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:3];
-                    [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
-                    [markerOpts setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-                    [markerOpts setObject:verseURL forKey:NSLinkAttributeName];
+                    markerOpts[TEXT_VERSE_MARKER] = verseMarker;
+                    markerOpts[NSCursorAttributeName] = [NSCursor pointingHandCursor];
+                    markerOpts[NSLinkAttributeName] = verseURL;
                     
                     [tempDisplayString replaceCharactersInRange:replaceRange withString:visible];
                     [tempDisplayString addAttributes:markerOpts range:linkRange];
