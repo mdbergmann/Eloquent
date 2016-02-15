@@ -186,11 +186,11 @@ extern char ModuleListUI;
        (([event type] == NSLeftMouseDown) && ([event modifierFlags] & NSControlKeyMask))) {        
         [self setLastEvent:event];
         NSDictionary *attrs = [self textAttributesOfLastEventLocation];
-        NSURL *link = [attrs objectForKey:NSLinkAttributeName];
+        NSURL *link = attrs[NSLinkAttributeName];
         if(link) {
             ret = linkContextMenu;
             self.contextMenuClickedLink = link;
-        } else if([attrs objectForKey:NSAttachmentAttributeName] != nil) {
+        } else if(attrs[NSAttachmentAttributeName] != nil) {
             ret = imageContextMenu;            
         }
     }
@@ -200,7 +200,7 @@ extern char ModuleListUI;
 
 - (BOOL)linkClicked:(id)link {
     NSDictionary *data = [SwordUtil dictionaryFromUrl:link];
-    NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+    NSString *attrType = data[ATTRTYPE_TYPE];
     if([attrType isEqualToString:@"n"]) {
         [self processPreviewDisplay:link];
     } else {
@@ -213,12 +213,12 @@ extern char ModuleListUI;
 - (void)openClickedLink:(NSURL *)link {
     // get data for the link
     NSDictionary *data = [SwordUtil dictionaryFromUrl:link];
-    NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
+    NSString *modName = data[ATTRTYPE_MODULE];
     BOOL isStrongs = NO;
     if(!modName || [modName length] == 0) {
         // get default bible module
         modName = [userDefaults stringForKey:DefaultsBibleModule];
-        NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+        NSString *attrType = data[ATTRTYPE_TYPE];
         if([attrType isEqualToString:@"Hebrew"]) {
             isStrongs = YES;
             modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
@@ -279,7 +279,7 @@ extern char ModuleListUI;
     CocoLog(LEVEL_DEBUG, @"classname: %@", [aUrl className]);    
     CocoLog(LEVEL_DEBUG, @"link: %@", [aUrl description]);
     if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
-        return [[HUDPreviewController previewDataFromDict:linkResult] objectForKey:PreviewDisplayTextKey];
+        return [HUDPreviewController previewDataFromDict:linkResult][PreviewDisplayTextKey];
     }
     
     return @"";
@@ -329,7 +329,7 @@ extern char ModuleListUI;
             NSDictionary *data = [SwordUtil dictionaryFromUrl:contextMenuClickedLink];
             if(data) {
                 // this is all we can open
-                NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
+                NSString *attrType = data[ATTRTYPE_TYPE];
                 if(![attrType isEqualToString:@"x"] &&
                    ![attrType isEqualToString:@"scriptRef"] &&
                    ![attrType isEqualToString:@"scripRef"] &&
@@ -340,7 +340,7 @@ extern char ModuleListUI;
             }
         } else if(selector == @selector(removeLink:)) {
             NSDictionary *attrs = [self textAttributesOfLastEventLocation];
-            NSURL *link = [attrs objectForKey:NSLinkAttributeName];
+            NSURL *link = attrs[NSLinkAttributeName];
             if(link == nil) {
                 ret = NO;
             }
