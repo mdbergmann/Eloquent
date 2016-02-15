@@ -292,6 +292,7 @@ typedef enum {
 - (NSString *)entryAttributeValueFootnoteOfType:(NSString *)fnType indexValue:(NSString *)index forKey:(SwordKey *)aKey;
 
 - (NSArray *)entryAttributeValuesLemma;
+- (NSArray *)entryAttributeValuesLemmaNormalized;
 
 // ----------------- Module text access ----------------------
 

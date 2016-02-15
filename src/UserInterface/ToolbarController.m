@@ -31,6 +31,7 @@
     [toolbar setAllowsUserCustomization:YES];
     [searchTextField setFrameSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
     [searchTextFieldItem setMaxSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
+    [searchTextFieldItem setMinSize:CGSizeMake(600.0, [searchTextField frame].size.height)];
 }
 
 - (NSToolbar *)toolbar {

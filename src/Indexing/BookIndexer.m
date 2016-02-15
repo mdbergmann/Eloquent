@@ -56,15 +56,6 @@
 }
 
 /**
-\brief dealloc of this class is called on closing this document
- */
-- (void)dealloc {
-	CocoLog(LEVEL_DEBUG,@"[BookIndexer -dealloc]");
-	
-	// dealloc object
-}
-
-/**
 \brief add a text to be indexed to this indexer
  @param[in] aKey the document key (ID)
  @param[in] aText the text to be indexed

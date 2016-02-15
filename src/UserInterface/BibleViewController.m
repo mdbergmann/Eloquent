@@ -6,11 +6,11 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#import <ObjCSword/ObjCSword.h>
 #import "HostableViewController.h"
 #import "ContentDisplayingViewController.h"
 #import "ModuleCommonsViewController.h"
 #import "BibleViewController.h"
-#import "AppController.h"
 #import "WindowHostController.h"
 #import "ScrollSynchronizableView.h"
 #import "GradientCell.h"
@@ -24,6 +24,7 @@
 #import "NSTextView+LookupAdditions.h"
 #import "NSAttributedString+Additions.h"
 #import "CommentaryViewController.h"
+#import "ObjCSword/SwordUtil.h"
 
 @interface BibleViewController ()
 
@@ -234,6 +235,36 @@
 }
 
 #pragma mark - HostViewDelegate
+
+- (void)searchStringChanged:(NSString *)aSearchString {
+    /*
+    if(searchType == IndexSearchType) {
+        NSMutableArray *newSearchComponents = [NSMutableArray array];
+        // look for "strong:" and pad the strong's number
+        NSArray *searchComponents = [aSearchString componentsSeparatedByString:@" "];
+        for(NSString *searchComp in searchComponents) {
+            if([searchComp rangeOfString:@"strong:"].length > 0) {
+                NSArray *split = [searchComp componentsSeparatedByString:@"strong:"];
+                if(split.count >= 2) {
+                    NSString *strongNumber = split[1];
+                    NSArray *padded = [SwordUtil padStrongsNumber:strongNumber];
+                    if(padded.count > 0) {
+                        [newSearchComponents addObject:[NSString stringWithFormat:@"strong:%@", padded[0]]];
+                    }
+                }
+            }
+            else {
+                [newSearchComponents addObject:searchComp];
+            }
+        }
+        [super searchStringChanged:[newSearchComponents componentsJoinedByString:@" "]];
+
+    } else {
+     */
+        [super searchStringChanged:aSearchString];
+//    }
+}
+
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];

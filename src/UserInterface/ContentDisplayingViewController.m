@@ -214,13 +214,16 @@ extern char ModuleListUI;
     // get data for the link
     NSDictionary *data = [SwordUtil dictionaryFromUrl:link];
     NSString *modName = [data objectForKey:ATTRTYPE_MODULE];
+    BOOL isStrongs = NO;
     if(!modName || [modName length] == 0) {
         // get default bible module
         modName = [userDefaults stringForKey:DefaultsBibleModule];
         NSString *attrType = [data objectForKey:ATTRTYPE_TYPE];
         if([attrType isEqualToString:@"Hebrew"]) {
+            isStrongs = YES;
             modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
         } else if([attrType isEqualToString:@"Greek"]) {
+            isStrongs = YES;
             modName = [userDefaults stringForKey:DefaultsStrongsGreekModule];
         } else if([attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
             modName = [userDefaults stringForKey:DefaultsMorphGreekModule];
@@ -234,13 +237,20 @@ extern char ModuleListUI;
         NSMutableString *key = [NSMutableString string];
         if([result isKindOfClass:[SwordModuleTextEntry class]]) {
             key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
+            if(isStrongs) {
+                key = [[SwordUtil leftPadWithZero:key maxDigits:5] mutableCopy];
+            }
         } else if([result isKindOfClass:[NSArray class]]) {
             int i = 0;
             for(SwordModuleTextEntry *entry in (NSArray *)result) {
                 if(i > 0) {
                     [key appendString:@";"];
                 }
-                [key appendString:[entry key]];
+                if(isStrongs) {
+                    [key appendString:[SwordUtil leftPadWithZero:[entry key] maxDigits:5]];
+                } else {
+                    [key appendString:[entry key]];
+                }
                 i++;
             }
         }

@@ -17,4 +17,23 @@
  */
 + (NSDictionary *)dictionaryFromUrl:(NSURL *)aURL;
 
+/**
+ Pads an array of unpadded Strong's numbers to 5 digits.
+ I.e. H0430 => H00430, G11 => G00011
+ */
++ (NSArray *)padStrongsNumbers:(NSArray *)unpaddedNumbers;
+
+/**
+ Pads a single unpadded Strong's numbers to 5 digits.
+ I.e. H0430 => H00430, G11 => G00011
+ Since an unpadded number can be combined with multiple numbers concatenated by space we'll return an array here.
+ */
++ (NSArray *)padStrongsNumber:(NSString *)unpaddedNumber;
+
+/**
+ * Pads a string on the left until maxDigits is reached
+ */
++ (NSString *)leftPadWithZero:(NSString *)unpadded maxDigits:(NSInteger)maxDigits;
+
+
 @end

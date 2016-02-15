@@ -13,7 +13,7 @@
 #import "SwordModule+SearchKitIndex.h"
 #import "Indexer.h"
 
-NSString *EloquentIndexVersion = @"1.0";
+NSString *EloquentIndexVersion = @"1.2";
 
 @interface SwordBible(SearchKitIndex)
 - (void)indexContentsIntoIndex:(Indexer *)indexer;
@@ -207,11 +207,13 @@ NSString *EloquentIndexVersion = @"1.0";
                 NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
                 NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
                 
-                NSString *strongStr = @"";
+                NSMutableString *strongStr = [NSMutableString string];
                 if([self processEntryAttributes]) {
-                    NSArray *strongNumbers = [self entryAttributeValuesLemma];
+                    NSArray *strongNumbers = [self entryAttributeValuesLemmaNormalized];
                     if(strongNumbers && [strongNumbers count] > 0) {
-                        strongStr = [strongNumbers componentsJoinedByString:@" "];
+                        for(NSString *strongNumber in strongNumbers) {
+                            [strongStr appendFormat:@"strong:%@ ", strongNumber];
+                        }
                         // also add to dictionary
                         [properties setObject:strongStr forKey:IndexPropSwordStrongString];
                     }
