@@ -21,7 +21,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="1" userLabel="BibleCombiView">
             <rect key="frame" x="0.0" y="0.0" width="679" height="446"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,7 +62,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Text Context" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="123" id="114">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="system" size="12"/>
                                 <menu key="menu" title="OtherViews" id="115">
                                     <items>
                                         <menuItem title="Text Context" hidden="YES" id="123">
@@ -98,7 +98,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Font size" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="93" id="91">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="system" size="12"/>
                                 <menu key="menu" title="OtherViews" id="92">
                                     <items>
                                         <menuItem title="Font size" hidden="YES" id="93">
@@ -137,7 +137,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Display Options" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="81" id="79">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="system" size="12"/>
                                 <menu key="menu" title="OtherViews" id="80">
                                     <items>
                                         <menuItem title="Display Options" hidden="YES" id="84">
@@ -158,7 +158,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Mod Options" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="49" id="47">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="system" size="12"/>
                                 <menu key="menu" title="OtherViews" id="48">
                                     <items>
                                         <menuItem title="Mod Options" hidden="YES" id="49"/>
@@ -211,6 +211,7 @@
                     </subviews>
                 </customView>
             </subviews>
+            <point key="canvasLocation" x="57" y="372"/>
         </customView>
     </objects>
 </document>

@@ -14,7 +14,6 @@
 #import "SearchTextObject.h"
 #import "LeftSideBarViewController.h"
 #import "RightSideBarViewController.h"
-#import "ScopeBarView.h"
 #import "FullScreenView.h"
 #import "ModuleCommonsViewController.h"
 #import "BibleCombiViewController.h"
@@ -84,7 +83,7 @@ typedef enum _NavigationDirectionType {
 }
 
 
-- (void)awakeFromNib {
+- (void)awakeFromNib {    
     [view setDelegate:self];
     
     [view setToolbarController:toolbarController];
@@ -368,14 +367,6 @@ typedef enum _NavigationDirectionType {
 }
 
 #pragma mark - NSWindow delegate methods
-
-- (void)windowDidBecomeKey:(NSNotification *)notification {
-    [scopebarView setWindowActive:YES];
-}
-
-- (void)windowDidResignMain:(NSNotification *)notification {
-    [scopebarView setWindowActive:NO];
-}
 
 - (void)windowWillClose:(NSNotification *)notification {
     if([self hasUnsavedContent]) {

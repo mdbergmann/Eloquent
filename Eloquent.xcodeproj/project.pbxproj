@@ -50,7 +50,6 @@
 		8C92C3973E4CD819745AFAB8 /* DailyDevotion.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C91BA01EE9E0DA62FBC7 /* DailyDevotion.xib */; };
 		8C92C3BF8845411B042011FB /* fifteenpieces.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF4FCFCF71CA175A010B /* fifteenpieces.png */; };
 		8C92C40CC450C589524BC11B /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD48C3B862B17274F21B /* refresh.png */; };
-		8C92C42B28CAA0776AA8F15A /* scopebar_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2AFC13F00593967C3F5 /* scopebar_inactive.png */; };
 		8C92C4B7853602C68D959374 /* ThreadedProgressSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CBDD3D526032CCB69FA9 /* ThreadedProgressSheet.xib */; };
 		8C92C4DA4650D2BF583A18CF /* preview.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2B8C3D4401D4C0EE944 /* preview.png */; };
 		8C92C4E4724A92752CA68B6C /* WindowHostToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C753DB3F14E0043AE37C /* WindowHostToolbar.xib */; };
@@ -62,8 +61,6 @@
 		8C92C7633EE3519CAFA50ABB /* edit_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C89E02C0DF83BADD9417 /* edit_small.png */; };
 		8C92C8500C2CD441CF25D2DF /* PrintAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CC68922C6768D2450629 /* PrintAccessory.xib */; };
 		8C92C860D5B3D8A7CE9DF7E8 /* ConfirmationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF1F32449775E84BFE1B /* ConfirmationDialog.xib */; };
-		8C92C88EBF19E6BF891C0034 /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CC94FF31566C02E58EC7 /* scopebar_gradient.png */; };
-		8C92C8ABE536759D11A0682A /* scopebar_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C9EABDA3A43AEBB43BDE /* scopebar_active.png */; };
 		8C92C8D16BE11EF21CF54DA4 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C4A14E611A588C1F114A /* ModuleManager.png */; };
 		8C92C924745F91613D223F3E /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C403BA56E297DB74DEB8 /* add.png */; };
 		8C92C93AE445F4E9CB8F0BEE /* SingleViewHost.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF56AEAAB4673EAFD1B1 /* SingleViewHost.xib */; };
@@ -81,7 +78,6 @@
 		8C92CB7A5789DA9D4166BBDD /* InitialInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C570AE3D25C4AB9CD648 /* InitialInfoView.xib */; };
 		8C92CB9ABCB907A89A232D50 /* ModuleManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C6DD56505A82EB2CFD9D /* ModuleManager.xib */; };
 		8C92CBE4FA7364532FFDC11C /* BibleCombiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CEEC8B2FD9D949561D46 /* BibleCombiView.xib */; };
-		8C92CBE529DC78432027458E /* header_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C6ADCE1BFD8409E20B7C /* header_gradient.png */; };
 		8C92CC520DEFCF9B9186C88C /* ResizeControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF661E24BE786CECBAF2 /* ResizeControl.png */; };
 		8C92CC8B9274B19AC6E826D9 /* bin in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CB071F7077D5532B00E5 /* bin */; };
 		8C92CC8DCA4CBE3BC298E9B4 /* Eloquent.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD568A6D1350F225F820 /* Eloquent.icns */; };
@@ -115,7 +111,6 @@
 		A916FD6E0E0555EB009CAA2F /* BibleCombiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */; };
 		A9188E7610E0F401006DA14B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9188E7510E0F401006DA14B /* Security.framework */; };
 		A918BA4311C67AF700024D84 /* SwordModule+SearchKitIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = A918BA4211C67AF700024D84 /* SwordModule+SearchKitIndex.mm */; };
-		A91A23020E61926800382F44 /* HeaderImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A91A23010E61926800382F44 /* HeaderImageView.m */; };
 		A91C93DF0DF9B0E9006B7361 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93DC0DF9B0E9006B7361 /* AppController.m */; };
 		A91C94200DF9B149006B7361 /* Indexer.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F30DF9B149006B7361 /* Indexer.m */; };
 		A91C94210DF9B149006B7361 /* IndexingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C93F50DF9B149006B7361 /* IndexingManager.m */; };
@@ -142,8 +137,6 @@
 		A941DCCF1C6D1A9E00B7BAF7 /* tb_sidebar_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C3CFF0379147B392D9F2 /* tb_sidebar_left.png */; };
 		A941DCD01C6D1A9E00B7BAF7 /* tb_sidebar_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C33EC04C814F5DFFF021 /* tb_sidebar_right.png */; };
 		A941DCD11C6D1A9E00B7BAF7 /* Eloquent.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CD568A6D1350F225F820 /* Eloquent.icns */; };
-		A941DCD21C6D1A9E00B7BAF7 /* scopebar_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C9EABDA3A43AEBB43BDE /* scopebar_active.png */; };
-		A941DCD31C6D1A9E00B7BAF7 /* scopebar_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2AFC13F00593967C3F5 /* scopebar_inactive.png */; };
 		A941DCD41C6D1A9E00B7BAF7 /* edit_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C89E02C0DF83BADD9417 /* edit_small.png */; };
 		A941DCD51C6D1A9E00B7BAF7 /* Drawer.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C84D27BE7B6BC876D599 /* Drawer.png */; };
 		A941DCD61C6D1A9E00B7BAF7 /* SplitViewDividerBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CA6003BDF8AE99755B17 /* SplitViewDividerBar.tiff */; };
@@ -152,7 +145,6 @@
 		A941DCD91C6D1A9E00B7BAF7 /* SidebarBottomGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C7542B22A064C357CAE5 /* SidebarBottomGradient.png */; };
 		A941DCDA1C6D1A9E00B7BAF7 /* groupbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CDD72BAF5E0FD879880E /* groupbookmark.tiff */; };
 		A941DCDB1C6D1A9E00B7BAF7 /* smallbookmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CE586B02A856A3078A29 /* smallbookmark.tiff */; };
-		A941DCDC1C6D1A9E00B7BAF7 /* scopebar_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CC94FF31566C02E58EC7 /* scopebar_gradient.png */; };
 		A941DCDD1C6D1A9E00B7BAF7 /* agt_add-to-autorun.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CE0E5FE5C4D03A05C40B /* agt_add-to-autorun.png */; };
 		A941DCDE1C6D1A9E00B7BAF7 /* bookmarks_list_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C5069737B8739DBD663E /* bookmarks_list_add.png */; };
 		A941DCDF1C6D1A9E00B7BAF7 /* ModuleManager.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C4A14E611A588C1F114A /* ModuleManager.png */; };
@@ -161,7 +153,6 @@
 		A941DCE21C6D1A9E00B7BAF7 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2B9664C079021769DEF /* edit.png */; };
 		A941DCE31C6D1A9E00B7BAF7 /* editdelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CE3E37DA538A6D6EDEEA /* editdelete.png */; };
 		A941DCE41C6D1A9E00B7BAF7 /* exec.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CFD9DE6B81F6368059B8 /* exec.png */; };
-		A941DCE51C6D1A9E00B7BAF7 /* header_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C6ADCE1BFD8409E20B7C /* header_gradient.png */; };
 		A941DCE61C6D1A9E00B7BAF7 /* minus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF216F8DBD38933D5B8C /* minus.tiff */; };
 		A941DCE71C6D1A9E00B7BAF7 /* plus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CF51C9354E64B479201A /* plus.tiff */; };
 		A941DCE81C6D1A9E00B7BAF7 /* preview.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92C2B8C3D4401D4C0EE944 /* preview.png */; };
@@ -220,7 +211,6 @@
 		A941DD1E1C6D1A9E00B7BAF7 /* Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = A92819970E100F240007B767 /* Highlighter.m */; };
 		A941DD1F1C6D1A9E00B7BAF7 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
 		A941DD201C6D1A9E00B7BAF7 /* CommentaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9202A290E59A0E80094F629 /* CommentaryViewController.m */; };
-		A941DD211C6D1A9E00B7BAF7 /* HeaderImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A91A23010E61926800382F44 /* HeaderImageView.m */; };
 		A941DD221C6D1A9E00B7BAF7 /* DictionaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90545B40E62EEB400CF4D18 /* DictionaryViewController.m */; };
 		A941DD231C6D1A9E00B7BAF7 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
 		A941DD241C6D1A9E00B7BAF7 /* GenBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A939B7E10E9DCED000A0A8F9 /* GenBookViewController.m */; };
@@ -232,7 +222,6 @@
 		A941DD2A1C6D1A9E00B7BAF7 /* WorkspaceViewHostController.m in Sources */ = {isa = PBXBuildFile; fileRef = A94D66CF0EC2CFC9006A84CB /* WorkspaceViewHostController.m */; };
 		A941DD2B1C6D1A9E00B7BAF7 /* SearchTextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A93E7DF90ED69FAB007B0533 /* SearchTextObject.m */; };
 		A941DD2C1C6D1A9E00B7BAF7 /* HUDPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A95184DE0EEFAAEF002EE88C /* HUDPreviewController.m */; };
-		A941DD2D1C6D1A9E00B7BAF7 /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A941DD2E1C6D1A9E00B7BAF7 /* RightSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D8496A0EFA361F000457EC /* RightSideBarViewController.m */; };
 		A941DD2F1C6D1A9E00B7BAF7 /* ThreeCellsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84B5B0EFA88A4000457EC /* ThreeCellsCell.m */; };
 		A941DD301C6D1A9E00B7BAF7 /* BookmarkDragItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D84D750EFB00F3000457EC /* BookmarkDragItem.m */; };
@@ -336,7 +325,6 @@
 		A99A76D510B2A4C4002EFD30 /* FileRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A76D410B2A4C4002EFD30 /* FileRepresentation.m */; };
 		A99A773710B33802002EFD30 /* NotesUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A773610B33802002EFD30 /* NotesUIController.m */; };
 		A99A774410B33C7D002EFD30 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A99A774310B33C7D002EFD30 /* NotesViewController.m */; };
-		A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A99DB3250EF96C310065482A /* ScopeBarView.m */; };
 		A9A127A419DE9226005BCBC1 /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; };
 		A9A12A9819DF46F8005BCBC1 /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A9A53400114E62A300B015C5 /* HUDToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A533FF114E62A300B015C5 /* HUDToolbarView.m */; };
@@ -438,7 +426,6 @@
 		8C92C1EF3236E173BE456B9C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrintAccessory.xib; sourceTree = "<group>"; };
 		8C92C25FF1A05E5BEBBC3EDA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BibleCombiView.xib; sourceTree = "<group>"; };
 		8C92C2A50BA908A5122F8B3E /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
-		8C92C2AFC13F00593967C3F5 /* scopebar_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_inactive.png; sourceTree = "<group>"; };
 		8C92C2B8C3D4401D4C0EE944 /* preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview.png; sourceTree = "<group>"; };
 		8C92C2B9664C079021769DEF /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		8C92C33EC04C814F5DFFF021 /* tb_sidebar_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_sidebar_right.png; sourceTree = "<group>"; };
@@ -457,7 +444,6 @@
 		8C92C5FF138B87CC5DB94C51 /* EloquentFilterProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EloquentFilterProvider.mm; sourceTree = "<group>"; };
 		8C92C68DF1C4815B05BF3C25 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SearchBookSetEditor.xib; sourceTree = "<group>"; };
 		8C92C692CEB458C537C20B06 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebView.xib; sourceTree = "<group>"; };
-		8C92C6ADCE1BFD8409E20B7C /* header_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header_gradient.png; sourceTree = "<group>"; };
 		8C92C6B4497EBF6D23C4659D /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 		8C92C7542B22A064C357CAE5 /* SidebarBottomGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SidebarBottomGradient.png; sourceTree = "<group>"; };
 		8C92C768C66402211A77F35D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CommentaryView.xib; sourceTree = "<group>"; };
@@ -469,14 +455,12 @@
 		8C92C9A237A2CF75CF21ED60 /* Modules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = Modules; path = Resources/Modules; sourceTree = "<group>"; };
 		8C92C9A396313EB871FC4EA6 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ThreadedProgressSheet.xib; sourceTree = "<group>"; };
 		8C92C9A874C050E624857B6B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/LeftSideBarView.xib; sourceTree = "<group>"; };
-		8C92C9EABDA3A43AEBB43BDE /* scopebar_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_active.png; sourceTree = "<group>"; };
 		8C92CA16D623985215AC7B66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/NotesView.xib; sourceTree = "<group>"; };
 		8C92CA6003BDF8AE99755B17 /* SplitViewDividerBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerBar.tiff; sourceTree = "<group>"; };
 		8C92CADD5B24DF7D172A732F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
 		8C92CB071F7077D5532B00E5 /* bin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = bin; path = Resources/bin; sourceTree = "<group>"; };
 		8C92CB4E9C52E7A0DBC2E5BF /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GenBookView.xib; sourceTree = "<group>"; };
 		8C92CC2B6BCA4F62148178F7 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/NotesUI.xib; sourceTree = "<group>"; };
-		8C92CC94FF31566C02E58EC7 /* scopebar_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scopebar_gradient.png; sourceTree = "<group>"; };
 		8C92CD3599DFF8622485FC5C /* SplitViewDividerDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDividerDimple.tiff; sourceTree = "<group>"; };
 		8C92CD48C3B862B17274F21B /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		8C92CD568A6D1350F225F820 /* Eloquent.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Eloquent.icns; sourceTree = "<group>"; };
@@ -530,8 +514,6 @@
 		A9188E7510E0F401006DA14B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A918BA4111C67AF700024D84 /* SwordModule+SearchKitIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwordModule+SearchKitIndex.h"; sourceTree = "<group>"; };
 		A918BA4211C67AF700024D84 /* SwordModule+SearchKitIndex.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "SwordModule+SearchKitIndex.mm"; sourceTree = "<group>"; };
-		A91A23000E61926800382F44 /* HeaderImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeaderImageView.h; path = src/UserInterface/HeaderImageView.h; sourceTree = "<group>"; };
-		A91A23010E61926800382F44 /* HeaderImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeaderImageView.m; path = src/UserInterface/HeaderImageView.m; sourceTree = "<group>"; };
 		A91C93DB0DF9B0E9006B7361 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = src/AppController.h; sourceTree = "<group>"; };
 		A91C93DC0DF9B0E9006B7361 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = src/AppController.m; sourceTree = "<group>"; };
 		A91C93E10DF9B0F8006B7361 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globals.h; path = src/globals.h; sourceTree = "<group>"; };
@@ -670,8 +652,6 @@
 		A99A773610B33802002EFD30 /* NotesUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesUIController.m; path = src/NotesTaking/NotesUIController.m; sourceTree = "<group>"; };
 		A99A774210B33C7D002EFD30 /* NotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotesViewController.h; path = src/NotesTaking/NotesViewController.h; sourceTree = "<group>"; };
 		A99A774310B33C7D002EFD30 /* NotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotesViewController.m; path = src/NotesTaking/NotesViewController.m; sourceTree = "<group>"; };
-		A99DB3240EF96C310065482A /* ScopeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopeBarView.h; path = src/UserInterface/ScopeBarView.h; sourceTree = "<group>"; };
-		A99DB3250EF96C310065482A /* ScopeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScopeBarView.m; path = src/UserInterface/ScopeBarView.m; sourceTree = "<group>"; };
 		A9A127A319DE9226005BCBC1 /* ObjCSword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjCSword.framework; path = Resources/ObjCSword.framework; sourceTree = "<group>"; };
 		A9A533FE114E62A300B015C5 /* HUDToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HUDToolbarView.h; path = src/UserInterface/HUDToolbarView.h; sourceTree = "<group>"; };
 		A9A533FF114E62A300B015C5 /* HUDToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HUDToolbarView.m; path = src/UserInterface/HUDToolbarView.m; sourceTree = "<group>"; };
@@ -850,6 +830,7 @@
 				A918BA4011C67AF700024D84 /* Sword */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				8C92CB3693675A3C59F012DE /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A9D9F51B0EAF151E0035222E /* Tests-Info.plist */,
@@ -876,7 +857,6 @@
 			children = (
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
-				8C92CB3693675A3C59F012DE /* Resources */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -887,8 +867,6 @@
 				8C92C3CFF0379147B392D9F2 /* tb_sidebar_left.png */,
 				8C92C33EC04C814F5DFFF021 /* tb_sidebar_right.png */,
 				8C92CD568A6D1350F225F820 /* Eloquent.icns */,
-				8C92C9EABDA3A43AEBB43BDE /* scopebar_active.png */,
-				8C92C2AFC13F00593967C3F5 /* scopebar_inactive.png */,
 				8C92C89E02C0DF83BADD9417 /* edit_small.png */,
 				8C92C84D27BE7B6BC876D599 /* Drawer.png */,
 				8C92CA6003BDF8AE99755B17 /* SplitViewDividerBar.tiff */,
@@ -897,7 +875,6 @@
 				8C92C7542B22A064C357CAE5 /* SidebarBottomGradient.png */,
 				8C92CDD72BAF5E0FD879880E /* groupbookmark.tiff */,
 				8C92CE586B02A856A3078A29 /* smallbookmark.tiff */,
-				8C92CC94FF31566C02E58EC7 /* scopebar_gradient.png */,
 				8C92CE0E5FE5C4D03A05C40B /* agt_add-to-autorun.png */,
 				8C92C5069737B8739DBD663E /* bookmarks_list_add.png */,
 				8C92C4A14E611A588C1F114A /* ModuleManager.png */,
@@ -906,7 +883,6 @@
 				8C92C2B9664C079021769DEF /* edit.png */,
 				8C92CE3E37DA538A6D6EDEEA /* editdelete.png */,
 				8C92CFD9DE6B81F6368059B8 /* exec.png */,
-				8C92C6ADCE1BFD8409E20B7C /* header_gradient.png */,
 				8C92CF216F8DBD38933D5B8C /* minus.tiff */,
 				8C92CF51C9354E64B479201A /* plus.tiff */,
 				8C92C2B8C3D4401D4C0EE944 /* preview.png */,
@@ -1265,10 +1241,6 @@
 				A9E9E3CC0F65401C007C4AB2 /* FullScreenView.m */,
 				A987A34A0F6D59EC007E5EE1 /* ThickDividerSplitView.h */,
 				A987A34B0F6D59EC007E5EE1 /* ThickDividerSplitView.m */,
-				A99DB3240EF96C310065482A /* ScopeBarView.h */,
-				A99DB3250EF96C310065482A /* ScopeBarView.m */,
-				A91A23000E61926800382F44 /* HeaderImageView.h */,
-				A91A23010E61926800382F44 /* HeaderImageView.m */,
 				A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */,
 				A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */,
 				A9A533FE114E62A300B015C5 /* HUDToolbarView.h */,
@@ -1455,8 +1427,6 @@
 				8C92C50C028070714D280EA9 /* tb_sidebar_left.png in Resources */,
 				8C92CE3787BC09FFDDD2C8F6 /* tb_sidebar_right.png in Resources */,
 				8C92CC8DCA4CBE3BC298E9B4 /* Eloquent.icns in Resources */,
-				8C92C8ABE536759D11A0682A /* scopebar_active.png in Resources */,
-				8C92C42B28CAA0776AA8F15A /* scopebar_inactive.png in Resources */,
 				8C92C7633EE3519CAFA50ABB /* edit_small.png in Resources */,
 				8C92C1C4C5505E1908D39535 /* Drawer.png in Resources */,
 				8C92CE0B8562E2D8CA3A1E09 /* SplitViewDividerBar.tiff in Resources */,
@@ -1465,7 +1435,6 @@
 				8C92C1EA3F014DE60C535297 /* SidebarBottomGradient.png in Resources */,
 				8C92CECF7B7A44D08C5DBE36 /* groupbookmark.tiff in Resources */,
 				8C92CAC057D93889FA138A9D /* smallbookmark.tiff in Resources */,
-				8C92C88EBF19E6BF891C0034 /* scopebar_gradient.png in Resources */,
 				8C92C007CC2C1D433A456547 /* agt_add-to-autorun.png in Resources */,
 				8C92C1016AB17DBD385581EE /* bookmarks_list_add.png in Resources */,
 				8C92C8D16BE11EF21CF54DA4 /* ModuleManager.png in Resources */,
@@ -1474,7 +1443,6 @@
 				8C92CD5CA71D8E2D743CDCA3 /* edit.png in Resources */,
 				8C92CAD447F9D0F7CCC9CB96 /* editdelete.png in Resources */,
 				8C92C2F42A978E1334BB79A7 /* exec.png in Resources */,
-				8C92CBE529DC78432027458E /* header_gradient.png in Resources */,
 				8C92CF7DAB0BCCE7D25DE1BA /* minus.tiff in Resources */,
 				8C92C015B4504B7555F24EA2 /* plus.tiff in Resources */,
 				8C92C4DA4650D2BF583A18CF /* preview.png in Resources */,
@@ -1525,8 +1493,6 @@
 				A941DCCF1C6D1A9E00B7BAF7 /* tb_sidebar_left.png in Resources */,
 				A941DCD01C6D1A9E00B7BAF7 /* tb_sidebar_right.png in Resources */,
 				A941DCD11C6D1A9E00B7BAF7 /* Eloquent.icns in Resources */,
-				A941DCD21C6D1A9E00B7BAF7 /* scopebar_active.png in Resources */,
-				A941DCD31C6D1A9E00B7BAF7 /* scopebar_inactive.png in Resources */,
 				A941DCD41C6D1A9E00B7BAF7 /* edit_small.png in Resources */,
 				A941DCD51C6D1A9E00B7BAF7 /* Drawer.png in Resources */,
 				A941DCD61C6D1A9E00B7BAF7 /* SplitViewDividerBar.tiff in Resources */,
@@ -1535,7 +1501,6 @@
 				A941DCD91C6D1A9E00B7BAF7 /* SidebarBottomGradient.png in Resources */,
 				A941DCDA1C6D1A9E00B7BAF7 /* groupbookmark.tiff in Resources */,
 				A941DCDB1C6D1A9E00B7BAF7 /* smallbookmark.tiff in Resources */,
-				A941DCDC1C6D1A9E00B7BAF7 /* scopebar_gradient.png in Resources */,
 				A941DCDD1C6D1A9E00B7BAF7 /* agt_add-to-autorun.png in Resources */,
 				A941DCDE1C6D1A9E00B7BAF7 /* bookmarks_list_add.png in Resources */,
 				A941DCDF1C6D1A9E00B7BAF7 /* ModuleManager.png in Resources */,
@@ -1544,7 +1509,6 @@
 				A941DCE21C6D1A9E00B7BAF7 /* edit.png in Resources */,
 				A941DCE31C6D1A9E00B7BAF7 /* editdelete.png in Resources */,
 				A941DCE41C6D1A9E00B7BAF7 /* exec.png in Resources */,
-				A941DCE51C6D1A9E00B7BAF7 /* header_gradient.png in Resources */,
 				A941DCE61C6D1A9E00B7BAF7 /* minus.tiff in Resources */,
 				A941DCE71C6D1A9E00B7BAF7 /* plus.tiff in Resources */,
 				A941DCE81C6D1A9E00B7BAF7 /* preview.png in Resources */,
@@ -1675,7 +1639,6 @@
 				A92819980E100F240007B767 /* Highlighter.m in Sources */,
 				A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */,
 				A9202A2A0E59A0E80094F629 /* CommentaryViewController.m in Sources */,
-				A91A23020E61926800382F44 /* HeaderImageView.m in Sources */,
 				A90545B50E62EEB400CF4D18 /* DictionaryViewController.m in Sources */,
 				A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */,
 				A939B7E20E9DCED000A0A8F9 /* GenBookViewController.m in Sources */,
@@ -1687,7 +1650,6 @@
 				A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */,
 				A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */,
 				A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */,
-				A99DB3260EF96C310065482A /* ScopeBarView.m in Sources */,
 				A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */,
 				A9D84B5C0EFA88A4000457EC /* ThreeCellsCell.m in Sources */,
 				A9D84D760EFB00F3000457EC /* BookmarkDragItem.m in Sources */,
@@ -1775,7 +1737,6 @@
 				A941DD1E1C6D1A9E00B7BAF7 /* Highlighter.m in Sources */,
 				A941DD1F1C6D1A9E00B7BAF7 /* MouseTrackingScrollView.m in Sources */,
 				A941DD201C6D1A9E00B7BAF7 /* CommentaryViewController.m in Sources */,
-				A941DD211C6D1A9E00B7BAF7 /* HeaderImageView.m in Sources */,
 				A941DD221C6D1A9E00B7BAF7 /* DictionaryViewController.m in Sources */,
 				A941DD231C6D1A9E00B7BAF7 /* OptionsHeaderView.m in Sources */,
 				A941DD241C6D1A9E00B7BAF7 /* GenBookViewController.m in Sources */,
@@ -1787,7 +1748,6 @@
 				A941DD2A1C6D1A9E00B7BAF7 /* WorkspaceViewHostController.m in Sources */,
 				A941DD2B1C6D1A9E00B7BAF7 /* SearchTextObject.m in Sources */,
 				A941DD2C1C6D1A9E00B7BAF7 /* HUDPreviewController.m in Sources */,
-				A941DD2D1C6D1A9E00B7BAF7 /* ScopeBarView.m in Sources */,
 				A941DD2E1C6D1A9E00B7BAF7 /* RightSideBarViewController.m in Sources */,
 				A941DD2F1C6D1A9E00B7BAF7 /* ThreeCellsCell.m in Sources */,
 				A941DD301C6D1A9E00B7BAF7 /* BookmarkDragItem.m in Sources */,
@@ -2400,7 +2360,7 @@
 				LD_OPENMP_FLAGS = "-fopenmp";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DDEBUG";
 				OTHER_LDFLAGS = (
@@ -2441,7 +2401,7 @@
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "-DRELEASE";
 				OTHER_LDFLAGS = (
 					"-lcurl",

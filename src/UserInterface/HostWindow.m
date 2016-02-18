@@ -11,6 +11,27 @@
 
 @implementation HostWindow
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [self setTitleVisibility:NSWindowTitleHidden];
+    
+    NSVisualEffectView *effectView = [[NSVisualEffectView alloc] initWithFrame:NSMakeRect(0, 0, 300, 180)];
+    [effectView setMaterial:NSVisualEffectMaterialDark];
+    [effectView setBlendingMode:NSVisualEffectBlendingModeBehindWindow];
+    [effectView setState:NSVisualEffectStateActive];
+    
+//    [self setStyleMask:[self styleMask] | NSFullSizeContentViewWindowMask];
+//    [self setTitlebarAppearsTransparent:NO];
+    
+//    [[self contentView] addSubview:effectView];
+    
+    /*
+    [[self contentView] addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[effectView]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:@{@"effectView": effectView}]];
+    [[self contentView] addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[effectView]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:@{@"effectView": effectView}]];
+     */
+}
+
 - (IBAction)leftSideBarHideShow:(id)sender {
     [[self delegate] performSelector:@selector(leftSideBarHideShow:) withObject:sender];
 }

@@ -58,9 +58,9 @@ NSString *EloquentIndexVersion = @"1.2";
     if([im indexExistsForModuleName:[self name]]) {
         NSDictionary *d = [NSDictionary dictionaryWithContentsOfFile:[path stringByAppendingPathComponent:@"version.plist"]];
         if(d) {		
-            if([[d objectForKey:@"Eloquent Index Version"] isEqualToString:EloquentIndexVersion]) {
-                if(([d objectForKey:@"Sword Module Version"] == NULL) ||
-                    ([[d objectForKey:@"Sword Module Version"] isEqualToString:[self version]])) {
+            if([d[@"Eloquent Index Version"] isEqualToString:EloquentIndexVersion]) {
+                if((d[@"Sword Module Version"] == NULL) ||
+                    ([d[@"Sword Module Version"] isEqualToString:[self version]])) {
                     CocoLog(LEVEL_INFO, @"module %@ has valid index", modName);
                     ret = YES;
                 } 
@@ -135,11 +135,8 @@ NSString *EloquentIndexVersion = @"1.2";
         
         //save version info
         NSString *path = [[IndexingManager sharedManager] indexFolderPathForModuleName:[self name]];
-        NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                           EloquentIndexVersion, 
-                           @"Eloquent Index Version", 
-                           [self version], 
-                           @"Sword Module Version", nil];
+        NSDictionary *d = @{@"Eloquent Index Version" : EloquentIndexVersion,
+                            @"Sword Module Version" : [self version]};
         [d writeToFile:[path stringByAppendingPathComponent:@"version.plist"] atomically:NO];
     }
     
@@ -204,7 +201,7 @@ NSString *EloquentIndexVersion = @"1.2";
                 [self setSwordKey:lk];
                 stripped = [self strippedText];
                 
-                NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithObject:ref forKey:IndexPropSwordKeyString];
+                NSMutableDictionary *properties = [@{IndexPropSwordKeyString : ref} mutableCopy];
                 NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
                 
                 NSMutableString *strongStr = [NSMutableString string];
@@ -215,7 +212,7 @@ NSString *EloquentIndexVersion = @"1.2";
                             [strongStr appendFormat:@"strong:%@ ", strongNumber];
                         }
                         // also add to dictionary
-                        [properties setObject:strongStr forKey:IndexPropSwordStrongString];
+                        properties[IndexPropSwordStrongString] = strongStr;
                     }
                 }
                 
