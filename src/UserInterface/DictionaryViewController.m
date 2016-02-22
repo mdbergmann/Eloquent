@@ -361,7 +361,7 @@
 
 #pragma mark - Actions
 
-- (IBAction)moduleSelectionChanged:(id)sender {
+- (void)moduleSelectionChanged:(NSMenuItem *)sender {
     NSString *modName = @"";
     if([self module] != nil) {
         modName = [[self module] name];

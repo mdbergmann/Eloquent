@@ -59,9 +59,6 @@
 - (void)populateAddPopupMenu;
 - (void)populateBookmarksMenu;
 
-// selector called by menuitems
-- (void)moduleSelectionChanged:(id)sender;
-
 // actions
 - (IBAction)addBookmark:(id)sender;
 - (IBAction)addVersesToBookmark:(id)sender;

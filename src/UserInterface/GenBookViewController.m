@@ -344,9 +344,9 @@
     [self adaptUIToHost];
 }
 
-#pragma mark - Actions
+#pragma mark - Module selection
 
-- (IBAction)moduleSelectionChanged:(id)sender {
+- (void)moduleSelectionChanged:(NSMenuItem *)sender {
     NSString *name = [(NSMenuItem *)sender title];
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:name];

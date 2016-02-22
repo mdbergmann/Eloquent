@@ -20,6 +20,7 @@
 #import "CacheObject.h"
 #import "NSDictionary+ModuleDisplaySettings.h"
 #import "SwordModule+SearchKitIndex.h"
+#import "WorkspaceViewHostController.h"
 
 @interface ModuleViewController () 
 
@@ -103,6 +104,11 @@
                     customFontSize = [[userDefaults objectForKey:DefaultsBibleTextDisplayFontSizeKey] intValue];
                 }
             }
+            
+            // if we're hosted by workspace host we want to update the tabs with the changed module name
+            if([[self hostingDelegate] isKindOfClass:[WorkspaceViewHostController class]]) {
+                [(WorkspaceViewHostController *)[self hostingDelegate] updateTabTitles];
+            }
         }
     }
 }
@@ -161,6 +167,12 @@
     // let's do this now
     forceRedisplay = YES;
     [self displayTextForReference:searchString];
+}
+
+#pragma mark - modules selection changed
+
+// selector called by menuitems
+- (void)moduleSelectionChanged:(NSMenuItem *)sender {
 }
 
 #pragma mark - TextContentProviding

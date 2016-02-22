@@ -21,6 +21,7 @@
 #import "ContentDisplayingViewControllerFactory.h"
 #import "InitialInfoViewController.h"
 #import "RightSideBarViewController.h"
+#import "PSMYosemiteTabStyle.h"
 
 @interface PSMTabBarControl (mystuff)
 
@@ -77,12 +78,12 @@
     // tab control stuff
     [tabControl setHideForSingleTab:NO];
     [tabControl setOrientation:PSMTabBarHorizontalOrientation];
-    [tabControl setStyleNamed:@"LiveChat"];
+    [tabControl setStyle:[[PSMYosemiteTabStyle alloc] init]];
     PSMRolloverButton *button = [tabControl addTabButton];
     [(NSButton *)button setTarget:self];
     [(NSButton *)button setAction:@selector(addTab:)];
     [tabControl setShowAddTabButton:YES];
-    [tabControl setCanCloseOnlyTab:YES];
+    [tabControl setTabsHaveCloseButtons:YES];
     // remove all tabs
     for(NSTabViewItem *item in [tabView tabViewItems]) {
         [tabView removeTabViewItem:item];    
@@ -168,6 +169,15 @@
     }    
     
     return ret;    
+}
+
+- (void)updateTabTitles {
+    int i = 0;
+    for(NSTabViewItem *item in [tabView tabViewItems]) {
+        NSString *tabTitle = [self computeTabTitleForTabIndex:i];
+        [item setLabel:tabTitle];
+        i++;
+    }
 }
 
 - (void)restoreRightSideBarWithWidth:(float)width {
@@ -288,9 +298,10 @@
     return YES;
 }
 
-#pragma mark - NSTabView delegates
+#pragma mark - PSMTabBarControlDelegate
 
 - (BOOL)tabView:(NSTabView *)aTabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
+    CocoLog(LEVEL_DEBUG, @"Close tab?");
     
     // find view controller
     NSUInteger index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
@@ -309,7 +320,6 @@
                 return NO;
             }
         }
-
         // also remove search text obj
         [searchTextObjs removeObjectAtIndex:index];
         // remove this view controller from our list
@@ -321,6 +331,8 @@
 }
 
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem {
+    CocoLog(LEVEL_DEBUG, @"Tab closed!");
+    [tabControl setNeedsLayout:YES];
 }
 
 - (NSMenu *)tabView:(NSTabView *)aTabView menuForTabViewItem:(NSTabViewItem *)tabViewItem {
@@ -337,6 +349,10 @@
             [self setupForContentViewController];
         }
     }
+}
+
+- (void)tabView:(NSTabView *)tabView updateStateForTabViewItem:(NSTabViewItem *)tabViewItem {
+    CocoLog(LEVEL_DEBUG, @"Tab updatedState!");
 }
 
 #pragma mark - SubviewHosting protocol

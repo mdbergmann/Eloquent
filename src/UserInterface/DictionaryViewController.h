@@ -28,10 +28,6 @@
 - (id)initWithModule:(SwordDictionary *)aModule delegate:(id)aDelegate;
 - (id)initWithDelegate:(id)aDelegate;
 
-// ---------- methods --------------
-// selector called by menuitems
-- (IBAction)moduleSelectionChanged:(id)sender;
-
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;

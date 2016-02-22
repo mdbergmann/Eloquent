@@ -119,7 +119,7 @@
     }
 }
 
-- (void)moduleSelectionChanged:(id)sender {
+- (void)moduleSelectionChanged:(NSMenuItem *)sender {
     [super moduleSelectionChanged:sender];
     
     // do some additional stuff

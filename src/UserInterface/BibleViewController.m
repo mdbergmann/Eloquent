@@ -28,8 +28,6 @@
 
 @interface BibleViewController ()
 
-- (void)moduleSelectionChanged:(id)sender;
-
 - (void)checkPerformProgressCalculation;
 - (void)_loadNib;
 
@@ -217,7 +215,9 @@
     [addPopBtn setMenu:allMenu];
 }
 
-- (void)moduleSelectionChanged:(id)sender {
+- (void)moduleSelectionChanged:(NSMenuItem *)sender {
+    [super moduleSelectionChanged:sender];
+    
     NSString *name = [(NSMenuItem *)sender title];
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:name];

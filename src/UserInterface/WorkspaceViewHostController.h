@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ObjCSword/SwordModule.h>
-#import <PSMTabBarControl/PSMTabBarControl.h>
-#import <PSMTabBarControl/PSMTabStyle.h>
+#import <PSMTabBarControl.h>
+#import <PSMTabStyle.h>
 #import "WindowHostController.h"
 
 @class ContentDisplayingViewController;
@@ -17,7 +17,7 @@
 @class FileRepresentation;
 @class InitialInfoViewController;
 
-@interface WorkspaceViewHostController : WindowHostController <NSCoding, NSTabViewDelegate> {
+@interface WorkspaceViewHostController : WindowHostController <NSCoding, PSMTabBarControlDelegate> {
 
     /** the view switcher */
     //IBOutlet NSSegmentedControl *tabControl;
@@ -41,6 +41,7 @@
 - (NSView *)contentView;
 - (void)setContentView:(NSView *)aView;
 - (NSString *)computeTabTitle;
+- (void)updateTabTitles;
 
 // actions
 - (IBAction)addTab:(id)sender;

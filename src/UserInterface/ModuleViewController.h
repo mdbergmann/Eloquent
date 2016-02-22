@@ -57,6 +57,8 @@
 - (void)searchOperationFinished:(NSArray *)results;
 // Index creation delegate
 - (void)indexCreationFinished:(SwordModule *)mod;
+// selector called by menuitems
+- (void)moduleSelectionChanged:(id)sender;
 
 // the text view
 - (NSTextView *)textView;
