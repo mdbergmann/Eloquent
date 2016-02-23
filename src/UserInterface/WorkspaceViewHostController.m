@@ -84,10 +84,6 @@
     [(NSButton *)button setAction:@selector(addTab:)];
     [tabControl setShowAddTabButton:YES];
     [tabControl setTabsHaveCloseButtons:YES];
-    // remove all tabs
-    for(NSTabViewItem *item in [tabView tabViewItems]) {
-        [tabView removeTabViewItem:item];    
-    }
     
     // for a clean new workspace we display the initialMainView
     if([viewControllers count] == 0) {
@@ -98,24 +94,8 @@
 
     // TODO: put initial view
     //[contentPlaceHolderView setContentView:defaultMainView];
-    
-    // re-set already loaded tabview items
-    int i = 0;
-    for(ContentDisplayingViewController *vc in viewControllers) {
-        if([vc viewLoaded]) {
-            NSTabViewItem *item = [[NSTabViewItem alloc] init];
-            [item setView:[vc view]];
-            [tabView addTabViewItem:item];
-            [item setLabel:[self computeTabTitle]];
-            
-            // select first
-            if(i == 0) {
-                contentViewController = vc;
-                [tabView selectTabViewItem:item];                
-            }
-        }
-        i++;
-    }
+
+    [self removeAndAddTabsWithSelectedIndex:0];
 
     // Fix: this will select the first element of the search texts objects as the current one
     if([[self searchTextObjs] count] > 0) {
@@ -176,6 +156,28 @@
     for(NSTabViewItem *item in [tabView tabViewItems]) {
         NSString *tabTitle = [self computeTabTitleForTabIndex:i];
         [item setLabel:tabTitle];
+        i++;
+    }
+}
+
+- (void)removeAndAddTabsWithSelectedIndex:(NSInteger)index {
+    for(NSTabViewItem *item in [tabView tabViewItems]) {
+        [tabView removeTabViewItem:item];
+    }
+
+    int i = 0;
+    for(ContentDisplayingViewController *vc in viewControllers) {
+        if([vc viewLoaded]) {
+            NSTabViewItem *item = [[NSTabViewItem alloc] init];
+            [item setView:[vc view]];
+            [tabView addTabViewItem:item];
+            [item setLabel:[self computeTabTitle]];
+            
+            if(i == index) {
+                contentViewController = vc;
+                [tabView selectTabViewItem:item];
+            }
+        }
         i++;
     }
 }
@@ -320,19 +322,24 @@
                 return NO;
             }
         }
-        // also remove search text obj
-        [searchTextObjs removeObjectAtIndex:index];
-        // remove this view controller from our list
-        [viewControllers removeObjectAtIndex:index];
     }
-    [tabControl setNeedsDisplay:YES];
 
     return YES;
 }
 
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem {
     CocoLog(LEVEL_DEBUG, @"Tab closed!");
-    [tabControl setNeedsLayout:YES];
+    
+    // select the previous tab
+    NSUInteger index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
+    if(index > 0 && index < [viewControllers count]) {
+        // also remove search text obj
+        [searchTextObjs removeObjectAtIndex:index];
+        // remove this view controller from our list
+        [viewControllers removeObjectAtIndex:index];
+
+        NSUInteger previousIndex = index - 1;
+    }
 }
 
 - (NSMenu *)tabView:(NSTabView *)aTabView menuForTabViewItem:(NSTabViewItem *)tabViewItem {
@@ -340,6 +347,7 @@
 }
 
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+    CocoLog(LEVEL_DEBUG, @"Tab selected");
     if(hostLoaded) {
         if([[tabControl representedTabViewItems] containsObject:tabViewItem]) {
             NSUInteger index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];

@@ -1564,6 +1564,8 @@ const NSInteger kPSMStartResizeAnimation = 0;
     if([[self delegate] respondsToSelector:@selector(tabView:didCloseTabViewItem:)]) {
         [[self delegate] tabView:[self tabView] didCloseTabViewItem:item];
     }
+    
+    [self update:YES];
 }
 
 - (void)tabClick:(id)sender {
