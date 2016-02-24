@@ -11,4 +11,6 @@
 
 @interface BibleViewController (RightSidebar)
 
+- (NSDictionary *)buildOutlineItemsCache;
+
 @end

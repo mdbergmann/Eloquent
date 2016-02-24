@@ -59,8 +59,6 @@
         self.delegate = aDelegate;
         editEnabled = NO;
         
-        self.nibName = COMMENTARYVIEW_NIBNAME;
-        
         [self _loadNib];
     } else {
         CocoLog(LEVEL_ERR, @"unable init!");
@@ -71,11 +69,10 @@
 
 - (void)commonInit {
     [super commonInit];
-    self.nibName = COMMENTARYVIEW_NIBNAME;    
 }
 
 - (void)_loadNib {
-    BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
+    BOOL stat = [NSBundle loadNibNamed:COMMENTARYVIEW_NIBNAME owner:self];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");
     }

@@ -11,16 +11,89 @@
 #import "ModuleCommonsViewController.h"
 #import "BibleViewController+RightSidebar.h"
 #import "WorkspaceViewHostController.h"
-#import "globals.h"
 #import "ObjCSword/SwordBible.h"
 #import "ObjCSword/SwordBibleBook.h"
 #import "ObjCSword/SwordBibleChapter.h"
-#import "MBPreferenceController.h"
 #import "BibleCombiViewController.h"
 #import "SearchBookSetEditorController.h"
+#import "globals.h"
+
+
+@interface ChapterDisplayItem : NSObject
+
+@property (strong, nonatomic) SwordBibleBook *book;
+@property (nonatomic) NSRange chapterRange;
+
++ (ChapterDisplayItem *)itemWithRange:(NSRange)chapterRange;
+
+@end
+
+@implementation ChapterDisplayItem
+
++ (ChapterDisplayItem *)itemWithRange:(NSRange)chapterRange {
+    return [[ChapterDisplayItem alloc] initWithRange:chapterRange];
+}
+
+- (id)initWithRange:(NSRange)chapterRange {
+    self = [super init];
+    if(self) {
+        self.chapterRange = chapterRange;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%lu-%lu", self.chapterRange.location, (self.chapterRange.location+self.chapterRange.length-1)];
+}
+
+@end
 
 
 @implementation BibleViewController (RightSidebar)
+
+#define ChapterRangeLength 5
+
+- (NSDictionary *)buildOutlineItemsCache {
+    NSMutableDictionary *buf = [NSMutableDictionary dictionary];
+    
+    NSArray *books = [(SwordBible *)module bookList];
+    for(SwordBibleBook *book in books) {
+        int chapters = [book numberOfChapters];
+        int rowItems = [self numberOfRowItemsForChapters:chapters];
+
+        NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
+        for(int rowIndex = 0; rowIndex < rowItems; rowIndex++) {
+            int chapterStart = rowIndex == 0 ? 1 : (rowIndex * ChapterRangeLength)+1;
+            
+            NSRange range;
+            range.location = chapterStart;
+            if(rowIndex == (rowItems - 1)) {
+                int last = (chapters % ChapterRangeLength);
+                range.length = last == 0 ? ChapterRangeLength : last;
+                
+            } else {
+                range.length = ChapterRangeLength;
+            }
+            
+            ChapterDisplayItem *chapterItem = [ChapterDisplayItem itemWithRange:range];
+            [chapterItem setBook:book];
+            
+            rowData[@(rowIndex)] = chapterItem;
+        }
+        
+        buf[@([book number])] = rowData;
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:buf];
+}
+
+- (int)numberOfRowItemsForChapters:(int)nChapters {
+    int rows= (nChapters / ChapterRangeLength);
+    if((nChapters % ChapterRangeLength) > 0) {
+        rows++;
+    }
+    return rows;
+}
 
 #pragma mark - AccessoryViewProviding
 
@@ -34,13 +107,6 @@
 
 - (BOOL)showsRightSideBar {
     return [super showsRightSideBar];
-    /*
-    if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-        return [userDefaults boolForKey:DefaultsShowRSBWorkspace];
-    } else {
-        return [userDefaults boolForKey:DefaultsShowRSBSingle];        
-    }
-     */
 }
 
 #pragma mark - SearchBookSetEditorController delegate methods
@@ -54,8 +120,6 @@
 #pragma mark - NSOutlineView delegate methods
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	CocoLog(LEVEL_DEBUG,@"");
-	
 	if(notification != nil) {
 		NSOutlineView *oview = [notification object];
 		if(oview != nil) {
@@ -85,11 +149,12 @@
                 if([item isKindOfClass:[SwordBibleBook class]]) {
                     haveBook = YES;
                     [selRef appendFormat:@"%@ ;", [(SwordBibleBook *)item localizedName]];
-                } else if([item isKindOfClass:[SwordBibleChapter class]]) {
+                    
+                } else if([item isKindOfClass:[ChapterDisplayItem class]]) {
                     if(haveBook) {
-                        [selRef appendFormat:@"%i; ", [(SwordBibleChapter *)item number]];
+                        [selRef appendFormat:@"%@; ", [item description]];
                     } else {
-                        [selRef appendFormat:@"%@ %i; ", [[(SwordBibleChapter *)item book] localizedName], [(SwordBibleChapter *)item number]];
+                        [selRef appendFormat:@"%@ %@; ", [[(ChapterDisplayItem *)item book] localizedName], [(ChapterDisplayItem *)item description]];
                     }
                 }
             } 
@@ -99,17 +164,13 @@
                 [hostingDelegate setSearchTypeUI:ReferenceSearchType];
                 [hostingDelegate setSearchText:selRef];
             }
-		} else {
-			CocoLog(LEVEL_WARN,@"have a nil notification object!");
 		}
-	} else {
-		CocoLog(LEVEL_WARN,@"have a nil notification!");
 	}
 }
 
 - (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {    
 	// display call with std font
-	NSFont *font = FontStd;    
+	NSFont *font = FontStd;
 	[cell setFont:font];
 	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
 	CGFloat pointSize = [font pointSize];
@@ -117,27 +178,28 @@
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    int ret = 0;
-    
     if(item == nil) {
-        ret = [[(SwordBible *)module books] count];
+        return [self.outlineViewItems count];
+        
     } else {
         if([item isKindOfClass:[SwordBibleBook class]]) {
             SwordBibleBook *bb = item;
-            ret = [bb numberOfChapters];
+
+            return [(NSDictionary *)self.outlineViewItems[@([bb number])] count];
         }
     }
     
-    return ret;
+    return 0;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     id ret = nil;
     
     if(item == nil) {
-        ret = [[(SwordBible *)module bookList] objectAtIndex:index];
+        ret = [(SwordBible *)self.module bookList][index];
+        
     } else if([item isKindOfClass:[SwordBibleBook class]]) {
-        ret = [[(SwordBibleBook *)item chapters] objectAtIndex:index];
+        ret = self.outlineViewItems[@([(SwordBibleBook *)item number])][@(index)];
     }
     
     return ret;
@@ -148,8 +210,8 @@
     
     if([item isKindOfClass:[SwordBibleBook class]]) {
         ret = [(SwordBibleBook *)item localizedName];
-    } else if([item isKindOfClass:[SwordBibleChapter class]]) {
-        ret = [[NSNumber numberWithInt:[(SwordBibleChapter*)item number]] stringValue];
+    } else if([item isKindOfClass:[ChapterDisplayItem class]]) {
+        ret = [item description];
     }
     
     return ret;

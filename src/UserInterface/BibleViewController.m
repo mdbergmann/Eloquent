@@ -25,6 +25,7 @@
 #import "NSAttributedString+Additions.h"
 #import "CommentaryViewController.h"
 #import "ObjCSword/SwordUtil.h"
+#import "BibleViewController+RightSidebar.h"
 
 @interface BibleViewController ()
 
@@ -35,10 +36,6 @@
 
 @implementation BibleViewController
 
-#pragma mark - getter/setter
-
-@synthesize nibName;
-@synthesize bookSelection;
 
 #pragma mark - initializers
 
@@ -82,9 +79,9 @@
 
 - (void)commonInit {
     [super commonInit];
-    self.nibName = BIBLEVIEW_NIBNAME;
     self.searchType = ReferenceSearchType;
     self.bookSelection = [NSMutableArray array];
+    self.outlineViewItems = [NSDictionary dictionary];
     self.textContext = 0;
 
     searchBookSetsController = [[SearchBookSetEditorController alloc] init];
@@ -92,7 +89,7 @@
 }
 
 - (void)_loadNib {
-    BOOL stat = [NSBundle loadNibNamed:nibName owner:self];
+    BOOL stat = [NSBundle loadNibNamed:BIBLEVIEW_NIBNAME owner:self];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");            
     }    
@@ -126,8 +123,6 @@
     viewLoaded = YES;
 }
 
-
-
 #pragma mark - methods
 
 - (SearchBookSetEditorController *)searchBookSetsController {
@@ -147,6 +142,13 @@
         }
     }
 }
+
+- (void)moduleChanged {
+    [super moduleChanged];
+    
+    self.outlineViewItems = [self buildOutlineItemsCache];
+}
+
 
 /**
  overriding from super class
@@ -456,8 +458,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
-    if(self) {        
-        self.nibName = [decoder decodeObjectForKey:@"NibNameKey"];        
+    if(self) {
         [self _loadNib];
     }
     
@@ -466,8 +467,6 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [super encodeWithCoder:encoder];
-    
-    [encoder encodeObject:nibName forKey:@"NibNameKey"];
 }
 
 @end

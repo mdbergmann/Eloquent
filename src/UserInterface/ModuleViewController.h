@@ -59,7 +59,8 @@
 - (void)indexCreationFinished:(SwordModule *)mod;
 // selector called by menuitems
 - (void)moduleSelectionChanged:(id)sender;
-
+/* called then the modules was changed */
+- (void)moduleChanged;
 // the text view
 - (NSTextView *)textView;
 

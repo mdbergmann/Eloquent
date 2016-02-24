@@ -33,19 +33,13 @@
     // gradient cell for outline view
     GradientCell *gradientCell;
     
-    // nib name
-    NSString *nibName;
-        
-    // bible book selection in right sidebar
-    NSMutableArray *bookSelection;
-        
     // helper vars for rendering
     int lastChapter;
     int lastBook;
 }
 
-@property (strong, readwrite) NSString *nibName;
 @property (strong, readwrite) NSMutableArray *bookSelection;
+@property (strong, readwrite) NSDictionary *outlineViewItems;
 
 // ---------- initializers ---------
 - (id)initWithModule:(SwordBible *)aModule;

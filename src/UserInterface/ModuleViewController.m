@@ -105,11 +105,18 @@
                 }
             }
             
-            // if we're hosted by workspace host we want to update the tabs with the changed module name
-            if([[self hostingDelegate] isKindOfClass:[WorkspaceViewHostController class]]) {
-                [(WorkspaceViewHostController *)[self hostingDelegate] updateTabTitles];
-            }
+            [self moduleChanged];
         }
+    }
+}
+
+/**
+ This is called when a module was set in setModule:
+ */
+- (void)moduleChanged {
+    // if we're hosted by workspace host we want to update the tabs with the changed module name
+    if([[self hostingDelegate] isKindOfClass:[WorkspaceViewHostController class]]) {
+        [(WorkspaceViewHostController *)[self hostingDelegate] updateTabTitles];
     }
 }
 
