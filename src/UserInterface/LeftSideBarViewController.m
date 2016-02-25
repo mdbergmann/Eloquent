@@ -415,6 +415,7 @@
         if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createSwordModuleViewControllerForModule:mod];
             [hostingDelegate addContentViewController:hc];
+            
         } else if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             [[AppController defaultAppController] openSingleHostWindowForModule:mod];        
         }
@@ -424,6 +425,7 @@
         // check for type of host
         if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             [(SingleViewHostController *)hostingDelegate setSearchText:[b reference]];
+            
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [(WorkspaceViewHostController *)hostingDelegate setSearchText:[b reference]];
         }
@@ -434,6 +436,7 @@
         if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             ContentDisplayingViewController *hc = [ContentDisplayingViewControllerFactory createNotesViewControllerForFileRep:f];
             [hostingDelegate addContentViewController:hc];
+            
         } else if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             [[AppController defaultAppController] openSingleHostWindowForNote:f];        
         }
@@ -458,8 +461,7 @@
                     [oview setMenu:[[self bookmarksUIController] bookmarkMenu]];
                 } else if([item isKindOfClass:[SwordModule class]]) {
                     [oview setMenu:[[self modulesUIController] moduleMenu]];
-                } else if([item isKindOfClass:[FileRepresentation class]] ||
-                          (item == notesRootItem)) {
+                } else if([item isKindOfClass:[FileRepresentation class]] || (item == notesRootItem)) {
                     [oview setMenu:[[self notesUIController] notesMenu]];
                 } else {
                     [oview setMenu:nil];
