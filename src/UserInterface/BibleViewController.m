@@ -26,6 +26,7 @@
 #import "CommentaryViewController.h"
 #import "ObjCSword/SwordUtil.h"
 #import "BibleViewController+RightSidebar.h"
+#import "globals.h"
 
 @interface BibleViewController ()
 
@@ -97,7 +98,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-        
+    
+    [bookPager setFont:FontStd];
+    [chapterPager setFont:FontStd];
+    
     // prepare for our custom cell
     gradientCell = [[GradientCell alloc] init];
     NSTableColumn *tableColumn = [entriesOutlineView tableColumnWithIdentifier:@"common"];

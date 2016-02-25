@@ -91,10 +91,12 @@
     [threeCellsCell setWraps:NO];
     [threeCellsCell setTruncatesLastVisibleLine:YES];
     [threeCellsCell setLineBreakMode:NSLineBreakByTruncatingTail];
+    [threeCellsCell setFont:FontLarge];
     NSTableColumn *tableColumn = [outlineView tableColumnWithIdentifier:@"common"];
     [tableColumn setDataCell:threeCellsCell];    
 
     bookmarkCell = [[BookmarkCell alloc] init];
+    [bookmarkCell setFont:FontLarge];
     
     [super awakeFromNib];
 

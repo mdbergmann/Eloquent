@@ -35,7 +35,7 @@
         [self setLeftCounter:0];
         [self setImage:nil];
         [self setRightImage:nil];
-        [self setCountFont:FontStdBold];
+        [self setCountFont:[NSFont fontWithName: @"Helvetica Bold" size: 11]];
     }
     
     return self;
@@ -182,7 +182,7 @@
         NSAttributedString *counterString = [self attributedObjectRightCountValue];
         counterStringRect.size = [counterString size];
         counterStringRect.origin.x = counterRect.origin.x + counterRect.size.width/2.0 + ((counterRect.size.width/2.0 - counterStringRect.size.width) / 2.0) + 0.25;
-        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 2.0;
+        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 0.0;
         [counterString drawInRect:counterStringRect];
         
         // now draw left side
@@ -219,7 +219,7 @@
         counterString = [self attributedObjectLeftCountValue];
         counterStringRect.size = [counterString size];
         counterStringRect.origin.x = counterRect.origin.x + ((counterRect.size.width/2.0 - counterStringRect.size.width) / 2.0) + 0.25;
-        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 2.0;
+        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 0.0;
         [counterString drawInRect:counterStringRect];
     } else if(leftCounter > 0 && rightCounter == 0) {
         rightFrame = counterRect;
@@ -246,7 +246,7 @@
         NSAttributedString *counterString = [self attributedObjectLeftCountValue];
         counterStringRect.size = [counterString size];
         counterStringRect.origin.x = counterRect.origin.x + ((counterRect.size.width - counterStringRect.size.width) / 2.0) + 0.25;
-        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 2.0;
+        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 0.0;
         [counterString drawInRect:counterStringRect];        
     } else if(leftCounter == 0 && rightCounter > 0) {
         rightFrame = counterRect;
@@ -273,7 +273,7 @@
         NSAttributedString *counterString = [self attributedObjectRightCountValue];
         counterStringRect.size = [counterString size];
         counterStringRect.origin.x = counterRect.origin.x + ((counterRect.size.width - counterStringRect.size.width) / 2.0) + 0.25;
-        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 2.0;
+        counterStringRect.origin.y = counterRect.origin.y + ((counterRect.size.height - counterStringRect.size.height) / 2.0) - 0.0;
         [counterString drawInRect:counterStringRect];        
     } else if(rightImage != nil) {
         rightFrame.size.width = [rightImage size].width;

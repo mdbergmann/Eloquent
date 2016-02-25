@@ -28,14 +28,14 @@
 #define OSVERSION [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"]
 
 // table and outlineview fonts
-#define FontTiny [NSFont fontWithName: @"Helvetica Neue" size:9]
-#define FontSmall [NSFont fontWithName: @"Helvetica Neue" size:10]
-#define FontStd [NSFont fontWithName: @"Helvetica Neue" size: 11]
-#define FontStdBold [NSFont fontWithName: @"Helvetica Neue Bold" size: 11]
-#define FontLarge [NSFont fontWithName: @"Helvetica Neue" size: 12]
-#define FontLargeBold [NSFont fontWithName: @"Helvetica Neue Bold" size: 12]
-#define FontMoreLarge [NSFont fontWithName: @"Helvetica Neue" size: 14]
-#define FontMoreLargeBold [NSFont fontWithName: @"Helvetica Neue Bold" size: 14]
+#define FontTiny [NSFont fontWithName: @"Helvetica" size:9]
+#define FontSmall [NSFont fontWithName: @"Helvetica" size:10]
+#define FontStd [NSFont fontWithName: @"Helvetica" size: 11]
+#define FontStdBold [NSFont fontWithName: @"Helvetica Bold" size: 11]
+#define FontLarge [NSFont fontWithName: @"Helvetica" size: 12]
+#define FontLargeBold [NSFont fontWithName: @"Helvetica Bold" size: 12]
+#define FontMoreLarge [NSFont fontWithName: @"Helvetica" size: 14]
+#define FontMoreLargeBold [NSFont fontWithName: @"Helvetica Bold" size: 14]
 
 // define for userdefaults
 #define userDefaults [NSUserDefaults standardUserDefaults]

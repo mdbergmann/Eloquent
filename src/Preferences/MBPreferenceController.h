@@ -41,6 +41,10 @@ typedef enum _VerseNumberingType {
 #define DefaultsHeaderViewFontSizeKey               @"DefaultsHeaderViewFontSizeKey"
 #define DefaultsHeaderViewFontSizeBigKey            @"DefaultsHeaderViewFontSizeBigKey"
 
+#define DefaultsStandardFontFamilyKey               @"DefaultsStandardFontFamilyKey"
+#define DefaultsStandardFontSizeKey                 @"DefaultsStandardFontSizeKey"
+#define DefaultsStandardFontSizeBigKey              @"DefaultsStandardFontSizeBigKey"
+
 // Fullscreen stuff
 #define DefaultsFullscreenFontSizeAddKey            @"DefaultsFullscreenFontSizeAddKey"
 

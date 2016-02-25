@@ -58,9 +58,13 @@ static MBPreferenceController *instance;
     [defaultsDict setObject:@"Helvetica" forKey:DefaultsBibleTextDisplayFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:14] forKey:DefaultsBibleTextDisplayFontSizeKey];
 
-	[defaultsDict setObject:@"Lucida Grande" forKey:DefaultsHeaderViewFontFamilyKey];
+	[defaultsDict setObject:@"Helvetica" forKey:DefaultsHeaderViewFontFamilyKey];
     [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsHeaderViewFontSizeKey];
     [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsHeaderViewFontSizeBigKey];
+
+    [defaultsDict setObject:@"Helvetica" forKey:DefaultsStandardFontFamilyKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:10] forKey:DefaultsStandardFontSizeKey];
+    [defaultsDict setObject:[NSNumber numberWithInt:12] forKey:DefaultsStandardFontSizeBigKey];
 
     // full screen font size addition
     [defaultsDict setObject:[NSNumber numberWithInt:2] forKey:DefaultsFullscreenFontSizeAddKey];

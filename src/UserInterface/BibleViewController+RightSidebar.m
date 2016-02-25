@@ -172,7 +172,6 @@
 	// display call with std font
 	NSFont *font = FontStd;
 	[cell setFont:font];
-	//float imageHeight = [[(CombinedImageTextCell *)cell image] size].height; 
 	CGFloat pointSize = [font pointSize];
 	[aOutlineView setRowHeight:pointSize+4];
 }

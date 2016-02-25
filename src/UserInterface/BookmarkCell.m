@@ -30,7 +30,7 @@
     if(self) {
         [self setImage:nil];
         [self setBookmark:nil];
-        bmRefFont = FontTiny;
+        bmRefFont = FontSmall;
     }
     
     return self;
