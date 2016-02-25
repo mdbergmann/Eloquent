@@ -81,6 +81,11 @@
     [outlineView setTarget:self];
     [outlineView setDoubleAction:@selector(doubleClick)];
     
+    // set drag & drop types
+    [outlineView registerForDraggedTypes:[NSArray arrayWithObjects:DD_BOOKMARK_TYPE, DD_NOTE_TYPE, nil]];
+    // make our outline view appear with gradient selection, and behave like the Finder, iTunes, etc.
+    [outlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
+    
     // prepare for our custom cell
     threeCellsCell = [[ThreeCellsCell alloc] init];
     [threeCellsCell setWraps:NO];
@@ -90,18 +95,13 @@
     [tableColumn setDataCell:threeCellsCell];    
 
     bookmarkCell = [[BookmarkCell alloc] init];
-        
-    // set drag & drop types
-    [outlineView registerForDraggedTypes:[NSArray arrayWithObjects:DD_BOOKMARK_TYPE, DD_NOTE_TYPE, nil]];
-	// make our outline view appear with gradient selection, and behave like the Finder, iTunes, etc.
-	[outlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
     
+    [super awakeFromNib];
+
     // expand the first two items
     // second first, otherwise second is not second anymore
     [outlineView expandItem:[outlineView itemAtRow:1]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
-    
-    [super awakeFromNib];
 }
 
 
@@ -145,7 +145,7 @@
     NSInteger ret = 0;
     
     if(item == nil) {
-        // we have two root items (modules, bookmarks, notes)
+        // root items: modules, bookmarks, notes
         ret = 3;
     } else if(item == modulesRootItem) {
         // modules root
@@ -178,7 +178,7 @@
     id ret = nil;
     
     if(item == nil) {
-        // we have three root items (modules, bookmarks, notes)
+        // root items: modules, bookmarks, notes
         if(index == 0) {
             ret = modulesRootItem;
         } else if(index == 1) {
@@ -214,26 +214,24 @@
 }
 
 - (BOOL)outlineView:(NSOutlineView *)aOutlineView isItemExpandable:(id)item {
-    BOOL ret = NO;
-    
     if(item == modulesRootItem) {
-        ret = YES;
+        return YES;
     } else if(item == bookmarksRootItem) {
-        ret = YES;
+        return YES;
     } else if(item == notesRootItem) {
-        ret = YES;
+        return YES;
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
-        ret = ([[swordManager modulesForType:[(SwordModCategory *)item type]] count] > 0);
+        return ([[swordManager modulesForType:[(SwordModCategory *)item type]] count] > 0);
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
-        ret = ([[(Bookmark *)item subGroups] count] > 0);
+        return ([[(Bookmark *)item subGroups] count] > 0);
     } else if([item isKindOfClass:[FileRepresentation class]] && [(FileRepresentation *)item isDirectory]) {
         // notes folder
-        ret = ([[(FileRepresentation *)item directoryContent] count] > 0);
+        return ([[(FileRepresentation *)item directoryContent] count] > 0);
     }
     
-    return ret;
+    return NO;
 }
 
 - (id)outlineView:(NSOutlineView *)aOutlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
@@ -290,6 +288,7 @@
             di.path = path;
             [dragItems addObject:di];
             dragType = DD_BOOKMARK_TYPE;
+            
         } else if([item isKindOfClass:[FileRepresentation class]]) {
             [dragItems addObject:[(FileRepresentation *)item filePath]];
             dragType = DD_NOTE_TYPE;
@@ -323,6 +322,7 @@
         }
         
         return op;
+        
     } else {
         return NSDragOperationNone;
     }
@@ -377,6 +377,7 @@
         
         [bookmarkManager saveBookmarks];
         [outlineView reloadItem:bookmarksRootItem reloadChildren:YES];
+        
     } else if([pboard dataForType:DD_NOTE_TYPE]) {
         NSData *data = [pboard dataForType:DD_NOTE_TYPE];
         NSArray *draggedNotePaths = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -417,6 +418,7 @@
         } else if([hostingDelegate isKindOfClass:[SingleViewHostController class]]) {
             [[AppController defaultAppController] openSingleHostWindowForModule:mod];        
         }
+        
     } else if([clickedObj isKindOfClass:[Bookmark class]]) {
         Bookmark *b = clickedObj;
         // check for type of host
@@ -425,6 +427,7 @@
         } else if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
             [(WorkspaceViewHostController *)hostingDelegate setSearchText:[b reference]];
         }
+        
     } else if([clickedObj isKindOfClass:[FileRepresentation class]]) {
         FileRepresentation *f = clickedObj;
         // depending on the hosting window we open a new tab or window
@@ -464,12 +467,7 @@
             } else {
                 [oview setMenu:nil];
             }
-            
-		} else {
-			CocoLog(LEVEL_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification object!");
 		}
-	} else {
-		CocoLog(LEVEL_WARN,@"[LeftSideBarViewController outlineViewSelectionDidChange:] have a nil notification!");
 	}
 }
 
@@ -525,15 +523,16 @@
 
     if(item != nil) {        
         if([item isKindOfClass:[NSString class]]) {
-            [cell setFont:FontStdBold];
+            ;
         } else {
-            [cell setFont:FontStd];
             if([item isKindOfClass:[Bookmark class]] && [(Bookmark *)item isLeaf]) {
                 [(BookmarkCell *)cell setImage:bookmarkImage];
-                [(BookmarkCell *)cell setBookmark:item];                
+                [(BookmarkCell *)cell setBookmark:item];
+                
             } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
                 [(ThreeCellsCell *)cell setLeftCounter:[(Bookmark *)item childCount]];
                 [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];
+                
             } else if([item isKindOfClass:[SwordModCategory class]]) {
                 ;
             } else if([item isKindOfClass:[SwordModule class]]) {
@@ -547,7 +546,8 @@
                         img = unlockedImage;                    
                     }
                 }
-                [(ThreeCellsCell *)cell setRightImage:img];                
+                [(ThreeCellsCell *)cell setRightImage:img];
+                
             } else if([item isKindOfClass:[FileRepresentation class]]) {
                 [(ThreeCellsCell *)cell setEditable:YES];
                 FileRepresentation *fileRep = item;
