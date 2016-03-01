@@ -285,12 +285,10 @@
 		A941DD6B1C6D1A9E00B7BAF7 /* CocoPCRE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; };
 		A941DD6C1C6D1A9E00B7BAF7 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F1856A0E0833F9005F3B35 /* WebKit.framework */; };
 		A941DD6D1C6D1A9E00B7BAF7 /* ObjCSword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; };
-		A941DD6F1C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; };
 		A941DD701C6D1A9E00B7BAF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9188E7510E0F401006DA14B /* Security.framework */; };
 		A941DD721C6D1A9E00B7BAF7 /* ObjCSword.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9A127A319DE9226005BCBC1 /* ObjCSword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A941DD741C6D1A9E00B7BAF7 /* CocoLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B920E00FFFD00C3A0EF /* CocoLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A941DD751C6D1A9E00B7BAF7 /* CocoPCRE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9F61B930E00FFFD00C3A0EF /* CocoPCRE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		A941DD761C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A98203F919A0C6C200DD808C /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A945CFCE0E1CA73C00FAC910 /* MouseTrackingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A945CFCD0E1CA73C00FAC910 /* MouseTrackingScrollView.m */; };
 		A94997E31C7B6C030011A33D /* NSWindow+PSM.m in Sources */ = {isa = PBXBuildFile; fileRef = A94997CF1C7B6C030011A33D /* NSWindow+PSM.m */; };
 		A94997E41C7B6C030011A33D /* PSMDarkTabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = A94997D11C7B6C030011A33D /* PSMDarkTabStyle.m */; };
@@ -420,7 +418,6 @@
 				A941DD721C6D1A9E00B7BAF7 /* ObjCSword.framework in CopyFiles */,
 				A941DD741C6D1A9E00B7BAF7 /* CocoLogger.framework in CopyFiles */,
 				A941DD751C6D1A9E00B7BAF7 /* CocoPCRE.framework in CopyFiles */,
-				A941DD761C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,7 +803,6 @@
 				A941DD6B1C6D1A9E00B7BAF7 /* CocoPCRE.framework in Frameworks */,
 				A941DD6C1C6D1A9E00B7BAF7 /* WebKit.framework in Frameworks */,
 				A941DD6D1C6D1A9E00B7BAF7 /* ObjCSword.framework in Frameworks */,
-				A941DD6F1C6D1A9E00B7BAF7 /* PSMTabBarControl.framework in Frameworks */,
 				A941DD701C6D1A9E00B7BAF7 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

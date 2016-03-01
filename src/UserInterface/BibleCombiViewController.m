@@ -236,7 +236,7 @@
                 [sView setHasVerticalScroller:YES];
             } else {
                 // all others do not have vertical scrollers but are synchronized
-                [sView setHasVerticalScroller:NO];
+                [sView setHasVerticalScroller:YES];
             }
             
             [sView setPostsBoundsChangedNotifications:NO];
