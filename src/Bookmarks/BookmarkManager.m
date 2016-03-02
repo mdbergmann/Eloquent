@@ -11,6 +11,7 @@
 #import "Bookmark.h"
 #import "ObjCSword/SwordListKey.h"
 #import "ObjCSword/SwordVerseKey.h"
+#import "Eloquent-Swift.h"
 
 @interface BookmarkManager ()
 
@@ -63,7 +64,7 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     
     // check for new bookmarks file first
-    NSString *bookmarkFile = DEFAULT_BOOKMARK_PATH;
+    NSString *bookmarkFile = [[FolderUtil urlForBookmarks] path];
     if([fm fileExistsAtPath:bookmarkFile] == YES) {
         NSData *data = [NSData dataWithContentsOfFile:bookmarkFile];
         if(data != nil) {
@@ -71,6 +72,7 @@
             ret = [unarchiver decodeObjectForKey:@"Bookmarks"];
         }
     } else {
+#ifndef APPSTORE
         // then check for old
         bookmarkFile = OLD_BOOKMARK_PATH;
         if([fm fileExistsAtPath:bookmarkFile] == YES) {
@@ -82,6 +84,7 @@
                 ret = [self _loadBookmarks:bmarks];            
             }
         }
+#endif
     }
     
     // still nil?
@@ -130,7 +133,7 @@
     [archiver encodeObject:bookmarks forKey:@"Bookmarks"];
     [archiver finishEncoding];
     // write data object
-    [data writeToFile:DEFAULT_BOOKMARK_PATH atomically:NO];    
+    [data writeToFile:[[FolderUtil urlForBookmarks] path] atomically:NO];
 }
 
 /**

@@ -31,9 +31,9 @@
 + (NSArray *)padStrongsNumber:(NSString *)unpaddedNumber;
 
 /**
- * Pads a string on the left until maxDigits is reached
+ * Pads a string on the left until 5 digits is reached
  */
-+ (NSString *)leftPadWithZero:(NSString *)unpadded maxDigits:(NSInteger)maxDigits;
++ (NSString *)leftPadStrongsFormat:(NSString *)unpadded;
 
 
 @end

@@ -211,7 +211,7 @@
     
     // overall menu
     NSMenu *allMenu = [[NSMenu alloc] init];
-    [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
+    [allMenu addItemWithTitle:NSLocalizedString(@"Add", @"") action:nil keyEquivalent:@""];
     NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Bible", @"") action:nil keyEquivalent:@""];
     [mi setSubmenu:biblesMenu];
     mi = [allMenu addItemWithTitle:NSLocalizedString(@"Commentary", @"") action:nil keyEquivalent:@""];

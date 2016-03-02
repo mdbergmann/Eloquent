@@ -13,6 +13,7 @@
 #import "Session.h"
 #import "globals.h"
 #import "MBPreferenceController.h"
+#import "Eloquent-Swift.h"
 
 @interface SessionManager ()
 
@@ -37,7 +38,7 @@
 
         // load session path from defaults
         if([userDefaults objectForKey:DefaultsSessionPath] == nil) {
-            self.session.url = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
+            self.session.url = [FolderUtil urlForDefaultSession];
         } else {
             self.session.url = [NSURL URLWithString:[userDefaults objectForKey:DefaultsSessionPath]];
         }
@@ -98,7 +99,7 @@
 * Saves session as default session to default session url.
 */
 - (void)saveAsDefaultSession {
-    self.session.url = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
+    self.session.url = [FolderUtil urlForDefaultSession];
     [self saveSession];
 
     // mark this as default session
@@ -112,7 +113,7 @@
     [self checkSessionSaveOnLoad];
     [self closeAllWindows];
 
-    self.session.url = [NSURL fileURLWithPath:DEFAULT_SESSION_PATH];
+    self.session.url = [FolderUtil urlForDefaultSession];
     // mark as default session
     [userDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
 

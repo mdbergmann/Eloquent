@@ -13,16 +13,7 @@
 #define BUNDLEVERSION               CFBundleGetVersionNumber(CFBundleGetMainBundle())
 #define BUNDLEVERSIONSTRING         CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey)
 #define APPNAME                     @"Eloquent"
-#define DEFAULT_APPSUPPORT_PATH     [@"~/Library/Application Support/Eloquent" stringByExpandingTildeInPath]
-#define OLD_BOOKMARK_PATH           [@"~/Library/Application Support/Eloquent/Bookmarks.plist" stringByExpandingTildeInPath]
-#define DEFAULT_NOTES_PATH          [@"~/Library/Application Support/Eloquent/Notes" stringByExpandingTildeInPath]
-#define DEFAULT_BOOKMARK_PATH       [@"~/Library/Application Support/Eloquent/Bookmarklist.plist" stringByExpandingTildeInPath]
-#define DEFAULT_MODULE_PATH         [@"~/Library/Application Support/Sword" stringByExpandingTildeInPath]
-#define DEFAULT_SESSION_PATH        [@"~/Library/Application Support/Eloquent/DefaultSession.mssess" stringByExpandingTildeInPath]
-#define DEFAULT_SEARCHBOOKSET_PATH  [@"~/Library/Application Support/Eloquent/DefaultSearchBookSets.plist" stringByExpandingTildeInPath]
 #define SWINSTALLMGR_NAME           @"InstallMgr"
-#define LOGFILE                     [@"~/Library/Logs/Eloquent.log" stringByExpandingTildeInPath]
-#define TMPFOLDER                   [@"~/Library/Caches/Eloquent" stringByExpandingTildeInPath]
 
 // OS version
 #define OSVERSION [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"]

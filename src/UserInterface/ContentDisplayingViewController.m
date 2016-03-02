@@ -238,7 +238,7 @@ extern char ModuleListUI;
         if([result isKindOfClass:[SwordModuleTextEntry class]]) {
             key = [NSMutableString stringWithString:[(SwordModuleTextEntry *)result key]];
             if(isStrongs) {
-                key = [[SwordUtil leftPadWithZero:key maxDigits:5] mutableCopy];
+                key = [[SwordUtil leftPadStrongsFormat:key] mutableCopy];
             }
         } else if([result isKindOfClass:[NSArray class]]) {
             int i = 0;
@@ -247,7 +247,7 @@ extern char ModuleListUI;
                     [key appendString:@";"];
                 }
                 if(isStrongs) {
-                    [key appendString:[SwordUtil leftPadWithZero:[entry key] maxDigits:5]];
+                    [key appendString:[SwordUtil leftPadStrongsFormat:[entry key]]];
                 } else {
                     [key appendString:[entry key]];
                 }

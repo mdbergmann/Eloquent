@@ -106,6 +106,8 @@
 		A9061E510F71364A00F6DA1F /* SearchBookSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E500F71364A00F6DA1F /* SearchBookSet.m */; };
 		A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
+		A91085881C86368100A37026 /* FolderUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91085871C86368100A37026 /* FolderUtil.swift */; };
+		A91085891C86368100A37026 /* FolderUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91085871C86368100A37026 /* FolderUtil.swift */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
 		A916FCE30E0542A2009CAA2F /* ExtTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCE20E0542A2009CAA2F /* ExtTextViewController.m */; };
 		A916FD6E0E0555EB009CAA2F /* BibleCombiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FD6D0E0555EB009CAA2F /* BibleCombiViewController.m */; };
@@ -528,6 +530,8 @@
 		A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeftSideBarAccessoryUIController.m; path = src/UserInterface/LeftSideBarAccessoryUIController.m; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
+		A91085851C86368100A37026 /* Eloquent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eloquent-Bridging-Header.h"; sourceTree = "<group>"; };
+		A91085871C86368100A37026 /* FolderUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderUtil.swift; path = src/Utils/FolderUtil.swift; sourceTree = "<group>"; };
 		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
 		A916FCDD0E053910009CAA2F /* ModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModuleViewController.h; path = src/UserInterface/ModuleViewController.h; sourceTree = "<group>"; };
 		A916FCDE0E053910009CAA2F /* ModuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModuleViewController.m; path = src/UserInterface/ModuleViewController.m; sourceTree = "<group>"; };
@@ -826,6 +830,8 @@
 				A91C93DC0DF9B0E9006B7361 /* AppController.m */,
 				A97561EC12A2779000A7661B /* SwordUrlProtocol.h */,
 				A97561ED12A2779000A7661B /* SwordUrlProtocol.m */,
+				A91085871C86368100A37026 /* FolderUtil.swift */,
+				A91085851C86368100A37026 /* Eloquent-Bridging-Header.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1417,10 +1423,10 @@
 		C01FCF5008A954540054247C /* SessionManagement */ = {
 			isa = PBXGroup;
 			children = (
-				C01FCF5008A9545400542481 /* SessionManager.m */,
 				C01FCF5008A9545400542480 /* SessionManager.h */,
-				C01FCF5008A954540054247E /* Session.m */,
+				C01FCF5008A9545400542481 /* SessionManager.m */,
 				C01FCF5008A954540054247D /* Session.h */,
+				C01FCF5008A954540054247E /* Session.m */,
 			);
 			name = SessionManagement;
 			sourceTree = "<group>";
@@ -1781,6 +1787,7 @@
 				A98810340EB4A6820066943B /* SideBarViewController.m in Sources */,
 				A98810370EB4A9350066943B /* LeftSideBarViewController.m in Sources */,
 				A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */,
+				A91085881C86368100A37026 /* FolderUtil.swift in Sources */,
 				A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */,
 				A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */,
 				A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */,
@@ -1888,6 +1895,7 @@
 				A941DD271C6D1A9E00B7BAF7 /* SideBarViewController.m in Sources */,
 				A941DD281C6D1A9E00B7BAF7 /* LeftSideBarViewController.m in Sources */,
 				A941DD291C6D1A9E00B7BAF7 /* WindowHostController.m in Sources */,
+				A91085891C86368100A37026 /* FolderUtil.swift in Sources */,
 				A941DD2A1C6D1A9E00B7BAF7 /* WorkspaceViewHostController.m in Sources */,
 				A941DD2B1C6D1A9E00B7BAF7 /* SearchTextObject.m in Sources */,
 				A941DD2C1C6D1A9E00B7BAF7 /* HUDPreviewController.m in Sources */,
@@ -2272,6 +2280,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
@@ -2311,6 +2320,8 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Eloquent-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2321,6 +2332,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Eloquent.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
@@ -2355,6 +2367,7 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Eloquent-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2486,6 +2499,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2521,6 +2535,8 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Eloquent-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
@@ -2531,6 +2547,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2561,6 +2578,7 @@
 				PRODUCT_NAME = Eloquent;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Eloquent-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;

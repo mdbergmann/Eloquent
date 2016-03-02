@@ -55,10 +55,6 @@ typedef enum _VerseNumberingType {
 #define DefaultsModuleCipherKeysKey                 @"DefaultsModuleCipherKeysKey"
 
 // define some userdefaults keys
-#define DEFAULTS_SWMODULE_PATH_KEY                  @"SwordModulePath"
-#define DEFAULTS_SWINSTALLMGR_PATH_KEY              @"SwordInstallMgrPath"
-#define DEFAULTS_SWINDEX_PATH_KEY                   @"SwordIndexPath"
-#define DEFAULTS_NOTES_PATH_KEY                     @"NotesTakingPath"
 #define DefaultsSessionPath                         @"DefaultsSessionPath"
 
 // default bible

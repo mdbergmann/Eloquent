@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1050" identifier="macosx"/>
+        <deployment version="1080" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
         <capability name="box content view" minToolsVersion="7.0"/>
     </dependencies>
@@ -50,7 +50,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <textField verticalHuggingPriority="750" id="38">
-                            <rect key="frame" x="143" y="2" width="454" height="11"/>
+                            <rect key="frame" x="230" y="2" width="367" height="11"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="39">
                                 <font key="font" metaFont="miniSystem"/>
@@ -63,58 +63,45 @@
                             </connections>
                         </textField>
                         <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="62">
-                            <rect key="frame" x="146" y="0.0" width="5" height="15"/>
+                            <rect key="frame" x="230" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <font key="titleFont" metaFont="system"/>
                         </box>
-                        <button id="35">
-                            <rect key="frame" x="126" y="1" width="24" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="bevel" title="x" bezelStyle="rounded" alignment="center" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="36">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="miniSystem"/>
-                            </buttonCell>
-                            <connections>
-                                <action selector="closeButton:" target="-2" id="43"/>
-                                <binding destination="45" name="fontFamilyName" keyPath="values.DefaultsHeaderViewFontFamilyKey" id="48"/>
-                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeBigKey" previousBinding="48" id="58"/>
-                            </connections>
-                        </button>
                         <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="61">
-                            <rect key="frame" x="125" y="0.0" width="5" height="15"/>
+                            <rect key="frame" x="155" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <font key="titleFont" metaFont="system"/>
                         </box>
                         <popUpButton id="178">
-                            <rect key="frame" x="100" y="2" width="28" height="15"/>
+                            <rect key="frame" x="105" y="0.0" width="50" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="bevel" title="+" bezelStyle="rounded" alignment="left" controlSize="mini" lineBreakMode="truncatingTail" state="on" borderStyle="bezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="183" id="179">
+                            <popUpButtonCell key="cell" type="bevel" title="Add" bezelStyle="rounded" alignment="center" controlSize="mini" lineBreakMode="truncatingTail" state="on" borderStyle="bezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="arrowAtCenter" selectedItem="183" id="179">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="miniSystem"/>
                                 <menu key="menu" title="OtherViews" id="180">
                                     <items>
-                                        <menuItem title="+" state="on" hidden="YES" id="183"/>
+                                        <menuItem title="Add" state="on" hidden="YES" id="183"/>
                                     </items>
                                 </menu>
                             </popUpButtonCell>
                             <connections>
+                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="185" id="oiw-HW-MBR"/>
                                 <binding destination="45" name="fontFamilyName" keyPath="values.DefaultsHeaderViewFontFamilyKey" id="185"/>
-                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeBigKey" previousBinding="185" id="186"/>
                             </connections>
                         </popUpButton>
                         <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="60">
-                            <rect key="frame" x="98" y="0.0" width="5" height="15"/>
+                            <rect key="frame" x="100" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <font key="titleFont" metaFont="system"/>
                         </box>
                         <popUpButton id="29">
-                            <rect key="frame" x="-1" y="0.0" width="102" height="15"/>
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="bevel" title="Module" bezelStyle="rounded" alignment="center" controlSize="mini" lineBreakMode="truncatingTail" state="on" borderStyle="bezel" imageScaling="proportionallyDown" inset="2" selectedItem="32" id="30">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -133,9 +120,23 @@
                                 <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="46" id="47"/>
                             </connections>
                         </popUpButton>
+                        <button id="35">
+                            <rect key="frame" x="160" y="0.0" width="70" height="15"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="bevel" title="Remove" bezelStyle="rounded" alignment="center" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="36">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="miniSystem"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="closeButton:" target="-2" id="43"/>
+                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="48" id="ajN-ip-IMW"/>
+                                <binding destination="45" name="fontFamilyName" keyPath="values.DefaultsHeaderViewFontFamilyKey" id="48"/>
+                            </connections>
+                        </button>
                     </subviews>
                 </customView>
             </subviews>
+            <point key="canvasLocation" x="445" y="983"/>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="45"/>
         <menu title="Text Context Menu" id="64">

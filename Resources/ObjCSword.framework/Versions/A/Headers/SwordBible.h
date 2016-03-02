@@ -26,10 +26,10 @@ typedef enum {
 }Testament;
 
 @interface SwordBible : SwordModule {
-    NSMutableDictionary *books;
+    NSDictionary *_books;
 }
 
-@property (strong, readwrite) NSMutableDictionary *books;
+@property (strong, readwrite) NSDictionary *books;
 
 // ----------- class methods -------------
 + (void)decodeRef:(NSString *)ref intoBook:(NSString **)bookName book:(int *)book chapter:(int *)chapter verse:(int *)verse;

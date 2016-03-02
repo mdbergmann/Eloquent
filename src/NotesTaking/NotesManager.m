@@ -9,6 +9,7 @@
 #import "NotesManager.h"
 #import "FileRepresentation.h"
 #import "globals.h"
+#import "Eloquent-swift.h"
 
 @interface NotesManager ()
 
@@ -29,7 +30,7 @@
 static NotesManager *singleton = nil;
 + (NotesManager *)defaultManager {
     if(singleton == nil) {
-        singleton = [[NotesManager alloc] initWithRootPath:DEFAULT_NOTES_PATH];
+        singleton = [[NotesManager alloc] initWithRootPath:[[FolderUtil urlForNotesFolder] path]];
     }
     return singleton;
 }

@@ -13,6 +13,7 @@
 #import "ObjCSword/SwordVerseKey.h"
 #import "Indexer.h"
 #import "SwordModule+SearchKitIndex.h"
+#import "Eloquent-Swift.h"
 
 @interface IndexingManager ()
 
@@ -118,10 +119,11 @@
         [self setIndexerRegistrat:[NSMutableDictionary dictionary]];
         indexCheckLock = [[NSLock alloc] init];
         
+        NSString *booksetsPath = [[FolderUtil urlForDefaultSearchBooksets] path];
         NSFileManager *fm = [NSFileManager defaultManager];
-        if([fm fileExistsAtPath:DEFAULT_SEARCHBOOKSET_PATH]) {
+        if([fm fileExistsAtPath:booksetsPath]) {
             // load
-            [self setSearchBookSets:[NSMutableArray arrayWithArray:[NSKeyedUnarchiver unarchiveObjectWithFile:DEFAULT_SEARCHBOOKSET_PATH]]];
+            [self setSearchBookSets:[NSMutableArray arrayWithArray:[NSKeyedUnarchiver unarchiveObjectWithFile:booksetsPath]]];
         } else {
             // build default search book sets
             NSMutableArray *bookSets = [NSMutableArray array];
@@ -215,7 +217,7 @@
             [set addBook:[[SwordVerseKey verseKeyWithRef:@"Jude"] osisBookName]];
             
             // store
-            [NSKeyedArchiver archiveRootObject:bookSets toFile:DEFAULT_SEARCHBOOKSET_PATH];
+            [NSKeyedArchiver archiveRootObject:bookSets toFile:booksetsPath];
             // take it
             [self setSearchBookSets:bookSets];
         }
@@ -227,7 +229,7 @@
 
 - (void)storeSearchBookSets {
     // store
-    [NSKeyedArchiver archiveRootObject:searchBookSets toFile:DEFAULT_SEARCHBOOKSET_PATH];
+    [NSKeyedArchiver archiveRootObject:searchBookSets toFile:[[FolderUtil urlForDefaultSearchBooksets] path]];
 }
 
 /**

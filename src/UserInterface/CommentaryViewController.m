@@ -138,7 +138,7 @@
                                     withMenuAction:@selector(addModule:)];
 
     NSMenu *allMenu = [[NSMenu alloc] init];
-    [allMenu addItemWithTitle:@"+" action:nil keyEquivalent:@""];
+    [allMenu addItemWithTitle:NSLocalizedString(@"Add", @"") action:nil keyEquivalent:@""];
     NSMenuItem *mi = [allMenu addItemWithTitle:NSLocalizedString(@"Commentary", @"") action:nil keyEquivalent:@""];
     [mi setSubmenu:commentariesMenu];
     

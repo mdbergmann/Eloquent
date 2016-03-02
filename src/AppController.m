@@ -21,156 +21,72 @@
 #import "globals.h"
 #import "ModuleManager.h"
 #import "EloquentFilterProvider.h"
+#import "Eloquent-Swift.h"
 
-NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
-	OSStatus err;
-	FSRef folderRef;
-	NSString *path = nil;
-	NSURL *url;
-	
-	err = FSFindFolder(domain, dir, createFolder, &folderRef);
-	if(err == 0) {
-		url = (NSURL *)CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef));
-		if(url) {
-			path = [NSString stringWithString:[url path]];
-		}
-	}
-    
-	return path;
-}
-
-
-@interface AppController (privateAPI)
-
-- (BOOL)setupFolders;
-- (void)addInternalModules;
-
-@end
-
-@implementation AppController (privateAPI)
+@implementation AppController
 
 + (void)initialize {
     [Configuration configWithImpl:[OSXConfiguration new]];
-
-	NSString *logPath = LOGFILE;
-	
+    
+    NSString *logPath = [[FolderUtil urlForLogfile] path];
+    
 #ifdef DEBUG
-	[CocoLogger initLogger:logPath 
-                 logPrefix:@"[Eloquent]" 
-            logFilterLevel:LEVEL_DEBUG 
-              appendToFile:YES 
+    [CocoLogger initLogger:logPath
+                 logPrefix:@"[Eloquent]"
+            logFilterLevel:LEVEL_DEBUG
+              appendToFile:YES
               logToConsole:YES];
 #endif
 #ifdef RELEASE
-	[CocoLogger initLogger:logPath 
-                 logPrefix:@"[Eloquent]" 
-            logFilterLevel:LEVEL_DEBUG 
-              appendToFile:YES 
-              logToConsole:NO];	
+    [CocoLogger initLogger:logPath
+                 logPrefix:@"[Eloquent]"
+            logFilterLevel:LEVEL_DEBUG
+              appendToFile:YES
+              logToConsole:NO];
 #endif
-	CocoLog(LEVEL_DEBUG, @"logging initialized");    
+    CocoLog(LEVEL_DEBUG, @"logging initialized");
 }
 
 /**
  sets up all needed folders so the application can work
  */
 - (BOOL)setupFolders {
-    BOOL ret = YES;
+    NSString *folder = [[FolderUtil urlForAppInAppSupport] path];
+    if(folder == nil) {
+        CocoLog(LEVEL_ERR, @"Unable to retrieve app folder!");
+        return NO;
+    }
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    folder = [[FolderUtil urlForIndexFolder] path];
+    if(folder == nil) {
+        CocoLog(LEVEL_ERR, @"Unable to retrieve index folder!");
+        return NO;
+    }
     
-    // get app support path
-	NSString *path = pathForFolderType(kApplicationSupportFolderType, kUserDomain, true);
-	if(path == nil) {
-		CocoLog(LEVEL_ERR, @"Cannot get path to Application Support!");
-	} else {
-        CocoLog(LEVEL_INFO, @"Have path to AppSupport, ok.");
-        
-        // add path for application path in Application Support
-        path = [path stringByAppendingPathComponent:APPNAME];
-        // check if dir for application exists
-        NSFileManager *manager = [NSFileManager defaultManager];
-        if(![manager fileExistsAtPath:path]) {
-            CocoLog(LEVEL_INFO, @"path to Eloquent does not exist, creating it!");
-            // create APP dir
-            if(![manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL]) {
-                CocoLog(LEVEL_ERR,@"Cannot create Eloquent folder in Application Support!");
-                ret = NO;
-            }
-        }
-        
-        // on no error continue
-        if(ret) {
-            // create IndexFolder folder
-            NSString *indexPath = [path stringByAppendingPathComponent:@"Index"];
-            if(![manager fileExistsAtPath:indexPath]) {
-                CocoLog(LEVEL_INFO, @"path to IndexFolder does not exist, creating it!");
-                if(![manager createDirectoryAtPath:indexPath withIntermediateDirectories:NO attributes:nil error:NULL]) {
-                    CocoLog(LEVEL_ERR,@"Cannot create index folder in Application Support!");
-                }
-            }
-            // put to defaults
-            [defaults setObject:indexPath forKey:DEFAULTS_SWINDEX_PATH_KEY];
-            [defaults synchronize];
-            
-            // create default modules folder which is Sword
-            path = DEFAULT_NOTES_PATH;
-            if(![manager fileExistsAtPath:path]) {
-                CocoLog(LEVEL_INFO, @"path to notes does not exist, creating it!");
-                if(![manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL]) {
-                    CocoLog(LEVEL_ERR,@"Cannot create notes folder in Application Support!");
-                }
-            }
-            // put to defaults
-            [defaults setObject:path forKey:DEFAULTS_NOTES_PATH_KEY];
-            [defaults synchronize];
-        }
-        
-        // create default modules folder which is Sword
-        path = DEFAULT_MODULE_PATH;
-        if(![manager fileExistsAtPath:path]) {
-            CocoLog(LEVEL_INFO, @"path to swmodules does not exist, creating it!");
-            if(![manager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:NULL]) {
-                CocoLog(LEVEL_ERR,@"Cannot create swmodules folder in Application Support!");
-                ret = NO;
-            }
-            
-            // check for "mods.d" folder
-            NSString *modsFolder = [path stringByAppendingPathComponent:@"mods.d"];
-            if(![manager fileExistsAtPath:modsFolder]) {
-                // create it
-                if(![manager createDirectoryAtPath:modsFolder withIntermediateDirectories:NO attributes:nil error:NULL]) {
-                    CocoLog(LEVEL_ERR, @"Could not create mods.d folder!");
-                }
-            }            
-        }
-        // put to defaults
-        [defaults setObject:path forKey:DEFAULTS_SWMODULE_PATH_KEY];
-        [defaults synchronize];                    
-        
-        // on no error continue
-        if(ret) {
-            // create InstallMgr folder
-            NSString *installMgrPath = [path stringByAppendingPathComponent:SWINSTALLMGR_NAME];
-            if(![manager fileExistsAtPath:installMgrPath]) {
-                CocoLog(LEVEL_INFO, @"path to installmgr does not exist, creating it!");
-                if(![manager createDirectoryAtPath:installMgrPath withIntermediateDirectories:NO attributes:nil error:NULL]) {
-                    CocoLog(LEVEL_ERR,@"Cannot create installmgr folder in Application Support!");
-                    ret = NO;
-                }                
-            }
-            // put to defaults
-            [defaults setObject:installMgrPath forKey:DEFAULTS_SWINSTALLMGR_PATH_KEY];
-            [defaults synchronize];
-        }        
-	}
+    folder = [[FolderUtil urlForNotesFolder] path];
+    if(folder == nil) {
+        CocoLog(LEVEL_ERR, @"Unable to retrieve notes folder!");
+        return NO;
+    }
+
+    folder = [[FolderUtil urlForModulesFolder] path];
+    if(folder == nil) {
+        CocoLog(LEVEL_ERR, @"Unable to retrieve modules folder!");
+        return NO;
+    }
     
-    return ret;
+    folder = [[FolderUtil urlForInstallMgrModulesFolder] path];
+    if(folder == nil) {
+        CocoLog(LEVEL_ERR, @"Unable to retrieve installmgr folder!");
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)addInternalModules {
     NSString *modulesFolder = [[[NSBundle mainBundle] resourcePath]stringByAppendingPathComponent:@"Modules"];
-
+    
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *subDirs = [fm contentsOfDirectoryAtPath:modulesFolder error:NULL];
     // for all sub directories add module
@@ -193,11 +109,6 @@ NSString *pathForFolderType(OSType dir, short domain, BOOL createFolder) {
     }
 }
 
-@end
-
-
-@implementation AppController
-
 /** the singleton */
 static AppController *singleton;
 
@@ -211,21 +122,22 @@ static AppController *singleton;
         // set singleton
         singleton = self;
 
+#ifndef APPSTORE
         NSFileManager *fm = [NSFileManager defaultManager];
 
         // check whether this is the first start of Eloquent
         NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.Eloquent.plist" stringByExpandingTildeInPath];
-        if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:DEFAULT_MODULE_PATH]) {
+        if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:[AppController pathForModulesFolder]]) {
             // show Alert
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"") 
                                              defaultButton:NSLocalizedString(@"Yes", @"") 
                                            alternateButton:NSLocalizedString(@"No", @"") 
                                                otherButton:nil informativeTextWithFormat:NSLocalizedString(@"Info_OldModuleDatabaseDetected", @"")];
             if([alert runModal] == NSAlertDefaultReturn) {
-                [fm removeItemAtPath:DEFAULT_MODULE_PATH error:nil];
+                [fm removeItemAtPath:[AppController pathForModulesFolder] error:nil];
             }
         }
-
+#endif
         [MBPreferenceController registerDefaults];
         [self setupFolders];
 
@@ -248,7 +160,9 @@ static AppController *singleton;
         }
         
         // init install manager
-        SwordInstallSourceManager *installSourceManager = [[SwordInstallSourceManager alloc] initWithPath:[userDefaults stringForKey:DEFAULTS_SWINSTALLMGR_PATH_KEY] createPath:YES];
+        SwordInstallSourceManager *installSourceManager = [[SwordInstallSourceManager alloc]
+                                                           initWithPath:[[FolderUtil urlForInstallMgrModulesFolder] path]
+                                                           createPath:YES];
         [installSourceManager setFtpPassword:@"eloquent@crosswire.org"];
         [installSourceManager useAsDefaultManager];
         [installSourceManager initManager];
@@ -262,8 +176,11 @@ static AppController *singleton;
         
         // init indexing manager, set base index path
         IndexingManager *im = [IndexingManager sharedManager];
-        [im setBaseIndexPath:[userDefaults stringForKey:DEFAULTS_SWINDEX_PATH_KEY]];
-        [im setSwordManager:sm];        
+        [im setBaseIndexPath:[[FolderUtil urlForIndexFolder] path]];
+        [im setSwordManager:sm];
+        
+        
+//        => Installing one module seems to hide the bundled KJV module!
     }
     
     return self;
@@ -369,7 +286,7 @@ static AppController *singleton;
             NSString *destinationPath = filename;
             if([alert runModal] == NSAlertDefaultReturn) {
                 CocoLog(LEVEL_DEBUG, @"User chose to permanently use this module.");
-                destinationPath = [DEFAULT_MODULE_PATH stringByAppendingPathComponent:moduleFilename];
+                destinationPath = [[[FolderUtil urlForModulesFolder] path] stringByAppendingPathComponent:moduleFilename];
 
                 CocoLog(LEVEL_DEBUG, @"Copying module %@ to %@", filename, destinationPath);
                 NSFileManager *fm = [NSFileManager defaultManager];
