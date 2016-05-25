@@ -68,24 +68,12 @@
         CocoLog(LEVEL_ERR, @"Unable to retrieve notes folder!");
         return NO;
     }
-
-    folder = [[FolderUtil urlForModulesFolder] path];
-    if(folder == nil) {
-        CocoLog(LEVEL_ERR, @"Unable to retrieve modules folder!");
-        return NO;
-    }
-    
-    folder = [[FolderUtil urlForInstallMgrModulesFolder] path];
-    if(folder == nil) {
-        CocoLog(LEVEL_ERR, @"Unable to retrieve installmgr folder!");
-        return NO;
-    }
     
     return YES;
 }
 
 - (void)addInternalModules {
-    NSString *modulesFolder = [[[NSBundle mainBundle] resourcePath]stringByAppendingPathComponent:@"Modules"];
+    NSString *modulesFolder = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modules"];
     
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *subDirs = [fm contentsOfDirectoryAtPath:modulesFolder error:NULL];
@@ -127,14 +115,15 @@ static AppController *singleton;
 
         // check whether this is the first start of Eloquent
         NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.Eloquent.plist" stringByExpandingTildeInPath];
-        if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:[AppController pathForModulesFolder]]) {
+        NSString *moduleFolder = [[FolderUtil urlForModulesFolder] path];
+        if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:moduleFolder]) {
             // show Alert
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"") 
                                              defaultButton:NSLocalizedString(@"Yes", @"") 
                                            alternateButton:NSLocalizedString(@"No", @"") 
                                                otherButton:nil informativeTextWithFormat:NSLocalizedString(@"Info_OldModuleDatabaseDetected", @"")];
             if([alert runModal] == NSAlertDefaultReturn) {
-                [fm removeItemAtPath:[AppController pathForModulesFolder] error:nil];
+                [fm removeItemAtPath:moduleFolder error:nil];
             }
         }
 #endif
@@ -154,9 +143,15 @@ static AppController *singleton;
         [[FilterProviderFactory providerFactory] initWithImpl:[[EloquentFilterProvider alloc] init]];
         SwordManager *sm = [SwordManager defaultManager];
         
-        // check for installed modules, if there are none add our internal module path so that th user at least has one module (KJV)
-        if([[sm modules] count] == 0) {
+        // check for installed modules, if there are none add our internal module path so that the user at least has one module (KJV)
+        NSDictionary *allModules = [sm allModules];
+        if([allModules count] == 0) {
             [self addInternalModules];
+        } else {
+            // we also want the KJV to be added if there are installed modules but not the KJV
+            if([allModules count] > 0 && [allModules objectForKey:@"KJV"] == nil) {
+                [self addInternalModules];
+            }
         }
         
         // init install manager
@@ -497,32 +492,29 @@ static AppController *singleton;
     
     NSString *ddModName = [userDefaults stringForKey:DefaultsDailyDevotionModule];
 
-    BOOL show = YES;
+    if(ddModName == nil) {
+        // nothing to do here
+        return;
+    }
+    
+    SwordDictionary *ddMod = (SwordDictionary *)[[SwordManager defaultManager] moduleWithName:ddModName];
     if(dailyDevotionController == nil) {
-        // get daily devotion module
-        if(ddModName == nil) {
-            show = NO;
-        } else {
-            SwordDictionary *ddMod = (SwordDictionary *)[[SwordManager defaultManager] moduleWithName:ddModName];
-            dailyDevotionController = [[DailyDevotionPanelController alloc] initWithDelegate:self andModule:ddMod];
-        }
+        dailyDevotionController = [[DailyDevotionPanelController alloc] initWithDelegate:self andModule:ddMod];
+        
     } else {
-        if(ddModName != nil) {
-            SwordDictionary *ddMod = (SwordDictionary *)[[SwordManager defaultManager] moduleWithName:ddModName];
-            [dailyDevotionController setDailyDevotionModule:ddMod];
-        }
+        [dailyDevotionController setDailyDevotionModule:ddMod];
+        
     }
 
-    if(show) {
-        // show window
-        if(!isDailyDevotionShowing) {
-            [dailyDevotionController showWindow:self];
-            isDailyDevotionShowing = YES;
-        } else {
-            [dailyDevotionController close];    
-            isDailyDevotionShowing = NO;
-        }        
-    }
+    // show window
+    if(!isDailyDevotionShowing) {
+        [dailyDevotionController showWindow:self];
+        isDailyDevotionShowing = YES;
+        
+    } else {
+        [dailyDevotionController close];    
+        isDailyDevotionShowing = NO;
+    }        
 }
 
 - (IBAction)showCreateModuleWindow:(id)sender {
@@ -533,7 +525,7 @@ static AppController *singleton;
     
     // check for module name
     NSString *modName = [createModuleNameTextField stringValue];
-    if([[SwordManager defaultManager] modules][modName] != nil) {
+    if([[SwordManager defaultManager] moduleWithName:modName] != nil) {
         // module exists already
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"ModuleNameExists", @"") 
                                          defaultButton:NSLocalizedString(@"OK", @"") 
