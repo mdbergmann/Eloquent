@@ -74,6 +74,7 @@
     } else {
 #ifndef APPSTORE
         // then check for old
+        /*
         bookmarkFile = OLD_BOOKMARK_PATH;
         if([fm fileExistsAtPath:bookmarkFile] == YES) {
             // load from here
@@ -84,6 +85,7 @@
                 ret = [self _loadBookmarks:bmarks];            
             }
         }
+         */
 #endif
     }
     

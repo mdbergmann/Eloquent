@@ -32,7 +32,7 @@
 }
 
 - (NSString *)installedModulesLabel {
-    return [NSString stringWithFormat:NSLocalizedString(@"InitialViewLabelText", @""), [[[SwordManager defaultManager] modules] count]];
+    return [NSString stringWithFormat:NSLocalizedString(@"InitialViewLabelText", @""), [[SwordManager defaultManager] numberOfModules]];
 }
 
 - (NSString *)openBibleLabel {

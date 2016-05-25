@@ -54,7 +54,7 @@
         withInstallController:(SwordInstallSourceManager *)sim;
 
 /** List of available InstallSources */
-- (NSArray *)listModules;
+- (NSDictionary *)allModules;
 
 /** List of modules for given type */
 - (NSArray *)listModulesForType:(ModuleType)aType;

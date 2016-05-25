@@ -113,7 +113,7 @@
 - (NSAttributedString *)moduleText {
     // create key String
     NSString *keyString = [NSString stringWithFormat:@"%02ld.%02ld", month, day];
-    SwordModuleTextEntry *renderedText = [dailyDevotionModule textEntryForKey:[SwordKey swordKeyWithRef:keyString] textType:TextTypeRendered];
+    SwordModuleTextEntry *renderedText = [dailyDevotionModule renderedTextEntryForRef:keyString];
     
     if(renderedText) {
         NSMutableDictionary *options = [NSMutableDictionary dictionary];

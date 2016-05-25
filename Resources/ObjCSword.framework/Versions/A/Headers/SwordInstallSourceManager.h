@@ -76,7 +76,7 @@ typedef enum _ModuleStatusConst {
 - (void)setUserDisclaimerConfirmed:(BOOL)flag;
 
 // list modules in sources
-- (NSArray *)listModulesForSource:(SwordInstallSource *)is;
+- (NSDictionary *)listModulesForSource:(SwordInstallSource *)is;
 
 // remote source list
 - (int)refreshInstallSource:(SwordInstallSource *)is;

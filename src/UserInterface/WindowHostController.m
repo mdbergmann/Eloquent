@@ -466,6 +466,8 @@ typedef enum _NavigationDirectionType {
 #pragma mark - NSCoding protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
+    self = [super initWithCoder:decoder];
+    
     [Associater setCurrentInitialisationHost:self];
     
     self.currentSearchText = [decoder decodeObjectForKey:@"SearchTextObject"];

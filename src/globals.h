@@ -46,3 +46,9 @@
  */
 #define NotificationSetHUDContentView @"NotificationSetHUDContentView"
 #define SendNotifySetHUDContentView(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationSetHUDContentView object:X];
+
+/**
+ \brief this notification is send, when the modules have changed (updated, added, removed)
+ */
+#define NotificationModulesChanged @"NotificationModulesChanged"
+#define SendNotifyModulesChanged(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationModulesChanged object:X];

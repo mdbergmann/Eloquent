@@ -12,8 +12,6 @@
 
 @implementation SwordModCategory
 
-@synthesize type;
-
 + (NSArray *)moduleCategories {
     static NSArray *cats = nil;
     if(cats == nil) {
@@ -30,7 +28,7 @@
 - (id)initWithType:(ModuleType)aType {
     self = [super init];
     if(self) {
-        [self setType:aType];
+        [self setModType:aType];
     }
     
     return self;
@@ -41,7 +39,7 @@
 - (NSString *)name {
     NSString *ret = @"";
     
-    switch(type) {
+    switch(self.modType) {
         case Bible:
             ret = SWMOD_TYPES_BIBLES;
             break;

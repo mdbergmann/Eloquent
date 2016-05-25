@@ -36,6 +36,10 @@
 @interface LeftSideBarViewController ()
 
 @property (strong, readwrite) NSMutableArray *selectedItems;
+@property (strong, readwrite) NSArray *moduleCacheBibles;
+@property (strong, readwrite) NSArray *moduleCacheCommentaries;
+@property (strong, readwrite) NSArray *moduleCacheDicts;
+@property (strong, readwrite) NSArray *moduleCacheBooks;
 
 - (void)reload;
 - (BOOL)isDropSectionBookmarksForItem:(id)anItem;
@@ -67,10 +71,9 @@
         
         [self setSelectedItems:[NSMutableArray array]];
         
-        BOOL stat = [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
-        if(!stat) {
-            CocoLog(LEVEL_ERR, @"[LeftSideBarViewController -init] unable to load nib!");
-        }
+        [self buildModuleCache];
+        
+        [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
     }
     
     return self;
@@ -106,7 +109,18 @@
     [outlineView expandItem:[outlineView itemAtRow:0]];
 }
 
+- (void)buildModuleCache {
+    self.moduleCacheBibles = [NSArray arrayWithArray:[[SwordManager defaultManager] modulesForType:Bible]];
+    self.moduleCacheCommentaries = [NSArray arrayWithArray:[[SwordManager defaultManager] modulesForType:Commentary]];
+    self.moduleCacheDicts = [NSArray arrayWithArray:[[SwordManager defaultManager] modulesForType:Dictionary]];
+    self.moduleCacheBooks = [NSArray arrayWithArray:[[SwordManager defaultManager] modulesForType:Genbook]];
+}
 
+/** notification, called when modules have changed */
+- (void)modulesListChanged:(NSNotification *)aNotification {
+    [self buildModuleCache];
+    [self reloadForController:self.modulesUIController];
+}
 
 - (id)objectForClickedRow {
     id ret = nil;
@@ -133,9 +147,12 @@
 
 - (void)reloadForController:(LeftSideBarAccessoryUIController *)aController {
     if([aController isKindOfClass:[ModulesUIController class]]) {
+        [self buildModuleCache];
         [outlineView reloadItem:modulesRootItem reloadChildren:YES];
+        
     } else if([aController isKindOfClass:[BookmarksUIController class]]) {
         [outlineView reloadItem:bookmarksRootItem reloadChildren:YES];
+        
     } else if([aController isKindOfClass:[NotesUIController class]]) {
         [outlineView reloadItem:notesRootItem reloadChildren:YES];        
     }
@@ -164,7 +181,7 @@
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         // get number of modules in category
-        ret = [[swordManager modulesForType:[(SwordModCategory *)item type]] count];
+        ret = [[swordManager modulesForType:[(SwordModCategory *)item modType]] count];
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         ret = [[(Bookmark *)item subGroups] count];
@@ -202,8 +219,22 @@
         ret = [[[notesManager notesFileRep] directoryContent] objectAtIndex:(NSUInteger)index];
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
-        // get number of modules in category
-        ret = [[swordManager modulesForType:[(SwordModCategory *)item type]] objectAtIndex:(NSUInteger)index];
+        switch([(SwordModCategory *)item modType]) {
+            case Bible:
+                ret = self.moduleCacheBibles[index];
+                break;
+            case Commentary:
+                ret = self.moduleCacheCommentaries[index];
+                break;
+            case Dictionary:
+                ret = self.moduleCacheDicts[index];
+                break;
+            case Genbook:
+                ret = self.moduleCacheBooks[index];
+                break;
+            case All:
+                break;
+        }
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         ret = [[(Bookmark *)item subGroups] objectAtIndex:(NSUInteger)index];
@@ -224,7 +255,19 @@
         return YES;
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
-        return ([[swordManager modulesForType:[(SwordModCategory *)item type]] count] > 0);
+        // module category
+        switch([(SwordModCategory *)item modType]) {
+            case Bible:
+                return self.moduleCacheBibles.count > 0;
+            case Commentary:
+                return self.moduleCacheCommentaries.count > 0;
+            case Dictionary:
+                return self.moduleCacheDicts.count > 0;
+            case Genbook:
+                return self.moduleCacheBooks.count > 0;
+            case All:
+                break;
+        }
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
         return ([[(Bookmark *)item subGroups] count] > 0);

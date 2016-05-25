@@ -9,11 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "ObjCSword/SwordModule.h"
 
-@interface SwordModCategory : NSObject {
-    ModuleType type;
-}
+@interface SwordModCategory : NSObject
 
-@property (readwrite) ModuleType type;
+@property (readwrite) ModuleType modType;
 
 + (NSArray *)moduleCategories;
 - (id)initWithType:(ModuleType)aType;

@@ -105,14 +105,11 @@
     
 #ifdef __cplusplus
 	sword::SWMgr *swManager;
-	SwordFilter *plainFilter, *thmlFilter, *gbfFilter, *osisFilter, *teiFilter;
-    SwordFilter *thmlStripFilter, *gbfStripFilter, *osisStripFilter, *teiStripFilter;
 #endif
 
 }
 
 // ------------------- getter / setter -------------------
-@property (strong, readonly) NSDictionary *modules;
 @property (strong, readwrite) NSString *modulesPath;
 @property (strong, readwrite) NSLock *managerLock;
 
@@ -137,6 +134,9 @@
  */
 + (NSArray *)moduleTypes;
 
+/** uses the current instance as default manager */
+- (void)useAsDefaultManager;
+
 /**
  Initializes this manager for the given module path.
  */
@@ -148,10 +148,12 @@
 - (void)addModulesPath:(NSString*)path;
 
 /** 
- re-init - reloads all modules, filters and such
- This will be triggered if new module had been installed in the module installer.
+ Loads all modules, filters and such
  */
-- (void)reInit;
+- (void)initManager;
+
+/** should be called to reload all modules and such */
+- (void)reloadManager;
 
 /**
  Set a cipher key for the given module to make it unlocked and in order to render it's text.
@@ -168,6 +170,9 @@
  */
 - (BOOL)globalOption:(NSString *)option;
 
+/** the number of modules */
+- (NSInteger)numberOfModules;
+
 /**
  List of module names known by this manager
  */
@@ -176,7 +181,7 @@
 /**
  List of modules known by this manager
  */
-- (NSArray *)listModules;
+- (NSDictionary *)allModules;
 
 /**
  Module list sorted by name

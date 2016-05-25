@@ -3,6 +3,7 @@
 #import "ModuleListObject.h"
 #import "InstallSourceListObject.h"
 #import "globals.h"
+#import "Eloquent-Swift.h"
 
 // table column identifiers
 #define TABLECOL_IDENTIFIER_MODNAME @"modname"
@@ -100,7 +101,7 @@
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList {
     SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
-    SwordManager *sm = [SwordManager defaultManager];
+    SwordManager *sm = [SwordManager managerWithPath:[[FolderUtil urlForModulesFolder] path]];
 
     NSMutableArray *arr = [NSMutableArray array];
 

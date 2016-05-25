@@ -161,10 +161,7 @@ enum ModuleMenu_Items{
                                                  selector:@selector(modulesListChanged:)
                                                      name:NotificationModulesChanged object:nil];            
         
-        BOOL stat = [NSBundle loadNibNamed:MODULELIST_UI_NIBNAME owner:self];
-        if(!stat) {
-            CocoLog(LEVEL_ERR, @"[ModuleListUIController -init] unable to load nib!");
-        }        
+        [NSBundle loadNibNamed:MODULELIST_UI_NIBNAME owner:self];
     }
     return self;
 }
@@ -412,7 +409,7 @@ enum ModuleMenu_Items{
     NSString *unlockCode = [moduleUnlockTextField stringValue];
     SwordModule *mod = clickedMod;        
     if(mod) {
-        [mod unlock:unlockCode];
+        [[SwordManager defaultManager] setCipherKey:unlockCode forModuleNamed:[mod name]];
     }
     
     [moduleUnlockWindow close];

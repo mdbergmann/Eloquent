@@ -88,12 +88,11 @@ typedef enum {
  Convenience initializer
  */
 + (id)moduleForSWModule:(sword::SWModule *)aModule;
-+ (id)moduleForSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager;
 
 /**
  Factory method that creates the correct module type instance for the given type
  */
-+ (id)moduleForType:(ModuleType)aType swModule:(sword::SWModule *)swModule swordManager:(SwordManager *)aManager;
++ (id)moduleForType:(ModuleType)aType swModule:(sword::SWModule *)swModule;
 
 /**
  Initialize this module with an the SWModule.
@@ -105,7 +104,7 @@ typedef enum {
  Initialize this module with an the SWModule and a SwordManager instance.
  This initializer should normally not need to be used.
  */
-- (id)initWithSWModule:(sword::SWModule *)aModule swordManager:(SwordManager *)aManager;
+- (id)initWithSWModule:(sword::SWModule *)aModule;
 
 /**
  Retrieve the underlying SWModule instance
@@ -129,12 +128,6 @@ typedef enum {
 + (ModuleCategory)moduleCategoryForModuleCategoryString:(NSString *)categoryStr;
 
 // ------------- instance methods ---------------
-
-/**
- Initializes module with a given name and SwordManager.
- The SwordManager is needed because the underlying SWModule is retrieved from SwordManager.
- */
-- (id)initWithName:(NSString *)aName swordManager:(SwordManager *)aManager;
 
 /** Adds a render filter to this module */
 - (void)addRenderFilter:(SwordFilter *)aFilter;
@@ -215,13 +208,6 @@ typedef enum {
  */
 - (NSString *)configFileEntryForConfigKey:(NSString *)entryKey;
 
-// ------------------ module unlocking ------------------
-
-/**
- Unlock this module with a cipher key, if it is encrypted.
- */
-- (BOOL)unlock:(NSString *)unlockKey;
-
 // ------------------ module access semaphores -----------------
 
 /**
@@ -297,15 +283,6 @@ typedef enum {
 // ----------------- Module text access ----------------------
 
 /**
- Retrieves a text entry for a given key.
- Type can be: "rendered" or "stripped"
- */
-- (SwordModuleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType;
-/**
- Convenience method with a key-string
- */
-- (SwordModuleTextEntry *)textEntryForKeyString:(NSString *)aKeyString textType:(TextPullType)aType;
-/**
  Pulls all text entries for the given reference
  @return Array of SwordModuleTextEntry
  */
@@ -343,6 +320,9 @@ typedef enum {
  @return Array of SwordModuleTextEntry instances
  */
 - (NSArray *)renderedTextEntriesForRef:(NSString *)reference;
+
+- (SwordModuleTextEntry *)renderedTextEntryForRef:(NSString *)reference;
+- (SwordModuleTextEntry *)strippedTextEntryForRef:(NSString *)reference;
 
 /** 
  number of entries

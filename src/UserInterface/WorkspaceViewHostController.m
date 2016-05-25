@@ -337,8 +337,6 @@
         [searchTextObjs removeObjectAtIndex:index];
         // remove this view controller from our list
         [viewControllers removeObjectAtIndex:index];
-
-        NSUInteger previousIndex = index - 1;
     }
 }
 
