@@ -8,9 +8,3 @@
  */
 
 // Notification identifiers
-
-/**
-\brief this notification is send, when the modules have changed (updated, added, removed)
- */
-#define NotificationModulesChanged @"NotificationModulesChanged"
-#define SendNotifyModulesChanged(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationModulesChanged object:X];

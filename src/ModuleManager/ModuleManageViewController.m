@@ -334,14 +334,11 @@
         NSInteger stat = [alert runModal];
         if(stat == NSAlertDefaultReturn) {
             
-            // delete this source
             SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
-            [sis removeInstallSource:is];
+            [sis removeInstallSource:is reload:YES];
             
-            // refresh list objects
             [self refreshInstallSourceListObjects];
             
-            // reload this outline view
             [categoryOutlineView reloadData];
         }
     } else {
@@ -472,7 +469,7 @@
                 is = [selected installSource];
                 
                 // remove and re-add
-                [sis removeInstallSource:is];
+                [sis removeInstallSource:is reload:YES];
                 
                 // we will create anew one and add it below
                 
@@ -493,7 +490,7 @@
         [is setDirectory:[editISDirCell stringValue]];
         [is setSource:[editISSourceCell stringValue]];
 
-        [sis addInstallSource:is];
+        [sis addInstallSource:is reload:YES];
         
         [self refreshInstallSourceListObjects];
         
@@ -623,8 +620,10 @@
     InstallSourceListObject *listObject = (InstallSourceListObject *)item;
 	if(item == nil) {   // root
         return [self.installSourceListObjects count];
+        
 	} else if([listObject objectType] == TypeInstallSource) {
         return [[listObject subInstallSources] count];
+        
     }
 	return 0;
 }
@@ -633,8 +632,10 @@
     InstallSourceListObject *listObject = (InstallSourceListObject *)item;
     if(item == nil) {   // root
         return self.installSourceListObjects[(NSUInteger)index];
+        
     } else if([listObject objectType] == TypeInstallSource) {
         return [listObject subInstallSources][(NSUInteger)index];
+        
     }
     return nil;
 }
@@ -644,8 +645,10 @@
     if(item != nil) {
         if([listObject objectType] == TypeInstallSource) {
             return [[listObject installSource] caption];
+            
         } else {
             return [listObject moduleType];
+            
         }
     }
     return @"";

@@ -66,8 +66,8 @@ typedef enum _ModuleStatusConst {
 - (int)uninstallModule:(SwordModule *)aModule fromManager:(SwordManager *)swManager;
 
 // add/remove install sources
-- (void)addInstallSource:(SwordInstallSource *)is;
-- (void)removeInstallSource:(SwordInstallSource *)is;
+- (void)addInstallSource:(SwordInstallSource *)is reload:(BOOL)doReload;
+- (void)removeInstallSource:(SwordInstallSource *)is reload:(BOOL)doReload;
 - (void)updateInstallSource:(SwordInstallSource *)is;
 - (int)refreshMasterRemoteInstallSourceList;
 
