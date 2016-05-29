@@ -14,14 +14,11 @@
 
 @interface ModuleManageViewController ()
 
-- (void)batchProcessTasks:(NSNumber *)actions;
 - (void)refreshInstallSourceListObjects;
 - (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText;
 - (void)showRefreshRepositoryInformation;
 
 /** the array used for display in outline view */
-@property (strong, nonatomic) NSArray *installSourceListObjects;
-@property (strong, readwrite) NSArray *selectedInstallSources;
 @property (strong, readwrite) NSMutableDictionary *installDict;
 @property (strong, readwrite) NSMutableDictionary *removeDict;
 
@@ -154,7 +151,15 @@
     if([self hasTasks]) {
         [self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"OnlyRemoveAndInstallForLocalSources", @"")];
         // start on new thread
-        [NSThread detachNewThreadSelector:@selector(batchProcessTasks:) toTarget:self withObject:@([self numberOfTasks])];
+        dispatch_async(dispatch_queue_create("TaskProcessor", NULL), ^(void) {
+            [self batchProcessTasks:[self numberOfTasks]];
+
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                //[[SwordManager defaultManager] reloadManager];
+                SendNotifyModulesChanged(nil)
+            });
+        });
+        
     } else {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"")
                                          defaultButton:NSLocalizedString(@"OK", @"") 
@@ -574,98 +579,12 @@
     }
 }
 
-//--------------------------------------------------------------------
-//----------- NSOutlineView delegates --------------------------------
-//--------------------------------------------------------------------
-/**
- \brief Notification is called when the selection has changed 
- */
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	if(notification != nil) {
-		NSOutlineView *oview = [notification object];
-		if(oview != nil) {
-
-			NSIndexSet *selectedRows = [oview selectedRowIndexes];
-			NSUInteger len = [selectedRows count];
-			NSMutableArray *selection = [NSMutableArray arrayWithCapacity:len];
-            InstallSourceListObject *item;
-			if(len > 0) {
-				NSUInteger indexes[len];
-				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
-				
-				for(int i = 0;i < len;i++) {
-                    item = [oview itemAtRow:indexes[i]];
-                    [selection addObject:item];
-                    CocoLog(LEVEL_DEBUG, @"Selected install source: %@", [[item installSource] caption]);
-				}
-				
-                // set install source menu
-                [oview setMenu:installSourceMenu];
-            }
-
-            // update modules
-            NSArray *selected = [NSArray arrayWithArray:selection];
-            [self setSelectedInstallSources:selected];
-            [modListViewController setInstallSources:selected];
-            [modListViewController refreshModulesList];
-		} else {
-			CocoLog(LEVEL_WARN, @"have a nil notification object!");
-		}
-	} else {
-		CocoLog(LEVEL_WARN, @"have a nil notification!");
-	}
-}
-
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-	if(item == nil) {   // root
-        return [self.installSourceListObjects count];
-        
-	} else if([listObject objectType] == TypeInstallSource) {
-        return [[listObject subInstallSources] count];
-        
-    }
-	return 0;
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-    if(item == nil) {   // root
-        return self.installSourceListObjects[(NSUInteger)index];
-        
-    } else if([listObject objectType] == TypeInstallSource) {
-        return [listObject subInstallSources][(NSUInteger)index];
-        
-    }
-    return nil;
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-    if(item != nil) {
-        if([listObject objectType] == TypeInstallSource) {
-            return [[listObject installSource] caption];
-            
-        } else {
-            return [listObject moduleType];
-            
-        }
-    }
-    return @"";
-}
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    InstallSourceListObject *listObject = (InstallSourceListObject *)item;
-    return item != nil && ([listObject objectType] == TypeInstallSource);
-
-}
-
 #pragma mark - Private stuff
 
 /**
  \brief batch process tasks with separate thread to show progress in threaded progress indicator
  */
-- (void)batchProcessTasks:(NSNumber *)actions {
+- (void)batchProcessTasks:(NSInteger)actions {
     // Cancel indicator
     BOOL isCanceled = NO;
     int error = 0;
@@ -678,18 +597,18 @@
     [pSheet setShouldKeepTrackOfProgress:@YES];
     [pSheet setIsThreaded:@YES];
 
-    if([actions intValue] == 1) {
+    if(actions == 1) {
         // set to indeterminate
         [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
                                  withObject:@YES
                               waitUntilDone:YES];
-    } else if([actions intValue] > 1) {
+    } else if(actions > 1) {
         // set to indeterminate
         [pSheet performSelectorOnMainThread:@selector(setIsIndeterminateProgress:)
                                  withObject:@NO
                               waitUntilDone:YES];
         [pSheet performSelectorOnMainThread:@selector(setMaxProgressValue:)
-                                 withObject:actions
+                                 withObject:@(actions)
                               waitUntilDone:YES];
     }
 
@@ -795,10 +714,6 @@
     [pSheet setShouldKeepTrackOfProgress:@NO];
     [pSheet setProgressAction:@(NONE_PROGRESS_ACTION)];
     [pSheet reset];
-    
-    // reload default manager
-    [[SwordManager defaultManager] reloadManager];
-    SendNotifyModulesChanged(nil)
 }
 
 /**

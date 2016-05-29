@@ -56,6 +56,9 @@
 @property (strong, readwrite) IBOutlet id delegate;
 @property (strong, readwrite) IBOutlet NSWindow *parentWindow;
 
+@property (strong, nonatomic) NSArray *installSourceListObjects;
+@property (strong, nonatomic) NSArray *selectedInstallSources;
+
 + (NSURL *)fileOpenDialog;
 
 - (BOOL)initialized;
