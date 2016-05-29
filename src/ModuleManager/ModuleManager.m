@@ -42,8 +42,8 @@
 
 
 - (void)showWindow:(id)sender {
-    
     [super showWindow:sender];
+
     [[self window] setContentView:[moduleViewController contentView]];
     
     [moduleViewController showDisclaimer];
@@ -53,6 +53,8 @@
 //----------- bundle delegates ---------------------------------------
 //--------------------------------------------------------------------
 - (void)awakeFromNib {
+    [super awakeFromNib];
+    
     tbIdentifiers = [[NSMutableDictionary alloc] init];
     [moduleViewController setParentWindow:[self window]];
     
