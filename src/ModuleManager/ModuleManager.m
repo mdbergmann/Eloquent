@@ -169,7 +169,7 @@
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
     [toolbar setAllowsUserCustomization: YES];
     [toolbar setAutosavesConfiguration: YES];
-	//[toolbar setSizeMode:NSToolbarSizeModeRegular];
+	[toolbar setSizeMode:NSToolbarSizeModeSmall];
     [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
 
     // We are the delegate
