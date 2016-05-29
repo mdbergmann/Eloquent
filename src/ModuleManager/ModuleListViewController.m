@@ -16,7 +16,7 @@
 #define TABLECOL_IDENTIFIER_TASK @"task"
 
 @interface ModuleListViewController ()
-@property (strong, readwrite) NSMutableDictionary *languageMap;
+@property (strong, readwrite) NSDictionary *languageMap;
 @property (strong, readwrite) NSArray *moduleData;
 @property (strong, readwrite) NSMutableArray *moduleSelection;
 @end
@@ -30,7 +30,7 @@
         self.installSources = [NSArray array];
         self.moduleData = [NSArray array];
         self.moduleSelection = [NSMutableArray array];
-        self.languageMap = [NSMutableDictionary dictionary];
+        self.languageMap = [NSDictionary dictionary];
         [self setLangFilter:NSLocalizedString(@"All", @"")];
     }
 
@@ -39,6 +39,8 @@
 
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+
     [moduleOutlineView setMenu:moduleMenu];
     [self refreshLanguages];
 }
@@ -67,24 +69,25 @@
 }
 
 - (void)setupLanguagesMap {
-    [self.languageMap removeAllObjects];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 
-    // out Locale object
     NSLocale *loc = [NSLocale systemLocale];
 
-    // available module languages
-    self.languageMap[NSLocalizedString(@"All", @"")] = NSLocalizedString(@"All", @"");
+    // collect languages available in modules
+    dict[NSLocalizedString(@"All", @"")] = NSLocalizedString(@"All", @"");
     for(ModuleListObject *lo in self.moduleData) {
         SwordModule *mod = [lo module];
 
         NSString *langString = [loc displayNameForKey:NSLocaleIdentifier value:[mod lang]];
         if(langString != nil) {
-            self.languageMap[[mod lang]] = langString;
+            dict[[mod lang]] = langString;
         } else {
             // add the iso code itself
-            self.languageMap[[mod lang]] = [mod lang];
+            dict[[mod lang]] = [mod lang];
         }
     }
+    
+    self.languageMap = [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)setupLanguagesPopup {
@@ -101,7 +104,7 @@
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList {
     SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
-    SwordManager *sm = [SwordManager managerWithPath:[[FolderUtil urlForModulesFolder] path]];
+    SwordManager *sm = [SwordManager defaultManager]; // managerWithPath:[[FolderUtil urlForModulesFolder] path]];
 
     NSMutableArray *arr = [NSMutableArray array];
 
@@ -110,7 +113,7 @@
         
         // compare install source modules with sword manager modules to get state info
         NSArray *modList = [sis moduleStatusInInstallSource:is baseManager:sm];
-        // loop over module list
+
         for(SwordModule *mod in modList) {
             // check for language filter
             if([[self langFilter] isEqualToString:NSLocalizedString(@"All", @"")] ||
