@@ -18,6 +18,8 @@
 - (bool)hasWindows;
 - (bool)hasUnsavedContent;
 
+- (NSArray *)retrieveWindows;
+
 - (void)saveSession;
 - (void)saveSessionAs;
 - (void)saveAsDefaultSession;

@@ -64,6 +64,10 @@
     return unsavedContent;
 }
 
+- (NSArray *)retrieveWindows {
+    return [self.session.windows copy];
+}
+
 /**
 * Saves session to url as in session.url
 */
