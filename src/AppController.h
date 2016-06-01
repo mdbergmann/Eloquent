@@ -18,31 +18,24 @@
 @class SwordModule;
 
 @interface AppController : NSObject <NSApplicationDelegate> {
-	// our preference controller
-	MBPreferenceController *preferenceController;
-    BOOL isPreferencesShowing;
-    
-    // HUD preview
-    IBOutlet HUDPreviewController *previewController;
-    BOOL isPreviewShowing;
-    
-    // DailyDevotion
-    IBOutlet DailyDevotionPanelController *dailyDevotionController;
-    BOOL isDailyDevotionShowing;
 
-    // About window
-    MBAboutWindowController *aboutWindowController;
-        
-    // Create module
+    IBOutlet HUDPreviewController *previewController;
+    IBOutlet DailyDevotionPanelController *dailyDevotionController;
     IBOutlet NSWindow *createModuleWindow;
     IBOutlet NSTextField *createModuleNameTextField;
     IBOutlet NSButton *createModuleOKButton;
     
     // the help menu. we'll ad this reference here to be able to add the Sparkle updater menu item dynamically
     IBOutlet NSMenu *helpMenu;
+
+    MBAboutWindowController *aboutWindowController;
+    MBPreferenceController *preferenceController;
+    
+    BOOL isPreferencesShowing;
+    BOOL isPreviewShowing;
+    BOOL isDailyDevotionShowing;
     
 #ifndef APPSTORE
-    // Sparkle updater
     SUUpdater *sparkleUpdater;
 #endif
 }

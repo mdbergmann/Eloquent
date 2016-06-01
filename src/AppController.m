@@ -141,18 +141,8 @@ static AppController *singleton;
         
         [[SwordLocaleManager defaultManager] initLocale];
         [[FilterProviderFactory providerFactory] initWithImpl:[[EloquentFilterProvider alloc] init]];
-        SwordManager *sm = [SwordManager defaultManager];
         
-        // check for installed modules, if there are none add our internal module path so that the user at least has one module (KJV)
-        NSDictionary *allModules = [sm allModules];
-        if([allModules count] == 0) {
-            [self addInternalModules];
-        } else {
-            // we also want the KJV to be added if there are installed modules but not the KJV
-            if([allModules count] > 0 && [allModules objectForKey:@"KJV"] == nil) {
-                [self addInternalModules];
-            }
-        }
+        SwordManager *sm = [self setupDefaultSwordManager];
         
         // init install manager
         SwordInstallSourceManager *installSourceManager = [[SwordInstallSourceManager alloc]
@@ -181,6 +171,22 @@ static AppController *singleton;
     return self;
 }
 
+- (SwordManager *)setupDefaultSwordManager {
+    SwordManager *sm = [[SwordManager alloc] initWithPath:[[Configuration config] defaultModulePath]];
+    [sm useAsDefaultManager];
+    
+    // check for installed modules, if there are none add our internal module path so that the user at least has one module (KJV)
+    NSDictionary *allModules = [sm allModules];
+    if([allModules count] == 0) {
+        [self addInternalModules];
+    } else {
+        // we also want the KJV to be added if there are installed modules but not the KJV
+        if([allModules count] > 0 && [allModules objectForKey:@"KJV"] == nil) {
+            [self addInternalModules];
+        }
+    }
+    return sm;
+}
 
 
 - (void)awakeFromNib {
@@ -350,12 +356,10 @@ static AppController *singleton;
         [[SessionManager defaultManager] addDelegateToHosts:self];
     }
 
-    // show HUD preview if set
     if([userDefaults boolForKey:DefaultsShowHUDPreview]) {
         [self showPreviewPanel:nil];
     }
 
-    // show HUD daily devotion if set
     if([userDefaults boolForKey:DefaultsShowDailyDevotionOnStartupKey]) {
         [self showDailyDevotionPanel:nil];
     }
@@ -375,6 +379,19 @@ static AppController *singleton;
 */
 - (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
 
+    NSUInteger termInfo = [self shutdownWindowAndSession];
+    if(termInfo == NSTerminateCancel) {
+        return termInfo;
+    }
+    
+    // close logger
+	[CocoLogger closeLogger];
+
+	// we want to terminate NOW
+	return NSTerminateNow;
+}
+
+- (NSUInteger)shutdownWindowAndSession {
     // check for any unsaved content
     if([[SessionManager defaultManager] hasUnsavedContent]) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
@@ -389,18 +406,14 @@ static AppController *singleton;
             return NSTerminateCancel;
         }
     }
-
+    
     // save session
     [[SessionManager defaultManager] saveSession];
-
+    
     // we store on application exit
     [[IndexingManager sharedManager] storeSearchBookSets];
-
-    // close logger
-	[CocoLogger closeLogger];
-
-	// we want to terminate NOW
-	return NSTerminateNow;
+    
+    return NSTerminateNow;
 }
 
 #pragma mark - Actions
@@ -670,10 +683,13 @@ static AppController *singleton;
 - (void)auxWindowClosing:(NSWindowController *)aController {
     if([aController isKindOfClass:[MBPreferenceController class]]) {
         isPreferencesShowing = NO;
+        
     } else if([aController isKindOfClass:[HUDPreviewController class]]) {
         isPreviewShowing = NO;
+        
     } else if([aController isKindOfClass:[DailyDevotionPanelController class]]) {
         isDailyDevotionShowing = NO;
+        
     }
 }
 

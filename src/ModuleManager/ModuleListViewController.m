@@ -19,6 +19,7 @@
 @property (strong, readwrite) NSDictionary *languageMap;
 @property (strong, readwrite) NSArray *moduleData;
 @property (strong, readwrite) NSMutableArray *moduleSelection;
+@property (strong, readwrite) SwordManager *swordManager;
 @end
 
 
@@ -32,6 +33,7 @@
         self.moduleSelection = [NSMutableArray array];
         self.languageMap = [NSDictionary dictionary];
         [self setLangFilter:NSLocalizedString(@"All", @"")];
+        [self updateSwordManager];
     }
 
     return self;
@@ -101,10 +103,14 @@
     [languagesButton selectItemWithTitle:[self langFilter]];
 }
 
+- (void)updateSwordManager {
+    self.swordManager = [SwordManager managerWithPath:[[FolderUtil urlForModulesFolder] path]];
+}
+
 /** update the modules with the modules in the sources list */
 - (void)refreshModulesList {
     SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
-    SwordManager *sm = [SwordManager defaultManager]; // managerWithPath:[[FolderUtil urlForModulesFolder] path]];
+    SwordManager *sm = self.swordManager;
 
     NSMutableArray *arr = [NSMutableArray array];
 
@@ -428,7 +434,7 @@
             // this module is not installed
             ret = @"";
         } else {
-            ret = [[[SwordManager defaultManager] moduleWithName:[mod moduleName]] version];
+            ret = [[self.swordManager moduleWithName:[mod moduleName]] version];
         }
     } else if([[tableColumn identifier] isEqualToString:TABLECOL_IDENTIFIER_MODDESCR]) {
         ret = [[mod module] descr];

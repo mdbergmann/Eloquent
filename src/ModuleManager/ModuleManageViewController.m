@@ -154,8 +154,10 @@
         dispatch_async(dispatch_queue_create("TaskProcessor", NULL), ^(void) {
             [self batchProcessTasks:[self numberOfTasks]];
 
+            [modListViewController updateSwordManager];
+            [modListViewController refreshModulesList];
+            
             dispatch_async(dispatch_get_main_queue(), ^(void) {
-                //[[SwordManager defaultManager] reloadManager];
                 SendNotifyModulesChanged(nil)
             });
         });
@@ -579,8 +581,6 @@
     }
 }
 
-#pragma mark - Private stuff
-
 /**
  \brief batch process tasks with separate thread to show progress in threaded progress indicator
  */
@@ -705,8 +705,6 @@
     }
 
     [pSheet stopProgressAnimation];
-
-    [modListViewController refreshModulesList];
 
     [pSheet performSelectorOnMainThread:@selector(endSheet)
                              withObject:nil

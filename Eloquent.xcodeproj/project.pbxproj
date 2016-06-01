@@ -106,6 +106,8 @@
 		A9061E510F71364A00F6DA1F /* SearchBookSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A9061E500F71364A00F6DA1F /* SearchBookSet.m */; };
 		A908984910C3C1AC0043465F /* LeftSideBarAccessoryUIController.m in Sources */ = {isa = PBXBuildFile; fileRef = A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */; };
 		A90BE4B90E66EAD0008B4B60 /* OptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */; };
+		A90F4BBB1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90F4BBA1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m */; };
+		A90F4BBC1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90F4BBA1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m */; };
 		A91085881C86368100A37026 /* FolderUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91085871C86368100A37026 /* FolderUtil.swift */; };
 		A91085891C86368100A37026 /* FolderUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91085871C86368100A37026 /* FolderUtil.swift */; };
 		A916FCDF0E053910009CAA2F /* ModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A916FCDE0E053910009CAA2F /* ModuleViewController.m */; };
@@ -530,6 +532,8 @@
 		A908984810C3C1AC0043465F /* LeftSideBarAccessoryUIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeftSideBarAccessoryUIController.m; path = src/UserInterface/LeftSideBarAccessoryUIController.m; sourceTree = "<group>"; };
 		A90BE4B70E66EAD0008B4B60 /* OptionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsHeaderView.h; path = src/UserInterface/OptionsHeaderView.h; sourceTree = "<group>"; };
 		A90BE4B80E66EAD0008B4B60 /* OptionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsHeaderView.m; path = src/UserInterface/OptionsHeaderView.m; sourceTree = "<group>"; };
+		A90F4BB91CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ModuleManageViewController+OutlineView.h"; sourceTree = "<group>"; };
+		A90F4BBA1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ModuleManageViewController+OutlineView.m"; sourceTree = "<group>"; };
 		A91085851C86368100A37026 /* Eloquent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eloquent-Bridging-Header.h"; sourceTree = "<group>"; };
 		A91085871C86368100A37026 /* FolderUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderUtil.swift; path = src/Utils/FolderUtil.swift; sourceTree = "<group>"; };
 		A9148EB50E0CEDFB00C384B9 /* ProtocolHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolHelper.h; path = src/UserInterface/ProtocolHelper.h; sourceTree = "<group>"; };
@@ -1077,6 +1081,8 @@
 				A91C94020DF9B149006B7361 /* ModuleManager.m */,
 				A91C94030DF9B149006B7361 /* ModuleManageViewController.h */,
 				A91C94040DF9B149006B7361 /* ModuleManageViewController.m */,
+				A90F4BB91CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.h */,
+				A90F4BBA1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m */,
 			);
 			name = ModuleManager;
 			path = src/ModuleManager;
@@ -1498,7 +1504,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0720;
+				LastTestingUpgradeCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Crosswire;
 				TargetAttributes = {
@@ -1832,6 +1838,7 @@
 				A9032ECE112D8323009D6A02 /* NSUserDefaults+Additions.m in Sources */,
 				A98A9519112E8C1D00EC8B76 /* WindowHostController+SideBars.m in Sources */,
 				A98A951C112E8DA000EC8B76 /* WindowHostController+Fullscreen.m in Sources */,
+				A90F4BBB1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m in Sources */,
 				A98A951F112E8E4B00EC8B76 /* ObjectAssociations.m in Sources */,
 				A98A9683112ED53C00EC8B76 /* BibleViewController+RightSidebar.m in Sources */,
 				A98A9686112ED5D400EC8B76 /* BibleViewController+TextDisplayGeneration.m in Sources */,
@@ -1940,6 +1947,7 @@
 				A941DD511C6D1A9E00B7BAF7 /* NSUserDefaults+Additions.m in Sources */,
 				A941DD521C6D1A9E00B7BAF7 /* WindowHostController+SideBars.m in Sources */,
 				A941DD531C6D1A9E00B7BAF7 /* WindowHostController+Fullscreen.m in Sources */,
+				A90F4BBC1CF87A3A00F76FE9 /* ModuleManageViewController+OutlineView.m in Sources */,
 				A941DD541C6D1A9E00B7BAF7 /* ObjectAssociations.m in Sources */,
 				A941DD551C6D1A9E00B7BAF7 /* BibleViewController+RightSidebar.m in Sources */,
 				A941DD561C6D1A9E00B7BAF7 /* BibleViewController+TextDisplayGeneration.m in Sources */,
