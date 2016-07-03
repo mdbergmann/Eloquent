@@ -107,6 +107,9 @@ static MBPreferenceController *instance;
     // cipher keys
     [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleCipherKeysKey];
 
+    // confirmations
+    [defaultsDict setObject:@(NO) forKey:DefaultsModInstallerRestartReadConfirm];
+    
 	// register the defaults
 	[defaults registerDefaults:defaultsDict];
 }

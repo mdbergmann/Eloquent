@@ -21,11 +21,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        BOOL success = [NSBundle loadNibNamed:@"InitialInfoView" owner:self];
-        if(success) {
-        } else {
-            CocoLog(LEVEL_ERR,@"[InitialInfoViewController]: cannot load ConfirmationSheetControllerNib!");
-        }        
+        [NSBundle loadNibNamed:@"InitialInfoView" owner:self];
     }
 
     return self;

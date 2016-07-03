@@ -93,6 +93,7 @@ typedef enum _VerseNumberingType {
 // confirmations
 #define DefaultsShowFullScreenConfirm               @"DefaultsShowFullScreenConfirm"
 #define DefaultsCreateCluceneConfirm                @"DefaultsCreateCluceneConfirm"
+#define DefaultsModInstallerRestartReadConfirm      @"DefaultsModInstallerRestartReadConfirm"
 
 @class SwordManager;
 

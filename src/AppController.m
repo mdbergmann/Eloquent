@@ -407,10 +407,7 @@ static AppController *singleton;
         }
     }
     
-    // save session
     [[SessionManager defaultManager] saveSession];
-    
-    // we store on application exit
     [[IndexingManager sharedManager] storeSearchBookSets];
     
     return NSTerminateNow;
@@ -457,7 +454,6 @@ static AppController *singleton;
 
 - (IBAction)showPreferenceSheet:(id)sender {
     if(!preferenceController) {
-        // show panel
         preferenceController = [[MBPreferenceController alloc] initWithDelegate:self];
     }
     

@@ -19,28 +19,6 @@ enum SheetReturnCode {
     IBOutlet NSButton *defaultButton;
     IBOutlet NSButton *alternateButton;
     IBOutlet NSButton *otherButton;
-	
-    // properties
-    NSString *confirmationTitle;
-    NSString *confirmationText;
-    NSString *defaultButtonText;
-    NSString *alternateButtonText;
-    NSString *otherButtonText;
-    NSString *askAgainButtonText;
-    // the UserDefaults key for ask again functionality
-    NSString *defaultsAskAgainKey;
-    
-	// delegate
-	id __strong delegate;
-    
-	// the window the sheet will be brought up
-	NSWindow *sheetWindow;
-    
-	// return code of sheet
-	int sheetReturnCode;
-    
-	// contextInfo
-	id contextInfo;    
 }
 
 @property (strong, readwrite) id contextInfo;

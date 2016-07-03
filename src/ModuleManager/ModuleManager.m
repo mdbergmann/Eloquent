@@ -8,6 +8,8 @@
 
 #import "ModuleManager.h"
 #import "ModuleManageViewController.h"
+#import "MBPreferenceController.h"
+#import "ConfirmationSheetController.h"
 
 // toolbar identifiers
 #define TB_SYNC_ISLIST_ITEM             @"ISSyncFromMaster"
@@ -17,6 +19,12 @@
 #define TB_INSTALLSOURCE_REFRESH_ITEM   @"ISRefresh"
 #define TB_TASK_PROCESS_ITEM            @"ProcessTasks"
 #define TB_TASK_PREVIEW_ITEM            @"PreviewTasks"
+
+@interface ModuleManager ()
+
+@property (strong, nonatomic) ConfirmationSheetController *confirmSheet;
+
+@end
 
 @implementation ModuleManager
 
@@ -146,6 +154,24 @@
     tbIdentifiers[NSToolbarPrintItemIdentifier] = [NSNull null];
     
     [self setupToolbar];
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:DefaultsModInstallerRestartReadConfirm]) {
+        self.confirmSheet = [[ConfirmationSheetController alloc] initWithSheetTitle:NSLocalizedString(@"Information", @"")
+                                                                            message:NSLocalizedString(@"ConfirmModuleInstallerRestartApp", @"")
+                                                                      defaultButton:NSLocalizedString(@"OK", @"")
+                                                                    alternateButton:nil
+                                                                        otherButton:nil
+                                                                     askAgainButton:NSLocalizedString(@"DoNotShowAgain", @"")
+                                                                defaultsAskAgainKey:DefaultsModInstallerRestartReadConfirm
+                                                                        contextInfo:nil
+                                                                          docWindow:[self window]];
+        [self.confirmSheet setDelegate:self];
+        
+        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC);
+        dispatch_after(delay, dispatch_get_main_queue(), ^(void) {
+            [self.confirmSheet beginSheet];
+        });
+    }
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
