@@ -410,8 +410,11 @@ enum ModuleMenu_Items{
     SwordModule *mod = clickedMod;        
     if(mod) {
         [[SwordManager defaultManager] setCipherKey:unlockCode forModuleNamed:[mod name]];
+        
+        NSMutableDictionary *cipherKeys = [[userDefaults objectForKey:DefaultsModuleCipherKeysKey] mutableCopy];
+        [cipherKeys setObject:unlockCode forKey:[mod name]];
+        [userDefaults setObject:[NSDictionary dictionaryWithDictionary:cipherKeys] forKey:DefaultsModuleCipherKeysKey];
     }
-    
     [moduleUnlockWindow close];
     [NSApp endSheet:moduleUnlockWindow];
     
