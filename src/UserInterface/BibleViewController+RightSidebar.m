@@ -160,9 +160,12 @@
             } 
             
             // send the reference to delegate
-            if(hostingDelegate) {
-                [hostingDelegate setSearchTypeUI:ReferenceSearchType];
-                [hostingDelegate setSearchText:selRef];
+            if([sel count] > 0) {
+                // only if there is a selection
+                if(hostingDelegate) {
+                    [hostingDelegate setSearchTypeUI:ReferenceSearchType];
+                    [hostingDelegate setSearchText:selRef];
+                }
             }
 		}
 	}
