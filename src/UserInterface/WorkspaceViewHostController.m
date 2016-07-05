@@ -131,9 +131,16 @@
 - (NSString *)computeTabTitleForTabIndex:(NSInteger)index {
     NSMutableString *ret = [NSMutableString string];
     
-    if(contentViewController != nil) {
-        if([contentViewController isSwordModuleContentType]) {
-            SwordModule *mod = [(ModuleViewController *)contentViewController module];
+    ContentDisplayingViewController *vc;
+    if(index >= 0) {
+        vc = [viewControllers objectAtIndex:index];
+    } else {
+        vc = contentViewController;
+    }
+    
+    if(vc != nil) {
+        if([vc isSwordModuleContentType]) {
+            SwordModule *mod = [(ModuleViewController *)vc module];
             if(mod != nil) {
                 SearchTextObject *sto;
                 if(index == -1) {
@@ -143,8 +150,8 @@
                 }
                 [ret appendFormat:@"%@ - %@", [mod name], [sto searchTextForType:[self searchType]]];                    
             }
-        } else if([contentViewController isNoteContentType]) {
-            [ret appendString:[(NotesViewController *)contentViewController title]];
+        } else if([vc isNoteContentType]) {
+            [ret appendString:[(NotesViewController *)vc title]];
         }
     }    
     
