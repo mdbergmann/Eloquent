@@ -10,6 +10,7 @@
 #import "ModuleManageViewController.h"
 #import "MBPreferenceController.h"
 #import "ConfirmationSheetController.h"
+#import "Eloquent-Swift.h"
 
 // toolbar identifiers
 #define TB_SYNC_ISLIST_ITEM             @"ISSyncFromMaster"
@@ -40,6 +41,14 @@
 		CocoLog(LEVEL_ERR, @"");		
 	}
 	else {
+        // init install manager
+        SwordInstallSourceManager *installSourceManager = [[SwordInstallSourceManager alloc]
+                                                           initWithPath:[[FolderUtil urlForInstallMgrModulesFolder] path]
+                                                           createPath:YES];
+        [installSourceManager setFtpPassword:@"eloquent@crosswire.org"];
+        [installSourceManager useAsDefaultManager];
+        [installSourceManager initManager];
+        
         delegate = aDelegate;
         moduleViewController = [[ModuleManageViewController alloc] initWithDelegate:self parent:[self window]];
 	}

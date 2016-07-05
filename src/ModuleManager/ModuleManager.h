@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <ObjCSword/ObjCSword.h>
 
 @class ModuleManageViewController;
 

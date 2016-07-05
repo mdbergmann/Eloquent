@@ -143,15 +143,7 @@ static AppController *singleton;
         [[FilterProviderFactory providerFactory] initWithImpl:[[EloquentFilterProvider alloc] init]];
         
         SwordManager *sm = [self setupDefaultSwordManager];
-        
-        // init install manager
-        SwordInstallSourceManager *installSourceManager = [[SwordInstallSourceManager alloc]
-                                                           initWithPath:[[FolderUtil urlForInstallMgrModulesFolder] path]
-                                                           createPath:YES];
-        [installSourceManager setFtpPassword:@"eloquent@crosswire.org"];
-        [installSourceManager useAsDefaultManager];
-        [installSourceManager initManager];
-        
+                
         // make available all cipher keys to SwordManager
         NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
         for(NSString *modName in cipherKeys) {
