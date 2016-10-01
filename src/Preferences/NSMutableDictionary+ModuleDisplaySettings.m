@@ -25,13 +25,13 @@
 
 - (void)setDisplayDefaultFonts {
     // normal font
-    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
-    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
+    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     [self setDisplayFont:[NSFont fontWithName:fontFamily size:(float)fontSize]];
     
     // bold font
-    fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
-    fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+    fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     [self setDisplayFontBold:[NSFont fontWithName:fontFamily size:(float)fontSize]];    
 }
 

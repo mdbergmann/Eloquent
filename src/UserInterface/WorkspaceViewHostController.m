@@ -52,8 +52,8 @@
 - (id)init {
     self = [super init];
     if(self) {
-        lsbShowing = [userDefaults boolForKey:DefaultsShowLSBWorkspace];
-        rsbShowing = [userDefaults boolForKey:DefaultsShowRSBWorkspace];
+        lsbShowing = [UserDefaults boolForKey:DefaultsShowLSBWorkspace];
+        rsbShowing = [UserDefaults boolForKey:DefaultsShowRSBWorkspace];
 
         [self setViewControllers:[NSMutableArray array]];
         [self setSearchTextObjs:[NSMutableArray array]];
@@ -234,7 +234,7 @@
 
 - (IBAction)addTab:(id)sender {
     // adding a tab adds a default bible view
-    NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
+    NSString *sBible = [UserDefaults stringForKey:DefaultsBibleModule];
     SwordModule *mod = nil;
     if(sBible != nil) {
         mod = [[SwordManager defaultManager] moduleWithName:sBible];
@@ -374,7 +374,7 @@
     if(![viewControllers containsObject:aViewController]) {
         // only add controllers we don't show yet
         [viewControllers addObject:aViewController];
-        [aViewController setShowingRSBPreferred:[userDefaults boolForKey:DefaultsShowRSBWorkspace]];
+        [aViewController setShowingRSBPreferred:[UserDefaults boolForKey:DefaultsShowRSBWorkspace]];
 
         [self _addContentViewController:aViewController];
         [super addContentViewController:aViewController];

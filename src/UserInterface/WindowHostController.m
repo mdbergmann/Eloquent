@@ -88,8 +88,8 @@ typedef enum _NavigationDirectionType {
     
     [view setToolbarController:toolbarController];
     
-    defaultLSBWidth = [[userDefaults objectForKey:DefaultsLSBWidth] intValue];
-    defaultRSBWidth = [[userDefaults objectForKey:DefaultsRSBWidth] intValue];
+    defaultLSBWidth = [[UserDefaults objectForKey:DefaultsLSBWidth] intValue];
+    defaultRSBWidth = [[UserDefaults objectForKey:DefaultsRSBWidth] intValue];
     
     [mainSplitView setVertical:YES];
     [mainSplitView setDividerStyle:NSSplitViewDividerStyleThin];
@@ -397,13 +397,13 @@ typedef enum _NavigationDirectionType {
     // set margins
     CGFloat factor = 72.0 / 2.54;
     
-    [printInfo setLeftMargin:[userDefaults floatForKey:DefaultsPrintLeftMargin] * factor];
-    [printInfo setRightMargin:[userDefaults floatForKey:DefaultsPrintRightMargin] * factor];
-    [printInfo setTopMargin:[userDefaults floatForKey:DefaultsPrintTopMargin] * factor];
-    [printInfo setBottomMargin:[userDefaults floatForKey:DefaultsPrintBottomMargin] * factor];
+    [printInfo setLeftMargin:[UserDefaults floatForKey:DefaultsPrintLeftMargin] * factor];
+    [printInfo setRightMargin:[UserDefaults floatForKey:DefaultsPrintRightMargin] * factor];
+    [printInfo setTopMargin:[UserDefaults floatForKey:DefaultsPrintTopMargin] * factor];
+    [printInfo setBottomMargin:[UserDefaults floatForKey:DefaultsPrintBottomMargin] * factor];
     
-    [printInfo setHorizontallyCentered:[userDefaults boolForKey:DefaultsPrintCenterHorizontally]];
-    [printInfo setVerticallyCentered:[userDefaults boolForKey:DefaultsPrintCenterVertically]];
+    [printInfo setHorizontallyCentered:[UserDefaults boolForKey:DefaultsPrintCenterHorizontally]];
+    [printInfo setVerticallyCentered:[UserDefaults boolForKey:DefaultsPrintCenterVertically]];
     
     // get print view
     if(contentViewController) {

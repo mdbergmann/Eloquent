@@ -60,9 +60,9 @@ extern char BookmarkMgrUI;
         
         // init displayOptions dictionary        
         self.displayOptions = [NSMutableDictionary dictionary];
-        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
-        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextVerseNumberingTypeKey] forKey:DefaultsBibleTextVerseNumberingTypeKey];
-        [displayOptions setObject:[userDefaults objectForKey:DefaultsBibleTextHighlightBookmarksKey] forKey:DefaultsBibleTextHighlightBookmarksKey];
+        [displayOptions setObject:[UserDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
+        [displayOptions setObject:[UserDefaults objectForKey:DefaultsBibleTextVerseNumberingTypeKey] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+        [displayOptions setObject:[UserDefaults objectForKey:DefaultsBibleTextHighlightBookmarksKey] forKey:DefaultsBibleTextHighlightBookmarksKey];
     }
     
     return self;

@@ -43,14 +43,14 @@
         NSString *module = [previewData objectForKey:ATTRTYPE_MODULE];
         if(!module || [module length] == 0) {
             // get module for previewtype
-            module = [userDefaults stringForKey:DefaultsBibleModule];
+            module = [UserDefaults stringForKey:DefaultsBibleModule];
             NSString *attrType = [previewData objectForKey:ATTRTYPE_TYPE];
             if([attrType isEqualToString:@"Hebrew"]) {
-                module = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
+                module = [UserDefaults stringForKey:DefaultsStrongsHebrewModule];
             } else if([attrType isEqualToString:@"Greek"]) {
-                module = [userDefaults stringForKey:DefaultsStrongsGreekModule];
+                module = [UserDefaults stringForKey:DefaultsStrongsGreekModule];
             } else if([attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
-                module = [userDefaults stringForKey:DefaultsMorphGreekModule];
+                module = [UserDefaults stringForKey:DefaultsMorphGreekModule];
             }
         }
         
@@ -145,8 +145,6 @@
 
 
 - (void)windowWillClose:(NSNotification *)notification {
-    [userDefaults setBool:NO forKey:DefaultsShowHUDPreview];
-    
     if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
         [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {

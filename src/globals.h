@@ -29,9 +29,9 @@
 #define FontMoreLargeBold [NSFont fontWithName: @"Helvetica Bold" size: 14]
 
 // define for userdefaults
-#define userDefaults [NSUserDefaults standardUserDefaults]
+#define UserDefaults [NSUserDefaults standardUserDefaults]
 // define for default SwordManager
-#define defSwordManager [SwordManager defaultManager]
+#define DefaultSwordManager [SwordManager defaultManager]
 
 // Notification identifiers
 
@@ -39,7 +39,7 @@
  \brief this notification is send when the user clicks on a link in ExtTextView or the tooltip sows up
  */
 #define NotificationShowPreviewData @"NotificationShowPreviewData"
-#define SendNotifyShowPreviewData(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationShowPreviewData object:X];
+#define SendNotifyShowPreviewData(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationShowPreviewData object:X]
 
 /**
  \brief this notification is send when among the currently displayed and active modules is a dictionary or genbook
@@ -51,4 +51,4 @@
  \brief this notification is send, when the modules have changed (updated, added, removed)
  */
 #define NotificationModulesChanged @"NotificationModulesChanged"
-#define SendNotifyModulesChanged(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationModulesChanged object:X];
+#define SendNotifyModulesChanged(X) [[NSNotificationCenter defaultCenter] postNotificationName:NotificationModulesChanged object:X]

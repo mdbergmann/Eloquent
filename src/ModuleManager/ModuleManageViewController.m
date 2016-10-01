@@ -38,7 +38,7 @@
     [oPanel setCanChooseDirectories:YES];
     result = [oPanel runModal];
 	
-    if(result == NSOKButton)  {
+    if(result == NSModalResponseOK)  {
         NSURL *fileToOpen = [oPanel URL];
 		return fileToOpen;
     } else {
@@ -101,10 +101,10 @@
     [categoryOutlineView reloadData];
     
     // first thing, we check the disclaimer
-    if([userDefaults stringForKey:DefaultsUserDisclaimerConfirmed] == nil) {
+    if([UserDefaults stringForKey:DefaultsUserDisclaimerConfirmed] == nil) {
         [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:NO];
     } else {
-        [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:[userDefaults boolForKey:DefaultsUserDisclaimerConfirmed]];
+        [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:[UserDefaults boolForKey:DefaultsUserDisclaimerConfirmed]];
     }
     
     initialized = YES;    
@@ -158,7 +158,7 @@
             [modListViewController refreshModulesList];
             
             dispatch_async(dispatch_get_main_queue(), ^(void) {
-                SendNotifyModulesChanged(nil)
+                SendNotifyModulesChanged(nil);
             });
         });
         
@@ -184,7 +184,7 @@
 }
 
 - (IBAction)showDisclaimer {
-    if([userDefaults stringForKey:DefaultsUserDisclaimerConfirmed] == nil || ![userDefaults boolForKey:DefaultsUserDisclaimerConfirmed]) {
+    if([UserDefaults stringForKey:DefaultsUserDisclaimerConfirmed] == nil || ![UserDefaults boolForKey:DefaultsUserDisclaimerConfirmed]) {
         if(disclaimerWindow) {
             [[NSApplication sharedApplication] beginSheet:disclaimerWindow 
                                            modalForWindow:parentWindow 
@@ -204,14 +204,14 @@
 }
 
 - (IBAction)confirmNo:(id)sender {
-    [userDefaults setBool:NO forKey:DefaultsUserDisclaimerConfirmed];
+    [UserDefaults setBool:NO forKey:DefaultsUserDisclaimerConfirmed];
     [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:NO];
     // end sheet
     [self disclaimerSheetEnd];
 }
 
 - (IBAction)confirmYes:(id)sender {
-    [userDefaults setBool:YES forKey:DefaultsUserDisclaimerConfirmed];
+    [UserDefaults setBool:YES forKey:DefaultsUserDisclaimerConfirmed];
     [[SwordInstallSourceManager defaultManager] setUserDisclaimerConfirmed:YES];
     // end sheet
     [self disclaimerSheetEnd];
@@ -654,7 +654,7 @@
                 error++;
             } else {
                 // shall we remove the index as well?
-                if([userDefaults boolForKey:DefaultsRemoveIndexOnModuleRemoval]) {
+                if([UserDefaults boolForKey:DefaultsRemoveIndexOnModuleRemoval]) {
                     [[IndexingManager sharedManager] removeIndexForModuleName:[[modObj module] name]];
                 }
             }

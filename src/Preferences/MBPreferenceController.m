@@ -187,8 +187,8 @@ static MBPreferenceController *instance;
     [webPreferences setPlugInsEnabled:NO];
     // set default font
     if(aModName == nil) {
-        [webPreferences setStandardFontFamily:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
-        [webPreferences setDefaultFontSize:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];                
+        [webPreferences setStandardFontFamily:[UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
+        [webPreferences setDefaultFontSize:[UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];                
     } else {
         NSFont *defaultFont = [self normalDisplayFontForModuleName:aModName];
         [webPreferences setStandardFontFamily:[defaultFont familyName]];
@@ -199,11 +199,11 @@ static MBPreferenceController *instance;
 }
 
 - (NSFont *)normalDisplayFontForModuleName:(NSString *)aModName {
-    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
-    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
+    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
 
-    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
+    NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
     if(settings) {
         displayFont = [settings displayFont];
     }
@@ -212,11 +212,11 @@ static MBPreferenceController *instance;
 }
 
 - (NSFont *)boldDisplayFontForModuleName:(NSString *)aModName {
-    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
-    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
     
-    NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
+    NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
     if(settings) {
         displayFont = [settings displayFontBold];
     }
@@ -270,13 +270,13 @@ static MBPreferenceController *instance;
     }
     
     if(!moduleFontAction) {
-        [userDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
-        [userDefaults setObject:fontBoldName forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
-        [userDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
+        [UserDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
+        [UserDefaults setObject:fontBoldName forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
+        [UserDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
         
         [self applyFontPreviewText];        
     } else {
-        NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
+        NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
         NSMutableDictionary *settings = [moduleSettings objectForKey:currentModuleName];
         if(!settings) {
             settings = [NSMutableDictionary dictionary];
@@ -287,7 +287,7 @@ static MBPreferenceController *instance;
         [settings setDisplayFontBold:[NSFont fontWithName:fontBoldName size:(float)fontSize]];
 
         [moduleSettings setObject:settings forKey:currentModuleName];
-        [userDefaults setObject:moduleSettings forKey:DefaultsModuleDisplaySettingsKey];
+        [UserDefaults setObject:moduleSettings forKey:DefaultsModuleDisplaySettingsKey];
         
         [moduleFontsTableView noteNumberOfRowsChanged];
         [moduleFontsTableView reloadData];
@@ -295,8 +295,8 @@ static MBPreferenceController *instance;
 }
 
 - (void)applyFontPreviewText {
-    NSString *fontFamily = [userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
-    int fontSize = [userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
+    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, fontSize];
     bibleDisplayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
     [bibleFontTextField setStringValue:fontText];
@@ -412,7 +412,7 @@ static MBPreferenceController *instance;
 //----------- Actions ---------------------------------------
 //--------------------------------------------------------------------
 - (IBAction)toggleBackgroundIndexer:(id)sender {
-    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+    if([UserDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];
     } else {
         [[IndexingManager sharedManager] invalidateBackgroundIndexer];
@@ -428,8 +428,8 @@ static MBPreferenceController *instance;
 	[fp setIsVisible:YES];
     
     // set current font to FontManager
-    NSFont *font = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
-                                   size:[userDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
+    NSFont *font = [NSFont fontWithName:[UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey] 
+                                   size:[UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
     [fontManager setSelectedFont:font isMultiple:NO];
 }
 
@@ -451,9 +451,9 @@ static MBPreferenceController *instance;
     NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)clickedRow];
     
     // remove from user defaults. this will apply the default font
-    NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
+    NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
     [moduleSettings removeObjectForKey:moduleName];
-    [userDefaults setObject:moduleSettings forKey:DefaultsModuleDisplaySettingsKey];
+    [UserDefaults setObject:moduleSettings forKey:DefaultsModuleDisplaySettingsKey];
     
     [moduleFontsTableView noteNumberOfRowsChanged];
     [moduleFontsTableView reloadData];

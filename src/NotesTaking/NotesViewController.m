@@ -77,7 +77,7 @@ extern char NotesMgrUI;
 - (void)awakeFromNib {
     [super awakeFromNib];
 
-    [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
+    [textView setBackgroundColor:[UserDefaults colorForKey:DefaultsTextBackgroundColor]];
     
     [self displayText];
     [saveButton setEnabled:NO];
@@ -257,7 +257,7 @@ extern char NotesMgrUI;
     if([trimmedText length] > 0) {
         
         // get default bible module
-        NSString *defBibleName = [userDefaults stringForKey:DefaultsBibleModule];
+        NSString *defBibleName = [UserDefaults stringForKey:DefaultsBibleModule];
         if(defBibleName == nil) {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"NoDefaultBibleSelected", @"") 
                                              defaultButton:NSLocalizedString(@"OK" , @"")

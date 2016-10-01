@@ -63,8 +63,8 @@
     NSMutableArray *subViews = [NSMutableArray arrayWithArray:[parBibleSplitView subviews]];
     [subViews addObjectsFromArray:[parMiscSplitView subviews]];
     
-    BOOL hasDefaultsInset = [userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] != nil;
-    float defaultsInset = [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue];
+    BOOL hasDefaultsInset = [UserDefaults objectForKey:DefaultsTextContainerHorizontalMargins] != nil;
+    float defaultsInset = [[UserDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue];
     NSEnumerator *iter = [subViews reverseObjectEnumerator];
     ScrollSynchronizableView *v = nil;
     while((v = [iter nextObject])) {

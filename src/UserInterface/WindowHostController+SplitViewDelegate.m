@@ -87,13 +87,13 @@
         if(sv == mainSplitView) {
             NSSize s = [[lsbViewController view] frame].size;
             if(s.width > 20) {
-                [userDefaults setInteger:(NSInteger) s.width forKey:DefaultsLSBWidth];
+                [UserDefaults setInteger:(NSInteger) s.width forKey:DefaultsLSBWidth];
             }
         } else if(sv == contentSplitView) {
             NSSize s = [[rsbViewController view] frame].size;
             if(s.width > 10) {
                 rsbWidth = (float) s.width;
-                [userDefaults setInteger:(NSInteger) s.width forKey:DefaultsRSBWidth];
+                [UserDefaults setInteger:(NSInteger) s.width forKey:DefaultsRSBWidth];
             }
         }
     }

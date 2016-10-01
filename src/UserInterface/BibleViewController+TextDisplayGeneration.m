@@ -44,7 +44,7 @@
         
         NSMutableDictionary *keyAttributes = [@{NSFontAttributeName : keyFont} mutableCopy];
         NSMutableDictionary *contentAttributes = [@{NSFontAttributeName : contentFont} mutableCopy];
-        contentAttributes[NSForegroundColorAttributeName] = [userDefaults colorForKey:DefaultsTextForegroundColor];
+        contentAttributes[NSForegroundColorAttributeName] = [UserDefaults colorForKey:DefaultsTextForegroundColor];
         
         // strip search tokens
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
@@ -127,7 +127,7 @@
     NSMutableString *htmlString = [NSMutableString string];
     // background color cannot be set this way
     CGFloat fr, fg, fb = 0.0;
-    NSColor *fCol = [userDefaults colorForKey:DefaultsTextForegroundColor];
+    NSColor *fCol = [UserDefaults colorForKey:DefaultsTextForegroundColor];
     [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
     [htmlString appendFormat:@"\
      <style>\
@@ -227,7 +227,7 @@
     
     // headings fg color
     CGFloat hr, hg, hb = 0.0;
-    NSColor *hfCol = [userDefaults colorForKey:DefaultsHeadingsForegroundColor];
+    NSColor *hfCol = [UserDefaults colorForKey:DefaultsHeadingsForegroundColor];
     [hfCol getRed:&hr green:&hg blue:&hb alpha:NULL];    
     NSString *headingsFGColorStyle = [NSString stringWithFormat:@"color:rgb(%i%%, %i%%, %i%%);",
       (int)(hr * 100.0), (int)(hg * 100.0), (int)(hb * 100.0)];
@@ -326,8 +326,8 @@
 }
 
 - (void)replaceVerseMarkers {    
-    BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
-    BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
+    BOOL showBookNames = [UserDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
+    BOOL showBookAbbr = [UserDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL isVersesOnOneLine = [displayOptions[DefaultsBibleTextVersesOnOneLineKey] boolValue];
     int verseNumbering = [displayOptions[DefaultsBibleTextVerseNumberingTypeKey] intValue];
     BOOL isShowVerseNumbersOnly = (verseNumbering == VerseNumbersOnly);

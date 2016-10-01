@@ -28,8 +28,8 @@
 - (id)init {
     self = [super init];
     if(self) {
-        lsbShowing = [userDefaults boolForKey:DefaultsShowLSBSingle];
-        rsbShowing = [userDefaults boolForKey:DefaultsShowRSBSingle];
+        lsbShowing = [UserDefaults boolForKey:DefaultsShowLSBSingle];
+        rsbShowing = [UserDefaults boolForKey:DefaultsShowRSBSingle];
         [self _loadNib];
     }
     return self;
@@ -73,7 +73,7 @@
 #pragma mark - SubviewHosting protocol
 
 - (void)addContentViewController:(ContentDisplayingViewController *)aViewController {
-    [aViewController setShowingRSBPreferred:[userDefaults boolForKey:DefaultsShowRSBSingle]];
+    [aViewController setShowingRSBPreferred:[UserDefaults boolForKey:DefaultsShowRSBSingle]];
     [super addContentViewController:aViewController];
 }
 

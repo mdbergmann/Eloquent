@@ -1,4 +1,4 @@
-#!/usr/bin/env macruby
+#!/usr/bin/env ruby
 
 buildstring = File.new("buildnumber", "r").gets
 number = buildstring.to_i

@@ -37,10 +37,10 @@
         self.session = [[Session alloc] init];
 
         // load session path from defaults
-        if([userDefaults objectForKey:DefaultsSessionPath] == nil) {
+        if([UserDefaults objectForKey:DefaultsSessionPath] == nil) {
             self.session.url = [FolderUtil urlForDefaultSession];
         } else {
-            self.session.url = [NSURL URLWithString:[userDefaults objectForKey:DefaultsSessionPath]];
+            self.session.url = [NSURL URLWithString:[UserDefaults objectForKey:DefaultsSessionPath]];
         }
     }
 
@@ -95,7 +95,7 @@
         self.session.url = [sp URL];
         [self saveSession];
         // this session we have loaded
-        [userDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
+        [UserDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
     }
 }
 
@@ -107,7 +107,7 @@
     [self saveSession];
 
     // mark this as default session
-    [userDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
+    [UserDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
 }
 
 /**
@@ -119,7 +119,7 @@
 
     self.session.url = [FolderUtil urlForDefaultSession];
     // mark as default session
-    [userDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
+    [UserDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
 
     [self loadSession];
     [self showAllWindows];
@@ -150,7 +150,7 @@
         // get file
         self.session.url = [op URL];
         // this session we will loaded
-        [userDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
+        [UserDefaults setObject:[self.session.url absoluteString] forKey:DefaultsSessionPath];
         // load session
         [self loadSession];
         [self showAllWindows];

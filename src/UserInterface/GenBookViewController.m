@@ -146,7 +146,7 @@
 
         NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
         NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
-        [contentAttributes setObject:[userDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];        
+        [contentAttributes setObject:[UserDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
         
         // strip binary search tokens
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
@@ -214,7 +214,7 @@
                                                                 options:options
                                                      documentAttributes:nil];
     // set custom fore ground color
-    [tempDisplayString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor] 
+    [tempDisplayString addAttribute:NSForegroundColorAttributeName value:[UserDefaults colorForKey:DefaultsTextForegroundColor]
                               range:NSMakeRange(0, [tempDisplayString length])];
     
     // add pointing hand cursor to all links

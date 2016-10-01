@@ -23,6 +23,12 @@
 #import "EloquentFilterProvider.h"
 #import "Eloquent-Swift.h"
 
+@interface AppController ()
+
+@property (nonatomic) BOOL appIsTerminating;
+
+@end
+
 @implementation AppController
 
 + (void)initialize {
@@ -145,7 +151,7 @@ static AppController *singleton;
         SwordManager *sm = [self setupDefaultSwordManager];
                 
         // make available all cipher keys to SwordManager
-        NSDictionary *cipherKeys = [userDefaults objectForKey:DefaultsModuleCipherKeysKey];
+        NSDictionary *cipherKeys = [UserDefaults objectForKey:DefaultsModuleCipherKeysKey];
         for(NSString *modName in cipherKeys) {
             NSString *key = cipherKeys[modName];
             [sm setCipherKey:key forModuleNamed:modName];
@@ -214,7 +220,7 @@ static AppController *singleton;
 /** opens a new single host window for the given module */
 - (SingleViewHostController *)openSingleHostWindowForModule:(SwordModule *)mod {
     if(mod == nil) {
-        NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
+        NSString *sBible = [UserDefaults stringForKey:DefaultsBibleModule];
         if(sBible == nil) {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 
                                              defaultButton:NSLocalizedString(@"OK", @"") 
@@ -328,7 +334,7 @@ static AppController *singleton;
  \brief is called when application loading is nearly finished
  */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+    if([UserDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];
     }
 }
@@ -348,11 +354,11 @@ static AppController *singleton;
         [[SessionManager defaultManager] addDelegateToHosts:self];
     }
 
-    if([userDefaults boolForKey:DefaultsShowHUDPreview]) {
+    if([UserDefaults boolForKey:DefaultsShowHUDPreview]) {
         [self showPreviewPanel:nil];
     }
 
-    if([userDefaults boolForKey:DefaultsShowDailyDevotionOnStartupKey]) {
+    if([UserDefaults boolForKey:DefaultsShowDailyDevotionOnStartupKey]) {
         [self showDailyDevotionPanel:nil];
     }
 
@@ -371,6 +377,8 @@ static AppController *singleton;
 */
 - (NSApplicationTerminateReply)applicationShouldTerminate:(id)sender {
 
+    self.appIsTerminating = YES;
+    
     NSUInteger termInfo = [self shutdownWindowAndSession];
     if(termInfo == NSTerminateCancel) {
         return termInfo;
@@ -408,7 +416,7 @@ static AppController *singleton;
 #pragma mark - Actions
 
 - (IBAction)openNewSingleBibleHostWindow:(id)sender {
-    NSString *sBible = [userDefaults stringForKey:DefaultsBibleModule];
+    NSString *sBible = [UserDefaults stringForKey:DefaultsBibleModule];
     SwordModule *mod = nil;
     if(sBible != nil) {
         mod = [[SwordManager defaultManager] moduleWithName:sBible];
@@ -481,17 +489,16 @@ static AppController *singleton;
     if(!isPreviewShowing) {
         [previewController showWindow:self];
         isPreviewShowing = YES;
-        [userDefaults setBool:YES forKey:DefaultsShowHUDPreview];
     } else {
         [previewController close];    
         isPreviewShowing = NO;
-        [userDefaults setBool:NO forKey:DefaultsShowHUDPreview];
-    }    
+    }
+    [UserDefaults setBool:isPreviewShowing forKey:DefaultsShowHUDPreview];
 }
 
 - (IBAction)showDailyDevotionPanel:(id)sender {
     
-    NSString *ddModName = [userDefaults stringForKey:DefaultsDailyDevotionModule];
+    NSString *ddModName = [UserDefaults stringForKey:DefaultsDailyDevotionModule];
 
     if(ddModName == nil) {
         // nothing to do here
@@ -674,6 +681,9 @@ static AppController *singleton;
         
     } else if([aController isKindOfClass:[HUDPreviewController class]]) {
         isPreviewShowing = NO;
+        if(!self.appIsTerminating) {
+            [UserDefaults setBool:isPreviewShowing forKey:DefaultsShowHUDPreview];            
+        }
         
     } else if([aController isKindOfClass:[DailyDevotionPanelController class]]) {
         isDailyDevotionShowing = NO;

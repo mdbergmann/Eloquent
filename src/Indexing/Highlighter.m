@@ -80,7 +80,7 @@
 
         // create attributes Dictionary for highlight
         NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
-        NSFont *fontBold = [NSFont fontWithName:[userDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] size:size];
+        NSFont *fontBold = [NSFont fontWithName:[UserDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] size:size];
         [attr setObject:fontBold forKey:NSFontAttributeName];
         
         // create NSMutableAttributedString

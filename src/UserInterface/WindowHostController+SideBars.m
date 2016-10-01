@@ -101,9 +101,9 @@
 
 - (void)storeRSBUserDefaults {
     if([self isKindOfClass:[WorkspaceViewHostController class]]) {
-        [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBWorkspace];
+        [UserDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBWorkspace];
     } else {
-        [userDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBSingle];
+        [UserDefaults setBool:[self showingRSB] forKey:DefaultsShowRSBSingle];
     }    
 }
 

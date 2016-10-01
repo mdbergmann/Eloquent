@@ -1,8 +1,3 @@
-#!/usr/bin/env macruby
+#!/usr/bin/env ruby
 
-info_dict = NSDictionary.dictionaryWithContentsOfFile("./Info.plist")
-if !info_dict 
-  puts "Couldn't load Info.plist"
-end
-
-print info_dict["CFBundleShortVersionString"]
+print `./PlistUtil 'Info.plist' get CFBundleShortVersionString`

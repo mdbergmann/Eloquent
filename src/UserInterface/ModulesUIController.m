@@ -361,8 +361,8 @@ enum ModuleMenu_Items{
 }
 
 - (void)createCluceneIndex {
-    if([userDefaults objectForKey:DefaultsCreateCluceneConfirm] == nil || 
-       [userDefaults boolForKey:DefaultsCreateCluceneConfirm] == NO) {
+    if([UserDefaults objectForKey:DefaultsCreateCluceneConfirm] == nil || 
+       [UserDefaults boolForKey:DefaultsCreateCluceneConfirm] == NO) {
         confirmSheet = [[ConfirmationSheetController alloc] initWithSheetTitle:NSLocalizedString(@"ConfirmCreateCluceneIndex", @"") 
                                                                message:NSLocalizedString(@"ConfirmCreateCluceneIndexText", @"") 
                                                          defaultButton:NSLocalizedString(@"Yes", @"") 
@@ -411,9 +411,9 @@ enum ModuleMenu_Items{
     if(mod) {
         [[SwordManager defaultManager] setCipherKey:unlockCode forModuleNamed:[mod name]];
         
-        NSMutableDictionary *cipherKeys = [[userDefaults objectForKey:DefaultsModuleCipherKeysKey] mutableCopy];
+        NSMutableDictionary *cipherKeys = [[UserDefaults objectForKey:DefaultsModuleCipherKeysKey] mutableCopy];
         [cipherKeys setObject:unlockCode forKey:[mod name]];
-        [userDefaults setObject:[NSDictionary dictionaryWithDictionary:cipherKeys] forKey:DefaultsModuleCipherKeysKey];
+        [UserDefaults setObject:[NSDictionary dictionaryWithDictionary:cipherKeys] forKey:DefaultsModuleCipherKeysKey];
     }
     [moduleUnlockWindow close];
     [NSApp endSheet:moduleUnlockWindow];

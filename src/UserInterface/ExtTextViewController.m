@@ -47,15 +47,15 @@
 - (void)awakeFromNib {
     
     NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
-    [linkAttributes setObject:[userDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
-    [linkAttributes setObject:[userDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
+    [linkAttributes setObject:[UserDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
+    [linkAttributes setObject:[UserDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
     [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
     [textView setLinkTextAttributes:linkAttributes];
 
-    [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
+    [textView setBackgroundColor:[UserDefaults colorForKey:DefaultsTextBackgroundColor]];
 
     NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
-    [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
+    [selectionAttributes setObject:[UserDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
      
     [textView setString:@""];
@@ -63,8 +63,8 @@
     
     [textView setHorizontallyResizable:YES];
     [[textView textContainer] setWidthTracksTextView:YES];
-    NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
-                                [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
+    NSSize margins = NSMakeSize([[UserDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
+                                [[UserDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
     [textView setTextContainerInset:margins];
     [[NSUserDefaults standardUserDefaults] addObserver:self 
                                             forKeyPath:DefaultsTextContainerVerticalMargins
@@ -104,23 +104,23 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	// check for keyPath
 	if([keyPath isEqualToString:DefaultsTextContainerVerticalMargins]) {
-        NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
-                                    [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
+        NSSize margins = NSMakeSize([[UserDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
+                                    [[UserDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
         [textView setTextContainerInset:margins];
 	} else if([keyPath isEqualToString:DefaultsTextContainerHorizontalMargins]) {
-        NSSize margins = NSMakeSize([[userDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
-                                    [[userDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
+        NSSize margins = NSMakeSize([[UserDefaults objectForKey:DefaultsTextContainerVerticalMargins] floatValue], 
+                                    [[UserDefaults objectForKey:DefaultsTextContainerHorizontalMargins] floatValue]);
         [textView setTextContainerInset:margins];
 	} else if([keyPath isEqualToString:DefaultsTextBackgroundColor]) {
-        [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];        
+        [textView setBackgroundColor:[UserDefaults colorForKey:DefaultsTextBackgroundColor]];        
 	} else if([keyPath isEqualToString:DefaultsTextHighlightColor]) {
         NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
-        [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
+        [selectionAttributes setObject:[UserDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
         [textView setSelectedTextAttributes:selectionAttributes];
 	} else if([keyPath isEqualToString:DefaultsLinkForegroundColor]) {
         NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
-        [linkAttributes setObject:[userDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
-        [linkAttributes setObject:[userDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
+        [linkAttributes setObject:[UserDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
+        [linkAttributes setObject:[UserDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
         [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
         [textView setLinkTextAttributes:linkAttributes];
 	}

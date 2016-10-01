@@ -46,7 +46,7 @@
     }
     
     // find default bible
-    NSString *defaultBibleName = [userDefaults objectForKey:DefaultsBibleModule];
+    NSString *defaultBibleName = [UserDefaults objectForKey:DefaultsBibleModule];
     if(defaultBibleName == nil) {
         // find the first bible in list instead
         NSArray *bibles = [[SwordManager defaultManager] modulesForType:Bible];

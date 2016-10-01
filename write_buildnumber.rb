@@ -1,10 +1,7 @@
-#!/usr/bin/env macruby
+#!/usr/bin/env ruby
 
 buildnumber = File.new("buildnumber", "r").gets
-infoDict = NSMutableDictionary.dictionaryWithContentsOfFile("./Info.plist")
-infoDict["CFBundleVersion"] = buildnumber
-#svs = infoDict["CFBundleShortVersionString"]
-#svs = "%s-%s" % [svs.split("-")[0], buildnumber]
-#infoDict["CFBundleShortVersionString"] = svs
-infoDict.writeToFile("./Info.plist", atomically: 1)
-infoDict.writeToFile("./Eloquent-AppStore-Info.plist", atomically: 1)
+propkey = "CFBundleVersion"
+
+`./PlistUtil 'Info.plist' put #{propkey} #{buildnumber}`
+`./PlistUtil 'Eloquent-AppStore-Info.plist' put #{propkey} #{buildnumber}`

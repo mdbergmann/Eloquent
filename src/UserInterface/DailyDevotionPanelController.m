@@ -56,15 +56,15 @@
 - (void)awakeFromNib {
     
     NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
-    [linkAttributes setObject:[userDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
-    [linkAttributes setObject:[userDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
+    [linkAttributes setObject:[UserDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
+    [linkAttributes setObject:[UserDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
     [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
     [textView setLinkTextAttributes:linkAttributes];
     
-    [textView setBackgroundColor:[userDefaults colorForKey:DefaultsTextBackgroundColor]];
+    [textView setBackgroundColor:[UserDefaults colorForKey:DefaultsTextBackgroundColor]];
     
     NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
-    [selectionAttributes setObject:[userDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
+    [selectionAttributes setObject:[UserDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
 }
 
@@ -128,7 +128,7 @@
                                                                                 documentAttributes:nil];
         
         // set custom fore ground color
-        [displayString addAttribute:NSForegroundColorAttributeName value:[userDefaults colorForKey:DefaultsTextForegroundColor]
+        [displayString addAttribute:NSForegroundColorAttributeName value:[UserDefaults colorForKey:DefaultsTextForegroundColor]
                               range:NSMakeRange(0, [displayString length])];
         
         // add pointing hand cursor to all links

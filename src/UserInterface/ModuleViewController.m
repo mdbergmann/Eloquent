@@ -97,11 +97,11 @@
         if(module != nil) {
             // override customFontSize if there is a specific one for module
             if(customFontSize == -1) {
-                NSDictionary *settings = [[userDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[module name]];
+                NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[module name]];
                 if(settings) {
                     customFontSize = [settings displayFontSize];                    
                 } else {
-                    customFontSize = [[userDefaults objectForKey:DefaultsBibleTextDisplayFontSizeKey] intValue];
+                    customFontSize = [[UserDefaults objectForKey:DefaultsBibleTextDisplayFontSizeKey] intValue];
                 }
             }
             

@@ -217,16 +217,16 @@ extern char ModuleListUI;
     BOOL isStrongs = NO;
     if(!modName || [modName length] == 0) {
         // get default bible module
-        modName = [userDefaults stringForKey:DefaultsBibleModule];
+        modName = [UserDefaults stringForKey:DefaultsBibleModule];
         NSString *attrType = data[ATTRTYPE_TYPE];
         if([attrType isEqualToString:@"Hebrew"]) {
             isStrongs = YES;
-            modName = [userDefaults stringForKey:DefaultsStrongsHebrewModule];
+            modName = [UserDefaults stringForKey:DefaultsStrongsHebrewModule];
         } else if([attrType isEqualToString:@"Greek"]) {
             isStrongs = YES;
-            modName = [userDefaults stringForKey:DefaultsStrongsGreekModule];
+            modName = [UserDefaults stringForKey:DefaultsStrongsGreekModule];
         } else if([attrType hasPrefix:@"strongMorph"] || [attrType hasPrefix:@"robinson"]) {
-            modName = [userDefaults stringForKey:DefaultsMorphGreekModule];
+            modName = [UserDefaults stringForKey:DefaultsMorphGreekModule];
         }
     }
 
@@ -278,7 +278,7 @@ extern char ModuleListUI;
     
     CocoLog(LEVEL_DEBUG, @"classname: %@", [aUrl className]);    
     CocoLog(LEVEL_DEBUG, @"link: %@", [aUrl description]);
-    if([userDefaults boolForKey:DefaultsShowPreviewToolTip]) {
+    if([UserDefaults boolForKey:DefaultsShowPreviewToolTip]) {
         return [HUDPreviewController previewDataFromDict:linkResult][PreviewDisplayTextKey];
     }
     
@@ -315,7 +315,7 @@ extern char ModuleListUI;
                 ret = NO;
             }            
         } else if(selector == @selector(lookUpInDictionary:)) {
-            if([userDefaults objectForKey:DefaultsDictionaryModule] == nil || [textSelection length] == 0) {
+            if([UserDefaults objectForKey:DefaultsDictionaryModule] == nil || [textSelection length] == 0) {
                 ret = NO;
             }
         } else if(selector == @selector(lookUpInDictionaryOfModule:)) {
@@ -370,7 +370,7 @@ extern char ModuleListUI;
         } else {
             // otherwise use the default bible for lookup
             // get default bible module
-            NSString *defBibleName = [userDefaults stringForKey:DefaultsBibleModule];
+            NSString *defBibleName = [UserDefaults stringForKey:DefaultsBibleModule];
             if(defBibleName == nil) {
                 NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"NoDefaultBibleSelected", @"") 
                                                  defaultButton:NSLocalizedString(@"OK" , @"")
@@ -423,7 +423,7 @@ extern char ModuleListUI;
     NSString *sel = [[(id<TextContentProviding>)contentDisplayController textView] selectedString];
     if(sel != nil) {
         // get default dictionary module
-        NSString *defDictName = [userDefaults stringForKey:DefaultsDictionaryModule];
+        NSString *defDictName = [UserDefaults stringForKey:DefaultsDictionaryModule];
         if(defDictName == nil) {
             // requester to set default dictionary module
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Information", @"") 

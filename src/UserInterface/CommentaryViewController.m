@@ -147,14 +147,14 @@
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
     // get user defaults
-    BOOL showBookNames = [userDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
-    BOOL showBookAbbr = [userDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
+    BOOL showBookNames = [UserDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
+    BOOL showBookAbbr = [UserDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
 
     NSMutableString *htmlString = [NSMutableString string];
     
     // background color cannot be set this way
     CGFloat fr, fg, fb = 0.0;
-    NSColor *fCol = [userDefaults colorForKey:DefaultsTextForegroundColor];
+    NSColor *fCol = [UserDefaults colorForKey:DefaultsTextForegroundColor];
     [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
     [htmlString appendFormat:@"\
      <style>\

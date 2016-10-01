@@ -668,7 +668,7 @@
                 }
                 
                 if(!validIndex) {
-                    if([userDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
+                    if([UserDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
                         // show Alert
                         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"IndexNotReady", @"")
                                                          defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil otherButton:nil 
