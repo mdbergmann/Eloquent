@@ -111,7 +111,7 @@
  @return array of NSDictionaries with search results. 
  the array is autoreleased, the caller has to make sure to retain it if needed.
  */
-- (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults {
+- (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(long)maxResults {
     NSMutableArray *array = nil;
     
     [accessLock lock];

@@ -80,7 +80,7 @@
         self.dictKeys = [(SwordDictionary *)module allKeys];
     }
     
-    BOOL stat = [NSBundle loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:DICTIONARYVIEW_NIBNAME owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");
     }
@@ -414,7 +414,7 @@
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-    int ret = 0;
+    NSInteger ret = 0;
     
     if(self.module != nil) {
         ret = [dictKeys count];

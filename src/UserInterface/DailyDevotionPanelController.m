@@ -47,7 +47,7 @@
         
         dictionaryViewController = [[DictionaryViewController alloc] initWithModule:ddModule];
         
-        [NSBundle loadNibNamed:@"DailyDevotion" owner:self];
+        [[NSBundle mainBundle] loadNibNamed:@"DailyDevotion" owner:self topLevelObjects:nil];
 	}
 	
 	return self;

@@ -64,7 +64,7 @@ extern char NotesMgrUI;
         lastFoundRange = NSMakeRange(NSNotFound, 0);
         contentDisplayController = self;
         
-        BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];
+        BOOL stat = [[NSBundle mainBundle] loadNibNamed:NOTESVIEW_NIBNAME owner:self topLevelObjects:nil];
         if(!stat) {
             CocoLog(LEVEL_ERR, @"[NotesViewController -init] unable to load nib!");
         }        
@@ -154,7 +154,7 @@ extern char NotesMgrUI;
     if(fileRep) {
         NSData *textData = [fileRep fileContent];
         if([textData length] > 0) {
-            [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:nil documentAttributes:nil error:NULL]];
+            [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithData:[fileRep fileContent] options:[NSDictionary dictionary] documentAttributes:nil error:NULL]];
         }
     }
 }
@@ -307,7 +307,7 @@ extern char NotesMgrUI;
         contentDisplayController = self;        
         
         // load nib
-        BOOL stat = [NSBundle loadNibNamed:NOTESVIEW_NIBNAME owner:self];
+        BOOL stat = [[NSBundle mainBundle] loadNibNamed:NOTESVIEW_NIBNAME owner:self topLevelObjects:nil];
         if(!stat) {
             CocoLog(LEVEL_ERR, @"[NotesViewController -initWithCoder:] unable to load nib!");
         }

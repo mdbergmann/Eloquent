@@ -43,8 +43,8 @@
 }
 
 
-- (int)childCount {
-    int ret = 0;
+- (NSInteger)childCount {
+    NSInteger ret = 0;
     if(subGroups) {
         ret = [subGroups count];
     }

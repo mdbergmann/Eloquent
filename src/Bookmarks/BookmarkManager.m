@@ -19,7 +19,7 @@
 - (NSMutableArray *)_loadBookmarks:(NSArray *)group;
 - (Bookmark *)_bookmarkForReference:(SwordVerseKey *)aVerseKey inList:(NSArray *)bookmarkList;
 - (void)saveBookmarks;
-- (int)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list;
+- (NSInteger)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list;
 
 @end
 
@@ -203,20 +203,20 @@
     return ret;
 }
 
-- (int)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list {
+- (NSInteger)getIndexPath:(NSMutableArray *)reverseIndex forBookmark:(Bookmark *)bm inList:(NSArray *)list {
     if(list && [list count] > 0) {
-        for(NSUInteger i = 0;i < [list count];i++) {
+        for(NSInteger i = 0;i < [list count];i++) {
             Bookmark *b = [list objectAtIndex:i];
             if(bm != b) {
                 NSInteger index = [self getIndexPath:reverseIndex forBookmark:bm inList:[b subGroups]];
                 if(index > -1) {
                     // record
-                    [reverseIndex addObject:[NSNumber numberWithInt:i]];
+                    [reverseIndex addObject:[NSNumber numberWithInteger:i]];
                     return i;
                 }
             } else {
                 // record
-                [reverseIndex addObject:[NSNumber numberWithInt:i]];
+                [reverseIndex addObject:[NSNumber numberWithInteger:i]];
                 return i;
             }
         }        

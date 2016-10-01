@@ -72,7 +72,7 @@
 }
 
 - (void)_loadNib {
-    BOOL stat = [NSBundle loadNibNamed:COMMENTARYVIEW_NIBNAME owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:COMMENTARYVIEW_NIBNAME owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");
     }
@@ -205,7 +205,7 @@
     [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
     // set web preferences
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
-    [webPrefs setDefaultFontSize:[self customFontSize]];
+    [webPrefs setDefaultFontSize:(int)[self customFontSize]];
     [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
     // set scroll to line height
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];

@@ -24,7 +24,7 @@
     IBOutlet NSTextField *bookmarkNameTextField;    
     IBOutlet NSObjectController *bmObjectController;
     IBOutlet NSButton *bookmarkOkButton;
-    int bookmarkAction;
+    NSInteger bookmarkAction;
     NSMutableArray *bookmarkSelection;
     
     BookmarkManager *bookmarkManager;

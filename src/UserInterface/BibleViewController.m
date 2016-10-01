@@ -90,7 +90,7 @@
 }
 
 - (void)_loadNib {
-    BOOL stat = [NSBundle loadNibNamed:BIBLEVIEW_NIBNAME owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:BIBLEVIEW_NIBNAME owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");            
     }    
@@ -372,7 +372,7 @@
     [super textContextChange:sender];
     
     // get selected context
-    int tag = [(NSPopUpButton *)sender selectedTag];
+    long tag = [(NSPopUpButton *)sender selectedTag];
         
     self.textContext = tag;
     

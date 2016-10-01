@@ -13,7 +13,7 @@
 
 - (NSColor *)textColor {
     NSAttributedString *attrTitle = [self attributedTitle];
-    int len = [attrTitle length];
+    NSInteger len = [attrTitle length];
     NSRange range = NSMakeRange(0, (NSUInteger) MIN(len, 1)); // take color from first char
     NSDictionary *attrs = [attrTitle fontAttributesInRange:range];
     NSColor *textColor = [NSColor controlTextColor];

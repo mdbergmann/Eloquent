@@ -26,7 +26,7 @@
 - (void)setDisplayDefaultFonts {
     // normal font
     NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
-    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSInteger fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     [self setDisplayFont:[NSFont fontWithName:fontFamily size:(float)fontSize]];
     
     // bold font

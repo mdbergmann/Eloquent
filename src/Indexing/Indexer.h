@@ -77,7 +77,7 @@ typedef enum {
  @return array of NSDictionaries with search results. 
  the array is autoreleased, the caller has to make sure to retain it if needed.
  */
-- (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults;
+- (NSArray *)performSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(long)maxResults;
 
 /**
  creates a new thread for searching and returnes immediately.
@@ -86,7 +86,7 @@ typedef enum {
  @param[in] maxResults the maximum number of results
  @param[in] delegate report to delegate. @selector(searchOperationFinished:) is called with a NSArray of search results
 */
-- (void)performThreadedSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(int)maxResults delegate:(id)delegate;
+- (void)performThreadedSearchOperation:(NSString *)query constrains:(id)constrains maxResults:(long)maxResults delegate:(id)delegate;
 
 /**
  \brief flush the data to file

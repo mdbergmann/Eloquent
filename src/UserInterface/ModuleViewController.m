@@ -301,7 +301,7 @@
                                          defaultButton:NSLocalizedString(@"OK", @"") 
                                        alternateButton:nil 
                                            otherButton:nil 
-                             informativeTextWithFormat:info];
+                             informativeTextWithFormat:@"%@", info];
         [alert runModal];
         
         // show progress indicator
@@ -342,14 +342,14 @@
 }
 
 - (void)handleDisplayStatusText {
-    int length;
+    NSInteger length;
     if(searchType == ReferenceSearchType) {
         length = [contentCache count];
-        [self setStatusText:[NSString stringWithFormat:@"Found %i verses", length]];        
+        [self setStatusText:[NSString stringWithFormat:@"Found %li verses", (long)length]];        
     } else {
         length = [searchContentCache count];
-        [self setStatusText:[NSString stringWithFormat:@"Found %i results", length]];
-    }    
+        [self setStatusText:[NSString stringWithFormat:@"Found %li results", (long)length]];
+    }
 }
 
 #pragma mark - General menu

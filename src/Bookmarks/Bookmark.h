@@ -30,7 +30,7 @@
 - (id)initWithName:(NSString *)aName;
 - (id)initWithName:(NSString *)aName ref:(NSString *)aReference;
 
-- (int)childCount;
+- (NSInteger)childCount;
 - (BOOL)isLeaf;
 
 @end

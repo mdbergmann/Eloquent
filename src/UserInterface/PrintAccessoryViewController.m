@@ -23,7 +23,7 @@
         
         [self setPrintInfo:aPrintInfo];
         
-        BOOL success = [NSBundle loadNibNamed:@"PrintAccessory" owner:self];
+        BOOL success = [[NSBundle mainBundle] loadNibNamed:@"PrintAccessory" owner:self topLevelObjects:nil];
         if(success == NO) {
             CocoLog(LEVEL_WARN, @"could not load nib");
         }

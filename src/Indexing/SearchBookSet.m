@@ -43,7 +43,7 @@
 }
 
 
-- (int)count {
+- (NSInteger)count {
     return [osisBookNames count];
 }
 

@@ -65,7 +65,7 @@
 }
 
 - (void)commonInit {
-    BOOL stat = [NSBundle loadNibNamed:@"WorkspaceViewHost" owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:@"WorkspaceViewHost" owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");
     }    
@@ -251,7 +251,7 @@
 }
 
 - (IBAction)menuItemSelected:(id)sender {
-    int tag = [(NSMenuItem *)sender tag];
+    NSInteger tag = [(NSMenuItem *)sender tag];
     
     NSUInteger index = [[tabView tabViewItems] indexOfObject:[tabView selectedTabViewItem]];
     ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];

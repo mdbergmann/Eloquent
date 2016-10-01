@@ -72,7 +72,7 @@
     
     NSColor *blue = [NSColor colorWithDeviceRed:0.7 green:0.0 blue:0.0 alpha:1.0];
     NSRange found, area;
-    unsigned int length = [text length];
+    long length = [text length];
     
     if(length > 0) {
         
@@ -88,7 +88,7 @@
 
         // loop over all tokens
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
-        int tLen = [tokens count];
+        long tLen = [tokens count];
         for(NSUInteger i = 0;i < tLen;i++) {
             NSString *token = [tokens objectAtIndex:i];
             

@@ -44,7 +44,7 @@ enum NotesMenu_Items{
     if(self) {
         notesManager = [NotesManager defaultManager];
         
-        BOOL stat = [NSBundle loadNibNamed:NOTES_UI_NIBNAME owner:self];
+        BOOL stat = [[NSBundle mainBundle] loadNibNamed:NOTES_UI_NIBNAME owner:self topLevelObjects:nil];
         if(!stat) {
             CocoLog(LEVEL_ERR, @"[NotesUIController -init] unable to load nib!");
         }        
@@ -85,7 +85,7 @@ enum NotesMenu_Items{
     BOOL ret = NO;
     
     FileRepresentation *clickedObj = (FileRepresentation *)[self delegateSelectedObject];
-    int tag = [menuItem tag];        
+    NSInteger tag = [menuItem tag];
     switch(tag) {
         case NotesMenuAddNew:
         case NotesMenuAddNewFolder:
@@ -114,7 +114,7 @@ enum NotesMenu_Items{
     if([clickedObj isKindOfClass:[NSString class]] && [(NSString *)clickedObj isEqualToString:NSLocalizedString(@"LSBNotes", @"")]) {
         clickedObj = [notesManager notesFileRep];
     }
-    int tag = [sender tag];
+    NSInteger tag = [sender tag];
     switch(tag) {
         case NotesMenuAddNew:
             if([self createNewNoteIn:clickedObj folder:NO]) {

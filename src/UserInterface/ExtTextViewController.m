@@ -35,7 +35,7 @@
         self.delegate = aDelegate;
 
         // load nib
-        BOOL stat = [NSBundle loadNibNamed:EXTTEXTVIEW_NIBNAME owner:self];
+        BOOL stat = [[NSBundle mainBundle] loadNibNamed:EXTTEXTVIEW_NIBNAME owner:self topLevelObjects:nil];
         if(!stat) {
             CocoLog(LEVEL_ERR, @"unable to load nib!");
         }

@@ -125,7 +125,7 @@
 		if(oview != nil) {
             
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
-			int len = [selectedRows count];
+			NSInteger len = [selectedRows count];
 			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
             id item = nil;
 			if(len > 0) {

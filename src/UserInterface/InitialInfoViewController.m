@@ -21,7 +21,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        [NSBundle loadNibNamed:@"InitialInfoView" owner:self];
+        [[NSBundle mainBundle] loadNibNamed:@"InitialInfoView" owner:self topLevelObjects:nil];
     }
 
     return self;

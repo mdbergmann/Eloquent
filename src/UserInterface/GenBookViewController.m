@@ -72,7 +72,7 @@
     [super commonInit];
     self.selection = [NSMutableArray array];
     
-    BOOL stat = [NSBundle loadNibNamed:GENBOOKVIEW_NIBNAME owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:GENBOOKVIEW_NIBNAME owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");
     }    
@@ -403,7 +403,7 @@
 
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    int count;
+    NSInteger count;
 	
 	if(item == nil) {
         SwordModuleTreeEntry *root = [(SwordBook *)module treeEntryForKey:nil];

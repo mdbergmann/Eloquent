@@ -75,7 +75,7 @@
 }
 
 - (void)_loadNib {
-    BOOL stat = [NSBundle loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:BIBLECOMBIVIEW_NIBNAME owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");
     }    

@@ -32,7 +32,7 @@
 	self = [super init];
 	if(self) {
         
-		BOOL success = [NSBundle loadNibNamed:NIB_NAME owner:self];
+		BOOL success = [[NSBundle mainBundle] loadNibNamed:NIB_NAME owner:self topLevelObjects:nil];
 		if(success) {
             
             // by default we use temporary bookset
@@ -175,7 +175,7 @@
 }
 
 - (IBAction)bookSetChanged:(id)sender {
-    int tag = [(NSMenuItem *)sender tag];
+    NSInteger tag = [(NSMenuItem *)sender tag];
     NSMenu *menu = [(NSMenuItem *)sender menu];
 
     SearchBookSet *bookSet = nil;

@@ -136,7 +136,7 @@ enum ModuleMenu_Items{
     }
     
     // check last item is a separator, then remove    
-    int len = [[itemMenu itemArray] count];
+    NSInteger len = [[itemMenu itemArray] count];
     if(len > 0) {
         NSMenuItem *last = [itemMenu itemAtIndex:len-1];
         if([last isSeparatorItem]) {
@@ -161,7 +161,7 @@ enum ModuleMenu_Items{
                                                  selector:@selector(modulesListChanged:)
                                                      name:NotificationModulesChanged object:nil];            
         
-        [NSBundle loadNibNamed:MODULELIST_UI_NIBNAME owner:self];
+        [[NSBundle mainBundle] loadNibNamed:MODULELIST_UI_NIBNAME owner:self topLevelObjects:nil];
     }
     return self;
 }
@@ -276,7 +276,7 @@ enum ModuleMenu_Items{
     
     SwordModule *clicked = (SwordModule *)[self delegateSelectedObject];
     
-    int tag = [menuItem tag];
+    NSInteger tag = [menuItem tag];
     if(tag == ModuleMenuOpenCurrent) {
         if([clicked isKindOfClass:[SwordModule class]]) {
             SwordModule *mod = clicked;
@@ -316,7 +316,7 @@ enum ModuleMenu_Items{
 #pragma mark - Actions
 
 - (IBAction)moduleMenuClicked:(id)sender {
-    int tag = [sender tag];
+    NSInteger tag = [sender tag];
     
     SwordModule *clicked = (SwordModule *)[self delegateSelectedObject];
     clickedMod = clicked;

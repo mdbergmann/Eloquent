@@ -49,7 +49,7 @@ enum BookmarkMenu_Items {
         bookmarkSelection = [[NSMutableArray alloc] init];
         bookmarkManager = [BookmarkManager defaultManager];
         
-        BOOL stat = [NSBundle loadNibNamed:BOOKMARKMANAGER_UI_NIBNAME owner:self];
+        BOOL stat = [[NSBundle mainBundle] loadNibNamed:BOOKMARKMANAGER_UI_NIBNAME owner:self topLevelObjects:nil];
         if(!stat) {
             CocoLog(LEVEL_ERR, @"[BookmarkManagerUIController -init] unable to load nib!");
         }        
@@ -159,7 +159,7 @@ enum BookmarkMenu_Items {
     BOOL ret = NO;
     
     if(delegate && hostingDelegate) {
-        int tag = [menuItem tag];        
+        NSInteger tag = [menuItem tag];
         switch(tag) {
             case BookmarkMenuAddNewBM:
             case BookmarkMenuAddNewBMFolder:
@@ -195,7 +195,7 @@ enum BookmarkMenu_Items {
 	CocoLog(LEVEL_DEBUG, @"[BookmarkManagerUIController -menuClicked:] %@", [sender description]);
         
     Bookmark *clickedObj = (Bookmark *)[self delegateSelectedObject];
-    int tag = [sender tag];
+    NSInteger tag = [sender tag];
     bookmarkAction = tag;
     switch(tag) {
         case BookmarkMenuAddNewBM:

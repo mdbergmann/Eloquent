@@ -21,7 +21,7 @@
 + (id)searchBookSetWithName:(NSString *)aName;
 - (id)initWithName:(NSString *)aName;
 
-- (int)count;
+- (NSInteger)count;
 - (BOOL)containsBook:(NSString *)bookName;
 - (void)addBook:(NSString *)bookName;
 - (void)addFromArray:(NSArray *)bookNames;

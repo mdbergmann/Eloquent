@@ -280,7 +280,7 @@ static AppController *singleton;
                                              defaultButton:NSLocalizedString(@"Permanent", @"") 
                                            alternateButton:NSLocalizedString(@"Temporary", @"") 
                                                otherButton:nil 
-                                 informativeTextWithFormat:[NSString stringWithFormat:NSLocalizedString(@"ModuleXYNotInRepoWantToCopy", @""), moduleName]];
+                                 informativeTextWithFormat:@"%@", [NSString stringWithFormat:NSLocalizedString(@"ModuleXYNotInRepoWantToCopy", @""), moduleName]];
 
             NSString *destinationPath = filename;
             if([alert runModal] == NSAlertDefaultReturn) {

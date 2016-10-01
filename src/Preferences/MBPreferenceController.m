@@ -188,7 +188,7 @@ static MBPreferenceController *instance;
     // set default font
     if(aModName == nil) {
         [webPreferences setStandardFontFamily:[UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey]];
-        [webPreferences setDefaultFontSize:[UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];                
+        [webPreferences setDefaultFontSize:(int)[UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey]];
     } else {
         NSFont *defaultFont = [self normalDisplayFontForModuleName:aModName];
         [webPreferences setStandardFontFamily:[defaultFont familyName]];
@@ -200,7 +200,7 @@ static MBPreferenceController *instance;
 
 - (NSFont *)normalDisplayFontForModuleName:(NSString *)aModName {
     NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
-    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    long fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
 
     NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
@@ -213,7 +213,7 @@ static MBPreferenceController *instance;
 
 - (NSFont *)boldDisplayFontForModuleName:(NSString *)aModName {
     NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
-    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    long fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
     
     NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
@@ -296,8 +296,8 @@ static MBPreferenceController *instance;
 
 - (void)applyFontPreviewText {
     NSString *fontFamily = [UserDefaults stringForKey:DefaultsBibleTextDisplayFontFamilyKey];
-    int fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
-    NSString *fontText = [NSString stringWithFormat:@"%@ - %i", fontFamily, fontSize];
+    long fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
+    NSString *fontText = [NSString stringWithFormat:@"%@ - %li", fontFamily, fontSize];
     bibleDisplayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
     [bibleFontTextField setStringValue:fontText];
     

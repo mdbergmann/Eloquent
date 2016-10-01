@@ -13,10 +13,8 @@
 
 - (void)awakeFromNib {
 	bar = [NSImage imageNamed:@"SplitViewDividerBar.tiff"];
-	[bar setFlipped:YES];
     
 	grip = [NSImage imageNamed:@"SplitViewDividerDimple.tiff"];
-	[grip setFlipped:YES];
 }
 
 - (CGFloat)dividerThickness {

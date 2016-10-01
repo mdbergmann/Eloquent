@@ -73,7 +73,7 @@
         
         [self buildModuleCache];
         
-        [NSBundle loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self];
+        [[NSBundle mainBundle] loadNibNamed:LEFTSIDEBARVIEW_NIBNAME owner:self topLevelObjects:nil];
     }
     
     return self;
@@ -125,7 +125,7 @@
 - (id)objectForClickedRow {
     id ret = nil;
     
-    int clickedRow = [outlineView clickedRow];
+    NSInteger clickedRow = [outlineView clickedRow];
     if(clickedRow >= 0) {
         // get row
         ret = [outlineView itemAtRow:clickedRow];
@@ -402,7 +402,7 @@
             index = 0;
         }
         
-        int dropPointLen = [dropPoint count];
+        NSInteger dropPointLen = [dropPoint count];
         for(BookmarkDragItem *bd in draggedBookmarks) {
             // was it a move operation?
             // delete first, otherwise the path may not be correct anymore
@@ -452,7 +452,7 @@
 #pragma mark - outline delegate methods
 
 - (void)doubleClick {
-    int clickedRow = [outlineView clickedRow];
+    NSInteger clickedRow = [outlineView clickedRow];
     id clickedObj = [outlineView itemAtRow:clickedRow];
     
     if([clickedObj isKindOfClass:[SwordModule class]]) {
@@ -496,7 +496,7 @@
             [selectedItems removeAllObjects];            
 			
             NSIndexSet *selectedRows = [oview selectedRowIndexes];
-			int len = [selectedRows count];
+			NSInteger len = [selectedRows count];
             if(len == 1) {
                 id item = [oview itemAtRow:[oview selectedRow]];
                 [selectedItems addObject:item];
@@ -577,7 +577,7 @@
                 [(BookmarkCell *)cell setBookmark:item];
                 
             } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
-                [(ThreeCellsCell *)cell setLeftCounter:[(Bookmark *)item childCount]];
+                [(ThreeCellsCell *)cell setLeftCounter:(int)[(Bookmark *)item childCount]];
                 [(ThreeCellsCell *)cell setImage:bookmarkGroupImage];
                 
             } else if([item isKindOfClass:[SwordModCategory class]]) {

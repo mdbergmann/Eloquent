@@ -145,7 +145,7 @@ typedef enum _NavigationDirectionType {
     if(![recentSearches containsObject:searchText] && [searchText length] > 0) {
         [recentSearches addObject:searchText];
         // remove everything above 10 searches
-        int len = [recentSearches count];
+        NSInteger len = [recentSearches count];
         if(len > 10) {
             [recentSearches removeObjectAtIndex:0];
         }            

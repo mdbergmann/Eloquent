@@ -280,7 +280,7 @@ extern char BookmarkMgrUI;
 
 - (IBAction)fontSizeChange:(id)sender {
     // get selected font size
-    int tag = [(NSPopUpButton *)sender selectedTag];
+    NSInteger tag = [(NSPopUpButton *)sender selectedTag];
     
     // loop over all menuitem and set disabled state
     for(NSMenuItem *mi in [[(NSPopUpButton *)sender menu] itemArray]) {
@@ -495,8 +495,8 @@ extern char BookmarkMgrUI;
 }
 
 - (IBAction)bookPagerAction:(id)sender {
-    int clickedSegment = [sender selectedSegment];
-    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    NSInteger clickedSegment = [sender selectedSegment];
+    NSInteger clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
     if(clickedSegmentTag == 0) {
         // up
         [hostingDelegate previousBook:self];
@@ -507,8 +507,8 @@ extern char BookmarkMgrUI;
 }
 
 - (IBAction)chapterPagerAction:(id)sender {
-    int clickedSegment = [sender selectedSegment];
-    int clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    NSInteger clickedSegment = [sender selectedSegment];
+    NSInteger clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
     if(clickedSegmentTag == 0) {
         // up
         [hostingDelegate previousChapter:self];
@@ -537,7 +537,7 @@ extern char BookmarkMgrUI;
         NSMenu *m = [fontSizePopUpButton menu];
         if(m && ![m itemWithTag:customFontSize]) {
             NSMenuItem *item = [[NSMenuItem alloc] init];
-            [item setTitle:[[NSNumber numberWithInt:customFontSize] stringValue]];
+            [item setTitle:[[NSNumber numberWithInteger:customFontSize] stringValue]];
             [item setTag:customFontSize];
             [item setState:0];
             
@@ -628,7 +628,7 @@ extern char BookmarkMgrUI;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:[NSNumber numberWithInt:customFontSize] forKey:@"CustomFontSizeEncoded"];
+    [encoder encodeObject:[NSNumber numberWithInteger:customFontSize] forKey:@"CustomFontSizeEncoded"];
     [encoder encodeInteger:textContext forKey:@"TextContextKey"];    
     [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
     [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];

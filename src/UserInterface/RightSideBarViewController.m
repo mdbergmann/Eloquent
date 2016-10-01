@@ -16,7 +16,7 @@
     self = [super initWithDelegate:aDelegate];
     if(self) {
         // load nib
-        BOOL stat = [NSBundle loadNibNamed:RIGHTSIDEBARVIEW_NIBNAME owner:self];
+        BOOL stat = [[NSBundle mainBundle] loadNibNamed:RIGHTSIDEBARVIEW_NIBNAME owner:self topLevelObjects:nil];
         if(!stat) {
             CocoLog(LEVEL_ERR, @"[RightSideBarViewController -init] unable to load nib!");
         } else {

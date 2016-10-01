@@ -51,7 +51,7 @@
         
         for(SearchResultEntry *searchResultEntry in searchResults) {            
             if([searchResultEntry keyString] != nil) {
-                NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[searchResultEntry keyString] context:textContext];
+                NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[searchResultEntry keyString] context:(int)textContext];
                 for(SwordModuleTextEntry *textEntry in content) {
                     // get data
                     NSString *keyStr = [textEntry key];

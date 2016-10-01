@@ -53,7 +53,7 @@ enum SheetReturnCode {
 - (void)endSheet;
 
 // run modal for window usage
-- (int)runModal;
+- (NSInteger)runModal;
 
 // actions
 - (IBAction)defaultButton:(id)sender;

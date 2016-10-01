@@ -36,7 +36,7 @@
 	} else {        
         delegate = aDelegate;
         
-        BOOL success = [NSBundle loadNibNamed:@"ProgressOverlayView" owner:self];
+        BOOL success = [[NSBundle mainBundle] loadNibNamed:@"ProgressOverlayView" owner:self topLevelObjects:nil];
         if(success == NO) {
             CocoLog(LEVEL_WARN, @"[ProgressOverlayViewController init] could not load nib");
         }

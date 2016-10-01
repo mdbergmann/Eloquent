@@ -21,7 +21,7 @@
 }
 
 - (void)_loadNib {
-    BOOL stat = [NSBundle loadNibNamed:@"WindowHostToolbar" owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:@"WindowHostToolbar" owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"unable to load nib!");
     }

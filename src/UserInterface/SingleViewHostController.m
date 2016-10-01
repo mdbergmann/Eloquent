@@ -36,7 +36,7 @@
 }
 
 - (void)_loadNib {
-    BOOL stat = [NSBundle loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self];
+    BOOL stat = [[NSBundle mainBundle] loadNibNamed:SINGLEVIEWHOST_NIBNAME owner:self topLevelObjects:nil];
     if(!stat) {
         CocoLog(LEVEL_ERR, @"[SingleViewHostController -init] unable to load nib!");
     }

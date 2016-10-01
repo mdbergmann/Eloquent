@@ -73,7 +73,7 @@
         delegate = aDelegate;        
         parentWindow = aParent;
         
-        BOOL success = [NSBundle loadNibNamed:@"ModuleManageView" owner:self];
+        BOOL success = [[NSBundle mainBundle] loadNibNamed:@"ModuleManageView" owner:self topLevelObjects:nil];
 		if(success) {
             self.selectedInstallSources = [NSArray array];
             self.installDict = [NSMutableDictionary dictionary];

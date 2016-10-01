@@ -27,7 +27,7 @@
 		CocoLog(LEVEL_ERR,@"cannot alloc MBThreadedProgressSheetController!");
 	} else {
         // load nib
-        BOOL success = [NSBundle loadNibNamed:THREADED_PROGRESS_SHEET_NIB_NAME owner:self];
+        BOOL success = [[NSBundle mainBundle] loadNibNamed:THREADED_PROGRESS_SHEET_NIB_NAME owner:self topLevelObjects:nil];
         if(success == NO) {
             CocoLog(LEVEL_WARN, @"[MBThreadedProgressSheetController init] could not load nib");
         }

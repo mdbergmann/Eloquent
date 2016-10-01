@@ -86,7 +86,7 @@
     if ([aCoder allowsKeyedCoding]) {
         [aCoder encodeObject:_rolloverImage forKey:@"rolloverImage"];
         [aCoder encodeObject:_usualImage forKey:@"usualImage"];
-        [aCoder encodeInt:_myTrackingRectTag forKey:@"myTrackingRectTag"];
+        [aCoder encodeInteger:_myTrackingRectTag forKey:@"myTrackingRectTag"];
     }
 }
 

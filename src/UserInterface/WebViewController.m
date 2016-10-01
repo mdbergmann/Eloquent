@@ -28,7 +28,7 @@
         self.delegate = aDelegate;
         
         // load nib
-        BOOL stat = [NSBundle loadNibNamed:WEBVIEW_NIBNAME owner:self];
+        BOOL stat = [[NSBundle mainBundle] loadNibNamed:WEBVIEW_NIBNAME owner:self topLevelObjects:nil];
         if(!stat) {
             CocoLog(LEVEL_ERR, @"unable to load nib!");
         }

@@ -47,7 +47,7 @@
         self.contextInfo = aContextInfo;
         self.sheetWindow = aWindow;
         
-		[NSBundle loadNibNamed:CONFIRMATION_SHEET_NIB_NAME owner:self];
+		[[NSBundle mainBundle] loadNibNamed:CONFIRMATION_SHEET_NIB_NAME owner:self topLevelObjects:nil];
 	}
 	
 	return self;
@@ -135,7 +135,7 @@
 /**
  run modal as window
 */
-- (int)runModal {
+- (NSInteger)runModal {
 	return [NSApp runModalForWindow:[self window]];
 }
 
