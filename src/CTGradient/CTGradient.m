@@ -8,6 +8,7 @@
 //  Version: 1.5
 
 #import "CTGradient.h"
+#import "math.h"
 
 @interface CTGradient (Private)
 - (void)_commonInit;
@@ -667,9 +668,9 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
         float deltax,
         deltay;
         
-        float rangle = angle * pi/180;	//convert the angle to radians
+        float rangle = angle * M_PI/180;	//convert the angle to radians
         
-        if(fabsf(tan(rangle))<=1)	//for range [-45,45], [135,225]
+        if(fabs(tan(rangle))<=1)	//for range [-45,45], [135,225]
 		{
             x = NSWidth(rect);
             y = NSHeight(rect);
@@ -688,9 +689,9 @@ void resolveHSV(CGFloat *color1, CGFloat *color2);
             x = NSHeight(rect);
             y = NSWidth(rect);
             
-            sina = sin(rangle - 90*pi/180);
-            cosa = cos(rangle - 90*pi/180);
-            tana = tan(rangle - 90*pi/180);
+            sina = sin(rangle - 90*M_PI/180);
+            cosa = cos(rangle - 90*M_PI/180);
+            tana = tan(rangle - 90*M_PI/180);
             
             length = x/fabsf(cosa)+(y-x*fabsf(tana))*fabsf(sina);
             
