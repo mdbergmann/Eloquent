@@ -682,7 +682,7 @@ static AppController *singleton;
     } else if([aController isKindOfClass:[HUDPreviewController class]]) {
         isPreviewShowing = NO;
         if(!self.appIsTerminating) {
-            [UserDefaults setBool:isPreviewShowing forKey:DefaultsShowHUDPreview];            
+            [UserDefaults setBool:isPreviewShowing forKey:DefaultsShowHUDPreview];
         }
         
     } else if([aController isKindOfClass:[DailyDevotionPanelController class]]) {

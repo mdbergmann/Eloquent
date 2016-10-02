@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -18,7 +18,7 @@
                 <outlet property="createModuleOKButton" destination="494" id="505"/>
                 <outlet property="createModuleWindow" destination="488" id="498"/>
                 <outlet property="helpMenu" destination="106" id="604"/>
-                <outlet property="previewController" destination="419" id="442"/>
+                <outlet property="previewController" destination="wzq-0G-3ij" id="IfL-jM-v0e"/>
             </connections>
         </customObject>
         <menu title="AMainMenu" systemMenu="main" id="29" userLabel="MainMenu">
@@ -483,7 +483,7 @@
                 <autoresizingMask key="autoresizingMask"/>
             </view>
         </window>
-        <window title="Preview" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" visibleAtLaunch="NO" appearanceType="lightContent" frameAutosaveName="" animationBehavior="default" id="409" userLabel="PreviewPanel (Preview)" customClass="NSPanel">
+        <window title="Preview" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" visibleAtLaunch="NO" appearanceType="aqua" frameAutosaveName="" animationBehavior="default" id="409" userLabel="PreviewPanel (Preview)" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="586" y="59" width="500" height="250"/>
@@ -510,12 +510,9 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="426">
+                    <box verticalHuggingPriority="750" boxType="separator" id="426">
                         <rect key="frame" x="20" y="213" width="457" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
                     <scrollView focusRingType="none" appearanceType="aqua" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="457">
                         <rect key="frame" x="20" y="20" width="457" height="187"/>
@@ -524,15 +521,13 @@
                             <rect key="frame" x="0.0" y="0.0" width="457" height="187"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView editable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" spellingCorrection="YES" id="460">
+                                <textView editable="NO" drawsBackground="NO" importsGraphics="NO" spellingCorrection="YES" id="460">
                                     <rect key="frame" x="0.0" y="0.0" width="457" height="187"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="457" height="187"/>
                                     <size key="maxSize" width="957" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="457" height="187"/>
-                                    <size key="maxSize" width="957" height="10000000"/>
                                 </textView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -548,16 +543,9 @@
                 </subviews>
             </view>
             <connections>
-                <outlet property="delegate" destination="419" id="uGl-MG-ha1"/>
+                <outlet property="delegate" destination="wzq-0G-3ij" id="wpW-8e-tjd"/>
             </connections>
         </window>
-        <customObject id="419" userLabel="PreviewController" customClass="HUDPreviewController">
-            <connections>
-                <outlet property="previewText" destination="460" id="461"/>
-                <outlet property="previewType" destination="424" id="427"/>
-                <outlet property="window" destination="409" id="C2J-mW-r3m"/>
-            </connections>
-        </customObject>
         <window title="Create Module" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="488">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
@@ -619,5 +607,11 @@ DQ
                 <outlet property="delegate" destination="375" id="506"/>
             </connections>
         </window>
+        <customObject id="wzq-0G-3ij" customClass="HUDPreviewController">
+            <connections>
+                <outlet property="delegate" destination="375" id="kAj-nS-vXu"/>
+                <outlet property="window" destination="409" id="vj7-bF-nT1"/>
+            </connections>
+        </customObject>
     </objects>
 </document>
