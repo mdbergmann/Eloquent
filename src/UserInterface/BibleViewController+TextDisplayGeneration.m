@@ -84,6 +84,7 @@
         }
 
         CocoLog(LEVEL_DEBUG, @"apply writing direction...");
+        tempDisplayString = ret;        // applyWritingDirection will operate on tempDisplayString
         [self applyWritingDirection];
         CocoLog(LEVEL_DEBUG, @"apply writing direction...done");
     }

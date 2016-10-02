@@ -25,4 +25,9 @@
  */
 - (void)initLocaleWithLocaledPath:(NSString *)aPath;
 
+/**
+ Retrieves the configured default locale name
+ */
+- (NSString *)getDefaultLocaleName;
+
 @end

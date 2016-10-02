@@ -15,7 +15,7 @@
 		</dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		nPQ5bTWqsjaCDBFq/roLtJTR7NQ=
+		2qAId0GLkD+9E5PSHPdRrmCBpg4=
 		</data>
 		<key>Resources/Tests-Info.plist</key>
 		<data>
@@ -384,10 +384,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			sXYcjWM6CoZSwjsEzd1F3Rg4nf4=
+			J0G05sG6NtqF/0lc9ZWNqikmvbo=
 			</data>
 			<key>requirement</key>
-			<string>anchor apple generic and identifier libsword and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "27XS5W9C3J")</string>
+			<string>identifier libsword and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Manfred Bergmann (7FWLEZG9C2)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Headers/Configuration.h</key>
 		<dict>
@@ -591,11 +591,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VTEEDgQ5d5PmAwS3WbKvOxL5tQw=
+			3kAJL8bi93Fa8duOPI7ovqr/04w=
 			</data>
 			<key>hash2</key>
 			<data>
-			CClq9xepcHbELG+PSVAjeM6g7G+K50yrq6nAyQstexM=
+			Z/EGqLJbYTAUF3v/68loTRDl4v9lybmKPBITNomVIuE=
 			</data>
 		</dict>
 		<key>Headers/SwordManager.h</key>
@@ -2727,11 +2727,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			nPQ5bTWqsjaCDBFq/roLtJTR7NQ=
+			2qAId0GLkD+9E5PSHPdRrmCBpg4=
 			</data>
 			<key>hash2</key>
 			<data>
-			S04uExoTciRuOyf6JsDLP+U6ys8qJdLnPTgsVUF7T2c=
+			Fs0YATLicE/hM9WWn1l9CkGs0Li1RFpcAVdNhvhUWGk=
 			</data>
 		</dict>
 		<key>Resources/Tests-Info.plist</key>
@@ -3743,6 +3743,11 @@
 			<key>weight</key>
 			<real>1100</real>
 		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
+		</dict>
 		<key>^version.plist$</key>
 		<true/>
 	</dict>
@@ -3801,6 +3806,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>
