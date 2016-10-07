@@ -610,6 +610,8 @@ DQ
         <customObject id="wzq-0G-3ij" customClass="HUDPreviewController">
             <connections>
                 <outlet property="delegate" destination="375" id="kAj-nS-vXu"/>
+                <outlet property="previewText" destination="460" id="Zc7-nu-tEs"/>
+                <outlet property="previewType" destination="424" id="MgL-fo-034"/>
                 <outlet property="window" destination="409" id="vj7-bF-nT1"/>
             </connections>
         </customObject>

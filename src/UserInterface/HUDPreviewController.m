@@ -15,7 +15,10 @@
 
 @interface HUDPreviewController ()
 
-+ (NSString *)createHtmlVerseForKey:(NSString *)aKey andText:(NSString *)verseText withStyleColor:(NSString *)styleColorSting andModuleName:(NSString *)aModName;
++ (NSString *)createHtmlVerseForKey:(NSString *)aKey
+                            andText:(NSString *)verseText
+                     withStyleColor:(NSString *)styleColorSting
+                      andModuleName:(NSString *)aModName;
 
 @end
 
@@ -86,7 +89,10 @@
                         if(textType == TextTypeStripped) {
                             [displayText appendFormat:@"%@:\n%@\n", key, verseText];                            
                         } else {
-                            [displayText appendString:[HUDPreviewController createHtmlVerseForKey:key andText:verseText withStyleColor:previewPaneTextColor andModuleName:module]];                            
+                            [displayText appendString:[HUDPreviewController createHtmlVerseForKey:key
+                                                                                          andText:verseText
+                                                                                   withStyleColor:previewPaneTextColor
+                                                                                    andModuleName:module]];
                         }
                     }
                 } else if([result isKindOfClass:[NSString class]]) {
@@ -102,19 +108,26 @@
                     if(textType == TextTypeStripped) {
                         [displayText appendFormat:@"%@:\n%@\n", key, verseText];                            
                     } else {
-                        [displayText appendString:[HUDPreviewController createHtmlVerseForKey:key andText:verseText withStyleColor:previewPaneTextColor andModuleName:module]];                            
+                        [displayText appendString:[HUDPreviewController createHtmlVerseForKey:key
+                                                                                      andText:verseText
+                                                                               withStyleColor:previewPaneTextColor
+                                                                                andModuleName:module]];
                     }
                 }
             }
-            [ret setObject:displayText forKey:@"PreviewDisplayTextKey"];            
+            [ret setObject:displayText forKey:@"PreviewDisplayTextKey"];
         }      
     }
     
     return ret;    
 }
 
-+ (NSString *)createHtmlVerseForKey:(NSString *)aKey andText:(NSString *)verseText withStyleColor:(NSString *)styleColorSting andModuleName:(NSString *)aModName {
-    return [NSString stringWithFormat:@"<span style=\"%@\"><a href=\"sword://%@/%@\">%@</a>:<br />%@<br /></span>", styleColorSting, aModName, aKey, aKey, verseText];
++ (NSString *)createHtmlVerseForKey:(NSString *)aKey
+                            andText:(NSString *)verseText
+                     withStyleColor:(NSString *)styleColorSting
+                      andModuleName:(NSString *)aModName {
+    return [NSString stringWithFormat:@"<span style=\"%@\"><a href=\"sword://%@/%@\">%@</a>:<br />%@<br /></span>",
+            styleColorSting, aModName, aKey, aKey, verseText];
 }
 
 - (id)init {

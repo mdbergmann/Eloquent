@@ -22,7 +22,6 @@
 #import "Bookmark.h"
 #import "BookmarkManager.h"
 #import "ObjCSword/SwordVerseKey.h"
-#import "ObjCSword/SwordListKey.h"
 #import "CacheObject.h"
 
 @implementation BibleViewController (TextDisplayGeneration)
@@ -296,18 +295,18 @@
 - (void)applyString:(NSString *)aString {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     options[NSCharacterEncodingDocumentOption] = @(NSUTF8StringEncoding);
+
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
     [webPrefs setDefaultFontSize:(int) [self customFontSize]];
-    
     options[NSWebPreferencesDocumentOption] = webPrefs;
     
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] size:[self customFontSize]];
 
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
-    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
+    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data
                                                                 options:options
-                                                     documentAttributes:nil];
+                                                     documentAttributes:NULL];
 
     [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
 }
