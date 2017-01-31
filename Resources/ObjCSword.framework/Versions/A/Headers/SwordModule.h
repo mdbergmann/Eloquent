@@ -101,12 +101,6 @@ typedef enum {
 - (id)initWithSWModule:(sword::SWModule *)aModule;
 
 /**
- Initialize this module with an the SWModule and a SwordManager instance.
- This initializer should normally not need to be used.
- */
-- (id)initWithSWModule:(sword::SWModule *)aModule;
-
-/**
  Retrieve the underlying SWModule instance
  */
 - (sword::SWModule *)swModule;

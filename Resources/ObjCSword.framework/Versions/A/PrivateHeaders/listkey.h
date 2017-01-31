@@ -4,7 +4,7 @@
  *		types of keys for indexing into modules
  *		(e.g. verse, word, place, etc.)
  *
- * $Id: listkey.h 2893 2013-07-16 03:07:02Z scribe $
+ * $Id: listkey.h 3439 2016-10-23 08:32:02Z scribe $
  *
  * Copyright 1997-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -144,7 +144,7 @@ public:
 	 * Returns the index for the new one given as as parameter.
 	 * The first parameter is the new index.
 	 */
-	virtual void setIndex(long index) { setToElement(index); }
+	virtual void setIndex(long index) { setToElement((int)index); }
 	virtual const char *getText() const;
 	virtual void setText(const char *ikey);
 	virtual void sort();

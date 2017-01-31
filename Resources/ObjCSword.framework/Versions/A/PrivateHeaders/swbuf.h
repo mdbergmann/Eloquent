@@ -2,7 +2,7 @@
  *
  *  swbuf.h -	code for SWBuf used as a transport and utility for data buffers
  *
- * $Id: swbuf.h 2980 2013-09-14 21:51:47Z scribe $
+ * $Id: swbuf.h 3440 2016-10-23 08:37:17Z scribe $
  *
  * Copyright 2003-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -402,7 +402,7 @@ public:
 	 *
 	 * @return prefix if separator character found; otherwise, null and leaves buffer unmodified
 	 */
-	inline const char *stripPrefix(char separator, bool endOfStringAsSeparator = false) { const char *m = strchr(buf, separator); if (!m && endOfStringAsSeparator) { if (*buf) { operator >>(1); *buf=0; end = buf; return buf + 1;} else return buf; } if (m) { int len = m-buf; char *hold = new char[len]; memcpy(hold, buf, len); *this << (len+1); memcpy(end+1, hold, len); delete [] hold; end[len+1] = 0; } return (m) ? end+1 : 0; }  // safe.  we know we don't actually realloc and shrink buffer when shifting, so we can place our return val at end.
+	inline const char *stripPrefix(char separator, bool endOfStringAsSeparator = false) { const char *m = strchr(buf, separator); if (!m && endOfStringAsSeparator) { if (*buf) { operator >>(1); *buf=0; end = buf; return buf + 1;} else return buf; } if (m) { int len = (int)(m-buf); char *hold = new char[len]; memcpy(hold, buf, len); *this << (len+1); memcpy(end+1, hold, len); delete [] hold; end[len+1] = 0; } return (m) ? end+1 : 0; }  // safe.  we know we don't actually realloc and shrink buffer when shifting, so we can place our return val at end.
 
 	// this could be nicer, like replacing a contiguous series of target bytes with single replacement; offering replacement const char *
 	/**
@@ -445,7 +445,7 @@ public:
 	/**
 	 * @return returns true if this buffer ends with the specified postfix
 	 */
-	inline bool endsWith(const char *postfix) const { unsigned int psize = strlen(postfix); return (size() >= psize)?!strncmp(end-psize, postfix, psize):false; }
+	inline bool endsWith(const char *postfix) const { unsigned int psize = (unsigned int)strlen(postfix); return (size() >= psize)?!strncmp(end-psize, postfix, psize):false; }
 
 	// be sure we've been given a valid pointer to compare.  If not, we return !=; specifically less-than, for lack of better options
 	inline int compare(const char *other) const { return (other?strcmp(c_str(), other):-1); }

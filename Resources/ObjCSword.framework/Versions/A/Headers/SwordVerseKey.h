@@ -41,7 +41,7 @@
 - (int)chapter;
 - (void)setChapter:(int)val;
 - (int)verse;
-- (void)setVerse:(int)val;
+- (void)setVerse:(long)val;
 - (BOOL)headings;
 - (void)setHeadings:(BOOL)flag;
 - (BOOL)autoNormalize;

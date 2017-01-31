@@ -1,0 +1,237 @@
+// --------- module manager stuff -----------
+
+// Disclaimer
+"Disclaimer" = "Disclaimer";
+"DisclaimerText" = "-=+* WARNING *+=- -=+* WARNING *+= \n\n\n
+Although Install Manager provides a convenient way for installing\n
+and upgrading SWORD components, it also uses a systematic method\n
+for accessing sites which gives packet sniffers a target to lock\n
+into for singling out users. \n\n
+IF YOU LIVE IN A PERSECUTED COUNTRY AND DO NOT WISH TO RISK DETECTION,\n
+YOU SHOULD *NOT* USE INSTALL MANAGER'S REMOTE SOURCE FEATURES.\n\n
+Also, Remote Sources other than CrossWire may contain less than\n
+quality modules, module with unorthodox content, or even modules\n
+which are not legitimately distributable.  Many repositories\n
+contain wonderfully useful content.  These repositories simply\n
+are not reviewed or maintained by CrossWire and CrossWire\n
+cannot be held responsible for their content. CAVEAT EMPTOR.\n\n
+If you understand this and are willing to enable remote source features\n
+then type yes at the prompt!";
+
+// alerts
+"Alert" = "Alert";
+"Alert_AllFeeldsNeedToBeFilled" = "All feelds need to be filled!";
+
+// warnings
+"Warning" = "Warning";
+"OneOrMoreEmptyFields" = "One or more fields are empty!";
+"ISNotValid" = "The information is not valid. Please check again!";
+"ErrorOnRefreshingModules" = "An unknown problem occured while refreshing the install source!";
+"StillInEditingMode" = "You are still in editing mode!";
+"StillInEditingModeText" = "End editing mode to close or press cancel!";
+
+// informations
+"Information" = "Information";
+"PleaseMakeSelection" = "Please select something first";
+"DeleteConfirm" = "Do you really want to delete the selected item?";
+"NoPendingTasks" = "There are no pending tasks!";
+"ISValidInformation" = "Install source information is valid";
+"FirstStart" = "This is the first use of the module installer. Do you want to refresh the default install source now?";
+"AwakeCheckInstallSources" = "Do you want the remote install sources to be checked for availablility? This process can take one or two minutes if you have a slow internet connection.";
+"UnavailableOptionDueToNoDisclaimerComfirm" = "This function will not work because you said \"No\" at the disclaimer dialog.";
+"OnlyRemoveAndInstallForLocalSources" = "Modules will only be removed or installed from a local source because you did not confirm the disclaimer with \"Yes\"!";
+"Info_RememberToRefreshRepositories" = "Please remember to refresh your install sources. If this is the first start install sources will not contain any modules until you refresh them!";
+
+// mod status strings
+"ModStatSameVersion" = "Installed";
+"ModStatNew" = "Not installed";
+"ModStatUpdated" = "Updateable";
+"ModStatOlder" = "Newer version installed";
+
+// ModuleManager Toolbar
+"SyncISFromMasterLabel" = "Sync Install Sources";
+"SyncISFromMasterToolTip" = "Sync Install Sources from master list";
+"AddInstallSourceLabel" = "Add Install Source";
+"AddInstallSourceToolTip" = "Add a new install source for installing new modules";
+"EditInstallSourceLabel" = "Edit Install Source";
+"EditInstallSourceToolTip" = "Edit the selected install source";
+"RefreshInstallSourceLabel" = "Refresh Install Source";
+"RefreshInstallSourceToolTip" = "Refresh the selected install source to sync with the server";
+"DeleteInstallSourceLabel" = "Delete Install Source";
+"DeleteInstallSourceToolTip" = "Delete the selected install source";
+"PreviewTasksLabel" = "Preview Tasks";
+"PreviewTasksToolTip" = "Preview all the changes to be made when processing";
+"ProcessTasksLabel" = "Process Tasks";
+"ProcessTasksToolTip" = "Process all the changes";
+
+// Tasks preview
+"TaskPreview_Heading" = "Module tasks:";
+"TaskPreview_RemoveHeading" = "The following modules will be removed:\n";
+"TaskPreview_InstallHeading" = "The following modules will be installed:\n";
+"TaskPreview_RemoveModule" = "Remove module: %@\n";
+"TaskPreview_InstallModule" = "Install module: %@\n";
+"TaskPreview_NoTasks" = "Nothing to do, no tasks selected!";
+
+// progress window strings
+"WindowTitle_Progress" = "Progress";
+
+// actions
+"Action_RemovingModules" = "Removing modules";
+"Action_InstallingModules" = "Installing modules";
+"Action_SynchingInstallSources" = "Synchronizing install sources from master list";
+"Action_RefreshingInstallSourceAction" = "Refreshing install source";
+"ActionStep_Refreshing" = "Refreshing...";
+
+
+// ------------------- Eloquent --------------------------
+
+// commons
+"OK" = "OK";
+"Yes" = "Yes";
+"No" = "No";
+"Cancel" = "Cancel";
+"Information" = "Information";
+"Warning" = "Warning";
+"Error" = "Error";
+"Permanent" = "Permanent";
+"Temporary" = "Temporary";
+"Confirmation" = "Confirmation";
+
+// Menu
+"Menu_CheckForUpdates" = "Check for updates...";
+"Menu_LinkSwordUtils" = "Install Sword module utilities";
+"Menu_UnLinkSwordUtils" = "Uninstall Sword module utilities";
+
+// toolbar
+"AddBookmarkLabel" = "Add bookmark";
+"AddBookmarkPalette" = "Add bookmark button";
+"AddBookmarkTooltip" = "Add the current reference to bookmarks";
+"ForceReloadLabel" = "Force reload";
+"ForceReloadPalette" = "Force reload button";
+"ForceReloadTooltip" = "Force reload for the currect reference or search query";
+"NavigationItemLabel" = "Navigation";
+"NavigationItemTooltip" = "Navigate back and forth through history";
+"ToggleModulesLabel" = "Sidebar";
+"ToggleModulesToolTip" = "Show Sidebar";
+"SearchTypeLabel" = "Search Type";
+"SearchTypeTooltip" = "Choose type of search";
+"TextSearchLabel" = "Search Text";
+"TextSearchTooltip" = "Enter text to search for";
+"ModuleInstallerLabel" = "Module Manager";
+"ModuleInstallerTooltip" = "Open Module Manager";
+"Reference" = "Reference";
+"Index" = "Index";
+
+// Warnings/Information
+"IndexNotReady" = "Index not ready!";
+"IndexNotReadyBGOn" = "The index of one or more modules is not created yet. Please try again later!";
+"IndexNotReadyBGOff" = "The index of one or more modules is not created yet. Creating it can take some time!";
+"IndexBeingCreatedForModule" = "Index is now created for Module";
+"ModuleNameCannotBeEmpty" = "Empty Module name";
+"ModuleNameCannotBeEmptyText" = "Module name cannot be empty!";
+"ModuleNameExists" = "Module exists";
+"ModuleNameExistsText" = "A Module with that name exists already!";
+"NoDefaultDictionarySelected" = "No default Dictionary module has been selected, please do so in Preferences!";
+"NoDefaultBibleSelected" = "No default bible set";
+"NoDefaultBibleSelectedText" = "Please set your prefered default bible in preferences!";
+"UnlockCodeMayNotBeEmpty" = "Empty unlock code";
+"UnlockCodeMayNotBeEmptyText" = "Unlock code may not be empty!";
+"ConfirmBookmarkDelete" = "Confirm Bookmmark remove";
+"ConfirmBookmarkDeleteText" = "Are you sure you want to remove the bookmark(s)?";
+"InitialViewLabelText" = "You have currently %d installed modules. Click below to install new content or manage your current content.";
+"InitialViewLabelOpenBibleText" = "This is a new workspace window. It allows you to open multiple contents in tabs.\nPress the button below to open your default bible.";
+"ErrorOnCreatingNote" = "Unknown error on creating new note!";
+"SWORDToolsInstalled" = "SWORD utilities have been installed at /usr/local/bin. Please remember you have to install again when you move Eloquent to a different folder.";
+"ErrorSWORDToolsInstallation" = "An unknown error has occurred while installed the SWORD tools. Try uninstaling the tools first.";
+"SWORDToolsUninstalled" = "SWORD utilities have been uninstalled.";
+"UnsavedContentQuit" = "Some content is unsaved. Do you want to save before exiting?";
+"UnsavedContent" = "Your content is unsaved. Do you want to save before closing?";
+"EditingNotAllowedInThisLine" = "No editing allowed in this line!";
+"CreatingCluceneIndex" = "Creating Clucene index...";
+"Indexing" = "Indexing...";
+"SessionLoadError" = "Session load error";
+"SessionLoadErrorText" = "An error has occured while loading the session. Probably the session file is corrupt. You will start with a new session.";
+"ModuleXYNotInRepoWantToCopy" = "Do you want to copy %@ module to the module repository for permanent use or do you want to only use it temporarily?";
+"Info_OldModuleDatabaseDetected" = "A MacSword 1 module database has been detected. This can cause a crash when used with Eloquent. Do you want me to delete this database? You will then start with a fresh database but need to download your modules possibly again.";
+
+// confirmations
+"DoNotAskAgain" = "Do not ask again!";
+"ConfirmFullScreenMode" = "Full screen mode";
+"ConfirmFullScreenModeText" = "Do you really want to enter full screen mode? You can quit by pressing OPTION-COMMAND-F";
+"SessionStillOpen" = "Open session";
+"WantToSaveTheSessionBeforeClosing" = "Do you want to save the session now?";
+"ConfirmDelete" = "Do you really want to delete item? This action cannot be undone!";
+"ConfirmCreateCluceneIndex" = "Clucene indexing";
+"ConfirmCreateCluceneIndexText" = "Are you sure you want to create a Clucene index for this module?";
+
+// hosts
+"Single" = "Window";
+"Workspace" = "Workspace";
+
+// open panels
+"LoadMSSession" = "Load session";
+"SaveMSSession" = "Save session";
+
+// sword module categories
+"Biblical Texts" = "Biblical Texts";
+"Commentaries" = "Commentaries";
+"Lexicons / Dictionaries" = "Lexicons / Dictionaries";
+"Generic Books" = "Generic Books";
+"Daily Devotional" = "Daily Devotional";
+"Glossaries" = "Glossaries";
+"Cults / Unorthodox / Questionable Material" = "Cults / Unorthodox / Questionable Material";
+"Essays" = "Essays";
+"Maps" = "Maps";
+"Images" = "Images";
+
+// common things
+"LSBModules" = "MODULES";
+"LSBBookmarks" = "BOOKMARKS";
+"LSBNotes" = "NOTES";
+
+// Module About
+"ShowModuleAbout" = "About this module";
+"AboutModuleName" = "Module name: ";
+"AboutModuleDescription" = "Description: ";
+"AboutModuleType" = "Type: ";
+"AboutModuleLang" = "Language: ";
+"AboutModuleVersion" = "Version: ";
+"AboutModuleAboutText" = "About: ";
+"AboutModuleVersification" = "Versification: ";
+
+// mod options / display options menu items
+"ModOptions" = "Mod Options";
+"DisplayOptions" = "Display Options";
+"TextContext" = "Text Context";
+"FontSize" = "Font Size";
+"DisplayOptionShowStrongsNumbers" = "Show Strong\'s numbers";
+"DisplayOptionShowMorphNumbers" = "Show Morph numbers";
+"DisplayOptionShowFootnotes" = "Show Footnotes";
+"DisplayOptionShowCrossRefs" = "Show Cross-References";
+"DisplayOptionShowRedLetterWords" = "Show Jesus's words in red";
+"DisplayOptionShowHeadings" = "Show Headings";
+"DisplayOptionShowHebrewPoints" = "Show Hebrew Vovel Points";
+"DisplayOptionShowHebrewCantillation" = "Show Hebrew Cantillation";
+"DisplayOptionShowGreekAccents" = "Show Greek Accents";
+"DisplayOptionShowVOOL" = "Show Verses on one line";
+"DisplayOptionVerseNumbering" = "Verse numbering";
+"DisplayOptionShowFullVerseNumbering" = "Show full verse numbering";
+"DisplayOptionShowVerseNumberOnly" = "Show verse numbers only";
+"DisplayOptionHideVerseNumbering" = "Hide verse numbering";
+"DisplayOptionHighlightBookmarks" = "Highlight Bookmarks";
+
+// book sets
+"All" = "All";
+"Law" = "Law";
+"Prophets" = "Prophets";
+"Scriptures" = "Scriptures";
+"Gospels" = "Gospels";
+"Letters" = "Letters";
+
+// new notes/notes folders
+"NewNote" = "New Note";
+"NewFolder" = "New Folder";
+
+"Edit" = "Edit";
+"Bible" = "Bible";
+"Commentary" = "Commentary";

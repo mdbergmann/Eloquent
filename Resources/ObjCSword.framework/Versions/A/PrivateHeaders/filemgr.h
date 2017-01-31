@@ -2,7 +2,7 @@
  *
  *  filemgr.h -	definition of class FileMgr used for pooling file handles
  *
- * $Id: filemgr.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: filemgr.h 3437 2016-10-22 03:50:02Z scribe $
  *
  * Copyright 1998-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -151,13 +151,13 @@ public:
 	virtual void flush();
 	virtual long resourceConsumption();
 
-	/** Checks for the existence of a file.
+	/** Checks for the existence and readability of a file.
 	* @param ipath Path to file.
 	* @param ifileName Name of file to check for.
 	*/
 	static signed char existsFile(const char *ipath, const char *ifileName = 0);
 
-	/** Checks for the existence of a directory.
+	/** Checks for the existence and readability of a directory.
 	* @param ipath Path to directory.
 	* @param idirName Name of directory to check for.
 	*/

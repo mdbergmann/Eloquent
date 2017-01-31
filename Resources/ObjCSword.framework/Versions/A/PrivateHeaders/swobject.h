@@ -3,7 +3,7 @@
  *  swobject.h -	definition for SWObject used as lowest base class for
  *			many SWORD objects
  *
- * $Id: swobject.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: swobject.h 3433 2016-08-17 13:25:41Z scribe $
  *
  * Copyright 2001-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society

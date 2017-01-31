@@ -2,7 +2,7 @@
  *
  *  teilatex.h -	Implementation of TEILaTeX
  *
- * $Id: teilatex.h 3074 2014-03-05 00:30:21Z chrislit $
+ * $Id: teilatex.h 3419 2016-04-23 18:55:02Z refdoc $
  *
  * Copyright 2012-2014 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -27,7 +27,7 @@
 
 SWORD_NAMESPACE_START
 
-/** this filter converts TEI text to XHTML text
+/** this filter converts TEI text to LaTeX text
  */
 class SWDLLEXPORT TEILaTeX : public SWBasicFilter {
 private:
@@ -38,6 +38,8 @@ protected:
 	public:
 		bool BiblicalText;
 		SWBuf lastHi;
+		bool firstCell; // for tables, indicates whether a cell is the first one in a row
+		int consecutiveNewlines;
 		
 		SWBuf version;
 		MyUserData(const SWModule *module, const SWKey *key);
