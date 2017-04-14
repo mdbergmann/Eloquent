@@ -214,20 +214,20 @@
     [[(id<TextContentProviding>)contentDisplayController scrollView] setLineScroll:[[[(id<TextContentProviding>)contentDisplayController textView] layoutManager] defaultLineHeightForFont:font]];
     // set text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                                options:options
-                                                     documentAttributes:nil];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTML:data
+                                                                                    options:options
+                                                                         documentAttributes:nil];
     
     // add pointing hand cursor to all links
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
-    [self applyLinkCursorToLinks];
+    [self applyLinkCursorToLinks:attrString];
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...done");
 
     CocoLog(LEVEL_DEBUG, @"start replacing markers...");
     // go through the attributed string and set attributes
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
-    NSString *text = [tempDisplayString string];
+    NSString *text = [attrString string];
     while(found) {
         NSUInteger tLen = [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, tLen-replaceRange.location)];
@@ -264,9 +264,9 @@
                 [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
                 
                 // replace string
-                [tempDisplayString replaceCharactersInRange:replaceRange withString:visible];
+                [attrString replaceCharactersInRange:replaceRange withString:visible];
                 // set attributes
-                [tempDisplayString addAttributes:markerOpts range:linkRange];
+                [attrString addAttributes:markerOpts range:linkRange];
                 
                 // adjust replaceRange
                 replaceRange.location += [visible length];
@@ -277,9 +277,9 @@
     }
     CocoLog(LEVEL_DEBUG, @"start replacing markers...done");    
     
-    [self applyWritingDirection];
+    [self applyWritingDirection:attrString];
     
-    return tempDisplayString;
+    return attrString;
 }
 
 - (void)saveCommentaryText {

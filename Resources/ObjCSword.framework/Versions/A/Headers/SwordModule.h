@@ -123,11 +123,11 @@ typedef enum {
 
 // ------------- instance methods ---------------
 
-/** Adds a render filter to this module */
-- (void)addRenderFilter:(SwordFilter *)aFilter;
+/** Sets a render filter to this module */
+- (void)setRenderFilter:(SwordFilter *)aFilter;
 
-/** Adds a strip filter to this module */
-- (void)addStripFilter:(SwordFilter *)aFilter;
+/** Sets a strip filter to this module */
+- (void)setStripFilter:(SwordFilter *)aFilter;
 
 /**
  Any error while processing the module?

@@ -83,8 +83,7 @@
         }
 
         CocoLog(LEVEL_DEBUG, @"apply writing direction...");
-        tempDisplayString = ret;        // applyWritingDirection will operate on tempDisplayString
-        [self applyWritingDirection];
+        [self applyWritingDirection:ret];
         CocoLog(LEVEL_DEBUG, @"apply writing direction...done");
     }
     CocoLog(LEVEL_DEBUG, @"prepare search results...done");
@@ -104,22 +103,22 @@
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"\u200B" withString:@""];
     
     CocoLog(LEVEL_DEBUG, @"start generating attr string...");
-    [self applyString:htmlString];  // this will set tempDisplayString which will be used by the resulting methods
+    NSMutableAttributedString *attrString = [self generateAttributedString:htmlString];
     CocoLog(LEVEL_DEBUG, @"start generating attr string...done");
     
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
-    [self applyLinkCursorToLinks];
+    [self applyLinkCursorToLinks:attrString];
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...done");
     
     CocoLog(LEVEL_DEBUG, @"start replacing markers...");
-    [self replaceVerseMarkers];
+    [self replaceVerseMarkers:attrString];
     CocoLog(LEVEL_DEBUG, @"start replacing markers...done");
     
     CocoLog(LEVEL_DEBUG, @"apply writing direction...");
-    [self applyWritingDirection];
+    [self applyWritingDirection:attrString];
     CocoLog(LEVEL_DEBUG, @"apply writing direction...done");        
     
-    return tempDisplayString;
+    return attrString;
 }
 
 - (NSString *)createHTMLStringWithMarkers {
@@ -290,9 +289,9 @@
 }
 
 /**
- Set the calculated HTML string to the TextView.
+ Generate Attributed string
  */
-- (void)applyString:(NSString *)aString {
+- (NSMutableAttributedString *)generateAttributedString:(NSString *)aString {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     options[NSCharacterEncodingDocumentOption] = @(NSUTF8StringEncoding);
 
@@ -304,28 +303,31 @@
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] size:[self customFontSize]];
 
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
-    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data
-                                                                options:options
-                                                     documentAttributes:NULL];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTML:data
+                                                                                    options:options
+                                                                         documentAttributes:NULL];
 
     [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
+    
+    return attrString;
 }
 
-- (void)applyLinkCursorToLinks {    
+- (void)applyLinkCursorToLinks:(NSMutableAttributedString *)attrString {
     NSRange effectiveRange;
 	NSUInteger i = 0;
-	while (i < [tempDisplayString length]) {
-        NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
+	while (i < [attrString length]) {
+        NSDictionary *attrs = [attrString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if(attrs[NSLinkAttributeName] != nil) {
             attrs = [attrs mutableCopy];
             ((NSMutableDictionary *) attrs)[NSCursorAttributeName] = [NSCursor pointingHandCursor];
-            [tempDisplayString setAttributes:attrs range:effectiveRange];
+            [attrString setAttributes:attrs range:effectiveRange];
 		}
 		i += effectiveRange.length;
 	}
 }
 
-- (void)replaceVerseMarkers {    
+- (void)replaceVerseMarkers:(NSMutableAttributedString *)attrString {
     BOOL showBookNames = [UserDefaults boolForKey:DefaultsBibleTextShowBookNameKey];
     BOOL showBookAbbr = [UserDefaults boolForKey:DefaultsBibleTextShowBookAbbrKey];
     BOOL isVersesOnOneLine = [displayOptions[DefaultsBibleTextVersesOnOneLineKey] boolValue];
@@ -335,7 +337,7 @@
     
     NSRange replaceRange = NSMakeRange(0,0);
     BOOL found = YES;
-    NSString *text = [tempDisplayString string];
+    NSString *text = [attrString string];
     while(found) {
         int tLen = (int) [text length];
         NSRange start = [text rangeOfString:@";;;" options:0 range:NSMakeRange(replaceRange.location, (NSUInteger) (tLen-replaceRange.location))];
@@ -359,8 +361,8 @@
                     NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:3];
                     markerOpts[TEXT_VERSE_MARKER] = verseMarker;
                     
-                    [tempDisplayString replaceCharactersInRange:replaceRange withString:verseMarker];
-                    [tempDisplayString addAttributes:markerOpts range:linkRange];   
+                    [attrString replaceCharactersInRange:replaceRange withString:verseMarker];
+                    [attrString addAttributes:markerOpts range:linkRange];
                 } else {
                     NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", comps[0], comps[1], comps[2]];
                     
@@ -389,8 +391,8 @@
                     markerOpts[NSCursorAttributeName] = [NSCursor pointingHandCursor];
                     markerOpts[NSLinkAttributeName] = verseURL;
                     
-                    [tempDisplayString replaceCharactersInRange:replaceRange withString:visible];
-                    [tempDisplayString addAttributes:markerOpts range:linkRange];
+                    [attrString replaceCharactersInRange:replaceRange withString:visible];
+                    [attrString addAttributes:markerOpts range:linkRange];
                     
                     replaceRange.location += [visible length];
                 }
@@ -398,14 +400,14 @@
         } else {
             found = NO;
         }
-    }    
+    }
 }
 
-- (void)applyWritingDirection {
+- (void)applyWritingDirection:(NSMutableAttributedString *)attrString {
     if([module isRTL]) {
-        [tempDisplayString setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [tempDisplayString length])];
+        [attrString setBaseWritingDirection:NSWritingDirectionRightToLeft range:NSMakeRange(0, [attrString length])];
     } else {
-        [tempDisplayString setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [tempDisplayString length])];
+        [attrString setBaseWritingDirection:NSWritingDirectionNatural range:NSMakeRange(0, [attrString length])];
     }    
 }
 

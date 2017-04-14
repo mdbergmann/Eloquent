@@ -189,7 +189,7 @@
 - (NSArray *)sortedModuleNames;
 
 /**
- Get module with name from internal list
+ Get module with name. Module is created from scratch.
  */
 - (SwordModule *)moduleWithName:(NSString *)name;
 

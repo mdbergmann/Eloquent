@@ -210,30 +210,30 @@
 
     // create text
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    tempDisplayString = [[NSMutableAttributedString alloc] initWithHTML:data 
-                                                                options:options
-                                                     documentAttributes:nil];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTML:data
+                                                                                    options:options
+                                                                         documentAttributes:nil];
     // set custom fore ground color
-    [tempDisplayString addAttribute:NSForegroundColorAttributeName value:[UserDefaults colorForKey:DefaultsTextForegroundColor]
-                              range:NSMakeRange(0, [tempDisplayString length])];
+    [attrString addAttribute:NSForegroundColorAttributeName value:[UserDefaults colorForKey:DefaultsTextForegroundColor]
+                              range:NSMakeRange(0, [attrString length])];
     
     // add pointing hand cursor to all links
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...");
     NSRange effectiveRange;
 	NSUInteger	i = 0;
-	while (i < [tempDisplayString length]) {
-        NSDictionary *attrs = [tempDisplayString attributesAtIndex:i effectiveRange:&effectiveRange];
+	while (i < [attrString length]) {
+        NSDictionary *attrs = [attrString attributesAtIndex:i effectiveRange:&effectiveRange];
 		if([attrs objectForKey:NSLinkAttributeName] != nil) {
             // add pointing hand cursor
             attrs = [attrs mutableCopy];
             [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-            [tempDisplayString setAttributes:attrs range:effectiveRange];
+            [attrString setAttributes:attrs range:effectiveRange];
 		}
 		i += effectiveRange.length;
 	}
     CocoLog(LEVEL_DEBUG, @"setting pointing hand cursor...done");
     
-    return tempDisplayString;
+    return attrString;
 }
 
 #pragma mark - TextDisplayable protocol

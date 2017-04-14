@@ -2,7 +2,7 @@
  *
  *  gbfredletterwords.h -	Implementation of GBFRedLetterWords
  *
- * $Id: gbfredletterwords.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: gbfredletterwords.h 3451 2017-03-29 22:42:00Z scribe $
  *
  * Copyright 2003-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -20,7 +20,7 @@
  *
  */
 
-#ifndef GBFSREDLETTERWORDS_H
+#ifndef GBFREDLETTERWORDS_H
 #define GBFREDLETTERWORDS_H
 
 #include <swoptfilter.h>

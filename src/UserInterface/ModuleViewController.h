@@ -22,8 +22,6 @@
     SwordModule *module;
     BOOL performProgressCalculation;
     Indexer *indexer;
-
-    NSMutableAttributedString *tempDisplayString;
 }
 
 // --------- properties ---------

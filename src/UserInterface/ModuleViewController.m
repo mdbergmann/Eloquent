@@ -50,7 +50,6 @@
 
 - (void)commonInit {
     [super commonInit];
-    tempDisplayString = nil;
     performProgressCalculation = YES;
     forceRedisplay = NO;
     searchType = ReferenceSearchType;

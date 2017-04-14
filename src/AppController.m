@@ -120,7 +120,7 @@ static AppController *singleton;
         NSFileManager *fm = [NSFileManager defaultManager];
 
         // check whether this is the first start of Eloquent
-        NSString *prefsPath = [@"~/Library/Preferences/org.crosswire.Eloquent.plist" stringByExpandingTildeInPath];
+        NSString *prefsPath = PREFS_FILE;
         NSString *moduleFolder = [[FolderUtil urlForModulesFolder] path];
         if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:moduleFolder]) {
             // show Alert
@@ -146,7 +146,7 @@ static AppController *singleton;
         [ProgressOverlayViewController defaultController];
         
         [[SwordLocaleManager defaultManager] initLocale];
-        [[FilterProviderFactory providerFactory] initWithImpl:[[EloquentFilterProvider alloc] init]];
+        [[FilterProviderFactory factory] initWithImpl:[[EloquentFilterProvider alloc] init]];
         
         SwordManager *sm = [self setupDefaultSwordManager];
                 

@@ -17,9 +17,9 @@
 - (NSString *)createHTMLStringWithMarkers;
 - (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry;
 - (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
-- (void)applyString:(NSString *)aString;
-- (void)applyLinkCursorToLinks;
-- (void)replaceVerseMarkers;
-- (void)applyWritingDirection;
+- (NSMutableAttributedString *)generateAttributedString:(NSString *)aString;
+- (void)applyLinkCursorToLinks:(NSMutableAttributedString *)attrString;
+- (void)replaceVerseMarkers:(NSMutableAttributedString *)attrString;
+- (void)applyWritingDirection:(NSMutableAttributedString *)attrString;
 
 @end

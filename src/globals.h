@@ -14,6 +14,7 @@
 #define BUNDLEVERSIONSTRING         CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey)
 #define APPNAME                     @"Eloquent"
 #define SWINSTALLMGR_NAME           @"InstallMgr"
+#define PREFS_FILE                  [@"~/Library/Preferences/org.crosswire.Eloquent.plist" stringByExpandingTildeInPath]
 
 // OS version
 #define OSVERSION [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"]
