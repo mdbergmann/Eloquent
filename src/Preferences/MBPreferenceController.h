@@ -50,6 +50,7 @@ typedef enum _VerseNumberingType {
 
 // module display settings
 #define DefaultsModuleDisplaySettingsKey            @"DefaultsModuleDisplaySettingsKey"
+#define DefaultsParagraphSpacing                    @"DefaultsParagraphSpacing"
 
 // cipher keys
 #define DefaultsModuleCipherKeysKey                 @"DefaultsModuleCipherKeysKey"

@@ -128,18 +128,18 @@
     CGFloat fr, fg, fb = 0.0;
     NSColor *fCol = [UserDefaults colorForKey:DefaultsTextForegroundColor];
     [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
+
     [htmlString appendFormat:@"\
      <style>\
      body {\
         color:rgb(%i%%, %i%%, %i%%);\
      }\
-     </style>\n", 
+     </style>\n",
      (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
-         
-
+    
     lastChapter = -1;
     lastBook = -1;
-        
+
     [module lockModuleAccess];
 
     NSMutableDictionary *duplicateChecker = [NSMutableDictionary dictionary];
@@ -239,7 +239,7 @@
             if(bookIntro && [bookIntro length] > 0) {
                 [aString appendFormat:@"<p><i><span style=\"%@\">%@</span></i></p>", headingsFGColorStyle, bookIntro];
             }
-        }        
+        }
     }
     
     // pre-verse heading ?
@@ -308,6 +308,13 @@
                                                                                     options:options
                                                                          documentAttributes:NULL];
 
+    CGFloat spacing = [[UserDefaults objectForKey:DefaultsParagraphSpacing] floatValue];
+    if(spacing > 0.0) {
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+        [style setParagraphSpacing:spacing];
+        [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, [attrString length])];
+    }
+    
     [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
     
     return attrString;
