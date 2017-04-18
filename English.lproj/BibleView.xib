@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BibleViewController">
@@ -28,28 +28,23 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <box title="Box" boxType="custom" borderType="none" titlePosition="noTitle" id="16">
+                <box boxType="custom" borderType="none" title="Box" titlePosition="noTitle" id="16">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="483"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <view key="contentView" id="0Dg-wH-PWY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="483"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </box>
-                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="63">
+                <box verticalHuggingPriority="750" boxType="separator" id="63">
                     <rect key="frame" x="0.0" y="481" width="600" height="5"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <font key="titleFont" metaFont="system"/>
                 </box>
                 <customView id="28">
                     <rect key="frame" x="0.0" y="484" width="600" height="15"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <textField verticalHuggingPriority="750" id="38">
+                        <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" id="38">
                             <rect key="frame" x="230" y="2" width="367" height="11"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="39">
@@ -62,19 +57,13 @@
                                 <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="50" id="51"/>
                             </connections>
                         </textField>
-                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="62">
+                        <box horizontalHuggingPriority="750" boxType="separator" id="62">
                             <rect key="frame" x="230" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
-                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="61">
+                        <box horizontalHuggingPriority="750" boxType="separator" id="61">
                             <rect key="frame" x="155" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
                         <popUpButton id="178">
                             <rect key="frame" x="105" y="0.0" width="50" height="15"/>
@@ -89,16 +78,13 @@
                                 </menu>
                             </popUpButtonCell>
                             <connections>
-                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="185" id="oiw-HW-MBR"/>
                                 <binding destination="45" name="fontFamilyName" keyPath="values.DefaultsHeaderViewFontFamilyKey" id="185"/>
+                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="185" id="oiw-HW-MBR"/>
                             </connections>
                         </popUpButton>
-                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="60">
+                        <box horizontalHuggingPriority="750" boxType="separator" id="60">
                             <rect key="frame" x="100" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
                         <popUpButton id="29">
                             <rect key="frame" x="0.0" y="0.0" width="100" height="15"/>
@@ -129,8 +115,8 @@
                             </buttonCell>
                             <connections>
                                 <action selector="closeButton:" target="-2" id="43"/>
-                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="48" id="ajN-ip-IMW"/>
                                 <binding destination="45" name="fontFamilyName" keyPath="values.DefaultsHeaderViewFontFamilyKey" id="48"/>
+                                <binding destination="45" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="48" id="ajN-ip-IMW"/>
                             </connections>
                         </button>
                     </subviews>
@@ -251,10 +237,10 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" id="8gH-XJ-13R">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="426"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="147" id="146">
-                                <rect key="frame" x="0.0" y="0.0" width="200" height="19"/>
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="426"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" red="0.87634407999999997" green="0.87634407999999997" blue="0.87634407999999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -291,7 +277,7 @@
                         <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     </scroller>
                 </scrollView>
-                <box autoresizesSubviews="NO" title="Box" borderType="line" titlePosition="noTitle" id="202">
+                <box autoresizesSubviews="NO" borderType="line" title="Box" titlePosition="noTitle" id="202">
                     <rect key="frame" x="-3" y="423" width="206" height="64"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <view key="contentView" id="IOr-lx-w5M">
@@ -336,8 +322,6 @@
                             </segmentedControl>
                         </subviews>
                     </view>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </box>
             </subviews>
         </customView>

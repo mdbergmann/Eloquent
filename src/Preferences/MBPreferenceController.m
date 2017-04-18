@@ -71,7 +71,8 @@ static MBPreferenceController *instance;
 
     // module display settings
     [defaultsDict setObject:[NSDictionary dictionary] forKey:DefaultsModuleDisplaySettingsKey];
-    [defaultsDict setObject:[NSNumber numberWithFloat:0.0] forKey:DefaultsParagraphSpacing];
+    [defaultsDict setObject:[NSNumber numberWithFloat:0.0] forKey:DefaultsParagraphSpacingKey];
+    [defaultsDict setObject:[NSNumber numberWithFloat:0.0] forKey:DefaultsLineSpacingKey];
 
     // set default bible
     [defaultsDict setObject:@"KJV" forKey:DefaultsBibleModule];

@@ -308,12 +308,12 @@
                                                                                     options:options
                                                                          documentAttributes:NULL];
 
-    CGFloat spacing = [[UserDefaults objectForKey:DefaultsParagraphSpacing] floatValue];
-    if(spacing > 0.0) {
-        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-        [style setParagraphSpacing:spacing];
-        [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, [attrString length])];
-    }
+    CGFloat paraSpacing = [[UserDefaults objectForKey:DefaultsParagraphSpacingKey] floatValue];
+    CGFloat lineSpacing = [[UserDefaults objectForKey:DefaultsLineSpacingKey] floatValue];
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    [style setLineSpacing:lineSpacing];
+    [style setParagraphSpacing:paraSpacing];
+    [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, [attrString length])];
     
     [[self scrollView] setLineScroll:[[[self textView] layoutManager] defaultLineHeightForFont:font]];
     

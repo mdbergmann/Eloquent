@@ -57,7 +57,7 @@
     NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
     [selectionAttributes setObject:[UserDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
     [textView setSelectedTextAttributes:selectionAttributes];
-     
+    
     [textView setString:@""];
     scrollView.delegate = self;
     
