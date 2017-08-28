@@ -293,16 +293,6 @@
 
 - (BOOL)showsRightSideBar {
     return [super showsRightSideBar];
-    /*
-    if(hostingDelegate) {
-        if([hostingDelegate isKindOfClass:[WorkspaceViewHostController class]]) {
-            return [userDefaults boolForKey:DefaultsShowRSBWorkspace];
-        } else {
-            return [userDefaults boolForKey:DefaultsShowRSBSingle];        
-        }
-    }
-    return YES;
-     */
 }
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
@@ -476,6 +466,7 @@
                 }
                 break;
             }
+            default:break;
         }
     } else if([menuItem menu] == displayOptionsMenu) {
         if([menuItem action] == @selector(displayOptionShowVerseNumberOnly:)) {
