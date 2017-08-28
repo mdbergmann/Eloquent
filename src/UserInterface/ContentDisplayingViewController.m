@@ -117,7 +117,8 @@ extern char ModuleListUI;
 
 #pragma mark - TextDisplayable protocol
 
-- (void)displayText {    
+- (void)displayText {
+    // do nothing here, subclass will handle
 }
 
 - (void)displayTextForReference:(NSString *)aReference {
@@ -125,6 +126,10 @@ extern char ModuleListUI;
 }
 
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
+    // do nothing here, subclass will handle
+}
+
+- (void)scrollToTop {
     // do nothing here, subclass will handle
 }
 

@@ -48,21 +48,21 @@ extern char BookmarkMgrUI;
 
         // init modDisplayOptions Dictionary
         self.modDisplayOptions = [NSMutableDictionary dictionary];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_STRONGS];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_MORPHS];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_GREEKACCENTS];
+        modDisplayOptions[SW_OPTION_STRONGS] = SW_OFF;
+        modDisplayOptions[SW_OPTION_MORPHS] = SW_OFF;
+        modDisplayOptions[SW_OPTION_FOOTNOTES] = SW_OFF;
+        modDisplayOptions[SW_OPTION_SCRIPTREFS] = SW_OFF;
+        modDisplayOptions[SW_OPTION_REDLETTERWORDS] = SW_OFF;
+        modDisplayOptions[SW_OPTION_HEADINGS] = SW_OFF;
+        modDisplayOptions[SW_OPTION_HEBREWPOINTS] = SW_OFF;
+        modDisplayOptions[SW_OPTION_HEBREWCANTILLATION] = SW_OFF;
+        modDisplayOptions[SW_OPTION_GREEKACCENTS] = SW_OFF;
         
         // init displayOptions dictionary        
         self.displayOptions = [NSMutableDictionary dictionary];
-        [displayOptions setObject:[UserDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey] forKey:DefaultsBibleTextVersesOnOneLineKey];
-        [displayOptions setObject:[UserDefaults objectForKey:DefaultsBibleTextVerseNumberingTypeKey] forKey:DefaultsBibleTextVerseNumberingTypeKey];
-        [displayOptions setObject:[UserDefaults objectForKey:DefaultsBibleTextHighlightBookmarksKey] forKey:DefaultsBibleTextHighlightBookmarksKey];
+        displayOptions[DefaultsBibleTextVersesOnOneLineKey] = [UserDefaults objectForKey:DefaultsBibleTextVersesOnOneLineKey];
+        displayOptions[DefaultsBibleTextVerseNumberingTypeKey] = [UserDefaults objectForKey:DefaultsBibleTextVerseNumberingTypeKey];
+        displayOptions[DefaultsBibleTextHighlightBookmarksKey] = [UserDefaults objectForKey:DefaultsBibleTextHighlightBookmarksKey];
     }
     
     return self;
@@ -90,7 +90,7 @@ extern char BookmarkMgrUI;
 
 - (void)setGlobalOptionsFromModOptions {
     for(NSString *key in modDisplayOptions) {
-        NSString *val = [modDisplayOptions objectForKey:key];
+        NSString *val = modDisplayOptions[key];
         [[SwordManager defaultManager] setGlobalOption:key value:val];
     }    
 }
@@ -104,39 +104,39 @@ extern char BookmarkMgrUI;
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowStrongsNumbers", @"") action:@selector(displayOptionShowStrongs:) keyEquivalent:@""];
     [item setTag:1];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_STRONGS] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_STRONGS] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowMorphNumbers", @"") action:@selector(displayOptionShowMorphs:) keyEquivalent:@""];
     [item setTag:2];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_MORPHS] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_MORPHS] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowFootnotes", @"") action:@selector(displayOptionShowFootnotes:) keyEquivalent:@""];
     [item setTag:3];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_FOOTNOTES] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_FOOTNOTES] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowCrossRefs", @"") action:@selector(displayOptionShowCrossRefs:) keyEquivalent:@""];
     [item setTag:4];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_SCRIPTREFS] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_SCRIPTREFS] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowRedLetterWords", @"") action:@selector(displayOptionShowRedLetterWords:) keyEquivalent:@""];
     [item setTag:5];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_REDLETTERWORDS] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_REDLETTERWORDS] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowHeadings", @"") action:@selector(displayOptionShowHeadings:) keyEquivalent:@""];
     [item setTag:6];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_HEADINGS] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_HEADINGS] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowHebrewPoints", @"") action:@selector(displayOptionShowHebrewPoints:) keyEquivalent:@""];
     [item setTag:7];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_HEBREWPOINTS] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_HEBREWPOINTS] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowHebrewCantillation", @"") action:@selector(displayOptionShowHebrewCantillation:) keyEquivalent:@""];
     [item setTag:8];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_HEBREWCANTILLATION] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_HEBREWCANTILLATION] isEqualToString:SW_ON] ? 1 : 0];
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowGreekAccents", @"") action:@selector(displayOptionShowGreekAccents:) keyEquivalent:@""];
     [item setTag:9];
     [item setTarget:self];
-    [item setState:[[modDisplayOptions objectForKey:SW_OPTION_GREEKACCENTS] isEqualToString:SW_ON] ? 1 : 0];
+    [item setState:[modDisplayOptions[SW_OPTION_GREEKACCENTS] isEqualToString:SW_ON] ? 1 : 0];
 
     // set menu to poup
     [modDisplayOptionsPopUpButton setMenu:menu];
@@ -151,7 +151,7 @@ extern char BookmarkMgrUI;
     // VersesOnOneLine
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowVOOL", @"") action:@selector(displayOptionVersesOnOneLine:) keyEquivalent:@""];
     [item setTarget:self];
-    [item setState:[[displayOptions objectForKey:DefaultsBibleTextVersesOnOneLineKey] boolValue] == YES ? 1 : 0];
+    [item setState:[displayOptions[DefaultsBibleTextVersesOnOneLineKey] boolValue] ? 1 : 0];
     [item setTag:1];
     
     verseNumberingMenu = [[NSMenu alloc] init];
@@ -162,21 +162,21 @@ extern char BookmarkMgrUI;
     // Full
     item = [verseNumberingMenu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowFullVerseNumbering", @"") action:@selector(displayOptionShowFullVerseNumbering:) keyEquivalent:@""];
     [item setTarget:self];
-    [item setState:[[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue] == FullVerseNumbering ? 1 : 0];
+    [item setState:[displayOptions[DefaultsBibleTextVerseNumberingTypeKey] intValue] == FullVerseNumbering ? 1 : 0];
     [item setTag:FullVerseNumbering];
     item = [verseNumberingMenu addItemWithTitle:NSLocalizedString(@"DisplayOptionShowVerseNumberOnly", @"") action:@selector(displayOptionShowVerseNumberOnly:) keyEquivalent:@""];
     [item setTarget:self];
-    [item setState:[[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue] == VerseNumbersOnly ? 1 : 0];    
+    [item setState:[displayOptions[DefaultsBibleTextVerseNumberingTypeKey] intValue] == VerseNumbersOnly ? 1 : 0];
     [item setTag:VerseNumbersOnly];
     item = [verseNumberingMenu addItemWithTitle:NSLocalizedString(@"DisplayOptionHideVerseNumbering", @"") action:@selector(displayOptionHideVerseNumbering:) keyEquivalent:@""];
     [item setTarget:self];
-    [item setState:[[displayOptions objectForKey:DefaultsBibleTextVerseNumberingTypeKey] intValue] == NoVerseNumbering ? 1 : 0];    
+    [item setState:[displayOptions[DefaultsBibleTextVerseNumberingTypeKey] intValue] == NoVerseNumbering ? 1 : 0];
     [item setTag:NoVerseNumbering];
     
     // Highlight bookmarks
     item = [menu addItemWithTitle:NSLocalizedString(@"DisplayOptionHighlightBookmarks", @"") action:@selector(displayOptionHighlightBookmarks:) keyEquivalent:@""];
     [item setTarget:self];
-    [item setState:[[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue] == YES ? 1 : 0];
+    [item setState:[[displayOptions objectForKey:DefaultsBibleTextHighlightBookmarksKey] boolValue] ? 1 : 0];
     [item setTag:4];
     
     // set menu to poup
@@ -266,7 +266,7 @@ extern char BookmarkMgrUI;
 }
 
 - (NSInteger)customFontSize {
-    if([(WindowHostController *)hostingDelegate isFullScreenMode]) {
+    if([hostingDelegate isFullScreenMode]) {
         return customFontSize + [[NSUserDefaults standardUserDefaults] integerForKey:DefaultsFullscreenFontSizeAddKey];
     }
     return customFontSize;
@@ -312,10 +312,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowStrongs:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_STRONGS];
+        modDisplayOptions[SW_OPTION_STRONGS] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_STRONGS];
+        modDisplayOptions[SW_OPTION_STRONGS] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -326,10 +326,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowMorphs:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_MORPHS];
+        modDisplayOptions[SW_OPTION_MORPHS] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_MORPHS];
+        modDisplayOptions[SW_OPTION_MORPHS] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -340,10 +340,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowFootnotes:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_FOOTNOTES];
+        modDisplayOptions[SW_OPTION_FOOTNOTES] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_FOOTNOTES];
+        modDisplayOptions[SW_OPTION_FOOTNOTES] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -354,10 +354,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowCrossRefs:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_SCRIPTREFS];
+        modDisplayOptions[SW_OPTION_SCRIPTREFS] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_SCRIPTREFS];
+        modDisplayOptions[SW_OPTION_SCRIPTREFS] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -368,10 +368,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowRedLetterWords:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_REDLETTERWORDS];
+        modDisplayOptions[SW_OPTION_REDLETTERWORDS] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_REDLETTERWORDS];
+        modDisplayOptions[SW_OPTION_REDLETTERWORDS] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -382,10 +382,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowHeadings:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEADINGS];
+        modDisplayOptions[SW_OPTION_HEADINGS] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEADINGS];
+        modDisplayOptions[SW_OPTION_HEADINGS] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -396,10 +396,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowHebrewPoints:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWPOINTS];
+        modDisplayOptions[SW_OPTION_HEBREWPOINTS] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWPOINTS];
+        modDisplayOptions[SW_OPTION_HEBREWPOINTS] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -410,10 +410,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowHebrewCantillation:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_HEBREWCANTILLATION];
+        modDisplayOptions[SW_OPTION_HEBREWCANTILLATION] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_HEBREWCANTILLATION];
+        modDisplayOptions[SW_OPTION_HEBREWCANTILLATION] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -423,10 +423,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionShowGreekAccents:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [modDisplayOptions setObject:SW_OFF forKey:SW_OPTION_GREEKACCENTS];
+        modDisplayOptions[SW_OPTION_GREEKACCENTS] = SW_OFF;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [modDisplayOptions setObject:SW_ON forKey:SW_OPTION_GREEKACCENTS];
+        modDisplayOptions[SW_OPTION_GREEKACCENTS] = SW_ON;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -436,10 +436,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionVersesOnOneLine:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextVersesOnOneLineKey];
+        displayOptions[DefaultsBibleTextVersesOnOneLineKey] = @NO;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextVersesOnOneLineKey];
+        displayOptions[DefaultsBibleTextVersesOnOneLineKey] = @YES;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -448,7 +448,7 @@ extern char BookmarkMgrUI;
 }
 
 - (IBAction)displayOptionShowFullVerseNumbering:(id)sender {
-    [displayOptions setObject:[NSNumber numberWithInt:FullVerseNumbering] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+    displayOptions[DefaultsBibleTextVerseNumberingTypeKey] = @(FullVerseNumbering);
     [(NSMenuItem *)sender setState:NSOnState];
     // disable all other options
     [[verseNumberingMenu itemWithTag:1] setState:NSOffState];
@@ -460,7 +460,7 @@ extern char BookmarkMgrUI;
 }
 
 - (IBAction)displayOptionShowVerseNumberOnly:(id)sender {
-    [displayOptions setObject:[NSNumber numberWithInt:VerseNumbersOnly] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+    displayOptions[DefaultsBibleTextVerseNumberingTypeKey] = @(VerseNumbersOnly);
     [(NSMenuItem *)sender setState:NSOnState];
     // disable all other options
     [[verseNumberingMenu itemWithTag:0] setState:NSOffState];
@@ -471,7 +471,7 @@ extern char BookmarkMgrUI;
 }
 
 - (IBAction)displayOptionHideVerseNumbering:(id)sender {
-    [displayOptions setObject:[NSNumber numberWithInt:NoVerseNumbering] forKey:DefaultsBibleTextVerseNumberingTypeKey];
+    displayOptions[DefaultsBibleTextVerseNumberingTypeKey] = @(NoVerseNumbering);
     [(NSMenuItem *)sender setState:NSOnState];
     // disable all other options
     [[verseNumberingMenu itemWithTag:0] setState:NSOffState];
@@ -483,10 +483,10 @@ extern char BookmarkMgrUI;
 
 - (IBAction)displayOptionHighlightBookmarks:(id)sender {
     if([(NSMenuItem *)sender state] == NSOnState) {
-        [displayOptions setObject:[NSNumber numberWithBool:NO] forKey:DefaultsBibleTextHighlightBookmarksKey];
+        displayOptions[DefaultsBibleTextHighlightBookmarksKey] = @NO;
         [(NSMenuItem *)sender setState:NSOffState];
     } else {
-        [displayOptions setObject:[NSNumber numberWithBool:YES] forKey:DefaultsBibleTextHighlightBookmarksKey];
+        displayOptions[DefaultsBibleTextHighlightBookmarksKey] = @YES;
         [(NSMenuItem *)sender setState:NSOnState];
     }
     
@@ -496,7 +496,7 @@ extern char BookmarkMgrUI;
 
 - (IBAction)bookPagerAction:(id)sender {
     NSInteger clickedSegment = [sender selectedSegment];
-    NSInteger clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    NSInteger clickedSegmentTag = [(NSSegmentedCell *)[sender cell] tagForSegment:clickedSegment];
     if(clickedSegmentTag == 0) {
         // up
         [hostingDelegate previousBook:self];
@@ -508,7 +508,7 @@ extern char BookmarkMgrUI;
 
 - (IBAction)chapterPagerAction:(id)sender {
     NSInteger clickedSegment = [sender selectedSegment];
-    NSInteger clickedSegmentTag = [[sender cell] tagForSegment:clickedSegment];
+    NSInteger clickedSegmentTag = [(NSSegmentedCell *)[sender cell] tagForSegment:clickedSegment];
     if(clickedSegmentTag == 0) {
         // up
         [hostingDelegate previousChapter:self];
@@ -537,7 +537,7 @@ extern char BookmarkMgrUI;
         NSMenu *m = [fontSizePopUpButton menu];
         if(m && ![m itemWithTag:customFontSize]) {
             NSMenuItem *item = [[NSMenuItem alloc] init];
-            [item setTitle:[[NSNumber numberWithInteger:customFontSize] stringValue]];
+            [item setTitle:[@(customFontSize) stringValue]];
             [item setTag:customFontSize];
             [item setState:0];
             
@@ -628,11 +628,11 @@ extern char BookmarkMgrUI;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:[NSNumber numberWithInteger:customFontSize] forKey:@"CustomFontSizeEncoded"];
+    [encoder encodeObject:@(customFontSize) forKey:@"CustomFontSizeEncoded"];
     [encoder encodeInteger:textContext forKey:@"TextContextKey"];    
     [encoder encodeObject:modDisplayOptions forKey:@"ReferenceModDisplayOptions"];
     [encoder encodeObject:displayOptions forKey:@"ReferenceDisplayOptions"];
-    [encoder encodeObject:[NSNumber numberWithBool:showingRSBPreferred] forKey:@"ShowingRSBPreferred"];
+    [encoder encodeObject:@(showingRSBPreferred) forKey:@"ShowingRSBPreferred"];
 }
 
 @end

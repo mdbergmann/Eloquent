@@ -47,15 +47,15 @@
 - (void)awakeFromNib {
     
     NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
-    [linkAttributes setObject:[UserDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
-    [linkAttributes setObject:[UserDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
-    [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+    linkAttributes[NSUnderlineStyleAttributeName] = [UserDefaults objectForKey:DefaultsLinkUnderlineAttribute];
+    linkAttributes[NSForegroundColorAttributeName] = [UserDefaults colorForKey:DefaultsLinkForegroundColor];
+    linkAttributes[NSCursorAttributeName] = [NSCursor pointingHandCursor];
     [textView setLinkTextAttributes:linkAttributes];
 
     [textView setBackgroundColor:[UserDefaults colorForKey:DefaultsTextBackgroundColor]];
 
     NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
-    [selectionAttributes setObject:[UserDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
+    selectionAttributes[NSBackgroundColorAttributeName] = [UserDefaults colorForKey:DefaultsTextHighlightColor];
     [textView setSelectedTextAttributes:selectionAttributes];
     
     [textView setString:@""];
@@ -115,13 +115,13 @@
         [textView setBackgroundColor:[UserDefaults colorForKey:DefaultsTextBackgroundColor]];        
 	} else if([keyPath isEqualToString:DefaultsTextHighlightColor]) {
         NSMutableDictionary *selectionAttributes = [[textView selectedTextAttributes] mutableCopy];
-        [selectionAttributes setObject:[UserDefaults colorForKey:DefaultsTextHighlightColor] forKey:NSBackgroundColorAttributeName];
+        selectionAttributes[NSBackgroundColorAttributeName] = [UserDefaults colorForKey:DefaultsTextHighlightColor];
         [textView setSelectedTextAttributes:selectionAttributes];
 	} else if([keyPath isEqualToString:DefaultsLinkForegroundColor]) {
         NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
-        [linkAttributes setObject:[UserDefaults objectForKey:DefaultsLinkUnderlineAttribute] forKey:NSUnderlineStyleAttributeName];
-        [linkAttributes setObject:[UserDefaults colorForKey:DefaultsLinkForegroundColor] forKey:NSForegroundColorAttributeName];
-        [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+        linkAttributes[NSUnderlineStyleAttributeName] = [UserDefaults objectForKey:DefaultsLinkUnderlineAttribute];
+        linkAttributes[NSForegroundColorAttributeName] = [UserDefaults colorForKey:DefaultsLinkForegroundColor];
+        linkAttributes[NSCursorAttributeName] = [NSCursor pointingHandCursor];
         [textView setLinkTextAttributes:linkAttributes];
 	}
 }
@@ -148,6 +148,10 @@
     if(delegate && [delegate respondsToSelector:@selector(textChanged:)]) {
         [delegate performSelector:@selector(textChanged:) withObject:aNotification];
     }
+}
+
+- (void)scrollToTop {
+    [textView scrollRangeToVisible:NSMakeRange(0, 0)];
 }
 
 #pragma mark - MBTextView delegates

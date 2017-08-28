@@ -47,6 +47,7 @@
 - (void)displayText;
 - (void)displayTextForReference:(NSString *)aReference;
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
+- (void)scrollToTop;
 @end
 
 @protocol TextDisplayableExt

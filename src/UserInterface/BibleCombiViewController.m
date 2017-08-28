@@ -692,6 +692,18 @@
     }
 }
 
+- (void)scrollToTop {
+    [super scrollToTop];
+
+    for(ModuleViewController *v in parBibleViewControllers) {
+        [v scrollToTop];
+    }
+    for(ModuleViewController *v in parMiscViewControllers) {
+        [v scrollToTop];
+    }
+}
+
+
 #pragma mark - MouseTracking
 
 - (void)mouseEnteredView:(NSView *)theView {

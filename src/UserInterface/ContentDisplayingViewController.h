@@ -83,10 +83,6 @@ typedef enum _ProgressActionType {
 - (BOOL)linkClicked:(id)link;
 - (NSString *)processPreviewDisplay:(NSURL *)aUrl;
 
-// ProgressIndicating
-- (void)beginIndicateProgress;
-- (void)endIndicateProgress;
-
 - (id)progressIndicator;
 - (void)setProgressActionType:(ProgressActionType)aType;
 - (ProgressActionType)progressActionType;
@@ -94,16 +90,6 @@ typedef enum _ProgressActionType {
 - (void)removeProgressOverlayView;
 
 - (IBAction)saveDocument:(id)sender;
-
-// ContextMenuProviding
-- (NSMenu *)textContextMenu;
-- (NSMenu *)linkContextMenu;
-- (NSMenu *)imageContextMenu;
-
-// TextDisplayable
-- (void)displayText;
-- (void)displayTextForReference:(NSString *)aReference;
-- (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType;
 
 // context menu actions
 - (IBAction)lookUpInIndex:(id)sender;

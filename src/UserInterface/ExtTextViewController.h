@@ -35,6 +35,7 @@
 - (NSMenu *)menuForEvent:(NSEvent *)event;
 - (void)setAttributedString:(NSAttributedString *)aString;
 - (void)setString:(NSString *)aString;
+- (void)scrollToTop;
 
 // MouseTracking
 - (void)mouseEnteredView:(NSView *)theView;

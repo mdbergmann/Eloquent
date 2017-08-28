@@ -46,11 +46,6 @@ extern char NotesMgrUI;
 @synthesize currentSearchText;
 @synthesize contentViewController;
 
-typedef enum _NavigationDirectionType {
-    DirectionBackward = 1,
-    DirectionForward
-}NavigationDirectionType;
-
 #pragma mark - initializers
 
 - (id)init {
@@ -225,6 +220,7 @@ typedef enum _NavigationDirectionType {
         // get verse key text
         NSString *keyStr = [NSString stringWithFormat:@"%@ %i", [verseKey bookName], [verseKey chapter]];
         [self setSearchText:keyStr];
+        [contentViewController scrollToTop];
     }
 }
 
@@ -238,7 +234,8 @@ typedef enum _NavigationDirectionType {
         // get verse key text
         NSString *keyStr = [NSString stringWithFormat:@"%@ %i", [verseKey bookName], [verseKey chapter]];
         [self setSearchText:keyStr];
-    }    
+        [contentViewController scrollToTop];
+    }
 }
 
 - (IBAction)performClose:(id)sender {

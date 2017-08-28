@@ -275,6 +275,13 @@
     }
 }
 
+- (void)scrollToTop {
+    [super scrollToTop];
+
+    [(ExtTextViewController *)contentDisplayController scrollToTop];
+}
+
+
 - (BOOL)hasValidCacheObject {
     if((searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString]) ||
        (searchType == ReferenceSearchType && [[contentCache reference] isEqualToString:searchString])) {
