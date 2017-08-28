@@ -24,7 +24,6 @@
 #import "NSTextView+LookupAdditions.h"
 #import "NSAttributedString+Additions.h"
 #import "CommentaryViewController.h"
-#import "ObjCSword/SwordUtil.h"
 #import "BibleViewController+RightSidebar.h"
 #import "globals.h"
 
@@ -64,7 +63,7 @@
         if(aModule == nil) {
             NSArray *modArray = [[SwordManager defaultManager] modulesForType:Bible];
             if([modArray count] > 0) {
-                aModule = [modArray objectAtIndex:0];
+                aModule = modArray[0];
             }
         }
         self.module = aModule;
@@ -138,11 +137,7 @@
         if([delegate respondsToSelector:@selector(bibleViewCount)]) {
             NSNumber *countTemp = [delegate performSelector:@selector(bibleViewCount)];
             int count = [countTemp intValue];
-            if(count == 1) {
-                [closeBtn setEnabled:NO];
-            } else {
-                [closeBtn setEnabled:YES];
-            }
+            [closeBtn setEnabled:count != 1];
         }
     }
 }
@@ -176,7 +171,7 @@
             // select the first one found
             NSArray *modArray = [[SwordManager defaultManager] modulesForType:Bible];
             if([modArray count] > 0) {
-                [self setModule:[modArray objectAtIndex:0]];
+                [self setModule:modArray[0]];
                 // and redisplay if needed
                 [self displayTextForReference:searchString searchType:searchType];
             }
@@ -224,7 +219,7 @@
 - (void)moduleSelectionChanged:(NSMenuItem *)sender {
     [super moduleSelectionChanged:sender];
     
-    NSString *name = [(NSMenuItem *)sender title];
+    NSString *name = [sender title];
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:name];
         if((self.searchString != nil) && ([self.searchString length] > 0)) {
@@ -243,32 +238,7 @@
 #pragma mark - HostViewDelegate
 
 - (void)searchStringChanged:(NSString *)aSearchString {
-    /*
-    if(searchType == IndexSearchType) {
-        NSMutableArray *newSearchComponents = [NSMutableArray array];
-        // look for "strong:" and pad the strong's number
-        NSArray *searchComponents = [aSearchString componentsSeparatedByString:@" "];
-        for(NSString *searchComp in searchComponents) {
-            if([searchComp rangeOfString:@"strong:"].length > 0) {
-                NSArray *split = [searchComp componentsSeparatedByString:@"strong:"];
-                if(split.count >= 2) {
-                    NSString *strongNumber = split[1];
-                    NSArray *padded = [SwordUtil padStrongsNumber:strongNumber];
-                    if(padded.count > 0) {
-                        [newSearchComponents addObject:[NSString stringWithFormat:@"strong:%@", padded[0]]];
-                    }
-                }
-            }
-            else {
-                [newSearchComponents addObject:searchComp];
-            }
-        }
-        [super searchStringChanged:[newSearchComponents componentsJoinedByString:@" "]];
-
-    } else {
-     */
-        [super searchStringChanged:aSearchString];
-//    }
+    [super searchStringChanged:aSearchString];
 }
 
 
