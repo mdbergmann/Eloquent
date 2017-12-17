@@ -2,7 +2,7 @@
  *
  *  osislatex.h -	Render filter for LaTeX of an OSIS module
  *
- * $Id: osislatex.h 3342 2015-03-14 15:00:03Z refdoc $
+ * $Id: osislatex.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2011-2014 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -45,7 +45,7 @@ protected:
 	public:
 		bool osisQToTick;
 		bool inXRefNote;
-		bool BiblicalText;
+		bool isBiblicalText;
 		int suspendLevel;
 		bool firstCell; // for tables, indicates whether a cell is the first one in a row
 		SWBuf wordsOfChristStart;

@@ -2,7 +2,7 @@
  *
  *  remotetrans.h -	code for Remote Transport
  *
- * $Id: remotetrans.h 2932 2013-07-31 14:07:01Z scribe $
+ * $Id: remotetrans.h 3515 2017-11-01 11:38:09Z scribe $
  *
  * Copyright 2004-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -53,6 +53,7 @@ protected:
 	StatusReporter *statusReporter;
 	bool passive;
 	bool term;
+	bool unverifiedPeerAllowed;
 	SWBuf host;
 	SWBuf u;
 	SWBuf p;
@@ -68,13 +69,23 @@ public:
 	 */
 	virtual char getURL(const char *destPath, const char *sourceURL, SWBuf *destBuf = 0);
 
+	/***********
+	 * override this method in your real impl
+	 *
+	 * if sourceBuf then read from buffer instead of file
+	 */
+	virtual char putURL(const char *destURL, const char *sourcePath, SWBuf *sourceBuf = 0);
+
 
 	int copyDirectory(const char *urlPrefix, const char *dir, const char *dest, const char *suffix);
 
 	virtual std::vector<struct DirEntry> getDirList(const char *dirURL);
 	void setPassive(bool passive) { this->passive = passive; }
+	bool isPassive() { return passive; }
 	void setUser(const char *user) { u = user; }
 	void setPasswd(const char *passwd) { p = passwd; }
+	void setUnverifiedPeerAllowed(bool val) { this->unverifiedPeerAllowed = val; }
+	bool isUnverifiedPeerAllowed() { return unverifiedPeerAllowed; }
 	void terminate() { term = true; }
 };
 

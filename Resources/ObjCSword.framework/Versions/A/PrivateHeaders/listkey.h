@@ -4,7 +4,7 @@
  *		types of keys for indexing into modules
  *		(e.g. verse, word, place, etc.)
  *
- * $Id: listkey.h 3439 2016-10-23 08:32:02Z scribe $
+ * $Id: listkey.h 3541 2017-12-03 18:40:33Z scribe $
  *
  * Copyright 1997-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -89,7 +89,7 @@ public:
 	 * @return error status
 	 * deprecated use setToElement
 	 */
-	virtual char setToElement(int ielement, SW_POSITION = TOP);
+	virtual char setToElement(int ielement, SW_POSITION pos = TOP);
 	// deprecated use setToElement
 	SWDEPRECATED virtual char SetToElement(int ielement, SW_POSITION pos = TOP) { return setToElement(ielement, pos); }
 
@@ -122,7 +122,6 @@ public:
 	/** Positions this key
 	 *
 	 * @param pos position
-	 * @return *this
 	 */
 	virtual void setPosition(SW_POSITION pos);
 	

@@ -2,7 +2,7 @@
  *
  *  teixhtml.h -	Implementation of TEIXHTML
  *
- * $Id: teixhtml.h 3361 2015-03-23 00:00:58Z scribe $
+ * $Id: teixhtml.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2012-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -36,7 +36,7 @@ private:
 protected:
 	class MyUserData : public BasicFilterUserData {
 	public:
-		bool BiblicalText;
+		bool isBiblicalText;
 		SWBuf lastHi;
 		
 		SWBuf version;

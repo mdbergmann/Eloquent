@@ -2,7 +2,7 @@
  *
  *  thmlxhtml.h -	Implementation of ThMLXHTML
  *
- * $Id: thmlxhtml.h 3192 2014-04-19 17:26:34Z scribe $
+ * $Id: thmlxhtml.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2011-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -38,8 +38,8 @@ protected:
 	public:
 		MyUserData(const SWModule *module, const SWKey *key);//: BasicFilterUserData(module, key) {}
 		bool inscriptRef;
-		char SecHead;
-		bool BiblicalText;
+		char secHeadLevel;
+		bool isBiblicalText;
 		SWBuf version;
 		XMLTag startTag;
 	};

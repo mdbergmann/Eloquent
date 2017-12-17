@@ -5,7 +5,7 @@
  *  	       		many filter will need and can use as a starting
  *     			point
  *
- * $Id: swbasicfilter.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: swbasicfilter.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2001-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -31,14 +31,16 @@
 
 SWORD_NAMESPACE_START
 
+class VerseKey;
 
 // not a protected inner class because MSVC++ sucks and can't handle it
 class SWDLLEXPORT BasicFilterUserData {
 public:
-	BasicFilterUserData(const SWModule *module, const SWKey *key) { this->module = module; this->key = key; suspendTextPassThru = false; supressAdjacentWhitespace = false; }
+	BasicFilterUserData(const SWModule *module, const SWKey *key);
 	virtual ~BasicFilterUserData() {}
 	const SWModule *module;
 	const SWKey *key;
+	const VerseKey *vkey;
 	SWBuf lastTextNode;
 	SWBuf lastSuspendSegment;
 	bool suspendTextPassThru;

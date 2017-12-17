@@ -2,7 +2,7 @@
  *
  *  filemgr.h -	definition of class FileMgr used for pooling file handles
  *
- * $Id: filemgr.h 3437 2016-10-22 03:50:02Z scribe $
+ * $Id: filemgr.h 3515 2017-11-01 11:38:09Z scribe $
  *
  * Copyright 1998-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -32,7 +32,7 @@
 
 SWORD_NAMESPACE_START
 
-class SWDLLEXPORT FileMgr;
+class SWDLLEXPORT FileDesc;
 
 struct SWDLLEXPORT DirEntry {
 public:
@@ -40,49 +40,23 @@ public:
 	unsigned long size;
 	bool isDirectory;
 };
-/**
-* This class represents one file. It works with the FileMgr object.
-*/
-class SWDLLEXPORT FileDesc {
-
-	friend class FileMgr;
-
-	long offset;
-	int fd;			// -77 closed;
-	FileMgr *parent;
-	FileDesc *next;
-
-	FileDesc(FileMgr * parent, const char *path, int mode, int perms, bool tryDowngrade);
-	virtual ~FileDesc();
-
-public:
-	/** @return File handle.
-	*/
-	int getFd();
-
-	long seek(long offset, int whence);
-	long read(void *buf, long count);
-	long write(const void *buf, long count);
-
-	/** Path to file.
-	*/
-	char *path;
-	/** File access mode.
-	*/
-	int mode;
-	/** File permissions.
-	*/
-	int perms;
-	/**
-	*/
-	bool tryDowngrade;
-};
 
 /**
-*	This class ist used make file access operations easier.
-* It keeps a list of all open files internally and closes them
-* when the destructor is called.
-*/
+ * This class isolates all file io for SWORD, making OS
+ * level quirks easier to fix.  This class is typically
+ * copied and replaced if necessary to get SWORD to run on
+ * a specific platform (e.g., Windows Mobile), but in
+ * the future, statics should be removed to make possible to
+ * instead simply subclass and override necessary methods.
+ *
+ * This class also provides many convenience methods which
+ * make working with data storage easier.
+ *
+ * Conceptually, this factory exposes an interface which
+ * allows SWORD to 'open' every file it wants, without
+ * worrying about OS limits, and takes care of opening and
+ * closing the actual file descriptors when necessary.
+ */
 class SWDLLEXPORT FileMgr : public SWCacher {
 
 	friend class FileDesc;
@@ -184,6 +158,63 @@ public:
 	static int removeFile(const char *fName);
 	static char getLine(FileDesc *fDesc, SWBuf &line);
 
+	/**
+	 * Determines where SWORD looks for the user's home folder.  This is
+	 * typically used as a place to find any additional personal SWORD
+	 * modules which a user might wish to be added to a system-wide
+	 * library (e.g., added from ~/.sword/mods.d/ or ~/sword/mods.d/)
+	 *
+	 * or if a user or UI wishes to override SWORD system configuration
+	 * settings (e.g., /etc/sword.conf) with a custom configuration
+	 * (e.g., ~/.sword/sword.conf)
+	 */
+	SWBuf getHomeDir();
+
+};
+
+/**
+* This class represents one file. It works with the FileMgr object.
+*/
+class SWDLLEXPORT FileDesc {
+
+	friend class FileMgr;
+
+	long offset;
+	int fd;			// -77 closed;
+	FileMgr *parent;
+	FileDesc *next;
+
+	FileDesc(FileMgr * parent, const char *path, int mode, int perms, bool tryDowngrade);
+	virtual ~FileDesc();
+
+public:
+	/** @return File handle.
+	 * NOTE: magic file descriptor -77 = closed to avoid os limits
+	*/
+	inline int getFd() {
+		if (fd == -77)
+			fd = parent->sysOpen(this);
+//		if ((fd < -1) && (fd != -77))  // kludge to handle ce
+//			return 777;
+		return fd;
+	}
+
+	long seek(long offset, int whence);
+	long read(void *buf, long count);
+	long write(const void *buf, long count);
+
+	/** Path to file.
+	*/
+	char *path;
+	/** File access mode.
+	*/
+	int mode;
+	/** File permissions.
+	*/
+	int perms;
+	/**
+	*/
+	bool tryDowngrade;
 };
 
 

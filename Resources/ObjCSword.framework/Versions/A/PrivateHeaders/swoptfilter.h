@@ -2,7 +2,7 @@
  *
  *  swoptfilter.h -	Implenetation of SWOptionFilter
  *
- * $Id: swoptfilter.h 2980 2013-09-14 21:51:47Z scribe $
+ * $Id: swoptfilter.h 3515 2017-11-01 11:38:09Z scribe $
  *
  * Copyright 1998 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -80,7 +80,7 @@ public:
 	virtual const char *getOptionValue();
 
 	/** sets the value of the option of this filter,
-	 * e.g maybe a strong's filter mioght be set to "on" / "off" -
+	 * e.g maybe a strong's filter might be set to "On" / "Off" -
 	 * that would mean to show or not to show the strongs in the text,
 	 * see also getOptionValues()
 	 * @param ival the new option value

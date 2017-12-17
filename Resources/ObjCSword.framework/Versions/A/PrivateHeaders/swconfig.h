@@ -3,7 +3,7 @@
  *  swconfig.h -	definition of Class SWConfig used for saving and
  *			retrieval of configuration information
  *
- * $Id: swconfig.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: swconfig.h 3515 2017-11-01 11:38:09Z scribe $
  *
  * Copyright 1997-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -39,51 +39,106 @@ typedef std::map < SWBuf, ConfigEntMap, std::less < SWBuf > >SectionMap;
 *
 */
 class SWDLLEXPORT SWConfig {
-private:
-	char getline(int fd, SWBuf &line);
 public:
-	/** The filename used by this SWConfig object
-	*
-	*/
-	SWBuf filename;
 	/** Map of available sections
 	* The map of available sections.
 	*/
-	SectionMap Sections;
 
 	/** Constructor of SWConfig
-	* @param ifilename The file, which should be used for this config.
-	*/
-	SWConfig(const char *ifilename);
+	 * @param fileName The storage path for this config.
+	 */
+	SWConfig(const char *fileName);
 	SWConfig();
 	virtual ~SWConfig();
 
-	/** Load from disk
-	* Load the content from disk.
-	*/
-	virtual void Load();
+	/** Get the section map for the config
+	 */
+	virtual SectionMap &getSections();
+	const SectionMap &getSections() const { return const_cast<SWConfig *>(this)->getSections(); }
 
-	/** Save to disk
-	* Save the content of this config object to disk.
-	*/
-	virtual void Save();
+	/** Load the content from datastore
+	 */
+	virtual void load();
 
-	/** Merges the values of addFrom
-	* @param addFrom The config which values should be merged to this config object. Already existing values will be overwritten.
-	*/
+	/** Save the content of this config object to the datastore
+	 */
+	virtual void save() const;
+
+	/** Merges into this config the values from addFrom
+	 * @param addFrom The config which values should be merged to this config object. Already existing values will be overwritten.
+	 */
 	virtual void augment(SWConfig &addFrom);
-	virtual SWConfig & operator +=(SWConfig &addFrom) { augment(addFrom); return *this; }
 
-	/** Get a section
-	* This is an easy way to get and store config values.
-	* The following will work:\n
-	*
-	* @code
-	* SWConfig config("/home/user/.setttings");
-	* config["Colors"]["Background"] = "red";
-	* @endcode
-	*/
-	virtual ConfigEntMap & operator [](const char *section);
-	};
+	/** Get a specified section from config, creating the section if needed
+	 * There is no const version of this method because it returns a ConfigEntMap reference, creating the requested section if it doesn't exist.
+	 * @param section section name to retrieve
+	 */
+	ConfigEntMap &getSection(const char *section) { return getSections()[section]; }
+
+
+	/** This operator provides a conventient syntax to get and store config values
+	 *
+	 * config[section][key] = value;
+	 * value = config[section][key];
+	 *
+	 * The following will work:\n
+	 *
+	 * @code
+	 * SWConfig config("/home/user/.settings");
+	 * config["Colors"]["Background"] = "red";
+	 * @endcode
+	 */
+	ConfigEntMap &operator [](const char *section) { return getSection(section); }
+
+	/** shorthand operator for augment
+	 */
+	SWConfig &operator +=(SWConfig &addFrom) { augment(addFrom); return *this; }
+
+	/** get a value from a [section] key=value
+	 * @param section  the section name containing the key
+	 * @param key      the key to which the value is associated
+	 * @return         the value associated with the key in the provided section
+	 */
+	SWBuf getValue(const char *section, const char *key) {
+		return (*this)[section][key];
+	}
+
+	/** set a value for a specified key in a [section]
+	 * @param section  the section name to contain the key
+	 * @param key      the key to which to associate the value
+	 * @param value    the value to associated with the key
+	 */
+	void setValue(const char *section, const char *key, const char *value) {
+		(*this)[section][key] = value;
+	}
+
+	/** The storage path used by this SWConfig object
+	 */
+	SWBuf getFileName() const;
+
+
+	// ****** Deprecated methods for removal in 2.0
+
+	/**
+	 * @deprecated Use getSections() instead.
+	 */
+	SWDEPRECATED SectionMap Sections;
+
+	/**
+	 * @deprecated Use getFileName() instead.
+	 */
+	SWDEPRECATED SWBuf filename;
+
+	/**
+	 * @deprecated Use load() instead.
+	 */
+	SWDEPRECATED void Load() { load(); }
+
+	/**
+	 * @deprecated Use save() instead.
+	 */
+	SWDEPRECATED void Save() { save(); }
+
+};
 SWORD_NAMESPACE_END
 #endif

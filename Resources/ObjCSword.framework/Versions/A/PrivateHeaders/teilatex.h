@@ -2,7 +2,7 @@
  *
  *  teilatex.h -	Implementation of TEILaTeX
  *
- * $Id: teilatex.h 3419 2016-04-23 18:55:02Z refdoc $
+ * $Id: teilatex.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2012-2014 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -36,7 +36,7 @@ private:
 protected:
 	class MyUserData : public BasicFilterUserData {
 	public:
-		bool BiblicalText;
+		bool isBiblicalText;
 		SWBuf lastHi;
 		bool firstCell; // for tables, indicates whether a cell is the first one in a row
 		int consecutiveNewlines;

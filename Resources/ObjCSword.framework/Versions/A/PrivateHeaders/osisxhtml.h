@@ -2,7 +2,7 @@
  *
  *  osisxhtml.h -	Render filter for classed XHTML of an OSIS module
  *
- * $Id: osisxhtml.h 3257 2014-09-23 01:08:24Z scribe $
+ * $Id: osisxhtml.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2011-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -45,7 +45,7 @@ protected:
 	public:
 		bool osisQToTick;
 		bool inXRefNote;
-		bool BiblicalText;
+		bool isBiblicalText;
 		int suspendLevel;
 		SWBuf wordsOfChristStart;
 		SWBuf wordsOfChristEnd;

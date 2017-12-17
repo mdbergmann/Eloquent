@@ -2,7 +2,7 @@
  *
  *  osisplain.h -	Implementation of OSISPlain
  *
- * $Id: osisplain.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: osisplain.h 3524 2017-11-07 03:08:49Z scribe $
  *
  * Copyright 2003-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -35,6 +35,7 @@ public:
 protected:
 	virtual BasicFilterUserData *createUserData(const SWModule *module, const SWKey *key);
 	virtual bool handleToken(SWBuf &buf, const char *token, BasicFilterUserData *userData);
+	virtual bool processStage(char stage, SWBuf &text, char *&from, BasicFilterUserData *userData);
 public:
 	OSISPlain();
 };

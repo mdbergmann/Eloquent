@@ -2,7 +2,7 @@
  *
  *  utf8scsu.h -	Implementation of UTF8SCSU
  *
- * $Id: utf8scsu.h 3081 2014-03-05 19:52:08Z chrislit $
+ * $Id: utf8scsu.h 3472 2017-05-22 04:19:02Z scribe $
  *
  * Copyright 2001-2014 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -28,6 +28,7 @@
 #include <unicode/utypes.h>
 #include <unicode/ucnv.h>
 #include <unicode/uchar.h>
+#include <unicode/unistr.h>
 
 SWORD_NAMESPACE_START
 

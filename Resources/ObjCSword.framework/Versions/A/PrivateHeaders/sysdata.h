@@ -2,7 +2,7 @@
  *
  *  sysdata.h -	
  *
- * $Id: sysdata.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: sysdata.h 3455 2017-04-24 08:50:31Z scribe $
  * 
  * Copyright 2001-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -40,7 +40,8 @@ typedef unsigned short __u16;
 typedef signed int __s32;
 typedef unsigned int __u32;
 
-#ifdef __GNUC__
+#ifdef OS_ANDROID
+#elif defined(__GNUC__)
 __extension__ typedef __signed__ long long __s64;
 __extension__ typedef unsigned long long __u64;
 #elif defined(__BORLANDC__)

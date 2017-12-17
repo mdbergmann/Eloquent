@@ -2,7 +2,7 @@
  *
  *  teihtmlhref.h -	Implementation of TEIHTMLHREF
  *
- * $Id: teihtmlhref.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: teihtmlhref.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2008-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -36,7 +36,7 @@ private:
 protected:
 	class MyUserData : public BasicFilterUserData {
 	public:
-		bool BiblicalText;
+		bool isBiblicalText;
 		SWBuf lastHi;
 		
 		SWBuf version;

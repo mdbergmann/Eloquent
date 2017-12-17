@@ -4,7 +4,7 @@
  *		types of keys for indexing into modules (e.g. verse, word,
  *		place, etc.)
  *
- * $Id: swkey.h 2926 2013-07-31 02:06:33Z scribe $
+ * $Id: swkey.h 3515 2017-11-01 11:38:09Z scribe $
  *
  * Copyright 1998-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -159,6 +159,7 @@ public:
 	 */
 	SWDEPRECATED char Error() { return popError(); }
 	virtual char popError();
+	virtual char getError() { return error; }
 	virtual void setError(char err) { error = err; }
 
 	/** Sets this SWKey with a character string

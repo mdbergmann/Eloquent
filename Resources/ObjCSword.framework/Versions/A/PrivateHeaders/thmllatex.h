@@ -2,7 +2,7 @@
  *
  *  thmllatex.h -	Implementation of ThMLLaTeX
  *
- * $Id: thmllatex.h 3074 2014-03-05 00:30:21Z chrislit $
+ * $Id: thmllatex.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2011-2014 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -38,8 +38,8 @@ protected:
 	public:
 		MyUserData(const SWModule *module, const SWKey *key);//: BasicFilterUserData(module, key) {}
 		bool inscriptRef;
-		bool SecHead;
-		bool BiblicalText;
+		bool inSecHead;
+		bool isBiblicalText;
 		SWBuf version;
 		XMLTag startTag;
 	};

@@ -2,7 +2,7 @@
  *
  *  thmlhtmlhref.h -	Implementation of ThMLHTMLHREF
  *
- * $Id: thmlhtmlhref.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: thmlhtmlhref.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 2001-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -38,8 +38,8 @@ protected:
 	public:
 		MyUserData(const SWModule *module, const SWKey *key);//: BasicFilterUserData(module, key) {}
 		bool inscriptRef;
-		bool SecHead;
-		bool BiblicalText;
+		bool inSecHead;
+		bool isBiblicalText;
 		SWBuf version;
 		XMLTag startTag;
 	};

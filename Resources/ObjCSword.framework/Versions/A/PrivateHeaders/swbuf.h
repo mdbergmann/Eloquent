@@ -2,7 +2,7 @@
  *
  *  swbuf.h -	code for SWBuf used as a transport and utility for data buffers
  *
- * $Id: swbuf.h 3440 2016-10-23 08:37:17Z scribe $
+ * $Id: swbuf.h 3541 2017-12-03 18:40:33Z scribe $
  *
  * Copyright 2003-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -90,27 +90,40 @@ public:
 		init(0);
 	}
 
-	/**
-	* SWBuf Constructor - Creates an SWBuf initialized
+	/******************************************************************************
+	* SWBuf Constructor - Creates an empty SWBuf object or an SWBuf initialized
 	* 		to a value from a const char *
- 	*
- 	*/
-	SWBuf(const char *initVal, unsigned long initSize = 0);
-//	SWBuf(unsigned long initSize);
-
-	/**
-	* SWBuf Constructor - Creates an SWBuf initialized
-	* 		to a value from a char
 	*
 	*/
-	SWBuf(char initVal, unsigned long initSize = 0);
+	inline SWBuf(const char *initVal, unsigned long initSize = 0) {
+		init(initSize);
+		if (initVal)
+			set(initVal);
+	}
 
-	/**
+	/******************************************************************************
 	* SWBuf Constructor - Creates an SWBuf initialized
 	* 		to a value from another SWBuf
 	*
 	*/
-	SWBuf(const SWBuf &other, unsigned long initSize = 0);
+	inline SWBuf(const SWBuf &other, unsigned long initSize = 0) {
+		init(initSize);
+		set(other);
+	}
+
+	/******************************************************************************
+	* SWBuf Constructor - Creates an SWBuf initialized
+	* 		to a value from a char
+	*
+	*/
+	inline SWBuf(char initVal, unsigned long initSize = 0) {
+		init(initSize+1);
+		*buf = initVal;
+		end = buf+1;
+		*end = 0;
+	}
+//	SWBuf(unsigned long initSize);
+
 
 	/******************************************************************************
 	* SWBuf Destructor - Cleans up instance of SWBuf
@@ -220,7 +233,13 @@ public:
 	* SWBuf::setSize - Size this buffer to a specific length.
 	* @param len The new size of the buffer. One byte for the null will be added.
 	*/
-	void setSize(unsigned long len);
+	inline void setSize(unsigned long len) {
+		assureSize(len+1);
+		if ((unsigned)(end - buf) < len)
+			memset(end, fillByte, len - (end-buf));
+		end = buf + len;
+		*end = 0;
+	}
 	/**
 	* SWBuf::resize - Resize this buffer to a specific length.
 	* @param len The new size of the buffer. One byte for the null will be added.
@@ -233,7 +252,17 @@ public:
 	* @param str Append this.
 	* @param max Append only max chars.
 	*/
-	SWBuf &append(const char *str, long max = -1);
+	inline SWBuf &append(const char *str, long max = -1) {
+	//	if (!str) //A null string was passed
+	//		return;
+		if (max < 0)
+			max = strlen(str);
+		assureMore(max+1);
+		for (;((max)&&(*str));max--)
+			*end++ = *str++;
+		*end = 0;
+		return *this;
+	}
 
 	/**
 	* SWBuf::append - appends a value to the current value of this SWBuf
@@ -266,7 +295,7 @@ public:
 	* If the allocated memory is not enough, it will be resized accordingly.
 	* NOTE: This is dangerous, as wchar_t is currently different sizes on different
 	* platforms (stupid windoze; stupid c++ spec for not mandating 4byte).
-	* @param ch Append this.
+	* @param wch Append this.
 	*/
 	inline SWBuf &append(wchar_t wch) {
 		assureMore(sizeof(wchar_t)*2);

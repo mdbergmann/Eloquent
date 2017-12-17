@@ -2,7 +2,7 @@
  *
  *  flatapi.h -	This file contains an api usable by non-C++ environments
  *
- * $Id: flatapi.h 3147 2014-03-26 07:54:35Z scribe $
+ * $Id: flatapi.h 3537 2017-11-26 09:29:05Z scribe $
  *
  * Copyright 2002-2014 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -24,7 +24,7 @@
 #define SWORDFLATAPI_H
 
 #include <inttypes.h>
-#include <defs.h>
+#include "defs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,6 +60,21 @@ struct org_crosswire_sword_SearchHit {
 #undef org_crosswire_sword_SWModule_SEARCHTYPE_LUCENE
 #define org_crosswire_sword_SWModule_SEARCHTYPE_LUCENE -4L
 
+    const int org_crosswire_sword_SWModule_VERSEKEY_TESTAMENT = 0;
+    const int org_crosswire_sword_SWModule_VERSEKEY_BOOK = 1;
+    const int org_crosswire_sword_SWModule_VERSEKEY_CHAPTER = 2;
+    const int org_crosswire_sword_SWModule_VERSEKEY_VERSE = 3;
+    const int org_crosswire_sword_SWModule_VERSEKEY_CHAPMAX = 4;
+    const int org_crosswire_sword_SWModule_VERSEKEY_VERSEMAX = 5;
+    const int org_crosswire_sword_SWModule_VERSEKEY_BOOKNAME = 6;
+    const int org_crosswire_sword_SWModule_VERSEKEY_OSISREF = 7;
+    const int org_crosswire_sword_SWModule_VERSEKEY_SHORTTEXT = 8;
+    const int org_crosswire_sword_SWModule_VERSEKEY_BOOKABBREV = 9;
+
+    
+    
+    
+    
 /*
  * Class:     org_crosswire_sword_SWModule
  * Method:    terminateSearch
@@ -68,13 +83,15 @@ struct org_crosswire_sword_SearchHit {
 void SWDLLEXPORT org_crosswire_sword_SWModule_terminateSearch
   (SWHANDLE hSWModule);
 
+typedef void (*org_crosswire_sword_SWModule_SearchCallback)(int);
+
 /*
  * Class:     org_crosswire_sword_SWModule
  * Method:    search
  * Signature: (Ljava/lang/String;IJLjava/lang/String;Lorg/crosswire/android/sword/SWModule/SearchProgressReporter;)[Lorg/crosswire/android/sword/SWModule/SearchHit;
  */
 const struct org_crosswire_sword_SearchHit * SWDLLEXPORT org_crosswire_sword_SWModule_search
-  (SWHANDLE hSWModule, const char *searchString, int searchType, long flags, const char *scope, SWHANDLE progressReporter);
+  (SWHANDLE hSWModule, const char *searchString, int searchType, long flags, const char *scope, org_crosswire_sword_SWModule_SearchCallback progressReporter);
 
 /*
  * Class:     org_crosswire_sword_SWModule
@@ -433,6 +450,7 @@ const char * SWDLLEXPORT org_crosswire_sword_SWMgr_translate
 //
 //
 
+typedef void (*org_crosswire_sword_InstallMgr_StatusCallback)(const char *, unsigned long, unsigned long);
 
 /*
  * Class:     org_crosswire_sword_InstallMgr
@@ -440,7 +458,7 @@ const char * SWDLLEXPORT org_crosswire_sword_SWMgr_translate
  * Signature: (Ljava/lang/String;Lorg/crosswire/android/sword/SWModule/SearchProgressReporter;)V
  */
 SWHANDLE SWDLLEXPORT org_crosswire_sword_InstallMgr_new
-  (const char *baseDir, SWHANDLE statusReporter);
+  (const char *baseDir, org_crosswire_sword_InstallMgr_StatusCallback statusReporter);
 
 /*
  * Class:     org_crosswire_sword_InstallMgr
@@ -513,6 +531,12 @@ int SWDLLEXPORT org_crosswire_sword_InstallMgr_remoteInstallModule
  */
 SWHANDLE SWDLLEXPORT org_crosswire_sword_InstallMgr_getRemoteModuleByName
   (SWHANDLE hInstallMgr, const char *sourceName, const char *modName);
+
+void SWDLLEXPORT org_crosswire_sword_SWlog_logError(const char *msg);
+void SWDLLEXPORT org_crosswire_sword_SWlog_logDebug(const char *msg);
+void SWDLLEXPORT org_crosswire_sword_SWlog_logWarning(const char *msg);
+void SWDLLEXPORT org_crosswire_sword_SWlog_logInformation(const char *msg);
+void SWDLLEXPORT org_crosswire_sword_SWlog_logTimedInformation(const char *msg);
 
 #ifdef __cplusplus
 }

@@ -2,7 +2,7 @@
  *
  *  thmlrtf.h -	Implementation of ThMLRTF
  *
- * $Id: thmlrtf.h 2833 2013-06-29 06:40:28Z chrislit $
+ * $Id: thmlrtf.h 3548 2017-12-10 05:11:38Z scribe $
  *
  * Copyright 1999-2013 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -35,9 +35,9 @@ protected:
 	class MyUserData : public BasicFilterUserData {
 	public:
 		MyUserData(const SWModule *module, const SWKey *key);
-		bool SecHead;
+		bool inSecHead;
 		SWBuf version;
-		bool BiblicalText;
+		bool isBiblicalText;
 		XMLTag startTag;
 	};
 	virtual BasicFilterUserData *createUserData(const SWModule *module, const SWKey *key) {
