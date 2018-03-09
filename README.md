@@ -12,3 +12,7 @@ Download releases
 =================
 Releases can be downloaded under this link:
 https://github.com/mdbergmann/Eloquent/releases
+
+Web page
+========
+http://www.eloquent-bible-study.eu/Eloquent_Bible_Study/Eloquent_Bible_Study.html
