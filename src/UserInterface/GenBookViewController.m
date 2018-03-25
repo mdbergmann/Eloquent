@@ -247,8 +247,7 @@
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     // for index mode the reference must not be an empty string
     // for reference mode we let through everything
-    if((aReference && ([aReference length] > 0) && (aType == IndexSearchType)) || 
-       aType == ReferenceSearchType) {
+    if((aReference && ([aReference length] > 0) && (aType == IndexSearchType)) || aType == ReferenceSearchType) {
         [super displayTextForReference:aReference searchType:aType];
     }
 }

@@ -18,8 +18,6 @@
 #include <treekeyidx.h>
 #endif
 
-#define GenBookRootKey @"root"
-
 @class SwordModule, SwordManager, SwordModuleTreeEntry;
 
 @interface SwordBook : SwordModule
