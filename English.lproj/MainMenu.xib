@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -322,18 +322,6 @@
                 <menuItem title="View" id="295">
                     <menu key="submenu" title="View" id="296">
                         <items>
-                            <menuItem title="Show Toolbar" keyEquivalent="t" id="297">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="toggleToolbarShown:" target="-1" id="366"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Customize Toolbar…" id="298">
-                                <connections>
-                                    <action selector="runToolbarCustomizationPalette:" target="-1" id="365"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="462"/>
                             <menuItem title="Show/Hide Full screen mode" keyEquivalent="f" id="463">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -473,7 +461,7 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="371">
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="454" y="250" width="715" height="570"/>
@@ -483,7 +471,7 @@
                 <autoresizingMask key="autoresizingMask"/>
             </view>
         </window>
-        <window title="Preview" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" visibleAtLaunch="NO" appearanceType="aqua" frameAutosaveName="" animationBehavior="default" id="409" userLabel="PreviewPanel (Preview)" customClass="NSPanel">
+        <window title="Preview" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" visibleAtLaunch="NO" appearanceType="aqua" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="409" userLabel="PreviewPanel (Preview)" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="586" y="59" width="500" height="250"/>
@@ -521,7 +509,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="457" height="187"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView editable="NO" drawsBackground="NO" importsGraphics="NO" spellingCorrection="YES" id="460">
+                                <textView editable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" spellingCorrection="YES" id="460">
                                     <rect key="frame" x="0.0" y="0.0" width="457" height="187"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -546,7 +534,7 @@
                 <outlet property="delegate" destination="wzq-0G-3ij" id="wpW-8e-tjd"/>
             </connections>
         </window>
-        <window title="Create Module" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="488">
+        <window title="Create Module" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="488">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="411" width="335" height="99"/>

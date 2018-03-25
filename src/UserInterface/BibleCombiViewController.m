@@ -102,7 +102,7 @@
     
     BOOL loaded = YES;
     for(HostableViewController *hc in parBibleViewControllers) {
-        if(!hc.viewLoaded) {
+        if(!hc.myIsViewLoaded) {
             loaded = NO;
         } else {
             [parBibleSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
@@ -110,7 +110,7 @@
         }
     }
     for(HostableViewController *hc in parMiscViewControllers) {
-        if(!hc.viewLoaded) {
+        if(!hc.myIsViewLoaded) {
             loaded = NO;
         } else {
             [parMiscSplitView addSubview:[hc view] positioned:NSWindowAbove relativeTo:nil];        
@@ -121,7 +121,7 @@
         [self reportLoadingComplete];
     }
 
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
 }
 
 #pragma mark - Methods
@@ -206,7 +206,7 @@
 }
 
 - (void)tileSubViews {
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         // what we also do here is recalculate the view size so all
         // views have the same size
         NSRect contentRect = [[self view] frame];
@@ -516,7 +516,7 @@
 #pragma mark - ProgressIndicating
 
 - (void)beginIndicateProgress {
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         [self putProgressOverlayView];
         
         progressStartedCounter++;
@@ -524,7 +524,7 @@
 }
 
 - (void)endIndicateProgress {
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         if(progressStartedCounter > 0) {
             --progressStartedCounter;
         }
@@ -550,7 +550,7 @@
 
 
 - (void)contentViewInitFinished:(HostableViewController *)aViewController {
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         [self _addContentViewController:(ContentDisplayingViewController *)aViewController];
     }
 }

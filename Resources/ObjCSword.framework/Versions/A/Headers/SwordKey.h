@@ -16,32 +16,31 @@
 #ifdef __cplusplus
     sword::SWKey *sk;
 #endif
-    BOOL created;
 }
-
-+ (SwordKey *)swordKey;
-+ (SwordKey *)swordKeyWithRef:(NSString *)aRef;
 
 #ifdef __cplusplus
 + (SwordKey *)swordKeyWithSWKey:(sword::SWKey *)aSk;
-+ (SwordKey *)swordKeyWithSWKey:(sword::SWKey *)aSk makeCopy:(BOOL)copy;
++ (SwordKey *)swordKeyWithNewSWKey:(sword::SWKey *)aSk;
+
+/**
+    This is only an assigned key. The module will handle deleting it.
+*/
 - (SwordKey *)initWithSWKey:(sword::SWKey *)aSk;
-- (SwordKey *)initWithSWKey:(sword::SWKey *)aSk makeCopy:(BOOL)copy;
+
+/**
+    We have to handle deletion of this.
+*/
+- (SwordKey *)initWithNewSWKey:(sword::SWKey *)aSk;
 - (sword::SWKey *)swKey;
 #endif
 
-- (SwordKey *)initWithRef:(NSString *)aRef;
-
-- (SwordKey *)clone;
-- (void)setPersist:(BOOL)flag;
-- (BOOL)persist;
+@property (assign, readwrite) NSString *keyText;
 
 - (int)error;
 
-- (void)setPosition:(int)aPosition;
 - (void)decrement;
 - (void)increment;
-- (NSString *)keyText;
-- (void)setKeyText:(NSString *)aKey;
+
+- (void)setPosition:(int)pos;
 
 @end

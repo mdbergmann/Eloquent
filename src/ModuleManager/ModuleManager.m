@@ -24,12 +24,11 @@
 @interface ModuleManager ()
 
 @property (strong, nonatomic) ConfirmationSheetController *confirmSheet;
+@property (strong, readwrite) SwordInstallSourceManager *installSourceManager;
 
 @end
 
 @implementation ModuleManager
-
-@synthesize delegate;
 
 - (id)init {
 	return [self initWithDelegate:nil];
@@ -37,26 +36,21 @@
 
 - (id)initWithDelegate:(id)aDelegate {
 	self = [super initWithWindowNibName:@"ModuleManager" owner:self];
-	if(self == nil) {
-		CocoLog(LEVEL_ERR, @"");		
-	}
-	else {
+	if(self) {
         // init install manager
-        SwordInstallSourceManager *installSourceManager = [[SwordInstallSourceManager alloc]
+        self.installSourceManager = [[SwordInstallSourceManager alloc]
                                                            initWithPath:[[FolderUtil urlForInstallMgrModulesFolder] path]
                                                            createPath:YES];
-        [installSourceManager setFtpPassword:@"eloquent@crosswire.org"];
-        [installSourceManager useAsDefaultManager];
-        [installSourceManager initManager];
+        [self.installSourceManager setFtpPassword:@"eloquent@crosswire.org"];
+        [self.installSourceManager useAsDefaultManager];
+        [self.installSourceManager initManager];
         
-        delegate = aDelegate;
+        self.delegate = aDelegate;
         moduleViewController = [[ModuleManageViewController alloc] initWithDelegate:self parent:[self window]];
 	}
 	
 	return self;    
 }
-
-
 
 - (void)showWindow:(id)sender {
     [super showWindow:sender];
@@ -186,8 +180,8 @@
 - (void)windowWillClose:(NSNotification *)notification {
     CocoLog(LEVEL_DEBUG, @"");
     // tell delegate that we are closing
-    if(delegate && [delegate respondsToSelector:@selector(auxWindowClosing:)]) {
-        [delegate performSelector:@selector(auxWindowClosing:) withObject:self];
+    if(self.delegate && [self.delegate respondsToSelector:@selector(auxWindowClosing:)]) {
+        [self.delegate performSelector:@selector(auxWindowClosing:) withObject:self];
     } else {
         CocoLog(LEVEL_WARN, @"delegate does not respond to selector!");
     }

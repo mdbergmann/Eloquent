@@ -569,7 +569,7 @@ extern char BookmarkMgrUI;
 #pragma mark - ProgressIndicating
 
 - (void)beginIndicateProgress {
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         // delegate to host if needed
         // delegates can be:
         // - BibleCombiViewController
@@ -583,7 +583,7 @@ extern char BookmarkMgrUI;
 }
 
 - (void)endIndicateProgress {
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         // delegate to host if needed
         // delegates can be:
         // - BibleCombiViewController

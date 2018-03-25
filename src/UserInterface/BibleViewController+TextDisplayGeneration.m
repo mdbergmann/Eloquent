@@ -50,7 +50,7 @@
         
         for(SearchResultEntry *searchResultEntry in searchResults) {            
             if([searchResultEntry keyString] != nil) {
-                NSArray *content = [(SwordBible *)module strippedTextEntriesForRef:[searchResultEntry keyString] context:(int)textContext];
+                NSArray *content = [(SwordBible *)module strippedTextEntriesForReference:[searchResultEntry keyString] context:(int)textContext];
                 for(SwordModuleTextEntry *textEntry in content) {
                     // get data
                     NSString *keyStr = [textEntry key];
@@ -140,18 +140,16 @@
     lastChapter = -1;
     lastBook = -1;
 
-    [module lockModuleAccess];
-
     NSMutableDictionary *duplicateChecker = [NSMutableDictionary dictionary];
 
-    NSArray *textEntries = [(SwordBible *) [self module] renderedTextEntriesForRef:searchString context:(int)textContext];
+    NSArray *textEntries = [(SwordBible *) [self module] renderedTextEntriesForReference:searchString context:(int)textContext];
+
     int numberOfVerses = (int)[textEntries count];
 
     for(SwordBibleTextEntry *te in textEntries) {
         [self handleTextEntry:te duplicateDict:duplicateChecker htmlString:htmlString];
     }
 
-    [module unlockModuleAccess];
     [contentCache setCount:numberOfVerses];
     
     return htmlString;
@@ -166,6 +164,7 @@
     if(entry && (duplicateDict[[entry key]] == nil)) {
         duplicateDict[[entry key]] = entry;
 
+        /*
         BOOL collectPreverseHeading = ([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
         if(collectPreverseHeading) {
             NSString *preverseHeading = [module entryAttributeValuePreverse];
@@ -173,16 +172,16 @@
                 [entry setPreVerseHeading:preverseHeading];
             }
         }
+         */
         
-        [self applyBookmarkHighlightingOnTextEntry:entry];
-        [self appendHTMLFromTextEntry:entry atHTMLString:htmlString];        
+        [self appendHTMLFromTextEntry:[self applyBookmarkHighlightingOnTextEntry:entry] atHTMLString:htmlString];
     }
 }
 
 /**
  Highlight is this is a bookmark.
  */
-- (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry {
+- (SwordBibleTextEntry *)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry {
     BOOL isHighlightBookmarks = [displayOptions[DefaultsBibleTextHighlightBookmarksKey] boolValue];
     if(isHighlightBookmarks) {
         Bookmark *bm = [[BookmarkManager defaultManager] bookmarkForReference:[SwordVerseKey verseKeyWithRef:[anEntry key]]];
@@ -195,13 +194,15 @@
             [fCol getRed:&fr green:&fg blue:&fb alpha:NULL];
             
             // apply colors
-            [anEntry setText:
-             [NSString stringWithFormat:@"<span style=\"color:rgb(%i%%, %i%%, %i%%); background-color:rgb(%i%%, %i%%, %i%%);\">%@</span>",
-              (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0),
-              (int)(br * 100.0), (int)(bg * 100.0), (int)(bb * 100.0),
-              [anEntry text]]];
+            return [SwordBibleTextEntry textEntryForKey:[anEntry key] andText:
+                    [NSString stringWithFormat:@"<span style=\"color:rgb(%i%%, %i%%, %i%%); background-color:rgb(%i%%, %i%%, %i%%);\">%@</span>",
+                                               (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0),
+                                               (int)(br * 100.0), (int)(bg * 100.0), (int)(bb * 100.0),
+                                               [anEntry text]]];
         }
     }
+
+    return anEntry;
 }
 
 /**

@@ -20,19 +20,13 @@
 #ifdef __cplusplus
     sword::VersificationMgr::Book *swBook;
 #endif
-    
-    NSString *localizedName;
-    int number;
-    int numberInTestament;
-    int testament;
-    NSArray *chapters;
 }
 
 @property (readwrite) int number;
-@property (readwrite) int numberInTestament;
-@property (readwrite) int testament;
-@property (strong, readwrite) NSString *localizedName;
-@property (strong, readwrite) NSArray *chapters;
+@property (readonly) int numberInTestament;
+@property (readonly) int testament;
+@property (retain, readonly) NSString *localizedName;
+@property (retain, readonly) NSArray *chapters;
 
 #ifdef __cplusplus
 - (id)initWithBook:(sword::VersificationMgr::Book *)aBook;

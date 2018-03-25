@@ -19,7 +19,7 @@
 @property (strong, readwrite) IBOutlet id delegate;
 
 - (void)refreshModulesList;
-- (void)updateSwordManager;
+- (void)refreshSwordManager;
 
 - (IBAction)search:(id)sender;
 - (IBAction)languageFilter:(id)sender;

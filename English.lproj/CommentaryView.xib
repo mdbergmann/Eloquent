@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CommentaryViewController">
@@ -34,25 +35,21 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <box title="Box" boxType="custom" borderType="none" titlePosition="noTitle" id="16">
+                <box boxType="custom" borderType="none" title="Box" titlePosition="noTitle" id="16">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="483"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <view key="contentView" id="qLB-jg-hHj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="483"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </box>
-                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="71">
+                <box verticalHuggingPriority="750" boxType="separator" id="71">
                     <rect key="frame" x="0.0" y="482" width="600" height="5"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <font key="titleFont" metaFont="system"/>
                 </box>
-                <customView id="35">
-                    <rect key="frame" x="0.0" y="485" width="600" height="15"/>
+                <customView misplaced="YES" id="35">
+                    <rect key="frame" x="0.0" y="484" width="600" height="15"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <textField verticalHuggingPriority="750" id="36">
@@ -68,12 +65,9 @@
                                 <binding destination="51" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="56" id="57"/>
                             </connections>
                         </textField>
-                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="146">
+                        <box horizontalHuggingPriority="750" boxType="separator" id="146">
                             <rect key="frame" x="270" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
                         <button id="144">
                             <rect key="frame" x="235" y="0.0" width="35" height="15"/>
@@ -88,12 +82,9 @@
                                 <binding destination="51" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="147" id="148"/>
                             </connections>
                         </button>
-                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="61">
+                        <box horizontalHuggingPriority="750" boxType="separator" id="61">
                             <rect key="frame" x="230" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
                         <button id="59">
                             <rect key="frame" x="160" y="0.0" width="70" height="15"/>
@@ -104,23 +95,17 @@
                             </buttonCell>
                             <connections>
                                 <action selector="closeButton:" target="-2" id="72"/>
-                                <binding destination="51" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="69" id="tXT-fO-QMJ"/>
                                 <binding destination="51" name="fontFamilyName" keyPath="values.DefaultsHeaderViewFontFamilyKey" id="69"/>
+                                <binding destination="51" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="69" id="tXT-fO-QMJ"/>
                             </connections>
                         </button>
-                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="60">
+                        <box horizontalHuggingPriority="750" boxType="separator" id="60">
                             <rect key="frame" x="155" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
-                        <box horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="58">
+                        <box horizontalHuggingPriority="750" boxType="separator" id="58">
                             <rect key="frame" x="100" y="0.0" width="5" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
                         <popUpButton id="38">
                             <rect key="frame" x="0.0" y="0.0" width="100" height="15"/>
@@ -142,8 +127,8 @@
                                 <binding destination="51" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="52" id="53"/>
                             </connections>
                         </popUpButton>
-                        <popUpButton id="213">
-                            <rect key="frame" x="108" y="0.0" width="50" height="15"/>
+                        <popUpButton misplaced="YES" id="213">
+                            <rect key="frame" x="105" y="0.0" width="50" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="bevel" title="Add" bezelStyle="rounded" alignment="center" controlSize="mini" lineBreakMode="truncatingTail" state="on" borderStyle="bezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="arrowAtCenter" selectedItem="216" id="214">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -155,8 +140,8 @@
                                 </menu>
                             </popUpButtonCell>
                             <connections>
-                                <binding destination="51" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="218" id="uYY-TB-fIx"/>
                                 <binding destination="51" name="fontFamilyName" keyPath="values.DefaultsHeaderViewFontFamilyKey" id="218"/>
+                                <binding destination="51" name="fontSize" keyPath="values.DefaultsHeaderViewFontSizeKey" previousBinding="218" id="uYY-TB-fIx"/>
                             </connections>
                         </popUpButton>
                     </subviews>
@@ -177,7 +162,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Text Context" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="320" id="311">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="cellTitle"/>
                                 <menu key="menu" title="OtherViews" id="312">
                                     <items>
                                         <menuItem title="Text Context" hidden="YES" id="320">
@@ -213,7 +198,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Font size" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="303" id="301">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="system" size="12"/>
                                 <menu key="menu" title="OtherViews" id="302">
                                     <items>
                                         <menuItem title="Font size" hidden="YES" id="303">
@@ -249,7 +234,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Display Options" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="299" id="297">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="system" size="12"/>
                                 <menu key="menu" title="OtherViews" id="298">
                                     <items>
                                         <menuItem title="Display Options" hidden="YES" id="300">
@@ -267,7 +252,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Mod Options" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="288" id="286">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="systemBold" size="12"/>
+                                <font key="font" metaFont="system" size="12"/>
                                 <menu key="menu" title="OtherViews" id="287">
                                     <items>
                                         <menuItem title="Mod Options" hidden="YES" id="288"/>
@@ -397,22 +382,22 @@
             <rect key="frame" x="0.0" y="0.0" width="200" height="485"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <box autoresizesSubviews="NO" title="Box" borderType="line" titlePosition="noTitle" id="262">
+                <box autoresizesSubviews="NO" borderType="line" title="Box" titlePosition="noTitle" id="262">
                     <rect key="frame" x="-3" y="423" width="206" height="64"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <view key="contentView" id="QLj-kt-oM0">
                         <rect key="frame" x="1" y="1" width="204" height="62"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl verticalHuggingPriority="750" id="269">
-                                <rect key="frame" x="60" y="12" width="80" height="18"/>
+                            <segmentedControl verticalHuggingPriority="750" misplaced="YES" id="269">
+                                <rect key="frame" x="46" y="11" width="111" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <segmentedCell key="cell" controlSize="mini" state="on" borderStyle="border" alignment="left" style="roundRect" trackingMode="momentary" id="272">
-                                    <font key="font" metaFont="miniSystem"/>
+                                <segmentedCell key="cell" controlSize="small" state="on" borderStyle="border" alignment="left" style="roundRect" trackingMode="momentary" id="272">
+                                    <font key="font" metaFont="smallSystem"/>
                                     <segments>
-                                        <segment image="NSGoLeftTemplate" width="16"/>
-                                        <segment label="Chapter" width="40" tag="1"/>
-                                        <segment image="NSGoRightTemplate" width="16" tag="2">
+                                        <segment image="NSGoLeftTemplate" width="25"/>
+                                        <segment label="Chapter" width="55" tag="1"/>
+                                        <segment image="NSGoRightTemplate" width="25" tag="2">
                                             <nil key="label"/>
                                         </segment>
                                     </segments>
@@ -421,15 +406,15 @@
                                     <action selector="chapterPagerAction:" target="-2" id="277"/>
                                 </connections>
                             </segmentedControl>
-                            <segmentedControl verticalHuggingPriority="750" id="270">
-                                <rect key="frame" x="60" y="34" width="80" height="18"/>
+                            <segmentedControl verticalHuggingPriority="750" misplaced="YES" id="270">
+                                <rect key="frame" x="46" y="35" width="111" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <segmentedCell key="cell" controlSize="mini" state="on" borderStyle="border" alignment="left" style="roundRect" trackingMode="momentary" id="271">
-                                    <font key="font" metaFont="miniSystem"/>
+                                <segmentedCell key="cell" controlSize="small" state="on" borderStyle="border" alignment="left" style="roundRect" trackingMode="momentary" id="271">
+                                    <font key="font" metaFont="smallSystem"/>
                                     <segments>
-                                        <segment image="NSGoLeftTemplate" width="16"/>
-                                        <segment label="Book" width="40" tag="1"/>
-                                        <segment image="NSGoRightTemplate" width="16" tag="2">
+                                        <segment image="NSGoLeftTemplate" width="25"/>
+                                        <segment label="Book" width="55" tag="1"/>
+                                        <segment image="NSGoRightTemplate" width="25" tag="2">
                                             <nil key="label"/>
                                         </segment>
                                     </segments>
@@ -440,18 +425,16 @@
                             </segmentedControl>
                         </subviews>
                     </view>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </box>
                 <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="263">
                     <rect key="frame" x="0.0" y="0.0" width="200" height="426"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" id="06h-2B-SQK">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="426"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="267" id="266">
-                                <rect key="frame" x="0.0" y="0.0" width="200" height="19"/>
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="426"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" red="0.87634407999999997" green="0.87634407999999997" blue="0.87634407999999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -489,6 +472,7 @@
                     </scroller>
                 </scrollView>
             </subviews>
+            <point key="canvasLocation" x="155" y="140"/>
         </customView>
     </objects>
     <resources>

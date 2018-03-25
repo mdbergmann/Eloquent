@@ -14,48 +14,47 @@
 @interface SwordFilter : NSObject
 
 #ifdef __cplusplus
-- (id)initWithSWFilter:(sword::SWFilter *)swFilter;
 - (sword::SWFilter *)swFilter;
 #endif
 
 @end
 
 @interface SwordOsisHtmlRefFilter : SwordFilter
-+ (SwordOsisHtmlRefFilter *)filter;
++ (SwordOsisHtmlRefFilter *)newFilter;
 @end
 
 @interface SwordOsisPlainFilter : SwordFilter
-+ (SwordOsisPlainFilter *)filter;
++ (SwordOsisPlainFilter *)newFilter;
 @end
 
 @interface SwordOsisXHtmlFilter : SwordFilter
-+ (SwordOsisXHtmlFilter *)filter;
++ (SwordOsisXHtmlFilter *)newFilter;
 @end
 
 @interface SwordThmlHtmlFilter : SwordFilter
-+ (SwordThmlHtmlFilter *)filter;
++ (SwordThmlHtmlFilter *)newFilter;
 @end
 
 @interface SwordThmlPlainFilter : SwordFilter
-+ (SwordThmlPlainFilter *)filter;
++ (SwordThmlPlainFilter *)newFilter;
 @end
 
 @interface SwordGbfHtmlFilter : SwordFilter
-+ (SwordGbfHtmlFilter *)filter;
++ (SwordGbfHtmlFilter *)newFilter;
 @end
 
 @interface SwordGbfPlainFilter : SwordFilter
-+ (SwordGbfPlainFilter *)filter;
++ (SwordGbfPlainFilter *)newFilter;
 @end
 
 @interface SwordTeiHtmlFilter : SwordFilter
-+ (SwordTeiHtmlFilter *)filter;
++ (SwordTeiHtmlFilter *)newFilter;
 @end
 
 @interface SwordTeiXHtmlFilter : SwordFilter
-+ (SwordTeiXHtmlFilter *)filter;
++ (SwordTeiXHtmlFilter *)newFilter;
 @end
 
 @interface SwordTeiPlainFilter : SwordFilter
-+ (SwordTeiPlainFilter *)filter;
++ (SwordTeiPlainFilter *)newFilter;
 @end

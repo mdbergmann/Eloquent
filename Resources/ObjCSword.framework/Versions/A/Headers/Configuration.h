@@ -12,7 +12,7 @@
  To define your own configuration:
  Create a subclass of Configuration and override the methods there (as done in OSXConfiguration).
  To globally apply your configuration do:
- [[Configuration config] setClass:[<YourConfigSubclass> class]];
+ [[Configuration config] setImpl:[<YourConfigSubclass> class]];
  */
 
 @protocol Configuration
@@ -26,9 +26,7 @@
 
 @end
 
-@interface Configuration : NSObject <Configuration> {
-    Configuration *impl;
-}
+@interface Configuration : NSObject <Configuration>
 
 + (Configuration *)config;
 + (Configuration *)configWithImpl:(id<Configuration>)configImpl;
@@ -39,7 +37,5 @@
 - (NSString *)defaultAppSupportPath;
 - (NSString *)tempFolder;
 - (NSString *)logFile;
-
-- (void)setImpl:(id<Configuration>)configImpl;
 
 @end

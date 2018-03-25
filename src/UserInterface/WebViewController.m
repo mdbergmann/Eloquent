@@ -24,7 +24,7 @@
         CocoLog(LEVEL_DEBUG, @"loading nib");
         
         // init values
-        viewLoaded = NO;
+        myIsViewLoaded = NO;
         self.delegate = aDelegate;
         
         // load nib
@@ -43,7 +43,7 @@
 
 
 - (void)awakeFromNib {
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
     [self reportLoadingComplete];
 }
 

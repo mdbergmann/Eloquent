@@ -82,7 +82,7 @@ extern char NotesMgrUI;
     [self displayText];
     [saveButton setEnabled:NO];
     
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
     [self reportLoadingComplete];
 }
 

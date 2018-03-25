@@ -33,12 +33,11 @@
         self.moduleSelection = [NSMutableArray array];
         self.languageMap = [NSDictionary dictionary];
         [self setLangFilter:NSLocalizedString(@"All", @"")];
-        [self updateSwordManager];
+        [self refreshSwordManager];
     }
 
     return self;
 }
-
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -103,7 +102,7 @@
     [languagesButton selectItemWithTitle:[self langFilter]];
 }
 
-- (void)updateSwordManager {
+- (void)refreshSwordManager {
     self.swordManager = [SwordManager managerWithPath:[[FolderUtil urlForModulesFolder] path]];
 }
 

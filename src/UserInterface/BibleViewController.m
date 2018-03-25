@@ -113,7 +113,7 @@
 
     // if our hosted subview also has loaded, report that
     // else, reporting is done in -contentViewInitFinished
-    if([contentDisplayController viewLoaded]) {
+    if([contentDisplayController myIsViewLoaded]) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
@@ -123,7 +123,7 @@
         [self reportLoadingComplete];
     }
     
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
 }
 
 #pragma mark - methods
@@ -147,7 +147,6 @@
     
     self.outlineViewItems = [self buildOutlineItemsCache];
 }
-
 
 /**
  overriding from super class
@@ -403,7 +402,7 @@
 #pragma mark - SubviewHosting
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];

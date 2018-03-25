@@ -83,7 +83,7 @@
         
     // if our hosted subview also has loaded, report that
     // else, wait until the subview has loaded and report then
-    if([(HostableViewController *)contentDisplayController viewLoaded]) {
+    if([(HostableViewController *) contentDisplayController myIsViewLoaded]) {
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
@@ -95,7 +95,7 @@
         [self displayTextForReference:searchString searchType:searchType];    
     }
 
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
 }
 
 
@@ -119,7 +119,7 @@
             // select the first one found
             NSArray *modArray = [[SwordManager defaultManager] modulesForType:Genbook];
             if([modArray count] > 0) {
-                [self setModule:[modArray objectAtIndex:0]];
+                [self setModule:modArray[0]];
                 // and redisplay if needed
                 [self displayTextForReference:searchString searchType:searchType];
             }
@@ -144,9 +144,9 @@
         NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
                                               size:[self customFontSize]];
 
-        NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-        NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
-        [contentAttributes setObject:[UserDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *keyAttributes = @{NSFontAttributeName: keyFont};
+        NSMutableDictionary *contentAttributes = [@{NSFontAttributeName: contentFont} mutableCopy];
+        contentAttributes[NSForegroundColorAttributeName] = [UserDefaults colorForKey:DefaultsTextForegroundColor];
         
         // strip binary search tokens
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
@@ -157,10 +157,10 @@
             
             NSString *contentStr = @"";
             if([entry keyString] != nil) {
-                NSArray *strippedEntries = [module strippedTextEntriesForRef:[entry keyString]];
+                NSArray *strippedEntries = [module strippedTextEntriesForReference:[entry keyString]];
                 if([strippedEntries count] > 0) {
                     // get content
-                    contentStr = [[strippedEntries objectAtIndex:0] text];                    
+                    contentStr = [strippedEntries[0] text];
                 }
             }
             
@@ -181,10 +181,10 @@
     NSArray *keyArray = selection;
     [contentCache setCount:[keyArray count]];
     for(NSString *key in keyArray) {
-        NSArray *result = [self.module renderedTextEntriesForRef:key];
+        NSArray *result = [self.module renderedTextEntriesForReference:key];
         NSString *text = @"";
         if([result count] > 0) {
-            text = [[result objectAtIndex:0] text];
+            text = [result[0] text];
         }
         [htmlString appendFormat:@"<b>%@:</b><br />", key];
         [htmlString appendFormat:@"%@<br /><br />\n", text];
@@ -194,13 +194,12 @@
     // setup options
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     // set string encoding
-    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
-                forKey:NSCharacterEncodingDocumentOption];
+    options[NSCharacterEncodingDocumentOption] = @(NSUTF8StringEncoding);
     // set web preferences
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
     // set custom font size
     [webPrefs setDefaultFontSize:(int)customFontSize];
-    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
+    options[NSWebPreferencesDocumentOption] = webPrefs;
     
     // set scroll to line height
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
@@ -223,10 +222,10 @@
 	NSUInteger	i = 0;
 	while (i < [attrString length]) {
         NSDictionary *attrs = [attrString attributesAtIndex:i effectiveRange:&effectiveRange];
-		if([attrs objectForKey:NSLinkAttributeName] != nil) {
+		if(attrs[NSLinkAttributeName] != nil) {
             // add pointing hand cursor
             attrs = [attrs mutableCopy];
-            [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+            ((NSMutableDictionary *) attrs)[NSCursorAttributeName] = [NSCursor pointingHandCursor];
             [attrString setAttributes:attrs range:effectiveRange];
 		}
 		i += effectiveRange.length;
@@ -255,11 +254,7 @@
 }
 
 - (BOOL)hasValidCacheObject {
-    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString]) {
-        return YES;
-    }
-    
-    return NO;
+    return searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString];
 }
 
 - (void)handleDisplayForReference {
@@ -327,7 +322,7 @@
 }
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    if(viewLoaded == YES) {
+    if(myIsViewLoaded) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
@@ -347,7 +342,7 @@
 #pragma mark - Module selection
 
 - (void)moduleSelectionChanged:(NSMenuItem *)sender {
-    NSString *name = [(NSMenuItem *)sender title];
+    NSString *name = [sender title];
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:name];
         
@@ -421,11 +416,11 @@
     SwordModuleTreeEntry *ret;
     if(item == nil) {
         SwordModuleTreeEntry *treeEntry = [(SwordBook *)module treeEntryForKey:nil];
-        NSString *key = [[treeEntry content] objectAtIndex:(NSUInteger)index];
+        NSString *key = [treeEntry content][(NSUInteger) index];
         ret = [(SwordBook *)module treeEntryForKey:key];
 	} else {
         SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
-        NSString *key = [[treeEntry content] objectAtIndex:(NSUInteger)index];
+        NSString *key = [treeEntry content][(NSUInteger) index];
         ret = [(SwordBook *)module treeEntryForKey:key];
     }
     

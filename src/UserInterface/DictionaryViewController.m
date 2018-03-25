@@ -89,7 +89,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    if([(HostableViewController *)contentDisplayController viewLoaded]) {
+    if([(HostableViewController *) contentDisplayController myIsViewLoaded]) {
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
         
@@ -99,7 +99,7 @@
         
     [self displayTextForReference:@""];
 
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
 }
 
 
@@ -141,7 +141,7 @@
             // select the first one found
             NSArray *modArray = [[SwordManager defaultManager] modulesForType:Dictionary];
             if([modArray count] > 0) {
-                [self setModule:[modArray objectAtIndex:0]];
+                [self setModule:modArray[0]];
                 // and redisplay if needed
                 [self displayTextForReference:searchString searchType:searchType];
             }
@@ -154,6 +154,17 @@
 - (void)setStatusText:(NSString *)aText {
     [statusLine setStringValue:aText];
 }
+
+/*
+- (void)moduleChanged {
+    [super moduleChanged];
+
+    [selection removeAllObjects];
+    if(module != nil) {
+        self.dictKeys = [(SwordDictionary *)module allKeys];
+    }
+}
+ */
 
 - (NSAttributedString *)displayableHTMLForIndexedSearchResults:(NSArray *)searchResults {
     NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:@""];
@@ -170,9 +181,9 @@
         NSFont *contentFont = [NSFont fontWithName:[normalDisplayFont familyName] 
                                               size:[self customFontSize]];
 
-        NSDictionary *keyAttributes = [NSDictionary dictionaryWithObject:keyFont forKey:NSFontAttributeName];
-        NSMutableDictionary *contentAttributes = [NSMutableDictionary dictionaryWithObject:contentFont forKey:NSFontAttributeName];
-        [contentAttributes setObject:[UserDefaults colorForKey:DefaultsTextForegroundColor] forKey:NSForegroundColorAttributeName];
+        NSDictionary *keyAttributes = @{NSFontAttributeName: keyFont};
+        NSMutableDictionary *contentAttributes = [@{NSFontAttributeName: contentFont} mutableCopy];
+        contentAttributes[NSForegroundColorAttributeName] = [UserDefaults colorForKey:DefaultsTextForegroundColor];
         
         // strip binary search tokens
         NSString *searchQuery = [NSString stringWithString:[Highlighter stripSearchQuery:searchString]];
@@ -205,21 +216,20 @@
         // generate html string for verses
         NSMutableString *htmlString = [NSMutableString string];
         for(NSString *key in keyArray) {
-            NSArray *result = [module renderedTextEntriesForRef:key];
+            NSArray *result = [module renderedTextEntriesForReference:key];
             NSString *text = @"";
             if([result count] > 0) {
-                text = [[result objectAtIndex:0] text];
+                text = [result[0] text];
             }
             [htmlString appendFormat:@"<b>%@:</b><br />", key];
             [htmlString appendFormat:@"%@<br /><br />\n", text];
         }
         
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] 
-                    forKey:NSCharacterEncodingDocumentOption];
+        options[NSCharacterEncodingDocumentOption] = @(NSUTF8StringEncoding);
         WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
         [webPrefs setDefaultFontSize:(int)customFontSize];
-        [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
+        options[NSWebPreferencesDocumentOption] = webPrefs;
 
         NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
         NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
@@ -241,10 +251,10 @@
         NSUInteger	i = 0;
         while (i < [attrString length]) {
             NSDictionary *attrs = [attrString attributesAtIndex:i effectiveRange:&effectiveRange];
-            if([attrs objectForKey:NSLinkAttributeName] != nil) {
+            if(attrs[NSLinkAttributeName] != nil) {
                 // add pointing hand cursor
                 attrs = [attrs mutableCopy];
-                [(NSMutableDictionary *)attrs setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+                ((NSMutableDictionary *) attrs)[NSCursorAttributeName] = [NSCursor pointingHandCursor];
                 [attrString setAttributes:attrs range:effectiveRange];
             }
             i += effectiveRange.length;
@@ -261,10 +271,7 @@
 #pragma mark - TextDisplayable protocol
 
 - (BOOL)hasValidCacheObject {
-    if(searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString]) {
-        return YES;
-    }
-    return NO;
+    return searchType == IndexSearchType && [[searchContentCache reference] isEqualToString:searchString];
 }
 
 - (void)handleDisplayForReference {
@@ -307,7 +314,7 @@
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
     [self displayTextForReference:searchString];
-    [self selectTableViewEntriesFromSelection];
+//    [self selectTableViewEntriesFromSelection];
 }
 
 - (NSString *)title {
@@ -347,7 +354,7 @@
 }
 
 - (void)contentViewInitFinished:(HostableViewController *)aView {
-    if(viewLoaded == YES) {
+    if(myIsViewLoaded) {
         // set sync scroll view
         [(ScrollSynchronizableView *)[self view] setSyncScrollView:[(id<TextContentProviding>)contentDisplayController scrollView]];
         [(ScrollSynchronizableView *)[self view] setTextView:[(id<TextContentProviding>)contentDisplayController textView]];
@@ -399,7 +406,7 @@
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
 				
 				for(int i = 0;i < len;i++) {
-                    item = [dictKeys objectAtIndex:indexes[i]];
+                    item = dictKeys[indexes[i]];
                     [sel addObject:item];
 				}
             }
@@ -428,7 +435,7 @@
     NSString *ret = @"";
     
     if(self.module != nil) {
-        ret = [dictKeys objectAtIndex:(NSUInteger)rowIndex];
+        ret = dictKeys[(NSUInteger) rowIndex];
     }
     
     return ret;

@@ -34,7 +34,7 @@
 /** stores the edited comment */
 - (void)saveCommentaryText;
 - (void)replaceLinksWithAnchorTags;
-- (void)applyModuleEditability;
+- (void)applyModuleEditAbility;
 - (void)_loadNib;
 @end
 
@@ -80,13 +80,13 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
-    [self applyModuleEditability];
+
+    [self applyModuleEditAbility];
 }
 
 #pragma mark - Methods
 
-- (void)applyModuleEditability {
+- (void)applyModuleEditAbility {
     BOOL editable = NO;
     if(module) {
         if([module isEditable]) {
@@ -108,7 +108,7 @@
         if(![[SwordManager defaultManager] moduleWithName:[module name]]) {
             NSArray *modArray = [[SwordManager defaultManager] modulesForType:Commentary];
             if([modArray count] > 0) {
-                [self setModule:[modArray objectAtIndex:0]];
+                [self setModule:modArray[0]];
                 [self displayTextForReference:searchString searchType:searchType];
             }
         }
@@ -164,49 +164,26 @@
      </style>\n", 
      (int)(fr * 100.0), (int)(fg * 100.0), (int)(fb * 100.0)];
 
-    [module lockModuleAccess];
-    // we skip consecutive links. Commentary module does that by default.
-    SwordListKey *lk = [SwordListKey listKeyWithRef:searchString v11n:[module versification]];    
-    [lk setPersist:YES];
-    [lk setPosition:SWPOS_TOP];
-    [module setSwordKey:lk];
-    NSInteger numberOfVerses = 0;
-    NSString *ref;
-    NSString *rendered;
-    while(![module error]) {
-        ref = [lk keyText];
-        rendered = [module renderedText];
-        
-        NSString *bookName;
-        int chapter;
-        int verse;
-        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:ref v11n:[module versification]];
-        bookName = [verseKey bookName];
-        chapter = [verseKey chapter];
-        verse = [verseKey verse];
-        
-        // the verse link, later we have to add percent escapes
-        NSString *verseInfo = [NSString stringWithFormat:@"%@|%i|%i", bookName, chapter, verse];
+    NSMutableDictionary *duplicateChecker = [NSMutableDictionary dictionary];
 
-        [htmlString appendFormat:@";;;%@;;;", verseInfo];
-        [htmlString appendFormat:@"%@<br />\n", rendered];
+    NSArray *textEntries = [(SwordBible *) [self module] renderedTextEntriesForReference:searchString context:(int)textContext];
 
-        [module incKeyPosition];
-        numberOfVerses++;
+    int numberOfVerses = (int)[textEntries count];
+
+    for(SwordBibleTextEntry *te in textEntries) {
+        [self handleTextEntry:te duplicateDict:duplicateChecker htmlString:htmlString];
     }
-    // reset key
-    [module setKeyString:@"gen1.1"];
-    [module unlockModuleAccess];
+
     [contentCache setCount:numberOfVerses];
-    
+
     // create attributed string
     // setup options
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
-    [options setObject:[NSNumber numberWithInt:NSUTF8StringEncoding] forKey:NSCharacterEncodingDocumentOption];
+    options[NSCharacterEncodingDocumentOption] = @(NSUTF8StringEncoding);
     // set web preferences
     WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:[[self module] name]];
     [webPrefs setDefaultFontSize:(int)[self customFontSize]];
-    [options setObject:webPrefs forKey:NSWebPreferencesDocumentOption];
+    options[NSWebPreferencesDocumentOption] = webPrefs;
     // set scroll to line height
     NSFont *normalDisplayFont = [[MBPreferenceController defaultPrefsController] normalDisplayFontForModuleName:[[self module] name]];
     NSFont *font = [NSFont fontWithName:[normalDisplayFont familyName] 
@@ -240,7 +217,7 @@
                 // create marker
                 NSString *marker = [text substringWithRange:NSMakeRange(replaceRange.location+3, replaceRange.length-6)];
                 NSArray *comps = [marker componentsSeparatedByString:@"|"];
-                NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
+                NSString *verseMarker = [NSString stringWithFormat:@"%@ %@:%@", comps[0], comps[1], comps[2]];
                 
                 // prepare verse URL link
                 NSString *verseLink = [NSString stringWithFormat:@"sword://%@/%@", [module name], verseMarker];
@@ -250,7 +227,7 @@
                 NSString *visible = @"";
                 NSRange linkRange = NSMakeRange(0, 0);
                 if(showBookNames) {
-                    visible = [NSString stringWithFormat:@"%@ %@:%@:\n", [comps objectAtIndex:0], [comps objectAtIndex:1], [comps objectAtIndex:2]];
+                    visible = [NSString stringWithFormat:@"%@ %@:%@:\n", comps[0], comps[1], comps[2]];
                     linkRange.location = replaceRange.location;
                     linkRange.length = [visible length] - 2;
                 } else if(showBookAbbr) {
@@ -259,9 +236,9 @@
                 
                 // options
                 NSMutableDictionary *markerOpts = [NSMutableDictionary dictionaryWithCapacity:3];
-                [markerOpts setObject:verseURL forKey:NSLinkAttributeName];
-                [markerOpts setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-                [markerOpts setObject:verseMarker forKey:TEXT_VERSE_MARKER];
+                markerOpts[NSLinkAttributeName] = verseURL;
+                markerOpts[NSCursorAttributeName] = [NSCursor pointingHandCursor];
+                markerOpts[TEXT_VERSE_MARKER] = verseMarker;
                 
                 // replace string
                 [attrString replaceCharactersInRange:replaceRange withString:visible];
@@ -282,6 +259,27 @@
     return attrString;
 }
 
+/**
+ Handles a verse entry.
+ The rendered verse text is appended to htmlString.
+ In case a context setting is set in the UI the duplicateDict will make sure we don't add verses twice.
+ */
+- (void)handleTextEntry:(SwordBibleTextEntry *)entry duplicateDict:(NSMutableDictionary *)duplicateDict htmlString:htmlString {
+    if(entry && (duplicateDict[[entry key]] == nil)) {
+        duplicateDict[[entry key]] = entry;
+
+        NSString *ref = [entry key];
+        NSString *text = [entry text];
+
+        SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:ref v11n:[module versification]];
+        // the verse link, later we have to add percent escapes
+        NSString *verseInfo = [NSString stringWithFormat:@"%@|%i|%i", [verseKey bookName], [verseKey chapter], [verseKey verse]];
+
+        [htmlString appendFormat:@";;;%@;;;", verseInfo];
+        [htmlString appendFormat:@"%@<br />\n", text];
+    }
+}
+
 - (void)saveCommentaryText {
     // go through the text and store it
     NSAttributedString *attrString = [[(id<TextContentProviding>)contentDisplayController textView] attributedString];
@@ -291,7 +289,7 @@
     NSString *currentVerse = nil;
     NSMutableString *currentText = [NSMutableString string];
     for(NSUInteger i = 0;i < [lines count];i++) {
-        NSMutableString *line = [NSMutableString stringWithString:[lines objectAtIndex:i]];
+        NSMutableString *line = [NSMutableString stringWithString:lines[i]];
         // add new line for all lines except the last
         if(i < [lines count]-1) {
             [line appendString:@"\n"];
@@ -314,7 +312,7 @@
                 }
                 
                 // this is a verse marker
-                currentVerse = [attrs objectForKey:TEXT_VERSE_MARKER];
+                currentVerse = attrs[TEXT_VERSE_MARKER];
             } else {
                 [currentText appendString:line];
             }
@@ -392,7 +390,7 @@
 }
 
 - (IBAction)toggleEdit:(id)sender {
-    if(editEnabled == NO) {
+    if(!editEnabled) {
         [self replaceLinksWithAnchorTags];
         
         [[(id<TextContentProviding>)contentDisplayController textView] setEditable:YES];
@@ -432,8 +430,8 @@
 	NSUInteger i = 0;
 	while (i < [displayString length]) {
         NSDictionary *attrs = [displayString attributesAtIndex:i effectiveRange:&effectiveRange];
-        NSURL *url = [attrs objectForKey:NSLinkAttributeName];
-		if(url && ![attrs objectForKey:TEXT_VERSE_MARKER]) {
+        NSURL *url = attrs[NSLinkAttributeName];
+		if(url && !attrs[TEXT_VERSE_MARKER]) {
             NSString *passage = [url path];
             if([passage hasPrefix:@"/"]) {
                 passage = [passage stringByReplacingOccurrencesOfString:@"/" withString:@""];
@@ -467,7 +465,7 @@
 
 - (void)prepareContentForHost:(WindowHostController *)aHostController {
     [super prepareContentForHost:aHostController];
-    [self applyModuleEditability];    
+    [self applyModuleEditAbility];
 }
 
 #pragma mark - ContentSaving protocol

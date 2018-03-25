@@ -34,7 +34,7 @@
 - (void)establishScrollSynchronization:(NSScrollView *)scrollView {
     // loop over all views in parallel bible splitview and deacivate the scroller for all but the most right view
     // let all left scrollview register for notifications from the bounds changes of the most right scrollview
-    if(viewLoaded) {
+    if(myIsViewLoaded) {
         // register observer for notification only for the given one
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(synchronizedViewContentBoundsDidChange:)

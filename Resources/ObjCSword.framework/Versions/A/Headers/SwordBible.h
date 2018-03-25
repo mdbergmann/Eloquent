@@ -25,11 +25,7 @@ typedef enum {
 	NewTestament
 }Testament;
 
-@interface SwordBible : SwordModule {
-    NSDictionary *_books;
-}
-
-@property (strong, readwrite) NSDictionary *books;
+@interface SwordBible : SwordModule
 
 // ----------- class methods -------------
 + (void)decodeRef:(NSString *)ref intoBook:(NSString **)bookName book:(int *)book chapter:(int *)chapter verse:(int *)verse;
@@ -60,15 +56,46 @@ typedef enum {
 // Text pulling
 
 /**
-* @return SwordBibleTextEntry
-*/
-- (SwordModuleTextEntry *)textEntryForKey:(SwordKey *)aKey textType:(TextPullType)aType;
-- (NSArray *)strippedTextEntriesForRef:(NSString *)reference context:(int)context;
-- (NSArray *)renderedTextEntriesForRef:(NSString *)reference context:(int)context;
+ * Overriding from SwordModule to return SwordBibleTextEntry.
+ * @param aReference
+ * @param aType
+ * @return
+ */
+- (SwordModuleTextEntry *)textEntryForReference:(NSString *)aReference renderType:(RenderType)aType;
+
+/**
+ * Delegates to textEntriesForReference:context:textType:
+ * @param aReference the reference like 'Gen 1'
+ * @param context a context setting. when set > 0 then verses surrounding a key will also be retrieved.
+ * @return
+ */
+- (NSArray *)strippedTextEntriesForReference:(NSString *)aReference context:(int)context;
+
+/**
+ * Delegates to textEntriesForReference:context:textType:
+ * @param aReference the reference like 'Gen 1'
+ * @param context a context setting. when set > 0 then verses surrounding a key will also be retrieved.
+ * @return
+ */
+- (NSArray *)renderedTextEntriesForReference:(NSString *)aReference context:(int)context;
+
 /**
  Override from super class
+ Delegates to textEntriesForReference:context:textType:
  @return Array of SwordBibleTextEntry
  */
-- (NSArray *)textEntriesForReference:(NSString *)aReference textType:(TextPullType)textType;
+- (NSArray *)textEntriesForReference:(NSString *)aReference renderType:(RenderType)aType;
+
+/**
+ * The actual implementation.
+ *
+ * It locks and unlock the module.
+ *
+ * @param aReference
+ * @param context
+ * @param aType
+ * @return
+ */
+- (NSArray *)textEntriesForReference:(NSString *)aReference context:(int)context textType:(RenderType)aType;
 
 @end

@@ -10,13 +10,10 @@
 
 @class SwordKey;
 
-@interface SwordModuleTextEntry : NSObject {
-    NSString *key;
-    NSString *text;
-}
+@interface SwordModuleTextEntry : NSObject
 
-@property (readwrite, strong) NSString *key;
-@property (readwrite, strong) NSString *text;
+@property (retain, readonly) NSString *key;
+@property (retain, readonly) NSString *text;
 
 + (id)textEntryForKey:(NSString *)aKey andText:(NSString *)aText;
 - (id)initWithKey:(NSString *)aKey andText:(NSString *)aText;

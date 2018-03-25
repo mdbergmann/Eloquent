@@ -14,13 +14,13 @@
 @implementation NSMutableDictionary (ModuleDisplaySettings)
 
 - (void)setDisplayFont:(NSFont *)aFont {
-    [self setObject:[aFont familyName] forKey:NormalDisplayFontFamilyNameKey];
-    [self setObject:[NSNumber numberWithInt:(int)[aFont pointSize]] forKey:DisplayFontSizeKey];
+    self[NormalDisplayFontFamilyNameKey] = [aFont familyName];
+    self[DisplayFontSizeKey] = @((int) [aFont pointSize]);
 }
 
 - (void)setDisplayFontBold:(NSFont *)aFont {
-    [self setObject:[aFont familyName] forKey:BoldDisplayFontFamilyNameKey];
-    [self setObject:[NSNumber numberWithInt:(int)[aFont pointSize]] forKey:DisplayFontSizeKey];
+    self[BoldDisplayFontFamilyNameKey] = [aFont familyName];
+    self[DisplayFontSizeKey] = @((int) [aFont pointSize]);
 }
 
 - (void)setDisplayDefaultFonts {

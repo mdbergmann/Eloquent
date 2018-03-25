@@ -16,9 +16,9 @@
 */
 @interface FilterProviderFactory : NSObject
 
-+ (instancetype)factory NS_SWIFT_NAME(factory());
++ (FilterProviderFactory *)factory;
 
-- (void)initWithImpl:(id<FilterProvider>)aFilterProvider;
+- (void)initWith:(id<FilterProvider>)aFilterProvider;
 - (id<FilterProvider>)get;
 
 @end

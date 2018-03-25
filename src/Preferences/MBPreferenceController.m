@@ -205,7 +205,7 @@ static MBPreferenceController *instance;
     long fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
 
-    NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
+    NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:aModName];
     if(settings) {
         displayFont = [settings displayFont];
     }
@@ -218,7 +218,7 @@ static MBPreferenceController *instance;
     long fontSize = [UserDefaults integerForKey:DefaultsBibleTextDisplayFontSizeKey];
     NSFont *displayFont = [NSFont fontWithName:fontFamily size:(float)fontSize];
     
-    NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:[aModName lowercaseString]];
+    NSDictionary *settings = [[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey] objectForKey:aModName];
     if(settings) {
         displayFont = [settings displayFontBold];
     }
@@ -262,7 +262,7 @@ static MBPreferenceController *instance;
     // get font data
     //NSString *displayName = [newFont displayName];
     NSString *fontFamily = [newFont familyName];
-    float fontSize = [newFont pointSize];
+    CGFloat fontSize = [newFont pointSize];
     NSString *fontBoldName = [NSString stringWithString:fontFamily];
     if(![fontBoldName hasSuffix:@"Bold"]) {
         NSString *fontBoldNameTemp = [NSString stringWithFormat:@"%@ Bold", fontFamily];
@@ -274,12 +274,12 @@ static MBPreferenceController *instance;
     if(!moduleFontAction) {
         [UserDefaults setObject:fontFamily forKey:DefaultsBibleTextDisplayFontFamilyKey];
         [UserDefaults setObject:fontBoldName forKey:DefaultsBibleTextDisplayBoldFontFamilyKey];
-        [UserDefaults setObject:[NSNumber numberWithInt:(int)fontSize] forKey:DefaultsBibleTextDisplayFontSizeKey];
+        [UserDefaults setObject:@((int) fontSize) forKey:DefaultsBibleTextDisplayFontSizeKey];
         
         [self applyFontPreviewText];        
     } else {
         NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
-        NSMutableDictionary *settings = [moduleSettings objectForKey:currentModuleName];
+        NSMutableDictionary *settings = moduleSettings[currentModuleName];
         if(!settings) {
             settings = [NSMutableDictionary dictionary];
         } else {
@@ -288,7 +288,7 @@ static MBPreferenceController *instance;
         [settings setDisplayFont:[NSFont fontWithName:fontFamily size:(float)fontSize]];
         [settings setDisplayFontBold:[NSFont fontWithName:fontBoldName size:(float)fontSize]];
 
-        [moduleSettings setObject:settings forKey:currentModuleName];
+        moduleSettings[currentModuleName] = settings;
         [UserDefaults setObject:moduleSettings forKey:DefaultsModuleDisplaySettingsKey];
         
         [moduleFontsTableView noteNumberOfRowsChanged];
@@ -443,14 +443,14 @@ static MBPreferenceController *instance;
 	[fp setIsVisible:YES];
     
     NSInteger clickedRow = [moduleFontsTableView clickedRow];
-    currentModuleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)clickedRow];
+    currentModuleName = [[SwordManager defaultManager] sortedModuleNames][(NSUInteger) clickedRow];
     
     [fontManager setSelectedFont:[self normalDisplayFontForModuleName:currentModuleName] isMultiple:NO];
 }
 
 - (IBAction)resetModuleFont:(id)sender {
     NSInteger clickedRow = [moduleFontsTableView clickedRow];
-    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)clickedRow];
+    NSString *moduleName = [[SwordManager defaultManager] sortedModuleNames][(NSUInteger) clickedRow];
     
     // remove from user defaults. this will apply the default font
     NSMutableDictionary *moduleSettings = [NSMutableDictionary dictionaryWithDictionary:[UserDefaults objectForKey:DefaultsModuleDisplaySettingsKey]];
@@ -467,9 +467,9 @@ static MBPreferenceController *instance;
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
     if([[aTableColumn identifier] isEqualToString:@"module"]) {
-        return [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)rowIndex];
+        return [[SwordManager defaultManager] sortedModuleNames][(NSUInteger) rowIndex];
     } else if([[aTableColumn identifier] isEqualToString:@"font"]) {
-        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)rowIndex];
+        NSString *moduleName = [[SwordManager defaultManager] sortedModuleNames][(NSUInteger) rowIndex];
         NSFont *displayFont = [self normalDisplayFontForModuleName:moduleName];
         return [NSString stringWithFormat:@"%@ - %i", [displayFont familyName], (int)[displayFont pointSize]];
     }
@@ -480,14 +480,14 @@ static MBPreferenceController *instance;
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
     if([[aTableColumn identifier] isEqualToString:@"module"] || 
        [[aTableColumn identifier] isEqualToString:@"font"]) {
-        NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)rowIndex];
+        NSString *moduleName = [[SwordManager defaultManager] sortedModuleNames][(NSUInteger) rowIndex];
         NSFont *displayFont = [self normalDisplayFontForModuleName:moduleName];
         [aCell setFont:displayFont];        
     }     
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-    NSString *moduleName = [[[SwordManager defaultManager] sortedModuleNames] objectAtIndex:(NSUInteger)row];
+    NSString *moduleName = [[SwordManager defaultManager] sortedModuleNames][(NSUInteger) row];
     
     CGFloat pointSize = [[self normalDisplayFontForModuleName:moduleName] pointSize];
     CGFloat newHeight = pointSize + (pointSize / 1.3);

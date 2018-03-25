@@ -15,7 +15,7 @@
 
 - (void)handleTextEntry:(SwordBibleTextEntry *)entry duplicateDict:(NSMutableDictionary *)duplicateDict htmlString:htmlString;
 - (NSString *)createHTMLStringWithMarkers;
-- (void)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry;
+- (SwordBibleTextEntry *)applyBookmarkHighlightingOnTextEntry:(SwordBibleTextEntry *)anEntry;
 - (void)appendHTMLFromTextEntry:(SwordBibleTextEntry *)anEntry atHTMLString:(NSMutableString *)aString;
 - (NSMutableAttributedString *)generateAttributedString:(NSString *)aString;
 - (void)applyLinkCursorToLinks:(NSMutableAttributedString *)attrString;

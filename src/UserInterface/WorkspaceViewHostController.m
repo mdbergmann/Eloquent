@@ -71,7 +71,6 @@
     }    
 }
 
-
 - (void)awakeFromNib {
     [super awakeFromNib];
     
@@ -99,7 +98,7 @@
 
     // Fix: this will select the first element of the search texts objects as the current one
     if([[self searchTextObjs] count] > 0) {
-        currentSearchText = [[self searchTextObjs] objectAtIndex:0];
+        currentSearchText = [self searchTextObjs][0];
     }
         
     if(contentViewController != nil) {
@@ -133,7 +132,7 @@
     
     ContentDisplayingViewController *vc;
     if(index >= 0) {
-        vc = [viewControllers objectAtIndex:index];
+        vc = viewControllers[index];
     } else {
         vc = contentViewController;
     }
@@ -146,7 +145,7 @@
                 if(index == -1) {
                     sto = currentSearchText;
                 } else {
-                    sto = [searchTextObjs objectAtIndex:(NSUInteger)index];
+                    sto = searchTextObjs[(NSUInteger) index];
                 }
                 [ret appendFormat:@"%@ - %@", [mod name], [sto searchTextForType:[self searchType]]];                    
             }
@@ -174,7 +173,7 @@
 
     int i = 0;
     for(ContentDisplayingViewController *vc in viewControllers) {
-        if([vc viewLoaded]) {
+        if([vc myIsViewLoaded]) {
             NSTabViewItem *item = [[NSTabViewItem alloc] init];
             [item setView:[vc view]];
             [tabView addTabViewItem:item];
@@ -221,7 +220,7 @@
         if(item != nil) {
             // find view controller
             NSUInteger index = (NSUInteger)[tabView indexOfTabViewItem:item];
-            HostableViewController *vc = [viewControllers objectAtIndex:index];
+            HostableViewController *vc = viewControllers[index];
             [tabView removeTabViewItem:item];
             
             if(vc != nil) {
@@ -254,7 +253,7 @@
     NSInteger tag = [(NSMenuItem *)sender tag];
     
     NSUInteger index = [[tabView tabViewItems] indexOfObject:[tabView selectedTabViewItem]];
-    ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
+    ContentDisplayingViewController *vc = viewControllers[index];
 
     // found view controller?
     if(vc != nil) {
@@ -264,7 +263,7 @@
             // save search reference
             NSString *searchRef = [self searchText];
 
-            NSTabViewItem *tvi = [[tabView tabViewItems] objectAtIndex:index];
+            NSTabViewItem *tvi = [tabView tabViewItems][index];
             [searchTextObjs removeObjectAtIndex:index];
             [viewControllers removeObject:vc];
             [tabView removeTabViewItem:tvi];
@@ -314,7 +313,7 @@
     
     // find view controller
     NSUInteger index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
-    ContentDisplayingViewController *vc = [viewControllers objectAtIndex:index];
+    ContentDisplayingViewController *vc = viewControllers[index];
     if(vc != nil) {
         if([vc hasUnsavedContent]) {
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"")
@@ -356,9 +355,9 @@
     if(hostLoaded) {
         if([[tabControl representedTabViewItems] containsObject:tabViewItem]) {
             NSUInteger index = [[tabControl representedTabViewItems] indexOfObject:tabViewItem];
-            contentViewController = [viewControllers objectAtIndex:index];
-            
-            [self setCurrentSearchText:[searchTextObjs objectAtIndex:index]];
+            contentViewController = viewControllers[index];
+
+            [self setCurrentSearchText:searchTextObjs[index]];
             [self setupForContentViewController];
         }
     }
@@ -479,7 +478,7 @@
         for(NSInteger i = [viewControllers count]-1;i >= 0;--i) {
             ContentDisplayingViewController *vc = [viewControllers objectAtIndex:(NSUInteger)i];
             contentViewController = vc;
-            if([vc viewLoaded]) {
+            if([vc myIsViewLoaded]) {
                 NSTabViewItem *item = [[tabView tabViewItems] objectAtIndex:(NSUInteger)i];
                 [item setLabel:[self computeTabTitleForTabIndex:i]];
             }

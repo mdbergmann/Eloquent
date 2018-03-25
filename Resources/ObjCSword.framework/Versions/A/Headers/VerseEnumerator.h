@@ -10,9 +10,7 @@
 
 @class SwordListKey;
 
-@interface VerseEnumerator : NSEnumerator {
-    SwordListKey *listKey;
-}
+@interface VerseEnumerator : NSEnumerator
 
 - (id)initWithListKey:(SwordListKey *)aListKey;
 

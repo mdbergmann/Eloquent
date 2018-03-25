@@ -134,6 +134,7 @@ static AppController *singleton;
         }
 #endif
         [MBPreferenceController registerDefaults];
+
         [self setupFolders];
 
         // init SessionManager
@@ -146,7 +147,7 @@ static AppController *singleton;
         [ProgressOverlayViewController defaultController];
         
         [[SwordLocaleManager defaultManager] initLocale];
-        [[FilterProviderFactory factory] initWithImpl:[[EloquentFilterProvider alloc] init]];
+        [[FilterProviderFactory factory] initWith:[[EloquentFilterProvider alloc] init]];
         
         SwordManager *sm = [self setupDefaultSwordManager];
                 
@@ -179,7 +180,7 @@ static AppController *singleton;
         [self addInternalModules];
     } else {
         // we also want the KJV to be added if there are installed modules but not the KJV
-        if([allModules count] > 0 && [allModules objectForKey:@"KJV"] == nil) {
+        if([allModules count] > 0 && allModules[@"KJV"] == nil) {
             [self addInternalModules];
         }
     }
@@ -661,11 +662,7 @@ static AppController *singleton;
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
     if([aNotification object] == createModuleNameTextField) {
-        if([[createModuleNameTextField stringValue] length] == 0) {
-            [createModuleOKButton setEnabled:NO];
-        } else {
-            [createModuleOKButton setEnabled:YES];        
-        }
+        [createModuleOKButton setEnabled:[[createModuleNameTextField stringValue] length] != 0];
     }
 }
 

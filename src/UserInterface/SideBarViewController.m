@@ -32,7 +32,7 @@ extern char NotesMgrUI;
 }
 
 - (void)awakeFromNib {
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
     [self reportLoadingComplete];
 }
 

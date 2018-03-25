@@ -23,9 +23,9 @@
     IBOutlet NSButton *editISOKButton;
     IBOutlet NSButton *editISCancelButton;    
     IBOutlet NSButton *editISTestButton;
-    IBOutlet NSFormCell *editISCaptionCell;
-    IBOutlet NSFormCell *editISSourceCell;
-    IBOutlet NSFormCell *editISDirCell;    
+    IBOutlet NSTextField *editISCaptionCell;
+    IBOutlet NSTextField *editISSourceCell;
+    IBOutlet NSTextField *editISDirCell;
     // the type popup
     IBOutlet NSPopUpButton *editISType;
     IBOutlet NSButton *editISDirSelect;
@@ -46,11 +46,6 @@
     
     // the module list view controller
     IBOutlet ModuleListViewController *modListViewController;
-    
-    int editingMode;
-    
-    // initialized?
-    BOOL initialized;
 }
 
 @property (strong, readwrite) IBOutlet id delegate;

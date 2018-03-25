@@ -95,11 +95,11 @@ NSString *EloquentIndexVersion = @"1.2";
 }
 
 - (void)deleteSKSearchIndex {
-    [self.indexLock lock];
+    [self lockIndexAccess];
 	if([self hasSKSearchIndex]) {
 		[[IndexingManager sharedManager] removeIndexForModuleName:[self name]];
 	}    
-    [self.indexLock unlock];
+    [self unlockIndexAccess];
 }
 
 - (void)createSKSearchIndex {
@@ -107,7 +107,7 @@ NSString *EloquentIndexVersion = @"1.2";
 }
 
 - (void)createSKSearchIndexWithProgressIndicator:(id<IndexCreationProgressing>)progressIndicator {
-    [self.indexLock lock];
+    [self lockIndexAccess];
     
 	// get Indexer
     Indexer *indexer = [[IndexingManager sharedManager] indexerForModuleName:[self name] 
@@ -146,7 +146,7 @@ NSString *EloquentIndexVersion = @"1.2";
         }
         delegate = nil;
     }
-    [self.indexLock unlock];
+    [self unlockIndexAccess];
 }
 
 - (void)createSKSearchIndexThreadedWithDelegate:(id)aDelegate progressIndicator:(id<IndexCreationProgressing>)progressIndicator {
@@ -186,13 +186,12 @@ NSString *EloquentIndexVersion = @"1.2";
         [[indexer progressIndicator] setProgressIndeterminate:NO];
     }
     
-    [self.moduleLock lock];
+    [self lockModuleAccess];
     for(SwordBibleBook *bb in [self bookList]) {
         
 		@autoreleasepool {
         
             SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
-            [lk setPersist:NO];
             [lk setPosition:SWPOS_TOP];
             NSString *ref;
             NSString *stripped;
@@ -231,7 +230,7 @@ NSString *EloquentIndexVersion = @"1.2";
             [[indexer progressIndicator] incrementProgressBy:1.0];
         }
     }
-    [self.moduleLock unlock];
+    [self unlockModuleAccess];
 
 	[self setProcessEntryAttributes:savePEA];
 }
@@ -247,14 +246,13 @@ NSString *EloquentIndexVersion = @"1.2";
         [[indexer progressIndicator] setProgressIndeterminate:NO];
     }
 
-    [self.moduleLock lock];
+    [self lockModuleAccess];
     for(SwordBibleBook *bb in [self bookList]) {
         
 		@autoreleasepool {
 
         // we want to skip consecutive links. Commentary module does this by default.
             SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
-            [lk setPersist:YES];
             [lk setPosition:SWPOS_TOP];
             [self setSwordKey:lk];
             NSString *ref;
@@ -281,7 +279,7 @@ NSString *EloquentIndexVersion = @"1.2";
     // reset key
     [self setKeyString:@"gen"];
 
-    [self.moduleLock unlock];
+    [self unlockModuleAccess];
 }
 
 @end
@@ -334,7 +332,7 @@ NSString *EloquentIndexVersion = @"1.2";
     }
 
     for(NSString *key in [entry content]) {
-        NSArray *strippedArray = [self strippedTextEntriesForRef:key];
+        NSArray *strippedArray = [self strippedTextEntriesForReference:key];
         if(strippedArray != nil) {
             // get content
             NSString *stripped = [(SwordModuleTextEntry *) strippedArray[0] text];

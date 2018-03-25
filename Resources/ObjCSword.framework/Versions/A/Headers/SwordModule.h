@@ -33,9 +33,9 @@
 @class SwordManager, SwordModuleTextEntry, SwordKey, SwordFilter;
 
 typedef enum {
-    TextTypeStripped = 1,
-    TextTypeRendered
-}TextPullType;
+    RenderTypeStripped = 1,
+    RenderTypeRendered
+}RenderType;
 
 /** These are the main module types as returned in -typeString */
 typedef enum {
@@ -63,27 +63,25 @@ typedef enum {
 
 
 @interface SwordModule : NSObject {
-    
 	ModuleCategory category;
 
     /** yes, we have a delegate to report any action to */
     id delegate;
+
+    NSLock *indexLock;
+    NSRecursiveLock *moduleLock;
+    NSMutableDictionary *configEntries;
 
 #ifdef __cplusplus
 	sword::SWModule	*swModule;
 #endif
 }
 
-// ------------- properties ---------------
-@property (readwrite) ModuleType type;
+@property (retain, readwrite) SwordManager *swManager;
 @property (readwrite) int status;
-@property (strong, readwrite) SwordManager *swManager;
-@property (strong, readwrite) NSLock *indexLock;
-@property (strong, readwrite) NSRecursiveLock *moduleLock;
-@property (strong, readwrite) NSMutableDictionary *configEntries;
+@property (readonly) ModuleType type;
 
 #ifdef __cplusplus
-
 /**
  Convenience initializer
  */
@@ -104,7 +102,6 @@ typedef enum {
  Retrieve the underlying SWModule instance
  */
 - (sword::SWModule *)swModule;
-
 #endif
 
 /**
@@ -204,6 +201,10 @@ typedef enum {
 
 // ------------------ module access semaphores -----------------
 
+- (void)lockIndexAccess;
+
+- (void)unlockIndexAccess;
+
 /**
  Aquires a module access lock so that no other thread may access this module.
  */
@@ -226,11 +227,11 @@ typedef enum {
 /**
  Set position key from a string
  */
-- (void)setKeyString:(NSString *)aKeyString;
+- (SwordKey *)setKeyString:(NSString *)aKeyString;
 /**
  Set position from a key
  */
-- (void)setSwordKey:(SwordKey *)aKey;
+- (SwordKey *)setSwordKey:(SwordKey *)aKey;
 
 /**
  Module key. New instance created by module.
@@ -240,10 +241,6 @@ typedef enum {
  Module key. Reference only.
  */
 - (SwordKey *)getKey;
-/**
- Module key. Reference only but cloned.
- */
-- (SwordKey *)getKeyCopy;
 
 // ------------------- module metadata processing ------------------
 
@@ -262,7 +259,7 @@ typedef enum {
  @return NSString for text data
  */
 - (id)attributeValueForParsedLinkData:(NSDictionary *)data;
-- (id)attributeValueForParsedLinkData:(NSDictionary *)data withTextRenderType:(TextPullType)textType;
+- (id)attributeValueForParsedLinkData:(NSDictionary *)data withTextRenderType:(RenderType)textType;
 
 /** returns the pre-verse entry value */
 - (NSString *)entryAttributeValuePreverse;
@@ -277,12 +274,6 @@ typedef enum {
 // ----------------- Module text access ----------------------
 
 /**
- Pulls all text entries for the given reference
- @return Array of SwordModuleTextEntry
- */
-- (NSArray *)textEntriesForReference:(NSString *)aReference textType:(TextPullType)textType;
-
-/**
  Returns a rendered text for the text at the current module position
  */
 - (NSString *)renderedText;
@@ -290,7 +281,7 @@ typedef enum {
  Renders the given string with the modules render filters
  */
 - (NSString *)renderedTextFromString:(NSString *)aString;
-/** 
+/**
  Returns a stripped text for the text at the current module position
  */
 - (NSString *)strippedText;
@@ -300,27 +291,57 @@ typedef enum {
 - (NSString *)strippedTextFromString:(NSString *)aString;
 
 /**
- abstract method, override in subclass
+ Convenience method, delegates to textEntriesForReference:textType:
  This method generates stripped text string for a given reference.
- @param[in] reference bible reference
+ @param aReference bible reference
  @return Array of SwordModuleTextEntry instances
  */
-- (NSArray *)strippedTextEntriesForRef:(NSString *)reference;
+- (NSArray *)strippedTextEntriesForReference:(NSString *)aReference;
+/**
+ * Convenience method, delegates to textEntryForReference:textType:
+ * @param aReference the reference key. i.e. 'Gen 1'
+ * @return a single text entry, or null if not found
+ */
+- (SwordModuleTextEntry *)strippedTextEntryForReference:(NSString *)aReference;
 
-/** 
- abstract method, override in subclass
+/**
+ Convenience method, delegates to textEntriesForReference:textType:
  This method generates HTML string for a given reference.
- @param[in] reference bible reference
+ @param aReference bible reference
  @return Array of SwordModuleTextEntry instances
  */
-- (NSArray *)renderedTextEntriesForRef:(NSString *)reference;
+- (NSArray *)renderedTextEntriesForReference:(NSString *)aReference;
+/**
+ * Convenience method, delegates to textEntryForReference:textType:
+ * @param aReference the reference key. i.e. 'Gen 1'
+ * @return a single text entry, or null if not found
+ */
+- (SwordModuleTextEntry *)renderedTextEntryForReference:(NSString *)aReference;
 
-- (SwordModuleTextEntry *)renderedTextEntryForRef:(NSString *)reference;
-- (SwordModuleTextEntry *)strippedTextEntryForRef:(NSString *)reference;
+/**
+ This contains real logic.
+ Returns an array of text entries, either rendered or stripped.
+
+ !!! attention, is SwordModule this only returns one entry because we don't know if we are a bible or what.
+ Subclasses should extend or override the functionality !!!
+
+ It locks and unlock the module.
+
+ @return Array of SwordModuleTextEntry
+ */
+- (NSArray *)textEntriesForReference:(NSString *)aReference renderType:(RenderType)textType;
+
+/**
+ * Retrieves a text entry for the given reference.
+ * @param aReference a reference as 'Gen 1' for bibles
+ * @param aType
+ * @return
+ */
+- (SwordModuleTextEntry *)textEntryForReference:(NSString *)aReference renderType:(RenderType)aType;
 
 /** 
  number of entries
- abstract method, should be overriden by subclasses
+ abstract method, should be overridden by subclasses
  */
 - (long)entryCount;
 

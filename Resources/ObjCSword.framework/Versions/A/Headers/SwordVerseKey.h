@@ -13,8 +13,7 @@
 #include <versekey.h>
 #endif
 
-@interface SwordVerseKey : SwordKey {
-}
+@interface SwordVerseKey : SwordKey
 
 + (SwordVerseKey *)verseKey;
 + (SwordVerseKey *)verseKeyWithVersification:(NSString *)scheme;
@@ -23,9 +22,9 @@
 
 #ifdef __cplusplus
 + (SwordVerseKey *)verseKeyWithSWVerseKey:(sword::VerseKey *)aVk;
-+ (SwordVerseKey *)verseKeyWithSWVerseKey:(sword::VerseKey *)aVk makeCopy:(BOOL)copy;
++ (SwordVerseKey *)verseKeyWithNewSWVerseKey:(sword::VerseKey *)aVk;
 - (SwordVerseKey *)initWithSWVerseKey:(sword::VerseKey *)aVk;
-- (SwordVerseKey *)initWithSWVerseKey:(sword::VerseKey *)aVk makeCopy:(BOOL)copy;
+- (SwordVerseKey *)initWithNewSWVerseKey:(sword::VerseKey *)aVk;
 - (sword::VerseKey *)swVerseKey;
 #endif
 
@@ -42,8 +41,8 @@
 - (void)setChapter:(int)val;
 - (int)verse;
 - (void)setVerse:(long)val;
-- (BOOL)headings;
-- (void)setHeadings:(BOOL)flag;
+- (BOOL)intros;
+- (void)setIntros:(BOOL)flag;
 - (BOOL)autoNormalize;
 - (void)setAutoNormalize:(BOOL)flag;
 - (NSString *)bookName;

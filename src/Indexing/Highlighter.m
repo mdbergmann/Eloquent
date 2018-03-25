@@ -53,15 +53,18 @@
                 token = @"\"";
                 break;
         }
-        
-        NSRange tFound;
-        do {
-            tFound = [query rangeOfString:token];
-            if(tFound.location != NSNotFound) {
-                [query replaceCharactersInRange:tFound withString:@""];
+
+        // workaround to make highlighting work for names with hyphen
+        if(![token isEqualToString:@"-"]) {
+            NSRange tFound;
+            do {
+                tFound = [query rangeOfString:token];
+                if(tFound.location != NSNotFound) {
+                    [query replaceCharactersInRange:tFound withString:@""];
+                }
             }
+            while(tFound.location != NSNotFound);
         }
-        while(tFound.location != NSNotFound);
     }
     
     return query;
@@ -76,12 +79,12 @@
     
     if(length > 0) {
         
-        int size = (int)[(NSFont *)[attributes objectForKey:NSFontAttributeName] pointSize];
+        int size = (int)[(NSFont *) attributes[NSFontAttributeName] pointSize];
 
         // create attributes Dictionary for highlight
-        NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:blue forKey:NSForegroundColorAttributeName];
+        NSMutableDictionary *attr = [@{NSForegroundColorAttributeName: blue} mutableCopy];
         NSFont *fontBold = [NSFont fontWithName:[UserDefaults stringForKey:DefaultsBibleTextDisplayBoldFontFamilyKey] size:size];
-        [attr setObject:fontBold forKey:NSFontAttributeName];
+        attr[NSFontAttributeName] = fontBold;
         
         // create NSMutableAttributedString
         ret = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
@@ -90,12 +93,12 @@
         NSArray *tokens = [tokenStr componentsSeparatedByString:@" "];
         long tLen = [tokens count];
         for(NSUInteger i = 0;i < tLen;i++) {
-            NSString *token = [tokens objectAtIndex:i];
+            NSString *token = tokens[i];
             
-            if(([token length] > 0) && ([token isEqualToString:@" "] == NO)) {
+            if(([token length] > 0) && ![token isEqualToString:@" "]) {
                 // now attribute the string
                 area.location = 0;
-                area.length = length;
+                area.length = (NSUInteger) length;
                 
                 // add new colors
                 while(area.length > 0) {

@@ -19,29 +19,19 @@
 
 #define INSTALLSOURCE_TYPE_FTP  @"FTP"
 
-@interface SwordInstallSource : NSObject {
-    
-#ifdef __cplusplus
-    sword::InstallSource *swInstallSource;
-#endif
-}
+@interface SwordInstallSource : NSObject
 
-// init
 - (id)init;
 #ifdef __cplusplus
 - (id)initWithSource:(sword::InstallSource *)is;
 #endif
 - (id)initWithType:(NSString *)aType;
 
-// accessors
-- (NSString *)caption;
-- (void)setCaption:(NSString *)aCaption;
-- (NSString *)type;
-- (void)setType:(NSString *)aType;
-- (NSString *)source;
-- (void)setSource:(NSString *)aSource;
-- (NSString *)directory;
-- (void)setDirectory:(NSString *)aDir;
+@property (retain, readwrite) NSString *caption;
+@property (retain, readwrite) NSString *type;
+@property (retain, readwrite) NSString *source;
+@property (retain, readwrite) NSString *directory;
+@property (readwrite) BOOL deleteOnDealloc;
 
 - (BOOL)isLocalSource;
 

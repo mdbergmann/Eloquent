@@ -20,8 +20,7 @@
 
 
 
-@interface SwordCommentary : SwordBible {
-}
+@interface SwordCommentary : SwordBible
 
 /** 
  creates a new empty editable commentary module 

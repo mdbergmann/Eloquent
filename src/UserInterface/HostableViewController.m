@@ -14,7 +14,7 @@
 
 @dynamic delegate;
 @synthesize hostingDelegate;
-@synthesize viewLoaded;
+@synthesize myIsViewLoaded;
 @synthesize searchType;
 @synthesize searchString;
 @synthesize showingRSBPreferred;
@@ -22,7 +22,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        viewLoaded = NO;
+        myIsViewLoaded = NO;
         isLoadingCompleteReported = NO;
         self.hostingDelegate = nil;
         self.searchType = ReferenceSearchType;

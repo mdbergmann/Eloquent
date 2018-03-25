@@ -101,17 +101,9 @@
 // CipherKeys NSUserdefaultsKey
 #define DefaultsModuleCipherKeysKey     @"DefaultsModuleCipherKeysKey"
 
-@interface SwordManager : NSObject {
-    
-#ifdef __cplusplus
-	sword::SWMgr *swManager;
-#endif
+@interface SwordManager : NSObject
 
-}
-
-// ------------------- getter / setter -------------------
-@property (strong, readwrite) NSString *modulesPath;
-@property (strong, readwrite) NSLock *managerLock;
+@property (retain, readonly) NSString *modulesPath;
 
 // --------------------- methods -----------------------
 

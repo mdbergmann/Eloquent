@@ -22,11 +22,7 @@
 
 @class SwordModule, SwordManager, SwordModuleTreeEntry;
 
-@interface SwordBook : SwordModule {
-	NSMutableDictionary *contents;
-}
-
-@property(readwrite, strong) NSMutableDictionary *contents;
+@interface SwordBook : SwordModule
 
 /**
  return the tree content for the given treeKey
@@ -35,5 +31,11 @@
  @return: SwordTreeEntry
  */
 - (SwordModuleTreeEntry *)treeEntryForKey:(NSString *)treeKey;
+
+/**
+ * All tree keys
+ * @return
+ */
+- (NSDictionary *)allContent;
 
 @end

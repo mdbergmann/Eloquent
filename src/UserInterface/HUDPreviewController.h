@@ -25,7 +25,7 @@
 @property (strong, readwrite) id delegate;
 
 + (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData;
-+ (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData forTextType:(TextPullType)textType;
++ (NSDictionary *)previewDataFromDict:(NSDictionary *)previewData forRenderType:(RenderType)textType;
 
 - (id)initWithDelegate:(id)aDelegate;
 

@@ -2,7 +2,7 @@
  *
  *  flatapi.h -	This file contains an api usable by non-C++ environments
  *
- * $Id: flatapi.h 3537 2017-11-26 09:29:05Z scribe $
+ * $Id: flatapi.h 3561 2018-01-07 06:45:42Z greg.hellings $
  *
  * Copyright 2002-2014 CrossWire Bible Society (http://www.crosswire.org)
  *	CrossWire Bible Society
@@ -392,6 +392,47 @@ const char * SWDLLEXPORT org_crosswire_sword_SWMgr_filterText
  */
 const char ** SWDLLEXPORT org_crosswire_sword_SWMgr_getGlobalOptions
   (SWHANDLE hSWMgr);
+
+
+/*
+ * Class:     org_crosswire_sword_SWConfig
+ * Method:    getSections
+ * Signature: ()[Ljava/lang/String;
+ */
+const char ** SWDLLEXPORT org_crosswire_sword_SWConfig_getSections
+		(const char *confPath);
+
+/*
+ * Class:     org_crosswire_sword_SWConfig
+ * Method:    getSectionKeys
+ * Signature: (Ljava/lang/String;)[Ljava/lang/String;
+ */
+const char ** SWDLLEXPORT org_crosswire_sword_SWConfig_getSectionKeys
+		(const char *confPath, const char *section);
+
+/*
+ * Class:     org_crosswire_sword_SWConfig
+ * Method:    getKeyValue
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ */
+const char * SWDLLEXPORT org_crosswire_sword_SWConfig_getKeyValue
+		(const char *confPath, const char *section, const char *key);
+
+/*
+ * Class:     org_crosswire_sword_SWConfig
+ * Method:    setKeyValue
+ * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+ */
+void SWDLLEXPORT org_crosswire_sword_SWConfig_setKeyValue
+		(const char *confPath, const char *section, const char *key, const char *value);
+
+/*
+ * Class:     org_crosswire_sword_SWConfig
+ * Method:    augmentConfig
+ * Signature: (Ljava/lang/String;)[Ljava/lang/String;
+ */
+const char ** SWDLLEXPORT org_crosswire_sword_SWConfig_augmentConfig
+		(const char *confPath, const char *configBlob);
 
 /*
  * Class:     org_crosswire_sword_SWMgr

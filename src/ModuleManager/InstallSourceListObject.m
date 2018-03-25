@@ -6,15 +6,13 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <ObjCSword/ObjCSword.h>
 #import "InstallSourceListObject.h"
 
 @implementation InstallSourceListObject
 
 /** convenient allocator */
 + (InstallSourceListObject *)installSourceListObjectForType:(InstallSourceListObjectType)type {
-    InstallSourceListObject *object = [[InstallSourceListObject alloc] initWithListObjectType:type];
-    return object;
+    return [[InstallSourceListObject alloc] initWithListObjectType:type];
 }
 
 - (id)initWithListObjectType:(InstallSourceListObjectType)type {

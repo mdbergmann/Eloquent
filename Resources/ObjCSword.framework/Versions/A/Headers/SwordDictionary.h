@@ -15,10 +15,7 @@
 
 @class SwordManager, SwordModule;
 
-@interface SwordDictionary : SwordModule {
-    /** only keys are buffered here */
-	NSMutableArray *keys;
-}
+@interface SwordDictionary : SwordModule
 
 - (NSArray *)allKeys;
 - (NSString *)entryForKey:(NSString *)aKey;

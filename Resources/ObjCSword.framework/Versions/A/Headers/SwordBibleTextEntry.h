@@ -9,11 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "SwordModuleTextEntry.h"
 
-@interface SwordBibleTextEntry : SwordModuleTextEntry {
-    NSString *preVerseHeading;
-}
+@interface SwordBibleTextEntry : SwordModuleTextEntry
 
-@property (readwrite, strong) NSString *preVerseHeading;
+@property (retain, readwrite) NSString *preVerseHeading;
 
 + (id)textEntryForKey:(NSString *)aKey andText:(NSString *)aText;
 - (id)initWithKey:(NSString *)aKey andText:(NSString *)aText;

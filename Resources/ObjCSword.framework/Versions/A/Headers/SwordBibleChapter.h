@@ -10,14 +10,10 @@
 
 @class SwordBibleBook;
 
-@interface SwordBibleChapter : NSObject {
-    /** the back reference */
-    SwordBibleBook *__unsafe_unretained book;
-    int number;
-}
+@interface SwordBibleChapter : NSObject
 
-@property (readwrite) int number;
-@property (readwrite, unsafe_unretained) SwordBibleBook *book;
+@property (readonly) int number;
+@property (retain, readonly) SwordBibleBook *book;
 
 - (id)initWithBook:(SwordBibleBook *)aBook andChapter:(int)aNumber;
 

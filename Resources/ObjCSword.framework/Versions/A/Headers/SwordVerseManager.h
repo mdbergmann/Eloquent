@@ -15,10 +15,6 @@
 #define SW_VERSIFICATION_KJV       @"KJV"
 
 @interface SwordVerseManager : NSObject {
-#ifdef __cplusplus
-    sword::VersificationMgr *verseMgr;
-#endif
-    NSMutableDictionary *booksPerVersification;
 }
 
 + (SwordVerseManager *)defaultManager;

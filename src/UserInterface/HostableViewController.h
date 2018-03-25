@@ -39,7 +39,7 @@
     IBOutlet id delegate;
     IBOutlet WindowHostController *__strong hostingDelegate;
     
-    BOOL viewLoaded;    
+    BOOL myIsViewLoaded;
     BOOL isLoadingCompleteReported;
     BOOL showingRSBPreferred;
     
@@ -49,7 +49,7 @@
 
 @property (strong, readwrite) id delegate;
 @property (strong, readwrite) WindowHostController *hostingDelegate;
-@property (readwrite) BOOL viewLoaded;
+@property (readwrite) BOOL myIsViewLoaded;
 @property (readwrite) SearchType searchType;
 @property (strong, readwrite) NSString *searchString;
 @property (readwrite) BOOL showingRSBPreferred;

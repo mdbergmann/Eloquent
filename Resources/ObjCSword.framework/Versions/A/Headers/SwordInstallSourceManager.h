@@ -30,20 +30,13 @@ typedef enum _ModuleStatusConst {
     ModStatCipheredKeyPresent = 0x020
 }ModuleStatusConst;
 
-@interface SwordInstallSourceManager : NSObject {
-@private
-#ifdef __cplusplus
-    sword::InstallMgr *swInstallMgr;
-#endif
-}
+@interface SwordInstallSourceManager : NSObject
 
 // ------------------- properties -------------------
 /** Dictionary of InstallSources. Key: Caption */
-@property (strong, readonly) NSDictionary *installSources;
-@property (strong, nonatomic) NSString *ftpUser;
-@property (strong, nonatomic) NSString *ftpPassword;
-@property (strong, readwrite) NSString *configPath;
-@property (readwrite) BOOL createConfigPath;
+@property (retain, readwrite) NSString *ftpUser;
+@property (retain, readwrite) NSString *ftpPassword;
+@property (retain, readonly) NSString *configPath;
 
 // -------------------- methods --------------------
 
@@ -61,6 +54,9 @@ typedef enum _ModuleStatusConst {
 /** init after adding or removing new modules */
 - (void)initManager;
 
+/** dictionary of all available install sources: <is.caption>:<is> */
+- (NSDictionary *)allInstallSources;
+
 // installation/unInstallation
 - (int)installModule:(SwordModule *)aModule fromSource:(SwordInstallSource *)is withManager:(SwordManager *)manager;
 - (int)uninstallModule:(SwordModule *)aModule fromManager:(SwordManager *)swManager;
@@ -70,6 +66,9 @@ typedef enum _ModuleStatusConst {
 - (void)removeInstallSource:(SwordInstallSource *)is reload:(BOOL)doReload;
 - (void)updateInstallSource:(SwordInstallSource *)is;
 - (int)refreshMasterRemoteInstallSourceList;
+
+/** after adding or removing sources */
+- (void)saveConfig;
 
 // disclaimer
 - (BOOL)userDisclaimerConfirmed;

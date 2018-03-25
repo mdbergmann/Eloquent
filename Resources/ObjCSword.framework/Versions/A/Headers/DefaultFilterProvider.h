@@ -10,6 +10,7 @@
 
 @protocol FilterProvider
 
+/** autoreleased factories */
 - (SwordFilter *)newOsisRenderFilter;
 - (SwordFilter *)newOsisPlainFilter;
 - (SwordFilter *)newGbfRenderFilter;

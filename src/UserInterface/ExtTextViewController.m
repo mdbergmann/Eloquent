@@ -31,7 +31,7 @@
         CocoLog(LEVEL_DEBUG, @"loading nib");
         
         // init values
-        viewLoaded = NO;
+        myIsViewLoaded = NO;
         self.delegate = aDelegate;
 
         // load nib
@@ -90,7 +90,7 @@
     [scrollView setPostsFrameChangedNotifications:YES];    
     [scrollView updateMouseTracking];
 
-    viewLoaded = YES;
+    myIsViewLoaded = YES;
     [self reportLoadingComplete];
 }
 

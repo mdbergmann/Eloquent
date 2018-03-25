@@ -12,7 +12,10 @@
 // defaults entry for disclaimer
 #define DefaultsUserDisclaimerConfirmed @"DefaultsUserDisplaimerConfirmed"
 
-@interface ModuleManageViewController ()
+@interface ModuleManageViewController () {
+    int editingMode;
+    BOOL initialized;
+}
 
 - (void)refreshInstallSourceListObjects;
 - (BOOL)checkDisclaimerValueAndShowAlertText:(NSString *)aText;
@@ -26,9 +29,6 @@
 
 
 @implementation ModuleManageViewController
-
-@synthesize delegate;
-@synthesize parentWindow;
 
 // static methods
 + (NSURL *)fileOpenDialog {
@@ -70,8 +70,8 @@
         
         initialized = NO;
         
-        delegate = aDelegate;        
-        parentWindow = aParent;
+        self.delegate = aDelegate;
+        self.parentWindow = aParent;
         
         BOOL success = [[NSBundle mainBundle] loadNibNamed:@"ModuleManageView" owner:self topLevelObjects:nil];
 		if(success) {
@@ -89,8 +89,6 @@
 	
 	return self;    
 }
-
-
 
 - (void)awakeFromNib {
     // set default menu
@@ -154,7 +152,7 @@
         dispatch_async(dispatch_queue_create("TaskProcessor", NULL), ^(void) {
             [self batchProcessTasks:[self numberOfTasks]];
 
-            [modListViewController updateSwordManager];
+            [modListViewController refreshSwordManager];
             [modListViewController refreshModulesList];
             
             dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -721,7 +719,7 @@
     NSMutableArray *listObjects = [NSMutableArray array];
     SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
 
-    for(SwordInstallSource *is in [[[sis installSources] allValues] sortedArrayUsingComparator: ^(SwordInstallSource *obj1, SwordInstallSource *obj2) {
+    for(SwordInstallSource *is in [[[sis allInstallSources] allValues] sortedArrayUsingComparator: ^(SwordInstallSource *obj1, SwordInstallSource *obj2) {
         return [[obj1 caption] compare:[obj2 caption]];
     }]) {
         InstallSourceListObject *listObj = [InstallSourceListObject installSourceListObjectForType:TypeInstallSource];

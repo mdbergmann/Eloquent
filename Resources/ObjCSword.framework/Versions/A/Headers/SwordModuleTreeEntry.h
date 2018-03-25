@@ -9,13 +9,10 @@
 #import <Foundation/Foundation.h>
 
 
-@interface SwordModuleTreeEntry : NSObject {
-    NSString *key;
-    NSArray *content;
-}
+@interface SwordModuleTreeEntry : NSObject
 
-@property (strong, readwrite) NSString *key;
-@property (strong, readwrite) NSArray *content;
+@property (retain, readwrite) NSString *key;
+@property (retain, readwrite) NSArray *content;
 
 - (id)initWithKey:(NSString *)aKey content:(NSArray *)aContent;
 

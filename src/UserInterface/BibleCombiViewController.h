@@ -41,7 +41,7 @@
 - (id)initWithModule:(SwordBible *)aBible delegate:(id)aDelegate;
 
 // methods
-- (void)addNewBibleViewWithModule:(SwordBible *)aModule;
+- (void)addNewBibleViewWithModule:(SwordModule *)aModule;
 - (void)addNewCommentViewWithModule:(SwordCommentary *)aModule;
 - (NSArray *)openBibleModules;
 - (NSArray *)openMiscModules;

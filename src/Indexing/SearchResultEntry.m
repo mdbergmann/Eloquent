@@ -45,7 +45,6 @@
 
 - (void)dealloc {
 	[self setProperties:nil];
-    
 }
 
 // general methods for adding and getting properties
