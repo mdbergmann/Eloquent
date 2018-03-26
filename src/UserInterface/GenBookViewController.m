@@ -32,8 +32,6 @@
 
 @implementation GenBookViewController
 
-@synthesize selection;
-
 - (id)init {
     self = [super init];
     if(self) {
@@ -97,8 +95,6 @@
 
     myIsViewLoaded = YES;
 }
-
-
 
 #pragma mark - Methods
 
@@ -178,7 +174,7 @@
 
 - (NSAttributedString *)displayableHTMLForReferenceLookup {
     NSMutableString *htmlString = [NSMutableString string];
-    NSArray *keyArray = selection;
+    NSArray *keyArray = self.selection;
     [contentCache setCount:[keyArray count]];
     for(NSString *key in keyArray) {
         NSArray *result = [self.module renderedTextEntriesForReference:key];
@@ -247,7 +243,7 @@
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     // for index mode the reference must not be an empty string
     // for reference mode we let through everything
-    if((aReference && ([aReference length] > 0) && (aType == IndexSearchType)) || aType == ReferenceSearchType) {
+    if(aReference && ([aReference length] > 0)) {
         [super displayTextForReference:aReference searchType:aType];
     }
 }
@@ -345,7 +341,7 @@
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:name];
         
-        [selection removeAllObjects];
+        [self.selection removeAllObjects];
         [entriesOutlineView reloadData];
         
         if((self.searchString != nil) && ([self.searchString length] > 0)) {
@@ -355,7 +351,7 @@
     }
 }
 
-#pragma mark - NSOutlineView delegate methods
+#pragma mark - NSOutlineViewDelegate methods
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
 	if(notification != nil) {
@@ -378,6 +374,7 @@
             
             self.selection = sel;
             [self displayTextForReference:searchString];
+
 		} else {
 			CocoLog(LEVEL_WARN,@"have a nil notification object!");
 		}
@@ -386,7 +383,9 @@
 	}
 }
 
-- (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {    
+#pragma mark - NSOutlineViewDataSource methods
+
+- (void)outlineView:(NSOutlineView *)aOutlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 	// display call with std font
 	NSFont *font = FontStd;    
 	[cell setFont:font];
@@ -395,35 +394,28 @@
 	[aOutlineView setRowHeight:pointSize+4];
 }
 
-
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    NSInteger count;
-	
+    if(!myIsViewLoaded) return 0;
+
 	if(item == nil) {
         SwordModuleTreeEntry *root = [(SwordBook *)module treeEntryForKey:nil];
-        count = [[root content] count];
+        return [[root content] count];
 	} else {
         SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
-        count = [[treeEntry content] count];
+        return [[treeEntry content] count];
     }
-	
-	return count;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    
-    SwordModuleTreeEntry *ret;
     if(item == nil) {
         SwordModuleTreeEntry *treeEntry = [(SwordBook *)module treeEntryForKey:nil];
         NSString *key = [treeEntry content][(NSUInteger) index];
-        ret = [(SwordBook *)module treeEntryForKey:key];
+        return [(SwordBook *)module treeEntryForKey:key];
 	} else {
         SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
         NSString *key = [treeEntry content][(NSUInteger) index];
-        ret = [(SwordBook *)module treeEntryForKey:key];
+        return [(SwordBook *)module treeEntryForKey:key];
     }
-    
-    return ret;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {    

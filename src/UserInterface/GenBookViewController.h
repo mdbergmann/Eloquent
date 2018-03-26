@@ -7,11 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
-#import <CocoPCRE/CocoPCRE.h>
 #import "ModuleViewController.h"
 
-@class SwordBook, ExtTextViewController;
+@class SwordBook;
 
 #define GENBOOKVIEW_NIBNAME   @"GenBookView"
 
@@ -19,8 +17,6 @@
 @interface GenBookViewController : ModuleViewController <NSCoding, NSOutlineViewDataSource, NSOutlineViewDelegate> {
     IBOutlet NSPopUpButton *modulePopBtn;
     IBOutlet NSOutlineView *entriesOutlineView;
-    
-    NSMutableArray *selection;
 }
 
 // ---------- initializers ---------

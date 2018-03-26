@@ -422,23 +422,11 @@
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-    NSInteger ret = 0;
-    
-    if(self.module != nil) {
-        ret = [dictKeys count];
-    }
-    
-    return ret;
+    return self.module == nil ? 0 : [dictKeys count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-    NSString *ret = @"";
-    
-    if(self.module != nil) {
-        ret = dictKeys[(NSUInteger) rowIndex];
-    }
-    
-    return ret;
+    return self.module == nil ? @"" : dictKeys[(NSUInteger) rowIndex];
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
