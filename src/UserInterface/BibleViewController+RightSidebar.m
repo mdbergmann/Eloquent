@@ -13,7 +13,6 @@
 #import "WorkspaceViewHostController.h"
 #import "ObjCSword/SwordBible.h"
 #import "ObjCSword/SwordBibleBook.h"
-#import "ObjCSword/SwordBibleChapter.h"
 #import "BibleCombiViewController.h"
 #import "SearchBookSetEditorController.h"
 #import "globals.h"
@@ -66,10 +65,10 @@
             int chapterStart = rowIndex == 0 ? 1 : (rowIndex * ChapterRangeLength)+1;
             
             NSRange range;
-            range.location = chapterStart;
+            range.location = (NSUInteger) chapterStart;
             if(rowIndex == (rowItems - 1)) {
                 int last = (chapters % ChapterRangeLength);
-                range.length = last == 0 ? ChapterRangeLength : last;
+                range.length = (NSUInteger) (last == 0 ? ChapterRangeLength : last);
                 
             } else {
                 range.length = ChapterRangeLength;
@@ -126,11 +125,11 @@
             
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
 			NSInteger len = [selectedRows count];
-			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
+			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:(NSUInteger) len];
             id item = nil;
 			if(len > 0) {
 				NSUInteger indexes[len];
-				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
+                [selectedRows getIndexes:indexes maxCount:(NSUInteger) len inIndexRange:nil];
 				
 				for(int i = 0;i < len;i++) {
                     item = [oview itemAtRow:indexes[i]];
@@ -223,11 +222,7 @@
     
     if([item isKindOfClass:[SwordBibleBook class]]) {
         SwordBibleBook *bb = item;
-        if([bb numberOfChapters] > 0) {
-            return YES;
-        } else {
-            return NO;
-        }
+        return [bb numberOfChapters] > 0;
     }
     
     return NO;

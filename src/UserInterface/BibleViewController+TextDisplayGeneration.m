@@ -164,16 +164,6 @@
     if(entry && (duplicateDict[[entry key]] == nil)) {
         duplicateDict[[entry key]] = entry;
 
-        /*
-        BOOL collectPreverseHeading = ([[SwordManager defaultManager] globalOption:SW_OPTION_HEADINGS] && [module hasFeature:SWMOD_FEATURE_HEADINGS]);
-        if(collectPreverseHeading) {
-            NSString *preverseHeading = [module entryAttributeValuePreverse];
-            if(preverseHeading && [preverseHeading length] > 0) {
-                [entry setPreVerseHeading:preverseHeading];
-            }
-        }
-         */
-        
         [self appendHTMLFromTextEntry:[self applyBookmarkHighlightingOnTextEntry:entry] atHTMLString:htmlString];
     }
 }

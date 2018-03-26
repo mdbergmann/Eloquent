@@ -190,72 +190,104 @@ enum ModuleMenu_Items{
     
     // module Name, book name, type, lang, version, about
     // module name
-    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleName", @"") 
-                                                                     attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleName", @"")
+                                                                     attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
-    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod name]] 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod name]]
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
     if(attrString) {
         [ret appendAttributedString:attrString];    
     }
     
     // module description
     attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleDescription", @"")
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
-    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod descr]] 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod descr]]
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
     if(attrString) {
         [ret appendAttributedString:attrString];
     }
     
     // module type
-    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleType", @"") 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleType", @"")
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
-    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod typeString]] 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod typeString]]
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
     if(attrString) {
         [ret appendAttributedString:attrString];    
     }
     
     // module lang
-    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleLang", @"") 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleLang", @"")
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
-    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod lang]] 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod lang]]
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
     if(attrString) {
         [ret appendAttributedString:attrString];    
     }
     
     // module version
-    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleVersion", @"") 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleVersion", @"")
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
-    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod version]] 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod version]]
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
     if(attrString) {
         [ret appendAttributedString:attrString];    
     }
     
     // module versification
-    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleVersification", @"") 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleVersification", @"")
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
-    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod versification]] 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod versification]]
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
     if(attrString) {
         [ret appendAttributedString:attrString];    
     }
 
+    // module distribution license
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleDistLicense", @"")
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
+    [ret appendAttributedString:attrString];
+    attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n\n", [aMod distributionLicense]]
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
+    if(attrString) {
+        [ret appendAttributedString:attrString];
+    }
+
+    // module short promo
+    attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleShortPromo", @"")
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
+    [ret appendAttributedString:attrString];
+    
+    NSString *promoString = [NSString stringWithFormat:@"%@<br /><br />", [aMod shortPromo]];
+
+    NSMutableDictionary *options = [NSMutableDictionary dictionary];
+    options[NSCharacterEncodingDocumentOption] = @(NSUTF8StringEncoding);
+
+    WebPreferences *webPrefs = [[MBPreferenceController defaultPrefsController] defaultWebPreferencesForModuleName:nil];
+    [webPrefs setDefaultFontSize:(int)[FontMoreLarge pointSize]];
+    [webPrefs setStandardFontFamily:[FontMoreLarge familyName]];
+    options[NSWebPreferencesDocumentOption] = webPrefs;
+
+    attrString = [[NSAttributedString alloc] initWithHTML:[promoString dataUsingEncoding:NSUTF8StringEncoding]
+                                                  options:options
+                                       documentAttributes:nil];
+    if(attrString) {
+        [ret appendAttributedString:attrString];
+    }
+
     // module about
     attrString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", NSLocalizedString(@"AboutModuleAboutText", @"")]
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLargeBold forKey:NSFontAttributeName]];
+                                                 attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
     NSMutableString *aboutStr = [NSMutableString stringWithString:[aMod aboutText]];
-    attrString = [[NSAttributedString alloc] initWithString:aboutStr 
-                                                 attributes:[NSDictionary dictionaryWithObject:FontMoreLarge forKey:NSFontAttributeName]];    
+    attrString = [[NSAttributedString alloc] initWithString:aboutStr
+                                                 attributes:@{NSFontAttributeName: FontMoreLarge}];
     if(attrString) {
         [ret appendAttributedString:attrString];    
     }
@@ -283,11 +315,7 @@ enum ModuleMenu_Items{
             
             if([[hostingDelegate contentViewController] contentViewType] == SwordBibleContentType) {
                 // only commentary and bible views are able to show within bible the current
-                if(mod.type == Bible || mod.type == Commentary) {                    
-                    ret = YES;
-                } else {
-                    ret = NO;
-                }                
+                ret = mod.type == Bible || mod.type == Commentary;
             } else {
                 ret = NO;
             }
@@ -361,8 +389,8 @@ enum ModuleMenu_Items{
 }
 
 - (void)createCluceneIndex {
-    if([UserDefaults objectForKey:DefaultsCreateCluceneConfirm] == nil || 
-       [UserDefaults boolForKey:DefaultsCreateCluceneConfirm] == NO) {
+    if([UserDefaults objectForKey:DefaultsCreateCluceneConfirm] == nil ||
+            ![UserDefaults boolForKey:DefaultsCreateCluceneConfirm]) {
         confirmSheet = [[ConfirmationSheetController alloc] initWithSheetTitle:NSLocalizedString(@"ConfirmCreateCluceneIndex", @"") 
                                                                message:NSLocalizedString(@"ConfirmCreateCluceneIndexText", @"") 
                                                          defaultButton:NSLocalizedString(@"Yes", @"") 
@@ -384,8 +412,8 @@ enum ModuleMenu_Items{
     if(mod) {
         MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
         [ps reset];
-        [ps setIsIndeterminateProgress:[NSNumber numberWithBool:YES]];
-        [ps setIsThreaded:[NSNumber numberWithBool:YES]];
+        [ps setIsIndeterminateProgress:@YES];
+        [ps setIsThreaded:@YES];
         [ps setActionMessage:NSLocalizedString(@"CreatingCluceneIndex", @"")];
         [ps setCurrentStepMessage:NSLocalizedString(@"Indexing", @"")];
         
@@ -412,7 +440,7 @@ enum ModuleMenu_Items{
         [[SwordManager defaultManager] setCipherKey:unlockCode forModuleNamed:[mod name]];
         
         NSMutableDictionary *cipherKeys = [[UserDefaults objectForKey:DefaultsModuleCipherKeysKey] mutableCopy];
-        [cipherKeys setObject:unlockCode forKey:[mod name]];
+        cipherKeys[[mod name]] = unlockCode;
         [UserDefaults setObject:[NSDictionary dictionaryWithDictionary:cipherKeys] forKey:DefaultsModuleCipherKeysKey];
     }
     [moduleUnlockWindow close];
@@ -448,11 +476,7 @@ enum ModuleMenu_Items{
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
     if([aNotification object] == moduleUnlockTextField) {
-        if([[moduleUnlockTextField stringValue] length] == 0) {
-            [moduleUnlockOKButton setEnabled:NO];
-        } else {
-            [moduleUnlockOKButton setEnabled:YES];
-        }        
+        [moduleUnlockOKButton setEnabled:[[moduleUnlockTextField stringValue] length] != 0];
     }
 }
 

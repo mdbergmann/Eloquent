@@ -70,11 +70,6 @@ typedef enum {
 
     NSLock *indexLock;
     NSRecursiveLock *moduleLock;
-    NSMutableDictionary *configEntries;
-
-#ifdef __cplusplus
-	sword::SWModule	*swModule;
-#endif
 }
 
 @property (retain, readwrite) SwordManager *swManager;
@@ -153,6 +148,14 @@ typedef enum {
  Module version
  */
 - (NSString *)version;
+/**
+ Module Promo string (ShortPromo)
+ */
+- (NSString *)shortPromo;
+/**
+ Module distribution license
+ */
+- (NSString *)distributionLicense;
 /**
  Module minimum Sword version
  */
