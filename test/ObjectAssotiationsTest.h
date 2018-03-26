@@ -6,10 +6,10 @@
 //  Copyright 2010 Software by MABE. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ObjectAssociations.h"
 
-@interface ObjectAssotiationsTest : SenTestCase {
+@interface ObjectAssotiationsTest : XCTestCase {
     ObjectAssociations *objAsso;
     NSObject *assoObject;
     NSObject *anObject;

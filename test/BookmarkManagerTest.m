@@ -14,10 +14,10 @@
 
 - (void)testLoadBookmarks {
     BookmarkManager *manager = [BookmarkManager defaultManager];
-    STAssertNotNil(manager, @"manager is nil");
+    XCTAssertNotNil(manager, @"manager is nil");
     
     NSArray *bmarks = [manager bookmarks];
-    STAssertNotNil(bmarks, @"boookmarks nil");
+    XCTAssertNotNil(bmarks, @"boookmarks nil");
 }
 
 @end

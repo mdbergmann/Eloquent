@@ -21,8 +21,8 @@ static char anObjectKey;
 - (void)testAssotiation {
     [objAsso registerObject:anObject forAssotiatedObject:assoObject withKey:&anObjectKey];
     NSObject *obj = [objAsso objectForAssociatedObject:assoObject withKey:&anObjectKey];
-    STAssertTrue((obj == anObject), @"");
-    STAssertEqualObjects(obj, anObject, @"");
+    XCTAssertTrue((obj == anObject), @"");
+    XCTAssertEqualObjects(obj, anObject, @"");
 }
 
 @end

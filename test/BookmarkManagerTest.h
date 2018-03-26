@@ -6,9 +6,9 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface BookmarkManagerTest : SenTestCase {
+@interface BookmarkManagerTest : XCTestCase {
 }
 
 @end
