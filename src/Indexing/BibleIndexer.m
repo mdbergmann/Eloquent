@@ -130,7 +130,7 @@ SearchBookSet *searchBookSet;
             
             Boolean inProgress = YES;
             CFIndex count;
-            while(inProgress == YES) {
+            while(inProgress) {
                 if(maxResults > kMaxSearchResults) {
                     count = kMaxSearchResults;
                     maxResults = maxResults - kMaxSearchResults;
@@ -180,7 +180,7 @@ SearchBookSet *searchBookSet;
                     NSArray *verseKeyInfo = [docName componentsSeparatedByString:@"/"];
                     if([verseKeyInfo count] == 5) {
                         // get book osis name
-                        NSString *osisName = (NSString *)[verseKeyInfo objectAtIndex:4];
+                        NSString *osisName = (NSString *) verseKeyInfo[4];
                         if([osisName length] > 0) {
                             if([searchBookSet containsBook:osisName]) {
                                 addDoc = YES;
@@ -192,14 +192,14 @@ SearchBookSet *searchBookSet;
                 }
                 
                 // add if in range
-                if(addDoc == YES) {
+                if(addDoc) {
                     NSDictionary *propDict = (NSDictionary *)CFBridgingRelease(SKIndexCopyDocumentProperties(contentIndexRef, hit));
                     if(propDict != nil) {
                         searchEntry = [[SearchResultEntry alloc] initWithDictionary:propDict];
                     }
 
                     // add score
-                    [searchEntry addObject:[NSNumber numberWithFloat:scores[i]] forKey:IndexPropDocScore];
+                    [searchEntry addObject:@(scores[i]) forKey:IndexPropDocScore];
                     
                     // add Document Name
                     [searchEntry addObject:docName forKey:IndexPropDocName];

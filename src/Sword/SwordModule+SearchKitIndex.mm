@@ -190,14 +190,23 @@ NSString *EloquentIndexVersion = @"1.2";
     for(SwordBibleBook *bb in [self bookList]) {
         
 		@autoreleasepool {
-        
-            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
+
+            // do not set the self created list key
+            // just move the existing key
+            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
             [lk setPosition:SWPOS_TOP];
-            NSString *ref;
-            NSString *stripped;
+
+            SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[self versification]];
+            [verseKey setKeyText:[lk keyText]];
+
+            NSString *stripped = nil;
+            NSString *ref = nil;
             while(![lk error]) {
-                ref = [lk keyText];
-                [self setSwordKey:lk];
+                [verseKey setKeyText:[lk keyText]];
+
+                ref = [verseKey keyText];
+                [self setKeyString:ref];
+
                 stripped = [self strippedText];
                 
                 NSMutableDictionary *properties = [@{IndexPropSwordKeyString : ref} mutableCopy];
@@ -251,14 +260,23 @@ NSString *EloquentIndexVersion = @"1.2";
         
 		@autoreleasepool {
 
-        // we want to skip consecutive links. Commentary module does this by default.
-            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];    
+            // we want to skip consecutive links. Commentary module does this by default.
+            // do not set the self created list key
+            // just move the existing key
+            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
             [lk setPosition:SWPOS_TOP];
-            [self setSwordKey:lk];
-            NSString *ref;
-            NSString *stripped;
-            while(![self error]) {
-                ref = [lk keyText];
+
+            SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[self versification]];
+            [verseKey setKeyText:[lk keyText]];
+
+            NSString *stripped = nil;
+            NSString *ref = nil;
+            while(![lk error]) {
+                [verseKey setKeyText:[lk keyText]];
+
+                ref = [verseKey keyText];
+                [self setKeyString:ref];
+
                 stripped = [self strippedText];
                 
                 NSDictionary *properties = @{IndexPropSwordKeyString : ref};
@@ -266,8 +284,8 @@ NSString *EloquentIndexVersion = @"1.2";
                 if(stripped && [stripped length] > 0) {
                     [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
                 }
-                
-                [self incKeyPosition];
+
+                [lk increment];
             }
 
 		}
@@ -276,8 +294,6 @@ NSString *EloquentIndexVersion = @"1.2";
             [[indexer progressIndicator] incrementProgressBy:1.0];
         }
     }
-    // reset key
-    [self setKeyString:@"gen"];
 
     [self unlockModuleAccess];
 }
@@ -294,6 +310,7 @@ NSString *EloquentIndexVersion = @"1.2";
     }
 
     @autoreleasepool {
+
         for(NSString *key in [self allKeys]) {
             // entryForKey does lock
             NSString *entry = [self entryForKey:key];

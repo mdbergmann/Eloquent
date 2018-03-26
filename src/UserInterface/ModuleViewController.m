@@ -155,7 +155,7 @@
     if(results) {
         [searchContentCache setCount:[results count]];
         NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"documentName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:descriptor];
+        NSArray *sortDescriptors = @[descriptor];
         NSArray *sortedResults = [results sortedArrayUsingDescriptors:sortDescriptors];
         [searchContentCache setContent:[self displayableHTMLForIndexedSearchResults:sortedResults]];
         

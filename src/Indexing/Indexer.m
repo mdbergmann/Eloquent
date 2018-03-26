@@ -117,14 +117,14 @@
     // create options
     NSMutableDictionary *options = [NSMutableDictionary dictionaryWithCapacity:4];
     if(query) {
-        [options setObject:query forKey:@"Query"];    
+        options[@"Query"] = query;
     }
     if(constrains) {
-        [options setObject:constrains forKey:@"Constrains"];
+        options[@"Constrains"] = constrains;
     }
-    [options setObject:[NSNumber numberWithLong:maxResults] forKey:@"MaxResults"];
+    options[@"MaxResults"] = @(maxResults);
     if(delegate) {
-        [options setObject:delegate forKey:@"Delegate"];
+        options[@"Delegate"] = delegate;
     }
     
     [NSThread detachNewThreadSelector:@selector(performThreadedSearchOperation:) toTarget:self withObject:options];
@@ -136,10 +136,11 @@
 - (void)performThreadedSearchOperation:(NSDictionary *)options {
     
     // get options
-    NSString *query = [options objectForKey:@"Query"];
-    id constrains = [options objectForKey:@"Constrains"];
-    int maxResults = [[options objectForKey:@"MaxResults"] intValue];
-    id delegate = [options objectForKey:@"Delegate"];
+    NSString *query = options[@"Query"];
+    id constrains;
+    constrains = options[@"Constrains"];
+    int maxResults = [options[@"MaxResults"] intValue];
+    id delegate = options[@"Delegate"];
     
     // perform search
     NSArray *result = [self performSearchOperation:query constrains:constrains maxResults:maxResults];

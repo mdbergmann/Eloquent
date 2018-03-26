@@ -7,16 +7,20 @@
 //
 
 #import "IndexingManager.h"
-#import "globals.h"
-#import "ObjCSword/SwordManager.h"
+#import "ObjCSword/swordManager.h"
 #import "SearchBookSet.h"
 #import "ObjCSword/SwordVerseKey.h"
 #import "Indexer.h"
 #import "SwordModule+SearchKitIndex.h"
 #import "Eloquent-Swift.h"
 
-@interface IndexingManager ()
+@interface IndexingManager () {
+    /** don't start two threads */
+    NSLock *indexCheckLock;
+}
 
+@property (readwrite) int interval;
+@property (readwrite) BOOL stalled;
 @property (strong, readwrite) NSTimer *timer;
 @property (strong, readwrite) NSMutableDictionary *indexerRegistrat;
 
@@ -38,14 +42,6 @@
 
 @implementation IndexingManager
 
-@synthesize baseIndexPath;
-@synthesize swordManager;
-@synthesize interval;
-@synthesize stalled;
-@synthesize timer;
-@synthesize searchBookSets;
-@synthesize indexerRegistrat;
-
 /**
 \brief creates a non existing empty index for the given parameters
  @param[in] modName: the name of the module.
@@ -60,7 +56,7 @@
  this method can be run in separate thread for checking index validity
  */
 - (void)runIndexCheck {
-    if(!stalled) {
+    if(!self.stalled) {
         [NSThread detachNewThreadSelector:@selector(detachedIndexCheckRunner) toTarget:self withObject:nil];    
     }
 }
@@ -73,10 +69,10 @@
         @autoreleasepool {
         
         // make copy of array
-            NSArray *modNames = [NSArray arrayWithArray:[swordManager moduleNames]];
+            NSArray *modNames = [NSArray arrayWithArray:[self.swordManager moduleNames]];
             for(NSString *name in modNames) {
                 CocoLog(LEVEL_DEBUG, @"checking index for module: %@", name);
-                SwordModule *mod = [swordManager moduleWithName:name];
+                SwordModule *mod = [self.swordManager moduleWithName:name];
                 if(![mod hasSKSearchIndex]) {
                     CocoLog(LEVEL_DEBUG, @"creating index for module: %@", name);
                     [mod createSKSearchIndex];
@@ -229,7 +225,7 @@
 
 - (void)storeSearchBookSets {
     // store
-    [NSKeyedArchiver archiveRootObject:searchBookSets toFile:[[FolderUtil urlForDefaultSearchBooksets] path]];
+    [NSKeyedArchiver archiveRootObject:self.searchBookSets toFile:[[FolderUtil urlForDefaultSearchBooksets] path]];
 }
 
 /**
@@ -244,7 +240,7 @@
 	
 	NSFileManager *fm = [NSFileManager defaultManager];    
     NSString *indexFolder = [self indexFolderPathForModuleName:aModName];
-    if([fm fileExistsAtPath:indexFolder] == NO) {
+    if(![fm fileExistsAtPath:indexFolder]) {
         // create index folder
         [fm createDirectoryAtPath:indexFolder withIntermediateDirectories:NO attributes:nil error:NULL];
     }
@@ -254,13 +250,13 @@
 	SKIndexRef indexRef;
 	NSString *indexPath = [self indexPathForModuleName:aModName textType:aModType];
 	NSURL *indexURL = [NSURL fileURLWithPath:indexPath];
-	if([fm fileExistsAtPath:indexPath] == YES) {
+	if([fm fileExistsAtPath:indexPath]) {
 		// open index
 		indexRef = SKIndexOpenWithURL((__bridge CFURLRef)indexURL, (__bridge CFStringRef)indexName, NO);
 	} else {
         // create properties for indexing
         NSMutableDictionary *props = [NSMutableDictionary dictionary];
-        [props setObject:(NSNumber *)kCFBooleanTrue forKey:(NSString *)kSKProximityIndexing];
+        props[(NSString *) kSKProximityIndexing] = (NSNumber *) kCFBooleanTrue;
         
 		// create index
 		indexRef = SKIndexCreateWithURL((__bridge CFURLRef)indexURL,
@@ -276,10 +272,10 @@
  the manager should be used to aquire indexers. the manager will keep track of already opened indexers and not open new ones if not necessary.
  */
 - (Indexer *)indexerForModuleName:(NSString *)aName moduleType:(int)aType {
-    Indexer *ret = [indexerRegistrat objectForKey:aName];
+    Indexer *ret = self.indexerRegistrat[aName];
     if(!ret) {
         ret = [Indexer indexerWithModuleName:aName moduleType:aType];
-        [indexerRegistrat setObject:ret forKey:aName];
+        self.indexerRegistrat[aName] = ret;
     }
     
     if(ret) {
@@ -299,7 +295,7 @@
     if([aIndexer accessCounter] == 0) {
         [aIndexer close];
         // and remove from registrat
-        [indexerRegistrat removeObjectForKey:[aIndexer modName]];
+        [self.indexerRegistrat removeObjectForKey:[aIndexer modName]];
     }
 }
 
@@ -309,17 +305,17 @@
  */
 - (void)triggerBackgroundIndexCheck {
     
-    // check for swordManager
-    if(swordManager == nil) {    
-        CocoLog(LEVEL_ERR, @"[IndexingManager -triggerBackgroundIndexCheck] no SwordManager instance available!");
+    // check for self.swordManager
+    if(self.swordManager == nil) {    
+        CocoLog(LEVEL_ERR, @"[IndexingManager -triggerBackgroundIndexCheck] no self.swordManager instance available!");
         return;
     }
     
 	// run every $interval seconds
     CocoLog(LEVEL_INFO, @"[IndexingManager -triggerBackgroundIndexCheck] starting index check timer");
-    if(![timer isValid] || timer == nil) {
+    if(![self.timer isValid] || self.timer == nil) {
         CocoLog(LEVEL_DEBUG, @"[IndexingManager -triggerBackgroundIndexCheck] starting new timer");
-        NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:(float)interval
+        NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:(float)self.interval
                                                       target:self 
                                                     selector:@selector(runIndexCheck) 
                                                     userInfo:nil 
@@ -334,8 +330,8 @@
  stops the background indexer and removes the timer
  */
 - (void)invalidateBackgroundIndexer {
-    if(timer) {
-        [timer invalidate];
+    if(self.timer) {
+        [self.timer invalidate];
     }
 }
 
@@ -364,7 +360,7 @@
     // we currently only have content types
 	NSString *indexName = [NSString stringWithFormat:@"index-%@", aModName];
 
-    NSString *ret = [baseIndexPath stringByAppendingPathComponent:indexName];
+    NSString *ret = [self.baseIndexPath stringByAppendingPathComponent:indexName];
     return ret;
 }
 
@@ -378,7 +374,7 @@
 	NSFileManager *fm = [NSFileManager defaultManager];
     NSString *indexPath	= [self indexFolderPathForModuleName:aModName];
 	
-	return (([fm fileExistsAtPath:indexPath isDirectory:&isDir] && isDir == YES) ? YES : NO);
+	return [fm fileExistsAtPath:indexPath isDirectory:&isDir] && isDir;
 }
 
 /**

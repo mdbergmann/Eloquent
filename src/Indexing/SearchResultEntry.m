@@ -52,7 +52,7 @@
     if((object == nil) || (key == nil)) {
         CocoLog(LEVEL_ERR, @"object or key = nil!");
     } else {
-        [properties setObject:object forKey:key];
+        properties[key] = object;
     }
 }
 
@@ -62,7 +62,7 @@
     if(key == nil) {
         CocoLog(LEVEL_ERR, @"key = nil!");
     } else {
-        ret = [properties objectForKey:key];
+        ret = properties[key];
     }
     
     return ret;

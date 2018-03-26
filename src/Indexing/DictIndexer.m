@@ -133,7 +133,7 @@
             
             Boolean inProgress = YES;
             CFIndex count;
-            while(inProgress == YES) {
+            while(inProgress) {
                 if(maxResults > kMaxSearchResults) {
                     count = kMaxSearchResults;
                     maxResults = maxResults - kMaxSearchResults;
@@ -181,7 +181,7 @@
                 }
                 
                 // add score
-                [searchEntry addObject:[NSNumber numberWithFloat:scores[i]] forKey:IndexPropDocScore];
+                [searchEntry addObject:@(scores[i]) forKey:IndexPropDocScore];
                 
                 // add Document Name
                 [searchEntry addObject:docName forKey:IndexPropDocName];

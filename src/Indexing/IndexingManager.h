@@ -12,34 +12,10 @@
 @class SwordModule, SwordManager;
 @class Indexer;
 
-@interface IndexingManager : NSObject {
-	NSString *baseIndexPath;
-    
-    /** interval in seconds for timer to fire */
-    int interval;
-    
-    /** timer for background indexer */
-    NSTimer *timer;
-    
-    /** this indexing manager has a dedicated SwordManager instance */
-    SwordManager *swordManager;
-    
-    BOOL stalled;
-    
-    /** don't start two threads */
-    NSLock *indexCheckLock;
-    
-    /** book sets for indexed search */
-    NSMutableArray *searchBookSets;
-    
-    /** registers open indexers */
-    NSMutableDictionary *indexerRegistrat;
-}
+@interface IndexingManager : NSObject
 
 @property (strong, readwrite) NSString *baseIndexPath;
 @property (strong, readwrite) SwordManager *swordManager;
-@property (readwrite) int interval;
-@property (readwrite) BOOL stalled;
 @property (strong, readwrite) NSMutableArray *searchBookSets;
 
 /**
