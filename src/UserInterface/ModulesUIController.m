@@ -263,7 +263,7 @@ enum ModuleMenu_Items{
     attrString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"AboutModuleShortPromo", @"")
                                                  attributes:@{NSFontAttributeName: FontMoreLargeBold}];
     [ret appendAttributedString:attrString];
-    
+
     NSString *promoString = [NSString stringWithFormat:@"%@<br /><br />", [aMod shortPromo]];
 
     NSMutableDictionary *options = [NSMutableDictionary dictionary];

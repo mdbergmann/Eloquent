@@ -85,7 +85,7 @@
     [outlineView setDoubleAction:@selector(doubleClick)];
     
     // set drag & drop types
-    [outlineView registerForDraggedTypes:[NSArray arrayWithObjects:DD_BOOKMARK_TYPE, DD_NOTE_TYPE, nil]];
+    [outlineView registerForDraggedTypes:@[DD_BOOKMARK_TYPE, DD_NOTE_TYPE]];
     // make our outline view appear with gradient selection, and behave like the Finder, iTunes, etc.
     [outlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
     
@@ -105,6 +105,9 @@
 
     // expand the first two items
     // second first, otherwise second is not second anymore
+    if([[[notesManager notesFileRep] directoryContent] count] > 0) {
+        [outlineView expandItem:[outlineView itemAtRow:2]];
+    }
     [outlineView expandItem:[outlineView itemAtRow:1]];
     [outlineView expandItem:[outlineView itemAtRow:0]];
 }
@@ -131,7 +134,7 @@
         ret = [outlineView itemAtRow:clickedRow];
     } else {
         if([selectedItems count] > 0) {
-            ret = [selectedItems objectAtIndex:0];
+            ret = selectedItems[0];
         }
     }
     
@@ -208,15 +211,15 @@
     } else if(item == modulesRootItem) {
         // modules root
         // get categories
-        ret = [[SwordModCategory moduleCategories] objectAtIndex:(NSUInteger)index];
+        ret = [SwordModCategory moduleCategories][(NSUInteger) index];
     } else if(item == bookmarksRootItem) {
         // bookmarks root
         // get bookmarks
-        ret = [[bookmarkManager bookmarks] objectAtIndex:(NSUInteger)index];
+        ret = [bookmarkManager bookmarks][(NSUInteger) index];
     } else if(item == notesRootItem) {
         // notes root
         // get notes
-        ret = [[[notesManager notesFileRep] directoryContent] objectAtIndex:(NSUInteger)index];
+        ret = [[notesManager notesFileRep] directoryContent][(NSUInteger) index];
     } else if([item isKindOfClass:[SwordModCategory class]]) {
         // module category
         switch([(SwordModCategory *)item modType]) {
@@ -237,10 +240,10 @@
         }
     } else if([item isKindOfClass:[Bookmark class]] && ![(Bookmark *)item isLeaf]) {
         // bookmark folder
-        ret = [[(Bookmark *)item subGroups] objectAtIndex:(NSUInteger)index];
+        ret = [(Bookmark *) item subGroups][(NSUInteger) index];
     } else if([item isKindOfClass:[FileRepresentation class]] && [(FileRepresentation *)item isDirectory]) {
         // notes folder
-        ret = [[(FileRepresentation *)item directoryContent] objectAtIndex:(NSUInteger)index];
+        ret = [(FileRepresentation *) item directoryContent][(NSUInteger) index];
     }
     
     return ret;
@@ -324,7 +327,7 @@
     NSString *dragType = @"";
     NSMutableArray *dragItems = [NSMutableArray arrayWithCapacity:[items count]];
     for(int i = 0;i < [items count];i++) {
-        id item = [items objectAtIndex:i];
+        id item = items[i];
         if([item isKindOfClass:[Bookmark class]]) {
             // get the bookmarks instances and encode them
             BookmarkDragItem *di = [[BookmarkDragItem alloc] init];
@@ -343,7 +346,7 @@
     if([dragItems count] > 0) {
         // write them to paste board
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dragItems];
-        [pboard declareTypes:[NSArray arrayWithObject:dragType] owner:self];
+        [pboard declareTypes:@[dragType] owner:self];
         [pboard setData:data forType:dragType];
         return YES;        
     }
@@ -519,10 +522,7 @@
 }
 
 - (BOOL)outlineView:(NSOutlineView *)aOutlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
-    if([item isKindOfClass:[FileRepresentation class]]) {
-        return YES;
-    }
-    return NO;
+    return [item isKindOfClass:[FileRepresentation class]];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)aOutlineView isGroupItem:(id)item {
