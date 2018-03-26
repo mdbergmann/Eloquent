@@ -56,14 +56,6 @@ typedef enum {
 // Text pulling
 
 /**
- * Overriding from SwordModule to return SwordBibleTextEntry.
- * @param aReference
- * @param aType
- * @return
- */
-- (SwordModuleTextEntry *)textEntryForReference:(NSString *)aReference renderType:(RenderType)aType;
-
-/**
  * Delegates to textEntriesForReference:context:textType:
  * @param aReference the reference like 'Gen 1'
  * @param context a context setting. when set > 0 then verses surrounding a key will also be retrieved.
@@ -82,20 +74,38 @@ typedef enum {
 /**
  Override from super class
  Delegates to textEntriesForReference:context:textType:
+
+ The block received an instance of SwordBibleTextEntry
+
  @return Array of SwordBibleTextEntry
  */
-- (NSArray *)textEntriesForReference:(NSString *)aReference renderType:(RenderType)aType;
+- (NSArray *)textEntriesForReference:(NSString *)aReference
+                          renderType:(RenderType)aType
+                           withBlock:(void(^)(SwordModuleTextEntry *))entryResult;
 
 /**
  * The actual implementation.
  *
  * It locks and unlock the module.
  *
+ * The block received an instance of SwordBibleTextEntry
+ *
  * @param aReference
  * @param context
  * @param aType
  * @return
  */
-- (NSArray *)textEntriesForReference:(NSString *)aReference context:(int)context textType:(RenderType)aType;
+- (NSArray *)textEntriesForReference:(NSString *)aReference
+                             context:(int)context
+                          renderType:(RenderType)aType
+                           withBlock:(void(^)(SwordModuleTextEntry *))entryResult;
+
+/**
+ * Overriding from SwordModule to return SwordBibleTextEntry.
+ * @param aReference
+ * @param aType
+ * @return
+ */
+- (SwordModuleTextEntry *)textEntryForReference:(NSString *)aReference renderType:(RenderType)aType;
 
 @end

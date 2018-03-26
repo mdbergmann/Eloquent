@@ -322,6 +322,8 @@ typedef enum {
  This contains real logic.
  Returns an array of text entries, either rendered or stripped.
 
+ the block is called with each search result for custom activity.
+
  !!! attention, is SwordModule this only returns one entry because we don't know if we are a bible or what.
  Subclasses should extend or override the functionality !!!
 
@@ -329,7 +331,9 @@ typedef enum {
 
  @return Array of SwordModuleTextEntry
  */
-- (NSArray *)textEntriesForReference:(NSString *)aReference renderType:(RenderType)textType;
+- (NSArray *)textEntriesForReference:(NSString *)aReference
+                          renderType:(RenderType)aType
+                           withBlock:(void(^)(SwordModuleTextEntry *))entryResult;
 
 /**
  * Retrieves a text entry for the given reference.
@@ -339,7 +343,7 @@ typedef enum {
  */
 - (SwordModuleTextEntry *)textEntryForReference:(NSString *)aReference renderType:(RenderType)aType;
 
-/** 
+/**
  number of entries
  abstract method, should be overridden by subclasses
  */

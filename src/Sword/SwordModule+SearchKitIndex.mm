@@ -186,32 +186,16 @@ NSString *EloquentIndexVersion = @"1.2";
         [[indexer progressIndicator] setProgressIndeterminate:NO];
     }
     
-    [self lockModuleAccess];
     for(SwordBibleBook *bb in [self bookList]) {
-        
 		@autoreleasepool {
 
-            // do not set the self created list key
-            // just move the existing key
-            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
-            [lk setPosition:SWPOS_TOP];
+            [self textEntriesForReference:[bb osisName] renderType:RenderTypeStripped withBlock:^(SwordModuleTextEntry *entry) {
+                NSString *stripped = [entry text];
+                NSString *ref = [entry key];
 
-            SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[self versification]];
-            [verseKey setKeyText:[lk keyText]];
-
-            NSString *stripped = nil;
-            NSString *ref = nil;
-            while(![lk error]) {
-                [verseKey setKeyText:[lk keyText]];
-
-                ref = [verseKey keyText];
-                [self setKeyString:ref];
-
-                stripped = [self strippedText];
-                
                 NSMutableDictionary *properties = [@{IndexPropSwordKeyString : ref} mutableCopy];
                 NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
-                
+
                 NSMutableString *strongStr = [NSMutableString string];
                 if([self processEntryAttributes]) {
                     NSArray *strongNumbers = [self entryAttributeValuesLemmaNormalized];
@@ -223,23 +207,20 @@ NSString *EloquentIndexVersion = @"1.2";
                         properties[IndexPropSwordStrongString] = strongStr;
                     }
                 }
-                
+
                 if((stripped && [stripped length] > 0) || (strongStr && [strongStr length] > 0)) {
-                    NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", stripped, strongStr];                
+                    NSString *indexContent = [NSString stringWithFormat:@"%@ - %@", stripped, strongStr];
                     // add to index
-                    [indexer addDocument:keyIndex text:indexContent textType:ContentTextType storeDict:properties];                
+                    [indexer addDocument:keyIndex text:indexContent textType:ContentTextType storeDict:properties];
                 }
-                
-                [lk increment];
-            }
-        
+            }];
+
 		}
         
         if([indexer progressIndicator] != nil) {
             [[indexer progressIndicator] incrementProgressBy:1.0];
         }
     }
-    [self unlockModuleAccess];
 
 	[self setProcessEntryAttributes:savePEA];
 }
@@ -255,38 +236,19 @@ NSString *EloquentIndexVersion = @"1.2";
         [[indexer progressIndicator] setProgressIndeterminate:NO];
     }
 
-    [self lockModuleAccess];
     for(SwordBibleBook *bb in [self bookList]) {
-        
 		@autoreleasepool {
 
-            // we want to skip consecutive links. Commentary module does this by default.
-            // do not set the self created list key
-            // just move the existing key
-            SwordListKey *lk = [SwordListKey listKeyWithRef:[bb osisName] v11n:[self versification]];
-            [lk setPosition:SWPOS_TOP];
+            [self textEntriesForReference:[bb osisName] renderType:RenderTypeStripped withBlock:^(SwordModuleTextEntry *entry) {
+                NSString *stripped = [entry text];
+                NSString *ref = [entry key];
 
-            SwordVerseKey *verseKey = [SwordVerseKey verseKeyWithRef:[lk keyText] v11n:[self versification]];
-            [verseKey setKeyText:[lk keyText]];
-
-            NSString *stripped = nil;
-            NSString *ref = nil;
-            while(![lk error]) {
-                [verseKey setKeyText:[lk keyText]];
-
-                ref = [verseKey keyText];
-                [self setKeyString:ref];
-
-                stripped = [self strippedText];
-                
                 NSDictionary *properties = @{IndexPropSwordKeyString : ref};
                 NSString *keyIndex = [self indexOfVerseKey:[SwordVerseKey verseKeyWithRef:ref v11n:[self versification]]];
                 if(stripped && [stripped length] > 0) {
-                    [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];                
+                    [indexer addDocument:keyIndex text:stripped textType:ContentTextType storeDict:properties];
                 }
-
-                [lk increment];
-            }
+            }];
 
 		}
 
@@ -294,8 +256,6 @@ NSString *EloquentIndexVersion = @"1.2";
             [[indexer progressIndicator] incrementProgressBy:1.0];
         }
     }
-
-    [self unlockModuleAccess];
 }
 
 @end
@@ -327,6 +287,7 @@ NSString *EloquentIndexVersion = @"1.2";
                 [[indexer progressIndicator] incrementProgressBy:1.0];
             }
         }
+
     }        
 }
 
