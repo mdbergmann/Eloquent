@@ -373,14 +373,12 @@
 			NSIndexSet *selectedRows = [oview selectedRowIndexes];
 			NSUInteger len = [selectedRows count];
 			NSMutableArray *sel = [NSMutableArray arrayWithCapacity:len];
-            SwordModuleTreeEntry *item;
 			if(len > 0) {
 				NSUInteger indexes[len];
 				[selectedRows getIndexes:indexes maxCount:len inIndexRange:nil];
 				
 				for(int i = 0;i < len;i++) {
-                    item = [oview itemAtRow:indexes[i]];
-                    [sel addObject:[item key]];
+                    [sel addObject:[(SwordModuleTreeEntry *)[oview itemAtRow:indexes[i]] key]];
 				}
             }
             
