@@ -17,6 +17,8 @@
 /** the view of this view controller is a ScrollSynchronizableView */
 @interface DictionaryViewController : ModuleViewController <NSCoding, NSTableViewDataSource, NSTableViewDelegate> {
     IBOutlet NSPopUpButton *modulePopBtn;
+
+    IBOutlet NSView *sideBarView;
     IBOutlet NSTableView *entriesTableView;
     
     NSMutableArray *selection;
@@ -31,5 +33,7 @@
 // NSCoding
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
+
+- (void)moduleSelectionChanged:(NSMenuItem *)sender;
 
 @end

@@ -16,6 +16,8 @@
 /** the view of this view controller is a ScrollSynchronizableView */
 @interface GenBookViewController : ModuleViewController <NSCoding, NSOutlineViewDataSource, NSOutlineViewDelegate> {
     IBOutlet NSPopUpButton *modulePopBtn;
+
+    IBOutlet NSView *sideBarView;
     IBOutlet NSOutlineView *entriesOutlineView;
 }
 

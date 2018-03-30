@@ -464,12 +464,13 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="454" y="250" width="715" height="570"/>
+            <rect key="contentRect" x="903" y="432" width="715" height="570"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="372" userLabel="View">
                 <rect key="frame" x="0.0" y="0.0" width="715" height="570"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
+            <point key="canvasLocation" x="133" y="-729"/>
         </window>
         <window title="Preview" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" visibleAtLaunch="NO" appearanceType="aqua" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="409" userLabel="PreviewPanel (Preview)" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
@@ -537,7 +538,7 @@
         <window title="Create Module" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="488">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="411" width="335" height="99"/>
+            <rect key="contentRect" x="1094" y="790" width="335" height="99"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="489">
                 <rect key="frame" x="0.0" y="0.0" width="335" height="99"/>
@@ -594,6 +595,7 @@ DQ
             <connections>
                 <outlet property="delegate" destination="375" id="506"/>
             </connections>
+            <point key="canvasLocation" x="-32" y="-286"/>
         </window>
         <customObject id="wzq-0G-3ij" customClass="HUDPreviewController">
             <connections>

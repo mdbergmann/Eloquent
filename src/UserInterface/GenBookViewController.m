@@ -93,6 +93,8 @@
         [self displayTextForReference:searchString searchType:searchType];    
     }
 
+    [entriesOutlineView reloadData];
+
     myIsViewLoaded = YES;
 }
 
@@ -243,9 +245,11 @@
 - (void)displayTextForReference:(NSString *)aReference searchType:(SearchType)aType {
     // for index mode the reference must not be an empty string
     // for reference mode we let through everything
-    if(aReference && ([aReference length] > 0)) {
-        [super displayTextForReference:aReference searchType:aType];
+    if(aType == IndexSearchType && (!aReference || ([aReference length] == 0))) {
+        return;
     }
+
+    [super displayTextForReference:aReference searchType:aType];
 }
 
 - (BOOL)hasValidCacheObject {
@@ -283,7 +287,7 @@
 }
 
 - (NSView *)rightAccessoryView {
-    return [entriesOutlineView enclosingScrollView];
+    return sideBarView;
 }
 
 - (BOOL)showsRightSideBar {
@@ -329,6 +333,8 @@
         // add the web view as content view to the placeholder
         [placeHolderView setContentView:[aView view]];
         [self reportLoadingComplete];
+
+        [entriesOutlineView reloadData];
     }
     
     [self adaptUIToHost];
@@ -340,14 +346,20 @@
     NSString *name = [sender title];
     if((self.module == nil) || (![name isEqualToString:[module name]])) {
         self.module = [[SwordManager defaultManager] moduleWithName:name];
-        
-        [self.selection removeAllObjects];
-        [entriesOutlineView reloadData];
-        
-        if((self.searchString != nil) && ([self.searchString length] > 0)) {
-            forceRedisplay = YES;
-            [self displayTextForReference:self.searchString searchType:searchType];
-        }        
+
+        [self moduleChanged];
+    }
+}
+
+- (void)moduleChanged {
+    [super moduleChanged];
+
+    [self.selection removeAllObjects];
+    [entriesOutlineView reloadData];
+
+    if((self.searchString != nil) && ([self.searchString length] > 0)) {
+        forceRedisplay = YES;
+        [self displayTextForReference:self.searchString searchType:searchType];
     }
 }
 
@@ -397,34 +409,38 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     if(!myIsViewLoaded) return 0;
 
+    NSInteger count;
 	if(item == nil) {
         SwordModuleTreeEntry *root = [(SwordBook *)module treeEntryForKey:nil];
-        return [[root content] count];
+        count = [[root content] count];
 	} else {
         SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
-        return [[treeEntry content] count];
+        count = [[treeEntry content] count];
     }
+    return count;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+    SwordModuleTreeEntry *ret;
     if(item == nil) {
         SwordModuleTreeEntry *treeEntry = [(SwordBook *)module treeEntryForKey:nil];
         NSString *key = [treeEntry content][(NSUInteger) index];
-        return [(SwordBook *)module treeEntryForKey:key];
+        ret = [(SwordBook *)module treeEntryForKey:key];
 	} else {
         SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
         NSString *key = [treeEntry content][(NSUInteger) index];
-        return [(SwordBook *)module treeEntryForKey:key];
+        ret = [(SwordBook *)module treeEntryForKey:key];
     }
+    return ret;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {    
-    SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;    
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+    SwordModuleTreeEntry *treeEntry = (SwordModuleTreeEntry *)item;
+    NSString *ret = @"test";
     if(treeEntry != nil) {
-        return [[treeEntry key] lastPathComponent];
+        ret = [[treeEntry key] lastPathComponent];
     }
-    
-    return @"test";
+    return ret;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {    

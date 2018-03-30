@@ -45,7 +45,7 @@
 }
 
 - (void)reportLoadingComplete {
-    if(delegate && isLoadingCompleteReported == NO) {
+    if(delegate && !isLoadingCompleteReported) {
         if([delegate respondsToSelector:@selector(contentViewInitFinished:)]) {
             [delegate performSelector:@selector(contentViewInitFinished:) withObject:self];
             isLoadingCompleteReported = YES;

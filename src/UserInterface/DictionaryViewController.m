@@ -326,7 +326,7 @@
 }
 
 - (NSView *)rightAccessoryView {
-    return [entriesTableView enclosingScrollView];
+    return sideBarView;
 }
 
 - (BOOL)showsRightSideBar {

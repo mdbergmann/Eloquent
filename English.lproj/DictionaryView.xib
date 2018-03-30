@@ -16,6 +16,7 @@
                 <outlet property="modulePopBtn" destination="29" id="47"/>
                 <outlet property="placeHolderView" destination="16" id="72"/>
                 <outlet property="referenceOptionsView" destination="82" id="94"/>
+                <outlet property="sideBarView" destination="50" id="vzt-CF-kT8"/>
                 <outlet property="statusLine" destination="38" id="49"/>
                 <outlet property="textContextMenu" destination="98" id="116"/>
                 <outlet property="view" destination="1" id="73"/>
@@ -82,7 +83,7 @@
             </subviews>
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="67"/>
-        <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="50">
+        <scrollView focusRingType="none" misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="50">
             <rect key="frame" x="0.0" y="0.0" width="157" height="476"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="VPS-pb-oco">
@@ -90,7 +91,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" id="53">
-                        <rect key="frame" x="0.0" y="0.0" width="157" height="476"/>
+                        <rect key="frame" x="0.0" y="0.0" width="157" height="474"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <size key="intercellSpacing" width="3" height="2"/>
                         <color key="backgroundColor" red="0.87634407999999997" green="0.87634407999999997" blue="0.87634407999999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -118,6 +119,7 @@
                     </tableView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="2" bottom="0.0"/>
             </clipView>
             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="52">
                 <rect key="frame" x="0.0" y="462" width="142" height="11"/>
@@ -141,7 +143,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Font size" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="197" id="195">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="system" size="12"/>
+                                <font key="font" metaFont="cellTitle"/>
                                 <menu key="menu" title="OtherViews" id="196">
                                     <items>
                                         <menuItem title="Font size" hidden="YES" id="197">
@@ -177,7 +179,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="recessed" title="Mod Options" bezelStyle="recessed" alignment="center" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="182" id="180">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="system" size="12"/>
+                                <font key="font" metaFont="cellTitle"/>
                                 <menu key="menu" title="OtherViews" id="181">
                                     <items>
                                         <menuItem title="Mod Options" hidden="YES" id="182"/>
