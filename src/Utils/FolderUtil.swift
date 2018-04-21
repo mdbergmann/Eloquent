@@ -81,6 +81,7 @@ import Cocoa
             modulesFolder = urlForAppSupportFolder()?.appendingPathComponent("Sword")
             if !FileManager.default.fileExists(atPath:modulesFolder!.path) {
                 try! FileManager.default.createDirectory(atPath:modulesFolder!.path, withIntermediateDirectories:false, attributes:nil)
+                try! FileManager.default.createFile(atPath:modulesFolder!.path+"/mods.conf", contents:Data())
             }
         }
         return modulesFolder
