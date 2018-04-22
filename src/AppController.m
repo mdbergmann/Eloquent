@@ -55,6 +55,9 @@
 
 /**
  sets up all needed folders so the application can work
+
+ !!! Do not create the "Sword" folder here. This is created by ObjCSword including the required 'modules' and 'mods.d' folders.
+
  */
 - (BOOL)setupFolders {
     NSString *folder = [[FolderUtil urlForAppInAppSupport] path];
@@ -121,7 +124,7 @@ static AppController *singleton;
 
         // check whether this is the first start of Eloquent
         NSString *prefsPath = PREFS_FILE;
-        NSString *moduleFolder = [[FolderUtil urlForModulesFolder] path];
+        NSString *moduleFolder = [[Configuration config] defaultModulePath];
         if(![fm fileExistsAtPath:prefsPath] && [fm fileExistsAtPath:moduleFolder]) {
             // show Alert
             NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning", @"") 
