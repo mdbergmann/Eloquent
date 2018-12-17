@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ToolbarController">
@@ -17,7 +18,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <toolbar implicitIdentifier="09D11707-F4A3-4FD5-970E-AC5832E91C2B" displayMode="iconOnly" sizeMode="regular" id="1">
             <allowedToolbarItems>
                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="142"/>
@@ -103,14 +104,14 @@
                         <action selector="forceReload:" target="-2" id="138"/>
                     </connections>
                 </toolbarItem>
-                <toolbarItem implicitItemIdentifier="CEC24292-6A0D-410C-928F-A9994C9F9B01" explicitItemIdentifier="LeftSidebarButton" label="Left sidebar" paletteLabel="Left sidebar" image="tb_sidebar_left" id="127">
+                <toolbarItem implicitItemIdentifier="CEC24292-6A0D-410C-928F-A9994C9F9B01" explicitItemIdentifier="LeftSidebarButton" label="Left sidebar" paletteLabel="Left sidebar" image="ViewControlLeftYosemite" id="127">
                     <nil key="toolTip"/>
                     <size key="minSize" width="32" height="25"/>
                     <size key="maxSize" width="32" height="25"/>
                     <button key="view" verticalHuggingPriority="750" id="104">
                         <rect key="frame" x="19" y="14" width="32" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="tb_sidebar_left" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="115">
+                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ViewControlLeftYosemite" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="115">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -122,14 +123,14 @@
                         <action selector="leftSideBarHideShow:" target="-2" id="137"/>
                     </connections>
                 </toolbarItem>
-                <toolbarItem implicitItemIdentifier="FA28506D-55E2-439A-8B20-D240303C6577" explicitItemIdentifier="RightSidebarButton" label="Right sidebar" paletteLabel="Right sidebar" image="tb_sidebar_right" id="128">
+                <toolbarItem implicitItemIdentifier="FA28506D-55E2-439A-8B20-D240303C6577" explicitItemIdentifier="RightSidebarButton" label="Right sidebar" paletteLabel="Right sidebar" image="ViewControlRightYosemite" id="128">
                     <nil key="toolTip"/>
                     <size key="minSize" width="32" height="25"/>
                     <size key="maxSize" width="32" height="25"/>
                     <button key="view" verticalHuggingPriority="750" id="107">
                         <rect key="frame" x="23" y="14" width="32" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="tb_sidebar_right" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="112">
+                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="ViewControlRightYosemite" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="112">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -162,7 +163,7 @@
         <image name="NSListViewTemplate" width="14" height="10"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
-        <image name="tb_sidebar_left" width="15" height="15"/>
-        <image name="tb_sidebar_right" width="15" height="15"/>
+        <image name="ViewControlLeftYosemite" width="18" height="14"/>
+        <image name="ViewControlRightYosemite" width="18" height="14"/>
     </resources>
 </document>
