@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <ObjCSword/SwordModule.h>
-#import <PSMTabBarControl.h>
-#import <PSMTabStyle.h>
+#import "PSMTabBarControl.h"
+#import "PSMTabStyle.h"
 #import "WindowHostController.h"
 
 @class ContentDisplayingViewController;

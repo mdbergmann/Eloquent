@@ -18,7 +18,7 @@ import Cocoa
     private static var modulesFolder: URL?
     private static var installMgrFolder: URL?
     
-    class func urlForLibraryFolder() -> URL? {
+    @objc class func urlForLibraryFolder() -> URL? {
         if libraryFolder == nil {
             let urls = FileManager.default.urls(for:.libraryDirectory, in:.userDomainMask)
             if urls.count > 0 {
@@ -28,15 +28,15 @@ import Cocoa
         return libraryFolder
     }
     
-    class func urlForLogFolder() -> URL? {
+    @objc class func urlForLogFolder() -> URL? {
         return urlForLibraryFolder()?.appendingPathComponent("Logs")
     }
 
-    class func urlForLogfile() -> URL? {
+    @objc class func urlForLogfile() -> URL? {
         return urlForLogFolder()?.appendingPathComponent("\(APPNAME).log")
     }
 
-    class func urlForAppSupportFolder() -> URL? {
+    @objc class func urlForAppSupportFolder() -> URL? {
         if appSupportFolder == nil {
             let urls = FileManager.default.urls(for:.applicationSupportDirectory, in:.userDomainMask)
             if urls.count > 0 {
@@ -46,7 +46,7 @@ import Cocoa
         return appSupportFolder
     }
     
-    class func urlForAppInAppSupport() -> URL? {
+    @objc class func urlForAppInAppSupport() -> URL? {
         if appInAppSupportFolder == nil {
             appInAppSupportFolder = urlForAppSupportFolder()?.appendingPathComponent(APPNAME)
             if !FileManager.default.fileExists(atPath:appInAppSupportFolder!.path) {
@@ -56,7 +56,7 @@ import Cocoa
         return appInAppSupportFolder
     }
 
-    class func urlForNotesFolder() -> URL? {
+    @objc class func urlForNotesFolder() -> URL? {
         if notesFolder == nil {
             notesFolder = urlForAppInAppSupport()?.appendingPathComponent("Notes")
             if !FileManager.default.fileExists(atPath:notesFolder!.path) {
@@ -66,7 +66,7 @@ import Cocoa
         return notesFolder
     }
 
-    class func urlForIndexFolder() -> URL? {
+    @objc class func urlForIndexFolder() -> URL? {
         if indexFolder == nil {
             indexFolder = urlForAppInAppSupport()?.appendingPathComponent("Index")
             if !FileManager.default.fileExists(atPath:indexFolder!.path) {
@@ -76,7 +76,7 @@ import Cocoa
         return indexFolder
     }
 
-    class func urlForModulesFolder() -> URL? {
+    @objc class func urlForModulesFolder() -> URL? {
         if modulesFolder == nil {
             modulesFolder = urlForAppSupportFolder()?.appendingPathComponent("Sword")
             if !FileManager.default.fileExists(atPath:modulesFolder!.path) {
@@ -86,7 +86,7 @@ import Cocoa
         return modulesFolder
     }
 
-    class func urlForModsdInModulesFolder() -> URL? {
+    @objc class func urlForModsdInModulesFolder() -> URL? {
         let folder = urlForModulesFolder()?.appendingPathComponent("mods.d")
         if !FileManager.default.fileExists(atPath:folder!.path) {
             try! FileManager.default.createDirectory(atPath:folder!.path, withIntermediateDirectories:false, attributes:nil)
@@ -94,7 +94,7 @@ import Cocoa
         return folder
     }
 
-    class func urlForInstallMgrModulesFolder() -> URL? {
+    @objc class func urlForInstallMgrModulesFolder() -> URL? {
         if installMgrFolder == nil {
             installMgrFolder = urlForModulesFolder()?.appendingPathComponent(SWINSTALLMGR_NAME)
             if !FileManager.default.fileExists(atPath:installMgrFolder!.path) {
@@ -104,15 +104,15 @@ import Cocoa
         return installMgrFolder
     }
     
-    class func urlForBookmarks() -> URL? {
+    @objc class func urlForBookmarks() -> URL? {
         return urlForAppInAppSupport()?.appendingPathComponent("Bookmarklist.plist")
     }
 
-    class func urlForDefaultSession() -> URL? {
+    @objc class func urlForDefaultSession() -> URL? {
         return urlForAppInAppSupport()?.appendingPathComponent("DefaultSession.mssess")
     }
 
-    class func urlForDefaultSearchBooksets() -> URL? {
+    @objc class func urlForDefaultSearchBooksets() -> URL? {
         return urlForAppInAppSupport()?.appendingPathComponent("DefaultSearchBookSets.plist")
     }
 }

@@ -453,7 +453,7 @@
                             <menuItem title="Eloquent Wiki (Userguide)" id="605">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="openMacSwordWikiPage:" target="375" id="608"/>
+                                    <action selector="openEloquentWikiPage:" target="375" id="608"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Eloquent Forum" id="544">
@@ -465,7 +465,7 @@
                             <menuItem title="Eloquent Home" id="542">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="openMacSwordHomePage:" target="375" id="543"/>
+                                    <action selector="openEloquentHomePage:" target="375" id="543"/>
                                 </connections>
                             </menuItem>
                         </items>

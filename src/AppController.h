@@ -70,8 +70,8 @@
 - (IBAction)showPreviewPanel:(id)sender;
 - (IBAction)showDailyDevotionPanel:(id)sender;
 - (IBAction)showCreateModuleWindow:(id)sender;
-- (IBAction)openMacSwordWikiPage:(id)sender;
-- (IBAction)openMacSwordHomePage:(id)sender;
+- (IBAction)openEloquentWikiPage:(id)sender;
+- (IBAction)openEloquentHomePage:(id)sender;
 - (IBAction)openMacSwordForumPage:(id)sender;
 
 #ifndef APPSTORE

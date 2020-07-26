@@ -8,7 +8,7 @@
  */
 
 #import <ObjCSword/SwordModule.h>
-#import <Indexer.h>
+#import "Indexer.h"
 
 @class HostableViewController;
 @class ContentDisplayingViewController;

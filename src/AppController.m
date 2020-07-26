@@ -565,16 +565,12 @@ static AppController *singleton;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"mailto:support@eloquent-bible-study.eu"]];
 }
 
-- (IBAction)openMacSwordWikiPage:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/wiki/Frontends:MacSword"]];
+- (IBAction)openEloquentWikiPage:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://wiki.crosswire.org/Frontends:Eloquent"]];
 }
 
-- (IBAction)openMacSwordHomePage:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.macsword.com"]];    
-}
-
-- (IBAction)openMacSwordForumPage:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.crosswire.org/forums/mvnforum/listthreads?forum=4"]];    
+- (IBAction)openEloquentHomePage:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.eloquent-bible-study.eu"]];
 }
 
 #ifndef APPSTORE

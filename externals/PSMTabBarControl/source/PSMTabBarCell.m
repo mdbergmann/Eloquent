@@ -504,7 +504,7 @@ static NSTimeInterval kHighlightAnimationDuration = 0.5;
 #pragma mark - PSMProgressIndicatorDelegate
 
 - (void)progressIndicatorNeedsUpdate {
-    return [_controlView progressIndicatorNeedsUpdate];
+    //return [_controlView progressIndicatorNeedsUpdate];
 }
 
 @end
