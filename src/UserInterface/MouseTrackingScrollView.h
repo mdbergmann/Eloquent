@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 
 @interface MouseTrackingScrollView : NSScrollView {
     id __strong delegate;

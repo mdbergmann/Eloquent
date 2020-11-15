@@ -1,7 +1,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CocoPCRE/CocoPCRE.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 #import <ObjCSword/SwordInstallSource.h>
 #import <ObjCSword/SwordModule.h>
 

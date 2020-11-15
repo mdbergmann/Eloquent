@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 #import "HostableViewController.h"
 
 #define WEBVIEW_NIBNAME   @"WebView"

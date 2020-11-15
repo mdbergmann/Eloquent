@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NotesViewController">
+            <connections>
+                <outlet property="linkContextMenu" destination="76" id="81"/>
+                <outlet property="saveButton" destination="26" id="29"/>
+                <outlet property="textContextMenu" destination="40" id="69"/>
+                <outlet property="textView" destination="5" id="71"/>
+                <outlet property="topAccessoryView" destination="8" id="31"/>
+                <outlet property="view" destination="1" id="7"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="1" userLabel="NotesView">
+            <rect key="frame" x="0.0" y="0.0" width="576" height="452"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2">
+                    <rect key="frame" x="0.0" y="0.0" width="576" height="452"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <clipView key="contentView" drawsBackground="NO" id="Uqw-Ff-kxX">
+                        <rect key="frame" x="0.0" y="0.0" width="561" height="452"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsDocumentBackgroundColorChange="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" linkDetection="YES" grammarChecking="YES" smartInsertDelete="YES" id="5" customClass="MBTextView">
+                                <rect key="frame" x="0.0" y="0.0" width="561" height="452"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <size key="minSize" width="561" height="452"/>
+                                <size key="maxSize" width="1137" height="10000000"/>
+                                <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <connections>
+                                    <outlet property="delegate" destination="-2" id="72"/>
+                                </connections>
+                            </textView>
+                        </subviews>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="4">
+                        <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="3">
+                        <rect key="frame" x="561" y="0.0" width="15" height="452"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+            </subviews>
+            <point key="canvasLocation" x="139" y="154"/>
+        </customView>
+        <customView id="8" userLabel="TopBarViewOptions">
+            <rect key="frame" x="0.0" y="0.0" width="535" height="24"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="83">
+                    <rect key="frame" x="52" y="0.0" width="430" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="33">
+                            <rect key="frame" x="20" y="2" width="85" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="recessed" title="Rulers" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="34">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                <font key="font" metaFont="cellTitle"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="toggleRuler:" target="5" id="35"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="26">
+                            <rect key="frame" x="325" y="2" width="85" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundRect" title="Save" bezelStyle="roundedRect" alignment="center" controlSize="small" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="27">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="saveDocument:" target="-2" id="82"/>
+                            </connections>
+                        </button>
+                        <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="139">
+                            <rect key="frame" x="113" y="0.0" width="65" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="recessed" title="Font" bezelStyle="recessed" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="150" id="140">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                <font key="font" metaFont="cellTitle"/>
+                                <menu key="menu" title="OtherViews" id="141">
+                                    <items>
+                                        <menuItem title="Font" hidden="YES" id="150" userLabel="Menu Item Title">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Show Fonts" keyEquivalent="t" id="161">
+                                            <connections>
+                                                <action selector="orderFrontFontPanel:" target="117" id="203"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Bold" tag="2" keyEquivalent="b" id="153">
+                                            <connections>
+                                                <action selector="addFontTrait:" target="117" id="195"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Italic" tag="1" keyEquivalent="i" id="160">
+                                            <connections>
+                                                <action selector="addFontTrait:" target="117" id="189"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Underline" keyEquivalent="u" id="154">
+                                            <connections>
+                                                <action selector="underline:" target="-1" id="204"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="157"/>
+                                        <menuItem title="Bigger" tag="3" keyEquivalent="+" id="156">
+                                            <connections>
+                                                <action selector="modifyFont:" target="117" id="191"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Smaller" tag="4" keyEquivalent="-" id="165">
+                                            <connections>
+                                                <action selector="modifyFont:" target="117" id="192"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="159"/>
+                                        <menuItem title="Kern" id="168">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Kern" id="169">
+                                                <items>
+                                                    <menuItem title="Use Default" id="173">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="useStandardKerning:" target="-1" id="194"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Use None" id="172">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="turnOffKerning:" target="-1" id="190"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Tighten" id="171">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="tightenKerning:" target="-1" id="193"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Loosen" id="170">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="loosenKerning:" target="-1" id="201"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Ligature" id="163">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Ligature" id="180">
+                                                <items>
+                                                    <menuItem title="Use Default" id="183">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="useStandardLigatures:" target="-1" id="185"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Use None" id="182">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="turnOffLigatures:" target="-1" id="188"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Use All" id="181">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="useAllLigatures:" target="-1" id="184"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Baseline" id="164">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Baseline" id="174">
+                                                <items>
+                                                    <menuItem title="Use Default" id="179">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="unscript:" target="-1" id="196"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Superscript" id="178">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="superscript:" target="-1" id="202"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Subscript" id="177">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="subscript:" target="-1" id="199"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Raise" id="176">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="raiseBaseline:" target="-1" id="197"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Lower" id="175">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="lowerBaseline:" target="-1" id="187"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="162"/>
+                                        <menuItem title="Show Colors" keyEquivalent="C" id="155">
+                                            <connections>
+                                                <action selector="orderFrontColorPanel:" target="-1" id="200"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="166"/>
+                                        <menuItem title="Copy Style" keyEquivalent="c" id="167">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="copyFont:" target="-1" id="186"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Paste Style" keyEquivalent="v" id="158">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="pasteFont:" target="-1" id="198"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </subviews>
+                </customView>
+            </subviews>
+            <point key="canvasLocation" x="139" y="-149"/>
+        </customView>
+        <menu title="Text Context Menu" id="40">
+            <items>
+                <menuItem title="Look up in default bible" tag="100" id="73">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="lookUpInIndex:" target="-2" id="74"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Look up in index of" tag="101" id="42">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="lookUpInIndexOfBible:" target="-2" id="65"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Look up in default dictionary" tag="300" id="51">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="lookUpInDictionary:" target="-2" id="66"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Look up in dictionary" tag="301" id="41">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="lookUpInDictionaryOfModule:" target="-2" id="67"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="50"/>
+                <menuItem title="Create verse link" id="56">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="createSwordLinkFromTextSelection:" target="-2" id="75"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="57"/>
+                <menuItem title="Cut" keyEquivalent="x" id="45">
+                    <connections>
+                        <action selector="cut:" target="-1" id="64"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Copy" keyEquivalent="c" id="46">
+                    <connections>
+                        <action selector="copy:" target="-1" id="63"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Paste" keyEquivalent="v" id="47">
+                    <connections>
+                        <action selector="paste:" target="-1" id="62"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Select All" keyEquivalent="a" id="48">
+                    <connections>
+                        <action selector="selectAll:" target="-1" id="61"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="49"/>
+                <menuItem title="Find…" tag="1" keyEquivalent="f" id="43">
+                    <connections>
+                        <action selector="performFindPanelAction:" target="-1" id="60"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Spelling and Grammar" id="551">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Spelling" id="571">
+                        <items>
+                            <menuItem title="Show Spelling and Grammar" keyEquivalent=":" id="572">
+                                <connections>
+                                    <action selector="showGuessPanel:" target="-1" id="599"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Check Document Now" keyEquivalent=";" id="573">
+                                <connections>
+                                    <action selector="checkSpelling:" target="-1" id="589"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="574"/>
+                            <menuItem title="Check Spelling While Typing" id="575">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="toggleContinuousSpellChecking:" target="-1" id="590"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Check Grammar With Spelling" id="576">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="toggleGrammarChecking:" target="-1" id="598"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Correct Spelling Automatically" id="577">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="toggleAutomaticSpellingCorrection:" target="-1" id="587"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Speech" id="44">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Speech" id="53">
+                        <items>
+                            <menuItem title="Start Speaking" id="54">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="startSpeaking:" target="-1" id="58"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Stop Speaking" id="55">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="stopSpeaking:" target="-1" id="59"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Font" id="84">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Font" systemMenu="font" id="85">
+                        <items>
+                            <menuItem title="Show Fonts" keyEquivalent="t" id="86">
+                                <connections>
+                                    <action selector="orderFrontFontPanel:" target="117" id="121"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Bold" tag="2" keyEquivalent="b" id="87">
+                                <connections>
+                                    <action selector="addFontTrait:" target="117" id="122"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Italic" tag="1" keyEquivalent="i" id="88">
+                                <connections>
+                                    <action selector="addFontTrait:" target="117" id="119"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Underline" keyEquivalent="u" id="89">
+                                <connections>
+                                    <action selector="underline:" target="-1" id="126"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="90"/>
+                            <menuItem title="Bigger" tag="3" keyEquivalent="+" id="91">
+                                <connections>
+                                    <action selector="modifyFont:" target="117" id="118"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Smaller" tag="4" keyEquivalent="-" id="92">
+                                <connections>
+                                    <action selector="modifyFont:" target="117" id="120"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="93"/>
+                            <menuItem title="Kern" id="94">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Kern" id="112">
+                                    <items>
+                                        <menuItem title="Use Default" id="113">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="useStandardKerning:" target="-1" id="135"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use None" id="114">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="turnOffKerning:" target="-1" id="138"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Tighten" id="115">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="tightenKerning:" target="-1" id="132"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Loosen" id="116">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="loosenKerning:" target="-1" id="123"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Ligature" id="95">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Ligature" id="108">
+                                    <items>
+                                        <menuItem title="Use Default" id="109">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="useStandardLigatures:" target="-1" id="136"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use None" id="110">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="turnOffLigatures:" target="-1" id="137"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use All" id="111">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="useAllLigatures:" target="-1" id="133"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Baseline" id="96">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Baseline" id="102">
+                                    <items>
+                                        <menuItem title="Use Default" id="103">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="unscript:" target="-1" id="134"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Superscript" id="104">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="superscript:" target="-1" id="129"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Subscript" id="105">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="subscript:" target="-1" id="131"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Raise" id="106">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="raiseBaseline:" target="-1" id="125"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Lower" id="107">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="lowerBaseline:" target="-1" id="128"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="97"/>
+                            <menuItem title="Show Colors" keyEquivalent="C" id="98">
+                                <connections>
+                                    <action selector="orderFrontColorPanel:" target="-1" id="124"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="99"/>
+                            <menuItem title="Copy Style" keyEquivalent="c" id="100">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="copyFont:" target="-1" id="127"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Paste Style" keyEquivalent="v" id="101">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="pasteFont:" target="-1" id="130"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="-2" id="68"/>
+            </connections>
+        </menu>
+        <menu title="Link Context Menu" id="76">
+            <items>
+                <menuItem title="Open link" tag="10" id="77">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="openLink:" target="-2" id="78"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Remove link" tag="11" id="79">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="removeLink:" target="-2" id="80"/>
+                    </connections>
+                </menuItem>
+            </items>
+        </menu>
+        <customObject id="117" customClass="NSFontManager"/>
+    </objects>
+</document>

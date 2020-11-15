@@ -7,7 +7,7 @@
 //
 
 #import <ObjCSword/ObjCSword.h>
-#import "CocoLogger/CocoLogger.h"
+#import <FooLogger/CocoLogger.h>
 #import "IndexingManager.h"
 #import "SearchResultEntry.h"
 #import "SwordModule+SearchKitIndex.h"
@@ -39,7 +39,7 @@ NSString *EloquentIndexVersion = @"1.2";
  generates a path index for the given VerseKey
  */
 - (NSString *)indexOfVerseKey:(SwordVerseKey *)vk {
-    NSString *index = [NSString stringWithFormat:@"%003i/%003i/%003i/%003i/%@", 
+    NSString *index = [NSString stringWithFormat:@"%003i/%003i/%003i/%003i/%@",
                        [vk testament],
                        [vk book],
                        [vk chapter],

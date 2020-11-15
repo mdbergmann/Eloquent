@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 
 @interface PrintAccessoryViewController : NSViewController <NSPrintPanelAccessorizing> {
     NSPrintInfo *printInfo;    

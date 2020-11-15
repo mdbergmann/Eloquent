@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 
 // result dictionary property key names
 #define IndexPropDocName @"DocumentName"

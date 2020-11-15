@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 #import "LeftSideBarAccessoryUIController.h"
 
 @class BookmarkManager;

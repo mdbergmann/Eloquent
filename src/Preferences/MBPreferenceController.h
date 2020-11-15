@@ -2,7 +2,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 
 #define PREFERENCE_CONTROLLER_NIB_NAME @"Preferences"
 

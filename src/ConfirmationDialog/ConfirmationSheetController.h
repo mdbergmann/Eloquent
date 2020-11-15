@@ -1,7 +1,7 @@
 /* MBConfirmationSheetController */
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 
 enum SheetReturnCode {
 	SheetDefaultButtonCode = 0,

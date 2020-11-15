@@ -256,8 +256,6 @@ static MBPreferenceController *instance;
 }
 
 - (void)changeFont:(id)sender {
-	CocoLog(LEVEL_DEBUG,@"[MBPreferenceController -changeFont]");
-    
     NSFont *newFont = [sender convertFont:bibleDisplayFont];
     // get font data
     //NSString *displayName = [newFont displayName];

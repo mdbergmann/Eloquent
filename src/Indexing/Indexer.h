@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 #import <ObjCSword/SwordModule.h>
 #import <AppKit/NSApplication.h>
 #import <CoreServices/CoreServices.h>

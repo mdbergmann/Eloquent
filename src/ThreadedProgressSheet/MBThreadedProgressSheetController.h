@@ -9,7 +9,7 @@
 /* MBThreadedProgressSheetController */
 
 #import <Cocoa/Cocoa.h>
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 
 // the progress actions
 enum ThreadedProgressAction {

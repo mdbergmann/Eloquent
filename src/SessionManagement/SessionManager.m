@@ -5,7 +5,7 @@
 //
 
 
-#import <CocoLogger/CocoLogger.h>
+#import <FooLogger/CocoLogger.h>
 #import "SessionManager.h"
 #import "ProtocolHelper.h"
 #import "HostableViewController.h"

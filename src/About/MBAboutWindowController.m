@@ -31,7 +31,7 @@
     ]];
     // set credit rtf text
     NSMutableString *resourcePath = [NSMutableString stringWithString:[[NSBundle mainBundle] resourcePath]];
-    NSString *creditPath = [resourcePath stringByAppendingPathComponent:@"English.lproj/Credits.rtf"];
+    NSString *creditPath = [resourcePath stringByAppendingPathComponent:@"en.lproj/Credits.rtf"];
     
     NSData *rtfData = [NSData dataWithContentsOfFile:creditPath];
     NSAttributedString *credits = [[NSAttributedString alloc] initWithRTF:rtfData documentAttributes:nil];
