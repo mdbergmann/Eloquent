@@ -43,7 +43,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3058</string>
+	<string>3066</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.education</string>
 	<key>NSAppTransportSecurity</key>
@@ -55,6 +55,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSRequiresAquaSystemAppearance</key>
+	<true/>
 	<key>SUFeedURL</key>
 	<string>http://www.eloquent-bible-study.eu/Eloquent_L2_Appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>

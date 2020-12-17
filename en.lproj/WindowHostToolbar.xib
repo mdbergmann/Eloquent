@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,16 +19,14 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <toolbar implicitIdentifier="09D11707-F4A3-4FD5-970E-AC5832E91C2B" displayMode="iconOnly" sizeMode="regular" id="1">
+        <toolbar implicitIdentifier="09D11707-F4A3-4FD5-970E-AC5832E91C2B" centeredItem="123" displayMode="iconOnly" sizeMode="regular" id="1">
             <allowedToolbarItems>
                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="142"/>
                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="129"/>
-                <toolbarItem implicitItemIdentifier="32FF0C2B-7E19-43E3-93C7-1974A5B9EE7A" explicitItemIdentifier="ReferenceTextField" label="Reference text" paletteLabel="Reference text" id="123">
+                <toolbarItem implicitItemIdentifier="32FF0C2B-7E19-43E3-93C7-1974A5B9EE7A" explicitItemIdentifier="ReferenceTextField" label="Reference text" paletteLabel="Reference text" sizingBehavior="auto" id="123">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="200" height="22"/>
-                    <size key="maxSize" width="2000" height="22"/>
-                    <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" id="109">
-                        <rect key="frame" x="0.0" y="14" width="728" height="22"/>
+                    <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" preferredMaxLayoutWidth="650" id="109">
+                        <rect key="frame" x="0.0" y="14" width="650" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" bezelStyle="round" id="110">
                             <font key="font" metaFont="system"/>
@@ -156,7 +154,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="62"/>
             </connections>
-            <point key="canvasLocation" x="333" y="129"/>
+            <point key="canvasLocation" x="447" y="152"/>
         </toolbar>
     </objects>
     <resources>
