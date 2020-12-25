@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
-        <capability name="box content view" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,17 +28,17 @@
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="653" y="339" width="1280" height="800"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
             <value key="minSize" type="size" width="400" height="200"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="1280" height="800"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <customView autoresizesSubviews="NO" id="260" userLabel="ScopeBarView">
+                    <customView autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="260" userLabel="ScopeBarView">
                         <rect key="frame" x="0.0" y="775" width="1280" height="25"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>
-                            <box autoresizesSubviews="NO" boxType="custom" borderType="line" borderWidth="0.0" title="Box" titlePosition="noTitle" transparent="YES" id="259">
+                            <box autoresizesSubviews="NO" fixedFrame="YES" boxType="custom" borderType="line" borderWidth="0.0" title="Box" titlePosition="noTitle" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="259">
                                 <rect key="frame" x="0.0" y="0.0" width="1280" height="25"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="ZrT-cn-AXE">
@@ -51,19 +50,19 @@
                             </box>
                         </subviews>
                     </customView>
-                    <customView id="265" customClass="FullScreenView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="265" customClass="FullScreenView">
                         <rect key="frame" x="0.0" y="0.0" width="1280" height="775"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <box verticalHuggingPriority="750" boxType="separator" id="263">
+                            <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="263">
                                 <rect key="frame" x="0.0" y="772" width="1280" height="5"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </box>
-                            <view id="52" customClass="NSSplitView">
+                            <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="52" customClass="NSSplitView">
                                 <rect key="frame" x="0.0" y="0.0" width="1280" height="774"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <box autoresizesSubviews="NO" boxType="custom" borderType="none" borderWidth="0.0" title="Box" titlePosition="noTitle" id="268">
+                                    <box autoresizesSubviews="NO" fixedFrame="YES" boxType="custom" borderType="none" borderWidth="0.0" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="268">
                                         <rect key="frame" x="0.0" y="0.0" width="1280" height="774"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <view key="contentView" id="E7C-dJ-OPI">
@@ -87,6 +86,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="167"/>
             </connections>
+            <point key="canvasLocation" x="139" y="144"/>
         </window>
         <menu id="41">
             <items>
@@ -97,16 +97,17 @@
                     </connections>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="-136" y="-368"/>
         </menu>
         <customView id="96" userLabel="DefaultMainView">
             <rect key="frame" x="0.0" y="0.0" width="800" height="565"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <splitView dividerStyle="thin" vertical="YES" id="102" userLabel="ContentSplitView">
+                <splitView fixedFrame="YES" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="102" userLabel="ContentSplitView">
                     <rect key="frame" x="0.0" y="0.0" width="800" height="545"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <tabView allowsTruncatedLabels="NO" type="noTabsNoBorder" id="97">
+                        <tabView fixedFrame="YES" allowsTruncatedLabels="NO" type="noTabsNoBorder" id="97">
                             <rect key="frame" x="0.0" y="0.0" width="800" height="545"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <font key="font" metaFont="system"/>
@@ -130,7 +131,7 @@
                         <outlet property="delegate" destination="-2" id="166"/>
                     </connections>
                 </splitView>
-                <customView id="144" customClass="PSMTabBarControl">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="144" customClass="PSMTabBarControl">
                     <rect key="frame" x="0.0" y="544" width="800" height="22"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <connections>
@@ -139,6 +140,7 @@
                     </connections>
                 </customView>
             </subviews>
+            <point key="canvasLocation" x="139" y="907"/>
         </customView>
         <customObject id="187" customClass="InitialInfoViewController">
             <connections>
