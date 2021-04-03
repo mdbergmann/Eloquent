@@ -133,7 +133,7 @@ enum NotesMenu_Items{
                                            alternateButton:NSLocalizedString(@"Cancel", @"")
                                                otherButton:nil 
                                  informativeTextWithFormat:NSLocalizedString(@"ConfirmDelete", @"")];
-            if([alert runModal] == NSAlertDefaultReturn) {
+            if([alert runModal] == NSAlertFirstButtonReturn) {
                 [FileRepresentation deleteComplete:clickedObj];
                 [self delegateReload];
             }

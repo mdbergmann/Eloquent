@@ -131,7 +131,7 @@ static AppController *singleton;
                                              defaultButton:NSLocalizedString(@"Yes", @"") 
                                            alternateButton:NSLocalizedString(@"No", @"") 
                                                otherButton:nil informativeTextWithFormat:NSLocalizedString(@"Info_OldModuleDatabaseDetected", @"")];
-            if([alert runModal] == NSAlertDefaultReturn) {
+            if([alert runModal] == NSAlertFirstButtonReturn) {
                 [fm removeItemAtPath:moduleFolder error:nil];
             }
         }
@@ -287,7 +287,7 @@ static AppController *singleton;
                                  informativeTextWithFormat:@"%@", [NSString stringWithFormat:NSLocalizedString(@"ModuleXYNotInRepoWantToCopy", @""), moduleName]];
 
             NSString *destinationPath = filename;
-            if([alert runModal] == NSAlertDefaultReturn) {
+            if([alert runModal] == NSAlertFirstButtonReturn) {
                 CocoLog(LEVEL_DEBUG, @"User chose to permanently use this module.");
                 destinationPath = [[[FolderUtil urlForModulesFolder] path] stringByAppendingPathComponent:moduleFilename];
 
@@ -404,9 +404,9 @@ static AppController *singleton;
                                            otherButton:NSLocalizedString(@"No", @"")
                              informativeTextWithFormat:NSLocalizedString(@"UnsavedContentQuit", @"")];
         NSInteger modalResult = [alert runModal];
-        if(modalResult == NSAlertDefaultReturn) {
+        if(modalResult == NSAlertFirstButtonReturn) {
             [[SessionManager defaultManager] saveContent];
-        } else if(modalResult == NSAlertAlternateReturn) {
+        } else if(modalResult == NSAlertSecondButtonReturn) {
             return NSTerminateCancel;
         }
     }

@@ -198,7 +198,7 @@
                                        alternateButton:NSLocalizedString(@"No", @"")
                                            otherButton:nil
                              informativeTextWithFormat:NSLocalizedString(@"WantToSaveTheSessionBeforeClosing", @"")];
-        if([alert runModal] == NSAlertDefaultReturn) {
+        if([alert runModal] == NSAlertFirstButtonReturn) {
             // save session
             [self saveSession];
         }

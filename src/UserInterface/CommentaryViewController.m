@@ -370,7 +370,7 @@
                                        alternateButton:NSLocalizedString(@"Cancel", @"") 
                                            otherButton:nil 
                              informativeTextWithFormat:NSLocalizedString(@"StillInEditingModeText", @"")];
-        if([alert runModal] == NSAlertAlternateReturn) {
+        if([alert runModal] == NSAlertSecondButtonReturn) {
             // send close view to super view
             [self removeFromSuperview];            
         }

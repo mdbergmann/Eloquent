@@ -322,9 +322,9 @@
                                                otherButton:NSLocalizedString(@"No", @"")
                                  informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];
             NSInteger modalResult = [alert runModal];
-            if(modalResult == NSAlertDefaultReturn) {
+            if(modalResult == NSAlertFirstButtonReturn) {
                 [vc saveContent];
-            } else if(modalResult == NSAlertAlternateReturn) {
+            } else if(modalResult == NSAlertSecondButtonReturn) {
                 return NO;
             }
         }

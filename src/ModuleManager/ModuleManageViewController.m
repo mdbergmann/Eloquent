@@ -346,7 +346,7 @@
                                            otherButton:nil 
                              informativeTextWithFormat:@"%@", NSLocalizedString(@"DeleteConfirm", @"")];
         NSInteger stat = [alert runModal];
-        if(stat == NSAlertDefaultReturn) {
+        if(stat == NSAlertFirstButtonReturn) {
             
             SwordInstallSourceManager *sis = [SwordInstallSourceManager defaultManager];
             [sis removeInstallSource:is reload:YES];

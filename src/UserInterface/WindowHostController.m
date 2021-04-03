@@ -373,7 +373,7 @@ extern char NotesMgrUI;
                                            otherButton:nil
                              informativeTextWithFormat:NSLocalizedString(@"UnsavedContent", @"")];    
         NSInteger modalResult = [alert runModal];
-        if(modalResult == NSAlertDefaultReturn) {
+        if(modalResult == NSAlertFirstButtonReturn) {
             [self saveContent];
         }
     }

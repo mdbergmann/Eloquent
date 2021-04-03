@@ -263,7 +263,7 @@ enum BookmarkMenu_Items {
                                            alternateButton:NSLocalizedString(@"No", @"") 
                                                otherButton:nil 
                                  informativeTextWithFormat:NSLocalizedString(@"ConfirmBookmarkDeleteText", @"")];
-            if([alert runModal] == NSAlertDefaultReturn) {
+            if([alert runModal] == NSAlertFirstButtonReturn) {
                 [self updateBookmarkSelection];
                 for(Bookmark *b in bookmarkSelection) {
                     [bookmarkManager deleteBookmark:b];
