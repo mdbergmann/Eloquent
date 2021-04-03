@@ -282,6 +282,12 @@
 
 #pragma mark - Actions
 
+- (void)renderModulesListViewWithSources:(NSArray *)sources {
+    // clean mdules view until we can update
+    [modListViewController setInstallSources:sources];
+    [modListViewController refreshModulesList];
+}
+
 - (IBAction)syncInstallSourcesFromMasterList:(id)sender {
     if([self checkDisclaimerValueAndShowAlertText:NSLocalizedString(@"UnavailableOptionDueToNoDisclaimerComfirm", @"")]) {
         MBThreadedProgressSheetController *ps = [MBThreadedProgressSheetController standardProgressSheetController];
@@ -299,7 +305,10 @@
         
         // refresh master remote install source list
         if([[SwordInstallSourceManager defaultManager] refreshMasterRemoteInstallSourceList] == 0) {
+            [self renderModulesListViewWithSources:[NSArray array]];
             [self refreshInstallSourceListObjects];
+            [self renderModulesListViewWithSources:self.installSourceListObjects];
+
             [categoryOutlineView reloadData];
         }
         
