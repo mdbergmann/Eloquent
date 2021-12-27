@@ -24,6 +24,6 @@ Tripple bible text tab
 
 ![2](docs/Eloquent_2.jpg)
 
-Tripple bibtel text with commentary tab
+Tripple bible text with commentary tab
 
 ![3](docs/Eloquent_3.jpg)
