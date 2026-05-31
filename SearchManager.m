@@ -38,18 +38,22 @@
     // TODO: Replace with your real search implementation.
     NSString *usedVersion = (translation.length > 0) ? translation : @"KJV";
     NSMutableString *result = [NSMutableString string];
-
+    CocoLog(LEVEL_DEBUG, @"usedVersion %@", usedVersion);
+    CocoLog(LEVEL_DEBUG, @"reference %@", reference);
+    
     // Resolve module from version
     self.module = [self moduleForVersion:usedVersion];
     if (!self.module) {
         if (error) {
             *error = [NSError errorWithDomain:@"SearchManager" code:1 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Module '%@' not found.", usedVersion]}];
+            CocoLog(LEVEL_DEBUG, @"ERROR: %@", *error);
         }
         return nil;
     }
 
     // Render text entries for the provided reference
     NSArray *textEntries = [(SwordBible *)self.module renderedTextEntriesForReference:reference context:0];
+    CocoLog(LEVEL_DEBUG, @"%ld Verses found", textEntries.count);
 
     // Concatenate the text from each entry into a single result string
     for (id entry in textEntries) {
@@ -62,7 +66,7 @@
             }
         }
     }
-    CocoLog(LEVEL_INFO, @"Returning %@", result);
+    //CocoLog(LEVEL_INFO, @"Returning %@", result);
     return result.length > 0 ? result : [NSString stringWithFormat:@"\n", nil];
 }
 
