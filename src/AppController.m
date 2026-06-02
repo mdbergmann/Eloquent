@@ -1,4 +1,3 @@
-
 #import "AppController.h"
 #import <ObjCSword/SwordUtil.h>
 #import "MBPreferenceController.h"
@@ -26,6 +25,7 @@
 @interface AppController ()
 
 @property (nonatomic) BOOL appIsTerminating;
+@property (nonatomic, copy) NSString *pendingURLString;
 
 @end
 
@@ -313,13 +313,43 @@ static AppController *singleton;
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *) event withReplyEvent:(NSAppleEventDescriptor *) replyEvent {
     NSString *urlString = [[event descriptorAtIndex:1] stringValue];
-
-	CocoLog(LEVEL_DEBUG, @"handling URL event for: %@", urlString);
+    // Normalize incoming URL string: trim whitespace/newlines and replace any newlines with spaces
+    if (urlString != nil) {
+        // Trim whitespace and newlines
+        urlString = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        // Replace embedded newlines with spaces to keep URL parser happy
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        // If the app receives custom eloquent:// links, convert them to sword:// which SwordUtil expects
+        if ([urlString hasPrefix:@"eloquent://"]) {
+            urlString = [@"sword://" stringByAppendingString:[urlString substringFromIndex:[@"eloquent://" length]]];
+        }
+        
+        // Ensure URL is valid by adding percent-encoding if needed
+        NSURL *testURL = [NSURL URLWithString:urlString];
+        if (testURL == nil || testURL.scheme == nil) {
+            // Try to percent-encode the path/query portion while preserving the scheme and host
+            NSRange schemeRange = [urlString rangeOfString:@"://"];
+            if (schemeRange.location != NSNotFound) {
+                NSString *prefix = [urlString substringToIndex:schemeRange.location + schemeRange.length];
+                NSString *rest = [urlString substringFromIndex:schemeRange.location + schemeRange.length];
+                NSString *encodedRest = [rest stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+                if (encodedRest.length > 0) {
+                    urlString = [prefix stringByAppendingString:encodedRest];
+                }
+            }
+        }
+    }
+	
+    // If windows/session aren't ready yet (cold launch), stash the URL and handle after launch
+    if (![[SessionManager defaultManager] hasWindows]) {
+        self.pendingURLString = urlString;
+        CocoLog(LEVEL_DEBUG, @"Stashed pending URL for post-launch handling: %@", urlString);
+        return;
+    }
 
     NSDictionary *linkData = [SwordUtil dictionaryFromUrl:[NSURL URLWithString:urlString]];
     NSString *moduleName = linkData[ATTRTYPE_MODULE];
     NSString *passage = linkData[ATTRTYPE_VALUE];
-
     CocoLog(LEVEL_DEBUG, @"have module: %@", moduleName);
     CocoLog(LEVEL_DEBUG, @"have passage: %@", passage);
 
@@ -328,6 +358,8 @@ static AppController *singleton;
         if(mod) {
             SingleViewHostController *host = [self openSingleHostWindowForModule:mod];
             [host setSearchText:passage];
+            [NSApp activateIgnoringOtherApps:YES];
+            [[host window] makeKeyAndOrderFront:self];
         }
     } else {
         CocoLog(LEVEL_WARN, @"have nil moduleName or passage");
@@ -338,6 +370,11 @@ static AppController *singleton;
  \brief is called when application loading is nearly finished
  */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+    // Register URL handler as early as possible for cold launches
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
+                                                       andSelector:@selector( handleURLEvent:withReplyEvent: )
+                                                     forEventClass:kInternetEventClass
+                                                        andEventID:kAEGetURL];
     if([UserDefaults boolForKey:DefaultsBackgroundIndexerEnabled]) {
         [[IndexingManager sharedManager] triggerBackgroundIndexCheck];
     }
@@ -366,14 +403,56 @@ static AppController *singleton;
         [self showDailyDevotionPanel:nil];
     }
 
-    //initialise url handlers
-    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
-                                                       andSelector:@selector( handleURLEvent:withReplyEvent: )
-                                                     forEventClass:kInternetEventClass
-                                                        andEventID:kAEGetURL];
+    // Removed URL handler registration here as it is done earlier in applicationWillFinishLaunching
+
     [SwordUrlProtocol setup];
 
     [[SessionManager defaultManager] showAllWindows];
+    
+    // Handle any URL that arrived before windows were ready (cold start)
+    if (self.pendingURLString.length > 0) {
+        CocoLog(LEVEL_DEBUG, @"Processing pending URL after launch: %@", self.pendingURLString);
+        NSString *urlString = self.pendingURLString;
+        self.pendingURLString = nil;
+        // Defer to next runloop to ensure windows are fully shown
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Ensure there is at least one window/host
+            if (![[SessionManager defaultManager] hasWindows]) {
+                WorkspaceViewHostController *svh = [[WorkspaceViewHostController alloc] init];
+                svh.delegate = self;
+                [[SessionManager defaultManager] addWindow:svh];
+                [svh showWindow:self];
+            }
+            NSDictionary *linkData = [SwordUtil dictionaryFromUrl:[NSURL URLWithString:urlString]];
+            NSString *moduleName = linkData[ATTRTYPE_MODULE];
+            NSString *passage = linkData[ATTRTYPE_VALUE];
+            if (moduleName && passage) {
+                SwordModule *mod = [[SwordManager defaultManager] moduleWithName:moduleName];
+                if (mod) {
+                    SingleViewHostController *host = [self openSingleHostWindowForModule:mod];
+                    [host setSearchText:passage];
+                    [NSApp activateIgnoringOtherApps:YES];
+                    [[host window] makeKeyAndOrderFront:self];
+                } else {
+                    // Open a default Bible host window and bring it to front
+                    NSString *sBible = [UserDefaults stringForKey:DefaultsBibleModule];
+                    SwordModule *fallbackMod = nil;
+                    if (sBible != nil) {
+                        fallbackMod = [[SwordManager defaultManager] moduleWithName:sBible];
+                    }
+                    SingleViewHostController *fallbackHost = [self openSingleHostWindowForModule:fallbackMod];
+                    [NSApp activateIgnoringOtherApps:YES];
+                    [[fallbackHost window] makeKeyAndOrderFront:self];
+                }
+            } else if (moduleName) {
+                // Open module even if passage missing
+                SwordModule *mod = [[SwordManager defaultManager] moduleWithName:moduleName];
+                if (mod) {
+                    (void)[self openSingleHostWindowForModule:mod];
+                }
+            }
+        });
+    }
 }
 
 /**
@@ -691,3 +770,4 @@ static AppController *singleton;
 }
 
 @end
+
