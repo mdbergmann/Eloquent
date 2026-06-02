@@ -26,8 +26,8 @@ if [ $TARGET = "" ]; then
 fi
 
 # increment "buildnumber" and write it to Info.plist
-./increment_buildnumber.rb
-./write_buildnumber.rb
+#./increment_buildnumber.rb
+#./write_buildnumber.rb
 
 xcodebuild clean
 

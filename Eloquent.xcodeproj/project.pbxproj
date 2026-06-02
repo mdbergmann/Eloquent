@@ -33,6 +33,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4D21715D2FC7C5A7007451DE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D21715C2FC7C5A7007451DE /* AppDelegate.m */; };
+		4D21715E2FC7C5A7007451DE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D21715C2FC7C5A7007451DE /* AppDelegate.m */; };
+		4D2506CC2FBF9E4A00A4593F /* EloquentIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2506CB2FBF9E4A00A4593F /* EloquentIntents.swift */; };
+		4D2506CD2FBF9E4A00A4593F /* EloquentIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2506CB2FBF9E4A00A4593F /* EloquentIntents.swift */; };
+		4D2506CF2FBF9E5D00A4593F /* SearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2506CE2FBF9E5D00A4593F /* SearchManager.m */; };
+		4D2506D02FBF9E5D00A4593F /* SearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2506CE2FBF9E5D00A4593F /* SearchManager.m */; };
+		4D2506D32FBFA0A500A4593F /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D2506D22FBFA0A500A4593F /* AppIntents.framework */; };
 		8C92C0072904DAA62F0F9314 /* ModuleListUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CC7CC85EDEF539D958E4 /* ModuleListUI.xib */; };
 		8C92C007CC2C1D433A456547 /* agt_add-to-autorun.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CE0E5FE5C4D03A05C40B /* agt_add-to-autorun.png */; };
 		8C92C0086F908B7A64AE2BB8 /* SearchBookSetEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C92CA831E9076282E51F0A0 /* SearchBookSetEditor.xib */; };
@@ -446,6 +453,13 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Eloquent_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Eloquent_Prefix.pch; sourceTree = "<group>"; };
+		4D21715B2FC7C5A7007451DE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4D21715C2FC7C5A7007451DE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4D2506CA2FBF9E4400A4593F /* SearchManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchManager.h; sourceTree = "<group>"; };
+		4D2506CB2FBF9E4A00A4593F /* EloquentIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EloquentIntents.swift; sourceTree = "<group>"; };
+		4D2506CE2FBF9E5D00A4593F /* SearchManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchManager.m; sourceTree = "<group>"; };
+		4D2506D12FBF9EA000A4593F /* Eloquent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eloquent-Bridging-Header.h"; sourceTree = "<group>"; };
+		4D2506D22FBFA0A500A4593F /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 		8C92C1D5D7545986F2AFCEE1 /* EloquentFilterProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EloquentFilterProvider.h; sourceTree = "<group>"; };
 		8C92C2A50BA908A5122F8B3E /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
 		8C92C2B8C3D4401D4C0EE944 /* preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview.png; sourceTree = "<group>"; };
@@ -809,6 +823,7 @@
 				A9F1856B0E0833F9005F3B35 /* WebKit.framework in Frameworks */,
 				A9A127A419DE9226005BCBC1 /* ObjCSword.framework in Frameworks */,
 				A97CE18D0EEE71CA00984B21 /* Sparkle.framework in Frameworks */,
+				4D2506D32FBFA0A500A4593F /* AppIntents.framework in Frameworks */,
 				A9188E7610E0F401006DA14B /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -839,12 +854,18 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4D21715B2FC7C5A7007451DE /* AppDelegate.h */,
+				4D21715C2FC7C5A7007451DE /* AppDelegate.m */,
 				A91C93DB0DF9B0E9006B7361 /* AppController.h */,
 				A91C93DC0DF9B0E9006B7361 /* AppController.m */,
 				A97561EC12A2779000A7661B /* SwordUrlProtocol.h */,
 				A97561ED12A2779000A7661B /* SwordUrlProtocol.m */,
 				A928B2E82EC71C2A000CCA83 /* FolderUtil.h */,
 				A928B2E92EC71C2A000CCA83 /* FolderUtil.m */,
+				4D2506CA2FBF9E4400A4593F /* SearchManager.h */,
+				4D2506CB2FBF9E4A00A4593F /* EloquentIntents.swift */,
+				4D2506CE2FBF9E5D00A4593F /* SearchManager.m */,
+				4D2506D12FBF9EA000A4593F /* Eloquent-Bridging-Header.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -928,6 +949,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4D2506D22FBFA0A500A4593F /* AppIntents.framework */,
 				A971F2902F015A100018A7C1 /* UniformTypeIdentifiers.framework */,
 				A971F2882F0158640018A7C1 /* WebKit.framework */,
 				A971F2302F0155E00018A7C1 /* Cocoa.framework */,
@@ -1533,7 +1555,6 @@
 				ORGANIZATIONNAME = Crosswire;
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
-						DevelopmentTeam = 27XS5W9C3J;
 						LastSwiftMigration = 1160;
 						ProvisioningStyle = Automatic;
 					};
@@ -1759,7 +1780,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/macruby increment_buildnumber.rb\n/usr/local/bin/macruby write_buildnumber.rb\n";
+			shellScript = "#/usr/local/bin/macruby increment_buildnumber.rb\n#/usr/local/bin/macruby write_buildnumber.rb\n";
 		};
 		A9CA81D412D0BB2A005346FD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1816,6 +1837,7 @@
 				A9D102590EC1ED0A0023FF23 /* WindowHostController.m in Sources */,
 				A928B2EA2EC71C2A000CCA83 /* FolderUtil.m in Sources */,
 				A94D66D00EC2CFC9006A84CB /* WorkspaceViewHostController.m in Sources */,
+				4D2506CC2FBF9E4A00A4593F /* EloquentIntents.swift in Sources */,
 				A93E7DFA0ED69FAB007B0533 /* SearchTextObject.m in Sources */,
 				A95184DF0EEFAAEF002EE88C /* HUDPreviewController.m in Sources */,
 				A9D8496B0EFA361F000457EC /* RightSideBarViewController.m in Sources */,
@@ -1824,6 +1846,7 @@
 				A9BDD36724CDA58600506AB2 /* PSMYosemiteTabStyle.m in Sources */,
 				A9C0F4230EFD67F700CFDF06 /* ConfirmationSheetController.m in Sources */,
 				A9D4BB1E0EFEF74000A5AFF9 /* FakeModel.m in Sources */,
+				4D2506D02FBF9E5D00A4593F /* SearchManager.m in Sources */,
 				A9F74DD50F1BA9A3000D3F3E /* NSButton+Color.m in Sources */,
 				A9623E5E0F34E412000E1F53 /* MBTextView.m in Sources */,
 				A9BDD36E24CDA58600506AB2 /* PSMDarkTabStyle.m in Sources */,
@@ -1884,6 +1907,7 @@
 				C01FCF5008A954540054247F /* Session.m in Sources */,
 				C01FCF5008A9545400542482 /* SessionManager.m in Sources */,
 				8C92C9F54EFB58ACC035068E /* EloquentFilterProvider.mm in Sources */,
+				4D21715E2FC7C5A7007451DE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1937,6 +1961,7 @@
 				A941DD371C6D1A9E00B7BAF7 /* GradientCell.m in Sources */,
 				A941DD381C6D1A9E00B7BAF7 /* MBAboutWindowController.m in Sources */,
 				A941DD391C6D1A9E00B7BAF7 /* FullScreenView.m in Sources */,
+				4D2506CD2FBF9E4A00A4593F /* EloquentIntents.swift in Sources */,
 				A941DD3A1C6D1A9E00B7BAF7 /* ProgressOverlayViewController.m in Sources */,
 				A941DD3B1C6D1A9E00B7BAF7 /* ProgressOverlayView.m in Sources */,
 				A941DD3C1C6D1A9E00B7BAF7 /* ThickDividerSplitView.m in Sources */,
@@ -1958,6 +1983,7 @@
 				A941DD4C1C6D1A9E00B7BAF7 /* NSMutableDictionary+ModuleDisplaySettings.m in Sources */,
 				A941DD4D1C6D1A9E00B7BAF7 /* NSDictionary+ModuleDisplaySettings.m in Sources */,
 				A941DD4E1C6D1A9E00B7BAF7 /* CacheObject.m in Sources */,
+				4D21715D2FC7C5A7007451DE /* AppDelegate.m in Sources */,
 				A941DD4F1C6D1A9E00B7BAF7 /* NSAttributedString+Additions.m in Sources */,
 				A941DD501C6D1A9E00B7BAF7 /* NSDictionary+Additions.m in Sources */,
 				A941DD511C6D1A9E00B7BAF7 /* NSUserDefaults+Additions.m in Sources */,
@@ -1980,6 +2006,7 @@
 				A941DD611C6D1A9E00B7BAF7 /* SwordModCategory.m in Sources */,
 				A941DD621C6D1A9E00B7BAF7 /* NSArray+TextEntryDuplicateRemove.m in Sources */,
 				A941DD631C6D1A9E00B7BAF7 /* SwordUrlProtocol.m in Sources */,
+				4D2506CF2FBF9E5D00A4593F /* SearchManager.m in Sources */,
 				A941DD641C6D1A9E00B7BAF7 /* WebViewController.m in Sources */,
 				A941DD651C6D1A9E00B7BAF7 /* Session.m in Sources */,
 				A941DD661C6D1A9E00B7BAF7 /* SessionManager.m in Sources */,
@@ -2344,6 +2371,7 @@
 					"-DDEBUG",
 					"-DAPPSTORE",
 				);
+				OTHER_CODE_SIGN_FLAGS = "--strip-disallowed-xattrs";
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
@@ -2395,6 +2423,7 @@
 					"-DRELEASE",
 					"-DAPPSTORE",
 				);
+				OTHER_CODE_SIGN_FLAGS = "--strip-disallowed-xattrs";
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
@@ -2561,7 +2590,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 27XS5W9C3J;
+				DEVELOPMENT_TEAM = G7MV6H9KC4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2591,6 +2620,7 @@
 				MARKETING_VERSION = 2.6.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DDEBUG";
+				OTHER_CODE_SIGN_FLAGS = "--strip-disallowed-xattrs";
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
@@ -2619,7 +2649,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 27XS5W9C3J;
+				DEVELOPMENT_TEAM = G7MV6H9KC4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2645,6 +2675,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 2.6.9;
 				OTHER_CFLAGS = "-DRELEASE";
+				OTHER_CODE_SIGN_FLAGS = "--strip-disallowed-xattrs";
 				OTHER_LDFLAGS = (
 					"-lcurl",
 					"-lz",
